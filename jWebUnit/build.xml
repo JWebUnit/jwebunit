@@ -135,10 +135,8 @@ Build-Time: ${TSTAMP}
     
     <target name="sampleApp" depends="sampleApp.compile">
     	<java classname="net.sourceforge.jwebunit.fit.PseudoWebApp">
-    		<classpath>
-    			<pathelement location="classes"/>
-    			<pathelement location="lib/httpunit.jar"/>
-    		</classpath>
+    		<classpath location="classes"/>
+            <classpath refid="src.classpath"/>
     	</java>
     </target>
     
@@ -147,17 +145,8 @@ Build-Time: ${TSTAMP}
     		<arg path="fitplugin/test/testInput"/>
     		<arg path="fitplugin/test/testOutput"/>
     		<sysproperty key="wiki" value="true"/>
-	    	<classpath>
-	    	    <pathelement location="classes"/>
-    			<pathelement location="lib\fit.jar"/>
-		    	<pathelement location="lib\httpunit.jar"/>
-		    	<pathelement location="lib\js.jar"/>
-		    	<pathelement location="lib\junit.jar"/>
-		    	<pathelement location="lib\servlet.jar"/>
-		    	<pathelement location="lib\nekohtml.jar"/>
-		    	<pathelement location="lib\xercesImpl.jar"/>
-		    	<pathelement location="lib\xml-apis.jar"/>
-	    	</classpath>
+    		<classpath refid="jwebfit.classpath"/>    		
+    		<classpath location="classes"/>
     	</java>
     </target>
 </project>
