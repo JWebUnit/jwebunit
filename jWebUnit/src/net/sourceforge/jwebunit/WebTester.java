@@ -635,14 +635,34 @@ public class WebTester {
         Assert.assertNull("Located element with id \"" + anID + "\"", dialog.getElement(anID));
     }
 
+    /**
+     * Assert that a given element contains specific text.
+     *
+     * @param elementID id of element to be inspected.
+     * @param text to check for.
+     */
     public void assertTextInElement(String elementID, String text) {
         Element element = dialog.getElement(elementID);
         Assert.assertNotNull("Unable to locate element with id \"" + elementID + "\"",element);
         Assert.assertTrue("Unable to locate ["+ text +"] in element \"" + elementID + "\"", dialog.isTextInElement(element, text));
     }
 
+    /**
+     * Assert that a window with the given name is open.
+     *
+     * @param windowName
+     */
     public void assertWindowPresent(String windowName) {
         Assert.assertNotNull("Unable to locate window [" + windowName + "].", dialog.getWindow(windowName));
+    }
+
+    /**
+     * Assert that a frame with the given name is present.
+     *
+     * @param frameName
+     */
+    public void assertFramePresent(String frameName) {
+        Assert.assertNotNull("Unable to locate frame [" + frameName + "].", dialog.getFrame(frameName));
     }
 
 //Form interaction methods
@@ -778,15 +798,28 @@ public class WebTester {
 
 //Window and Frame Navigation Methods
 
+    /**
+     * Make a given window active (current response will be window's contents).
+     *
+     * @param windowName
+     */
     public void gotoWindow(String windowName) {
         assertWindowPresent(windowName);
         dialog.gotoWindow(windowName);
     }
 
+    /**
+     * Make the root window active.
+     */
     public void gotoRootWindow() {
         dialog.gotoRootWindow();
     }
 
+    /**
+     * Make the named frame active (current response will be frame's contents).
+     *
+     * @param frameName
+     */
     public void gotoFrame(String frameName) {
         dialog.gotoFrame(frameName);
     }

@@ -22,6 +22,8 @@ public class AllTests extends TestSuite{
         suite.addTestSuite(ExpectedTableAssertionsTest.class);
         suite.addTestSuite(FormAssertionsTest.class);
         suite.addTestSuite(TableAssertionsTest.class);
+        suite.addTestSuite(FramesAndWindowsTest.class);
+        suite.addTestSuite(FormWalkerTest.class);
         return suite;
     }
 

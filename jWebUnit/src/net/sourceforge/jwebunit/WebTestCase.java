@@ -252,6 +252,10 @@ public class WebTestCase extends TestCase {
         tester.assertWindowPresent(windowName);
     }
 
+    public void assertFramePresent(String frameName) {
+        tester.assertFramePresent(frameName);
+    }
+
 // Form interaction methods
 
     public void setWorkingForm(String nameOrId) {

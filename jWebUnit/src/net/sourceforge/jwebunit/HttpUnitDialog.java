@@ -17,7 +17,6 @@ import com.meterware.httpunit.WebClientListener;
 import com.meterware.httpunit.WebClient;
 import com.meterware.httpunit.WebWindow;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
-import net.sourceforge.jwebunit.util.ExceptionWrapper;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -705,14 +704,27 @@ public class HttpUnitDialog {
         return false;
     }
 
+    /**
+     * Return the window with the given name in the current conversation.
+     *
+     * @param windowName
+     */
     public WebWindow getWindow(String windowName) {
         return wc.getOpenWindow(windowName);
     }
 
+    /**
+     * Make the window with the given name in the current conversation active.
+     *
+     * @param windowName
+     */
     public void gotoWindow(String windowName) {
         setMainWindow(getWindow(windowName));
     }
 
+    /**
+     * Make the root window in the current conversation active.
+     */
     public void gotoRootWindow() {
         setMainWindow(wc.getOpenWindows()[0]);
     }
@@ -722,7 +734,21 @@ public class HttpUnitDialog {
         resp = wc.getMainWindow().getCurrentPage();
     }
 
+    /**
+     * Make the frame with the given name active in the current conversation.
+     *
+     * @param frameName
+     */
     public void gotoFrame(String frameName) {
-        resp = wc.getMainWindow().getFrameContents(frameName);
+        resp = getFrame(frameName);
+    }
+
+    /**
+     * Return the response for the given frame in the current conversation.
+     *
+     * @param frameName
+     */
+    public  WebResponse getFrame(String frameName) {
+        return wc.getMainWindow().getFrameContents(frameName);
     }
 }
