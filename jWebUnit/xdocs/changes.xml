@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 		<release version="1.3" date="UNKNOWN" description="New features await us">
+			<action type="add" dev="Martijn Dashorst" due-to="John Evans" issue="1005396">
+				Assert button (not) present with text added.
+			</action>
             <action type="fix" dev="Martijn Dashorst" due-to="Budi Boentaran" issue="972992">
                 Memory leak in WebTestCase. Note: tester is no longer allocated at constructor time, but just before 'setUp' is called.
             </action>

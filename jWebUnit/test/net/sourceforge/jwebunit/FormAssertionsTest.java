@@ -5,7 +5,15 @@
  */
 package net.sourceforge.jwebunit;
 
+import net.sourceforge.jwebunit.util.JettySetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 public class FormAssertionsTest extends JWebUnitTest {
+    public static Test suite() {
+        Test suite = new TestSuite(FormAssertionsTest.class);
+        return new JettySetup(suite);
+    }
 
     public void setUp() throws Exception {
         super.setUp();
@@ -13,6 +21,14 @@ public class FormAssertionsTest extends JWebUnitTest {
         beginAt("/testPage.html");
     }
 
+    public void testAssertButtonWithTextPresent() {
+        getTestContext().setBaseUrl("http://localhost:8081/jwebunit/FormAssertionsTest");
+        beginAt("/assertButtonWithText.html");
+        assertButtonPresentWithText("buttonValue1");
+        assertButtonPresentWithText("buttonValue2");
+        assertButtonNotPresentWithText("buttonValue3");
+    }
+    
     public void testAssertFormParameterPresent() throws Throwable {
         assertPassFail("assertFormElementPresent", "testInputElement", "noSuchElement");
         assertPass("assertFormElementPresent", "checkboxselected");

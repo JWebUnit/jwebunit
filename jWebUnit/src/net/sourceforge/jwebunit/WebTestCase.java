@@ -243,6 +243,14 @@ public class WebTestCase extends TestCase {
         tester.assertButtonPresent(buttonID);
     }
 
+    public void assertButtonPresentWithText(String text) {
+        tester.assertButtonPresentWithText(text);
+    }
+
+    public void assertButtonNotPresentWithText(String text) {
+        tester.assertButtonNotPresentWithText(text);
+    }
+
     public void assertButtonNotPresent(String buttonID) {
         tester.assertButtonNotPresent(buttonID);
     }
