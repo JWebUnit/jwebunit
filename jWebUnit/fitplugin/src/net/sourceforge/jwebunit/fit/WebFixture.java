@@ -11,7 +11,7 @@ import java.util.List;
 import java.lang.reflect.InvocationTargetException;
 
 public class WebFixture extends ActionFixture {
-    static WebTester tester = new WebTester();
+    protected static WebTester tester = new WebTester();
 
     public WebFixture() {
         actor = this;
