@@ -1,4 +1,11 @@
 /* Big blue text - title of page */
+body {
+    margin-left: 5%;
+    margin-right: 10%;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+}
+
 h1 {color: #3333ff;
     background: #FFFFFF;
     font-family: Helvetica, Arial, sans-serif;
@@ -11,7 +18,24 @@ h2 {color: #3333ff;
     font-size: 10pt;
     text-align: left;}
 
+pre {
+    white-space: pre;
+    background-color: #CCCCCC;
+    color: black;
+    width: 100%;
+    padding: 5px;
+    border: solid black 1px;
+}
+
+pre.smallCode {
+    font-family: sans-serif;
+    font-size: 8pt;
+    border: none;
+    padding: 1px;
+}
+
+
 .default {font-family: Helvetica, Arial, sans-serif; font-size: 10pt;}
 .blueText {font-family: Helvetica, Arial, sans-serif; font-size: 10pt; color: #3333ff;}
-.smallCode {font-family: sans-serif; font-size: 8pt; background-color: #CCCCCC;}
+
   

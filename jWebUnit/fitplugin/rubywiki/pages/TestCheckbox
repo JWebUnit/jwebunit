@@ -7,7 +7,7 @@ You can compare this to the PersonalInfoTest which uses a custom Fixture.
 |net.sourceforge.jwebunit.fit.WebFixture||
 |baseUrl|http://localhost:8081|
 
-Test manipulation of checkbox input fields. Note that jWebUnit supports only single checkboxes with given name. &nbsp;Support for multiple checkboxes with same name and different values will be added later.
+Test manipulation of checkbox input fields. Note that jWebUnit supports only single checkboxes with given name. Support for multiple checkboxes with same name and different values will be added later.
 
 |net.sourceforge.jwebunit.fit.WebFixture|||
 |begin|personalInfoForm||

@@ -14,8 +14,8 @@ td {
 body {
     background-repeat: no-repeat;
     color: black;
-    margin-left: 5%;
-    margin-right: 20%;
+    margin-left: 3%;
+    margin-right: 10%;
     font-family: verdana, arial, helvetica, Sans-Serif;
 }
 
@@ -55,21 +55,29 @@ address {
 
 pre {
     white-space: pre;
-    background-color: lightgrey;
+    background-color: #CCCCCC;
     color: black;
     width: 100%;
-    padding: 5px;
+    padding: 3px;
     border: solid black 1px;
+    font-family: sans-serif;
+    font-size: 8pt;
 }
 
 table.wiki {
-    border: solid grey 2px;
+    display: table;
+    cell-spacing: 20px;
+    border-color: #CCCCCC;
+    border-style: solid;
+    border-width: thin;
 }
 
 tr.wiki {} /* for */
 
 td.wiki {
     font-family: Times, serif;
-    font-size: 105%;
-    border: solid grey 1px;
+    font-size: 100%;
+    border-color: #CCCCCC;
+    border-style: solid;
+    border-width: thin;
 }
