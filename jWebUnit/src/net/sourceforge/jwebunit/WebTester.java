@@ -816,6 +816,18 @@ public class WebTester {
     }
 
     /**
+     * Navigate by selection of a link containing given text.
+     *
+     * @param linkText
+     * @param index The 0-based index, when more than one link with the same
+     *              text is expected.
+     */
+    public void clickLinkWithText(String linkText, int index) {
+        assertLinkPresentWithText(linkText);
+        dialog.clickLinkWithText(linkText, index);
+    }
+
+    /**
      * Click the button with the given id.
      *
      * @param buttonId

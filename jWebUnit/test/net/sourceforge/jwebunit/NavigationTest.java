@@ -45,6 +45,22 @@ public class NavigationTest extends JWebUnitTest {
         assertTitleEquals("targetPage");
     }
 
+    public void testClickLinkWithTextN() {
+        gotoLinkTestPage();
+        clickLinkWithText("an active link", 0);
+        assertTitleEquals("targetPage");
+        beginAt("/pageWithLink.html");
+        clickLinkWithText("an active link", 1);
+        assertTitleEquals("targetPage2");
+        beginAt("/pageWithLink.html");
+        try {
+            clickLinkWithText("an active link", 2);
+            fail();
+        } catch (Exception exception) {
+        }
+        assertTitleEquals("pageWithLink");
+    }
+
     public void testClickLinkWithImage() {
         gotoLinkTestPage();
         clickLinkWithImage("graphic.jpg");
@@ -58,8 +74,10 @@ public class NavigationTest extends JWebUnitTest {
     }
 
     private void gotoLinkTestPage() {
-        defineWebPage("pageWithLink", "<a href=\"/targetPage.html\" id=\"activeID\">an <b>active</b> link</A>\n" +
-                "<a href=\"/targetPage2.html\"><img src=\"graphic.jpg\"/></a>)\n");
+        defineWebPage("pageWithLink",
+            "<a href=\"/targetPage.html\" id=\"activeID\">an <b>active</b> link</A>\n" +
+            "<a href=\"/targetPage2.html\"><img src=\"graphic.jpg\"/></a>)\n" +
+            "<a href=\"/targetPage2.html\">an active <i>link</i></a>\n");
         defineWebPage("targetPage", "");
         defineWebPage("targetPage2", "");
         beginAt("/pageWithLink.html");

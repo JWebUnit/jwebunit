@@ -433,6 +433,24 @@ public class HttpUnitDialog {
     }
 
     /**
+     * Return the text (without any markup) of the tree rooted
+     * at node.
+     */
+    private String getNodeText(Node node) {
+        String nodeText = "";
+        NodeList children = node.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            Node child = children.item(i);
+            if (child.hasChildNodes()) {
+                nodeText += getNodeText(child);
+            } else if (child.getNodeType() == Node.TEXT_NODE) {
+                nodeText += ((Text)child).getData();
+            }
+        }
+        return nodeText;
+    }
+
+    /**
      * Return the HttpUnit WebTable object representing a specified table
      * in the current response.  Null is returned if a parsing exception
      * occurs looking for the table or no table with the id or summary could
@@ -575,6 +593,30 @@ public class HttpUnitDialog {
         }
         if (link == null)
             throw new RuntimeException("No Link found for \"" + linkText + "\"");
+        submitRequest(link);
+    }
+
+    public void clickLinkWithText(String linkText, int index) {
+        WebLink link = null;
+        try {
+            WebLink links[] = resp.getLinks();
+            int count = 0;
+            for (int i = 0; i < links.length; ++i) {
+                if (getNodeText(links[i].getDOMSubtree()).
+                    indexOf(linkText) != -1) {
+                    if (count == index) {
+                        link = links[i];
+                        break;
+                    } else {
+                        count++;
+                    }
+                }
+            }
+        } catch (SAXException e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+        if (link == null)
+            throw new RuntimeException("No Link found for \"" + linkText + "\" with index " + index);
         submitRequest(link);
     }
 
