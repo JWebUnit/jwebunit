@@ -10,5 +10,15 @@
 ## straight up port from Ward's perl quicki wiki to ruby
 ## plus support for tables
 require './riki.rb'
-page = ENV['QUERY_STRING'] =~ /^(#{Riki::LINK})$/ ? $1 : "WelcomeVisitors"  # $& is the last match
-Riki::ViewPage.new(page.untaint).display
+require 'cgi'
+
+page = Riki.param('page', 'WelcomeVisitors')
+
+pageClass = case Riki.param('mode')
+                when 'edit'   then Riki::EditPage
+                when 'save'   then Riki::SavePage
+                when 'search' then Riki::SearchPage
+                else               Riki::ViewPage
+            end
+
+pageClass.new(page.untaint).display

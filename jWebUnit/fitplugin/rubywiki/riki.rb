@@ -15,6 +15,20 @@ module Riki
     MARK = "\263"
     LINK = "[A-Z][a-z0-9]+([A-Z][a-z0-9]+)+"
     PROTOCOL = "(http|ftp|mailto|file|gopher|telnet|news)"
+
+    def Riki.param(key, default='')
+        cgi = CGI.new
+        cgi[key].empty? ? default : cgi[key][0].untaint
+    end
+
+    def Riki.asAnchor(title)
+        if File.exists?("pages/#{title}")
+            %Q[<a href="wiki.rb?page=#{title}">#{title}<\/a>]
+        else
+            %Q[<a href="wiki.rb?page=#{title}&mode=edit">?<\/a>#{title}]
+        end
+    end
+
     class RikiPage
         attr_reader :page, :title, :body, :summary, :action
 
@@ -54,14 +68,20 @@ module Riki
             puts "<!-- #{obj.inspect} -->"
         end
 
+        def param(key, default='')
+            Riki.param(key, default)
+        end
+
     end
 
     class ViewPage < RikiPage
         def initialize(page)
             super(page)
             @title = @page.gsub(/(.)([A-Z])/, '\1 \2')
-            @action = %Q[<form method=post action="edit.rb?#{@page}">
-                         <input type=submit value=" Edit "></form>]
+            @action = %Q[<form method="GET" action="wiki.rb">
+                         <input type="hidden" name="page" value="#{page}"/>
+                         <input type="hidden" name="mode" value="edit"/>
+                         <input type="submit" value="Edit"></form>]
             if File.exist?("pages/#{@page}")
                 @summary = %Q[-- Last edited #{File.mtime("pages/#{@page}").strftime("%B %d, %Y")}]
             end
@@ -69,11 +89,11 @@ module Riki
 
         def body
             if File.exist?("pages/#{@page}")
-              body = Riki::Parser.new.parse(IO.readlines("pages/#{@page}").join)
+                body = Riki::Parser.new.parse(IO.readlines("pages/#{@page}").join)
             else
-              body = <<-BODY
-              "#{@page}" does not yet exist. <BR>
-                Use the <strong>Edit</strong> button to create it.
+                body = <<-BODY
+                    "#{@page}" does not yet exist. <BR>
+                    Use the <strong>Edit</strong> button to create it.
                 BODY
             end
             return body
@@ -81,9 +101,9 @@ module Riki
     end
 
     class SearchPage < RikiPage
-        def initialize(target)
-            super("WelcomeVisitors")
-            @target = target
+        def initialize(page)
+            super(page)
+            @target = param('search')
             @title = "Search Results"
         end
 
@@ -112,12 +132,13 @@ module Riki
 
         def body
             @body = <<-EOF
-             <form action="search.rb">
+             <form action="wiki.rb">
+              <input type="hidden" name="mode" value="search"/>
               <input type="text" size="40" name="search" value="#{@target}">
               <input type="submit" value="Search">
              </form>
             EOF
-            @searchResults.sort.each {|k,v| @body += "<a href=wiki.rb?#{k}>#{k}<\/a> . . . . . .  #{v}<br>\n" }
+            @searchResults.sort.each {|k,v| @body += %Q[<a href="wiki.rb?page=#{k}">#{k}<\/a> . . . . . .  #{v}<br>\n] }
             return @body
         end
 
@@ -142,7 +163,9 @@ module Riki
                 text.gsub!(/>/, '&gt;')
             end
             return <<-BODY
-                <form method="post" action="save.rb?#{page}">
+                <form method="post" action="wiki.rb">
+                <input type="hidden" name="page" value="#{page}"/>
+                <input type="hidden" name="mode" value="save"/>
                 <textarea name=Text rows=16 cols=80>#{text}</textarea>
                 <p><input type="submit" value=" Save ">
                 </form>
@@ -151,12 +174,12 @@ module Riki
     end
 
     class SavePage < RikiPage
-        def initialize(page, text)
+        def initialize(page)
             super(page)
-            @text = text
+            @text = param('Text')
             @title = "Thank You"
             @body = <<-BODY
-            	The <a href="wiki.rb?#{page}">#{page}</a> page has been saved.
+            	The <a href="wiki.rb?page=#{page}">#{page}</a> page has been saved.
                 You may <b>back</b> up to the edit form and make further changes.
             	Remember to <b>reload</b> old copies of this page and especially
             	old copies of the editor.</i>
@@ -164,11 +187,10 @@ module Riki
         end
 
         def run
-            inspectStr(@text)
             if @text =~ /\n/
-              @text.gsub!(/\r/, '') # presume PC just strip cr
+                @text.gsub!(/\r/, '') # presume PC just strip cr
             else
-              @text.gsub!(/\r/, "\n")  # replace cr with lf
+                @text.gsub!(/\r/, "\n")  # replace cr with lf
             end
             @text.gsub!(/\+/, ' ')
             @text.gsub!(/\%(..)/) { [$1.hex].pack('C') }
@@ -179,77 +201,6 @@ module Riki
                 File.open("pages/#{$1}", "a") { |f| f.print "\n----\n$page" }
             end
             File.open("pages/#{page}", "w") { |f| f.print @text}
-        end
-    end
-
-    class RefCountPage < RikiPage
-        def initialize
-            super("http:pagerefs.rb")
-            @title = "Page References"
-        end
-
-        def run
-            @files = Dir.entries('pages').select {|e| e =~ /#{LINK}/}.sort!
-            refs = {}
-            @files.each do |file|
-                contents = readFile("pages/#{file}")
-                targets = {}
-                contents.scan(/(#{LINK})/).each {|link| targets[link[0]] = file }
-                inspectStr targets
-                targets.each_key do |target|
-                    refs[target] = [] unless refs.has_key?(target)
-                    refs[target].push(file)
-                end
-            end
-            @refcnt = {}
-            @files.each { |file| @refcnt[file] = refs.has_key?(file) ? refs[file].length : 0 }
-            @files.sort! {|a,b| @refcnt[b] <=> @refcnt[a] || a <=> b }
-        end
-
-        def body
-            s = "<table border=0 cellspacing=0 cellpadding=0>\n"
-            @files.each do |file|
-                s += <<-ROW
-                <tr>
-                <td valign="right">#{@refcnt[file]}</td>
-                <td>&nbsp;&nbsp;<a href="wiki.rb?#{file}">#{file}</a></td>
-                </tr>
-                ROW
-            end
-            s += "</table>\n"
-        end
-    end
-
-    class ChangesPage < RikiPage
-        def initialize(max)
-            super("http:changes.rb")
-            @max   = max
-            @title = "Recent Changes"
-        end
-
-        def run
-            @datedpages = Dir.entries('pages').select {|e| e.untaint =~ /#{LINK}/}
-            @datedpages.map! {|e| [File.mtime("pages/#{e}"), e]}
-            @datedpages.sort! { |a,b| b[0] <=> a[0] }
-            @datedpages = @datedpages[0...@max]
-        end
-
-        def body
-            lastdate = nil
-            s = "<dl>\n"
-            @datedpages.each do |datedpage|
-                time = datedpage[0]
-                file = datedpage[1]
-                date = File.mtime("pages/#{file}").strftime("%B %d, %Y")
-            	if ( date != lastdate )
-                    s += "<dt>"
-            		s += "<br>" unless lastdate.nil?
-            		s += date
-                    lastdate = date
-            	end
-                s += "<dd><a href=wiki.rb?#{file}>#{file}</a>\n";
-            end
-            s += "</dl>\n"
         end
     end
 
@@ -267,14 +218,14 @@ module Riki
                 urlNum = 0
 
                 while (s.sub!(/\b(javascript):\S.*/, "#{MARK}#{urlNum}#{MARK}"))
-                  urls[urlNum] = $&
-                  urlNum+=1
+                    urls[urlNum] = $&
+                    urlNum+=1
                 end
 
                 while (s.sub!(/\b#{PROTOCOL}:[^\s\<\>\[\]"'\(\)]*[^\s\<\>\[\]"'\(\)\,\.\?]/,
                        "#{MARK}#{urlNum}#{MARK}"))
-                  urls[urlNum] = $&
-                  urlNum+=1
+                    urls[urlNum] = $&
+                    urlNum+=1
                 end
 
                 # -v- emitcode block-tag section
@@ -302,7 +253,8 @@ module Riki
                 s.gsub!(/'{3}(.*?)'{3}/, '<strong>\1</strong>')
                 s.gsub!(/'{2}(.*?)'{2}/, '<em>\1</em>')
 
-                s.gsub!(/\[Search\]/, '<form action="search.rb">' +
+                s.gsub!(/\[Search\]/, '<form action="wiki.rb">' +
+                                      '<input type="hidden" name="mode" value="search"/>' +
                                       '<input type="text" name="search" size="40"><input type="submit" value="Search">'+
                                       '</form>')
                 s.gsub!(/\b#{LINK}\b/)         { asAnchor($&)              }
@@ -316,24 +268,26 @@ module Riki
 
 
         def emitCode(code, depth)
-          tags = ''
-          startTag = if code =~ /table/
-                       "table border=\"1\" cellspacing=\"0\" cellpadding=\"3\""
-                     else
-                       code.dup
-                     end
-          while(@codeArr.length > depth)
-            tags += "</" + @codeArr.pop + ">\n<p>"
-          end
-          while(@codeArr.length < depth)
-            @codeArr.push code
-            tags += "<#{startTag}>"
-          end
-          if !@codeArr.empty? && @codeArr.last != code
-            tags += "</#{@codeArr.last}>\n<#{startTag}>";  # split with \n
-            @codeArr[-1] = code
-          end
-          return tags
+            tags = ''
+            startTag =  if code =~ /table/
+                            "table border=\"1\" cellspacing=\"0\" cellpadding=\"3\""
+                        else
+                            code.dup
+                        end
+
+            while(@codeArr.length > depth)
+                tags += "</" + @codeArr.pop + ">\n<p>"
+            end
+
+            while(@codeArr.length < depth)
+                @codeArr.push code
+                tags += "<#{startTag}>"
+            end
+            if !@codeArr.empty? && @codeArr.last != code
+                tags += "</#{@codeArr.last}>\n<#{startTag}>";  # split with \n
+                @codeArr[-1] = code
+            end
+            return tags
         end
 
         def asRow(s)
@@ -358,18 +312,14 @@ module Riki
         end
 
         def asAnchor(title)
-          if File.exists?("pages/#{title.untaint}")
-            %Q[<a href="wiki.rb?#{title}">#{title}<\/a>]
-          else
-            %Q[<a href="edit.rb?#{title}">?<\/a>#{title}]
-          end
+            Riki.asAnchor(title)
         end
 
         def inPlaceUrl(origRef)
-          ref = origRef.dup
-          ref.sub!(/^(javascript.{30}).*/, "#{$1} ...")
-          return "<img src=\"#{ref}\">" if (ref =~ /\.(gif|jpeg|jpg|png)$/i)
-          return "<a href=\"#{origRef}\">#{ref}<\/a>"
+            ref = origRef.dup
+            ref.sub!(/^(javascript.{30}).*/, "#{$1} ...")
+            return "<img src=\"#{ref}\">" if (ref =~ /\.(gif|jpeg|jpg|png)$/i)
+            return "<a href=\"#{origRef}\">#{ref}<\/a>"
         end
 
         def comment(obj)
