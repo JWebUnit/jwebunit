@@ -1,4 +1,4 @@
-<project name="jWebUnit" default="dist">
+<project name="jWebUnit" default="clean-dist">
 
     <path id="src.classpath">
         <fileset dir="lib">
