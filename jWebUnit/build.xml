@@ -3,18 +3,17 @@
     <path id="src.classpath">
         <fileset dir="lib">
             <include name="**/*.jar"/>
-            <exclude name="**/httpunit.jar"/>
         </fileset>
     </path>
 
     <path id="tests.classpath">
-        <path refid="src.classpath"/>
         <pathelement location="src-classes"/>
+        <path refid="src.classpath"/>
     </path>
 
     <path id="junit.classpath">
-        <path refid="tests.classpath"/>
         <pathelement location="test-classes"/>
+        <path refid="tests.classpath"/>
     </path>
 
     <target name="dist" depends="test, make-zip"/>
@@ -31,23 +30,14 @@
         <javac destdir="test-classes" srcdir="test" classpathref="tests.classpath"/>
     </target>
 
-    <!--
-        <target name="test" depends="compile">
-            <junit fork="yes" haltonfailure="yes">
-                <formatter type="brief" usefile="false"/>
-                <classpath>
-                    <path refid="junit.classpath"/>
-                </classpath>
-                <test name="net.sourceforge.jwebunit.AllTests" />
-            </junit>
-        </target>
-    -->
     <target name="test" depends="compile">
-        <java classname="net.sourceforge.jwebunit.AllTests" fork="yes">
+        <junit fork="yes" haltonfailure="yes">
+            <formatter type="brief" usefile="false"/>
             <classpath>
                 <path refid="junit.classpath"/>
             </classpath>
-        </java>
+            <test name="net.sourceforge.jwebunit.AllTests"/>
+        </junit>
     </target>
 
     <target name="gen-javadoc">
@@ -58,7 +48,6 @@
             <bottom><![CDATA[<i>Copyright &#169; 2002 ThoughtWorks, Inc. All Rights Reserved.</i>]]></bottom>
         </javadoc>
     </target>
-
 
     <target name="make-zip" depends="gen-javadoc">
         <jar destfile="dist/jwebunit.jar" basedir="src-classes"/>
