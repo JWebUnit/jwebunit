@@ -21,8 +21,8 @@ public class JWebUnitSearchExample extends WebTestCase {
         beginAt("/");
         setFormElement("q", "httpunit");
         submit("btnG");
-        clickLinkWithText("HttpUnit");
-        assertTitleEquals("HttpUnit");
+        clickLinkWithText("HttpUnit Home");
+        assertTitleEquals("HttpUnit Home");
         assertLinkPresentWithText("User's Manual");
     }
 }

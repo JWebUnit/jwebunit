@@ -69,9 +69,9 @@ public class SearchExample extends TestCase {
       form.setParameter("q", "HttpUnit");
       WebRequest req = form.getRequest("btnG");
       resp = wc.getResponse(req);
-      assertNotNull(resp.getLinkWith("HttpUnit"));
+      assertNotNull(resp.getLinkWith("HttpUnit Home"));
       resp = resp.getLinkWith("HttpUnit").click();
-      assertEquals(resp.getTitle(), "HttpUnit");
+      assertEquals(resp.getTitle(), "HttpUnit Home");
       assertNotNull(resp.getLinkWith("User's Manual"));
    }
 }
@@ -97,8 +97,8 @@ public class JWebUnitSearchExample extends WebTestCase {
       beginAt("/");
       setFormElement("q", "httpunit");
       submit("btnG");
-      clickLinkWithText("HttpUnit");
-      assertTitleEquals("HttpUnit");
+      clickLinkWithText("HttpUnit Home");
+      assertTitleEquals("HttpUnit Home");
       assertLinkPresentWithText("User's Manual");
    }
 }
