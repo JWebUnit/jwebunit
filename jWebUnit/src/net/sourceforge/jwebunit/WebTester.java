@@ -14,13 +14,10 @@ import net.sourceforge.jwebunit.util.ExceptionUtility;
 
 import org.w3c.dom.Element;
 
-import com.meterware.httpunit.Button;
-import com.meterware.httpunit.SubmitButton;
-
 /**
  * Provides a high-level API for basic web application navigation and validation
  * by wrapping HttpUnit and providing Junit assertions.  It supports use of a property file for web
- * resources (ala Struts), though a resource file for the app is not required.
+ * resources (a la Struts), though a resource file for the app is not required.
  *
  *  @author Jim Weaver
  *  @author Wilkes Joiner
@@ -546,7 +543,7 @@ public class WebTester {
      */
     public void assertSubmitButtonPresent(String buttonName) {
         assertFormPresent();
-        Assert.assertNotNull("Submit Button [" + buttonName + "] not found.", dialog.getSubmitButton(buttonName));
+        Assert.assertTrue("Submit Button [" + buttonName + "] not found.", dialog.hasSubmitButton(buttonName));
     }
 
     /**
@@ -556,12 +553,7 @@ public class WebTester {
      */
     public void assertSubmitButtonNotPresent(String buttonName) {
         assertFormPresent();
-        SubmitButton button = null;
-        try {
-            button = dialog.getSubmitButton(buttonName);
-        } catch (UnableToSetFormException e) {
-        }
-        Assert.assertNull("Submit Button [" + buttonName + "] found.", button);
+        Assert.assertFalse("Submit Button [" + buttonName + "] found.", dialog.hasSubmitButton(buttonName));
     }
 
     /**
@@ -573,7 +565,7 @@ public class WebTester {
     public void assertSubmitButtonValue(String buttonName, String expectedValue) {
         assertFormPresent();
         assertSubmitButtonPresent(buttonName);
-        Assert.assertEquals(expectedValue, dialog.getSubmitButton(buttonName).getValue().trim());
+        Assert.assertEquals(expectedValue, dialog.getSubmitButtonValue(buttonName));
     }
 
     /**
@@ -583,7 +575,7 @@ public class WebTester {
      */
     public void assertButtonPresent(String buttonId) {
         assertFormPresent();
-        Assert.assertNotNull("Button [" + buttonId + "] not found.", dialog.getButton(buttonId));
+        Assert.assertTrue("Button [" + buttonId + "] not found.", dialog.hasButton(buttonId));
     }
 
     /**
@@ -593,12 +585,7 @@ public class WebTester {
      */
     public void assertButtonNotPresent(String buttonId) {
         assertFormPresent();
-        Button button = null;
-        try {
-            button = dialog.getButton(buttonId);
-        } catch (UnableToSetFormException e) {
-        }
-        Assert.assertNull("Button [" + buttonId + "] found.", button);
+        Assert.assertFalse("Button [" + buttonId + "] found.", dialog.hasButton(buttonId));
     }
 
 
@@ -979,18 +966,23 @@ public class WebTester {
 
 //Debug methods
 
+
+    /**
+     * Dump html of current response to System.out - for debugging purposes.
+     *
+     * @param stream
+     */
+    public void dumpResponse() {
+    	dialog.dumpResponse();
+    }
+    
     /**
      * Dump html of current response to a specified stream - for debugging purposes.
      *
      * @param stream
      */
     public void dumpResponse(PrintStream stream) {
-        try {
-            stream.println(dialog.getResponseText());
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
-        }
+    	dialog.dumpResponse(stream);
     }
 
     /**
@@ -1000,7 +992,7 @@ public class WebTester {
      * @param stream
      */
     public void dumpTable(String tableNameOrId, PrintStream stream) {
-        dumpTable(tableNameOrId, dialog.getSparseTableBySummaryOrId(tableNameOrId), stream);
+    	dialog.dumpTable(tableNameOrId, stream);
     }
 
     /**
@@ -1010,7 +1002,7 @@ public class WebTester {
      * @param table
      */
     public void dumpTable(String tableNameOrId, String[][] table) {
-        dumpTable(tableNameOrId, table, System.out);
+    	dialog.dumpTable(tableNameOrId, table);
     }
 
     /**
@@ -1021,14 +1013,7 @@ public class WebTester {
      * @param stream
      */
     public void dumpTable(String tableNameOrId, String[][] table, PrintStream stream) {
-        stream.print("\n" + tableNameOrId + ":");
-        for (int i = 0; i < table.length; i++) {
-            String[] cell = table[i];
-            stream.print("\n\t");
-            for (int j = 0; j < cell.length; j++) {
-                stream.print("[" + cell[j] + "]");
-            }
-        }
+    	dialog.dumpTable(tableNameOrId, table, stream);
     }
 
 }

@@ -107,7 +107,7 @@ public class HttpUnitDialog {
 	/**
 	 * Contributed by Vivek Venugopalan.
 	 */
-	public CookieJar getCookies() {
+	private CookieJar getCookies() {
 		return (getResponse() != null) ? new CookieJar(getResponse()) : null;
 	}
 
@@ -125,18 +125,6 @@ public class HttpUnitDialog {
 
 	public String getCookieValue(String cookieName) {
 		return getCookies().getCookieValue(cookieName);
-	}
-
-	/**
-	 * Dumps out all the cookies in the response received. The output is written to the passed in Stream
-	 * 
-	 * @return void
-	 */
-	public void dumpCookies(PrintStream stream) {
-		CookieJar respJar = getCookies();
-		String[] cookieNames = respJar.getCookieNames();
-		for (int i = 0; i < cookieNames.length; i++)
-			stream.print(cookieNames[i] + " :  [" + respJar.getCookieValue(cookieNames[i]) + "]\n");
 	}
 
 	//TODO: Move other dump methods to dialog!!
@@ -396,6 +384,19 @@ public class HttpUnitDialog {
 		return getForm().getSubmitButton(buttonName);
 	}
 
+	public String getSubmitButtonValue(String buttonName) {
+		return getSubmitButton(buttonName).getValue().trim();
+	}
+	
+	public boolean hasSubmitButton(String buttonName) {
+		try {
+			return getSubmitButton(buttonName) != null;
+		} catch (UnableToSetFormException e) {
+			return false;
+		}
+		
+	}
+
 	/**
 	 * Return the HttpUnit Button with a given id.
 	 * 
@@ -403,6 +404,15 @@ public class HttpUnitDialog {
 	 */
 	public Button getButton(String buttonId) {
 		return getForm().getButtonWithID(buttonId);
+	}
+
+	
+	public boolean hasButton(String buttonId) {
+		try {
+			return getButton(buttonId) != null;
+		} catch (UnableToSetFormException e) {
+			return false;
+		}	
 	}
 
 	/**
@@ -970,5 +980,78 @@ public class HttpUnitDialog {
 			throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
 		}
 	}
+	
+	/**
+	 * Dumps out all the cookies in the response received. The output is written to the passed in Stream
+	 * 
+	 * @return void
+	 */
+	public void dumpCookies(PrintStream stream) {
+		CookieJar respJar = getCookies();
+		String[] cookieNames = respJar.getCookieNames();
+		for (int i = 0; i < cookieNames.length; i++)
+			stream.print(cookieNames[i] + " :  [" + respJar.getCookieValue(cookieNames[i]) + "]\n");
+	}
 
+	/**
+	 * Dump html of current response to System.out - for debugging purposes.
+	 *
+	 * @param stream
+	 */
+	public void dumpResponse() {
+		dumpResponse(System.out);
+	}
+	
+	/**
+	 * Dump html of current response to a specified stream - for debugging purposes.
+	 *
+	 * @param stream
+	 */
+	public void dumpResponse(PrintStream stream) {
+		try {
+			stream.println(getResponseText());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Dump the table as the 2D array that is used for assertions - for debugging purposes.
+	 *
+	 * @param tableNameOrId
+	 * @param stream
+	 */
+	public void dumpTable(String tableNameOrId, PrintStream stream) {
+		dumpTable(tableNameOrId, getSparseTableBySummaryOrId(tableNameOrId), stream);
+	}
+
+	/**
+	 * Dump the table as the 2D array that is used for assertions - for debugging purposes.
+	 *
+	 * @param tableNameOrId
+	 * @param table
+	 */
+	public void dumpTable(String tableNameOrId, String[][] table) {
+		dumpTable(tableNameOrId, table, System.out);
+	}
+
+	/**
+	 * Dump the table as the 2D array that is used for assertions - for debugging purposes.
+	 *
+	 * @param tableNameOrId
+	 * @param table
+	 * @param stream
+	 */
+	public void dumpTable(String tableNameOrId, String[][] table, PrintStream stream) {
+		stream.print("\n" + tableNameOrId + ":");
+		for (int i = 0; i < table.length; i++) {
+			String[] cell = table[i];
+			stream.print("\n\t");
+			for (int j = 0; j < cell.length; j++) {
+				stream.print("[" + cell[j] + "]");
+			}
+		}
+	}
+	
 }
