@@ -16,6 +16,7 @@ public class FormAssertionsTest extends JWebUnitTest {
     public void testAssertFormParameterPresent() throws Throwable {
         assertPassFail("assertFormElementPresent", "testInputElement", "noSuchElement");
         assertPass("assertFormElementPresent", "checkboxselected");
+        assertPass("assertFormElementEmpty", "testInputElement2");
     }
 
     public void testAssertFormParameterNotPresent() throws Throwable {
@@ -144,6 +145,7 @@ public class FormAssertionsTest extends JWebUnitTest {
                 "<input type=\"button\" id=\"b1\"/>" +
                 "<select name=\"selectOption\"><option value=\"1\">One</option><option value=\"2\">Two</option><option value=\"3\">Three</option></select>" +
                 "Test Input : <input type=\"text\" name=\"testInputElement\" value=\"testValue\"/>" +
+                "Test Input 2: <input type=\"text\" name=\"testInputElement2\" value=\"\"/>" +
                 "<input type=\"submit\" name=\"submitButton\" value=\"buttonLabel\"/>" +
                 "<input type=\"checkbox\" name=\"checkboxselected\" CHECKED>" +
                 "<input type=\"checkbox\" name=\"checkboxnotselected\">" +
