@@ -38,16 +38,19 @@
 			</item>
 		</menu>
 	    <menu name="Quick links">
-	        <item name="Javadoc" href="/apidocs/index.html"/>
+	        <item name="Javadoc" href="/apidocs/index.html" />
 	        <item name="Dependencies" href="/dependencies.html"/>
 	        <item name="Changes" href="/changes-report.html"/>
+	        <item name="Download" href="http://sourceforge.net/projects/jwebunit/files"/>
+<!--
 	        <item name="FAQ" href="/faq.html"/>
+-->
 	        <item name="CVS access" href="/cvs-usage.html"/>
         </menu>
 	    <menu name="Sourceforge">
 	        <item name="Project page" href="http://sourceforge.net/projects/jwebunit"/>
 	        <item name="Download" href="http://sourceforge.net/projects/jwebunit/files"/>
-	        <item name="Forum" href="http://sourceforge.net/forum/forum.php?forum_id=212195" />
+	        <item name="Lists" href="http://sourceforge.net/projects/jwebunit/lists" />
 	        <item name="Issue tracking" href="http://sourceforge.net/tracker/?group_id=61302"/>
 	    </menu>
 <!--	    <search /> -->
