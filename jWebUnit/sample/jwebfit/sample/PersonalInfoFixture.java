@@ -32,7 +32,6 @@ public class PersonalInfoFixture extends WebFixture {
 
     public void gotoScreen() {
         tester.beginAt("personalInfoForm");
-
     }
 
     public void enter() throws Exception {
@@ -50,27 +49,26 @@ public class PersonalInfoFixture extends WebFixture {
     }
 
     private String filter(String s) {
-        String v = (String) filters.get(s.toLowerCase());
-        return (v != null) ? v : s;
+        return (filters.containsKey(s.toLowerCase())) ? (String) filters.get(s.toLowerCase()) : s;
     }
 
 ///////////////////////////////////////////////////////////////////////////////
 // checks
 ///////////////////////////////////////////////////////////////////////////////
 
-    public void assertNameResponse(String value) {
+    public void checkNameResponse(String value) {
         tester.assertTextPresent(value);
     }
 
-    public void assertCitizenResponse(String value) {
+    public void checkCitizenResponse(String value) {
         tester.assertTextPresent(value);
     }
 
-    public void assertStateResponse(String value) {
+    public void checkStateResponse(String value) {
         tester.assertTextPresent(value);
     }
 
-    public void assertSexResponse(String value) {
+    public void checkSexResponse(String value) {
         tester.assertTextPresent(value);
     }
 
