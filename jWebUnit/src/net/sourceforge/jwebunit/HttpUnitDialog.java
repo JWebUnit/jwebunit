@@ -718,10 +718,16 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
     }
 
     /**
+     * Resets the Dialog
+     */
+    public void reset() {
+    }
+
+    /**
      * Reset the current form. See {@link #getForm}for an explanation of how
      * the current form is established.
      */
-    public void reset() {
+    public void resetForm() {
         getForm().reset();
     }
 
