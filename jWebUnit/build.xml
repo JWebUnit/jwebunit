@@ -60,7 +60,7 @@
             <zipfileset dir="src" prefix="${build.name}/src"/>
             <zipfileset dir="test" prefix="${build.name}/test"/>
             <zipfileset dir="docgen" prefix="${build.name}/doc"/>
-            <zipfileset dir="lib" prefix="${build.name}/lib"/>
+            <zipfileset dir="lib" excludes="fit.jar" prefix="${build.name}/lib"/>
             <zipfileset dir="dist" includes="jwebunit.jar" prefix="${build.name}"/>
             <zipfileset dir="." includes="build.xml" prefix="${build.name}"/>
             <zipfileset dir="." includes="CHANGES" prefix="${build.name}"/>
