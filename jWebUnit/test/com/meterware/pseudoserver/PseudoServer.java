@@ -258,7 +258,7 @@ public class PseudoServer {
     private ServerSocket getServerSocket() throws IOException {
         synchronized (this) {
             if (_serverSocket == null)
-                _serverSocket = new ServerSocket(0);
+                _serverSocket = new ServerSocket(8081);
             _serverSocket.setSoTimeout( 1000 );
         }
         return _serverSocket;

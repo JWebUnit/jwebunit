@@ -92,7 +92,7 @@ public class WebFixtureTest extends TestCase {
         fixture.doTable(tables);
     }
 
-    private void buildSite() {
+   private void buildSite() {
         server = new PseudoServer();
         server.setResource("/start",
                 "<html><head><title>Start Page</title></head><body>" +
