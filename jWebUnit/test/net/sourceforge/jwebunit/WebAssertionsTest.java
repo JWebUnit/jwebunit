@@ -102,7 +102,10 @@ public class WebAssertionsTest extends JWebUnitTest {
                                   "<tr><td>table text row 2</td></tr>" +
                                   "<tr><td>table text row 3</td><td>row 3 col 1</td>" +
                                   "<a id=\"test_link_id\" href=\"someurl.html\">test link</a>" +
-                                  "<a id=\"test_graphic_link_id\" href=\"someurl2.html\"><img src=\"graphic.jpg\"/></a>" +
+								  /* Changed this page structure to test bug ID  908372 */
+								  "<a href=\"somepage.html\">" +
+								  "<img height=\"22\" width=\"22\" alt=\"New User\" src=\"firstimage.gif\">" +
+                                  "<img src=\"graphic.jpg\"alt=\"New User\" /></a>" +
                                   "<form>" +
                                   "<input type=\"text\" name=\"testInputElement\" value=\"testValue\"/>" +
                                   "<input type=\"submit\" name=\"submitButton\" value=\"buttonLabel\"/>" +
@@ -113,12 +116,11 @@ public class WebAssertionsTest extends JWebUnitTest {
                                   "<span id=\"outer_id\">Outer <span id=\"inner_id\">Inner Text</span> Text</span>" +
                                   "<form name=\"form2\"></form>" +
                                   "<form name=\"form3\">" +
-                                  "<table><tr><td>" +
-                                  "<span id=\"outer2\" >" +
-                                  "<input type=\"hidden\" name=\"hidden\" value=\"h\" />$100,000/$300,000</span>" +
-                                  "</td></tr></table>" +
-                                  "</table>" +
-                                  "</form>");
+								  "<table><tr><td>" +
+								  "<span id=\"outer2\" >" +
+								  "<input type=\"hidden\" name=\"hidden\" value=\"h\" />$100,000/$300,000</span>" +
+								  "</td></tr></table>" + "</table>" +
+								  "</form>");
         defineWebPage("noFormPage", "");
     }
 

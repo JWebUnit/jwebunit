@@ -957,6 +957,7 @@ public class HttpUnitDialog {
 	 */
 	public void gotoFrame(String frameName) {
 		resp = getFrame(frameName);
+		form=null;
 	}
 
 	/**

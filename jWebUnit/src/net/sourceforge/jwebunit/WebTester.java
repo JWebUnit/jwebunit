@@ -604,7 +604,7 @@ public class WebTester {
      * @param linkId
      */
     public void assertLinkNotPresent(String linkId) {
-        Assert.assertTrue("Unable to find link with id [" + linkId + "]", !dialog.isLinkPresent(linkId));
+        Assert.assertTrue("link with id [" + linkId + "] found in response", !dialog.isLinkPresent(linkId));
     }
 
     /**

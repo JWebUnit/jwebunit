@@ -78,13 +78,13 @@ Navigation is a two step process.  First, point the TestCase to your application
 <pre>
     public ExampleWebTestCase(String name) {
         super(name);
-        getTestContext().setBaseURL("http://myserver:8080/myapp");
+        getTestContext().setBaseUrl("http://myserver:8080/myapp");
     }
 </pre>
 or
 <pre>
     public void setUp() throws Exception {
-        getTestContext().setBaseURL("http://myserver:8080/myapp");
+        getTestContext().setBaseUrl("http://myserver:8080/myapp");
     }
 </pre>
 The TestContext encapsulates the configuration of a TestCase.  More information is availible in the <a href="api/index.html">Javadocs</a>.<br>
@@ -289,7 +289,7 @@ take a property file key.  You can use the TestContext to set the bundle to be u
 Locale (default is Locale.getDefault()).
 <pre>
     public void setUp() throws Exception {
-        getTestContext().setBaseURL("http://myserver:8080/myapp");
+        getTestContext().setBaseUrl("http://myserver:8080/myapp");
         getTestContext().setResourceBundleName("ApplicationResources");
     }
 

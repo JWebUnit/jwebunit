@@ -28,6 +28,7 @@ public class AllTests extends TestSuite{
 		suite.addTestSuite(JavaScriptEventsTest.class);
 		suite.addTestSuite(ServletUnitTest.class);
 		suite.addTestSuite(MethodInvokerTest.class);
+		suite.addTestSuite(WebCookieTest.class);
         return suite;
     }
 

@@ -19,9 +19,7 @@ public class WebCookieTest extends JWebUnitTest {
 
 
     public void testAssertCookieDump() throws Throwable {
-            System.out.println("Printing Cookies...");
             dumpCookies();
-            dumpCookies(System.err);
     }
 
     private void addTestPage() {
@@ -44,5 +42,4 @@ public class WebCookieTest extends JWebUnitTest {
     	"</table>");
     	defineWebPage("noFormPage", "");
     }
-    
 }

@@ -21,22 +21,28 @@ public class LinkImagePredicate implements HTMLElementPredicate
         boolean matchesCriteria(Object webLink, Object criteria)
         {
             Element a = (Element) ((WebLink) webLink).getDOMSubtree();
-            Element img = getChildImageElement(a);
+            NodeList imgs = getChildImageElement(a);
 
-            if (img == null)
+            if (imgs == null)
             {
                 return false;
             }
 
-            String src = img.getAttribute("src");
-            return src.endsWith((String) criteria);
+            for(int i=0; i< imgs.getLength(); i++) 
+			{
+                Element img = (Element) imgs.item(i);
+                String source = img.getAttribute("src");
+                
+				if(source.endsWith((String) criteria)) 
+					return true;
+            }
+            return false;
         }
 
         private
-        Element getChildImageElement(Element htmlElement)
+        NodeList getChildImageElement(Element htmlElement)
         {
             NodeList nodes = htmlElement.getElementsByTagName("img");
-            return nodes.getLength() == 0 ? null : (Element) nodes.item(0);
+            return nodes.getLength() == 0 ? null : nodes;
         }
-
     }

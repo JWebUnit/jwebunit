@@ -39,8 +39,8 @@
     </target>
 
     <target name="test" depends="compile">
-        <junit fork="yes" haltonfailure="yes">
-            <formatter type="brief" usefile="false"/>
+        <junit fork="yes" haltonfailure="yes" printsummary="yes" >
+            <formatter type="plain" usefile="false"/>
             <classpath>
                 <path refid="junit.classpath"/>
             </classpath>
