@@ -148,7 +148,17 @@ Finished at: Mon Jun 07 23:06:15 CEST 2004
 </subsection>
 <subsection name="Building a release">
 	<p>
-		TODO
+		Building a release with maven consists of executing Maven like this:
+		<source>maven dist</source>
+		This will create the binary and source distributions in the directory
+		<source>target/distributions</source>
+		In the jWebUnit case, only the binary release is relevant, as it includes
+		the full source in order to build maven oneself.
+	</p>
+	<p>
+		Distribution of the release is not automated. In the <tt>project.xml</tt>
+		my local linux machine is used to test the distribution. This will change
+		in the near future to use the sourceforge filesystems.
 	</p>
 </subsection>
 </section>

@@ -35,6 +35,7 @@
 				<item name="Using Maven" href="/building-maven.html#Using_Maven" />
 				<item name="Building jWebUnit" href="/building-maven.html#Building_jWebUnit" />
 				<item name="Building the site" href="/building-maven.html#Building_the_site" />
+				<item name="Building a release" href="/building-maven.html#Building_a_release" />
 			</item>
 		</menu>
 	    <menu name="Quick links">
