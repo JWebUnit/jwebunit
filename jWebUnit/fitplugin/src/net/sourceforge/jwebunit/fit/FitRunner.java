@@ -5,11 +5,11 @@
  */
 package net.sourceforge.jwebunit.fit;
 public abstract class FitRunner {
-    protected FitResult result;
+    protected FitResultWriter resultWriter;
 
     public abstract void run ();
 
-    public FitResult getResult() {
-        return result;
+    public FitResultWriter getResultWriter() {
+        return resultWriter;
     }
 }

@@ -15,18 +15,12 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class DirectoryResult extends FitResult {
+public class DirectoryResultWriter extends FitResultWriter {
     private List results;
-    private Fixture.Counts counts;
 
-    public DirectoryResult(File directory) {
+    public DirectoryResultWriter(File directory) {
         super(directory);
         results = new ArrayList();
-        counts = new Fixture().counts;
-    }
-
-    public Fixture.Counts getCounts() {
-        return counts;
     }
 
     public String getLinkString() {
@@ -37,12 +31,33 @@ public class DirectoryResult extends FitResult {
         return getOutput().getName();
     }
 
-    public void addResult(FitResult result) {
+    public void addResult(FitResultWriter result) {
         results.add(result);
-        counts.tally(result.getCounts());
     }
 
-    public void writeIndexFile() {
+    public Fixture.Counts getCounts() {
+        Fixture.Counts c = new Fixture().counts;
+        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
+            FitResultWriter fitResult = (FitResultWriter) iterator.next();
+            c.tally(fitResult.getCounts());
+        }
+        return c;
+    }
+
+    public void write() {
+        writeChildren();
+        writeIndexFile();
+    }
+
+    private void writeChildren() {
+        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
+            FitResultWriter fitResult = (FitResultWriter) iterator.next();
+            System.out.println("Writing " + fitResult.getDisplayName());
+            fitResult.write();
+        }
+    }
+
+    private void writeIndexFile() {
         File indexFile = new File(getOutput(), "index.html");
         FileWriter writer = null;
         try {
@@ -53,7 +68,7 @@ public class DirectoryResult extends FitResult {
             writeResults(writer);
             writer.write("</table>");
             writer.write("<br>");
-            writer.write("Cumulative Results: " + counts());
+            writer.write("Cumulative Results: " + getCounts());
             writer.write("<br><br>");
             writer.write(new Date().toString());
             writer.write("</body></html>");
@@ -72,11 +87,11 @@ public class DirectoryResult extends FitResult {
 
     private void writeResults(FileWriter writer) throws IOException {
         for (Iterator iterator = results.iterator(); iterator.hasNext();) {
-            FitResult result = (FitResult) iterator.next();
+            FitResultWriter result = (FitResultWriter) iterator.next();
             String color = (result.didFail()) ? "#ffcfcf" : "#cfffcf";
             writer.write("<tr bgcolor=\"" + color + "\"><td>");
             writer.write("<a href=\"" + result.getLinkString() + "\">" + result.getDisplayName() + "</a>");
-            writer.write("<td>" + result.counts() + "</td>");
+            writer.write("<td>" + result.getCounts() + "</td>");
             writer.write("</td></tr>");
         }
     }

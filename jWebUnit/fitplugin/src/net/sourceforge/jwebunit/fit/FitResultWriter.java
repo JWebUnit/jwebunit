@@ -9,18 +9,19 @@ import fit.Fixture;
 
 import java.io.File;
 
-public abstract class FitResult {
+public abstract class FitResultWriter {
     private File output;
 
-    FitResult(File output) {
+    FitResultWriter(File output) {
         this.output = output;
     }
 
     public abstract Fixture.Counts getCounts();
 
     public abstract String getLinkString();
-
     public abstract String getDisplayName();
+    public abstract void write();
+
 
     public boolean didFail() {
         return getWrong() > 0 || getExceptions() > 0;
@@ -44,12 +45,5 @@ public abstract class FitResult {
 
     public File getOutput() {
         return output;
-    }
-
-    public String counts() {
-        return getRight() + " right, " +
-                getWrong() + " wrong, " +
-                getIgnores() + " ignored, " +
-                getExceptions() + " exceptions";
     }
 }

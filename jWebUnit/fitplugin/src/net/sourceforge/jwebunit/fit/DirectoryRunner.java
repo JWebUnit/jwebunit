@@ -23,13 +23,14 @@ public class DirectoryRunner extends FitRunner {
     public static void main(String argv[]) {
         DirectoryRunner runner = parseArgs(argv);
         runner.run();
-        System.out.println("Cumulative Results: " + runner.getDirectoryResult().counts());
+        runner.getResultWriter().write();
+        System.out.println("Cumulative Results: " + runner.getResultWriter().getCounts());
     }
 
     public DirectoryRunner(File inputDirectory, File outputDirectory) {
         inputDir = inputDirectory;
         outputDir = outputDirectory;
-        result = new DirectoryResult(outputDir);
+        resultWriter = new DirectoryResultWriter(outputDir);
         if (!outputDir.exists()) {
             outputDir.mkdir();
         }
@@ -44,15 +45,14 @@ public class DirectoryRunner extends FitRunner {
         for (int i = 0; i < files.length; i++) {
             runFile(files[i]);
         }
-        getDirectoryResult().writeIndexFile();
     }
 
     private void runFile(File inFile) {
         FitRunner runner = getRunner(inFile);
         runner.run();
-        FitResult eachResult = runner.getResult();
-        getDirectoryResult().addResult(eachResult);
-        System.out.println(eachResult.getDisplayName() + ":\n\t" + eachResult.counts() + "\n");
+        FitResultWriter eachResult = runner.getResultWriter();
+        ((DirectoryResultWriter) getResultWriter()).addResult(eachResult);
+        System.out.println(eachResult.getDisplayName() + ":\n\t" + eachResult.getCounts() + "\n");
     }
 
     private FitRunner getRunner(File inFile) {
@@ -73,10 +73,6 @@ public class DirectoryRunner extends FitRunner {
             }
         }
         return new File(outputDir, outputFileName.toString());
-    }
-
-    private DirectoryResult getDirectoryResult() {
-        return (DirectoryResult) getResult();
     }
 
 }

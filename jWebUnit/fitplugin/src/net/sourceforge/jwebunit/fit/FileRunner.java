@@ -8,18 +8,13 @@ package net.sourceforge.jwebunit.fit;
 import fit.Fixture;
 import fit.Parse;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class FileRunner extends FitRunner {
-    public String input;
     public Parse tables;
     public Fixture fixture;
-    public PrintWriter output;
     private File inFile;
     private File outFile;
 
@@ -34,8 +29,9 @@ public class FileRunner extends FitRunner {
     public static void main(String argv[]) {
         FileRunner runner = parseArgs(argv);
         runner.run();
-        System.err.println(runner.fixture.counts());
-        System.exit(runner.fixture.counts.wrong + runner.fixture.counts.exceptions);
+        runner.resultWriter.write();
+        System.err.println(runner.resultWriter.getCounts());
+        System.exit(runner.resultWriter.getWrong() + runner.resultWriter.getExceptions());
     }
 
     public FileRunner(File in, File out) {
@@ -45,40 +41,26 @@ public class FileRunner extends FitRunner {
     }
 
     public void run() {
-        process();
-        exit();
-    }
-
-    public void process() {
         try {
-            input = read(inFile);
-            output = new PrintWriter(new BufferedWriter(new FileWriter(outFile)));
-            tables = new Parse(input);
+            tables = new Parse(read(inFile));
             fixture.doTables(tables);
         } catch (Exception e) {
-            exception(e);
+            tables = new Parse("body", "Unable to parse input. Input ignored.", null, null);
+            fixture.exception(tables, e);
         }
-        tables.print(output);
+        resultWriter = new FileResultWriter(outFile, fixture.counts, tables);
     }
 
     protected String read(File input) throws IOException {
-        char chars[] = new char[(int) (input.length())];
-        FileReader in = new FileReader(input);
-        in.read(chars);
-        in.close();
-        return new String(chars);
-    }
-
-    protected void exception(Exception e) {
-        tables = new Parse("body", "Unable to parse input. Input ignored.", null, null);
-        fixture.exception(tables, e);
-    }
-
-    protected void exit() {
-        if (output != null) {
-            output.close();
+        FileReader in = null;
+        try {
+            char chars[] = new char[(int) (input.length())];
+            in = new FileReader(input);
+            in.read(chars);
+            return new String(chars);
+        } finally {
+            if (in != null) in.close();
         }
-        result = new FileResult(outFile, fixture.counts);
     }
 
 }
