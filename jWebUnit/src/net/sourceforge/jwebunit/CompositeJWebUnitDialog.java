@@ -8,7 +8,6 @@ import java.io.PrintStream;
 
 import org.w3c.dom.Element;
 
-import com.meterware.httpunit.Button;
 import com.meterware.httpunit.WebClient;
 import com.meterware.httpunit.WebResponse;
 import com.meterware.httpunit.WebTable;
@@ -261,15 +260,6 @@ public abstract class CompositeJWebUnitDialog implements IJWebUnitDialog {
     }
     
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getButton(java.lang.String)
-     */
-    public Button getButton(String buttonId) {
-        throw new UnsupportedOperationException("getButton");
-    }
-
     /*
      * (non-Javadoc)
      * 
