@@ -76,7 +76,21 @@ public class MethodInvoker {
             return receiverType.getMethod(methodName, argTypes);
         } catch (NoSuchMethodException e) {
             convertToPrimitives();
-            return receiverType.getMethod(methodName, argTypes);
+            try {
+                return receiverType.getMethod(methodName, argTypes);
+            } catch (NoSuchMethodException e1) {
+                String classes = "(";
+                for (int i = 0; i < argTypes.length; i++) {
+                    Class argType = argTypes[i];
+                    classes += " " + argType.getName();
+                    if (i != argTypes.length - 1) {
+                        classes += ",";
+                    }
+                }
+                classes += ")";
+                throw new NoSuchMethodException(methodName + classes);
+            }
+
         }
     }
 
