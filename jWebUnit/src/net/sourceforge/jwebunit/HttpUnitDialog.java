@@ -59,7 +59,16 @@ public class HttpUnitDialog {
 			}
 
             public void responseReceived(WebClient webClient, WebResponse webResponse) {
+//            	System.out.println("**** Recieved notification of response receipt ****");
 				resp = webClient.getCurrentPage();
+//				dumpResponse(System.out);
+//				try {
+//					System.out.println("New Response:\n"
+//							+ webResponse.getText());
+//				} catch (Exception e) {
+//					// TODO: handle exception
+//				}
+//				System.out.println("****************************************");
                 form = null;
                 multiselectMap.clear();
             }
