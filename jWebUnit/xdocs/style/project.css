@@ -1,0 +1,31 @@
+h2, h3 { 
+    text-align : center;
+    background : none;
+    color : blue;
+    border : none;
+}
+
+h3 {
+    text-align : left;
+}
+
+.source {
+    font-size : 0.9em;
+}
+
+#leftColumn {
+    background : none;
+    border : none;
+}
+
+#navcolumn h5 {
+   font-size: smaller;
+   border-bottom: none;
+   padding-top: 2px;
+}
+
+#breadcrumbs {
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  background: none;
+}

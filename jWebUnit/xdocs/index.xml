@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<document>
+    <properties>
+        <author email="dashorst.at.users.sourceforge.net">Martijn Dashorst</author>
+        <title>jWebUnit</title>
+    </properties>
+    <meta name="keyword" content="jwebunit, java, junit, httpunit, integration, test, automated, html, webtest"/>
+<body>
+<section name="What is jWebUnit?">
+    <p>
+        jWebUnit is a Java framework that facilitates creation of acceptance tests for web applications. It 
+        evolved from a project where we were using <a href="http://httpunit.sourceforge.net/">HttpUnit</a> 
+        and <a href="http://www.junit.org">JUnit</a> to create acceptance tests. As the tests were being 
+        written, they were continuously refactored to remove duplication and other bad smells in the test 
+        code. jWebUnit is the result of these refactorings.
+    </p>
+</section>
+<section name="What does jWebUnit provide?">
+    <p>
+        jWebUnit provides a high-level API for navigating a web application combined with a set
+        of assertions to verify the application's correctness. This includes navigation
+        via links, form entry and submission, validation of table contents, and other
+        typical business web application features. This code utilizes HttpUnit behind
+        the scenes. The simple navigation methods and ready-to-use assertions allow for
+        more rapid test creation than using only JUnit and HttpUnit.
+    </p>
+    <p>
+        The following sample testcases illustrate the conciseness of jWebUnit versus HttpUnit
+        and JUnit alone.  The tests perform a google search
+        for the HttpUnit home page, navigate to that page from Google, and validate that
+        there is a link to the user manual on the HttpUnit home page.  The code in the
+        first column is pure HttpUnit / JUnit, while the second column uses the jWebUnit framework.
+    </p>
+    <p>
+<table cellspacing="2" border="0">
+<tr><th>JUnit/HttpUnit Test</th><th>jWebUnit Test</th></tr>
+<tr>
+<td valign="top" nowrap="nowrap">
+<source>
+package net.sourceforge.jwebunit.sample;
+
+import junit.framework.TestCase;
+import com.meterware.httpunit.WebResponse;
+import com.meterware.httpunit.WebConversation;
+import com.meterware.httpunit.WebForm;
+import com.meterware.httpunit.WebRequest;
+
+public class SearchExample extends TestCase {
+
+   public void testSearch() throws Exception {
+      WebConversation wc = new WebConversation();
+      WebResponse resp = wc.getResponse( "http://www.google.com");
+      WebForm form = resp.getForms()[0];
+      form.setParameter("q", "HttpUnit");
+      WebRequest req = form.getRequest("btnG");
+      resp = wc.getResponse(req);
+      assertNotNull(resp.getLinkWith("HttpUnit"));
+      resp = resp.getLinkWith("HttpUnit").click();
+      assertEquals(resp.getTitle(), "HttpUnit");
+      assertNotNull(resp.getLinkWith("User's Manual"));
+   }
+}
+</source>
+</td>
+<td valign="top" nowrap="nowrap">
+<source>
+package net.sourceforge.jwebunit.sample;
+
+import net.sourceforge.jwebunit.WebTestCase;
+
+public class JWebUnitSearchExample extends WebTestCase {
+
+   public JWebUnitSearchExample(String name) {
+      super(name);
+   }
+
+   public void setUp() {
+      getTestContext().setBaseUrl("http://www.google.com");
+   }
+
+   public void testSearch() {
+      beginAt("/");
+      setFormElement("q", "httpunit");
+      submit("btnG");
+      clickLinkWithText("HttpUnit");
+      assertTitleEquals("HttpUnit");
+      assertLinkPresentWithText("User's Manual");
+   }
+}
+</source>
+</td>
+</tr>
+</table>
+</p>
+</section>
+</body>    
+</document>
