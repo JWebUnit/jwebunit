@@ -225,6 +225,23 @@
             <version>1.5.4</version>
             <url>http://httpunit.sourceforge.net</url>
         </dependency>
+        
+        <!--		
+	        ===================================================================
+	        == Dependencies for using Jetty servlet container                ==
+	        ===================================================================
+	      -->
+		<dependency>
+			<groupId>jetty</groupId>
+			<artifactId>jetty</artifactId>
+			<version>4.2.19</version>
+			<type>jar</type>
+			<url>http://www.mortbay.com</url>
+			<properties>
+				<war.bundle>false</war.bundle>
+			</properties>
+		</dependency>
+		
     </dependencies>
     <build>
         <sourceDirectory>src</sourceDirectory>
