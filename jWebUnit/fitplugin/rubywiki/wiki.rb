@@ -55,7 +55,7 @@ def formatBody(lines)
     body += emitCode(codeArr, code='h2', 1)         if s.sub!(/^!!/, '')
     body += emitCode(codeArr, code='blockquote', 1) if s.sub!(/^\"\"/, '')
     if s =~ /^\|/
-        s.sub!(/^\|.*\|$/) {asRow($&)}
+        s.sub!(/^\|.*\|\s*$/) {asRow($&)}
         body += emitCode(codeArr, code='table', 1)
     end
     body += emitCode(codeArr, '', 0)                if code == ''
@@ -102,6 +102,7 @@ end
 
 def asRow(s)
     cells = s.sub!(/^\|/, '').scan(/([^|]*)\|/).flatten
+    comment cells
     cellspans = []
     cells.each do |e|
         if e.strip != ''
@@ -110,6 +111,7 @@ def asRow(s)
             cellspans.last[1] += 1 unless cellspans.empty?
         end
     end
+    comment cellspans
     row = '<tr>'
     cellspans.each do |cell|
         content = cell[0]
@@ -121,6 +123,9 @@ def asRow(s)
     row += '</tr>'
 end
 
+def comment(obj)
+    puts "<!-- #{obj.inspect} -->"
+end
 
 def asAnchor(title)
   if File.exists?("pages/#{title}")
@@ -145,7 +150,7 @@ require 'cgi'
 print "Content-type: text/html\n\n"
 
 page = ENV['QUERY_STRING'] =~ /^(#{LINK})$/ ? $1 : "WelcomeVisitors"  # $& is the last match
-page.untaint
+
 par = {}
 par['page' ] = page
 par['title'] = page.gsub(/(.)([A-Z])/, '\1 \2')
@@ -166,7 +171,7 @@ else
 end
 
 par['summary'] = " -- Last edited #{date}" if date
-par['body'] = formatBody(body.untaint)
+par['body'] = formatBody(body)
 par['action'] = <<-BLAH
 <form method=post action="edit.rb?#{page}">
 <input type=submit value=" Edit ">
