@@ -270,7 +270,7 @@
 			</excludes>
 			<resources>
 				<resource>
-					<directory>${basedir}/src/test/</directory>
+					<directory>${basedir}/test</directory>
 					<includes>
 						<include>*.xml</include>
 					</includes>
