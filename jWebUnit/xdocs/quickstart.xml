@@ -51,13 +51,13 @@ For the rest of the examples, we will use inheritance.
 <source>
     public ExampleWebTestCase(String name) {
         super(name);
-        getTestContext().setBaseURL("http://myserver:8080/myapp");
+        getTestContext().setBaseUrl("http://myserver:8080/myapp");
     }
 </source>
 or
 <source>
     public void setUp() throws Exception {
-        getTestContext().setBaseURL("http://myserver:8080/myapp");
+        getTestContext().setBaseUrl("http://myserver:8080/myapp");
     }
 </source>
     The TestContext encapsulates the configuration of a TestCase. More information is available in 
@@ -297,7 +297,7 @@ or
 	</p>
 <source>
     public void setUp() throws Exception {
-        getTestContext().setBaseURL("http://myserver:8080/myapp");
+        getTestContext().setbaseUrl("http://myserver:8080/myapp");
         getTestContext().setResourceBundleName("ApplicationResources");
     }
 
