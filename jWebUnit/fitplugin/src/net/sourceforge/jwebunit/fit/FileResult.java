@@ -30,7 +30,7 @@ public class FileResult {
     }
 
     public void dumpCounts() {
-        System.err.println(getFilename() + ": " + counts());
+        System.out.println(getFilename() + ": " + counts());
     }
 
     public String getFilename() {

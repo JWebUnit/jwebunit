@@ -9,3 +9,4 @@ test-classes
 jWebUnit.iws
 jWebUnit.ipr
 testoutput.html
+*.fit.out.html

@@ -96,7 +96,7 @@ public class DirectoryRunner {
     }
 
     void exit() {
-        System.err.println(Fixture.counts());
+        System.out.println(Fixture.counts());
         System.exit(Fixture.wrong + Fixture.exceptions);
     }
 }

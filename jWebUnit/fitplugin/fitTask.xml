@@ -1,0 +1,6 @@
+<project name="fittask" default="runfit">
+    <taskdef classname="net.sourceforge.jwebunit.fit.FitTask" name="fit"/>
+    <target name="runfit">
+        <fit dir="test"/>
+    </target>
+</project>
