@@ -109,15 +109,13 @@
         <developer>
             <name>Vivek Venugopalan</name>
             <id>vivekv</id>
-            <email>vivekv at users.sourceforge.net</email>
+            <email>vivek at magic hypen cauldron dot com</email>
             <organization></organization>
             <roles>
-                <role>Developer</role>
+                <role>All-Hands person</role>
             </roles>
-<!--
-            <url></url>
-            <timezone></timezone>
--->
+            <url>http://www.magic-cauldron.com</url>
+            <timezone>+5.5</timezone>
         </developer>
         <developer>
             <name>Martijn Dashorst</name>
