@@ -98,10 +98,9 @@ public class WebFixture extends ActionFixture {
     }
 
     public void check() throws Exception {
-        String methName = camel( "assert " + AssertionMap.getAssertionName(cells.more.text()));
         String args[] = getArgs(cells.more.more);
         try {
-            getInvoker(methName, args).invoke();
+            getInvoker(args).invoke();
             if(isNotEmpty(cells.more.more))
                 markLastArgumentRight(cells.more.more, args.length);
             else
@@ -123,11 +122,12 @@ public class WebFixture extends ActionFixture {
         }
     }
 
-     private MethodInvoker getInvoker(String methName, String[] args) throws NoSuchMethodException {
+     private MethodInvoker getInvoker(String[] args) throws NoSuchMethodException {
+         String baseName = AssertionMap.getAssertionName(cells.more.text());
         try {
-            return getInvoker(this, methName, args);
+            return getInvoker(this, camel( "check " + baseName), args);
         } catch (NoSuchMethodException e) {
-            return getInvoker(tester, methName, args);
+            return getInvoker(tester, camel( "assert " + baseName), args);
         }
     }
 
@@ -169,11 +169,11 @@ public class WebFixture extends ActionFixture {
     }
 
     // Checks
-    public void assertLink(String text) {
+    public void checkLink(String text) {
         tester.assertLinkPresentWithText(text);
     }
 
-    public void assertLinkId(String anID) {
+    public void checkLinkId(String anID) {
         tester.assertLinkPresent(anID);
     }
 }
