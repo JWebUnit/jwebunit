@@ -19,7 +19,7 @@ import java.io.PrintWriter;
 public class FileRunner extends FitRunner {
     public String input;
     public Parse tables;
-    public Fixture fixture = new Fixture();
+    public Fixture fixture;
     public PrintWriter output;
     private File inFile;
     private File outFile;
@@ -36,16 +36,18 @@ public class FileRunner extends FitRunner {
         return new FileRunner(new File(argv[0]), new File(argv[1]));
     }
 
+    //TODO:cleanup
     public static void main(String argv[]) {
         FileRunner runner = parseArgs(argv);
         runner.run();
-        System.err.println(Fixture.counts());
-        System.exit(Fixture.wrong + Fixture.exceptions);
+        System.err.println(runner.fixture.counts());
+        System.exit(runner.fixture.counts.wrong + runner.fixture.counts.exceptions);
     }
 
     public FileRunner(File in, File out) {
         this.inFile = in;
         this.outFile = out;
+        fixture = new Fixture();
     }
 
     public void run() {
@@ -66,11 +68,12 @@ public class FileRunner extends FitRunner {
         tables.print(output);
     }
 
+    //TODO: remove?
     private void setPreviousCounts() {
-        prevRight = Fixture.right;
-        prevWrong = Fixture.wrong;
-        prevIgnores = Fixture.ignores;
-        prevExceptions = Fixture.exceptions;
+        prevRight = fixture.counts.right;
+        prevWrong = fixture.counts.wrong;
+        prevIgnores = fixture.counts.ignores;
+        prevExceptions = fixture.counts.exceptions;
     }
 
     protected String read(File input) throws IOException {
@@ -83,18 +86,19 @@ public class FileRunner extends FitRunner {
 
     protected void exception(Exception e) {
         tables = new Parse("body", "Unable to parse input. Input ignored.", null, null);
-        Fixture.exception(tables, e);
+        fixture.exception(tables, e);
     }
 
     protected void exit() {
         if (output != null) {
             output.close();
         }
+        //todo: just pass in counts or fixture?
         result = new FileResult(outFile,
-                Fixture.right - prevRight,
-                Fixture.wrong - prevWrong,
-                Fixture.ignores - prevIgnores,
-                Fixture.exceptions - prevExceptions);
+                fixture.counts.right - prevRight,
+                fixture.counts.wrong - prevWrong,
+                fixture.counts.ignores - prevIgnores,
+                fixture.counts.exceptions - prevExceptions);
     }
 
 }

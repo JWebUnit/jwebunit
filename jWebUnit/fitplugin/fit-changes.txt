@@ -1,2 +1,1 @@
-fit.Fixture
-    exception -> Exception to Throwable, remove cast.
+Requires fit-b021021j
