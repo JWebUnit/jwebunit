@@ -61,7 +61,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Wrapper for HttpUnit access.  A dialog is initialized with a
+ * Acts as the wrapper for HttpUnit access.  A dialog is initialized with a
  * given URL, and maintains conversational state as the dialog progresses through link navigation,
  * form submission, etc.  Public access is provided for wrappered HttpUnit objects.
  *
@@ -74,6 +74,12 @@ public class HttpUnitDialog {
     private TestContext context;
     private WebForm form;
 
+    /**
+     * Begin a dialog with an initial URL and test client context.
+     *
+     * @param initialURL absolute url at which to begin dialog.
+     * @param context contains context information for the test client.
+     */
     public HttpUnitDialog(String initialURL, TestContext context) {
         this.context = context;
         initWebConversation();
@@ -83,7 +89,6 @@ public class HttpUnitDialog {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
     }
-
 
     private void initWebConversation() {
         wc = new WebConversation();
@@ -111,10 +116,24 @@ public class HttpUnitDialog {
         });
     }
 
+    /**
+     * Return the HttpUnit WebConversation object for this dialog.
+     */
+    public WebConversation getWebConversation() {
+        return wc;
+    }
+
+    /**
+     * Return the HttpUnit object which represents the current response.
+     */
     public WebResponse getResponse() {
         return resp;
     }
 
+    /**
+     * Return the string representation of the current response, encoded
+     * as specified by the current {@link net.sourceforge.jwebunit.TestContext}.
+     */
     public String getResponseText() {
         try {
             return context.toEncodedString(resp.getText());
@@ -123,6 +142,10 @@ public class HttpUnitDialog {
         }
     }
 
+    /**
+     * Return the page title of the current response page, encoded as specified
+     * by the current {@link net.sourceforge.jwebunit.TestContext}.
+     */
     public String getResponsePageTitle() {
         try {
             return context.toEncodedString(resp.getTitle());
@@ -131,7 +154,25 @@ public class HttpUnitDialog {
         }
     }
 
-
+    /**
+     * <p>Return the current form active for the dialog.  A form from the dialog's
+     * response is implicitly identified as active when an element from the form is inspected
+     * or set:</p>
+     * <ul>
+     * <li>{@link #getFormParameterValue}</li>
+     * <li>{@link #hasFormParameterNamed}</li>
+     * <li>{@link #getSubmitButton}</li>
+     * <li>{@link #setFormParameter}</li>
+     * </ul>
+     * <p>The active form can also be explicitly set by {@link #setWorkingForm}.</p>
+     * <p>If this method is called without the form having been implicitly or explicitly
+     * set, it will attempt to return the default first form on the response.</p>
+     *
+     * @exception UnableToSetFormException This runtime assertion failure will be raised if there is
+     * no form on the response.
+     * @return HttpUnit WebForm object representing the current active form from the
+     * response.
+     */
     public WebForm getForm() {
         if (form == null && hasForm())
             setWorkingForm(getForm(0));
@@ -205,6 +246,13 @@ public class HttpUnitDialog {
         }
     }
 
+    /**
+     * Set the form on the current response that the client wishes to work
+     * with explicitly by either the form name or id (match by id is attempted
+     * first).
+     *
+     * @param nameOrId name or id of the form to be worked with.
+     */
     public void setWorkingForm(String nameOrId) {
         setWorkingForm(getForm(nameOrId));
     }
@@ -215,6 +263,9 @@ public class HttpUnitDialog {
         form = newForm;
     }
 
+    /**
+     * Return true if the current response contains a form.
+     */
     public boolean hasForm() {
         try {
             return resp.getForms().length > 0;
@@ -224,14 +275,20 @@ public class HttpUnitDialog {
         }
     }
 
+    /**
+     * Return true if the current response contains a specific form.
+     *
+     * @param nameOrID name of id of the form to check for.
+     */
     public boolean hasForm(String nameOrID) {
         return getForm(nameOrID) != null;
     }
 
     /**
-     * Returns true if any form has this element
-     * @param paramName
-     * @return
+     * Return true if a form parameter (input element) is present
+     * on the current response.
+     *
+     * @param paramName name of the input element to check for
      */
     public boolean hasFormParameterNamed(String paramName) {
         try {
@@ -242,26 +299,53 @@ public class HttpUnitDialog {
         return getForm().hasParameterNamed(paramName);
     }
 
+    /**
+     * Set a form parameter / input element to the provided value.
+     *
+     * @param paramName name of the input element
+     * @param paramValue parameter value to submit for the element.
+     */
     public void setFormParameter(String paramName, String paramValue) {
         checkFormStateWithParameter(paramName);
         getForm().setParameter(paramName, paramValue);
     }
 
+    /**
+     * Return the current value of a form input element.
+     *
+     * @param paramName name of the input element.
+     */
     public String getFormParameterValue(String paramName) {
         checkFormStateWithParameter(paramName);
         return getForm().getParameterValue(paramName);
     }
 
+    /**
+     * Specify that no parameter value should be submitted for a given input element.
+     * Typically used to uncheck check boxes.
+     *
+     * @param paramName name of the input element.
+     */
     public void removeFormParameter(String paramName) {
         checkFormStateWithParameter(paramName);
         getForm().removeParameter(paramName);
     }
 
+    /**
+     * Return the HttpUnit SubmitButton with a given name.
+     *
+     * @param buttonName name of button.
+     */
     public SubmitButton getSubmitButton(String buttonName) {
         checkFormStateWithButton(buttonName);
         return getForm().getSubmitButton(buttonName);
     }
 
+    /**
+     * Return true if given text is present anywhere in the current response.
+     *
+     * @param text string to check for.
+     */
     public boolean isTextInResponse(String text) {
         try {
             return (context.toEncodedString(resp.getText()).indexOf(text) >= 0);
@@ -270,6 +354,12 @@ public class HttpUnitDialog {
         }
     }
 
+    /**
+     * Return true if given text is present in a specified table of the response.
+     *
+     * @param tableSummaryOrId table summary or id to inspect for expected text.
+     * @param text expected text to check for.
+     */
     public boolean isTextInTable(String tableSummaryOrId, String text) {
         WebTable table = getWebTableBySummaryOrId(tableSummaryOrId);
         if (table == null) {
@@ -287,27 +377,6 @@ public class HttpUnitDialog {
             }
         }
         return false;
-    }
-
-    public WebTable getWebTableBySummaryOrId(String tableSummaryOrId) {
-        WebTable table;
-        try {
-            table =  resp.getTableWithSummary(tableSummaryOrId);
-            if (table == null) {
-                table = resp.getTableWithID(tableSummaryOrId);
-            }
-        } catch (SAXException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return table;
-    }
-
-   public String[][] getSparseTableBySummaryOrId(String tableSummaryOrId) {
-        WebTable table = getWebTableBySummaryOrId(tableSummaryOrId);
-        table.purgeEmptyCells();
-        String[][] sparseTableCellValues = table.asText();
-        return sparseTableCellValues;
     }
 
     private String getNodeHtml(Node node) {
@@ -330,11 +399,56 @@ public class HttpUnitDialog {
         return context.toEncodedString(nodeHtml);
     }
 
+    /**
+     * Return the HttpUnit WebTable object representing a specified table
+     * in the current response.  Null is returned if a parsing exception
+     * occurs looking for the table or no table with the id or summary could
+     * be found.
+     *
+     * @param tableSummaryOrId summary or id of the table to return.
+     */
+    public WebTable getWebTableBySummaryOrId(String tableSummaryOrId) {
+        WebTable table;
+        try {
+            table =  resp.getTableWithSummary(tableSummaryOrId);
+            if (table == null) {
+                table = resp.getTableWithID(tableSummaryOrId);
+            }
+        } catch (SAXException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return table;
+    }
+
+   /**
+    * Return a sparse array (rows or columns without displayable text are removed)
+    * for a given table in the response.
+    *
+    * @param tableSummaryOrId summary or id of the table.
+    */
+    public String[][] getSparseTableBySummaryOrId(String tableSummaryOrId) {
+        WebTable table = getWebTableBySummaryOrId(tableSummaryOrId);
+        table.purgeEmptyCells();
+        String[][] sparseTableCellValues = table.asText();
+        return sparseTableCellValues;
+    }
+
+    /**
+     * Submit the current form with the default submit button.
+     * See {@link #getForm} for an explanation of how the current form is established.
+     */
     public void submit() {
         WebRequest formRequest = getForm().getRequest((SubmitButton) null);
         submitRequest(formRequest);
     }
 
+    /**
+     * Submit the current form with the specifed submit button.
+     * See {@link #getForm} for an explanation of how the current form is established.
+     *
+     * @param buttonName name of the button to use for submission.
+     */
     public void submit(String buttonName) {
         submitRequest(getForm().getRequest(buttonName));
     }
@@ -347,7 +461,15 @@ public class HttpUnitDialog {
         }
     }
 
-    public boolean isLinkInResponse(String linkText) {
+    /**
+     * Return true if a link is present in the current response containing the
+     * specified text (note that HttpUnit uses contains rather than an exact
+     * match - if this is a problem consider using ids on the links to uniquely
+     * identify them).
+     *
+     * @param linkText text to check for in links on the response.
+     */
+    public boolean isLinkPresentWithText(String linkText) {
         try {
             return (resp.getLinkWith(linkText) != null);
         } catch (SAXException e) {
@@ -355,6 +477,26 @@ public class HttpUnitDialog {
         }
     }
 
+    /**
+     * Return true if a link is present in the current response with the
+     * specified id.
+     *
+     * @param anId link id to check for.
+     */
+    public boolean isLinkPresent(String anId) {
+        try {
+            return resp.getLinkWithID(anId) != null;
+        } catch (SAXException e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+    }
+
+    /**
+     * Navigate by submitting a request based on the specified link.  A
+     * RuntimeException is thrown if no such link can be found.
+     *
+     * @param linkText text which link to be navigated should contain.
+     */
     public void clickLinkWithText(String linkText) {
         WebLink link = null;
         try {
@@ -367,6 +509,12 @@ public class HttpUnitDialog {
         submitRequest(link.getRequest());
     }
 
+    /**
+     * Navigate by submitting a request based on the specified link.  A
+     * RuntimeException is thrown if no such link can be found.
+     *
+     * @param anID id of link to be navigated.
+     */
     public void clickLink(String anID) {
         WebLink link = null;
         try {
@@ -380,7 +528,12 @@ public class HttpUnitDialog {
 
     }
 
-
+    /**
+     * Return true if a radio group contains the indicated option.
+     *
+     * @param radioGroup name of the radio group.
+     * @param radioOption value of the option to check for.
+     */
     public boolean hasRadioOption(String radioGroup, String radioOption) {
         WebForm[] forms = getForms();
         for (int i = 0; i < forms.length; i++) {
@@ -394,26 +547,29 @@ public class HttpUnitDialog {
         return false;
     }
 
-    public boolean isLinkPresentById(String anId) {
-        try {
-            return resp.getLinkWithID(anId) != null;
-        } catch (SAXException e) {
-            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
-        }
-    }
-
-    public WebConversation getWebConversation() {
-        return wc;
-    }
-
+    /**
+     * Return a string array of select box option labels.
+     *
+     * @param selectName name of the select box.
+     */
     public String[] getOptionsFor(String selectName) {
         return getForm().getOptions(selectName);
     }
 
+    /**
+     * Return a string array of select box option values.
+     *
+     * @param selectName name of the select box.
+     */
     public String[] getOptionValuesFor(String selectName) {
         return getForm().getOptionValues(selectName);
     }
 
+    /**
+     * Return the label of the currently selected item in a select box.
+     *
+     * @param selectName name of the select box.
+     */
     public String getSelectedOption(String selectName) {
         String val = getFormParameterValue(selectName);
         String[] vals = getOptionValuesFor(selectName);
@@ -424,6 +580,12 @@ public class HttpUnitDialog {
         return null;
     }
 
+    /**
+     * Get the value for a given option of a select box.
+     *
+     * @param selectName name of the select box.
+     * @param option label of the option.
+     */
     public String getValueForOption(String selectName, String option) {
         String[] opts = getOptionsFor(selectName);
         for (int i = 0; i < opts.length; i++) {
@@ -433,10 +595,21 @@ public class HttpUnitDialog {
         throw new RuntimeException("Unable to find option " + option + " for " + selectName);
     }
 
+    /**
+     * Select an option of a select box by display label.
+     *
+     * @param selectName name of the select box.
+     * @param option label of the option to select.
+     */
     public void selectOption(String selectName, String option) {
         setFormParameter(selectName, getValueForOption(selectName, option));
     }
 
+    /**
+     * Return the org.w3c.dom.Element in the current response by id.
+     *
+     * @param anID id of the element.
+     */
     public Element getElement(String anID) {
         try {
             return walkDOM(getResponse().getDOM().getDocumentElement(), anID);
@@ -457,9 +630,14 @@ public class HttpUnitDialog {
             }
         }
         return null;
-
     }
 
+    /**
+     * Return true if a given string is contained within the specified element.
+     *
+     * @param element org.w3c.com.Element to inspect.
+     * @param text text to check for.
+     */
     public boolean isTextInElement(Element element, String text) {
         NodeList children = element.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
@@ -473,6 +651,5 @@ public class HttpUnitDialog {
             }
         }
         return false;
-
     }
 }

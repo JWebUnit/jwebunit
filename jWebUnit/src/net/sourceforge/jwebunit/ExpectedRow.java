@@ -2,8 +2,7 @@ package net.sourceforge.jwebunit;
 
 
 /**
- * Represents an expected row of an html table.  Used internal to package only for
- * the time being.  May make public if we need to support rowspan.
+ * Represents an expected row of an html table.
  *
  * @author Jim Weaver
  */
@@ -11,10 +10,19 @@ public class ExpectedRow {
 
     private ExpectedCell[] expectedCells;
 
-    public ExpectedRow(Object[] columns) {
-        this.expectedCells = new ExpectedCell[columns.length];
-        for (int i = 0; i < columns.length; i++) {
-            Object column = columns[i];
+    /**
+     * Construct an expected row from an array of objects which specify the
+     * expected cells of the row.  If an object in the array is an
+     * {@link net.sourceforge.jwebunit.ExpectedCell}, it is directly added to
+     * the expected cells of the row, otherwise an {@link net.sourceforge.jwebunit.ExpectedCell}
+     * is created from the toString() value of the object and an assumed colspan of 1.
+     *
+     * @param rowCells objects representing the row's expected cells.
+     */
+    public ExpectedRow(Object[] rowCells) {
+        this.expectedCells = new ExpectedCell[rowCells.length];
+        for (int i = 0; i < rowCells.length; i++) {
+            Object column = rowCells[i];
             if (column instanceof ExpectedCell) {
                 this.expectedCells[i] = (ExpectedCell)column;
             } else {

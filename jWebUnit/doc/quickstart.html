@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>jWebUnit - Quick Start</title>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <link title="Default" href="css/jwebunit.css" type="text/css" rel="stylesheet">
+</head>
+<body class="default">
+<table cellpadding="4" cellspacing="2" border="0" class="default">
+    <tbody>
+    <tr>
+        <td valign="top" style="width: 100px; white-space: nowrap;"><br></td>
+        <td valign="top" ><h1 style="text-align: center;">jWebUnit Quick Start</h1></td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <a href="index.html">Home</a><br>
+            Quick Start<br>
+            <a href="api/index.html">Javadoc</a><br>
+            <br>
+            <a href="http://sourceforge.net/projects/jwebunit/">Project Page</a><br>
+            <a href="http://sourceforge.net/projects/jwebunit/files">Download</a><br>
+            <br>
+            <a href="http://httpunit.sourceforge.net/">HttpUnit</a><br>
+            <a href="http://www.junit.org">Junit</a><br>
+            <br>
+        </td>
+        <td valign="top">
+<!-- Begin Main -->
+
+<h2>Creating a TestCase</h2>
+jWebUnit uses two approaches for creating test cases, inheritence and delegation. The simplest way is to inherit from WebTestCase rather than junit.framework.TestCase.
+<pre>
+import net.sourceforge.jwebunit.WebTestCase;
+
+public class ExampleWebTestCase extends WebTestCase {
+    public ExampleWebTestCase(String name) {
+        super(name);
+    }
+}
+</pre>
+The alternative is to include an instance of the WebTester class in you TestCase and delegate navigation and assertions to it.  This is provided in case your need or prefer delegation.
+<pre>
+import junit.framework.TestCase;
+import net.sourceforge.jwebunit.WebTester;
+
+public class ExampleWebTestCase extends TestCase {
+    private WebTester tester;
+
+    public ExampleWebTestCase(String name) {
+        super(name);
+        tester = new WebTester();
+    }
+}
+</pre>
+For the rest of the examples, we will use the inheritence approach.
+<br>
+<br>
+<h2>Navigating Your Web Application</h2>
+Navigation is a two step process.  First, point your TestCase to your application, then access a particular resource. Let's say that your app is running on <tt>http://myserver:8080/myapp</tt>.  To minimize the number of the times we must set this, we set this either in the constructor or in the setUp() method of our TestCase.
+<pre>
+    public ExampleWebTestCase(String name) {
+        super(name);
+        getTestContext().setBaseURL("http://myserver:8080/myapp");
+    }
+</pre>
+or
+<pre>
+    public void setUp() throws Exception {
+        getTestContext().setBaseURL("http://myserver:8080/myapp");
+    }
+</pre>
+The TestContext encapsulates the configuration a TestCase.  More information is availible in the <a href="api/index.html">Javadocs</a>.<br>
+<br>
+Now that your TestCase is pointed at your application, you can navigate to your particular resource.  For example, you have a html page, info.html, located under your application root, then you can access it in your test method with the following code:
+<pre>
+    public void testInfoPage() {
+        beginAt("/info.html");
+    }
+</pre>
+<br>
+<h2>Submiting a Form</h2>
+To submit a form, you will need to navigate to the form, fill out the input fields, then submit.
+<pre>
+    public void testFormSubmission() {
+        beginAt("/info.html");
+        setFormElement("field1", "value1");
+        setFormElement("fieldn", "valuen");
+        submit();
+    }
+</pre>
+<br>
+<h2>Navigating Through a Series of Pages</h2>
+To navigate through a series of resources, you can use beginAt, clickLink, and submit.
+<pre>
+    public void testNavigation() {
+        beginAt("/somewhere");
+        clickLink("aLinkID");  // &lt;a id="aLinkID" href="somewhere"&gt;link text&lt;/a&gt;
+        setFormElement("field1", "value1");
+        submit();
+    }
+</pre>
+<br>
+<h2>Testing Your Pages</h2>
+Once you have navigated to the page you wish to test, you can call the assertions provided by jWebUnit to verify it's correctness.
+<pre>
+    public void testCorrectness() {
+        beginAt("/");
+        assertTitleEquals("Home");
+        clickLinkWithText("Sign Up"); // &lt;a id="aLinkID" href="somewhere"&gt;Sign Up&lt;/a&gt;
+        setFormElement("uid", "jWebUnitUser");
+        submit();
+        assertTextPresent("User successfully added."):
+    }
+</pre>
+For more information, consult the <a href="api/index.html">Javadocs</a>.
+<br>
+<!-- End Main -->
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" colspan="3"><hr width="100%" size="2"></td>
+    </tr>
+    <tr>
+        <td valign="top" colspan="2">
+      <p><font size="-2"><var:publish>Hosted by: <a
+ href="file:///D:/working/jwebunit/site/www.sourceforge.net"><img
+ src="http://sourceforge.net/sflogo.php?group_id=61302&amp;type=1" width="88"
+ height="31" border="0" alt="SourceForge Logo" naturalsizeflag="0"
+ align="top">                 </a></var:publish></font></p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

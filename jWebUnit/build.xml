@@ -20,9 +20,8 @@
     <target name="dist" depends="test, make-zip"/>
 
     <target name="init">
-        <mkdir dir="doc"/>
-        <mkdir dir="doc/api"/>
-        <mkdir dir="doc"/>
+        <mkdir dir="docgen"/>
+        <mkdir dir="docgen/api"/>
         <mkdir dir="dist"/>
     </target>
 
@@ -44,13 +43,13 @@
     </target>
 
     <target name="gen-javadoc">
-        <javadoc sourcepath="src"
+        <javadoc sourcepath="src" overview="src/overview.html"
             packagenames="net.sourceforge.jwebunit.*"
-            destdir="doc/api"
+            destdir="docgen/api"
             windowtitle="jWebUnit API">
             <bottom><![CDATA[<i>Copyright &#169; 2002 ThoughtWorks, Inc. All Rights Reserved.</i>]]></bottom>
         </javadoc>
-        <copydir src="../site" dest="doc" excludes="**/CVS/**"/>
+        <copydir src="doc" dest="docgen" excludes="**/CVS/**"/>
     </target>
 
     <target name="make-zip" depends="gen-javadoc">

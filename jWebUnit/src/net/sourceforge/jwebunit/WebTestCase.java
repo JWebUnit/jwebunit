@@ -43,8 +43,8 @@ import junit.framework.TestCase;
 import java.io.PrintStream;
 
 /**
- * Superclass for Junit TestCases to test deployed web applications.
- * This class uses {@link net.sourceforge.jwebunit.WebTester} as a mixin -
+ * Superclass for Junit TestCases which provides web application navigation and
+ * Junit assertions.  This class uses {@link net.sourceforge.jwebunit.WebTester} as a mixin -
  * See that class for method documentation.
  *
  *  @author Jim Weaver

@@ -11,19 +11,35 @@ public class ExpectedCell {
     private int colspan;
     private String expectedValue;
 
+    /**
+     * Construct an expected cell with a default colspan of 1.
+     * @param expectedValue text expected within the cell.
+     */
     public ExpectedCell(String expectedValue) {
         this(expectedValue, 1);
     }
 
+    /**
+     * Construct an expected cell with a specified colspan.
+     *
+     * @param expectedValue text expected within the cell.
+     * @param colspan number of columns the cell is expected to span.
+     */
     public ExpectedCell(String expectedValue, int colspan) {
         this.expectedValue = expectedValue;
         this.colspan = colspan;
     }
 
+    /**
+     * Return the colspan for this cell.
+     */
     public int getColspan() {
         return colspan;
     }
 
+    /**
+     * Return the expected text for the cell.
+     */
     public String getExpectedValue() {
         return expectedValue;
     }

@@ -50,9 +50,8 @@ import java.util.Locale;
 import org.w3c.dom.Element;
 
 /**
- * This is a delegate to test deployed web applications using JUnit. This class
- * provides a simple API for basic web application navigation and assertions
- * by wrapping HttpUnit.  It supports use of a property file for web
+ * Provides a high-level API for basic web application navigation and validation
+ * by wrapping HttpUnit and providing Junit assertions.  It supports use of a property file for web
  * resources (ala Struts), though a resource file for the app is not required.
  *
  *  @author Jim Weaver
@@ -578,7 +577,7 @@ public class WebTester {
      * @param linkId
      */
     public void assertLinkPresent(String linkId) {
-        Assert.assertTrue("Unable to find link with id [" + linkId + "]", dialog.isLinkPresentById(linkId));
+        Assert.assertTrue("Unable to find link with id [" + linkId + "]", dialog.isLinkPresent(linkId));
     }
 
     /**
@@ -587,7 +586,7 @@ public class WebTester {
      * @param linkId
      */
     public void assertLinkNotPresent(String linkId) {
-        Assert.assertTrue("Unable to find link with id [" + linkId + "]", !dialog.isLinkPresentById(linkId));
+        Assert.assertTrue("Unable to find link with id [" + linkId + "]", !dialog.isLinkPresent(linkId));
     }
 
     /**
@@ -596,7 +595,7 @@ public class WebTester {
      * @param linkText
      */
     public void assertLinkPresentWithText(String linkText) {
-        Assert.assertTrue("Link with text [" + linkText + "] not found in response.", dialog.isLinkInResponse(linkText));
+        Assert.assertTrue("Link with text [" + linkText + "] not found in response.", dialog.isLinkPresentWithText(linkText));
     }
 
     /**
@@ -605,7 +604,7 @@ public class WebTester {
      * @param linkText
      */
     public void assertLinkNotPresentWithText(String linkText) {
-        Assert.assertTrue("Link with text [" + linkText + "] found in response.", !dialog.isLinkInResponse(linkText));
+        Assert.assertTrue("Link with text [" + linkText + "] found in response.", !dialog.isLinkPresentWithText(linkText));
     }
 
     /**
@@ -750,7 +749,7 @@ public class WebTester {
     }
 
     /**
-     * Dump the table as the 2D array that is used for assertions - for debuggin purposes.
+     * Dump the table as the 2D array that is used for assertions - for debugging purposes.
      *
      * @param tableNameOrId
      * @param stream
@@ -760,7 +759,7 @@ public class WebTester {
     }
 
     /**
-     * Dump the table as the 2D array that is used for assertions. - for debuggin purposes.
+     * Dump the table as the 2D array that is used for assertions - for debugging purposes.
      *
      * @param tableNameOrId
      * @param table
@@ -770,7 +769,7 @@ public class WebTester {
     }
 
     /**
-     * Dump the table as the 2D array that is used for assertions. - for debuggin purposes.
+     * Dump the table as the 2D array that is used for assertions - for debugging purposes.
      *
      * @param tableNameOrId
      * @param table

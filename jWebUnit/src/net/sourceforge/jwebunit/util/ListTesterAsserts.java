@@ -1,8 +1,3 @@
-/*
- * User: djoiner
- * Date: Sep 29, 2002
- * Time: 8:56:45 AM
- */
 package net.sourceforge.jwebunit.util;
 
 import net.sourceforge.jwebunit.WebTester;
