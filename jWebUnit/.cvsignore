@@ -12,3 +12,5 @@ jWebUnit.ipr
 testoutput.html
 *.fit.out.html
 jwebfit-classes
+target
+*.log

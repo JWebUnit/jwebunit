@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+<project>
+    <pomVersion>3</pomVersion>
+    <id>jwebunit</id>
+    <name>jWebUnit</name>
+    <currentVersion>1.2</currentVersion>
+    <organization>
+        <name>Thoughtworks</name>
+        <url>http://www.thoughtworks.com</url>
+        <logo>/images/tw_logo.jpg</logo>
+    </organization>
+    <inceptionYear>2002</inceptionYear>
+    <package>net.sourceforge.jwebunit</package>
+    <logo>/images/jwebunit-logo.png</logo>
+    <description>
+        jWebUnit is a Java framework that facilitates creation of acceptance tests 
+        for web applications. It evolved from a project where we were using 
+        HttpUnit and JUnit to create acceptance tests. As the tests were being 
+        written, they were continuously refactored to remove duplication and 
+        other bad smells in the test code. jWebUnit is the result of these 
+        refactorings.
+    </description>
+    <shortDescription>An acceptance test framework for web applications.</shortDescription>
+    <url>http://jwebunit.sourceforge.net</url>
+    <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=61302</issueTrackingUrl>
+
+	<siteAddress>linuxbox</siteAddress>
+	<siteDirectory>/var/www/html/jwebunit</siteDirectory>
+	<distributionSite>linuxbox</distributionSite>
+	<distributionDirectory>/var/www/html/jwebunit/builds</distributionDirectory>
+
+    <repository>
+        <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/jwebunit:jWebUnit</connection>
+        <developerConnection>scm:cvs:ext:user@cvs.sourceforge.net:/cvsroot/jwebunit:jWebUnit</developerConnection>
+        <url>http://cvs.sourceforge.net/viewcvs.py/jwebunit</url>
+    </repository>
+    <versions>
+<!--
+        <version>
+            <id>1.2</id>
+            <name>1.2</name>
+            <tag>
+        </version>
+-->
+    </versions>
+    <branches/>
+    <mailingLists>
+        <mailingList>
+            <name>Open Discussion</name>
+            <subscribe/>
+            <unsubscribe/>
+            <archive>http://sourceforge.net/forum/forum.php?forum_id=212195</archive>
+        </mailingList>
+    </mailingLists>
+    <developers>
+        <developer>
+            <name>Jim Weaver</name>
+            <id>jimweaver</id>
+            <email>jimweaver at users.sourceforge.net</email>
+            <organization>Thoughtworks</organization>
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+ <!--
+            <url />
+ -->
+            <timezone>+9</timezone>
+        </developer>
+        <developer>
+            <name>Jim Weaver</name>
+            <id>prospero2000us</id>
+            <email>prospero2000us at users.sourceforge.net</email>
+            <organization>Thoughtworks</organization>
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+ <!--
+            <url />
+            <timezone />
+ -->
+        </developer>
+        <developer>
+            <name>Wilkes Joiner</name>
+            <id>wilkesj</id>
+            <email>wilkesj at users.sourceforge.net</email>
+            <organization></organization>
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+ <!--
+            <url />
+            <timezone />
+ -->
+        </developer>
+        <developer>
+            <name>Vivek Venugopalan</name>
+            <id>vivekv</id>
+            <email>vivekv at users.sourceforge.net</email>
+            <organization></organization>
+            <roles>
+                <role>Developer</role>
+            </roles>
+<!--
+            <url></url>
+            <timezone></timezone>
+-->
+        </developer>
+        <contributor>
+            <name>Martijn Dashorst</name>
+            <email>dashorst at users.sourceforge.net</email>
+            <organization>Topicus B.V.</organization>
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+            <url>http://www.dashorst.dds.nl</url>
+            <timezone>+1</timezone>
+        </contributor>
+<!--
+        <developer>
+            <name></name>
+            <id></id>
+            <email></email>
+            <organization></organization>
+            <roles>
+                <role></role>
+            </roles>
+            <url></url>
+            <timezone></timezone>
+        </developer>
+-->
+    </developers>
+
+    <contributors>
+<!--
+        <contributor>
+            <name/>
+            <email/>
+            <organization/>
+            <roles>
+                <role/>
+            </roles>
+            <url/>
+            <timezone/>
+        </contributor>
+-->
+    </contributors>
+
+    <licenses>
+        <license>
+            <name>BSD License</name>
+            <url>http://www.opensource.org/licenses/bsd-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <url>http://www.junit.org</url>
+        </dependency>
+<!--
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant-optional</artifactId>
+            <version>1.5.3-1</version>
+            <url>http://ant.apache.org</url>
+        </dependency>
+-->
+        <dependency>
+            <groupId>nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>0.8.1</version>
+            <url>http://www.apache.org/~andyc/neko/doc/html/index.html</url>
+        </dependency>
+
+        <dependency>
+            <groupId>rhino</groupId>
+            <artifactId>js</artifactId>
+            <version>1.5R4.1</version>
+            <url>http://www.mozilla.org/rhino/download.html</url>
+        </dependency>
+        
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>1.0.b2</version>
+            <url>http://xml.apache.org/xerces2-j</url>
+        </dependency>
+
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.6.2</version>
+            <url>http://xml.apache.org/xerces2-j</url>
+        </dependency>
+
+        <dependency>
+            <groupId>servletapi</groupId>
+            <artifactId>servletapi</artifactId>
+            <version>2.3</version>
+            <url></url>
+        </dependency>
+
+        <dependency>
+            <groupId>httpunit</groupId>
+            <artifactId>httpunit</artifactId>
+            <version>1.5.4</version>
+            <url>http://httpunit.sourceforge.net</url>
+        </dependency>
+    </dependencies>
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <unitTestSourceDirectory>test</unitTestSourceDirectory>
+        <unitTest>
+            <excludes>
+                <exclude>**/AllTests.java</exclude>
+                <exclude>**/JWebUnitTest.java</exclude>
+                <exclude>**/TestServer.java</exclude>
+            </excludes>
+        </unitTest>
+    </build>
+	<reports>
+		<report>maven-checkstyle-plugin</report>
+		<report>maven-changes-plugin</report>
+<!--		<report>maven-changelog-plugin</report> -->
+<!--		<report>maven-developer-activity-plugin</report> -->
+<!--		<report>maven-faq-plugin</report> -->
+<!--		<report>maven-file-activity-plugin</report> -->
+		<report>maven-javadoc-plugin</report>
+		<report>maven-license-plugin</report>
+
+<!-- Enable this report below to get an overview of the testcoverage of jWebUnit -->
+<!--		<report>maven-jcoverage-plugin</report> -->
+		<report>maven-jdepend-plugin</report>
+		<report>maven-junit-report-plugin</report>
+		<report>maven-jxr-plugin</report>
+		<report>maven-pmd-plugin</report>
+		<report>maven-simian-plugin</report>
+<!--		<report>maven-statcvs-plugin</report> -->
+		<report>maven-tasklist-plugin</report>
+	</reports>
+</project>
+      
