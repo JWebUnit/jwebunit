@@ -41,6 +41,8 @@ import com.meterware.httpunit.*;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import javax.servlet.http.Cookie;
@@ -126,7 +128,7 @@ public class HttpUnitDialog {
         }
     }
 
-    private WebForm[] getForms() {
+    WebForm[] getForms() {
         try {
             return resp.getForms();
         } catch (SAXException e) {
@@ -158,10 +160,6 @@ public class HttpUnitDialog {
 
     public void setFormParameter(String paramName, String paramValue) {
         formParameterMap.put(paramName, paramValue);
-        try {
-            getForm().setParameter(paramName, paramValue);
-        } catch (IllegalRequestParameterException e) {
-        }
     }
 
     public String getFormParameterValue(String paramName) {
@@ -285,7 +283,7 @@ public class HttpUnitDialog {
             Map.Entry entry = (Map.Entry) iterator.next();
             for (int i = 0; i < params.length; i++) {
                 String name = (String) entry.getKey();
-                if(params[i].equals(name))
+                if (params[i].equals(name))
                     formRequest.setParameter(name, (String) entry.getValue());
             }
 
@@ -320,4 +318,18 @@ public class HttpUnitDialog {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
     }
+
+    public boolean hasRadioOption(String radioGroup, String radioOption) {
+        WebForm[] forms = getForms();
+        for (int i = 0; i < forms.length; i++) {
+            WebForm form = forms[i];
+            String[] opts = form.getOptionValues(radioGroup);
+            for (int j = 0; j < opts.length; j++) {
+                String opt = opts[j];
+                if (radioOption.equals(opt)) return true;
+            }
+        }
+        return false;
+    }
+
 }

@@ -1,12 +1,12 @@
 package net.sourceforge.jwebunit;
 
-import com.meterware.httpunit.PseudoServlet;
-import com.meterware.httpunit.WebResource;
 import net.sourceforge.jwebunit.JWebUnitTest;
 
 import java.io.IOException;
 
 import junit.framework.AssertionFailedError;
+import com.meterware.httpunit.PseudoServlet;
+import com.meterware.httpunit.WebResource;
 
 /**
  * Test form submission related methods of WebTestCase.

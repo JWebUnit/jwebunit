@@ -44,7 +44,7 @@ public class WebAssertionsTest extends JWebUnitTest {
     private void addTestPage() {
         defineWebPage("testPage", "This is a test page." +
                                   "<table summary=\"testTable\">" +
-                                  "<tr><td>table text</td></tr>" +
+                                  "<tr ID=\"row1\"><td>table text</td></tr>" +
                                   "<tr><td>table text row 2</td></tr>" +
                                   "<tr><td>table text row 3</td><td>row 3 col 1</td>" +
                                   "<a href=\"someurl.html\">test link</a>" +

@@ -1,12 +1,13 @@
 package net.sourceforge.jwebunit;
 
-import com.meterware.httpunit.PseudoServer;
 import com.meterware.httpunit.HttpUnitOptions;
+import com.meterware.httpunit.PseudoServer;
 import com.meterware.httpunit.PseudoServlet;
 import net.sourceforge.jwebunit.WebTestCase;
 import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
 
 import java.lang.reflect.InvocationTargetException;
+import java.io.IOException;
 
 import junit.framework.AssertionFailedError;
 
@@ -27,9 +28,14 @@ public class JWebUnitTest extends WebTestCase {
     }
 
     public void setUp() throws Exception {
+        super.setUp();
         server = new PseudoServer();
         HttpUnitOptions.reset();
-        hostPath = "http://localhost:" + server.getConnectedPort();
+        try {
+            hostPath = "http://localhost:" + server.getConnectedPort();
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
         getTestContext().setBaseUrl(hostPath);
     }
 
@@ -58,6 +64,11 @@ public class JWebUnitTest extends WebTestCase {
         assertPass(methodName, passArgs);
         assertFail(methodName, failArgs);
     }
+
+    protected void assertPass(String methodName, Object arg) throws Throwable {
+        this.assertPass(methodName, new Object[] {arg});
+    }
+
 
     protected void assertPass(String methodName, Object[] args) throws Throwable {
         MethodInvoker invoker = new MethodInvoker(this, methodName, args);

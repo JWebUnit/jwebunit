@@ -1,4 +1,4 @@
-<project name="jWebUnit" default="clean-dist">
+<project name="jWebUnit" default="test">
 
     <path id="src.classpath">
         <fileset dir="lib">
@@ -16,7 +16,7 @@
         <pathelement location="test-classes"/>
     </path>
 
-    <target name="dist" depends="run-junit, make-zip"/>
+    <target name="dist" depends="test, make-zip"/>
 
     <target name="init">
         <mkdir dir="javadoc"/>
@@ -30,9 +30,9 @@
         <javac destdir="test-classes" srcdir="test" classpathref="tests.classpath"/>
     </target>
 
-    <target name="run-junit" depends="compile">
-        <junit printsummary="yes" fork="yes" haltonfailure="yes">
-            <formatter type="xml"/>
+    <target name="test" depends="compile">
+        <junit fork="yes" haltonfailure="yes">
+            <formatter type="brief" usefile="false"/>
             <classpath>
                 <path refid="junit.classpath"/>
             </classpath>

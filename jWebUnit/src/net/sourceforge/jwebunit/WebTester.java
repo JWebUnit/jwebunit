@@ -38,6 +38,7 @@
 package net.sourceforge.jwebunit;
 
 import com.meterware.httpunit.WebTable;
+import com.meterware.httpunit.WebForm;
 import net.sourceforge.jwebunit.HttpUnitDialog;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import junit.framework.Assert;
@@ -560,6 +561,26 @@ public class WebTester {
         assertHasForm();
         assertFormControlPresent(parameterName);
         dialog.removeFormParameter(parameterName);
+    }
+
+    public void assertRadioOptionPresent(String radioGroup, String radioOption) {
+        if(!dialog.hasRadioOption(radioGroup, radioOption))
+            Assert.fail("Unable to find option " + radioOption + " in radio group " + radioGroup);
+    }
+
+    public void assertRadioOptionNotPresent(String radioGroup, String radioOption) {
+        if(dialog.hasRadioOption(radioGroup, radioOption))
+            Assert.fail("Found option " + radioOption + " in radio group " + radioGroup);
+    }
+
+    public void assertRadioOptionSelected(String radioGroup, String radioOption) {
+        assertFormControlEquals(radioGroup, radioOption);
+        //Assert.assertEquals("Radio option " + radioOption + " is not selected", radioOption, dialog.getFormParameterValue(radioGroup));
+    }
+
+    public void assertRadioOptionNotSelected(String radioGroup, String radioOption) {
+        Assert.assertTrue("Radio option " + radioOption + " is not selected",
+                !radioOption.equals(dialog.getFormParameterValue(radioGroup)));
     }
 
 }
