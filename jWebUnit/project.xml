@@ -31,7 +31,7 @@
 
     <repository>
         <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/jwebunit:jWebUnit</connection>
-        <developerConnection>scm:cvs:ext:user@cvs.sourceforge.net:/cvsroot/jwebunit:jWebUnit</developerConnection>
+        <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/jwebunit:jWebUnit</developerConnection>
         <url>http://cvs.sourceforge.net/viewcvs.py/jwebunit</url>
     </repository>
     <versions>
@@ -46,10 +46,16 @@
     <branches/>
     <mailingLists>
         <mailingList>
-            <name>Open Discussion</name>
-            <subscribe/>
-            <unsubscribe/>
-            <archive>http://sourceforge.net/forum/forum.php?forum_id=212195</archive>
+            <name>jWebUnit-development</name>
+            <subscribe>http://lists.sourceforge.net/mailman/listinfo/jwebunit-development</subscribe>
+            <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/jwebunit-development</unsubscribe>
+            <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=40787</archive>
+        </mailingList>
+        <mailingList>
+            <name>jWebUnit-users</name>
+            <subscribe>http://lists.sourceforge.net/mailman/listinfo/jwebunit-users</subscribe>
+            <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/jwebunit-users</unsubscribe>
+            <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=40828</archive>
         </mailingList>
     </mailingLists>
     <developers>
@@ -222,24 +228,42 @@
         </unitTest>
     </build>
 	<reports>
-		<report>maven-checkstyle-plugin</report>
+		<!--
+			CVS Related reports
+		-->
+<!--
+		<report>maven-changelog-plugin</report>
+		<report>maven-developer-activity-plugin</report>
+		<report>maven-file-activity-plugin</report>
+		<report>maven-statcvs-plugin</report>
+-->
+		<!--
+			Documentation related reports
+		-->
 		<report>maven-changes-plugin</report>
-<!--		<report>maven-changelog-plugin</report> -->
-<!--		<report>maven-developer-activity-plugin</report> -->
-<!--		<report>maven-faq-plugin</report> -->
-<!--		<report>maven-file-activity-plugin</report> -->
+		<report>maven-faq-plugin</report>
 		<report>maven-javadoc-plugin</report>
 		<report>maven-license-plugin</report>
+		<report>maven-tasklist-plugin</report>
 
-<!-- Enable this report below to get an overview of the testcoverage of jWebUnit -->
-<!--		<report>maven-jcoverage-plugin</report> -->
-		<report>maven-jdepend-plugin</report>
+		<!--
+			Test related reports
+		-->
 		<report>maven-junit-report-plugin</report>
+<!--
+		<report>maven-jcoverage-plugin</report>
+-->
+
+		<!--
+			Quality control reports
+		-->
+<!--
+		<report>maven-jdepend-plugin</report>
 		<report>maven-jxr-plugin</report>
+		<report>maven-checkstyle-plugin</report>
 		<report>maven-pmd-plugin</report>
 		<report>maven-simian-plugin</report>
-<!--		<report>maven-statcvs-plugin</report> -->
-		<report>maven-tasklist-plugin</report>
+-->
 	</reports>
 </project>
       
