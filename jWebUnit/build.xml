@@ -3,6 +3,7 @@
     <path id="src.classpath">
         <fileset dir="lib">
             <include name="**/*.jar"/>
+            <exclude name="**/httpunit.jar"/>
         </fileset>
     </path>
 
@@ -30,14 +31,23 @@
         <javac destdir="test-classes" srcdir="test" classpathref="tests.classpath"/>
     </target>
 
+    <!--
+        <target name="test" depends="compile">
+            <junit fork="yes" haltonfailure="yes">
+                <formatter type="brief" usefile="false"/>
+                <classpath>
+                    <path refid="junit.classpath"/>
+                </classpath>
+                <test name="net.sourceforge.jwebunit.AllTests" />
+            </junit>
+        </target>
+    -->
     <target name="test" depends="compile">
-        <junit fork="yes" haltonfailure="yes">
-            <formatter type="brief" usefile="false"/>
+        <java classname="net.sourceforge.jwebunit.AllTests" fork="yes">
             <classpath>
                 <path refid="junit.classpath"/>
             </classpath>
-            <test name="net.sourceforge.jwebunit.AllTests" />
-        </junit>
+        </java>
     </target>
 
     <target name="gen-javadoc">
@@ -58,8 +68,8 @@
             <zipfileset dir="test" prefix="test"/>
             <zipfileset dir="javadoc" prefix="javadoc"/>
             <zipfileset dir="lib" prefix="lib"/>
-            <fileset dir="dist" includes="jwebunit.jar" />
-            <fileset dir="." includes="build.xml" />
+            <fileset dir="dist" includes="jwebunit.jar"/>
+            <fileset dir="." includes="build.xml"/>
         </zip>
     </target>
 

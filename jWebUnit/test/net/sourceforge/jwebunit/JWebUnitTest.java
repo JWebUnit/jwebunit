@@ -1,8 +1,8 @@
 package net.sourceforge.jwebunit;
 
 import com.meterware.httpunit.HttpUnitOptions;
-import com.meterware.httpunit.PseudoServer;
-import com.meterware.httpunit.PseudoServlet;
+import com.meterware.pseudoserver.PseudoServer;
+import com.meterware.pseudoserver.PseudoServlet;
 import net.sourceforge.jwebunit.WebTestCase;
 import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
 
@@ -21,7 +21,7 @@ public class JWebUnitTest extends WebTestCase {
 
     protected static final Object[] NOARGS = new Object[0];
     protected String hostPath;
-    private PseudoServer server;
+    protected PseudoServer server;
 
     public JWebUnitTest(String s) {
         super(s);
@@ -30,12 +30,7 @@ public class JWebUnitTest extends WebTestCase {
     public void setUp() throws Exception {
         super.setUp();
         server = new PseudoServer();
-        HttpUnitOptions.reset();
-        try {
-            hostPath = "http://localhost:" + server.getConnectedPort();
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        hostPath = "http://localhost:" + server.getConnectedPort();
         getTestContext().setBaseUrl(hostPath);
     }
 
@@ -101,4 +96,7 @@ public class JWebUnitTest extends WebTestCase {
         }
     }
 
+    protected void gotoResource(String url) {
+
+    }
 }

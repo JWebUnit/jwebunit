@@ -5,6 +5,8 @@
  */
 package net.sourceforge.jwebunit;
 
+import com.meterware.httpunit.HttpServerNotFoundException;
+
 public class FormAssertionsTest extends JWebUnitTest {
     public FormAssertionsTest(String s) {
         super(s);

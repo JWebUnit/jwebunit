@@ -24,4 +24,8 @@ public class AllTests extends TestSuite{
         suite.addTestSuite(TableAssertionsTest.class);
         return suite;
     }
+
+     public static void main( String[] args ) {
+        junit.textui.TestRunner.run( suite() );
+    }
 }

@@ -6,9 +6,9 @@
 package net.sourceforge.jwebunit.sample;
 
 import com.meterware.httpunit.HttpUnitOptions;
-import com.meterware.httpunit.PseudoServer;
-import com.meterware.httpunit.PseudoServlet;
-import com.meterware.httpunit.WebResource;
+import com.meterware.pseudoserver.PseudoServer;
+import com.meterware.pseudoserver.PseudoServlet;
+import com.meterware.pseudoserver.WebResource;
 import net.sourceforge.jwebunit.WebTestCase;
 import net.sourceforge.jwebunit.TestContext;
 
