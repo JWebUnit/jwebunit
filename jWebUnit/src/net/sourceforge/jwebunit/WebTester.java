@@ -4,17 +4,18 @@
  **********************************/
 package net.sourceforge.jwebunit;
 
-import com.meterware.httpunit.SubmitButton;
-import com.meterware.httpunit.Button;
-import net.sourceforge.jwebunit.util.ExceptionUtility;
+import java.io.PrintStream;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
-
-import java.io.PrintStream;
-import java.util.ResourceBundle;
-import java.util.Locale;
+import net.sourceforge.jwebunit.util.ExceptionUtility;
 
 import org.w3c.dom.Element;
+
+import com.meterware.httpunit.Button;
+import com.meterware.httpunit.SubmitButton;
 
 /**
  * Provides a high-level API for basic web application navigation and validation
@@ -740,6 +741,30 @@ public class WebTester {
     public void assertFramePresent(String frameName) {
         Assert.assertNotNull("Unable to locate frame [" + frameName + "].", dialog.getFrame(frameName));
     }
+    
+    /** 
+     *  Checks to see if a cookie is present in the response.
+     *  Contributed by Vivek Venugopalan.
+     * 
+     * @param cookieName  The cookie name 
+     */	
+    public void assertCookiePresent(String cookieName) {
+		Assert.assertTrue("Could not find Cookie : [" + cookieName + "]", dialog.hasCookie(cookieName));
+	}
+    
+    public void assertCookieValueEquals(String cookieName, String expectedValue) {
+    	assertCookiePresent(cookieName);
+    	Assert.assertEquals(expectedValue, dialog.getCookieValue(cookieName));
+    }
+    
+    public void dumpCookies() {
+    	dumpCookies(System.out);
+    }
+    
+    public void dumpCookies(PrintStream stream) {
+    	dialog.dumpCookies(stream);
+    }
+    
 
 //Form interaction methods
 

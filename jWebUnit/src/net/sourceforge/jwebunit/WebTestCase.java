@@ -283,6 +283,25 @@ public class WebTestCase extends TestCase {
     public void assertFramePresent(String frameName) {
         tester.assertFramePresent(frameName);
     }
+    
+    /**
+     * Contributed by Vivek Venugopalan.
+     */
+    public void assertCookiePresent(String cookieName) {
+    	tester.assertCookiePresent(cookieName);
+    }
+    
+    public void assertCookieValueEquals(String cookieName, String expectedValue) {
+    	tester.assertCookieValueEquals(cookieName, expectedValue);
+    }
+    
+    public void dumpCookies() {
+    	tester.dumpCookies();
+    }
+    
+    public void dumpCookies(PrintStream stream) {
+    	tester.dumpCookies(stream);
+    }
 
 // Form interaction methods
 
