@@ -1,0 +1,15 @@
+/* Big blue text - title of page */
+h1 {color: #3333ff;
+    background: #FFFFFF;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 24pt;}
+
+/* Section Headers - white on blue, left aligned. */
+h2 {color: #3333ff;
+    background: #FFFFFF;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    text-align: left;}
+
+.default {font-family: Helvetica, Arial, sans-serif; font-size: 10pt;}
+  
