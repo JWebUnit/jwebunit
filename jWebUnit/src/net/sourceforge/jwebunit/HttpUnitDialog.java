@@ -566,6 +566,20 @@ public class HttpUnitDialog {
     }
 
     /**
+     * Return true if a link is present in the current response containing the
+     * specified text (note that HttpUnit uses contains rather than an exact
+     * match - if this is a problem consider using ids on the links to uniquely
+     * identify them).
+     *
+     * @param linkText text to check for in links on the response.
+     * @param index The 0-based index, when more than one link with the same
+     *              text is expected.
+     */
+    public boolean isLinkPresentWithText(String linkText, int index) {
+        return getLinkWithText(linkText, index) != null;
+    }
+
+    /**
      * Return true if a link is present with a given image based on filename of image.
      *
      * @param imageFileName A suffix of the image's filename; for example, to match
@@ -614,6 +628,13 @@ public class HttpUnitDialog {
     }
 
     public void clickLinkWithText(String linkText, int index) {
+        WebLink link = getLinkWithText(linkText, index);
+        if (link == null)
+            throw new RuntimeException("No Link found for \"" + linkText + "\" with index " + index);
+        submitRequest(link);
+    }
+
+    private WebLink getLinkWithText(String linkText, int index) {
         WebLink link = null;
         try {
             WebLink links[] = resp.getLinks();
@@ -632,9 +653,7 @@ public class HttpUnitDialog {
         } catch (SAXException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
-        if (link == null)
-            throw new RuntimeException("No Link found for \"" + linkText + "\" with index " + index);
-        submitRequest(link);
+        return link;
     }
 
     /**

@@ -38,6 +38,24 @@ public class WebAssertionsTest extends JWebUnitTest {
         assertPassFail("assertLinkNotPresentWithText", "no such link", "test link");
     }
 
+    public void testAssertLinkPresentWithTextN() throws Throwable {
+        assertPass(
+            "assertLinkPresentWithText",
+            new Object[] { "test link", new Integer(0)});
+        assertFail(
+            "assertLinkPresentWithText",
+            new Object[] { "test link", new Integer(1)});
+    }
+
+    public void testAssertLinkNotPresentWithTextN() throws Throwable {
+        assertPass(
+            "assertLinkNotPresentWithText",
+            new Object[] { "test link", new Integer(1)});
+        assertFail(
+            "assertLinkNotPresentWithText",
+            new Object[] { "test link", new Integer(0)});
+    }
+
     public void testAssertLinkPresent() throws Throwable {
         assertPassFail("assertLinkPresent", "test_link_id", "no_link_id");
     }

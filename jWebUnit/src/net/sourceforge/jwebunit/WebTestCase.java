@@ -236,6 +236,14 @@ public class WebTestCase extends TestCase {
         tester.assertLinkNotPresentWithText(linkText);
     }
 
+    public void assertLinkPresentWithText(String linkText, int index) {
+        tester.assertLinkPresentWithText(linkText, index);
+    }
+
+    public void assertLinkNotPresentWithText(String linkText, int index) {
+        tester.assertLinkNotPresentWithText(linkText, index);
+    }
+
     public void assertLinkPresentWithImage(String imageFileName) {
         tester.assertLinkPresentWithImage(imageFileName);
     }

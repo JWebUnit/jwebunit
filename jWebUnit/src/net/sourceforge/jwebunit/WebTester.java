@@ -623,6 +623,40 @@ public class WebTester {
     }
 
     /**
+     * Assert that a link containing the supplied text is present.
+     *
+     * @param linkText
+     * @param index The 0-based index, when more than one link with the same
+     *              text is expected.
+     */
+    public void assertLinkPresentWithText(String linkText, int index) {
+        Assert.assertTrue(
+            "Link with text ["
+                + linkText
+                + "] and index "
+                + index
+                + " not found in response.",
+            dialog.isLinkPresentWithText(linkText, index));
+    }
+
+    /**
+     * Assert that no link containing the supplied text is present.
+     *
+     * @param linkText
+     * @param index The 0-based index, when more than one link with the same
+     *              text is expected.
+     */
+    public void assertLinkNotPresentWithText(String linkText, int index) {
+        Assert.assertTrue(
+            "Link with text ["
+                + linkText
+                + "] and index "
+                + index
+                + " found in response.",
+            !dialog.isLinkPresentWithText(linkText, index));
+    }
+
+    /**
      * Assert that a link containing a specified image is present.
      *
      * @param imageFileName A suffix of the image's filename; for example, to match
@@ -823,7 +857,7 @@ public class WebTester {
      *              text is expected.
      */
     public void clickLinkWithText(String linkText, int index) {
-        assertLinkPresentWithText(linkText);
+        assertLinkPresentWithText(linkText, index);
         dialog.clickLinkWithText(linkText, index);
     }
 

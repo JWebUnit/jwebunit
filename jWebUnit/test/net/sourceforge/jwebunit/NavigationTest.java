@@ -1,6 +1,6 @@
 package net.sourceforge.jwebunit;
 
-import net.sourceforge.jwebunit.JWebUnitTest;
+import junit.framework.AssertionFailedError;
 
 /**
  * Test url navigation methods on WebTestCase (starting at a url, navigating links).
@@ -56,7 +56,11 @@ public class NavigationTest extends JWebUnitTest {
         try {
             clickLinkWithText("an active link", 2);
             fail();
-        } catch (Exception exception) {
+        } catch (AssertionFailedError expected) {
+            assertEquals(
+                "Link with text [an active link] and index 2 "
+                    + "not found in response.",
+                expected.getMessage());
         }
         assertTitleEquals("pageWithLink");
     }
