@@ -70,7 +70,7 @@ or
         getTestContext().setBaseURL("http://myserver:8080/myapp");
     }
 </pre>
-The TestContext encapsulates the configuration a TestCase.  More information is availible in the <a href="doc/index.html">Javadocs</a>.<br>
+The TestContext encapsulates the configuration a TestCase.  More information is availible in the <a href="api/index.html">Javadocs</a>.<br>
 <br>
 Now that your TestCase is pointed at your application, you can navigate to your particular resource.  For example, you have a html page, info.html, located under your application root, then you can access it in your test method with the following code:
 <pre>
@@ -84,8 +84,8 @@ To submit a form, you will need to navigate to the form, fill out the input fiel
 <pre>
     public void testFormSubmission() {
         beginAt("/info.html");
-        setFormParameter("field1", "value1");
-        setFormParameter("fieldn", "valuen");
+        setFormElement("field1", "value1");
+        setFormElement("fieldn", "valuen");
         submit();
     }
 </pre>
@@ -95,8 +95,8 @@ To navigate through a series of resources, you can use beginAt, clickLink, and s
 <pre>
     public void testNavigation() {
         beginAt("/somewhere");
-        clickLink("link text");
-        setFormParameter("field1", "value1");
+        clickLink("aLinkID");  // &lt;a id="aLinkID" href="somewhere"&gt;link text&lt;/a&gt;
+        setFormElement("field1", "value1");
         submit();
     }
 </pre>
@@ -107,13 +107,13 @@ Once you have navigated to the page you wish to test, you can call the assertion
     public void testCorrectness() {
         beginAt("/");
         assertTitleEquals("Home");
-        clickLink("Sign Up");
-        setFormParameter("uid", "jWebUnitUser");
+        clickLinkWithText("Sign Up"); // &lt;a id="aLinkID" href="somewhere"&gt;Sign Up&lt;/a&gt;
+        setFormElement("uid", "jWebUnitUser");
         submit();
-        assertTextInResponse("User successfully added."):
+        assertTextPresent("User successfully added."):
     }
 </pre>
-For more information, consult the <a href="doc/index.html">Javadocs</a>.
+For more information, consult the <a href="api/index.html">Javadocs</a>.
 <br>
 <!-- End Main -->
         </td>
