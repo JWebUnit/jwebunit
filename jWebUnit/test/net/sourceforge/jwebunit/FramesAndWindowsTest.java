@@ -24,8 +24,13 @@ public class FramesAndWindowsTest extends JWebUnitTest {
         defineWebPage("ChildPage2", "This is child 2");
         defineWebPage("Frames", "<html><frameset rows=\"33%, 33%, 33%\"><frame name=\"TopFrame\" src=\"TopFrame.html\"><frame name=\"ContentFrame\" src=\"ContentFrame.html\"><frame name=\"BottomFrame\" src=\"BottomFrame.html\"></frameset></html>");
         defineWebPage("TopFrame", "<html><body>TopFrame</body></html>");
-        defineWebPage("ContentFrame", "<html><body>ContentFrame</body></html>");
+        defineWebPage("ContentFrame", "<html><body>ContentFrame" +
+                        "<form name='frameForm' method ='GET' action='TargetPage'>" +
+                        "  <input name='color' value='blue'>" +
+                        "  <input type='submit'>" +
+                        "</form></body></html>");
         defineWebPage("BottomFrame", "<html><body>BottomFrame</body></html>");
+        defineResource("TargetPage?color=red", "<html><body>This is the red page</html></body>");
     }
 
     public void testOpenWindow() throws Throwable {
@@ -67,5 +72,13 @@ public class FramesAndWindowsTest extends JWebUnitTest {
         assertTextPresent("BottomFrame");
         gotoFrame("ContentFrame");
         assertTextPresent("ContentFrame");
+    }
+
+    public void testFormInputInFrame() {
+        beginAt("Frames.html");
+        gotoFrame("ContentFrame");
+        setFormElement("color", "red");
+        submit();
+        assertTextPresent("This is the red page");
     }
 }
