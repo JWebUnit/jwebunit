@@ -373,11 +373,11 @@ public class WebTester {
     }
 
     /**
-     * Assert that there is a form with the specified name present.
-     * @param formName
+     * Assert that there is a form with the specified name or id present.
+     * @param nameOrID
      */
-    public void assertHasForm(String formName) {
-        Assert.assertTrue("No form present", dialog.hasForm(formName));
+    public void assertHasForm(String nameOrID) {
+        Assert.assertTrue("No form present", dialog.hasForm(nameOrID));
     }
 
     /**
@@ -507,7 +507,7 @@ public class WebTester {
      * Assert that the values of a select element's options do not match a given array of strings.
      *
      * @param selectName name of the select element.
-     * @param expectedOptions expected values for the select box.
+     * @param optionValues expected values for the select box.
      */
     public void assertOptionValuesNotEqual(String selectName, String[] optionValues) {
         assertFormElementPresent(selectName);

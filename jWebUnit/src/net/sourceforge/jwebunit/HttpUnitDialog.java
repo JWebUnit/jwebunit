@@ -51,11 +51,7 @@ import com.meterware.httpunit.WebClient;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Document;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
-import org.w3c.dom.Attr;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
@@ -150,10 +146,10 @@ public class HttpUnitDialog {
         }
     }
 
-    private WebForm getForm(String formName) {
+    private WebForm getForm(String nameOrID) {
         try {
-            WebForm f = resp.getFormWithID(formName);
-            return (f != null) ? f : resp.getFormWithName(formName);
+            WebForm f = resp.getFormWithID(nameOrID);
+            return (f != null) ? f : resp.getFormWithName(nameOrID);
         } catch (SAXException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -224,8 +220,8 @@ public class HttpUnitDialog {
         }
     }
 
-    public boolean hasForm(String formName) {
-        return getForm(formName) != null;
+    public boolean hasForm(String nameOrID) {
+        return getForm(nameOrID) != null;
     }
 
     /**
