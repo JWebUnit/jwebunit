@@ -82,12 +82,10 @@ public class HttpUnitDialog {
         }
     }
 
-    private WebResponse getCurrentPage() {
-        return wc.getCurrentPage();
-    }
 
     private void initWebConversation() {
         wc = new WebConversation();
+
         if (context != null) {
             if (context.hasAuthorization())
                 wc.setAuthorization(context.getUser(), context.getPassword());
@@ -99,12 +97,14 @@ public class HttpUnitDialog {
                 }
             }
         }
+
         wc.addClientListener(new WebClientListener() {
             public void requestSent(WebClient webClient, WebRequest webRequest) {
-                form = null;
             }
 
             public void responseReceived(WebClient webClient, WebResponse webResponse) {
+                resp = webResponse;
+                form = null;
             }
         });
     }
@@ -131,7 +131,7 @@ public class HttpUnitDialog {
 
 
     public WebForm getForm() {
-        if(form == null && hasForm())
+        if (form == null && hasForm())
             setWorkingForm(getForm(0));
         return form;
     }
@@ -188,13 +188,13 @@ public class HttpUnitDialog {
     }
 
     private void checkFormStateWithParameter(String paramName) {
-        if(form == null) {
+        if (form == null) {
             setWorkingForm(getFormWithParameter(paramName));
         }
     }
 
     private void checkFormStateWithButton(String buttonName) {
-        if(form == null) {
+        if (form == null) {
             setWorkingForm(getFormWithButton(buttonName));
         }
     }
@@ -204,7 +204,7 @@ public class HttpUnitDialog {
     }
 
     private void setWorkingForm(WebForm newForm) {
-        if(newForm == null)
+        if (newForm == null)
             throw new UnableToSetFormException("Attempted to set form to null.");
         form = newForm;
     }

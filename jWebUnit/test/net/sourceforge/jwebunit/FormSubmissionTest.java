@@ -7,6 +7,7 @@ import java.io.IOException;
 import junit.framework.AssertionFailedError;
 import com.meterware.pseudoserver.PseudoServlet;
 import com.meterware.pseudoserver.WebResource;
+import com.meterware.httpunit.WebResponse;
 
 /**
  * Test form submission related methods of WebTestCase.
@@ -114,12 +115,14 @@ public class FormSubmissionTest extends JWebUnitTest {
         assertTextInResponse("param2=anyvalue&button2b=b2b");
     }
 
-    public void testFormReset() {
+    public void testSubmissionReset() {
         addMultiForm();
         beginAt("/QueryForm.html");
         setFormParameter("param2", "anyvalue");
+        WebResponse oldResp = getDialog().getResponse();
         submit("button2b");
         assertNull(getDialog().getForm());
+        assertTrue(getDialog().getResponse() != oldResp);
     }
 
     private void gotoMultiButtonPage() {
