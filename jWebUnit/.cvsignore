@@ -2,3 +2,9 @@
 .project
 classes
 bin
+src-classes
+dist
+javadoc
+test-classes
+jWebUnit.iws
+jWebUnit.ipr
