@@ -459,8 +459,8 @@ public class HttpUnitDialog {
     }
 
     /**
-     * Navigate by submitting a request based on the specified link.  A
-     * RuntimeException is thrown if no such link can be found.
+     * Navigate by submitting a request based on a link containing the
+     * specified text.  A RuntimeException is thrown if no such link can be found.
      *
      * @param linkText text which link to be navigated should contain.
      */
@@ -477,7 +477,7 @@ public class HttpUnitDialog {
     }
 
     /**
-     * Navigate by submitting a request based on the specified link.  A
+     * Navigate by submitting a request based on a link with a given ID.  A
      * RuntimeException is thrown if no such link can be found.
      *
      * @param anID id of link to be navigated.
@@ -493,6 +493,27 @@ public class HttpUnitDialog {
             throw new RuntimeException("No Link found with ID \"" + anID + "\"");
         submitRequest(link.getRequest());
 
+    }
+
+    /**
+     * Navigate by submitting a request based on a link with a given image file name.
+     * A RuntimeException is thrown if no such link can be found.
+     *
+     *
+     * @param imageFileName A suffix of the image's filename; for example, to match
+     *                      <tt>"images/my_icon.png"<tt>, you could just pass in
+     *                      <tt>"my_icon.png"<tt>.
+     */
+    public void clickLinkWithImage(String imageFileName) {
+        WebLink link = null;
+        try {
+            link = resp.getFirstMatchingLink(new LinkImagePredicate(), imageFileName);
+        } catch (SAXException e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+        if (link == null)
+            throw new RuntimeException("No Link found with imageFileName \"" + imageFileName + "\"");
+        submitRequest(link.getRequest());
     }
 
     /**
