@@ -23,7 +23,7 @@ public class DirectoryRunner extends FitRunner {
     public static void main(String argv[]) {
         DirectoryRunner runner = parseArgs(argv);
         runner.run();
-        System.out.println(Fixture.counts());
+        System.out.println("Cumulative Results: " + Fixture.counts());
     }
 
     public DirectoryRunner(File inputDirectory, File outputDirectory) {
@@ -52,7 +52,7 @@ public class DirectoryRunner extends FitRunner {
         runner.run();
         FitResult eachResult = runner.getResult();
         getDirectoryResult().addResult(eachResult);
-        System.out.println(eachResult.getDisplayName() + ":" + eachResult.counts());
+        System.out.println(eachResult.getDisplayName() + ":\n\t" + eachResult.counts() + "\n");
     }
 
     private FitRunner getRunner(File inFile) {

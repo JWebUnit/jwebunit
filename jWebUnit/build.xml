@@ -1,5 +1,6 @@
 <project name="jWebUnit" default="test">
 
+    <property name="fit.src" value="../../fit/Source"/>
     <path id="src.classpath">
         <fileset dir="lib">
             <include name="**/*.jar"/>
@@ -79,6 +80,12 @@
     </target>
 
     <target name="jar-classes">
+        <mkdir dir="classes"/>
+        <javac destdir="classes" classpathref="src.classpath">
+            <src location="${fit.src}"/>
+            <src location="src"/>
+            <src location="fitplugin/src"/>
+        </javac>
         <jar destfile="jwebunit.jar" basedir="classes"/>
     </target>
 </project>

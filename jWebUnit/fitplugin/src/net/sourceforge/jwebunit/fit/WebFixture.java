@@ -63,7 +63,7 @@ public class WebFixture extends ActionFixture {
     }
 
     public void submit() {
-        if(cells.more.more != null)
+        if(isNotEmpty(cells.more.more))
             tester.submit(cells.more.more.text());
         else
             tester.submit();
@@ -139,6 +139,9 @@ public class WebFixture extends ActionFixture {
         return (String[])args.toArray(new String[0]);
     }
 
+    private boolean isNotEmpty(Parse cell) {
+        return cell != null && !cell.text().equals("");
+    }
     protected void dumpResponse() {
         System.err.println("***************begin page***********************");
         tester.dumpResponse(System.err);
