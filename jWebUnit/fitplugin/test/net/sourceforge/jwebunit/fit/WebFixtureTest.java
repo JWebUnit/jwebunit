@@ -6,7 +6,6 @@
 package net.sourceforge.jwebunit.fit;
 
 import junit.framework.TestCase;
-import fit.Fixture;
 
 import java.util.StringTokenizer;
 
