@@ -4,6 +4,8 @@
  **********************************/
 package net.sourceforge.jwebunit;
 
+import com.meterware.httpunit.HttpUnitOptions;
+
 /**
  * User: djoiner
  * Date: Nov 22, 2002
@@ -62,7 +64,7 @@ public class JavaScriptEventsTest  extends JWebUnitTest {
         defineResource("index.html", "<html> <head>" +
 		                             "<script src=\"nav.js\" type=\"text/javascript\" language=\"javascript\"></script>" +
                                      "</head> <body>" +
-		                             "<h1>Javascript Test</h1> +" +
+		                             "<h1>Javascript Test</h1>" +
                                      "<form><input type=\"button\" onclick=\"gotoNext()\" value=\"Next\" id=\"next\"></form>" +
                                      "</body></html>");
         defineResource("next.html", "<html><head>" +
@@ -70,8 +72,24 @@ public class JavaScriptEventsTest  extends JWebUnitTest {
                                     "</head><body><h1>Next</h1><p>Here is the text we expect</p></body></html>");
         beginAt("index.html");
         clickButton("next");
-        dumpResponse(System.out);
         assertTextPresent("Here is the text we expect");
+        beginAt("index.html");
+        //commented out for now due to HttpUnit bug; submit does not trigger onClick, but clickButton of a
+        // submit button will trigger both the submission and the onClick.
+//        submit();
+//        dumpResponse(System.out);
+//        assertTextPresent("Here is the text we expect");
+    }
+
+    public void testLinkAssertsWorkJavascriptDisabled() {
+        defineResource("foobar.js", "function sayWoo() { return true; }");
+        defineResource("test.html", "<html><head>" +
+                                    "<SCRIPT language=\"JavaScript\" src=\"/foobar.js\"></script></head>" +
+                                    "<body><a href=\"foo1.html\">foo1</a><a href=\"foo1.html\">foo2</a></body></html> ");
+        HttpUnitOptions.setScriptingEnabled(false);
+        beginAt("test.html");
+        assertLinkPresentWithText("foo1");
+        assertLinkPresentWithText("foo2");
     }
 
 }
