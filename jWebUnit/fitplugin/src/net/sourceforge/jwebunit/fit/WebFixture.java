@@ -59,7 +59,7 @@ public class WebFixture extends ActionFixture {
     }
 
     public void check() throws Exception {
-        String methName = cells.more.text();
+        String methName = camel( "assert " + cells.more.text());
         String args[] = getArgs(cells.more.more);
         Parse arg = cells.more.more;
         MethodInvoker invoker = new MethodInvoker(tester, methName, args);
@@ -69,8 +69,9 @@ public class WebFixture extends ActionFixture {
         } catch (InvocationTargetException ite) {
             Throwable t = ite.getTargetException();
             if(t instanceof AssertionFailedError ) {
-                System.out.println(t.getMessage());
-                wrong(cells.last(), t.getMessage());
+                Parse field = cells.last();
+                wrong(field);
+                field.addToBody(label("expected") + "<hr>" + escape(t.getMessage()));
             } else {
                 exception(arg, t);
             }

@@ -10,6 +10,7 @@ import fit.Parse;
 import com.meterware.pseudoserver.PseudoServer;
 
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -68,7 +69,7 @@ public class WebFixtureTest extends TestCase {
         baseUrl = baseUrlFmt + server.getConnectedPort() + "/";
     }
 
-    private void parseTable(String inputTable) {
+    private void parseTable(String inputTable) throws ParseException {
         String table = formatTable(inputTable);
         tables = new Parse(table);
         fixture.doTable(tables);
@@ -94,7 +95,7 @@ public class WebFixtureTest extends TestCase {
         server.setResource("/mainpage", "<html><head><title>Wrong Page</title></head><body></body></html>");
     }
 
-    public void testSetBaseUrl() {
+    public void testSetBaseUrl() throws ParseException {
         parseTable(formatTable(startTableFmt));
         assertEquals(baseUrl, fixture.getBaseUrl());
         fixture.tester.assertTitleEquals("Start Page");
@@ -109,17 +110,17 @@ public class WebFixtureTest extends TestCase {
         return tableOut;
     }
 
-    public void testEnter() {
+    public void testEnter() throws ParseException {
         parseTable(formatTable(enterTableFmt));
         fixture.tester.assertFormElementEquals("field1", "testValue");
     }
 
-    public void testPressSubmit() {
+    public void testPressSubmit() throws ParseException {
         parseTable(formatTable(pressTableFmt));
         fixture.tester.assertTitleEquals("Main Page");
     }
 
-    public void testPressLink() {
+    public void testPressLink() throws ParseException {
         parseTable(formatTable(pressLinkFmt));
         fixture.tester.assertTitleEquals("Main Page");
     }
