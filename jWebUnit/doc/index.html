@@ -33,13 +33,75 @@ jWebUnit is a Java framework that facilitates creation of acceptance tests for w
 <br>
 <br>
     <h2>What does jWebUnit provide?</h2>
-jWebUnit provides a high-level API for navigating a web application, and a set
+jWebUnit provides a high-level API for navigating a web application combined with a set
 of assertions to verify the application's correctness. This includes navigation
 via links, form entry and submission, validation of table contents, and other
-typical business web application features. This code is using HttpUnit behind
+typical business web application features. This code utilizes HttpUnit behind
 the scenes. The simple navigation methods and ready-to-use assertions allow for
 more rapid test creation than using only JUnit and HttpUnit.
+<p>
+The following sample testcases illustrate the conciseness of jWebUnit versus HttpUnit
+and JUnit alone.  The tests perform a google search
+for the HttpUnit home page, navigate to that page from Google, and validate that
+there is a link to the user manual on the HttpUnit home page.  The code in the
+first column is pure HttpUnit / JUnit, while the second column uses the jWebUnit framework.
+<p>
 <br>
+<table class="default" cellspacing="2" border="0">
+<tr class="blueText"><td>JUnit/HttpUnit Test</td><td>jWebUnit Test</td></tr>
+<tr>
+<td valign="top" class="smallCode" NOWRAP>
+package net.sourceforge.jwebunit.sample;<br>
+<br>
+import junit.framework.TestCase;<br>
+import com.meterware.httpunit.WebResponse;<br>
+import com.meterware.httpunit.WebConversation;<br>
+import com.meterware.httpunit.WebForm;<br>
+import com.meterware.httpunit.WebRequest;<br>
+<br>
+public class SearchExample extends TestCase {<br>
+<br>
+    &nbsp;&nbsp;&nbsp;public void testSearch() throws Exception {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebConversation wc = new WebConversation();<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebResponse resp = wc.getResponse( "http://www.google.com");<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebForm form = resp.getForms()[0];<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;form.setParameter("q", "HttpUnit");<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebRequest req = form.getRequest("btnG");<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resp = wc.getResponse(req);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assertNotNull(resp.getLinkWith("HttpUnit"));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resp = resp.getLinkWith("HttpUnit").click();<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assertEquals(resp.getTitle(), "HttpUnit");<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assertNotNull(resp.getLinkWith("User's Manual"));<br>
+    &nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</td>
+<td valign="top" class="smallCode" NOWRAP>
+package net.sourceforge.jwebunit.sample;<br>
+<br>
+import net.sourceforge.jwebunit.WebTestCase;<br>
+<br>
+public class JWebUnitSearchExample extends WebTestCase {<br>
+<br>
+    &nbsp;&nbsp;&nbsp;public JWebUnitSearchExample(String name) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super(name);<br>
+    &nbsp;&nbsp;&nbsp;}<br>
+<br>
+    &nbsp;&nbsp;&nbsp;public void setUp() {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getTestContext().setBaseUrl("http://www.google.com");<br>
+    &nbsp;&nbsp;&nbsp;}<br>
+<br>
+    &nbsp;&nbsp;&nbsp;public void testSearch() {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beginAt("/");<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setFormElement("q", "httpunit");<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;submit("btnG");<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clickLinkWithText("HttpUnit");<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assertTitleEquals("HttpUnit");<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assertLinkPresentWithText("User's Manual");<br>
+    &nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</td>
+</tr>
+</table>
 <!-- End Main -->
         </td>
     </tr>

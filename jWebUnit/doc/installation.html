@@ -28,10 +28,13 @@
         </td>
         <td valign="top">
 <!-- Begin Main -->
-First download jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>.
-Expand the zip onto your machine.  There is a jWebUnit jar in the root directory.  You can use this
-jar to run jWebUnit, but only if you already have all of jWebUnit's dependencies in your target project.
-jWebUnit includes jars for the projects it is dependent on in its lib directory.
+First download jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
+and expand to a local directory.<p>
+Next, copy the jars needed below to the project you wish to test, or include them in that
+project's classpath from where you expanded them too.  There is a jWebUnit jar in the root directory.  You can use this
+jar alone to run jWebUnit, but only if you already have the jars for jWebUnit's dependencies in your target project.
+jWebUnit includes jars for the projects it is dependent on in its lib directory, so if your project
+is not already using them you can get them there.  The dependencies are as follows:
 <p>
 <h2>Dependencies</h2>
 <table class="default" cellspacing="2" border="1">
@@ -40,6 +43,7 @@ jWebUnit includes jars for the projects it is dependent on in its lib directory.
 <tr><td><a href="http://www.mozilla.org/rhino/">Rhino</a></td><td>js.jar</td><td>Java javascript implementation used by httpunit.  Only needed if javascript in target application must be tested.</td></tr>
 <tr><td><a href="http://sourceforge.net/projects/jtidy">jTidy</a></td><td>Tidy.jar</td><td>Java html parser and beautifier used by httpunit.</td></tr>
 <tr><td><a href="http://www.junit.org">JUnit 3.8.1</a></td><td>junit.jar, optional.jar</td><td>Java testing framework.</td></tr>
+<tr><td><a href="http://www.apache.org">Apache XML API</a></td><td>xml-apis.jar</td><td>Common XML stuff needed by Tidy/HttpUnit.</td></tr>
 </table>
 <br>
 <!-- End Main -->
