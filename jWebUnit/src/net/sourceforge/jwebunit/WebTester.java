@@ -715,7 +715,7 @@ public class WebTester {
      * @param linkText
      */
     public void clickLinkWithText(String linkText) {
-        dialog.clickLink(linkText);
+        dialog.clickLinkWithText(linkText);
     }
 
     /**
@@ -724,7 +724,7 @@ public class WebTester {
      * @param linkId id of link
      */
     public void clickLink(String linkId) {
-        dialog.clickLinkByID(linkId);
+        dialog.clickLink(linkId);
     }
 
     //Debug methods

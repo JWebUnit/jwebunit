@@ -340,7 +340,7 @@ public class HttpUnitDialog {
         }
     }
 
-    public void clickLink(String linkText) {
+    public void clickLinkWithText(String linkText) {
         WebLink link = null;
         try {
             link = resp.getLinkWith(linkText);
@@ -352,7 +352,7 @@ public class HttpUnitDialog {
         submitRequest(link.getRequest());
     }
 
-    public void clickLinkByID(String anID) {
+    public void clickLink(String anID) {
         WebLink link = null;
         try {
             link = resp.getLinkWithID(anID);
