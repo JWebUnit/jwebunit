@@ -25,28 +25,28 @@ public class WebAssertionsTest extends JWebUnitTest {
         assertFail("assertTitleEquals", "wrong title");
     }
 
-    public void testAssertTextInResponse() throws Throwable {
-        assertPassFail("assertTextInResponse", "This is a test page.", "no such text");
+    public void testAssertTextPresent() throws Throwable {
+        assertPassFail("assertTextPresent", "This is a test page.", "no such text");
     }
 
-    public void testAssertTextNotInResponse() throws Throwable {
-        assertPassFail("assertTextNotInResponse", "no such text", "This is a test page.");
+    public void testAssertTextNotPresent() throws Throwable {
+        assertPassFail("assertTextNotPresent", "no such text", "This is a test page.");
     }
 
-    public void testAssertLinkInResponse() throws Throwable {
-        assertPassFail("assertLinkInResponse", "test link", "no such link");
+    public void testAssertLinkPresentWithText() throws Throwable {
+        assertPassFail("assertLinkPresentWithText", "test link", "no such link");
     }
 
-    public void testAssertLinkNotInResponse() throws Throwable {
-        assertPassFail("assertLinkNotInResponse", "no such link", "test link");
+    public void testAssertLinkNotPresentWithText() throws Throwable {
+        assertPassFail("assertLinkNotPresentWithText", "no such link", "test link");
     }
 
-    public void testAssertLinkPresentByID() throws Throwable {
-        assertPassFail("assertLinkPresentByID", "test_link_id", "no_link_id");
+    public void testAssertLinkPresent() throws Throwable {
+        assertPassFail("assertLinkPresent", "test_link_id", "no_link_id");
     }
 
-    public void testAssertLinkNotPresentByID() throws Throwable {
-        assertPassFail("assertLinkNotPresentByID", "no_link_id", "test_link_id");
+    public void testAssertLinkNotPresent() throws Throwable {
+        assertPassFail("assertLinkNotPresent", "no_link_id", "test_link_id");
     }
 
     public void testAssertElementPresent() throws Throwable {

@@ -33,18 +33,18 @@ public class FormSubmissionTest extends JWebUnitTest {
         beginAt("/QueryForm.html");
         setFormParameter("color", "blue");
         submit("button");
-        assertTextInResponse("Parms are: color=blue");
+        assertTextPresent("Parms are: color=blue");
         beginAt("/QueryForm.html");
         setFormParameter("color", "red");
         submit();
-        assertTextInResponse("Parms are: color=red");
+        assertTextPresent("Parms are: color=red");
     }
 
     public void testSingleFormSingleUnnamedButtonSubmission() {
         addSingleUnnamedButtonForm();
         beginAt("/QueryForm.html");
         submit();
-        assertTextInResponse("Parms are: color=blue");
+        assertTextPresent("Parms are: color=blue");
     }
 
     public void testSingleNamedButtonSubmission() {
@@ -52,13 +52,13 @@ public class FormSubmissionTest extends JWebUnitTest {
         beginAt("/QueryForm.html");
         setFormParameter("color", "red");
         submit();
-        assertTextInResponse("Parms are: color=red");
+        assertTextPresent("Parms are: color=red");
     }
 
     public void testSingleFormMultipleButtonSubmission() {
         gotoMultiButtonPage();
         submit("color");
-        assertTextInResponse("Parms are: color=red");
+        assertTextPresent("Parms are: color=red");
     }
 
     public void testBogusParameter() {
@@ -78,7 +78,7 @@ public class FormSubmissionTest extends JWebUnitTest {
         setWorkingForm("form2");
         setFormParameter("param2", "anyvalue");
         submit("button2a");
-        assertTextInResponse("param2=anyvalue");
+        assertTextPresent("param2=anyvalue");
     }
 
     public void testSetWorkingFormById() {
@@ -104,7 +104,7 @@ public class FormSubmissionTest extends JWebUnitTest {
         beginAt("/QueryForm.html");
         setFormParameter("param4", "anyvalue");
         submit();
-        assertTextInResponse("param4=anyvalue");
+        assertTextPresent("param4=anyvalue");
     }
 
     public void testNamedSubmitOnSpecificForm() {
@@ -112,7 +112,7 @@ public class FormSubmissionTest extends JWebUnitTest {
         beginAt("/QueryForm.html");
         setFormParameter("param2", "anyvalue");
         submit("button2b");
-        assertTextInResponse("param2=anyvalue&button2b=b2b");
+        assertTextPresent("param2=anyvalue&button2b=b2b");
     }
 
     public void testSubmissionReset() {
@@ -131,7 +131,7 @@ public class FormSubmissionTest extends JWebUnitTest {
         assertSelectedOptionEquals("select1", "one");
         selectOption("select1", "two");
         assertSelectedOptionEquals("select1", "two");
-        assertFormControlEquals("select1", "2");
+        assertFormParameterEquals("select1", "2");
     }
 
     private void gotoMultiButtonPage() {

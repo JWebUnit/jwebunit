@@ -81,20 +81,20 @@ public class WebTestCase extends TestCase {
         tester.assertTitleEqualsKey(titleKey);
     }
 
-    public void assertKeyInResponse(String key) {
-        tester.assertKeyInResponse(key);
+    public void assertKeyPresent(String key) {
+        tester.assertKeyPresent(key);
     }
 
-    public void assertTextInResponse(String text) {
-        tester.assertTextInResponse(text);
+    public void assertTextPresent(String text) {
+        tester.assertTextPresent(text);
     }
 
-    public void assertKeyNotInResponse(String key) {
-        tester.assertKeyNotInResponse(key);
+    public void assertKeyNotPresent(String key) {
+        tester.assertKeyNotPresent(key);
     }
 
-    public void assertTextNotInResponse(String text) {
-        tester.assertTextNotInResponse(text);
+    public void assertTextNotPresent(String text) {
+        tester.assertTextNotPresent(text);
     }
 
     public void assertTablePresent(String tableSummary) {
@@ -149,12 +149,12 @@ public class WebTestCase extends TestCase {
         tester.assertTableRowsEqual(tableSummary, startRow, expectedCellValues);
     }
 
-    public void assertFormControlPresent(String formControlName) {
-        tester.assertFormControlPresent(formControlName);
+    public void assertFormParameterPresent(String parameterName) {
+        tester.assertFormParameterPresent(parameterName);
     }
 
-    public void assertFormControlNotPresent(String formControlName) {
-        tester.assertFormControlNotPresent(formControlName);
+    public void assertFormParameterNotPresent(String parameterName) {
+        tester.assertFormParameterNotPresent(parameterName);
     }
 
     public void assertHasForm() {
@@ -165,8 +165,8 @@ public class WebTestCase extends TestCase {
         tester.assertHasForm(formName);
     }
 
-    public void assertFormControlEquals(String formControlName, String expectedValue) {
-        tester.assertFormControlEquals(formControlName, expectedValue);
+    public void assertFormParameterEquals(String parameterName, String expectedValue) {
+        tester.assertFormParameterEquals(parameterName, expectedValue);
     }
 
     public void assertCheckboxSelected(String checkBoxName) {
@@ -205,20 +205,20 @@ public class WebTestCase extends TestCase {
         tester.assertSubmitButtonValue(buttonName, expectedValue);
     }
 
-    public void assertLinkInResponse(String linkText) {
-        tester.assertLinkInResponse(linkText);
+    public void assertLinkPresentWithText(String linkText) {
+        tester.assertLinkPresentWithText(linkText);
     }
 
-    public void assertLinkNotInResponse(String linkText) {
-        tester.assertLinkNotInResponse(linkText);
+    public void assertLinkNotPresentWithText(String linkText) {
+        tester.assertLinkNotPresentWithText(linkText);
     }
 
-    public void assertLinkPresentByID(String anId) {
-        tester.assertLinkPresentByID(anId);
+    public void assertLinkPresent(String linkId) {
+        tester.assertLinkPresent(linkId);
     }
 
-    public void assertLinkNotPresentByID(String anId) {
-        tester.assertLinkNotPresentByID(anId);
+    public void assertLinkNotPresent(String linkId) {
+        tester.assertLinkNotPresent(linkId);
     }
 
     protected void submit() {

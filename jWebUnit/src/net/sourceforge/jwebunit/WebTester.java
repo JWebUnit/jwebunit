@@ -138,8 +138,8 @@ public class WebTester {
      *
      * @param key web resource name
      */
-    public void assertKeyInResponse(String key) {
-        assertTextInResponse(getMessage(key));
+    public void assertKeyPresent(String key) {
+        assertTextPresent(getMessage(key));
     }
 
     /**
@@ -147,7 +147,7 @@ public class WebTester {
      *
      * @param text
      */
-    public void assertTextInResponse(String text) {
+    public void assertTextPresent(String text) {
         if (!dialog.isTextInResponse(text))
             Assert.fail("Expected text not found in response: [" + text + "]");
     }
@@ -157,8 +157,8 @@ public class WebTester {
      *
      * @param key web resource name
      */
-    public void assertKeyNotInResponse(String key) {
-        assertTextNotInResponse(getMessage(key));
+    public void assertKeyNotPresent(String key) {
+        assertTextNotPresent(getMessage(key));
     }
 
     /**
@@ -166,7 +166,7 @@ public class WebTester {
      *
      * @param text
      */
-    public void assertTextNotInResponse(String text) {
+    public void assertTextNotPresent(String text) {
         if (dialog.isTextInResponse(text))
             Assert.fail("Text found in response when not expected: [" + text + "]");
     }
@@ -337,24 +337,24 @@ public class WebTester {
     /**
      * Assert that a form input element with a given name is present.
      *
-     * @param formControlName
+     * @param parameterName
      */
-    public void assertFormControlPresent(String formControlName) {
+    public void assertFormParameterPresent(String parameterName) {
         assertHasForm();
-        Assert.assertTrue("Did not find form control with name [" + formControlName + "].",
-                dialog.hasFormParameterNamed(formControlName));
+        Assert.assertTrue("Did not find form control with name [" + parameterName + "].",
+                dialog.hasFormParameterNamed(parameterName));
     }
 
     /**
      * Assert that a form input element with a given name is not present.
      *
-     * @param formControlName
+     * @param parameterName
      */
-    public void assertFormControlNotPresent(String formControlName) {
+    public void assertFormParameterNotPresent(String parameterName) {
         assertHasForm();
         try {
-            Assert.assertTrue("Found form control with name [" + formControlName + "] when not expected.",
-                    !dialog.hasFormParameterNamed(formControlName));
+            Assert.assertTrue("Found form control with name [" + parameterName + "] when not expected.",
+                    !dialog.hasFormParameterNamed(parameterName));
         } catch (UnableToSetFormException e) {
             // assertFormControlNotPresent
         }
@@ -382,7 +382,7 @@ public class WebTester {
      * @param formControlName
      * @param expectedValue
      */
-    public void assertFormControlEquals(String formControlName, String expectedValue) {
+    public void assertFormParameterEquals(String formControlName, String expectedValue) {
         assertHasForm();
         Assert.assertEquals(expectedValue, dialog.getFormParameterValue(formControlName));
     }
@@ -394,7 +394,7 @@ public class WebTester {
      */
     public void assertCheckboxSelected(String checkBoxName) {
         assertHasForm();
-        assertFormControlPresent(checkBoxName);
+        assertFormParameterPresent(checkBoxName);
         Assert.assertEquals("on", dialog.getFormParameterValue(checkBoxName));
     }
 
@@ -405,7 +405,7 @@ public class WebTester {
      */
     public void assertCheckboxNotSelected(String checkBoxName) {
         assertHasForm();
-        assertFormControlPresent(checkBoxName);
+        assertFormParameterPresent(checkBoxName);
         Assert.assertNull(dialog.getFormParameterValue(checkBoxName));
     }
 
@@ -447,22 +447,64 @@ public class WebTester {
     }
 
     /**
-     * Assert that a link with supplied text is present.
-     *
-     * @param linkText
+     * Assert that a link with a given id is present in the response.
+     * 
+     * @param linkId
      */
-    public void assertLinkInResponse(String linkText) {
-        Assert.assertTrue("Link [" + linkText + "] not found in response.", dialog.isLinkInResponse(linkText));
+    public void assertLinkPresent(String linkId) {
+        Assert.assertTrue("Unable to find link with id ["+ linkId + "]", dialog.isLinkPresentById(linkId));
     }
 
     /**
-     * Assert that a link with supplied text is not present.
+     * Assert that no link with the given id is present in the response.
+     * 
+     * @param linkId
+     */
+    public void assertLinkNotPresent(String linkId) {
+        Assert.assertTrue("Unable to find link with id ["+ linkId + "]", !dialog.isLinkPresentById(linkId));
+    }
+    
+    /**
+     * Assert that a link containing the supplied text is present.
      *
      * @param linkText
      */
-    public void assertLinkNotInResponse(String linkText) {
-        Assert.assertTrue("Link [" + linkText + "] found in response.", !dialog.isLinkInResponse(linkText));
+    public void assertLinkPresentWithText(String linkText) {
+        Assert.assertTrue("Link with text [" + linkText + "] not found in response.", dialog.isLinkInResponse(linkText));
     }
+
+    /**
+     * Assert that no link containing the supplied text is present.
+     *
+     * @param linkText
+     */
+    public void assertLinkNotPresentWithText(String linkText) {
+        Assert.assertTrue("Link with text [" + linkText + "] found in response.", !dialog.isLinkInResponse(linkText));
+    }
+    
+     /**
+     * Set the value of a form input element.
+     *
+     * @param parameterName name of form element.
+     * @param value
+     */
+    public void setFormParameter(String parameterName, String value) {
+        assertHasForm();
+        assertFormParameterPresent(parameterName);
+        dialog.setFormParameter(parameterName, value);
+    }
+
+    /**
+     * Remove a form input element (turn a checkbox off).
+     *
+     * @param parameterName
+     */
+    // Todo: rename to uncheckCheckbox
+    public void removeFormParameter(String parameterName) {
+        assertHasForm();
+        assertFormParameterPresent(parameterName);
+        dialog.removeFormParameter(parameterName);
+    }   
 
     /**
      * Submit form - default submit button will be used (unnamed submit button, or
@@ -480,7 +522,6 @@ public class WebTester {
         assertSubmitButtonPresent(buttonName);
         dialog.submit(buttonName);
     }
-
 
     /**
      * Navigate by selection of a specified link.
@@ -543,30 +584,6 @@ public class WebTester {
         }
     }
 
-    /**
-     * Set the value of a form input element.
-     *
-     * @param parameterName name of form element.
-     * @param value
-     */
-    public void setFormParameter(String parameterName, String value) {
-        assertHasForm();
-        assertFormControlPresent(parameterName);
-        dialog.setFormParameter(parameterName, value);
-    }
-
-    /**
-     * Remove a form input element (turn a checkbox off).
-     *
-     * @param parameterName
-     */
-    // Todo: rename to uncheckCheckbox
-    public void removeFormParameter(String parameterName) {
-        assertHasForm();
-        assertFormControlPresent(parameterName);
-        dialog.removeFormParameter(parameterName);
-    }
-
     public void assertRadioOptionPresent(String radioGroup, String radioOption) {
         if (!dialog.hasRadioOption(radioGroup, radioOption))
             Assert.fail("Unable to find option " + radioOption + " in radio group " + radioGroup);
@@ -578,7 +595,7 @@ public class WebTester {
     }
 
     public void assertRadioOptionSelected(String radioGroup, String radioOption) {
-        assertFormControlEquals(radioGroup, radioOption);
+        assertFormParameterEquals(radioGroup, radioOption);
         //Assert.assertEquals("Radio option " + radioOption + " is not selected", radioOption, dialog.getFormParameterValue(radioGroup));
     }
 
@@ -591,31 +608,23 @@ public class WebTester {
         dialog.setWorkingForm(nameOrId);
     }
 
-    public void assertLinkPresentByID(String anId) {
-        Assert.assertTrue("Unable to find link with id ["+ anId + "]", dialog.isLinkPresentById(anId));
-    }
-
-    public void assertLinkNotPresentByID(String anId) {
-        Assert.assertTrue("Unable to find link with id ["+ anId + "]", !dialog.isLinkPresentById(anId));
-    }
-
     public void clickLinkByID(String anID) {
         dialog.clickLinkByID(anID);
     }
 
     public String[] getOptionsFor(String selectName) {
-        assertFormControlPresent(selectName);
+        assertFormParameterPresent(selectName);
         return dialog.getOptionsFor(selectName);
     }
 
     public void assertOptionsEqual(String selectName, String[] expectedOptions) {
-        assertFormControlPresent(selectName);
+        assertFormParameterPresent(selectName);
         assertArraysEqual(expectedOptions, getOptionsFor(selectName));
     }
 
 
     public void assertOptionsNotEqual(String selectName, String[] expectedOptions) {
-        assertFormControlPresent(selectName);
+        assertFormParameterPresent(selectName);
         try {
             assertOptionsEqual(selectName, expectedOptions);
         } catch (AssertionFailedError e) {
@@ -626,7 +635,7 @@ public class WebTester {
     }
 
     public void assertOptionValuesEqual(String selectName, String[] expectedValues) {
-        assertFormControlPresent(selectName);
+        assertFormParameterPresent(selectName);
         assertArraysEqual(expectedValues, getOptionValuesFor(selectName));
 
     }
@@ -644,7 +653,7 @@ public class WebTester {
     }
 
     public void assertOptionValuesNotEqual(String selectName, String[] optionValues) {
-        assertFormControlPresent(selectName);
+        assertFormParameterPresent(selectName);
         try {
             assertOptionValuesEqual(selectName, optionValues);
         } catch (AssertionFailedError e) {
@@ -654,12 +663,12 @@ public class WebTester {
     }
 
     public void assertOptionEquals(String selectName, String option) {
-        assertFormControlPresent(selectName);
+        assertFormParameterPresent(selectName);
         Assert.assertEquals(option, dialog.getSelectedOption(selectName));
     }
 
     public void selectOption(String selectName, String option) {
-        assertFormControlPresent(selectName);
+        assertFormParameterPresent(selectName);
         dialog.selectOption(selectName, option);
     }
 
