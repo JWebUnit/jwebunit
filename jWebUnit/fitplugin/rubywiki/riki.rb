@@ -22,7 +22,7 @@ module Riki
     end
 
     def Riki.read(file)
-        IO.readlines(file).join
+        IO.readlines(file.untaint).join
     end
 
     def Riki.inspect(obj)
@@ -229,7 +229,7 @@ module Riki
         end
 
         def run
-            @datedpages = Dir.entries('pages').select {|e| e =~ /#{LINK}/}
+            @datedpages = Dir.entries('pages').select {|e| e.untaint =~ /#{LINK}/}
             @datedpages.map! {|e| [File.mtime("pages/#{e}"), e]}
             @datedpages.sort! { |a,b| b[0] <=> a[0] }
             @datedpages = @datedpages[0...@max]
@@ -360,7 +360,7 @@ module Riki
         end
 
         def asAnchor(title)
-          if File.exists?("pages/#{title}")
+          if File.exists?("pages/#{title.untaint}")
             %Q[<a href="wiki.rb?#{title}">#{title}<\/a>]
           else
             %Q[<a href="edit.rb?#{title}">?<\/a>#{title}]
