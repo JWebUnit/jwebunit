@@ -266,6 +266,7 @@
 		<!--
 			Quality control reports
 		-->
+		<report>maven-linkcheck-plugin</report>
 <!--
 		<report>maven-jdepend-plugin</report>
 		<report>maven-jxr-plugin</report>
