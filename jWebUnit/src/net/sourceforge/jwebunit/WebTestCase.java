@@ -212,6 +212,14 @@ public class WebTestCase extends TestCase {
         tester.assertSubmitButtonValue(buttonName, expectedValue);
     }
 
+    public void assertButtonPresent(String buttonID) {
+        tester.assertButtonPresent(buttonID);
+    }
+
+    public void assertButtonNotPresent(String buttonID) {
+        tester.assertButtonNotPresent(buttonID);
+    }
+
     public void assertLinkPresent(String linkId) {
         tester.assertLinkPresent(linkId);
     }
@@ -306,6 +314,10 @@ public class WebTestCase extends TestCase {
 
     protected void clickLink(String linkId) {
         tester.clickLink(linkId);
+    }
+
+    protected void clickButton(String buttonId) {
+        tester.clickButton(buttonId);
     }
 
 //Window and Frame Navigation Methods

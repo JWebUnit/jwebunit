@@ -5,6 +5,7 @@
 package net.sourceforge.jwebunit;
 
 import com.meterware.httpunit.SubmitButton;
+import com.meterware.httpunit.Button;
 import net.sourceforge.jwebunit.HttpUnitDialog;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import junit.framework.Assert;
@@ -529,7 +530,7 @@ public class WebTester {
      */
     public void assertSubmitButtonPresent(String buttonName) {
         assertFormPresent();
-        Assert.assertNotNull("Button [" + buttonName + "] not found.", dialog.getSubmitButton(buttonName));
+        Assert.assertNotNull("Submit Button [" + buttonName + "] not found.", dialog.getSubmitButton(buttonName));
     }
 
     /**
@@ -544,7 +545,7 @@ public class WebTester {
             button = dialog.getSubmitButton(buttonName);
         } catch (UnableToSetFormException e) {
         }
-        Assert.assertNull("Button [" + buttonName + "] found.", button);
+        Assert.assertNull("Submit Button [" + buttonName + "] found.", button);
     }
 
     /**
@@ -558,6 +559,32 @@ public class WebTester {
         assertSubmitButtonPresent(buttonName);
         Assert.assertEquals(expectedValue, dialog.getSubmitButton(buttonName).getValue());
     }
+
+    /**
+     * Assert that a button with a given id is present.
+     *
+     * @param buttonId
+     */
+    public void assertButtonPresent(String buttonId) {
+        assertFormPresent();
+        Assert.assertNotNull("Button [" + buttonId + "] not found.", dialog.getButton(buttonId));
+    }
+
+    /**
+     * Assert that a button with a given id is not present.
+     *
+     * @param buttonId
+     */
+    public void assertButtonNotPresent(String buttonId) {
+        assertFormPresent();
+        Button button = null;
+        try {
+            button = dialog.getButton(buttonId);
+        } catch (UnableToSetFormException e) {
+        }
+        Assert.assertNull("Button [" + buttonId + "] found.", button);
+    }
+
 
     /**
      * Assert that a link with a given id is present in the response.
@@ -765,7 +792,7 @@ public class WebTester {
 
     /**
      * Reset the current form.
-     */    
+     */
     public void reset() {
         dialog.reset();
     }
@@ -778,6 +805,16 @@ public class WebTester {
     public void clickLinkWithText(String linkText) {
         assertLinkPresentWithText(linkText);
         dialog.clickLinkWithText(linkText);
+    }
+
+    /**
+     * Click the button with the given id.
+     *
+     * @param buttonId
+     */
+    public void clickButton(String buttonId) {
+        assertButtonPresent(buttonId);
+        dialog.clickButton(buttonId);
     }
 
     /**
@@ -884,7 +921,5 @@ public class WebTester {
             }
         }
     }
-
-
 
 }

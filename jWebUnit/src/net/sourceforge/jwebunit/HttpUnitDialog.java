@@ -16,6 +16,7 @@ import com.meterware.httpunit.WebTable;
 import com.meterware.httpunit.WebClientListener;
 import com.meterware.httpunit.WebClient;
 import com.meterware.httpunit.WebWindow;
+import com.meterware.httpunit.Button;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -346,6 +347,16 @@ public class HttpUnitDialog {
     }
 
     /**
+     * Return the HttpUnit Button with a given id.
+     *
+     * @param buttonId
+     */
+    public Button getButton(String buttonId) {
+        return getForm().getButtonWithID(buttonId);
+    }
+
+
+    /**
      * Return true if given text is present anywhere in the current response.
      *
      * @param text string to check for.
@@ -585,6 +596,19 @@ public class HttpUnitDialog {
     }
 
     /**
+     * Click the indicated button (input type=button).
+     *
+     * @param buttonId
+     */
+    public void clickButton(String buttonId) {
+        try {
+            getButton(buttonId).click();
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+    }
+
+    /**
      * Return true if a radio group contains the indicated option.
      *
      * @param radioGroup name of the radio group.
@@ -756,4 +780,5 @@ public class HttpUnitDialog {
     public  WebResponse getFrame(String frameName) {
         return wc.getMainWindow().getFrameContents(frameName);
     }
+
 }

@@ -123,6 +123,14 @@ public class FormAssertionsTest extends JWebUnitTest {
         assertPassFail("assertOptionEquals", new String[]{"select1", "one"}, new String[]{"select1", "two"});
     }
 
+    public void testAssertButtonPresent() throws Throwable {
+        assertPassFail("assertButtonPresent", "b1", "nobutton");
+    }
+
+    public void testAssertButtonNotPresent() throws Throwable {
+        assertPassFail("assertButtonNotPresent", "nobutton", "b1");
+    }
+
     private void addTestPage() {
         defineWebPage("testPage", "This is a test page." +
                 "<table summary=\"testTable\">" +
@@ -131,6 +139,7 @@ public class FormAssertionsTest extends JWebUnitTest {
                 "<tr><td>table text row 3</td><td>row 3 col 1</td>" +
                 "<a href=\"someurl.html\">test link</a>" +
                 "<form id=\"form1\">" +
+                "<input type=\"button\" id=\"b1\"/>" +
                 "<select name=\"selectOption\"><option value=\"1\">One</option><option value=\"2\">Two</option><option value=\"3\">Three</option></select>" +
                 "Test Input : <input type=\"text\" name=\"testInputElement\" value=\"testValue\"/>" +
                 "<input type=\"submit\" name=\"submitButton\" value=\"buttonLabel\"/>" +
