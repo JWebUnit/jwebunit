@@ -211,7 +211,7 @@ public class WebFixture extends ActionFixture {
         return cell != null && !cell.text().equals("");
     }
 
-    protected void dumpResponse() {
+    public void dumpResponse() {
         System.err.println("***************begin page***********************");
         tester.dumpResponse(System.err);
         System.err.println("***************end page*************************");
