@@ -49,7 +49,7 @@ import java.util.Locale;
 /**
  * This is a delegate to test deployed web applications using JUnit. This class
  * provides a simple API for basic web application navigation and assertions
- * by wrappering HttpUnit.  It supports use of a property file for web
+ * by wrapping HttpUnit.  It supports use of a property file for web
  * resources (ala Struts), though a resource file for the app is not required.
  *
  *  @author Jim Weaver
