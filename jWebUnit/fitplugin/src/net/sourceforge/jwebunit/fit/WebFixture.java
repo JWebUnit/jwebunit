@@ -46,6 +46,14 @@ public class WebFixture extends ActionFixture {
         tester.setFormElement(this.cells.more.text(), this.cells.more.more.text());
     }
 
+    public void select() {
+        tester.checkCheckbox(this.cells.more.text());
+    }
+
+    public void deselect() {
+        tester.uncheckCheckbox(this.cells.more.text());
+    }
+
     public void submit() {
         if(cells.more.more != null)
             tester.submit(cells.more.more.text());

@@ -22,6 +22,7 @@ public class WebFixtureTest extends TestCase {
         DirectoryRunner testRunner = new DirectoryRunner();
         testRunner.process(new String[] {"fitplugin\\test"});
         assertEquals("Failures detected.", 0, getCount("wrong"));
+        assertEquals("Exceptions detected.", 0, getCount("exceptions"));
     }
 
     private int getCount(String type) {

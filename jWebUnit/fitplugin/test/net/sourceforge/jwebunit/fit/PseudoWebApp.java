@@ -1,6 +1,10 @@
 package net.sourceforge.jwebunit.fit;
 
 import com.meterware.pseudoserver.PseudoServer;
+import com.meterware.pseudoserver.PseudoServlet;
+import com.meterware.pseudoserver.WebResource;
+
+import java.io.IOException;
 
 public class PseudoWebApp {
 
@@ -76,6 +80,35 @@ public class PseudoWebApp {
                 "<input type=\"submit\"/>" +
                 "</form>" +
                 "</body></html>");
+        server.setResource("/personalInfoForm",
+                "<html><head><title>Personal Info Questionnaire</title></head><body>" +
+                "<form method=POST action=\"/personalInfoPost\" >" +
+                "Stuff about you:" +
+                "<input type=\"text\" name=\"fullName\"/>" +
+                "<input type=\"checkbox\" name=\"citizenCheckbox\"/>" +
+                "<input type=\"submit\"/>" +
+                "</form>" +
+                "</body></html>");
+
+         server.setResource("personalInfoPost", new PseudoServlet() {
+            public WebResource getPostResponse() {
+                String fullName = getParameter("fullName")[0];
+                String citizenship = "not a citizen";
+                if (getParameter("citizenCheckbox") != null &&
+                    getParameter("citizenCheckbox")[0].equals("on")) {
+                    citizenship = "a citizen";
+                }
+                WebResource result = new WebResource("<html><head><title>Personal Info Results</title></head>" +
+                                                     "<body>Name given is " + fullName + "<br>" +
+                                                     "You indicated that you are " + citizenship + "." +
+                                                     "</body></html>");
+                return result;
+            }
+            public WebResource getGetResponse() throws IOException {
+                return getPostResponse();
+            }
+         });
+
         server.setResource("/tables",
                 "<html><head><title>Table Page</title></head><body>" +
                 "<table summary=\"t1\">" +
