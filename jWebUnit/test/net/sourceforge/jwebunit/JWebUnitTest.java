@@ -21,22 +21,21 @@ public class JWebUnitTest extends WebTestCase {
 
     protected static final Object[] NOARGS = new Object[0];
     protected String hostPath;
-    protected PseudoServer server;
+    protected static PseudoServer server = new PseudoServer();
 
-    public JWebUnitTest(String s) {
+    public JWebUnitTest(String s) throws Exception {
         super(s);
-    }
+        hostPath = "http://localhost:" + server.getConnectedPort();
+     }
 
     public void setUp() throws Exception {
-        super.setUp();
-        server = new PseudoServer();
-        hostPath = "http://localhost:" + server.getConnectedPort();
-        getTestContext().setBaseUrl(hostPath);
+       super.setUp();
+       getTestContext().setBaseUrl(hostPath);
     }
 
-    public void tearDown() throws Exception {
-        if (server != null) server.shutDown();
-    }
+//    public void tearDown() throws Exception {
+//        if (server != null) server.shutDown();
+//    }
 
     protected void defineResource(String resourceName, String value) {
         server.setResource(resourceName, value);

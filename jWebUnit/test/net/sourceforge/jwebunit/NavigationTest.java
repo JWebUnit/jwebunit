@@ -10,7 +10,7 @@ import net.sourceforge.jwebunit.JWebUnitTest;
  */
 public class NavigationTest extends JWebUnitTest {
 
-    public NavigationTest(String s) {
+    public NavigationTest(String s) throws Exception {
         super(s);
     }
 
@@ -35,7 +35,7 @@ public class NavigationTest extends JWebUnitTest {
     public void testInvalidBeginAt() {
         defineResource("/", "");
         try {
-            beginAt("/blah.html");
+            beginAt("/nosuchresource.html");
         } catch (Throwable t) {
             return;
         }

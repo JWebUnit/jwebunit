@@ -39,7 +39,6 @@ import java.util.Vector;
  **/
 public class PseudoServer {
 
-
     public PseudoServer() {
         Thread t = new Thread() {
             public void run() {
