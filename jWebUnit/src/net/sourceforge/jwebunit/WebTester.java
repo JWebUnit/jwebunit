@@ -114,6 +114,8 @@ public class WebTester {
         }
         return context.toEncodedString(message);
     }
+    
+    //Assertions
 
     /**
      * Assert title of current html page in conversation matches an expected value.
@@ -294,7 +296,7 @@ public class WebTester {
      *
      * @param tableSummary summary value of table
      * @param startRow index of start row for comparison
-     * @param expectedTable double dimensional array of expected values
+     * @param expectedTable represents expected values (colspan supported).
      */
     public void assertTableRowsEqual(String tableSummary, int startRow, ExpectedTable expectedTable) {
         assertTableRowsEqual(tableSummary, startRow, expectedTable.getExpectedStrings());
@@ -408,6 +410,123 @@ public class WebTester {
         assertFormElementPresent(checkBoxName);
         Assert.assertNull(dialog.getFormParameterValue(checkBoxName));
     }
+    
+    /**
+     * Assert that a specific option is present in a radio group.
+     * 
+     * @param name radio group name.
+     * @param radioOption option to test for.
+     */
+    public void assertRadioOptionPresent(String name, String radioOption) {
+        if (!dialog.hasRadioOption(name, radioOption))
+            Assert.fail("Unable to find option " + radioOption + " in radio group " + name);
+    }
+
+    /**
+     * Assert that a specific option is not present in a radio group.
+     * 
+     * @param name radio group name.
+     * @param radioOption option to test for.
+     */
+    public void assertRadioOptionNotPresent(String name, String radioOption) {
+        if (dialog.hasRadioOption(name, radioOption))
+            Assert.fail("Found option " + radioOption + " in radio group " + name);
+    }
+
+    /**
+     * Assert that a specific option is selected in a radio group.
+     * 
+     * @param name radio group name.
+     * @param radioOption option to test for selection.
+     */
+    public void assertRadioOptionSelected(String name, String radioOption) {
+        assertFormElementEquals(name, radioOption);
+     }
+
+    /**
+     * Assert that a specific option is not selected in a radio group.
+     * 
+     * @param name radio group name.
+     * @param radioOption option to test for selection.
+     */
+    public void assertRadioOptionNotSelected(String name, String radioOption) {
+        Assert.assertTrue("Radio option " + radioOption + " is not selected",
+                !radioOption.equals(dialog.getFormParameterValue(name)));
+    }
+
+    /**
+     * Assert that the display values of a select element's options match a given array of strings.
+     * 
+     * @param selectName name of the select element.
+     * @param expectedOptions expected display values for the select box.
+     */
+    public void assertOptionsEqual(String selectName, String[] expectedOptions) {
+        assertFormElementPresent(selectName);
+        assertArraysEqual(expectedOptions, dialog.getOptionsFor(selectName));
+    }
+
+    /**
+     * Assert that the display values of a select element's options do not match a given array of strings.
+     * 
+     * @param selectName name of the select element.
+     * @param expectedOptions expected display values for the select box.
+     */
+    public void assertOptionsNotEqual(String selectName, String[] expectedOptions) {
+        assertFormElementPresent(selectName);
+        try {
+            assertOptionsEqual(selectName, expectedOptions);
+        } catch (AssertionFailedError e) {
+            return;
+        }
+        Assert.fail("Options not expected to be equal");
+   }
+
+    /**
+     * Assert that the values of a select element's options match a given array of strings.
+     * 
+     * @param selectName name of the select element.
+     * @param expectedOptions expected values for the select box.
+     */
+    public void assertOptionValuesEqual(String selectName, String[] expectedValues) {
+        assertFormElementPresent(selectName);
+        assertArraysEqual(expectedValues, dialog.getOptionValuesFor(selectName));
+
+    }
+
+    //Todo: Move to assert utility class
+    private void assertArraysEqual(String[] exptected, String[] returned) {
+        Assert.assertEquals("Arrays not same length", exptected.length, returned.length);
+        for (int i = 0; i < returned.length; i++) {
+            Assert.assertEquals("Elements " + i + "not equal", exptected[i], returned[i]);
+        }
+    }
+
+    /**
+     * Assert that the values of a select element's options do not match a given array of strings.
+     * 
+     * @param selectName name of the select element.
+     * @param expectedOptions expected values for the select box.
+     */
+    public void assertOptionValuesNotEqual(String selectName, String[] optionValues) {
+        assertFormElementPresent(selectName);
+        try {
+            assertOptionValuesEqual(selectName, optionValues);
+        } catch (AssertionFailedError e) {
+            return;
+        }
+        Assert.fail("Values not expected to be equal");
+    }
+
+    /**
+     * Assert that the currently selected display value of a select box matches a given value.
+     * 
+     * @param selectName name of the select element.
+     * @param option expected display value of the selected option.
+     */
+    public void assertOptionEquals(String selectName, String option) {
+        assertFormElementPresent(selectName);
+        Assert.assertEquals(option, dialog.getSelectedOption(selectName));
+    }
 
     /**
      * Assert that a submit button with a given name is present.
@@ -482,6 +601,39 @@ public class WebTester {
         Assert.assertTrue("Link with text [" + linkText + "] found in response.", !dialog.isLinkInResponse(linkText));
     }
     
+    /**
+     * Assert that an element with a given id is present.
+     * 
+     * @param anID element id to test for.
+     */
+    public void assertElementPresent(String anID) {
+        Assert.assertNotNull("Unable to locate element with id \"" +anID+ "\"", dialog.getElement(anID));
+    }
+
+    /**
+     * Assert that an element with a given id is not present.
+     * 
+     * @param anID element id to test for.
+     */
+    public void assertElementNotPresent(String anID) {
+        Assert.assertNull("Located element with id \"" +anID+ "\"", dialog.getElement(anID));
+    }
+
+    //Form interaction methods
+
+    /**
+     * Begin interaction with a specified form.  If form interaction methods are called without
+     * explicitly calling this method first, jWebUnit will attempt to determine itself which form
+     * is being manipulated.
+     * 
+     * It is not necessary to call this method if their is only one form on the current page.
+     * 
+     * @param nameOrId name or id of the form to work with.
+     */
+    public void setWorkingForm(String nameOrId) {
+        dialog.setWorkingForm(nameOrId);
+    }
+
      /**
      * Set the value of a form input element.
      *
@@ -495,16 +647,39 @@ public class WebTester {
     }
 
     /**
-     * Remove a form input element (turn a checkbox off).
+     * Select a specified checkbox.
      *
-     * @param parameterName
+     * @param checkBoxName name of checkbox to be deselected.
      */
-    // Todo: rename to uncheckCheckbox
-    public void removeFormElement(String parameterName) {
+    public void checkCheckbox(String checkBoxName) {
         assertHasForm();
-        assertFormElementPresent(parameterName);
-        dialog.removeFormParameter(parameterName);
+        assertFormElementPresent(checkBoxName);
+        dialog.setFormParameter(checkBoxName, "on");
     }   
+
+    /**
+     * Deselect a specified checkbox.
+     *
+     * @param checkBoxName name of checkbox to be deselected.
+     */
+    public void uncheckCheckbox(String checkBoxName) {
+        assertHasForm();
+        assertFormElementPresent(checkBoxName);
+        dialog.removeFormParameter(checkBoxName);
+    }   
+
+    /**
+     * Select an option with a given display value in a select element.
+     * 
+     * @param selectName name of select element.
+     * @param option display value of option to be selected.
+     */
+    public void selectOption(String selectName, String option) {
+        assertFormElementPresent(selectName);
+        dialog.selectOption(selectName, option);
+    }
+    
+    //Form submission and link navigation methods
 
     /**
      * Submit form - default submit button will be used (unnamed submit button, or
@@ -517,6 +692,8 @@ public class WebTester {
 
     /**
      * Submit form by pressing named button.
+     * 
+     * @param buttonName name of button to submit form with.
      */
     public void submit(String buttonName) {
         assertSubmitButtonPresent(buttonName);
@@ -531,6 +708,17 @@ public class WebTester {
     public void clickLink(String linkText) {
         dialog.clickLink(linkText);
     }
+
+    /**
+     * Navigate by selection of a specified link
+     * 
+     * @param anId id of link
+     */
+    public void clickLinkByID(String anID) {
+        dialog.clickLinkByID(anID);
+    }
+
+    //Debug methods
 
     /**
      * Dump html of current response to a specified stream - for debugging purposes.
@@ -582,102 +770,6 @@ public class WebTester {
                 stream.print("[" + cell[j] + "]");
             }
         }
-    }
-
-    public void assertRadioOptionPresent(String radioGroup, String radioOption) {
-        if (!dialog.hasRadioOption(radioGroup, radioOption))
-            Assert.fail("Unable to find option " + radioOption + " in radio group " + radioGroup);
-    }
-
-    public void assertRadioOptionNotPresent(String radioGroup, String radioOption) {
-        if (dialog.hasRadioOption(radioGroup, radioOption))
-            Assert.fail("Found option " + radioOption + " in radio group " + radioGroup);
-    }
-
-    public void assertRadioOptionSelected(String radioGroup, String radioOption) {
-        assertFormElementEquals(radioGroup, radioOption);
-        //Assert.assertEquals("Radio option " + radioOption + " is not selected", radioOption, dialog.getFormParameterValue(radioGroup));
-    }
-
-    public void assertRadioOptionNotSelected(String radioGroup, String radioOption) {
-        Assert.assertTrue("Radio option " + radioOption + " is not selected",
-                !radioOption.equals(dialog.getFormParameterValue(radioGroup)));
-    }
-
-    public void setWorkingForm(String nameOrId) {
-        dialog.setWorkingForm(nameOrId);
-    }
-
-    public void clickLinkByID(String anID) {
-        dialog.clickLinkByID(anID);
-    }
-
-    public String[] getOptionsFor(String selectName) {
-        assertFormElementPresent(selectName);
-        return dialog.getOptionsFor(selectName);
-    }
-
-    public void assertOptionsEqual(String selectName, String[] expectedOptions) {
-        assertFormElementPresent(selectName);
-        assertArraysEqual(expectedOptions, getOptionsFor(selectName));
-    }
-
-
-    public void assertOptionsNotEqual(String selectName, String[] expectedOptions) {
-        assertFormElementPresent(selectName);
-        try {
-            assertOptionsEqual(selectName, expectedOptions);
-        } catch (AssertionFailedError e) {
-            return;
-        }
-        Assert.fail("Options not expected to be equal");
-
-    }
-
-    public void assertOptionValuesEqual(String selectName, String[] expectedValues) {
-        assertFormElementPresent(selectName);
-        assertArraysEqual(expectedValues, getOptionValuesFor(selectName));
-
-    }
-
-    private String[] getOptionValuesFor(String selectName) {
-        return dialog.getOptionValuesFor(selectName);
-    }
-
-    //Todo: Move to assert utility class
-    private void assertArraysEqual(String[] exptected, String[] returned) {
-        Assert.assertEquals("Arrays not same length", exptected.length, returned.length);
-        for (int i = 0; i < returned.length; i++) {
-            Assert.assertEquals("Elements " + i + "not equal", exptected[i], returned[i]);
-        }
-    }
-
-    public void assertOptionValuesNotEqual(String selectName, String[] optionValues) {
-        assertFormElementPresent(selectName);
-        try {
-            assertOptionValuesEqual(selectName, optionValues);
-        } catch (AssertionFailedError e) {
-            return;
-        }
-        Assert.fail("Values not expected to be equal");
-    }
-
-    public void assertOptionEquals(String selectName, String option) {
-        assertFormElementPresent(selectName);
-        Assert.assertEquals(option, dialog.getSelectedOption(selectName));
-    }
-
-    public void selectOption(String selectName, String option) {
-        assertFormElementPresent(selectName);
-        dialog.selectOption(selectName, option);
-    }
-
-    public void assertElementPresent(String anID) {
-        Assert.assertNotNull("Unable to locate element with id \"" +anID+ "\"", dialog.getElement(anID));
-    }
-
-    public void assertElementNotPresent(String anID) {
-        Assert.assertNull("Located element with id \"" +anID+ "\"", dialog.getElement(anID));
     }
 
 }

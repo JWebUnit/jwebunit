@@ -44,7 +44,8 @@ import java.io.PrintStream;
 
 /**
  * Superclass for Junit TestCases to test deployed web applications.
- * This class uses {@link net.sourceforge.jwebunit.WebTester} as a mixin.
+ * This class uses {@link net.sourceforge.jwebunit.WebTester} as a mixin -
+ * See that class for method documentation.
  *
  *  @author Jim Weaver
  *  @author Wilkes Joiner
@@ -72,6 +73,8 @@ public class WebTestCase extends TestCase {
     public String getMessage(String key) {
         return tester.getMessage(key);
     }
+    
+// Assertions
 
     public void assertTitleEquals(String title) {
         tester.assertTitleEquals(title);
@@ -193,6 +196,26 @@ public class WebTestCase extends TestCase {
         tester.assertRadioOptionNotSelected(radioGroup, radioOption);
     }
 
+    public void assertOptionsEqual(String selectName, String[] options){
+        tester.assertOptionsEqual(selectName, options);
+    }
+
+    public void assertOptionsNotEqual(String selectName, String[] options){
+        tester.assertOptionsNotEqual(selectName, options);
+    }
+
+    public void assertOptionValuesEqual(String selectName, String[] options){
+        tester.assertOptionValuesEqual(selectName, options);
+    }
+
+    public void assertOptionValuesNotEqual(String selectName, String[] options){
+        tester.assertOptionValuesNotEqual(selectName, options);
+    }
+
+    public void assertSelectedOptionEquals(String selectName, String option) {
+        tester.assertOptionEquals(selectName, option);
+    }
+
     public void assertSubmitButtonPresent(String buttonName) {
         tester.assertSubmitButtonPresent(buttonName);
     }
@@ -221,6 +244,38 @@ public class WebTestCase extends TestCase {
         tester.assertLinkNotPresent(linkId);
     }
 
+    public void assertElementPresent(String anID) {
+        tester.assertElementPresent(anID);
+    }
+
+    public void assertElementNotPresent(String anID) {
+        tester.assertElementNotPresent(anID);
+    }
+
+// Form interaction methods
+
+    public void setWorkingForm(String nameOrId) {
+        tester.setWorkingForm(nameOrId);
+    }
+    
+    protected void setFormElement(String parameterName, String value) {
+        tester.setFormElement(parameterName, value);
+    }
+
+    protected void checkCheckbox(String checkBoxName) {
+        tester.checkCheckbox(checkBoxName);
+    }  
+
+    protected void uncheckCheckbox(String checkBoxName) {
+        tester.uncheckCheckbox(checkBoxName);
+    }    
+
+    public void selectOption(String selectName, String option) {
+        tester.selectOption(selectName, option);
+    }
+    
+// Form submission and link navigation methods
+
     protected void submit() {
         tester.submit();
     }
@@ -236,6 +291,8 @@ public class WebTestCase extends TestCase {
     protected void clickLinkByID(String anID) {
         tester.clickLinkByID(anID);
     }
+    
+// Debug methods
 
     protected void dumpResponse(PrintStream stream) {
         tester.dumpResponse(stream);
@@ -247,55 +304,6 @@ public class WebTestCase extends TestCase {
 
     protected void dumpTable(String tableName, String[][] table) {
         tester.dumpTable(tableName, table);
-    }
-
-    protected void setFormElement(String parameterName, String value) {
-        tester.setFormElement(parameterName, value);
-    }
-
-    protected void removeFormElement(String parameterName) {
-        tester.removeFormElement(parameterName);
-    }
-
-    public void setWorkingForm(String nameOrId) {
-        tester.setWorkingForm(nameOrId);
-    }
-
-
-    public String[] getOptionsFor(String selectName) {
-        return tester.getOptionsFor(selectName);
-    }
-
-    public void assertOptionsEqual(String selectName, String[] options){
-        tester.assertOptionsEqual(selectName, options);
-    }
-
-    public void assertOptionsNotEqual(String selectName, String[] options){
-        tester.assertOptionsNotEqual(selectName, options);
-    }
-
-    public void assertOptionValuesEqual(String selectName, String[] options){
-        tester.assertOptionValuesEqual(selectName, options);
-    }
-
-    public void assertOptionValuesNotEqual(String selectName, String[] options){
-        tester.assertOptionValuesNotEqual(selectName, options);
-    }
-
-    public void assertSelectedOptionEquals(String selectName, String option) {
-        tester.assertOptionEquals(selectName, option);
-    }
-
-    public void selectOption(String selectName, String option) {
-        tester.selectOption(selectName, option);
-    }
-
-    public void assertElementPresent(String anID) {
-        tester.assertElementPresent(anID);
-    }
-
-    public void assertElementNotPresent(String anID) {
-        tester.assertElementNotPresent(anID);
     }
 
 }

@@ -39,6 +39,25 @@ public class FormSubmissionTest extends JWebUnitTest {
         submit();
         assertTextPresent("Parms are: color=red");
     }
+    
+    public void testCheckBoxSelection() {
+        addSingleNamedButtonForm();
+        beginAt("/QueryForm.html");
+        checkCheckbox("checkBox");
+        setFormElement("color", "blue");
+        submit();
+        assertTextPresent("Parms are: color=blue&checkBox=on");
+    }
+    
+    public void testCheckBoxDeselection() {
+        addSingleNamedButtonForm();
+        beginAt("/QueryForm.html");
+        checkCheckbox("checkBox");
+        setFormElement("color", "blue");
+        uncheckCheckbox("checkBox");
+        submit();
+        assertTextPresent("Parms are: color=blue");
+    }
 
     public void testSingleFormSingleUnnamedButtonSubmission() {
         addSingleUnnamedButtonForm();
@@ -142,6 +161,7 @@ public class FormSubmissionTest extends JWebUnitTest {
     private void addServletResource() {
         addTargetResource("TargetPage", "color=blue");
         addTargetResource("TargetPage", "color=red");
+        addTargetResource("TargetPage", "color=blue&checkBox=on");
         addTargetResource("TargetPage", "color=blue&size=big");
         addTargetResource("TargetPage", "color=blue&size=small");
         addTargetResource("TargetPage", "param2=anyvalue");
@@ -180,7 +200,9 @@ public class FormSubmissionTest extends JWebUnitTest {
         defineResource("QueryForm.html",
                        "<html><head></head>" +
                        "<form method=GET action=\"TargetPage\">" +
-                       "<input type=\"text\" name=\"color\"><input type=\"submit\" name=\"button\"></form></body></html>");
+                       "<input type=\"text\" name=\"color\"><input type=\"submit\" name=\"button\">" + 
+                       "<input type=\"checkbox\" name=\"checkBox\" value=\"on\">" + 
+                       "</form></body></html>");
     }
 
     private void addMultiNamedButtonForm() {
