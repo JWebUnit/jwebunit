@@ -54,12 +54,16 @@
     </target>
 
     <target name="make-zip" depends="gen-javadoc">
-        <jar destfile="dist/jwebunit.jar" basedir="src-classes"/>
+        <jar destfile="dist/jwebunit.jar">
+            <fileset dir="src-classes"/>
+            <fileset dir="licenses"/>
+        </jar>
         <zip destfile="dist/jWebUnit.zip">
             <zipfileset dir="sample" prefix="${build.name}/sample"/>
             <zipfileset dir="src" prefix="${build.name}/src"/>
             <zipfileset dir="test" prefix="${build.name}/test"/>
             <zipfileset dir="docgen" prefix="${build.name}/doc"/>
+            <zipfileset dir="licenses" prefix="${build.name}/licenses"/>
             <zipfileset dir="lib" excludes="fit.jar" prefix="${build.name}/lib"/>
             <zipfileset dir="dist" includes="jwebunit.jar" prefix="${build.name}"/>
             <zipfileset dir="." includes="build.xml" prefix="${build.name}"/>
