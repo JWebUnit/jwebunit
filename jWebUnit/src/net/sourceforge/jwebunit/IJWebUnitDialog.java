@@ -30,8 +30,6 @@ import java.io.PrintStream;
 
 import org.w3c.dom.Element;
 
-import com.meterware.httpunit.Button;
-import com.meterware.httpunit.SubmitButton;
 import com.meterware.httpunit.WebClient;
 import com.meterware.httpunit.WebResponse;
 import com.meterware.httpunit.WebTable;
@@ -170,24 +168,9 @@ public interface IJWebUnitDialog {
      */
     public abstract String getFormElementNameForLabel(String formElementLabel);
 
-    /**
-     * Return the HttpUnit SubmitButton with a given name.
-     * 
-     * @param buttonName
-     *            name of button.
-     */
-    public abstract SubmitButton getSubmitButton(String buttonName);
-
     public abstract String getSubmitButtonValue(String buttonName);
 
     public abstract boolean hasSubmitButton(String buttonName);
-
-    /**
-     * Return the HttpUnit Button with a given id.
-     * 
-     * @param buttonId
-     */
-    public abstract Button getButton(String buttonId);
 
     public abstract boolean hasButton(String buttonId);
 
@@ -312,6 +295,36 @@ public interface IJWebUnitDialog {
      */
     public abstract boolean isLinkPresent(String anId);
 
+    /**
+     * Determines if the checkbox is selected.
+     * @param checkBoxName
+     */    
+    public abstract boolean isCheckboxSelected(String checkBoxName);
+    
+    /**
+     * Determines if the checkbox is not selected.
+     * @param checkBoxName
+     */
+    public abstract boolean isCheckboxNotSelected(String checkBoxName);
+    
+    /**
+     * Select a specified checkbox.  If the checkbox is already checked then the checkbox
+     * will stay checked.
+     * @param checkBoxName name of checkbox to be deselected.
+     */
+    public abstract void checkCheckbox(String checkBoxName);
+
+    public abstract void checkCheckbox(String checkBoxName, String value);
+
+    /**
+     * Deselect a specified checkbox.  If the checkbox is already unchecked then the checkbox
+     * will stay unchecked.
+     * @param checkBoxName name of checkbox to be deselected.
+     */
+    public abstract void uncheckCheckbox(String checkBoxName);
+
+    public abstract void uncheckCheckbox(String checkBoxName, String value);
+    
     /**
      * Navigate by submitting a request based on a link containing the specified text. A RuntimeException is thrown if
      * no such link can be found.

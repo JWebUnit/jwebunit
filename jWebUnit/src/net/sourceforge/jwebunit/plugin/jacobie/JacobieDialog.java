@@ -217,6 +217,31 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
         return bReturn;
     }
     
+    
+//    public SubmitButton getSubmitButton(String buttonName) {
+//        throw new UnsupportedOperationException("getSubmitButton");
+//    }
+
+    public String getSubmitButtonValue(String buttonName) {
+        throw new UnsupportedOperationException("getSubmitButtonValue");
+    }
+
+    public boolean hasSubmitButton(String buttonName) {
+        boolean bReturn = false;
+        
+        return bReturn;
+    }
+
+//    public Button getButton(String buttonId) {
+//        throw new UnsupportedOperationException("getButton");
+//    }
+
+    public boolean hasButton(String buttonId) {
+        throw new UnsupportedOperationException("hasButton");
+    }
+
+    
+    
        
 	/**
 	 * Submit the current form with the default submit button. See {@link #getForm}for an explanation of how the
@@ -277,7 +302,117 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
         }
         return bReturn;
     }
+
     
+    public boolean isCheckboxSelected(String checkBoxName) {
+        boolean bReturn = false;
+        Document theDocument = getIe().getDocument();        
+        DefaultHTMLElement theDefaultHTMLElement = theDocument.getElementById(checkBoxName);
+        if(theDefaultHTMLElement != null) {
+            if(theDefaultHTMLElement.isChecked()) {
+                bReturn = true;
+            }
+        }
+        return bReturn;
+    }
+
+    public boolean isCheckboxNotSelected(String checkBoxName) {
+        boolean bReturn = false;
+        Document theDocument = getIe().getDocument();        
+        DefaultHTMLElement theDefaultHTMLElement = theDocument.getElementById(checkBoxName);
+        if(theDefaultHTMLElement != null) {
+            if(!theDefaultHTMLElement.isChecked()) {
+                bReturn = true;
+            }
+        }
+        return bReturn;
+    }
+
+    /**
+     * Select a specified checkbox.  If the checkbox is already checked then the checkbox
+     * will stay checked.
+     * @param checkBoxName name of checkbox to be deselected.
+     */
+    public void checkCheckbox(String checkBoxName) {
+        Document theDocument = getIe().getDocument();        
+        DefaultHTMLElement theDefaultHTMLElement = theDocument.getElementById(checkBoxName);
+        if(theDefaultHTMLElement != null) {
+            if(!theDefaultHTMLElement.isChecked()) {
+                
+                if(isHtmlElementFocusBlurEnabled()) {
+                    theDefaultHTMLElement.focus();
+                }
+
+                //theDefaultHTMLElement.setChecked(true);
+                theDefaultHTMLElement.click();
+                
+                if(isHtmlElementFocusBlurEnabled()) {
+                    theDefaultHTMLElement.blur();
+                }
+
+            }
+        }
+    }
+
+    public void checkCheckbox(String checkBoxName, String value) {
+        Document theDocument = getIe().getDocument();        
+        DefaultHTMLElement theDefaultHTMLElement = theDocument.getElementById(checkBoxName);
+        if(theDefaultHTMLElement != null) {
+            if(!theDefaultHTMLElement.isChecked()) {
+                theDefaultHTMLElement.setChecked(true);
+                
+                //this may not be the best way to set the incoming value but for now this will work.
+                theDefaultHTMLElement.setValue(value);
+            }
+            else {
+                //this may not be the best way to set the incoming value but for now this will work.
+                theDefaultHTMLElement.setValue(value);                
+            }
+        }
+    }
+
+    /**
+     * Deselect a specified checkbox.  If the checkbox is already unchecked then the checkbox
+     * will stay unchecked.
+     *
+     * @param checkBoxName name of checkbox to be deselected.
+     */
+    public void uncheckCheckbox(String checkBoxName) {
+        Document theDocument = getIe().getDocument();        
+        DefaultHTMLElement theDefaultHTMLElement = theDocument.getElementById(checkBoxName);
+        if(theDefaultHTMLElement != null) {
+            if(theDefaultHTMLElement.isChecked()) {
+                //theDefaultHTMLElement.setChecked(false);
+                if(isHtmlElementFocusBlurEnabled()) {
+                    theDefaultHTMLElement.focus();
+                }
+
+                theDefaultHTMLElement.click();
+                
+                if(isHtmlElementFocusBlurEnabled()) {
+                    theDefaultHTMLElement.blur();
+                }
+
+            }
+        }
+    }
+
+    public void uncheckCheckbox(String checkBoxName, String value) {
+        Document theDocument = getIe().getDocument();        
+        DefaultHTMLElement theDefaultHTMLElement = theDocument.getElementById(checkBoxName);
+        if(theDefaultHTMLElement != null) {
+            if(theDefaultHTMLElement.isChecked()) {
+                theDefaultHTMLElement.setChecked(false);
+                
+                //this may not be the best way to set the incoming value but for now this will work.
+                theDefaultHTMLElement.setValue(value);
+            }
+            else {
+                //this may not be the best way to set the incoming value but for now this will work.
+                theDefaultHTMLElement.setValue(value);                
+            }
+        }
+    }
     
     public void clickLink(String anID) {
         try {

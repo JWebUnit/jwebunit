@@ -1,6 +1,8 @@
 package net.sourceforge.jwebunit.sample;
 
 import net.sourceforge.jwebunit.WebTestCase;
+import net.sourceforge.jwebunit.WebTester;
+import net.sourceforge.jwebunit.plugin.jacobie.JacobieDialog;
 
 /**
  * Google search test with jWebUnit.
@@ -16,13 +18,19 @@ public class JWebUnitSearchExample extends WebTestCase {
     public void setUp() {
         getTestContext().setBaseUrl("http://www.google.com");
     }
+    
+    public WebTester initializeWebTester() {
+        return new WebTester(new JacobieDialog());
+    }
 
     public void testSearch() {
         beginAt("/");
-        setFormElement("q", "httpunit");
+        setFormElement("q", "jwebunit");
         submit("btnG");
-        clickLinkWithText("HttpUnit");
-        assertTitleEquals("HttpUnit");
-        assertLinkPresentWithText("User's Manual");
+        clickLinkWithText("jWebUnit");
+        assertTitleEquals("jWebUnit - jWebUnit");
+
+        clickLinkWithText("Quick start");
+        assertTitleEquals("jWebUnit - Quick Start");
     }
 }

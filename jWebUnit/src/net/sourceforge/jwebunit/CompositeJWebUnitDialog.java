@@ -385,6 +385,41 @@ public abstract class CompositeJWebUnitDialog implements IJWebUnitDialog {
         throw new UnsupportedOperationException("isLinkPresent");
     }
 
+    public boolean isCheckboxSelected(String checkBoxName) {
+        throw new UnsupportedOperationException("isCheckboxSelected");
+    }
+
+    public boolean isCheckboxNotSelected(String checkBoxName) {
+        throw new UnsupportedOperationException("isCheckboxNotSelected");
+    }
+
+    /**
+     * Select a specified checkbox.  If the checkbox is already checked then the checkbox
+     * will stay checked.
+     * @param checkBoxName name of checkbox to be deselected.
+     */
+    public void checkCheckbox(String checkBoxName) {
+        throw new UnsupportedOperationException("checkCheckbox");
+    }
+
+    public void checkCheckbox(String checkBoxName, String value) {
+        throw new UnsupportedOperationException("checkCheckbox2Params");
+    }
+
+    /**
+     * Deselect a specified checkbox.  If the checkbox is already unchecked then the checkbox
+     * will stay unchecked.
+     *
+     * @param checkBoxName name of checkbox to be deselected.
+     */
+    public void uncheckCheckbox(String checkBoxName) {
+        throw new UnsupportedOperationException("uncheckCheckbox");
+    }
+
+    public void uncheckCheckbox(String checkBoxName, String value) {
+        throw new UnsupportedOperationException("uncheckCheckbox2Params");
+    }
+    
     /*
      * (non-Javadoc)
      * 

@@ -609,6 +609,23 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
 		}
 	}
 
+	
+    public boolean isCheckboxSelected(String checkBoxName) {
+        boolean bReturn = false;
+        if(getFormParameterValue(checkBoxName).equals("on")) {
+            bReturn = true;
+        }
+        return bReturn;
+    }
+
+    public boolean isCheckboxNotSelected(String checkBoxName) {
+        boolean bReturn = false;
+        if(getFormParameterValue(checkBoxName) == null) {
+            bReturn = true;
+        }
+        return bReturn;
+    }
+	
 	/**
 	 * Return true if a link is present in the current response containing the specified text (note that HttpUnit uses
 	 * contains rather than an exact match - if this is a problem consider using ids on the links to uniquely identify
@@ -653,6 +670,8 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
 			throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
 		}
 	}
+	
+	
 
 	/**
 	 * Return true if a link is present in the current response with the specified id.
@@ -668,6 +687,9 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
 		}
 	}
 
+	
+	
+	
 	/**
 	 * Navigate by submitting a request based on a link containing the specified text. A RuntimeException is thrown if
 	 * no such link can be found.
@@ -766,6 +788,33 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
 		}
 	}
 
+    /**
+     * Select a specified checkbox.  If the checkbox is already checked then the checkbox
+     * will stay checked.
+     * @param checkBoxName name of checkbox to be deselected.
+     */
+    public void checkCheckbox(String checkBoxName) {
+        setFormParameter(checkBoxName, "on");
+    }
+
+    public void checkCheckbox(String checkBoxName, String value) {
+        updateFormParameter(checkBoxName, value);
+    }
+
+    /**
+     * Deselect a specified checkbox.  If the checkbox is already unchecked then the checkbox
+     * will stay unchecked.
+     *
+     * @param checkBoxName name of checkbox to be deselected.
+     */
+    public void uncheckCheckbox(String checkBoxName) {
+        removeFormParameter(checkBoxName);
+    }
+
+    public void uncheckCheckbox(String checkBoxName, String value) {
+        removeFormParameterWithValue(checkBoxName, value);
+    }
+	
 	/**
 	 * Navigate by submitting a request based on a link with a given ID. A RuntimeException is thrown if no such link
 	 * can be found.

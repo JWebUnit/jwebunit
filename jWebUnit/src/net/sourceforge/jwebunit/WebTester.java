@@ -23,9 +23,9 @@ import org.w3c.dom.Element;
  *  @author Wilkes Joiner
  */
 public class WebTester {
-    private IJWebUnitDialog dialog;
+    private IJWebUnitDialog dialog = null;
     
-    private TestContext context = new TestContext();
+    private TestContext context = null;
     
     public WebTester() {
         super();
@@ -63,7 +63,23 @@ public class WebTester {
      * @return TestContext
      */
     public TestContext getTestContext() {
+        if(context == null) {
+            //defaulting to the original implementation.
+            context = new TestContext();
+        }
         return context;
+    }
+    
+    /**
+     * Allows setting an external test context class that might be extended from TestContext.
+     * Example: setTestContext(new CompanyATestContext());
+     * 
+     * CompanyATestContext extends TestContext.
+     * 
+     * @param aTestContext
+     */
+    public void setTestContext(TestContext aTestContext) {
+        context = aTestContext;
     }
 
     /**
@@ -427,7 +443,9 @@ public class WebTester {
      */
     public void assertCheckboxSelected(String checkBoxName) {
         assertFormElementPresent(checkBoxName);
-        Assert.assertEquals("on", getDialog().getFormParameterValue(checkBoxName));
+        if (!getDialog().isCheckboxSelected(checkBoxName)) {
+            Assert.fail("Checkbox with name [" + checkBoxName + "] was not found selected.");
+        }
     }
 
     /**
@@ -437,7 +455,9 @@ public class WebTester {
      */
     public void assertCheckboxNotSelected(String checkBoxName) {
         assertFormElementPresent(checkBoxName);
-        Assert.assertNull(getDialog().getFormParameterValue(checkBoxName));
+        if (!getDialog().isCheckboxNotSelected(checkBoxName)) {
+            Assert.fail("Checkbox with name [" + checkBoxName + "] was found selected.");
+        }
     }
 
     /**
@@ -448,8 +468,9 @@ public class WebTester {
      */
     public void assertRadioOptionPresent(String name, String radioOption) {
         assertFormElementPresent(name);
-        if (!getDialog().hasRadioOption(name, radioOption))
-            Assert.fail("Unable to find option " + radioOption + " in radio group " + name);
+        if (!getDialog().hasRadioOption(name, radioOption)) {
+            Assert.fail("Unable to find option [" + radioOption + "] in radio group [" + name + "]");
+        }
     }
 
     /**
@@ -461,7 +482,7 @@ public class WebTester {
     public void assertRadioOptionNotPresent(String name, String radioOption) {
         assertFormElementPresent(name);
         if (getDialog().hasRadioOption(name, radioOption))
-            Assert.fail("Found option " + radioOption + " in radio group " + name);
+            Assert.fail("Found option [" + radioOption + "] in radio group [" + name + "]");
     }
 
     /**
@@ -917,33 +938,34 @@ public class WebTester {
     }
 
     /**
-     * Select a specified checkbox.
-     *
+     * Select a specified checkbox.  If the checkbox is already checked then the checkbox
+     * will stay checked.
      * @param checkBoxName name of checkbox to be deselected.
      */
     public void checkCheckbox(String checkBoxName) {
         assertFormElementPresent(checkBoxName);
-        getDialog().setFormParameter(checkBoxName, "on");
+        getDialog().checkCheckbox(checkBoxName);
     }
 
     public void checkCheckbox(String checkBoxName, String value) {
         assertFormElementPresent(checkBoxName);
-        getDialog().updateFormParameter(checkBoxName, value);
+        getDialog().checkCheckbox(checkBoxName, value);
     }
 
     /**
-     * Deselect a specified checkbox.
+     * Deselect a specified checkbox.  If the checkbox is already unchecked then the checkbox
+     * will stay unchecked.
      *
      * @param checkBoxName name of checkbox to be deselected.
      */
     public void uncheckCheckbox(String checkBoxName) {
         assertFormElementPresent(checkBoxName);
-        getDialog().removeFormParameter(checkBoxName);
+        getDialog().uncheckCheckbox(checkBoxName);
     }
 
     public void uncheckCheckbox(String checkBoxName, String value) {
         assertFormElementPresent(checkBoxName);
-        getDialog().removeFormParameterWithValue(checkBoxName, value);
+        getDialog().uncheckCheckbox(checkBoxName, value);
     }
 
     /**
