@@ -557,7 +557,7 @@ public class WebTester {
     public void assertSubmitButtonValue(String buttonName, String expectedValue) {
         assertFormPresent();
         assertSubmitButtonPresent(buttonName);
-        Assert.assertEquals(expectedValue, dialog.getSubmitButton(buttonName).getValue());
+        Assert.assertEquals(expectedValue, dialog.getSubmitButton(buttonName).getValue().trim());
     }
 
     /**
