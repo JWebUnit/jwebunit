@@ -29,6 +29,16 @@ public class NavigationTest extends JWebUnitTest {
         }
     }
 
+    public void testForwardSlashConfusion() throws Exception {
+        defineWebPage("/app/blah", "here");
+        getTestContext().setBaseUrl(hostPath + "/app");
+        beginAt("/blah.html");
+        beginAt("blah.html");
+        getTestContext().setBaseUrl(hostPath + "/app/");
+        beginAt("/blah.html");
+        beginAt("blah.html");
+    }
+
     public void testInvalidBeginAt() {
         defineResource("/", "");
         try {

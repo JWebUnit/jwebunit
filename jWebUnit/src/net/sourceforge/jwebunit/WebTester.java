@@ -84,7 +84,13 @@ public class WebTester {
      * @param relativeURL
      */
     public void beginAt(String relativeURL) {
-        dialog = new HttpUnitDialog(getTestContext().getBaseUrl() + relativeURL, context);
+        String url = createUrl(relativeURL);
+        dialog = new HttpUnitDialog(url, context);
+    }
+
+    private String createUrl(String suffix) {
+        suffix = suffix.startsWith("/") ? suffix.substring(1) : suffix;
+        return getTestContext().getBaseUrl() + suffix;
     }
 
     /**
