@@ -44,13 +44,13 @@ public class NavigationTest extends JWebUnitTest {
 
     public void testClickLink() {
         gotoLinkTestPage();
-        clickLink("an active link");
+        clickLinkWithText("an active link");
         assertTitleEquals("targetPage");
     }
 
     public void testClickLinkByID() {
         gotoLinkTestPage();
-        clickLinkByID("activeID");
+        clickLink("activeID");
         assertTitleEquals("targetPage");
     }
 
@@ -64,7 +64,7 @@ public class NavigationTest extends JWebUnitTest {
     public void testInvalidClickLink() {
         gotoLinkTestPage();
         try {
-            clickLink("no such link");
+            clickLinkWithText("no such link");
         } catch (Throwable t) {
             return;
         }

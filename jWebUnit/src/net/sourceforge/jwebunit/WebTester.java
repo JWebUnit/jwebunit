@@ -710,21 +710,21 @@ public class WebTester {
     }
 
     /**
-     * Navigate by selection of a specified link.
+     * Navigate by selection of a link containing given text.
      *
      * @param linkText
      */
-    public void clickLink(String linkText) {
+    public void clickLinkWithText(String linkText) {
         dialog.clickLink(linkText);
     }
 
     /**
-     * Navigate by selection of a specified link
+     * Navigate by selection of a link with given id.
      *
-     * @param anId id of link
+     * @param linkId id of link
      */
-    public void clickLinkByID(String anID) {
-        dialog.clickLinkByID(anID);
+    public void clickLink(String linkId) {
+        dialog.clickLinkByID(linkId);
     }
 
     //Debug methods

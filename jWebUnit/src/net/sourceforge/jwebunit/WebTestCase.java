@@ -289,12 +289,12 @@ public class WebTestCase extends TestCase {
         tester.submit(buttonName);
     }
 
-    protected void clickLink(String linkText) {
-        tester.clickLink(linkText);
+    protected void clickLinkWithText(String linkText) {
+        tester.clickLinkWithText(linkText);
     }
 
-    protected void clickLinkByID(String anID) {
-        tester.clickLinkByID(anID);
+    protected void clickLink(String linkId) {
+        tester.clickLink(linkId);
     }
 
 // Debug methods
