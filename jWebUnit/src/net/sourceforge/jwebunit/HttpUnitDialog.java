@@ -383,4 +383,8 @@ public class HttpUnitDialog {
     public WebConversation getWebConversation() {
         return wc;
     }
+
+    public String[] getOptionsFor(String selectName) {
+        return getForm().getOptions(selectName);
+    }
 }

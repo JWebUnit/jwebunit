@@ -33,7 +33,7 @@ public class FormAssertionsTest extends JWebUnitTest {
 
     public void testAssertHasNamedForm() throws Throwable {
         assertPass("assertHasForm", new String[]{"form2"});
-        assertFail("assertHasForm", new String[]{"form4"});
+        assertFail("assertHasForm", new String[]{"noform"});
     }
 
     public void testAssertFormControlEquals() throws Throwable {
@@ -90,6 +90,12 @@ public class FormAssertionsTest extends JWebUnitTest {
                 new String[]{"cool", "dog"});
     }
 
+    public void testAssertOptionsEqual() throws Throwable {
+        assertPass("assertOptionsEqual", new String[][] {new String[] {"select1"},  new String[] {"one", "two", "three", "four"}});
+//        assertFail("assertOptionsEqual", new String[] {"one", "four", "three", "two"});
+//        assertFail("assertOptionsEqual", new String[] {"one", "two", "three", "four", "five"});
+    }
+
     private void addTestPage() {
         defineWebPage("testPage", "This is a test page." +
                 "<table summary=\"testTable\">" +
@@ -110,6 +116,14 @@ public class FormAssertionsTest extends JWebUnitTest {
                 "<input type=\"radio\" name=\"cool\" value=\"dog\" checked=\"checked\"/>" +
                 "<input type=\"radio\" name=\"cool\" value=\"cat\"/>" +
                 "<input type=\"radio\" name=\"cool\" value=\"chicken\"/>" +
+                "</form>" +
+                "<form id=\"form4\">" +
+                "<select name=\"select1\">"+
+                "<option value=\"1\">one</option>" +
+                "<option value=\"2\">two</option>" +
+                "<option value=\"3\">three</option>" +
+                "<option value=\"4\">four</option>" +
+                "</select>" +
                 "</form>" +
                 "</table>");
         defineWebPage("noFormPage", "");

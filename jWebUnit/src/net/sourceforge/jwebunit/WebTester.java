@@ -43,6 +43,7 @@ import com.meterware.httpunit.SubmitButton;
 import net.sourceforge.jwebunit.HttpUnitDialog;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
 
 import java.io.PrintStream;
 import java.util.ResourceBundle;
@@ -591,6 +592,31 @@ public class WebTester {
 
     public void clickLinkByID(String anID) {
         dialog.clickLinkByID(anID);
+    }
+
+    public String[] getOptionsFor(String selectName) {
+        assertFormControlPresent(selectName);
+        return dialog.getOptionsFor(selectName);
+    }
+
+    public void assertOptionsEqual(String selectName, String[] expectedOptions) {
+        assertFormControlPresent(selectName);
+        String[] returnedOptions = getOptionsFor(selectName);
+        Assert.assertEquals("Option list not same length", expectedOptions.length, returnedOptions.length);
+        for (int i = 0; i < returnedOptions.length; i++) {
+            Assert.assertEquals(expectedOptions[i], returnedOptions[i]);
+        }
+    }
+
+    public void assertOptionsNotEqual(String selectName, String[] expectedOptions) {
+        assertFormControlPresent(selectName);
+        try {
+            assertOptionsEqual(selectName, expectedOptions);
+        } catch (AssertionFailedError e) {
+            return;
+        }
+        Assert.fail("Options not expected to be equal");
+
     }
 
 }

@@ -258,5 +258,16 @@ public class WebTestCase extends TestCase {
     }
 
 
+    public String[] getOptionsFor(String selectName) {
+        return tester.getOptionsFor(selectName);
+    }
+
+    public void assertOptionsEqual(String selectName, String[] options){
+        tester.assertOptionsEqual(selectName, options);
+    }
+
+    public void assertOptionsNotEqual(String selectName, String[] options){
+        tester.assertOptionsNotEqual(selectName, options);
+    }
 
 }
