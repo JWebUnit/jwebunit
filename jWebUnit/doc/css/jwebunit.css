@@ -34,8 +34,17 @@ pre.smallCode {
     padding: 1px;
 }
 
+.fittable {
+    background-color: #CCCCCC;
+    color: black;
+    width: 100%;
+    padding: 5px;
+    border: solid black 1px;
+}
 
 .default {font-family: Helvetica, Arial, sans-serif; font-size: 10pt;}
 .blueText {font-family: Helvetica, Arial, sans-serif; font-size: 10pt; color: #3333ff;}
+
+
 
   
