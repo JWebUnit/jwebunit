@@ -84,9 +84,9 @@ set form element values, and submit the form.
 <tr><td colspan="4">net.sourceforge.jwebunit.fit.WebFixture</td></tr>
 <tr><td>base url</td><td colspan="3">http://myserver:8080/myapp</td></tr>
 <tr><td>begin   </td><td>info.html</td><td colspan="2"></td></tr>
-<tr><td>check</td><td> form </td><td colspan="2">expectedFormName</td></tr>
+<tr><td>check</td><td> form present </td><td colspan="2">expectedFormName</td></tr>
 <tr><td>check</td><td> element present </td><td colspan="2">field1</td></tr>
-<tr><td>check</td><td> element </td><td>field2</td><td>field2_defaultValue</td></tr>
+<tr><td>check</td><td> form element </td><td>field2</td><td>field2_defaultValue</td></tr>
 <tr><td>enter</td><td> field1 </td><td colspan="2">value1</td></tr>
 <tr><td>enter</td><td> fieldN </td><td colspan="2">valueN</td></tr>
 <tr><td>press</td><td>submit</td><td colspan="2"></td></tr>
@@ -95,38 +95,53 @@ set form element values, and submit the form.
 
 <p>You can also check for the presence of submit buttons on the form and submit with a specific button.</p>
 
-<pre>
-    public void testFormSubmission() {
-        beginAt("/info.html");
-        assertFormPresent("expectedFormName");
-        assertSubmitButtonPresent("Add");
-        assertSubmitButtonPresent("Modify");
-        setFormElement("field1", "value1");
-        submit("Modify");
-    }
-</pre>
+<div class="fittable">
+<table border="1">
+<tr><td colspan="3">net.sourceforge.jwebunit.fit.WebFixture</td></tr>
+<tr><td>base url</td><td colspan="2">http://myserver:8080/myapp</td></tr>
+<tr><td>begin   </td><td>info.html</td><td></td></tr>
+<tr><td>check</td><td> form present </td><td>expectedFormName</td></tr>
+<tr><td>check</td><td> submit button  present </td><td> Add </td></tr>
+<tr><td>check</td><td> submit button  present </td><td> Modify </td></tr>
+<tr><td>enter</td><td> field1 </td><td>value1</td></tr>
+<tr><td>press</td><td>submit</td><td>Modify</td></tr>
+</table>
+</div>
+
+<p>
 For pages with more than one form, jWebUnit will establish which form is being worked with implicitly
 from the form elements checked or set.  You can also set the form explicitly by form id or name:
-<pre>
-    public void testBottomFormSubmission() {
-        beginAt("/twoForm.html");
-        setWorkingForm("bottomForm");
-        submit();
-    }
-</pre>
+</p>
+<div class="fittable">
+<table border="1">
+<tr><td colspan="2">net.sourceforge.jwebunit.fit.WebFixture</td></tr>
+<tr><td>base url</td><td>http://myserver:8080/myapp</td></tr>
+<tr><td>begin   </td><td>towForm.html</td></tr>
+<tr><td> form </td><td>bottomForm</td></tr>
+</table>
+</div>
+
+<p>
 You can work with non-submit (type='button') buttons as well:
-<pre>
-    public void testPopupButton() {
-        beginAt("/info.html");
-        assertButtonPresent("popupButtonId"); //clickButton will assert this also.
-        clickButton("popupButtonId");
-        assertWindowPresent("popupWindow");
-    }
-</pre>
+</p>
+
+<div class="fittable">
+<table border="1">
+<tr><td colspan="2">net.sourceforge.jwebunit.fit.WebFixture</td></tr>
+<tr><td>base url</td><td>http://myserver:8080/myapp</td></tr>
+<tr><td>begin   </td><td>info.html</td></tr>
+<tr><td>check </td><td>button present</td><td>popupButtonId</td></tr>
+<tr><td>press </td><td>button</td><td>popupButtonId</td></tr>
+<tr><td>check</td><td>window present</td><td>popupWindow</td></tr>
+</table>
+</div>
+
+<p>
 In the above examples, we are working with submit buttons and form elements by their
 name.  For form elements, it is possible to work with them by label (string followed
 by colon before input element).  Before using this approach, consider that the display
 label may change, but the submission name of the element will probably remain static.
+</p>
 <pre>
     public void testFormSubmission() {
         beginAt("/form.html");
