@@ -43,7 +43,7 @@ the WebTester class.  The QuickStart covers the following topics:<p>
 <tr><td><a name="createTestCase">
 </table>
 <h2>Creating a TestCase</h2>
-jWebUnit uses two approaches for creating test cases: inheritence and delegation. The simplest is
+jWebUnit uses two approaches for creating test cases: inheritance and delegation. The simplest is
 to inherit from WebTestCase rather than junit.framework.TestCase.
 <pre>
 import net.sourceforge.jwebunit.WebTestCase;
@@ -54,8 +54,8 @@ public class ExampleWebTestCase extends WebTestCase {
     }
 }
 </pre>
-An alternative is to include an instance of the WebTester class in you TestCase and delegate navigation
-and assertions to it.  This is provided in case your need or prefer delegation.
+An alternative is to include an instance of the WebTester class in your TestCase and delegate navigation
+and assertions to it.  This is provided in case you need or prefer delegation.
 <pre>
 import junit.framework.TestCase;
 import net.sourceforge.jwebunit.WebTester;
@@ -69,12 +69,12 @@ public class ExampleWebTestCase extends TestCase {
     }
 }
 </pre>
-For the rest of the examples, we will use the inheritence approach.
+For the rest of the examples, we will use inheritance.
 <br>
 <br>
 <a name="navigating">
 <h2>Navigating Your Web Application</h2>
-Navigation is a two step process.  First, point your TestCase to your application, then access a particular resource. Let's say that your app is running on <tt>http://myserver:8080/myapp</tt>.  To minimize the number of the times we must set this, we set this either in the constructor or in the setUp() method of our TestCase.
+Navigation is a two step process.  First, point the TestCase to your application, then access a particular resource. Let's say that your app is running on <tt>http://myserver:8080/myapp</tt>.  To minimize the number of the times we must set this, we set this either in the constructor or in the setUp() method of the TestCase.
 <pre>
     public ExampleWebTestCase(String name) {
         super(name);
@@ -87,9 +87,9 @@ or
         getTestContext().setBaseURL("http://myserver:8080/myapp");
     }
 </pre>
-The TestContext encapsulates the configuration a TestCase.  More information is availible in the <a href="api/index.html">Javadocs</a>.<br>
+The TestContext encapsulates the configuration of a TestCase.  More information is availible in the <a href="api/index.html">Javadocs</a>.<br>
 <br>
-Now that your TestCase is pointed at your application, you can navigate to your particular resource.  For example, you have a html page, info.html, located under your application root, then you can access it in your test method with the following code:
+Now that the TestCase is pointed at your application, you can navigate to a particular resource.  For example, if you have a html page, info.html, located under your application root, then you can access it in a test method with the following code:
 <pre>
     public void testInfoPage() {
         beginAt("/info.html");
