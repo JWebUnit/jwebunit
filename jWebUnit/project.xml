@@ -131,6 +131,17 @@
             <url>http://www.dashorst.dds.nl</url>
             <timezone>+1</timezone>
         </developer>
+        <developer>
+            <name>Nicholas Neuberger</name>
+			<id>nneuberger</id>
+            <email>nneuberger at users.sourceforge.net</email>
+            <organization>Sunshine Solar</organization>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <url></url>
+            <timezone>-6</timezone>
+        </developer>
 <!--
         <developer>
             <name></name>
