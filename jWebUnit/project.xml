@@ -13,8 +13,8 @@
 -->
     <organization>
         <name>SourceForge</name>
-        <url>http://www.sourceforge.net</url>
-        <logo>http://sourceforge.net/sflogo.php?group_id=61302&amp;type=5</logo>
+        <url>http://sourceforge.net</url>
+        <logo>http://sourceforge.net/sflogo.php?group_id=${maven.sourceforge.project.groupId}&amp;type=5</logo>
     </organization>
 
     <inceptionYear>2002</inceptionYear>
@@ -30,12 +30,10 @@
     </description>
     <shortDescription>An acceptance test framework for web applications.</shortDescription>
     <url>http://jwebunit.sourceforge.net</url>
-    <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=61302</issueTrackingUrl>
+    <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=${maven.sourceforge.project.groupId}</issueTrackingUrl>
 
-	<siteAddress>linuxbox</siteAddress>
-	<siteDirectory>/var/www/html/jwebunit</siteDirectory>
-	<distributionSite>linuxbox</distributionSite>
-	<distributionDirectory>/var/www/html/jwebunit/builds</distributionDirectory>
+	<siteAddress>shell.sourceforge.net</siteAddress>
+	<siteDirectory>/home/groups/j/jw/jwebunit/htdocs/</siteDirectory>
 
     <repository>
         <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/jwebunit:jWebUnit</connection>
@@ -54,16 +52,16 @@
     <branches/>
     <mailingLists>
         <mailingList>
-            <name>jWebUnit-development</name>
-            <subscribe>http://lists.sourceforge.net/mailman/listinfo/jwebunit-development</subscribe>
-            <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/jwebunit-development</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=40787</archive>
+            <name>${pom.name} Development Mailing list</name>
+            <subscribe>http://lists.sourceforge.net/mailman/listinfo/${pom.groupId}-development</subscribe>
+            <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/${pom.groupId}-development</unsubscribe>
+            <archive>http://sourceforge.net/mailarchive/forum.php?forum=${pom.groupId}-development</archive>
         </mailingList>
         <mailingList>
-            <name>jWebUnit-users</name>
-            <subscribe>http://lists.sourceforge.net/mailman/listinfo/jwebunit-users</subscribe>
-            <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/jwebunit-users</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=40828</archive>
+            <name>${pom.name} User Mailing list</name>
+            <subscribe>http://lists.sourceforge.net/mailman/listinfo/${pom.groupId}-users</subscribe>
+            <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/${pom.groupId}-users</unsubscribe>
+            <archive>http://sourceforge.net/mailarchive/forum.php?forum=${pom.groupId}-users</archive>
         </mailingList>
     </mailingLists>
     <developers>
