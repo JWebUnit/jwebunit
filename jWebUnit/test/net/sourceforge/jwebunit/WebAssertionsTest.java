@@ -91,6 +91,7 @@ public class WebAssertionsTest extends JWebUnitTest {
         assertTextInElement("outer_id", "Outer");
         assertTextInElement("outer_id", "Text");
         assertTextInElement("outer_id", "Inner Text");
+        assertTextInElement("outer2", "$100,000/$300,000");
     }
 
 
@@ -111,7 +112,13 @@ public class WebAssertionsTest extends JWebUnitTest {
                                   "<span id=\"span_id\">Span Text</span>" +
                                   "<span id=\"outer_id\">Outer <span id=\"inner_id\">Inner Text</span> Text</span>" +
                                   "<form name=\"form2\"></form>" +
-                                  "</table>");
+                                  "<form name=\"form3\">" +
+                                  "<table><tr><td>" +
+                                  "<span id=\"outer2\" >" +
+                                  "<input type=\"hidden\" name=\"hidden\" value=\"h\" />$100,000/$300,000</span>" +
+                                  "</td></tr></table>" +
+                                  "</table>" +
+                                  "</form>");
         defineWebPage("noFormPage", "");
     }
 

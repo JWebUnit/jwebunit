@@ -58,14 +58,21 @@ public class HttpUnitDialog {
 			public void requestSent(WebClient webClient, WebRequest webRequest) {
 			}
 
-			public void responseReceived(WebClient webClient, WebResponse webResponse) {
+            public void responseReceived(WebClient webClient, WebResponse webResponse) {
 				resp = webClient.getCurrentPage();
-				form = null;
-				multiselectMap.clear();
-			}
-		});
+                form = null;
+                multiselectMap.clear();
+            }
+        });
+    }
+	/**
+	 * Return the window with the given name in the current conversation.
+	 * 
+	 * @param windowName
+	 */
+	public WebWindow getWindow(String windowName) {
+		return wc.getOpenWindow(windowName);
 	}
-
 	/**
 	 * Return the HttpUnit WebClient object for this dialog.
 	 */
@@ -920,15 +927,6 @@ public class HttpUnitDialog {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Return the window with the given name in the current conversation.
-	 * 
-	 * @param windowName
-	 */
-	public WebWindow getWindow(String windowName) {
-		return wc.getOpenWindow(windowName);
 	}
 
 	/**

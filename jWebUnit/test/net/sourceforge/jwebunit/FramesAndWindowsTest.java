@@ -31,6 +31,15 @@ public class FramesAndWindowsTest extends JWebUnitTest {
                         "</form></body></html>");
         defineWebPage("BottomFrame", "<html><body>BottomFrame</body></html>");
         defineResource("TargetPage?color=red", "<html><body>This is the red page</html></body>");
+		defineResource("TargetPage?color=green", "<html><head><title>Frames2</title></head><frameset rows=\"33%, 33%, 33%\"><frame name=\"TopFrame\" src=\"TopFrame.html\"><frame name=\"ContentFrame\" src=\"ContentFrame.html\"><frame name=\"BottomFrame\" src=\"BottomFrame.html\"></frameset></html>");
+		defineResource("InlineFrame.html", 
+		"<html><head></head><body>TopFrame<br/><iframe name=\"ContentFrame\" src=\"ContentFrame.html\"/></body></html>");
+		defineWebPage("ContentFrame", "<html><body>ContentFrame" +
+						"<form name='frameForm' method ='GET' action='TargetPage'>" +
+						"  <input name='color' value='blue'>" +
+						"  <input type='submit'>" +
+						"</form></body></html>");
+
     }
 
     public void testOpenWindow() throws Throwable {
@@ -74,6 +83,17 @@ public class FramesAndWindowsTest extends JWebUnitTest {
         assertTextPresent("ContentFrame");
     }
 
+	/**
+	 * Broken in httpunit
+	 *
+	 */
+	public void xtestGotoInlineFrame() {
+		beginAt("InlineFrame.html");
+		assertTextPresent("TopFrame");
+		gotoFrame("ContentFrame");
+		assertTextPresent("ContentFrame");
+	}
+
     public void testFormInputInFrame() {
         beginAt("Frames.html");
         gotoFrame("ContentFrame");
@@ -81,5 +101,13 @@ public class FramesAndWindowsTest extends JWebUnitTest {
         submit();
         assertTextPresent("This is the red page");
     }
+
+	public void testFormInputInFrameToFrame() {
+		beginAt("Frames.html");
+		gotoFrame("ContentFrame");
+		setFormElement("color", "green");
+		submit();
+		assertTitleEquals("Frames2");
+	}
 
 }
