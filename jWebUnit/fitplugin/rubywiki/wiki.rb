@@ -18,6 +18,7 @@ pageClass = case Riki.param('mode')
                 when 'edit'   then Riki::EditPage
                 when 'save'   then Riki::SavePage
                 when 'search' then Riki::SearchPage
+                when 'run'    then Riki::RunPage
                 else               Riki::ViewPage
             end
 

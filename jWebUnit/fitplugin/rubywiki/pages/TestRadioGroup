@@ -1,0 +1,21 @@
+jWebFit Radio Group Manipulation Test
+
+Test manipulation of radio group boxes.
+
+[run]
+
+|net.sourceforge.jwebunit.fit.WebFixture||
+|baseUrl|http://localhost:8081|
+
+|net.sourceforge.jwebunit.fit.WebFixture||||
+|begin|personalInfoForm|||
+|check|radio option present|sex|male|
+|check|radio option present|sex|female|
+|check|radio option not present|sex|other|
+|enter|sex|female||
+|check|radio option selected|sex|female|
+|check|radio option not selected|sex|male|
+|enter|fullName|Jim||
+|press|submit||||
+|check|title equals|Personal Info Results||
+|check|text present|You are female||

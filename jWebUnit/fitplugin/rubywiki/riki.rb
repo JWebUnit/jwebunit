@@ -10,6 +10,7 @@
 # straight up port from Ward's perl quicki wiki to ruby
 # plus support for tables
 require 'cgi'
+require './rikiConfig'
 
 module Riki
     MARK = "\263"
@@ -21,12 +22,12 @@ module Riki
         cgi[key].empty? ? default : cgi[key][0].untaint
     end
 
-    def Riki.asAnchor(title)
-        if File.exists?("pages/#{title}")
-            %Q[<a href="wiki.rb?page=#{title}">#{title}<\/a>]
-        else
-            %Q[<a href="wiki.rb?page=#{title}&mode=edit">?<\/a>#{title}]
-        end
+    def Riki.pageAnchor(title)
+        %Q[<a href="wiki.rb?page=#{title}">#{title}<\/a>]
+    end
+
+    def Riki.hiddenField(name, value)
+        %Q[<input type="hidden" name="#{name}" value="#{value}"/>]
     end
 
     class RikiPage
@@ -79,9 +80,9 @@ module Riki
             super(page)
             @title = @page.gsub(/(.)([A-Z])/, '\1 \2')
             @action = %Q[<form method="GET" action="wiki.rb">
-                         <input type="hidden" name="page" value="#{page}"/>
-                         <input type="hidden" name="mode" value="edit"/>
-                         <input type="submit" value="Edit"></form>]
+                         #{Riki.hiddenField("page", page)}
+                         #{Riki.hiddenField("mode", "edit")}
+                         <input type="submit" value=" Edit "></form>]
             if File.exist?("pages/#{@page}")
                 @summary = %Q[-- Last edited #{File.mtime("pages/#{@page}").strftime("%B %d, %Y")}]
             end
@@ -89,7 +90,7 @@ module Riki
 
         def body
             if File.exist?("pages/#{@page}")
-                body = Riki::Parser.new.parse(IO.readlines("pages/#{@page}").join)
+                body = Riki::Parser.new(@page).parse(IO.readlines("pages/#{@page}").join)
             else
                 body = <<-BODY
                     "#{@page}" does not yet exist. <BR>
@@ -97,6 +98,35 @@ module Riki
                 BODY
             end
             return body
+        end
+    end
+
+    class RunPage < ViewPage
+        def run
+            parser = Riki::Parser.new(@page)
+            def parser.asAnchor(title)
+                if File.exists?("pages/#{title.untaint}")
+                    Riki.pageAnchor(title)
+                else
+                    title # strip page creation on run pages
+                end
+            end
+            input = parser.parse(readFile("pages/#{@page}"))
+            File.open(inputFile.untaint, "w") {|f| f.write(input) }
+            `java -cp #{RikiConfig::CPATH} net.sourceforge.jwebunit.fit.FileRunner #{inputFile.untaint} #{outputFile.untaint}`
+        end
+
+        def body
+            readFile(outputFile)
+        end
+
+        def inputFile
+            Dir.mkdir('input') unless File.exist?('input')
+            File.expand_path("input/#{page}.fit.in.html")
+        end
+        def outputFile
+            Dir.mkdir('output') unless File.exist?('output')
+            File.expand_path("output/#{page}.fit.out.html")
         end
     end
 
@@ -133,7 +163,7 @@ module Riki
         def body
             @body = <<-EOF
              <form action="wiki.rb">
-              <input type="hidden" name="mode" value="search"/>
+              #{Riki.hiddenField("mode", "search")}
               <input type="text" size="40" name="search" value="#{@target}">
               <input type="submit" value="Search">
              </form>
@@ -164,8 +194,8 @@ module Riki
             end
             return <<-BODY
                 <form method="post" action="wiki.rb">
-                <input type="hidden" name="page" value="#{page}"/>
-                <input type="hidden" name="mode" value="save"/>
+                #{Riki.hiddenField("page", page)}
+                #{Riki.hiddenField("mode", "save")}
                 <textarea name=Text rows=16 cols=80>#{text}</textarea>
                 <p><input type="submit" value=" Save ">
                 </form>
@@ -205,6 +235,9 @@ module Riki
     end
 
     class Parser
+        def initialize(page='')
+            @page = page
+        end
         def parse(lines)
             @codeArr = []
             body = ''
@@ -222,11 +255,13 @@ module Riki
                     urlNum+=1
                 end
 
-                while (s.sub!(/\b#{PROTOCOL}:[^\s\<\>\[\]"'\(\)]*[^\s\<\>\[\]"'\(\)\,\.\?]/,
-                       "#{MARK}#{urlNum}#{MARK}"))
+                while (@codeArr.last != 'table' &&
+                       s.sub!(/\b#{PROTOCOL}:[^\s\<\>\[\]"'\(\)]*[^\s\<\>\[\]"'\(\)\,\.\?]/,
+                              "#{MARK}#{urlNum}#{MARK}"))
                     urls[urlNum] = $&
                     urlNum+=1
                 end
+
 
                 # -v- emitcode block-tag section
                 code = nil
@@ -253,12 +288,13 @@ module Riki
                 s.gsub!(/'{3}(.*?)'{3}/, '<strong>\1</strong>')
                 s.gsub!(/'{2}(.*?)'{2}/, '<em>\1</em>')
 
-                s.gsub!(/\[Search\]/, '<form action="wiki.rb">' +
-                                      '<input type="hidden" name="mode" value="search"/>' +
-                                      '<input type="text" name="search" size="40"><input type="submit" value="Search">'+
-                                      '</form>')
+                s.gsub!(/\[Search\]/, %Q[<form action="wiki.rb">
+                                      #{Riki.hiddenField("mode", "search")}
+                                      <input type="text" name="search" size="40"><input type="submit" value="Search">
+                                      </form>])
                 s.gsub!(/\b#{LINK}\b/)         { asAnchor($&)              }
                 s.gsub!(/#{MARK}(\d+)#{MARK}/) { inPlaceUrl(urls[$1.to_i]) }
+                s.gsub!(/\[run\]/i, %Q[<a href="wiki.rb?page=#{@page}&mode=run">Run Fit Test</a>])  # to run fit
                 body += "#{s}\n"
             end
 
@@ -270,7 +306,7 @@ module Riki
         def emitCode(code, depth)
             tags = ''
             startTag =  if code =~ /table/
-                            "table border=\"1\" cellspacing=\"0\" cellpadding=\"3\""
+                            %Q[table border="1" cellspacing="2" cellpadding="2"]
                         else
                             code.dup
                         end
@@ -294,7 +330,9 @@ module Riki
             cells = s.sub!(/^\|/, '').scan(/([^|]*)\|/).flatten
             cellspans = []
             cells.each do |e|
-                if e.strip != ''
+                if e =~ /^\s+$/
+                    cellspans.push ['&nbsp;', 1]
+                elsif e.strip != ''
                     cellspans.push [e, 1]
                 else
                     cellspans.last[1] += 1 unless cellspans.empty?
@@ -304,7 +342,7 @@ module Riki
             cellspans.each do |cell|
                 content = cell[0]
                 span = cell[1]
-                td = (span > 1) ? "<td colspan=\"#{span}\">" : "<td>"
+                td = (span > 1) ? %Q[<td colspan="#{span}">] : %Q[<td>]
                 td += content + "</td>"
                 row += td
             end
@@ -312,7 +350,11 @@ module Riki
         end
 
         def asAnchor(title)
-            Riki.asAnchor(title)
+            if File.exists?("pages/#{title.untaint}")
+                Riki.pageAnchor(title)
+            else
+                %Q[<a href="wiki.rb?page=#{title}&mode=edit">?<\/a>#{title}]
+            end
         end
 
         def inPlaceUrl(origRef)
