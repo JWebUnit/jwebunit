@@ -1,0 +1,71 @@
+<project name="jWebUnit" default="dist">
+
+    <path id="src.classpath">
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="tests.classpath">
+        <path refid="src.classpath"/>
+        <pathelement location="src-classes"/>
+    </path>
+
+    <path id="junit.classpath">
+        <path refid="tests.classpath"/>
+        <pathelement location="test-classes"/>
+    </path>
+
+    <target name="dist" depends="run-junit, make-zip"/>
+
+    <target name="init">
+        <mkdir dir="javadoc"/>
+        <mkdir dir="dist"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <mkdir dir="src-classes"/>
+        <mkdir dir="test-classes"/>
+        <javac destdir="src-classes" srcdir="src" classpathref="src.classpath"/>
+        <javac destdir="test-classes" srcdir="test" classpathref="tests.classpath"/>
+    </target>
+
+    <target name="run-junit" depends="compile">
+        <junit printsummary="yes" fork="yes" haltonfailure="yes">
+            <formatter type="xml"/>
+            <classpath>
+                <path refid="junit.classpath"/>
+            </classpath>
+            <test name="com.thoughtworks.jwebunit.AllTests" />
+        </junit>
+    </target>
+
+    <target name="gen-javadoc">
+        <javadoc sourcepath="src"
+            packagenames="com.thoughtworks.jwebunit.*"
+            destdir="javadoc"
+            windowtitle="jWebUnit API">
+            <bottom><![CDATA[<i>Copyright &#169; 2002 ThoughtWorks, Inc. All Rights Reserved.</i>]]></bottom>
+        </javadoc>
+    </target>
+
+
+    <target name="make-zip" depends="gen-javadoc">
+        <jar destfile="dist/jwebunit.jar" basedir="src-classes"/>
+        <zip destfile="dist/jWebUnit.zip">
+            <zipfileset dir="src" prefix="src"/>
+            <zipfileset dir="test" prefix="test"/>
+            <zipfileset dir="javadoc" prefix="javadoc"/>
+            <zipfileset dir="lib" prefix="lib"/>
+            <fileset dir="dist" includes="jwebunit.jar" />
+            <fileset dir="." includes="build.xml" />
+        </zip>
+    </target>
+
+    <target name="clean">
+        <delete dir="src-classes"/>
+        <delete dir="test-classes"/>
+        <delete dir="javadoc"/>
+    </target>
+
+</project>
