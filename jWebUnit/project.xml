@@ -111,8 +111,9 @@
             <timezone></timezone>
 -->
         </developer>
-        <contributor>
+        <developer>
             <name>Martijn Dashorst</name>
+			<id>dashorst</id>
             <email>dashorst at users.sourceforge.net</email>
             <organization>Topicus B.V.</organization>
             <roles>
@@ -120,7 +121,7 @@
             </roles>
             <url>http://www.dashorst.dds.nl</url>
             <timezone>+1</timezone>
-        </contributor>
+        </developer>
 <!--
         <developer>
             <name></name>
