@@ -84,7 +84,7 @@ module Riki
                          #{Riki.hiddenField("mode", "edit")}
                          <input type="submit" value=" Edit "></form>]
             if File.exist?("pages/#{@page}")
-                @summary = %Q[-- Last edited #{File.mtime("pages/#{@page}").strftime("%B %d, %Y")}]
+                @summary = %Q[Last edited #{File.mtime("pages/#{@page}").strftime("%B %d, %Y")}]
             end
         end
 
@@ -360,7 +360,9 @@ module Riki
         def inPlaceUrl(origRef)
             ref = origRef.dup
             ref.sub!(/^(javascript.{30}).*/, "#{$1} ...")
-            return "<img src=\"#{ref}\">" if (ref =~ /\.(gif|jpeg|jpg|png)$/i)
+            if (ref =~ /\.(gif|jpeg|jpg|png)$/i)
+                return "<img src=\"#{ref}\">"
+            end
             return "<a href=\"#{origRef}\">#{ref}<\/a>"
         end
 

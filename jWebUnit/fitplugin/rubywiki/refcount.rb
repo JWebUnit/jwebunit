@@ -1,4 +1,4 @@
-#! /usr/bin/ruby
+#!ruby
 # Copyright 1994-2000, Cunningham & Cunningham, Inc.
 # in collaboration with Dave W. Smith
 # Open Source for personal use only.
