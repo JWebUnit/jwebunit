@@ -7,13 +7,13 @@
 <body class="default">
 <section name="Building jWebUnit with Ant">
 	<p>
-		Ant is make for Unix. Most open source Java projects use Ant as their build tool. With ant
+		Ant is make for Java. Most open source Java projects use Ant as their build tool. With ant
 		you can compile, test, package your release with just a few lines of XML code in the <tt>build.xml</tt>
 		file.
 	</p>
 	<subsection name="Installing Ant">
 		<p>
-			You need to have <a href="ant.apache.org">Ant</a> installed. The latest version at the moment
+			You need to have <a href="http://ant.apache.org">Ant</a> installed. The latest version at the moment
 			of this writing is version 1.6.1.
 		</p>
 		<p>
@@ -36,7 +36,7 @@
 	<subsection name="Building a release">
 		<p>
 			The preferred method of building a release is using maven. However,
-			if you don't want to use maven, you can use <source>ant clean-dist</source>
+			if you don't want to use <a href="http://maven.apache.org">maven</a>, you can use <source>ant clean-dist</source>
 			for creating the distribution zip-file.
 		</p>
 	</subsection>

@@ -42,7 +42,7 @@
         </tr>
         <tr>
             <td><a href="http://www.mozilla.org/rhino/">Rhino</a></td>
-            <td>Java javascript implementation used by httpunit. Only needed if javascript in target application must be tested.</td>
+            <td>Javascript implementation in Java used by httpunit. Only needed if javascript in target application must be tested.</td>
         </tr>
         <tr>
             <td><a href="http://www.apache.org/~andyc/neko/doc/html/">nekohtml</a></td>
@@ -50,7 +50,7 @@
         </tr>
         <tr>
             <td><a href="http://www.junit.org">JUnit</a></td>
-            <td>Java testing framework.</td>
+            <td>Java unit testing framework.</td>
         </tr>
         <tr>
             <td><a href="http://xml.apache.org/xerces2-j/">Apache XML API</a></td>
