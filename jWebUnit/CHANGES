@@ -1,0 +1,45 @@
+CHANGES SINCE RC1:
+
+**Additional Functionality**
+
+Support for Radio Options
+Methods were added to support interaction with and testing of radio button
+groups.
+
+Select boxes
+Methods were added to support interaction with and testing of single-select
+elements.  Multi-select elements are not yet supported.
+
+
+**API Changes**
+
+FormControl renamed to FormElement
+Methods related to setting and testing of form input fields were renamed for
+consistency.  All such methods now refer to "FormElement".
+
+InResponse renamed to Present
+AssertXInResponse methods were renamed to AssertXPresent for consistency with
+other method names.
+
+Multiple Form support simplified
+The two submitForm methods (submitForm(formName) and
+submitForm(formName, buttonName)) where removed.  To explicitly indicate which
+form to work with on a multi-form page, use the new setWorkingForm method.  The
+two remaining submit methods (submit() and submit(buttonName)) are used to
+submit the form when ready.
+
+ClickLink signature change
+clickLink parameter is now the link id.  To navigate a link based on text
+contained in the link, use clickLinkWithText.
+
+
+**Miscellaneous**
+
+Access to HttpUnit Response, Request, WebConversation opened up.
+
+New HttpUnit (1.4.5) utilized, which provides JavaScript support.
+
+HttpUnitDialog class changed to act as a WebClientListener and update the
+response upon responseReceived call back.
+
+Updated to JUnit 3.8.1
