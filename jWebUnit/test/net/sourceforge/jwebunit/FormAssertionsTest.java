@@ -6,7 +6,8 @@
 package net.sourceforge.jwebunit;
 
 public class FormAssertionsTest extends JWebUnitTest {
-    public FormAssertionsTest(String s) {
+
+    public FormAssertionsTest(String s) throws Exception {
         super(s);
     }
 
@@ -26,14 +27,14 @@ public class FormAssertionsTest extends JWebUnitTest {
     }
 
     public void testAssertHasForm() throws Throwable {
-        assertPass("assertHasForm", NOARGS);
+        assertPass("assertFormPresent", NOARGS);
         beginAt("/noFormPage.html");
-        assertFail("assertHasForm", NOARGS);
+        assertFail("assertFormPresent", NOARGS);
     }
 
     public void testAssertHasNamedForm() throws Throwable {
-        assertPass("assertHasForm", new String[]{"form2"});
-        assertFail("assertHasForm", new String[]{"noform"});
+        assertPass("assertFormPresent", new String[]{"form2"});
+        assertFail("assertFormPresent", new String[]{"noform"});
     }
 
     public void testAssertFormParameterEquals() throws Throwable {

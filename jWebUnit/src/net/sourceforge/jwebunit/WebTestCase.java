@@ -161,11 +161,11 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertHasForm() {
-        tester.assertHasForm();
+        tester.assertFormPresent();
     }
 
     public void assertHasForm(String formName) {
-        tester.assertHasForm(formName);
+        tester.assertFormPresent(formName);
     }
 
     public void assertFormElementEquals(String formElementName, String expectedValue) {

@@ -338,7 +338,7 @@ public class WebTester {
      * @param formElementName
      */
     public void assertFormElementPresent(String formElementName) {
-        assertHasForm();
+        assertFormPresent();
         Assert.assertTrue("Did not find form element with name [" + formElementName + "].",
                 dialog.hasFormParameterNamed(formElementName));
     }
@@ -349,7 +349,7 @@ public class WebTester {
      * @param formElementName
      */
     public void assertFormElementNotPresent(String formElementName) {
-        assertHasForm();
+        assertFormPresent();
         try {
             Assert.assertTrue("Found form element with name [" + formElementName + "] when not expected.",
                     !dialog.hasFormParameterNamed(formElementName));
@@ -362,7 +362,7 @@ public class WebTester {
      * Assert that there is a form present.
      *
      */
-    public void assertHasForm() {
+    public void assertFormPresent() {
         Assert.assertTrue("No form present", dialog.hasForm());
     }
 
@@ -370,8 +370,8 @@ public class WebTester {
      * Assert that there is a form with the specified name or id present.
      * @param nameOrID
      */
-    public void assertHasForm(String nameOrID) {
-        Assert.assertTrue("No form present", dialog.hasForm(nameOrID));
+    public void assertFormPresent(String nameOrID) {
+        Assert.assertTrue("No form present with name or id [" + nameOrID + "]", dialog.hasForm(nameOrID));
     }
 
     /**
@@ -381,7 +381,7 @@ public class WebTester {
      * @param expectedValue
      */
     public void assertFormElementEquals(String formElementName, String expectedValue) {
-        assertHasForm();
+        assertFormPresent();
         Assert.assertEquals(expectedValue, dialog.getFormParameterValue(formElementName));
     }
 
@@ -391,7 +391,7 @@ public class WebTester {
      * @param formElementName
      */
     public void assertFormElementEmpty(String formElementName) {
-        assertHasForm();
+        assertFormPresent();
         Assert.assertEquals("", dialog.getFormParameterValue(formElementName));
     }
 
@@ -401,7 +401,7 @@ public class WebTester {
      * @param checkBoxName
      */
     public void assertCheckboxSelected(String checkBoxName) {
-        assertHasForm();
+        assertFormPresent();
         assertFormElementPresent(checkBoxName);
         Assert.assertEquals("on", dialog.getFormParameterValue(checkBoxName));
     }
@@ -412,7 +412,7 @@ public class WebTester {
      * @param checkBoxName
      */
     public void assertCheckboxNotSelected(String checkBoxName) {
-        assertHasForm();
+        assertFormPresent();
         assertFormElementPresent(checkBoxName);
         Assert.assertNull(dialog.getFormParameterValue(checkBoxName));
     }
@@ -540,7 +540,7 @@ public class WebTester {
      * @param buttonName
      */
     public void assertSubmitButtonPresent(String buttonName) {
-        assertHasForm();
+        assertFormPresent();
         Assert.assertNotNull("Button [" + buttonName + "] not found.", dialog.getSubmitButton(buttonName));
     }
 
@@ -550,7 +550,7 @@ public class WebTester {
      * @param buttonName
      */
     public void assertSubmitButtonNotPresent(String buttonName) {
-        assertHasForm();
+        assertFormPresent();
         SubmitButton button = null;
         try {
             button = dialog.getSubmitButton(buttonName);
@@ -566,7 +566,7 @@ public class WebTester {
      * @param expectedValue
      */
     public void assertSubmitButtonValue(String buttonName, String expectedValue) {
-        assertHasForm();
+        assertFormPresent();
         assertSubmitButtonPresent(buttonName);
         Assert.assertEquals(expectedValue, dialog.getSubmitButton(buttonName).getValue());
     }
@@ -653,7 +653,7 @@ public class WebTester {
      * @param value
      */
     public void setFormElement(String formElementName, String value) {
-        assertHasForm();
+        assertFormPresent();
         assertFormElementPresent(formElementName);
         dialog.setFormParameter(formElementName, value);
     }
@@ -664,7 +664,7 @@ public class WebTester {
      * @param checkBoxName name of checkbox to be deselected.
      */
     public void checkCheckbox(String checkBoxName) {
-        assertHasForm();
+        assertFormPresent();
         assertFormElementPresent(checkBoxName);
         dialog.setFormParameter(checkBoxName, "on");
     }
@@ -675,7 +675,7 @@ public class WebTester {
      * @param checkBoxName name of checkbox to be deselected.
      */
     public void uncheckCheckbox(String checkBoxName) {
-        assertHasForm();
+        assertFormPresent();
         assertFormElementPresent(checkBoxName);
         dialog.removeFormParameter(checkBoxName);
     }
@@ -698,7 +698,7 @@ public class WebTester {
      * named button if there is only one on the form.
      */
     public void submit() {
-        assertHasForm();
+        assertFormPresent();
         dialog.submit();
     }
 

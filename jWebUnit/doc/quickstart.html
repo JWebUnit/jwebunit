@@ -27,9 +27,22 @@
         </td>
         <td valign="top">
 <!-- Begin Main -->
-
+The QuickStart contains sample code and guidance to get you started with jWebUnit.  To see all
+of the methods available, consult the a <a href="api/index.html">Javadocs</a> - particularly
+the WebTester class.  The QuickStart covers the following topics:<p>
+<table class="default" id="topicsTable">
+<tr><td><a href="#createTestCase">Creating a TestCase</a></td></tr>
+<tr><td><a href="#navigating">Navigating Your Web Application</a></td></tr>
+<tr><td><a href="#forms">Working With Forms</a></td></tr>
+<tr><td><a href="#validation">Validating Page Content</a></td></tr>
+<tr><td><a href="#tableValidation">Validating Table Content</a></td></tr>
+<tr><td><a href="#elementValidation">Using Element IDs to Validate Content</a></td></tr>
+<tr><td><a href="#properties">Using Property Files to Validate Content</a></td></tr>
+<tr><td><a name="createTestCase">
+</table>
 <h2>Creating a TestCase</h2>
-jWebUnit uses two approaches for creating test cases, inheritence and delegation. The simplest way is to inherit from WebTestCase rather than junit.framework.TestCase.
+jWebUnit uses two approaches for creating test cases: inheritence and delegation. The simplest way is
+to inherit from WebTestCase rather than junit.framework.TestCase.
 <pre>
 import net.sourceforge.jwebunit.WebTestCase;
 
@@ -39,7 +52,8 @@ public class ExampleWebTestCase extends WebTestCase {
     }
 }
 </pre>
-The alternative is to include an instance of the WebTester class in you TestCase and delegate navigation and assertions to it.  This is provided in case your need or prefer delegation.
+The alternative is to include an instance of the WebTester class in you TestCase and delegate navigation
+and assertions to it.  This is provided in case your need or prefer delegation.
 <pre>
 import junit.framework.TestCase;
 import net.sourceforge.jwebunit.WebTester;
@@ -56,6 +70,7 @@ public class ExampleWebTestCase extends TestCase {
 For the rest of the examples, we will use the inheritence approach.
 <br>
 <br>
+<a name="navigating">
 <h2>Navigating Your Web Application</h2>
 Navigation is a two step process.  First, point your TestCase to your application, then access a particular resource. Let's say that your app is running on <tt>http://myserver:8080/myapp</tt>.  To minimize the number of the times we must set this, we set this either in the constructor or in the setUp() method of our TestCase.
 <pre>
@@ -78,41 +93,168 @@ Now that your TestCase is pointed at your application, you can navigate to your 
         beginAt("/info.html");
     }
 </pre>
+You can also navigate through links either by text contained in the link or by the link's
+id:<p>
+&lt;a id="addLink" href="/addPage"&gt;Add Widget&lt;/a&gt;<br>
+&lt;a id="editlink" href="/editPage"&gt;Edit Widget&lt;/a&gt;<br>
+<pre>
+    public void testMainPageLinks() {
+        beginAt("/mainPage");
+        assertLinkPresent("addLink");
+        clickLink("addLink");
+        assertTitleEquals("Widget Add Page");
+        beginAt("/mainPage");
+        assertLinkPresentWithText("Edit Widget");
+        clickLinkWithText("Edit Widget");
+        assertTitleEquals("Widget Edit Page");
+    }
+</pre>
 <br>
-<h2>Submiting a Form</h2>
-To submit a form, you will need to navigate to the form, fill out the input fields, then submit.
+<a name="forms">
+<h2>Working With Forms</h2>
+You can navigate to a page with a form, check for the presence and correct default values of form elements,
+set form element values, and submit the form.
 <pre>
     public void testFormSubmission() {
         beginAt("/info.html");
+        assertFormPresent("expectedFormName");
+        assertFormElementPresent("field1");
+        assertFormElementEquals("field2", "field2_defaultValue");
         setFormElement("field1", "value1");
         setFormElement("fieldn", "valuen");
         submit();
     }
 </pre>
-<br>
-<h2>Navigating Through a Series of Pages</h2>
-To navigate through a series of resources, you can use beginAt, clickLink, and submit.
+You can also check for the presence of buttons on the form and submit a form with a specific button.
 <pre>
-    public void testNavigation() {
-        beginAt("/somewhere");
-        clickLink("aLinkID");  // &lt;a id="aLinkID" href="somewhere"&gt;link text&lt;/a&gt;
+    public void testFormSubmission() {
+        beginAt("/info.html");
+        assertFormPresent("expectedFormName");
+        assertSubmitButtonPresent("Add");
+        assertSubmitButtonPresent("Modify");
         setFormElement("field1", "value1");
+        submit("Modify");
+    }
+</pre>
+For pages with more than one form, jWebUnit will establish which form is being worked with implicitly
+from the form elements checked or set.  You can also set the form explicitly by form id or name:
+<pre>
+    public void testBottomFormSubmission() {
+        beginAt("/twoForm.html");
+        setWorkingForm("bottomForm");
         submit();
     }
 </pre>
 <br>
-<h2>Testing Your Pages</h2>
-Once you have navigated to the page you wish to test, you can call the assertions provided by jWebUnit to verify it's correctness.
+<a name="validation">
+<h2>Validating Page Content</h2>
+Once you have navigated to the page you wish to test, you can call the assertions provided by jWebUnit to verify it's correctness.<p>
 <pre>
     public void testCorrectness() {
-        beginAt("/");
-        assertTitleEquals("Home");
-        clickLinkWithText("Sign Up"); // &lt;a id="aLinkID" href="somewhere"&gt;Sign Up&lt;/a&gt;
-        setFormElement("uid", "jWebUnitUser");
+        beginAt("/mainPage");
+        assertTitleEquals("Main Page");
+        assertLinkPresentWithText("Add Widget");
+        clickLinkWithText("Add Widget");
+        setFormElement("widgetName", "My Widget");
         submit();
-        assertTextPresent("User successfully added."):
+        assertTextPresent("Widget successfully added."):
     }
 </pre>
+<br>
+<a name="tableValidation">
+<h2>Validating Table Content</h2>
+A number of assertions are provided by jWebUnit to validate the contents of tables on a page.
+You can simply check for the presence of text within a table, or check layout of all or a portion
+of the table.  HttpUnit is used to purge empty rows and columns from the actual table before comparison,
+so you may leave spacer cells and rows out of your check.<p>
+The below test validates against this html table (the table id attribute is "ageTable"):<p>
+<table border="1" cellpadding="2">
+<tr><td>Name</td><td>Age</td></tr>
+<tr><td>Jim</td><td>30ish</td></tr>
+<tr><td>Wilkes</td><td>20ish</td></tr>
+</table>
+<pre>
+    public void testAgeTable() {
+        beginAt("/agePage");
+        <i>//check that table is present</i>
+        assertTablePresent("ageTable");
+        <i>//check that a single string is present somewhere in table</i>
+        assertTextInTable("ageTable", "Jim");
+        <i>//check that a set of strings are present somewhere in table</i>
+        assertTextInTable("ageTable",
+                          new String[] {"Jim", "Wilkes"});
+        <i>//check composition of table rows/columns</i>
+        assertTableEquals("ageTable",
+                          new String[][] {{"Name", "Age"},
+                                          {"Jim", "30ish"},
+                                          {"Wilkes", "20ish"}});
+    }
+</pre>
+If you need to validate non-blank table cells that span more than a single column, a set of classes are provided
+which represent expected tables, rows, and cells.<p>
+<table border="1" cellpadding="2">
+<tr><td colspan="2">Age Table</td></tr>
+<tr><td>Name</td><td>Age</td></tr>
+<tr><td>Jim</td><td>30ish</td></tr>
+<tr><td>Wilkes</td><td>20ish</td></tr>
+</table>
+<pre>
+    public void testAgeTable() {
+        beginAt("/agePage");
+        ExpectedTable ageTable = new ExpectedTable(new Object[][] {
+            {new ExpectedCell("Age Table", 2},
+            {"Name", "Age"},
+            {"Jim", "30ish"},
+            {"Wilkes", "20ish"}
+        });
+        assertTableEquals("ageTable", expectedAgeTable);
+    }
+</pre>
+<br>
+<a name="elementValidation">
+<h2>Using Element IDs to Validate Content</h2>
+jWebUnit allows you to check for the presence of any html element by its id, or for text in an element.
+This can be a useful trick to check for the presence of some logical part of the page.
+Even in the case of free floating text, a span element can be used to surround the text
+and give it a logical id:<p>
+&lt;span id="welcomeMessage"&gt;Welcome, Joe User!&lt;/span&gt;
+<pre>
+    public void testWelcomeMessage() {
+        beginAt("/mainPage");
+        <i>//check for presence of welcome message by text</i>
+        assertTextPresent("Welcome, Joe User!");
+        <i>//check for presence of welcome message by element id</i>
+        assertElementPresent("welcomeMessage");
+        <i>//check for text within an element</i>
+        assertTextInElement("welcomeMessage", "Joe User");
+    }
+</pre>
+<br>
+<a name="properties">
+<h2>Using Property Files to Validate Content</h2>
+Another useful testing trick is to use property files for your expected values rather than hard-coded strings.
+This is especially useful if your application uses property files as a source for static text and
+messages.  The same files can be used to provide the expected values for the tests.<p>
+For convenience, most of the jWebUnit assertions that take strings for the expected have an equivalent assertion that will
+take a property file key.  You can use the TestContext to set the bundle to be used as well as the
+Locale (default is Locale.getDefault()).
+<pre>
+    public void setUp() throws Exception {
+        getTestContext().setBaseURL("http://myserver:8080/myapp");
+        getTestContext().setResourceBundleName("ApplicationResources");
+    }
+
+    public void testMainPage() {
+        beginAt("/mainPage");
+        assertTitleEqualsKey("title.mainPage");
+        assertKeyPresent("message.welcome");
+        assertKeyInTable("mainPageTable", "header.mainPageTable");
+    }
+</pre>
+There is also a getMessage() method on WebTester and WebTestCase that can be used to access
+resource bundle messages directly in your tests.<p>
+Whether to check for a given logical chunk of text by hard-coded string, property file lookup, or
+by use of an element id is up to you.<br><br>
 For more information, consult the <a href="api/index.html">Javadocs</a>.
 <br>
 <!-- End Main -->
