@@ -5,6 +5,7 @@ import junit.framework.TestSuite;
 import net.sourceforge.jwebunit.NavigationTest;
 import net.sourceforge.jwebunit.FormSubmissionTest;
 import net.sourceforge.jwebunit.WebAssertionsTest;
+import net.sourceforge.jwebunit.util.JettySetup;
 import net.sourceforge.jwebunit.util.reflect.MethodInvokerTest;
 
 /**
@@ -30,8 +31,8 @@ public class AllTests extends TestSuite{
 		suite.addTestSuite(MethodInvokerTest.class);
 		suite.addTestSuite(WebCookieTest.class);
 		suite.addTestSuite(FormAssertionBug.class);
-		suite.addTest(HelloWorldTest.suite());
-        return suite;
+		suite.addTestSuite(HelloWorldTest.class);
+        return new JettySetup(suite);
     }
 
      public static void main( String[] args ) {
