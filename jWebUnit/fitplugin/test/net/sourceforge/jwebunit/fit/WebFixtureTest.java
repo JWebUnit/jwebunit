@@ -27,7 +27,8 @@ public class WebFixtureTest extends TestCase {
     }
 
     private int getCount(String type) {
-        StringTokenizer tokenizer = new StringTokenizer(Fixture.counts(), " ,");
+//        StringTokenizer tokenizer = new StringTokenizer(Fixture.counts(), " ,");
+        StringTokenizer tokenizer = null;
         String prevToken = null;
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();

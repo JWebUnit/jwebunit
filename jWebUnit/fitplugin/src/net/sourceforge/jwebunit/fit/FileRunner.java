@@ -31,7 +31,6 @@ public class FileRunner extends FitRunner {
         return new FileRunner(new File(argv[0]), new File(argv[1]));
     }
 
-    //TODO:cleanup
     public static void main(String argv[]) {
         FileRunner runner = parseArgs(argv);
         runner.run();
@@ -79,7 +78,6 @@ public class FileRunner extends FitRunner {
         if (output != null) {
             output.close();
         }
-        //todo: just pass in counts or fixture?
         result = new FileResult(outFile, fixture.counts);
     }
 
