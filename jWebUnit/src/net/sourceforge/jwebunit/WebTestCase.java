@@ -19,7 +19,7 @@ import java.io.PrintStream;
  *  @author Wilkes Joiner
  */
 public class WebTestCase extends TestCase {
-    private WebTester tester;
+    protected WebTester tester;
 
     public WebTestCase(String name) {
         super(name);
