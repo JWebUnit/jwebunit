@@ -36,13 +36,13 @@
             <classpath>
                 <path refid="junit.classpath"/>
             </classpath>
-            <test name="com.thoughtworks.jwebunit.AllTests" />
+            <test name="net.sourceforge.jwebunit.AllTests" />
         </junit>
     </target>
 
     <target name="gen-javadoc">
         <javadoc sourcepath="src"
-            packagenames="com.thoughtworks.jwebunit.*"
+            packagenames="net.sourceforge.jwebunit.*"
             destdir="javadoc"
             windowtitle="jWebUnit API">
             <bottom><![CDATA[<i>Copyright &#169; 2002 ThoughtWorks, Inc. All Rights Reserved.</i>]]></bottom>
