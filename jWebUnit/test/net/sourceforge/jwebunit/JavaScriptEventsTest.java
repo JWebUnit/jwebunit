@@ -84,6 +84,7 @@ public class JavaScriptEventsTest  extends JWebUnitTest {
         beginAt("test.html");
         assertLinkPresentWithText("foo1");
         assertLinkPresentWithText("foo2");
+        HttpUnitOptions.setScriptingEnabled(true);
     }
 
 	public void testEmbeddedJSFile()
@@ -94,6 +95,36 @@ public class JavaScriptEventsTest  extends JWebUnitTest {
 
 		beginAt("script.html");
 		assertTitleEquals("The Title");
+	}
+
+	public void testLinkClickChangesWindowLocation()
+	{
+        defineResource("script.js", "function gotoNext() { window.location='next.html';}");
+		defineResource("script.html", "<html><script src=\"script.js\"></script>" +
+					"<title>The Title</title><body><a href=\"javascript:gotoNext()\">link</a></body></html>" );
+		defineResource("next.html", "<html><title>Next Page</title></html>" );
+		
+		beginAt("script.html");
+		assertTitleEquals("The Title");
+		clickLinkWithText("link");
+		assertTitleEquals("Next Page");
+	}
+	
+	public void notestOnChangeOnFormElementChangesWindowLocation() throws Exception {
+		defineResource("test.html", "<html>" +
+			"<title>The Title</title><body>" +
+			"<form name=\"testForm\" action=\"next.html\" method=\"get\">" + 
+			"<select type=\"select\" name=\"testSelect\" onchange=\"javascript:document.testForm.submit();\">" +
+			"<option value=\"V1\" selected=\"true\">Value1</option>" +
+			"<option value=\"V2\">Value2</option>" +
+			"</select></form></body></html>");
+		defineResource("next.html?testSelect=V1", "<html><title>Next Page Value1</title></html>" );
+		defineResource("next.html?testSelect=V2", "<html><title>Next Page Value2</title></html>" );
+		beginAt("test.html");
+		assertTitleEquals("The Title");
+		selectOption("testSelect", "Value2");
+		System.out.println("After Selection in Client:\n" + getDialog().getWebClient().getCurrentPage().getText());
+		assertTitleEquals("Next Page Value2");
 	}
 
 }
