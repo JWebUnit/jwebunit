@@ -75,10 +75,13 @@ public class FramesAndWindowsTest extends JWebUnitTest {
 
     public void testGotoFrame() {
         beginAt("Frames.html");
+		assertFramePresent("TopFrame");
         gotoFrame("TopFrame");
         assertTextPresent("TopFrame");
+		assertFramePresent("BottomFrame");
         gotoFrame("BottomFrame");
         assertTextPresent("BottomFrame");
+		assertFramePresent("ContentFrame");
         gotoFrame("ContentFrame");
         assertTextPresent("ContentFrame");
     }
