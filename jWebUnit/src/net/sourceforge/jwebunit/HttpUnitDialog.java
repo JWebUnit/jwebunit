@@ -76,7 +76,8 @@ public class HttpUnitDialog {
             }
 
             public void responseReceived(WebClient webClient, WebResponse webResponse) {
-                resp = webResponse;
+				resp = webClient.getCurrentPage();
+//                resp = webResponse;
                 form = null;
             }
         });
