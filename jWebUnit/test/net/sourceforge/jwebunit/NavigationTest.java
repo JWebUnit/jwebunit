@@ -120,4 +120,12 @@ public class NavigationTest extends WebTestCase {
         gotoPage("/targetPage2.html");
         assertTitleEquals("targetPage2");
     }
+    
+    //For bug 726143
+    public void testLinkWithEscapedText() {
+        beginAt("/pageWithAmpersandInLink.html");
+        assertLinkPresentWithText("Map & Directions");
+        clickLinkWithText("Map & Directions");
+        assertTitleEquals("targetPage");
+    }
 }
