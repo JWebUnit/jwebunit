@@ -60,7 +60,11 @@ public class HttpUnitDialog {
 
             public void responseReceived(WebClient webClient, WebResponse webResponse) {
 //            	System.out.println("**** Recieved notification of response receipt ****");
-				resp = webClient.getCurrentPage();
+//            	System.out.println(webResponse.getContentType());
+//            	if (webResponse.isHTML()) {
+//            		resp = webResponse;
+//            	}
+            	resp = webClient.getCurrentPage();
 //				dumpResponse(System.out);
 //				try {
 //					System.out.println("New Response:\n"
@@ -305,7 +309,13 @@ public class HttpUnitDialog {
 	 */
 	public void setFormParameter(String paramName, String paramValue) {
 		checkFormStateWithParameter(paramName);
+		WebResponse oldPage = getWebClient().getCurrentPage();
 		getForm().setParameter(paramName, paramValue);
+		//if an onchange event caused our page to change, set response to new page - otherwise leave
+		// the response alone.
+		if (oldPage != getWebClient().getCurrentPage()) {
+			resp = getWebClient().getCurrentPage();
+		}
 	}
 
 	public void updateFormParameter(String paramName, String paramValue) {

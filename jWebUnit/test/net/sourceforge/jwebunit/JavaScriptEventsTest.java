@@ -97,7 +97,7 @@ public class JavaScriptEventsTest  extends JWebUnitTest {
 		assertTitleEquals("The Title");
 	}
 
-	public void testLinkClickChangesWindowLocation()
+	public void testLinkClickSetsWindowLocation()
 	{
         defineResource("script.js", "function gotoNext() { window.location='next.html';}");
 		defineResource("script.html", "<html><script src=\"script.js\"></script>" +
@@ -110,11 +110,11 @@ public class JavaScriptEventsTest  extends JWebUnitTest {
 		assertTitleEquals("Next Page");
 	}
 	
-	public void notestOnChangeOnFormElementChangesWindowLocation() throws Exception {
-		defineResource("test.html", "<html>" +
+	public void testOnChangeSetsWindowLocation() throws Exception {
+		defineResource("test.html", "<html><script>function changeSelect() {document.forms[0].submit();}</script>" +
 			"<title>The Title</title><body>" +
 			"<form name=\"testForm\" action=\"next.html\" method=\"get\">" + 
-			"<select type=\"select\" name=\"testSelect\" onchange=\"javascript:document.testForm.submit();\">" +
+			"<select type=\"select\" name=\"testSelect\" onchange=\"changeSelect();\">" +
 			"<option value=\"V1\" selected=\"true\">Value1</option>" +
 			"<option value=\"V2\">Value2</option>" +
 			"</select></form></body></html>");
@@ -123,7 +123,7 @@ public class JavaScriptEventsTest  extends JWebUnitTest {
 		beginAt("test.html");
 		assertTitleEquals("The Title");
 		selectOption("testSelect", "Value2");
-		System.out.println("After Selection in Client:\n" + getDialog().getWebClient().getCurrentPage().getText());
+//		System.out.println("After Selection in Client:\n" + getDialog().getWebClient().getCurrentPage().getText());
 		assertTitleEquals("Next Page Value2");
 	}
 
