@@ -62,13 +62,14 @@
             <zipfileset dir="lib" prefix="lib"/>
             <fileset dir="dist" includes="jwebunit.jar"/>
             <fileset dir="." includes="build.xml"/>
+            <fileset dir="." includes="CHANGES"/>
         </zip>
     </target>
 
     <target name="clean">
         <delete dir="src-classes"/>
         <delete dir="test-classes"/>
-        <delete dir="javadoc"/>
+        <delete dir="doc"/>
     </target>
 
     <target name="clean-dist">
