@@ -26,6 +26,7 @@
     <path id="junit.classpath">
         <pathelement location="${build.test-classes.dir}"/>
         <path refid="tests.classpath"/>
+    	<pathelement location="test"/>
     </path>
 
     <target name="dist" depends="test, make-zip"/>

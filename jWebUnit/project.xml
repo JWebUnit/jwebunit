@@ -251,7 +251,7 @@
 		</dependency>
 		<dependency>
 		    <groupId>tomcat</groupId>
-		    <artifactId>jasper-compiler</artifactId>
+			<artifactId>jasper-compiler</artifactId>
 		    <version>4.1.30</version>
 		    <properties>
 		        <war.bundle>false</war.bundle>
@@ -261,13 +261,22 @@
     <build>
         <sourceDirectory>src</sourceDirectory>
         <unitTestSourceDirectory>test</unitTestSourceDirectory>
-        <unitTest>
-            <excludes>
-                <exclude>**/AllTests.java</exclude>
-                <exclude>**/JWebUnitTest.java</exclude>
-                <exclude>**/TestServer.java</exclude>
-            </excludes>
-        </unitTest>
+		<unitTest>
+			<excludes>
+				<exclude>**/AllTests.java</exclude>
+				<exclude>**/JWebUnitTest.java</exclude>
+				<exclude>**/TestServer.java</exclude>
+				<exclude>**/JettySetup.java</exclude>
+			</excludes>
+			<resources>
+				<resource>
+					<directory>${basedir}/src/test/</directory>
+					<includes>
+						<include>*.xml</include>
+					</includes>
+				</resource>
+			</resources>
+		</unitTest>
     </build>
 	<reports>
 		<!--

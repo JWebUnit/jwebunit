@@ -30,6 +30,7 @@ public class AllTests extends TestSuite{
 		suite.addTestSuite(MethodInvokerTest.class);
 		suite.addTestSuite(WebCookieTest.class);
 		suite.addTestSuite(FormAssertionBug.class);
+		suite.addTest(HelloWorldTest.suite());
         return suite;
     }
 
