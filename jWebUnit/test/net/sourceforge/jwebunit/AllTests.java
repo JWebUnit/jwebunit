@@ -43,7 +43,8 @@ public class AllTests extends TestSuite {
 //        suite.addTestSuite(WebCookieTest.class);
 //        suite.addTestSuite(FormAssertionBug.class);
 //        suite.addTestSuite(HelloWorldTest.class);
-//        return new JettySetup(suite);
+//        return new JettySetup(suite);	
+        // test change for cc
           return suite;
     }
 
