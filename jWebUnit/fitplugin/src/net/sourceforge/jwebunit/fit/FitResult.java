@@ -5,6 +5,8 @@
  */
 package net.sourceforge.jwebunit.fit;
 
+import fit.Fixture;
+
 import java.io.File;
 
 public abstract class FitResult {
@@ -14,20 +16,31 @@ public abstract class FitResult {
         this.output = output;
     }
 
+    public abstract Fixture.Counts getCounts();
+
     public abstract String getLinkString();
 
     public abstract String getDisplayName();
 
-    public abstract boolean didFail();
+    public boolean didFail() {
+        return getWrong() > 0 || getExceptions() > 0;
+    }
 
-    public abstract int getRight();
+    public int getRight() {
+        return getCounts().right;
+    }
 
-    public abstract int getWrong();
+    public int getWrong() {
+        return getCounts().wrong;
+    }
 
-    public abstract int getIgnores();
+    public int getIgnores() {
+        return getCounts().ignores;
+    }
 
-    public abstract int getExceptions();
-
+    public int getExceptions() {
+        return getCounts().exceptions;
+    }
 
     public File getOutput() {
         return output;

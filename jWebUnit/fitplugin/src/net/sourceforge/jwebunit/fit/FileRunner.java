@@ -1,4 +1,3 @@
-
 // Copyright (c) 2002 Cunningham & Cunningham, Inc.
 // Released under the terms of the GNU General Public License version 2 or later.
 
@@ -23,10 +22,6 @@ public class FileRunner extends FitRunner {
     public PrintWriter output;
     private File inFile;
     private File outFile;
-    private int prevRight;
-    private int prevWrong;
-    private int prevIgnores;
-    private int prevExceptions;
 
     public static FileRunner parseArgs(String argv[]) {
         if (argv.length != 2) {
@@ -56,7 +51,6 @@ public class FileRunner extends FitRunner {
     }
 
     public void process() {
-        setPreviousCounts();
         try {
             input = read(inFile);
             output = new PrintWriter(new BufferedWriter(new FileWriter(outFile)));
@@ -66,14 +60,6 @@ public class FileRunner extends FitRunner {
             exception(e);
         }
         tables.print(output);
-    }
-
-    //TODO: remove?
-    private void setPreviousCounts() {
-        prevRight = fixture.counts.right;
-        prevWrong = fixture.counts.wrong;
-        prevIgnores = fixture.counts.ignores;
-        prevExceptions = fixture.counts.exceptions;
     }
 
     protected String read(File input) throws IOException {
@@ -94,11 +80,7 @@ public class FileRunner extends FitRunner {
             output.close();
         }
         //todo: just pass in counts or fixture?
-        result = new FileResult(outFile,
-                fixture.counts.right - prevRight,
-                fixture.counts.wrong - prevWrong,
-                fixture.counts.ignores - prevIgnores,
-                fixture.counts.exceptions - prevExceptions);
+        result = new FileResult(outFile, fixture.counts);
     }
 
 }

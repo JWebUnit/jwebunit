@@ -5,6 +5,8 @@
  */
 package net.sourceforge.jwebunit.fit;
 
+import fit.Fixture;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,10 +17,16 @@ import java.util.List;
 
 public class DirectoryResult extends FitResult {
     private List results;
+    private Fixture.Counts counts;
 
     public DirectoryResult(File directory) {
         super(directory);
         results = new ArrayList();
+        counts = new Fixture().counts;
+    }
+
+    public Fixture.Counts getCounts() {
+        return counts;
     }
 
     public String getLinkString() {
@@ -29,56 +37,10 @@ public class DirectoryResult extends FitResult {
         return getOutput().getName();
     }
 
-    public boolean didFail() {
-        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
-            FitResult fitResult = (FitResult) iterator.next();
-            if (fitResult.didFail()) return true;
-        }
-        return false;
-    }
-
-    public int getRight() {
-        int sum = 0;
-        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
-            FitResult fitResult = (FitResult) iterator.next();
-            sum += fitResult.getRight();
-        }
-        return sum;
-    }
-
-    public int getWrong() {
-        int sum = 0;
-        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
-            FitResult fitResult = (FitResult) iterator.next();
-            sum += fitResult.getWrong();
-        }
-        return sum;
-
-    }
-
-    public int getIgnores() {
-        int sum = 0;
-        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
-            FitResult fitResult = (FitResult) iterator.next();
-            sum += fitResult.getIgnores();
-        }
-        return sum;
-
-    }
-
-    public int getExceptions() {
-        int sum = 0;
-        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
-            FitResult fitResult = (FitResult) iterator.next();
-            sum += fitResult.getExceptions();
-        }
-        return sum;
-    }
-
     public void addResult(FitResult result) {
         results.add(result);
+        counts.tally(result.getCounts());
     }
-
 
     public void writeIndexFile() {
         File indexFile = new File(getOutput(), "index.html");
