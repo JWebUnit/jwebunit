@@ -241,8 +241,8 @@ added later.<br>
     </tr>
     <tr>
        <td>select</td>
-       <td>citizenCheckbox</td>
-       <td><br>
+       <td>checkbox</td>
+       <td>citizenCheckbox<br>
       </td>
      </tr>
   <tr>
@@ -291,17 +291,17 @@ added later.<br>
     <tr>
       <td valign="top">select<br>
       </td>
-      <td valign="top">citizenCheckbox<br>
+      <td valign="top">checkbox<br>
       </td>
-      <td valign="top"><br>
+      <td valign="top">citizenCheckbox<br>
       </td>
     </tr>
     <tr>
       <td valign="top">deselect<br>
       </td>
-      <td valign="top">citizenCheckbox<br>
+      <td valign="top">checkbox<br>
       </td>
-      <td valign="top"><br>
+      <td valign="top">citizenCheckbox<br>
       </td>
     </tr>
     <tr>
@@ -340,7 +340,78 @@ added later.<br>
   </tbody> 
 </table>
 <br>
-   <br>
- <br>
+   Test manipulation of select boxes (drop lists). &nbsp;Multiple-select
+boxes<br>
+not yet supported by jWebUnit.<br>
+<br>
+<table border="1" cellpadding="4">
+  <tbody>
+     <tr>
+       <td colspan="4" valign="middle">net.sourceforge.jwebunit.fit.WebFixture</td>
+     </tr>
+    <tr>
+       <td>begin</td>
+       <td>personalInfoForm</td>
+       <td>&nbsp;</td>
+      <td valign="top"><br>
+      </td>
+            </tr>
+  <tr>
+       <td>enter</td>
+       <td>fullName</td>
+       <td>Jim</td>
+      <td valign="top"><br>
+      </td>
+            </tr>
+       <tr>
+       <td>select<br>
+      </td>
+       <td>option</td>
+      <td>state<br>
+      </td>
+      <td valign="top">Tennessee<br>
+      </td>
+            </tr>
+       <tr>
+      <td valign="top">check<br>
+      </td>
+      <td valign="top">option equals<br>
+      </td>
+      <td valign="top">state<br>
+      </td>
+      <td valign="top" bgcolor="#cfffcf">Tennessee<br>
+      </td>
+    </tr>
+    <tr>
+       <td>press<br>
+       </td>
+       <td>submit</td>
+       <td><br>
+       </td>
+      <td valign="top"><br>
+      </td>
+            </tr>
+  <tr>
+       <td>check</td>
+       <td>title equals</td>
+       <td bgcolor="#cfffcf">Personal Info Results<br>
+       </td>
+      <td valign="top"><br>
+      </td>
+            </tr>
+    <tr>
+      <td valign="top">check<br>
+      </td>
+      <td valign="top">text present<br>
+      </td>
+      <td valign="top" bgcolor="#cfffcf">You live in Tennessee<br>
+      </td>
+      <td valign="top"><br>
+      </td>
+    </tr>
+       
+  </tbody> 
+</table>
+<br>
 </body>
 </html>

@@ -43,15 +43,23 @@ public class WebFixture extends ActionFixture {
     }
 
     public void enter() throws Exception {
-        tester.setFormElement(this.cells.more.text(), this.cells.more.more.text());
+        tester.setFormElement(cells.more.text(), cells.more.more.text());
     }
 
     public void select() {
-        tester.checkCheckbox(this.cells.more.text());
+        if (cells.more.text().equals("checkbox"))
+            tester.checkCheckbox(cells.more.more.text());
+        else if (cells.more.text().equals("option"))
+            tester.selectOption(cells.more.more.text(), cells.more.more.more.text());
+        else
+            exception(cells.more, new RuntimeException("Unsupported select target"));
     }
 
     public void deselect() {
-        tester.uncheckCheckbox(this.cells.more.text());
+        if (cells.more.text().equals("checkbox"))
+            tester.uncheckCheckbox(cells.more.more.text());
+        else
+            exception(cells.more, new RuntimeException("Unsupported deselection target"));
     }
 
     public void submit() {

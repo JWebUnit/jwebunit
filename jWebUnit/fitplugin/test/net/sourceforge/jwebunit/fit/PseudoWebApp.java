@@ -86,6 +86,9 @@ public class PseudoWebApp {
                 "Stuff about you:" +
                 "<input type=\"text\" name=\"fullName\"/>" +
                 "<input type=\"checkbox\" name=\"citizenCheckbox\"/>" +
+                "<select name=\"state\"><option value=\"Tennessee\">Tennessee</option>" +
+                    "<option value=\"None\" SELECTED>&nbsp</option>" +
+                    "<option value=\"Georgia\">Georgia</option></select>" +
                 "<input type=\"submit\"/>" +
                 "</form>" +
                 "</body></html>");
@@ -93,6 +96,7 @@ public class PseudoWebApp {
          server.setResource("personalInfoPost", new PseudoServlet() {
             public WebResource getPostResponse() {
                 String fullName = getParameter("fullName")[0];
+                String state = getParameter("state")[0];
                 String citizenship = "not a citizen";
                 if (getParameter("citizenCheckbox") != null &&
                     getParameter("citizenCheckbox")[0].equals("on")) {
@@ -101,6 +105,7 @@ public class PseudoWebApp {
                 WebResource result = new WebResource("<html><head><title>Personal Info Results</title></head>" +
                                                      "<body>Name given is " + fullName + "<br>" +
                                                      "You indicated that you are " + citizenship + "." +
+                                                     "You live in " + state + "." +
                                                      "</body></html>");
                 return result;
             }
