@@ -326,6 +326,28 @@ public class WebTester {
     }
 
     /**
+     * Assert that a form input element with a given label is present.
+     *
+     * @param formElementLabel label preceding form element.
+     * @see #setFormElementWithLabel(String,String)
+     */
+    public void assertFormElementPresentWithLabel(String formElementLabel) {
+        Assert.assertTrue("Did not find form element with label [" + formElementLabel + "].",
+                dialog.hasFormParameterLabeled(formElementLabel));
+    }
+
+    /**
+     * Assert that a form input element with a given label is not present.
+     *
+     * @param formElementLabel label preceding form element.
+     * @see #setFormElementWithLabel(String,String)
+     */
+    public void assertFormElementNotPresentWithLabel(String formElementLabel) {
+        Assert.assertFalse("Found form element with label [" + formElementLabel + "].",
+                dialog.hasFormParameterLabeled(formElementLabel));
+    }
+
+    /**
      * Assert that there is a form present.
      *
      */
@@ -578,8 +600,8 @@ public class WebTester {
      * Assert that a link containing a specified image is present.
      *
      * @param imageFileName A suffix of the image's filename; for example, to match
-     *                      <tt>"images/my_icon.png"<tt>, you could just pass in
-     *                      <tt>"my_icon.png"<tt>.
+     *                      <tt>"images/my_icon.png"</tt>, you could just pass in
+     *                      <tt>"my_icon.png"</tt>.
      */
     public void assertLinkPresentWithImage(String imageFileName) {
         Assert.assertTrue("Link with image file [" + imageFileName + "] not found in response.", dialog.isLinkPresentWithImage(imageFileName));
@@ -589,8 +611,8 @@ public class WebTester {
      * Assert that a link containing a specified image is not present.
      *
      * @param imageFileName A suffix of the image's filename; for example, to match
-     *                      <tt>"images/my_icon.png"<tt>, you could just pass in
-     *                      <tt>"my_icon.png"<tt>.
+     *                      <tt>"images/my_icon.png"</tt>, you could just pass in
+     *                      <tt>"my_icon.png"</tt>.
      */
     public void assertLinkNotPresentWithImage(String imageFileName) {
         Assert.assertTrue("Link with image file [" + imageFileName + "] found in response.", !dialog.isLinkPresentWithImage(imageFileName));
@@ -645,6 +667,23 @@ public class WebTester {
         assertFormPresent();
         assertFormElementPresent(formElementName);
         dialog.setFormParameter(formElementName, value);
+    }
+
+    /**
+     * Set the value of a form input element. The element is identified by a
+     * preceding "label". For example, in "<code>Home Address : &lt;input
+     * type='text' name='home_addr' /&gt;</code>", "<code>Home Address</code>"
+     * could be used as a label. The label must appear within the associated
+     * <code>&lt;form&gt;</code> tag.
+     *
+     * @param formElementLabel label preceding form element.
+     * @param value
+     */
+    protected void setFormElementWithLabel(String formElementLabel,
+                                           String value) {
+        String name = dialog.getFormElementNameForLabel(formElementLabel);
+        Assert.assertNotNull("Did not find form element with label [" + formElementLabel + "].", name);
+        dialog.setFormParameter(name, value);
     }
 
     /**
@@ -715,8 +754,8 @@ public class WebTester {
      * Navigate by selection of a link with a given image.
      *
      * @param imageFileName A suffix of the image's filename; for example, to match
-     *                      <tt>"images/my_icon.png"<tt>, you could just pass in
-     *                      <tt>"my_icon.png"<tt>.
+     *                      <tt>"images/my_icon.png"</tt>, you could just pass in
+     *                      <tt>"my_icon.png"</tt>.
      */
     public void clickLinkWithImage(String imageFileName) {
         assertLinkPresentWithImage(imageFileName);

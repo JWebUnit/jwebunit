@@ -16,10 +16,7 @@ import com.meterware.httpunit.WebTable;
 import com.meterware.httpunit.WebClientListener;
 import com.meterware.httpunit.WebClient;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Element;
-import org.w3c.dom.Text;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.servlet.http.Cookie;
@@ -296,6 +293,45 @@ public class HttpUnitDialog {
     public void removeFormParameter(String paramName) {
         checkFormStateWithParameter(paramName);
         getForm().removeParameter(paramName);
+    }
+
+    /**
+     * Return true if a form parameter (input element) is present
+     * on the current response preceded by a given label.
+     *
+     * @param paramLabel label of the input element to check for
+     */
+    public boolean hasFormParameterLabeled(String paramLabel) {
+        return null != getFormElementNameForLabel(paramLabel);
+    }
+
+    /**
+     * Return the name of a form parameter (input element) on the current
+     * response preceded by a givel label.
+     *
+     * @param formElementLabel label of the input element to fetch name.
+     */
+    public String getFormElementNameForLabel(String formElementLabel) {
+        try {
+            Document document = getResponse().getDOM();
+            Element root = document.getDocumentElement();
+            NodeList forms = root.getElementsByTagName("form");
+
+            for (int i = 0; i < forms.getLength(); i++) {
+                Element form = (Element) forms.item(i);
+                FormWalker walker = new FormWalker(form);
+                Element formElement =
+                        walker.getFormElementWithLabel(formElementLabel);
+                if (formElement != null) {
+                    return formElement.getAttribute("name");
+                }
+            }
+
+            return null;
+        } catch (SAXException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**

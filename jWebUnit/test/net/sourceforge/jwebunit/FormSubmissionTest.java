@@ -153,6 +153,24 @@ public class FormSubmissionTest extends JWebUnitTest {
         assertFormElementEquals("select1", "2");
     }
 
+    public void testSimpleLabeledForm() {
+        addSimpleLabeledForm();
+        beginAt("/QueryForm.html");
+        setFormElementWithLabel("First", "oneValue");
+        setFormElementWithLabel("Second", "anotherValue");
+        submit();
+        assertTextPresent("param1=oneValue&param2=anotherValue");
+    }
+
+    public void testTrickyLabeledForm() {
+        addTrickyLabeledForm();
+        beginAt("/QueryForm.html");
+        setFormElementWithLabel("Trick", "oneValue");
+        setFormElementWithLabel("Treat", "anotherValue");
+        submit();
+        assertTextPresent("param3=oneValue&param4=anotherValue");
+    }
+
     private void gotoMultiButtonPage() {
         addMultiNamedButtonForm();
         beginAt("/QueryForm.html");
@@ -168,6 +186,8 @@ public class FormSubmissionTest extends JWebUnitTest {
         addTargetResource("TargetPage", "param4=anyvalue");
         addTargetResource("TargetPage", "param2=anyvalue&button2b=b2b");
         addTargetResource("TargetPage", "param2=anyvalue&button2a=b2a");
+        addTargetResource("TargetPage", "param1=oneValue&param2=anotherValue");
+        addTargetResource("TargetPage", "param3=oneValue&param4=anotherValue");
     }
 
     private void addTargetResource(String name, final String parms) {
@@ -240,6 +260,30 @@ public class FormSubmissionTest extends JWebUnitTest {
                        "</select></form>" +
                        "</body></html>");
 
+    }
+
+    private void addSimpleLabeledForm() {
+        defineResource("QueryForm.html",
+                "<html><head></head>" +
+                "<body>" +
+                "<form method=GET action=\"TargetPage\">" +
+                "First : <input type=\"text\" name=\"param1\">" +
+                "Second : <textarea name=\"param2\"></form>" +
+                "</body></html>");
+    }
+
+    private void addTrickyLabeledForm() {
+        defineResource("QueryForm.html",
+                "<html><head></head>" +
+                "Trick!" +
+                "<form method=GET action=\"TargetPage\">" +
+                "First : <input type=\"text\" name=\"param1\">" +
+                "Second : <input type=\"text\" name=\"param2\">" +
+                "Trick!</form>" +
+                "<form name=\"form2\" method=GET action=\"TargetPage\">" +
+                "Trick! <input type=\"text\" name=\"param3\">" +
+                "Treat! <input type=\"text\" name=\"param4\">" +
+                "</form></html>");
     }
 
 }

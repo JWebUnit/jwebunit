@@ -26,6 +26,16 @@ public class FormAssertionsTest extends JWebUnitTest {
         assertPassFail("assertFormElementNotPresent", "noSuchElement", "testInputElement");
     }
 
+    public void testAssertFormParameterPresentWithLabel() throws Throwable {
+        assertPassFail("assertFormElementPresentWithLabel", "Test Input", "No Such Label");
+        assertFail("assertFormElementPresentWithLabel", "This is a test page");
+    }
+
+    public void testAssertFormParameterNotPresentWithLabel() throws Throwable {
+        assertPassFail("assertFormElementNotPresentWithLabel", "No Such Label", "Test Input");
+        assertPass("assertFormElementNotPresentWithLabel", "This is a test page");
+    }
+
     public void testAssertHasForm() throws Throwable {
         assertPass("assertFormPresent", NOARGS);
         beginAt("/noFormPage.html");
@@ -126,7 +136,7 @@ public class FormAssertionsTest extends JWebUnitTest {
                 "<a href=\"someurl.html\">test link</a>" +
                 "<form id=\"form1\">" +
                 "<select name=\"selectOption\"><option value=\"1\">One</option><option value=\"2\">Two</option><option value=\"3\">Three</option></select>" +
-                "<input type=\"text\" name=\"testInputElement\" value=\"testValue\"/>" +
+                "Test Input : <input type=\"text\" name=\"testInputElement\" value=\"testValue\"/>" +
                 "<input type=\"submit\" name=\"submitButton\" value=\"buttonLabel\"/>" +
                 "<input type=\"checkbox\" name=\"checkboxselected\" CHECKED>" +
                 "<input type=\"checkbox\" name=\"checkboxnotselected\">" +

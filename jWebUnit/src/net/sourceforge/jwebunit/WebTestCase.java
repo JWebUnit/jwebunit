@@ -128,6 +128,14 @@ public class WebTestCase extends TestCase {
         tester.assertFormElementNotPresent(formElementName);
     }
 
+    public void assertFormElementPresentWithLabel(String formElementLabel) {
+        tester.assertFormElementPresentWithLabel(formElementLabel);
+    }
+
+    public void assertFormElementNotPresentWithLabel(String formElementLabel) {
+        tester.assertFormElementNotPresentWithLabel(formElementLabel);
+    }
+
     public void assertFormPresent() {
         tester.assertFormPresent();
     }
@@ -245,6 +253,10 @@ public class WebTestCase extends TestCase {
 
     protected void setFormElement(String formElementName, String value) {
         tester.setFormElement(formElementName, value);
+    }
+
+    protected void setFormElementWithLabel(String formElementLabel, String value) {
+        tester.setFormElementWithLabel(formElementLabel, value);
     }
 
     protected void checkCheckbox(String checkBoxName) {
