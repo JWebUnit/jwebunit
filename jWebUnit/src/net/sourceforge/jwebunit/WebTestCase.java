@@ -1,7 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2001, ThoughtWorks, Inc.
  * Distributed open-source, see full license under licenses/jwebunit_license.txt
-**********************************/
+ **********************************/
 
 package net.sourceforge.jwebunit;
 
@@ -12,22 +12,20 @@ import java.io.PrintStream;
 
 /**
  * Superclass for Junit TestCases which provides web application navigation and
- * Junit assertions.  This class uses {@link net.sourceforge.jwebunit.WebTester} as a mixin -
- * See that class for method documentation.
- *
- *  @author Jim Weaver
- *  @author Wilkes Joiner
+ * Junit assertions. This class uses {@link net.sourceforge.jwebunit.WebTester}
+ * as a mixin - See that class for method documentation.
+ * 
+ * @author Jim Weaver
+ * @author Wilkes Joiner
  */
 public class WebTestCase extends TestCase {
-    protected WebTester tester;
+    protected WebTester tester = null;
 
     public WebTestCase(String name) {
         super(name);
-        tester = new WebTester();
     }
 
     public WebTestCase() {
-        tester = new WebTester();
     }
 
     protected WebTester getTester() {
@@ -50,7 +48,7 @@ public class WebTestCase extends TestCase {
         return tester.getMessage(key);
     }
 
-// Assertions
+    // Assertions
 
     public void assertTitleEquals(String title) {
         tester.assertTitleEquals(title);
@@ -112,20 +110,26 @@ public class WebTestCase extends TestCase {
         tester.assertTextNotInTable(tableSummaryOrId, text);
     }
 
-    public void assertTableEquals(String tableSummaryOrId, ExpectedTable expectedTable) {
-        tester.assertTableEquals(tableSummaryOrId, expectedTable.getExpectedStrings());
+    public void assertTableEquals(String tableSummaryOrId,
+            ExpectedTable expectedTable) {
+        tester.assertTableEquals(tableSummaryOrId, expectedTable
+                .getExpectedStrings());
     }
 
-    public void assertTableEquals(String tableSummaryOrId, String[][] expectedCellValues) {
+    public void assertTableEquals(String tableSummaryOrId,
+            String[][] expectedCellValues) {
         tester.assertTableEquals(tableSummaryOrId, expectedCellValues);
     }
 
-    public void assertTableRowsEqual(String tableSummaryOrId, int startRow, ExpectedTable expectedTable) {
+    public void assertTableRowsEqual(String tableSummaryOrId, int startRow,
+            ExpectedTable expectedTable) {
         tester.assertTableRowsEqual(tableSummaryOrId, startRow, expectedTable);
     }
 
-    public void assertTableRowsEqual(String tableSummaryOrId, int startRow, String[][] expectedCellValues) {
-        tester.assertTableRowsEqual(tableSummaryOrId, startRow, expectedCellValues);
+    public void assertTableRowsEqual(String tableSummaryOrId, int startRow,
+            String[][] expectedCellValues) {
+        tester.assertTableRowsEqual(tableSummaryOrId, startRow,
+                expectedCellValues);
     }
 
     public void assertFormElementPresent(String formElementName) {
@@ -153,14 +157,15 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertFormNotPresent() {
-    	tester.assertFormNotPresent();
+        tester.assertFormNotPresent();
     }
 
     public void assertFormNotPresent(String formName) {
-    	tester.assertFormNotPresent(formName);
+        tester.assertFormNotPresent(formName);
     }
-    
-    public void assertFormElementEquals(String formElementName, String expectedValue) {
+
+    public void assertFormElementEquals(String formElementName,
+            String expectedValue) {
         tester.assertFormElementEquals(formElementName, expectedValue);
     }
 
@@ -180,7 +185,8 @@ public class WebTestCase extends TestCase {
         tester.assertRadioOptionPresent(radioGroup, radioOption);
     }
 
-    public void assertRadioOptionNotPresent(String radioGroup, String radioOption) {
+    public void assertRadioOptionNotPresent(String radioGroup,
+            String radioOption) {
         tester.assertRadioOptionNotPresent(radioGroup, radioOption);
     }
 
@@ -188,31 +194,32 @@ public class WebTestCase extends TestCase {
         tester.assertRadioOptionSelected(radioGroup, radioOption);
     }
 
-    public void assertRadioOptionNotSelected(String radioGroup, String radioOption) {
+    public void assertRadioOptionNotSelected(String radioGroup,
+            String radioOption) {
         tester.assertRadioOptionNotSelected(radioGroup, radioOption);
     }
-    
+
     public void assertOptionPresent(String selectName, String optionLabel) {
-    	tester.assertOptionPresent(selectName, optionLabel);
+        tester.assertOptionPresent(selectName, optionLabel);
     }
 
     public void assertOptionNotPresent(String selectName, String optionLabel) {
-    	tester.assertOptionNotPresent(selectName, optionLabel);
+        tester.assertOptionNotPresent(selectName, optionLabel);
     }
 
-    public void assertOptionsEqual(String selectName, String[] options){
+    public void assertOptionsEqual(String selectName, String[] options) {
         tester.assertOptionsEqual(selectName, options);
     }
 
-    public void assertOptionsNotEqual(String selectName, String[] options){
+    public void assertOptionsNotEqual(String selectName, String[] options) {
         tester.assertOptionsNotEqual(selectName, options);
     }
 
-    public void assertOptionValuesEqual(String selectName, String[] options){
+    public void assertOptionValuesEqual(String selectName, String[] options) {
         tester.assertOptionValuesEqual(selectName, options);
     }
 
-    public void assertOptionValuesNotEqual(String selectName, String[] options){
+    public void assertOptionValuesNotEqual(String selectName, String[] options) {
         tester.assertOptionValuesNotEqual(selectName, options);
     }
 
@@ -283,7 +290,7 @@ public class WebTestCase extends TestCase {
     public void assertTextInElement(String elID, String text) {
         tester.assertTextInElement(elID, text);
     }
-    
+
     public void assertTextNotInElement(String elID, String text) {
         tester.assertTextNotInElement(elID, text);
     }
@@ -295,27 +302,27 @@ public class WebTestCase extends TestCase {
     public void assertFramePresent(String frameName) {
         tester.assertFramePresent(frameName);
     }
-    
+
     /**
      * Contributed by Vivek Venugopalan.
      */
     public void assertCookiePresent(String cookieName) {
-    	tester.assertCookiePresent(cookieName);
-    }
-    
-    public void assertCookieValueEquals(String cookieName, String expectedValue) {
-    	tester.assertCookieValueEquals(cookieName, expectedValue);
-    }
-    
-    public void dumpCookies() {
-    	tester.dumpCookies();
-    }
-    
-    public void dumpCookies(PrintStream stream) {
-    	tester.dumpCookies(stream);
+        tester.assertCookiePresent(cookieName);
     }
 
-// Form interaction methods
+    public void assertCookieValueEquals(String cookieName, String expectedValue) {
+        tester.assertCookieValueEquals(cookieName, expectedValue);
+    }
+
+    public void dumpCookies() {
+        tester.dumpCookies();
+    }
+
+    public void dumpCookies(PrintStream stream) {
+        tester.dumpCookies(stream);
+    }
+
+    // Form interaction methods
 
     public void setWorkingForm(String nameOrId) {
         tester.setWorkingForm(nameOrId);
@@ -349,7 +356,7 @@ public class WebTestCase extends TestCase {
         tester.selectOption(selectName, option);
     }
 
-// Form submission and link navigation methods
+    // Form submission and link navigation methods
 
     protected void submit() {
         tester.submit();
@@ -387,7 +394,7 @@ public class WebTestCase extends TestCase {
         tester.clickButton(buttonId);
     }
 
-//Window and Frame Navigation Methods
+    //Window and Frame Navigation Methods
 
     public void gotoRootWindow() {
         tester.gotoRootWindow();
@@ -402,28 +409,29 @@ public class WebTestCase extends TestCase {
     }
 
     /**
-     *  Patch sumbitted by Alex Chaffee.
-     */ 
+     * Patch sumbitted by Alex Chaffee.
+     */
     public void gotoPage(String page) {
         tester.gotoPage(page);
     }
 
-	/**
-	 * Implement tearDown method to clear unused memory.  When there are a
-	 * large number of test cases (1000+), it makes sense to hint free memory so that the
-	 * JVM can keep running all the TCs
-	 *
-	 * Patch contributed by Budi Boentaran.  
+    /**
+     * Clean up unused memory. Using <tt>setUp</tt> and <tt>tearDown</tt> is
+     * not an option for this requires the subclasses of this class to call the
+     * respective <tt>super</tt> methods.
+     * 
+     * Original patch contributed by Budi Boentaran.
      */
-	protected void tearDown() throws Exception {
-		tester = null;
-		//Call the next level - I hope everybody plays by the same set of
-		//rules
-		super.tearDown(); 
-		
-	} 
+    public void runBare() throws Throwable {
+        try {
+            tester = new WebTester();
+            super.runBare();
+        } finally {
+            tester = null;
+        }
+    }
 
-// Debug methods
+    // Debug methods
 
     protected void dumpResponse(PrintStream stream) {
         tester.dumpResponse(stream);

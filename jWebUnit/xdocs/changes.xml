@@ -5,6 +5,14 @@
 		<author email="dashorst at users.sourceforge.net">Martijn Dashorst</author>
 	</properties>
 	<body>
+		<release version="1.3" date="UNKNOWN" description="New features await us">
+            <action type="fix" dev="Martijn Dashorst" due-to="Budi Boentaran" issue="972992">
+                Memory leak in WebTestCase. Note: tester is no longer allocated at constructor time, but just before 'setUp' is called.
+            </action>
+			<action type="update" dev="Vivek Venugopalan" due-to="Oliver Haid" issue="735087">
+				better support subclassing of WebTestCase
+			</action>
+		</release>
 		<release version="1.2" date="june 13, 2004" description="The long awaited release">
 		    <action type="add" dev="Jim Weaver">
 		        assertTextNotInElement method addition
