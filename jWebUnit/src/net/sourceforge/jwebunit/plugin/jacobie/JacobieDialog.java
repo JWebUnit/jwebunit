@@ -266,8 +266,6 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
         }
         return bReturn;
     }
-
-    
     
     public boolean hasSubmitButton(String aButtonName) {
         boolean bReturn = getSubmitButton(aButtonName) != null ? true : false;
@@ -584,6 +582,26 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
         return clickWaitOverride;
     }
 
+    /**
+     * Return true if a select box has the given option (by label).
+     * 
+     * @param selectName
+     *            name of the select box.
+     * @param optionLabel
+     *            label of the option.
+     * @return
+     */
+    public boolean hasSelectOption(String selectName, String optionLabel) {
+    	boolean bReturn = false;
+    	
+    	String theString = getValueForOption(selectName, optionLabel);
+    	if(theString != null) {
+    		//if the value is return then the option with the label must exist. 
+    		bReturn = true;
+    	}
+    	return bReturn;
+    }
+    
 	/**
 	 * Select an option of a select box by display label.
 	 * 
@@ -595,9 +613,49 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 	public void selectOption(String selectName, String option) {
 		setFormParameter(selectName, getValueForOption(selectName, option));
 	}
+	
+    /**
+     * Return the label of the currently selected item in a select box.
+     * 
+     * @param selectName
+     *            name of the select box.
+     */
+    public String getSelectedOption(String selectName) {
+    	String theString = null;
+		Select theSelect = getSelect(selectName);
+		if(theSelect != null && theSelect.hasSelectedOption()) {
+			theString = theSelect.getSelectedOption().getText();
+		}
+		return theString;
+    }
+
+    /**
+     * Gets the first select from the first form that has the select.
+     * @param selectName
+     * @return
+     */
+    public Select getSelect(String selectName) {
+    	Select theSelect = null;
+        Document theDocument = getIe().getDocument();
+        if(theDocument != null) {
+            if(theDocument.hasForms()) {
+                ListIterator theFormsIterator = theDocument.getForms().listIterator();
+                while (theFormsIterator.hasNext()) {
+                    Form theForm = (Form) theFormsIterator.next();
+                    Select theNextSelect = theForm.getSelect(selectName);
+                    if(theNextSelect != null) {
+                    	theSelect = theNextSelect;
+                    	break;
+                    }
+                }
+            }
+        }
+    	return theSelect;
+    }
 
 	/**
 	 * Get the value for a given option of a select box.
+	 * <option value="1">one</option>   Returns the "1" value.
 	 * 
 	 * @param selectName
 	 *            name of the select box.
@@ -606,25 +664,12 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 	 */
     public String getValueForOption(String selectName, String aText) {
         String theValue = null;
-        Document theDocument = getIe().getDocument();
-        if(theDocument != null) {
-            if(theDocument.hasForms()) {
-                ListIterator theFormsIterator = theDocument.getForms().listIterator();
-                while (theFormsIterator.hasNext()) {
-                    Form theForm = (Form) theFormsIterator.next();
-                    Select theSelect = theForm.getSelect(selectName);
-                    if(theSelect != null) {
-                        if(theSelect.hasOptionBasedOnText(aText)) {
-                            theValue = theSelect.getOptionBasedOnText(aText).getValue();
-                        }
-                    }
-                }
+        Select theSelect = getSelect(selectName);
+        if(theSelect != null) {
+            if(theSelect.hasOptionBasedOnText(aText)) {
+                theValue = theSelect.getOptionBasedOnText(aText).getValue();
             }
         }
-        if(theValue == null) {
-    		throw new RuntimeException("Unable to find option " + aText + " for " + selectName);            
-        }
-        
         return theValue;
     }
 
