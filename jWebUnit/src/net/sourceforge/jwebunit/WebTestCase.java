@@ -28,7 +28,7 @@ public class WebTestCase extends TestCase {
     public WebTestCase() {
     }
 
-    protected WebTester getTester() {
+    public WebTester getTester() {
         return tester;
     }
 
@@ -340,27 +340,27 @@ public class WebTestCase extends TestCase {
         tester.setWorkingForm(nameOrId);
     }
 
-    protected void setFormElement(String formElementName, String value) {
+    public void setFormElement(String formElementName, String value) {
         tester.setFormElement(formElementName, value);
     }
 
-    protected void setFormElementWithLabel(String formElementLabel, String value) {
+    public void setFormElementWithLabel(String formElementLabel, String value) {
         tester.setFormElementWithLabel(formElementLabel, value);
     }
 
-    protected void checkCheckbox(String checkBoxName) {
+    public void checkCheckbox(String checkBoxName) {
         tester.checkCheckbox(checkBoxName);
     }
 
-    protected void checkCheckbox(String checkBoxName, String value) {
+    public void checkCheckbox(String checkBoxName, String value) {
         tester.checkCheckbox(checkBoxName, value);
     }
 
-    protected void uncheckCheckbox(String checkBoxName) {
+    public void uncheckCheckbox(String checkBoxName) {
         tester.uncheckCheckbox(checkBoxName);
     }
 
-    protected void uncheckCheckbox(String checkBoxName, String value) {
+    public void uncheckCheckbox(String checkBoxName, String value) {
         tester.uncheckCheckbox(checkBoxName, value);
     }
 
@@ -370,7 +370,7 @@ public class WebTestCase extends TestCase {
 
     // Form submission and link navigation methods
 
-    protected void submit() {
+    public void submit() {
         tester.submit();
     }
 
@@ -386,27 +386,27 @@ public class WebTestCase extends TestCase {
         tester.reset();
     }
 
-    protected void clickLinkWithText(String linkText) {
+    public void clickLinkWithText(String linkText) {
         tester.clickLinkWithText(linkText);
     }
 
-    protected void clickLinkWithText(String linkText, int index) {
+    public void clickLinkWithText(String linkText, int index) {
         tester.clickLinkWithText(linkText, index);
     }
 
-    protected void clickLinkWithTextAfterText(String linkText, String labelText) {
+    public void clickLinkWithTextAfterText(String linkText, String labelText) {
         tester.clickLinkWithTextAfterText(linkText, labelText);
     }
 
-    protected void clickLinkWithImage(String imageFileName) {
+    public void clickLinkWithImage(String imageFileName) {
         tester.clickLinkWithImage(imageFileName);
     }
 
-    protected void clickLink(String linkId) {
+    public void clickLink(String linkId) {
         tester.clickLink(linkId);
     }
 
-    protected void clickButton(String buttonId) {
+    public void clickButton(String buttonId) {
         tester.clickButton(buttonId);
     }
 

@@ -42,6 +42,16 @@ public class WebTester {
     }
 
     /**
+     * Set a specific HttpUnitDialog to be used by this tester.  Not for normal
+     * use.  If you need to transmit dialog state from one tester to another, this
+     * may be useful.
+     * 
+     */
+    public void setDialog(HttpUnitDialog dialog) {
+        this.dialog = dialog;
+    }
+
+    /**
      * Provide access to test context.
      * 
      * @return TestContext
@@ -989,7 +999,7 @@ public class WebTester {
      *            label preceding form element.
      * @param value
      */
-    protected void setFormElementWithLabel(String formElementLabel, String value) {
+    public void setFormElementWithLabel(String formElementLabel, String value) {
         String name = dialog.getFormElementNameForLabel(formElementLabel);
         Assert.assertNotNull("Did not find form element with label ["
                 + formElementLabel + "].", name);
