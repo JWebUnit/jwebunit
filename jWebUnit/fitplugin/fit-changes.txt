@@ -1,11 +1,2 @@
 fit.Fixture
     exception -> Exception to Throwable, remove cast.
-    change to protected:
-        escape
-        camel
-        label
-
-fit.ActionFixture
-    change to proteced:
-        cells
-        actor

@@ -1,13 +1,18 @@
 package fit;
 
-import java.io.*;
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.StringTokenizer;
 
 public class DirectoryRunner {
-
     private File targetDirectory;
+    private int prevRight;
+    private int prevWrong;
+    private int prevIgnores;
+    private int prevExceptions;
+    private DirectoryResult dirResult;
 
-    public static void main (String argv[]) {
+    public static void main(String argv[]) {
         new DirectoryRunner().run(argv);
     }
 
@@ -16,18 +21,61 @@ public class DirectoryRunner {
         exit();
     }
 
+    private void args(String[] argv) {
+        if (argv.length > 1) {
+            System.err.println("usage: java fit.DirectoryRunner [targetDirectory]");
+            System.exit(-1);
+        }
+        if (argv.length == 1) {
+            targetDirectory = new File(argv[0]);
+        } else {
+            targetDirectory = new File(".");
+        }
+        dirResult = new DirectoryResult(targetDirectory);
+    }
+
     public void process(String argv[]) {
         args(argv);
-        File [] files = targetDirectory.listFiles(new FilenameFilter() {
+        File[] files = targetDirectory.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return name.indexOf("fit.in.html") != -1;
-            } }
-            );
+            }
+        });
         for (int i = 0; i < files.length; i++) {
-            File file = files[i];
-            FileRunner runner = new FileRunner();
-            runner.process(new String[] {file.getAbsolutePath(), getOutputFileName(file.getName())});
+            runFile(files[i]);
         }
+        dirResult.writeIndexFile();
+    }
+
+    private void runFile(File file) {
+        setPreviousCounts();
+        final String filename = file.getName();
+        final String outname = getOutputFileName(file.getName());
+        String[] args = new String[]{file.getAbsolutePath(), targetDirectory.getPath() + "/" + outname};
+        FileRunner runner = new FileRunner() {
+            protected void exit() {
+                captureSummary(filename, outname);
+                output.close();
+            }
+        };
+        runner.run(args);
+    }
+
+    protected void captureSummary(String filename, String outname) {
+        FileResult result = new FileResult(filename, outname,
+                                           Fixture.right - prevRight,
+                                           Fixture.wrong - prevWrong,
+                                           Fixture.ignores - prevIgnores,
+                                           Fixture.exceptions - prevExceptions);
+        result.dumpCounts();
+        dirResult.addResult(result);
+    }
+
+    private void setPreviousCounts() {
+        prevRight = Fixture.right;
+        prevWrong = Fixture.wrong;
+        prevIgnores = Fixture.ignores;
+        prevExceptions = Fixture.exceptions;
     }
 
     private String getOutputFileName(String name) {
@@ -41,23 +89,10 @@ public class DirectoryRunner {
                 outputFileName.append(part);
             }
         }
-        return targetDirectory.getPath() + "/" + outputFileName.toString();
+        return outputFileName.toString();
     }
 
-    void args(String[] argv) {
-        if (argv.length > 1) {
-            System.err.println("usage: java fit.DirectoryRunner [targetDirectory]");
-            System.exit(-1);
-        }
-        if(argv.length == 1) {
-            targetDirectory = new File(argv[0]);
-        } else {
-            targetDirectory = new File(".");
-        }
-    }
-
-
-   void exit() {
+    void exit() {
         System.err.println(Fixture.counts());
         System.exit(Fixture.wrong + Fixture.exceptions);
     }
