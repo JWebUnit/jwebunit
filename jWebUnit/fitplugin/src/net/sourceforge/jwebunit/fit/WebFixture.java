@@ -70,7 +70,16 @@ public class WebFixture extends ActionFixture {
     }
 
     public void link() {
-        tester.clickLinkWithText(cells.more.more.text());
+        try {
+            tester.clickLinkWithText(cells.more.more.text());
+        } catch (Throwable t) {
+            if (t instanceof AssertionFailedError) {
+                markLastArgumentWrong(cells.more.more, 1, t.getMessage());
+            }
+            else {
+                exception(cells.last(), t);
+            }
+        }
     }
 
     public void linkId() {

@@ -719,6 +719,7 @@ public class WebTester {
      * @param linkText
      */
     public void clickLinkWithText(String linkText) {
+        assertLinkPresentWithText(linkText);
         dialog.clickLinkWithText(linkText);
     }
 
@@ -728,6 +729,7 @@ public class WebTester {
      * @param linkId id of link
      */
     public void clickLink(String linkId) {
+        assertLinkPresent(linkId);
         dialog.clickLink(linkId);
     }
 
