@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<document>
+	<properties>
+		<author>Martijn Dashorst</author>
+		<title>Building jWebunit with Ant</title>
+	</properties>
+<body class="default">
+<section name="Building jWebUnit with Ant">
+	<p>
+		Ant is make for Unix. Most open source Java projects use Ant as their build tool. With ant
+		you can compile, test, package your release with just a few lines of XML code in the <tt>build.xml</tt>
+		file.
+	</p>
+	<subsection name="Installing Ant">
+		<p>
+			You need to have <a href="ant.apache.org">Ant</a> installed. The latest version at the moment
+			of this writing is version 1.6.1.
+		</p>
+		<p>
+			After you've installed Ant, don't forget to set the <tt>ANT_HOME</tt> environment variable, and
+			to put <tt>%ANT_HOME%\bin</tt> to your path (Unix users use $ANT_HOME/bin).
+		</p>
+		<p>
+			And last, but not least, copy the file <tt>junit-3.8.1.jar</tt> from the <tt>jWebUnit\lib</tt> 
+			directory to <tt>%ANT_HOME%\lib</tt>, or else your build <em>will</em> fail!
+		</p>
+	</subsection>
+	<subsection name="Building jWebUnit">
+		TODO
+	</subsection>
+	<subsection name="Building a release">
+		<p>
+			TODO
+		</p>
+	</subsection>
+</section>
+<!--
+<p>
+    First download jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
+    and expand to a local directory.
+</p>
+</section>
+<subsection name="Dependencies">
+<p>
+    The following dependencies are needed to run jWebUnit and are available in the lib directory. See
+    <a href="dependencies.html">this page</a> for more information on the precise version numbers for each jar. 
+</p>
+<p>
+    <table class="default" cellspacing="2" border="1">
+        <tr>
+            <th>Dependency</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><a href="http://sourceforge.net/projects/httpunit">HttpUnit</a></td>
+            <td>Java library for the automatic stimulation and testing of web applications.</td>
+        </tr>
+        <tr>
+            <td><a href="http://www.mozilla.org/rhino/">Rhino</a></td>
+            <td>Java javascript implementation used by httpunit. Only needed if javascript in target application must be tested.</td>
+        </tr>
+        <tr>
+            <td><a href="http://www.apache.org/~andyc/neko/doc/html/">nekohtml</a></td>
+            <td>Java html parser and beautifier used by httpunit.</td>
+        </tr>
+        <tr>
+            <td><a href="http://www.junit.org">JUnit</a></td>
+            <td>Java testing framework.</td>
+        </tr>
+        <tr>
+            <td><a href="http://xml.apache.org/xerces2-j/">Apache XML API</a></td>
+            <td>Common XML stuff needed by Tidy/HttpUnit.</td>
+        </tr>
+        <tr>
+            <td><a href="http://xml.apache.org/xerces2-j/">Xerces xml parser</a></td>
+            <td>Needed for Httpunit/neko.</td>
+        </tr>
+    </table>
+</p>
+</subsection>
+-->
+</body>
+</document>

@@ -5,66 +5,6 @@
 		<title>Building jWebunit</title>
 	</properties>
 <body class="default">
-<section name="Building jWebUnit from source">
-	<p>
-		There are two distinct ways to build jWebUnit:
-		<ul>
-			<li>using <a href="http://ant.apache.org">Ant</a> and</li>
-			<li>using <a href="http://Maven.apache.org">Maven</a>.</li>
-		</ul>
-		Each of these methods are described below.
-	</p>
-</section>
-<section name="Building jWebUnit with ant">
-	<p>
-		TODO
-	</p>
-</section>
-<!--
-<p>
-    First download jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
-    and expand to a local directory.
-</p>
-</section>
-<subsection name="Dependencies">
-<p>
-    The following dependencies are needed to run jWebUnit and are available in the lib directory. See
-    <a href="dependencies.html">this page</a> for more information on the precise version numbers for each jar. 
-</p>
-<p>
-    <table class="default" cellspacing="2" border="1">
-        <tr>
-            <th>Dependency</th>
-            <th>Description</th>
-        </tr>
-        <tr>
-            <td><a href="http://sourceforge.net/projects/httpunit">HttpUnit</a></td>
-            <td>Java library for the automatic stimulation and testing of web applications.</td>
-        </tr>
-        <tr>
-            <td><a href="http://www.mozilla.org/rhino/">Rhino</a></td>
-            <td>Java javascript implementation used by httpunit. Only needed if javascript in target application must be tested.</td>
-        </tr>
-        <tr>
-            <td><a href="http://www.apache.org/~andyc/neko/doc/html/">nekohtml</a></td>
-            <td>Java html parser and beautifier used by httpunit.</td>
-        </tr>
-        <tr>
-            <td><a href="http://www.junit.org">JUnit</a></td>
-            <td>Java testing framework.</td>
-        </tr>
-        <tr>
-            <td><a href="http://xml.apache.org/xerces2-j/">Apache XML API</a></td>
-            <td>Common XML stuff needed by Tidy/HttpUnit.</td>
-        </tr>
-        <tr>
-            <td><a href="http://xml.apache.org/xerces2-j/">Xerces xml parser</a></td>
-            <td>Needed for Httpunit/neko.</td>
-        </tr>
-    </table>
-</p>
-</subsection>
--->
 <section name="Building jWebUnit with Maven">
 	<p>
 		Maven is, just like ant, a build tool. However, where you have to tell ant what it
@@ -89,7 +29,7 @@
 		Next you need to do 3 things:
 		<ul>
 			<li>add an environment variable MAVEN_HOME which points to the install directory of Maven, i.e. C:\maven-1.0-rc3</li>
-			<li>add %MAVEN_HOME%\bin to your path (using the variable you can switch more easily when a new version arrives)</li>
+			<li>add <tt>%MAVEN_HOME%\bin</tt> to your path (using the variable you can switch more easily when a new version arrives)</li>
 			<li>add to your home directory (under windows 2000 and XP: C:\Documents and Settings\username) a file called build.properties, and
 		and put the following entries in it:
 		<table>
@@ -204,6 +144,11 @@ Finished at: Mon Jun 07 23:06:15 CEST 2004
 	</p>
 	<p>
 		Just open the index.html in your browser.
+	</p>
+</subsection>
+<subsection name="Building a release">
+	<p>
+		TODO
 	</p>
 </subsection>
 </section>

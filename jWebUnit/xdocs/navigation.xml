@@ -22,15 +22,21 @@
 	        	<item name="Using Element IDs" href="#Using_Element_IDs_to_Validate_Content" />
 	        	<item name="Using Property Files" href="#Using_Property_Files_to_Validate_Content" />
 	        </item>
-			<item name="Building jWebUnit" href="/building.html" collapse="true">
-				<item name="With Ant" href="/building.html#Building_jWebUnit_with_Ant"/>
-				<item name="With Maven" href="/building.html#Building_jWebUnit_with_Maven" />
-				<item name="Installing Maven" href="/building.html#Installing_Maven" />
-				<item name="Using Maven" href="/building.html#Using_Maven" />
-				<item name="Building jWebUnit" href="/building.html#Building_jWebUnit" />
-				<item name="Building the site" href="/building.html#Building_the_site" />
-			</item>
 	    </menu>
+		<menu name="Building jWebUnit">
+			<item name="With Ant" href="/building-ant.html" collapse="true">
+				<item name="Installing Maven" href="/building-maven.html#Installing_Maven" />
+				<item name="Using Maven" href="/building-maven.html#Using_Maven" />
+				<item name="Building jWebUnit" href="/building-maven.html#Building_jWebUnit" />
+				<item name="Building the site" href="/building-maven.html#Building_the_site" />
+			</item>
+			<item name="With Maven" href="/building-maven.html" collapse="true">
+				<item name="Installing Maven" href="/building-maven.html#Installing_Maven" />
+				<item name="Using Maven" href="/building-maven.html#Using_Maven" />
+				<item name="Building jWebUnit" href="/building-maven.html#Building_jWebUnit" />
+				<item name="Building the site" href="/building-maven.html#Building_the_site" />
+			</item>
+		</menu>
 	    <menu name="Quick links">
 	        <item name="Javadoc" href="/apidocs/index.html"/>
 	        <item name="Dependencies" href="/dependencies.html"/>
