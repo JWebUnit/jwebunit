@@ -6,7 +6,8 @@
 # with the understanding that the owner(s) cannot be
 # responsible for any behavior of the program or
 # any damages that it may cause. See LICENSE.TXT
-require './riki'
+$: << '.'
+require 'riki'
 
 class RefCountPage < Riki::RikiPage
     def initialize()

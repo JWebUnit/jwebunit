@@ -1,5 +1,5 @@
 a:hover {
-	background-color: #efefef;
+	background-color: #CCCCCC;
 }
 
 table {
@@ -14,16 +14,14 @@ td {
 body {
     background-repeat: no-repeat;
     color: black;
-    margin-left: 3%;
-    margin-right: 10%;
+    margin-left: 5%;
+    margin-right: 20%;
     font-family: verdana, arial, helvetica, Sans-Serif;
 }
 
 h1 {
     font-family: verdana, arial, helvetica, Sans-Serif;
     text-align: left;
-    margin-top: 5%;
-    margin-right: 10%;
 }
 
 h1 a:link {
@@ -35,6 +33,10 @@ h1 a:visited {
     font-family: verdana, arial, helvetica, Sans-Serif;
     text-decoration: none;
     color: #3333ff;
+}
+
+h1 a:hover {
+    background-color: #FFFFFF;
 }
 
 dt {
@@ -66,8 +68,7 @@ pre {
 
 table.wiki {
     display: table;
-    cell-spacing: 20px;
-    border-color: #CCCCCC;
+    border-color: #666666;
     border-style: solid;
     border-width: thin;
 }
@@ -77,7 +78,31 @@ tr.wiki {} /* for */
 td.wiki {
     font-family: Times, serif;
     font-size: 100%;
-    border-color: #CCCCCC;
+    border-color: #666666;
     border-style: solid;
     border-width: thin;
+}
+
+td.menu {
+    font-family: verdana, arial, helvetica, Sans-Serif;
+    font-size: 90%;
+    border-top: solid thin #666666;
+    border-bottom: solid thin #666666;
+    padding: 5px;
+    word-spacing: 10px;
+    background-color: #CCCCCC;
+}
+
+td.menu a {
+    text-decoration: none;
+	color: #3333ff;
+}
+
+td.menu a:hover {
+	background-color: #FFFFFF;
+}
+
+.error {
+    color: red;
+    background-color: #CCCCCC;
 }

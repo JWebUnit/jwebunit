@@ -9,6 +9,7 @@ Test manipulation of radio group boxes.
 
 |net.sourceforge.jwebunit.fit.WebFixture||||
 |begin|personalInfoForm|||
+|kaboom|splat|||
 |check|radio option present|sex|male|
 |check|radio option present|sex|female|
 |check|radio option not present|sex|other|
