@@ -1,13 +1,11 @@
 package net.sourceforge.jwebunit;
 
-import com.meterware.pseudoserver.PseudoServer;
-import com.meterware.pseudoserver.PseudoServlet;
-import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
-
 import java.lang.reflect.InvocationTargetException;
-import java.io.IOException;
 
 import junit.framework.AssertionFailedError;
+import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
+
+import com.meterware.pseudoserver.PseudoServlet;
 
 /**
  * Superclass for testing jWebUnit.  Uses test utilities from httpunit's test package.
@@ -19,28 +17,24 @@ public class JWebUnitTest extends WebTestCase {
 
     protected static final Object[] NOARGS = new Object[0];
     protected String hostPath;
-    protected static PseudoServer server = new PseudoServer();
+    protected static TestServer server = new TestServer();
 
     public JWebUnitTest() {
-        try {
-            hostPath = "http://localhost:" + server.getConnectedPort();
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
-        }
     }
 
     public void setUp() throws Exception {
        super.setUp();
+       server.setUp();
+	   hostPath = "http://localhost:" + server.getConnectedPort();
        getTestContext().setBaseUrl(hostPath);
     }
 
     public void tearDown() throws Exception {
-//        if (server != null) server.shutDown();
-        server.clearResources();
+    	server.tearDown();
     }
 
     protected void defineResource(String resourceName, String value) {
-        server.setResource(resourceName, value);
+        server.defineResource(resourceName, value);
     }
 
     protected void defineWebPage(String pageName, String body) {
@@ -49,7 +43,7 @@ public class JWebUnitTest extends WebTestCase {
     }
 
     protected void defineResource(String resourceName, PseudoServlet servlet) {
-        server.setResource(resourceName, servlet);
+        server.defineResource(resourceName, servlet);
     }
 
     public void assertPassFail(String methodName, Object passArg, Object failArgs) throws Throwable {

@@ -87,7 +87,7 @@ public class FramesAndWindowsTest extends JWebUnitTest {
 	 * Broken in httpunit
 	 *
 	 */
-	public void xtestGotoInlineFrame() {
+	public void testGotoInlineFrame() {
 		beginAt("InlineFrame.html");
 		assertTextPresent("TopFrame");
 		gotoFrame("ContentFrame");

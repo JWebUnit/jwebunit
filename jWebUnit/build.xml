@@ -106,8 +106,8 @@
         <delete dir="jwebfit-classes"/>
     </target>
     
-    <target name="sampleApp.compile" depends="jwebfit.compile">
-        <javac destdir="jwebfit-classes" classpathref="src.classpath" debug="true">
+    <target name="sampleApp.compile" depends="init, jwebfit.compile">
+        <javac destdir="classes" classpathref="src.classpath" debug="true">
             <src location="fitplugin/test"/>
             <classpath refid="src.classpath"/>
         </javac>    	
