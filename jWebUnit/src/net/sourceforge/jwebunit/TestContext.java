@@ -5,6 +5,9 @@
 package net.sourceforge.jwebunit;
 
 import javax.servlet.http.Cookie;
+
+import com.meterware.httpunit.WebClient;
+
 import java.util.*;
 import java.io.UnsupportedEncodingException;
 
@@ -17,6 +20,7 @@ import java.io.UnsupportedEncodingException;
  * @author Jim Weaver
  */
 public class TestContext {
+    private WebClient client;
     private String user;
     private String passwd;
     private List cookies;
@@ -172,5 +176,19 @@ public class TestContext {
      */
     public void setBaseUrl(String url) {
         baseUrl = url.endsWith("/") ? url : url + "/";
+    }
+
+    /**
+     * Set the WebClient to use for testing.  If not set, jwebunit will create
+     * an httpunit WebConversation.
+     */
+    public void setWebClient(WebClient client)
+    {
+        this.client = client;
+    }
+
+    public WebClient getWebClient()
+    {
+        return client;
     }
 }

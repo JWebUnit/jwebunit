@@ -34,7 +34,7 @@ import java.util.*;
  * @author Wilkes Joiner
  */
 public class HttpUnitDialog {
-    private WebConversation wc;
+    private WebClient wc;
     private WebResponse resp;
     private TestContext context;
     private WebForm form;
@@ -48,7 +48,7 @@ public class HttpUnitDialog {
      */
     public HttpUnitDialog(String initialURL, TestContext context) {
         this.context = context;
-        initWebConversation();
+        initWebClient();
         try {
             resp = wc.getResponse(new GetMethodWebRequest(initialURL));
         } catch (Exception e) {
@@ -56,10 +56,15 @@ public class HttpUnitDialog {
         }
     }
 
-    private void initWebConversation() {
-        wc = new WebConversation();
-
+    private void initWebClient() {
         if (context != null) {
+            WebClient client = context.getWebClient();
+            if (client == null) {
+                wc = new WebConversation();
+            } else {
+                wc = client;
+            }
+
             if (context.hasAuthorization())
                 wc.setAuthorization(context.getUser(), context.getPassword());
             if (context.hasCookies()) {
@@ -69,6 +74,8 @@ public class HttpUnitDialog {
                     wc.addCookie(c.getName(), c.getValue());
                 }
             }
+        } else {
+            wc = new WebConversation();
         }
 
         wc.addClientListener(new WebClientListener() {
@@ -84,10 +91,20 @@ public class HttpUnitDialog {
     }
 
     /**
-     * Return the HttpUnit WebConversation object for this dialog.
+     * Return the HttpUnit WebClient object for this dialog.
+     */
+    public WebClient getWebClient() {
+        return wc;
+    }
+
+    /**
+     * Return the HttpUnit WebClient object for this dialog, if
+     * it happens to be a WebConversation.  Suggest using getWebClient
+     * instead.
+     * @throws ClassCastException if it is not a WebConversation
      */
     public WebConversation getWebConversation() {
-        return wc;
+        return (WebConversation) wc;
     }
 
     /**
