@@ -103,7 +103,7 @@ public class TableAssertionsTest extends JWebUnitTest {
 
     private void addTestPage() {
         defineWebPage("testPage", "This is a test page." +
-                                  "<table summary=\"testTable\">" +
+                                  "<table id=\"testTable\">" +
                                   "<tr><td>table text</td></tr>" +
                                   "<tr><td>table text row 2</td></tr>" +
                                   "<tr><td>table text row 3</td><td>row 3 col 1</td>" +

@@ -100,56 +100,56 @@ public class WebTestCase extends TestCase {
         tester.assertTextNotPresent(text);
     }
 
-    public void assertTablePresent(String tableSummary) {
-        tester.assertTablePresent(tableSummary);
+    public void assertTablePresent(String tableSummaryOrId) {
+        tester.assertTablePresent(tableSummaryOrId);
     }
 
-    public void assertTableNotPresent(String tableSummary) {
-        tester.assertTableNotPresent(tableSummary);
+    public void assertTableNotPresent(String tableSummaryOrId) {
+        tester.assertTableNotPresent(tableSummaryOrId);
     }
 
-    public void assertKeyInTable(String tableSummary, String key) {
-        tester.assertKeyInTable(tableSummary, key);
+    public void assertKeyInTable(String tableSummaryOrId, String key) {
+        tester.assertKeyInTable(tableSummaryOrId, key);
     }
 
-    public void assertTextInTable(String tableSummary, String text) {
-        tester.assertTextInTable(tableSummary, text);
+    public void assertTextInTable(String tableSummaryOrId, String text) {
+        tester.assertTextInTable(tableSummaryOrId, text);
     }
 
-    public void assertKeysInTable(String tableSummary, String[] keys) {
-        tester.assertKeysInTable(tableSummary, keys);
+    public void assertKeysInTable(String tableSummaryOrId, String[] keys) {
+        tester.assertKeysInTable(tableSummaryOrId, keys);
     }
 
-    public void assertTextInTable(String tableSummary, String[] text) {
-        tester.assertTextInTable(tableSummary, text);
+    public void assertTextInTable(String tableSummaryOrId, String[] text) {
+        tester.assertTextInTable(tableSummaryOrId, text);
     }
 
-    public void assertKeyNotInTable(String tableSummary, String key) {
-        tester.assertKeyNotInTable(tableSummary, key);
+    public void assertKeyNotInTable(String tableSummaryOrId, String key) {
+        tester.assertKeyNotInTable(tableSummaryOrId, key);
     }
 
-    public void assertTextNotInTable(String tableSummary, String text) {
-        tester.assertTextNotInTable(tableSummary, text);
+    public void assertTextNotInTable(String tableSummaryOrId, String text) {
+        tester.assertTextNotInTable(tableSummaryOrId, text);
     }
 
-    public void assertTextNotInTable(String tableSummary, String[] text) {
-        tester.assertTextNotInTable(tableSummary, text);
+    public void assertTextNotInTable(String tableSummaryOrId, String[] text) {
+        tester.assertTextNotInTable(tableSummaryOrId, text);
     }
 
-    public void assertTableEquals(String tableSummary, ExpectedTable expectedTable) {
-        tester.assertTableEquals(tableSummary, expectedTable.getExpectedStrings());
+    public void assertTableEquals(String tableSummaryOrId, ExpectedTable expectedTable) {
+        tester.assertTableEquals(tableSummaryOrId, expectedTable.getExpectedStrings());
     }
 
-    public void assertTableEquals(String tableSummary, String[][] expectedCellValues) {
-        tester.assertTableEquals(tableSummary, expectedCellValues);
+    public void assertTableEquals(String tableSummaryOrId, String[][] expectedCellValues) {
+        tester.assertTableEquals(tableSummaryOrId, expectedCellValues);
     }
 
-    public void assertTableRowsEqual(String tableSummary, int startRow, ExpectedTable expectedTable) {
-        tester.assertTableRowsEqual(tableSummary, startRow, expectedTable);
+    public void assertTableRowsEqual(String tableSummaryOrId, int startRow, ExpectedTable expectedTable) {
+        tester.assertTableRowsEqual(tableSummaryOrId, startRow, expectedTable);
     }
 
-    public void assertTableRowsEqual(String tableSummary, int startRow, String[][] expectedCellValues) {
-        tester.assertTableRowsEqual(tableSummary, startRow, expectedCellValues);
+    public void assertTableRowsEqual(String tableSummaryOrId, int startRow, String[][] expectedCellValues) {
+        tester.assertTableRowsEqual(tableSummaryOrId, startRow, expectedCellValues);
     }
 
     public void assertFormElementPresent(String parameterName) {

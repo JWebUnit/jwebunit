@@ -262,11 +262,11 @@ public class HttpUnitDialog {
         }
     }
 
-    public boolean isTextInTable(String tableSummary, String text) {
-        WebTable table = getWebTableBySummary(tableSummary);
+    public boolean isTextInTable(String tableSummaryOrId, String text) {
+        WebTable table = getWebTableBySummaryOrId(tableSummaryOrId);
         if (table == null) {
             throw new RuntimeException(
-                    "No table with summary [" + tableSummary + "] found in response.");
+                    "No table with summary or id [" + tableSummaryOrId + "] found in response.");
         }
         for (int row = 0; row < table.getRowCount(); row++) {
             for (int col = 0; col < table.getColumnCount(); col++) {
@@ -281,13 +281,18 @@ public class HttpUnitDialog {
         return false;
     }
 
-    public WebTable getWebTableBySummary(String tableSummary) {
+    public WebTable getWebTableBySummaryOrId(String tableSummaryOrId) {
+        WebTable table;
         try {
-            return resp.getTableWithSummary(tableSummary);
+            table =  resp.getTableWithSummary(tableSummaryOrId);
+            if (table == null) {
+                table = resp.getTableWithID(tableSummaryOrId);
+            }
         } catch (SAXException e) {
             e.printStackTrace();
             return null;
         }
+        return table;
     }
 
     private String getNodeHtml(Node node) {

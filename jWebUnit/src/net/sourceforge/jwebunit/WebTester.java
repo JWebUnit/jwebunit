@@ -176,143 +176,147 @@ public class WebTester {
     }
 
     /**
-     * Assert that a table with a given summary value is present.
+     * Assert that a table with a given summary or id value is present.
      *
-     * @param tableSummary summary value of table
+     * @param tableSummaryOrId summary or id attribute value of table
      */
-    public void assertTablePresent(String tableSummary) {
-        if (dialog.getWebTableBySummary(tableSummary) == null)
-            Assert.fail("Unable to locate table \"" + tableSummary + "\"");
+    public void assertTablePresent(String tableSummaryOrId) {
+        if (dialog.getWebTableBySummaryOrId(tableSummaryOrId) == null)
+            Assert.fail("Unable to locate table \"" + tableSummaryOrId + "\"");
     }
 
     /**
-     * Assert that a table with a given summary value is not present.
+     * Assert that a table with a given summary or id value is not present.
      *
-     * @param tableSummary summary value of table
+     * @param tableSummaryOrId summary or id attribute value of table
      */
-    public void assertTableNotPresent(String tableSummary) {
-        if (dialog.getWebTableBySummary(tableSummary) != null)
-            Assert.fail("Located table \"" + tableSummary + "\"");
+    public void assertTableNotPresent(String tableSummaryOrId) {
+        if (dialog.getWebTableBySummaryOrId(tableSummaryOrId) != null)
+            Assert.fail("Located table \"" + tableSummaryOrId + "\"");
     }
 
     /**
      * Assert that the value of a given web resource is present in a specific table.
      *
-     * @param tableSummary summary value of table
+     * @param tableSummaryOrId summary or id attribute value of table
      * @param key web resource name
      */
-    public void assertKeyInTable(String tableSummary, String key) {
-        assertTextInTable(tableSummary, getMessage(key));
+    public void assertKeyInTable(String tableSummaryOrId, String key) {
+        assertTextInTable(tableSummaryOrId, getMessage(key));
     }
 
     /**
      * Assert that supplied text is present in a specific table.
      *
-     * @param tableSummary summary value of table
+     * @param tableSummaryOrId summary or id attribute value of table
      * @param text
      */
-    public void assertTextInTable(String tableSummary, String text) {
-        assertTablePresent(tableSummary);
-        Assert.assertTrue("Could not find: [" + text + "]", dialog.isTextInTable(tableSummary, text));
+    public void assertTextInTable(String tableSummaryOrId, String text) {
+        assertTablePresent(tableSummaryOrId);
+        Assert.assertTrue("Could not find: [" + text + "]" +
+                          "in table [" + tableSummaryOrId + "]",
+                          dialog.isTextInTable(tableSummaryOrId, text));
     }
 
     /**
      * Assert that the values of a set of web resources are all present in a specific table.
      *
-     * @param tableSummary
+     * @param tableSummaryOrId summary or id attribute value of table
      * @param keys Array of web resource names.
      */
-    public void assertKeysInTable(String tableSummary, String[] keys) {
+    public void assertKeysInTable(String tableSummaryOrId, String[] keys) {
         for (int i = 0; i < keys.length; i++) {
-            assertKeyInTable(tableSummary, keys[i]);
+            assertKeyInTable(tableSummaryOrId, keys[i]);
         }
     }
 
     /**
      * Assert that a set of text values are all present in a specific table.
      *
-     * @param tableSummary
+     * @param tableSummaryOrId summary or id attribute value of table
      * @param text Array of expected text values.
      */
-    public void assertTextInTable(String tableSummary, String[] text) {
+    public void assertTextInTable(String tableSummaryOrId, String[] text) {
         for (int i = 0; i < text.length; i++) {
-            assertTextInTable(tableSummary, text[i]);
+            assertTextInTable(tableSummaryOrId, text[i]);
         }
     }
 
     /**
      * Assert that the value of a given web resource is not present in a specific table.
      *
-     * @param tableSummary summary value of table
+     * @param tableSummaryOrId summary or id attribute value of table
      * @param key web resource name
      */
-    public void assertKeyNotInTable(String tableSummary, String key) {
-        assertTextNotInTable(tableSummary, getMessage(key));
+    public void assertKeyNotInTable(String tableSummaryOrId, String key) {
+        assertTextNotInTable(tableSummaryOrId, getMessage(key));
     }
 
     /**
      * Assert that supplied text is not present in a specific table.
      *
-     * @param tableSummary summary value of table
+     * @param tableSummaryOrId summary or id attribute value of table
      * @param text
      */
-    public void assertTextNotInTable(String tableSummary, String text) {
-        assertTablePresent(tableSummary);
-        Assert.assertTrue("Found text: [" + text + "]", !dialog.isTextInTable(tableSummary, text));
+    public void assertTextNotInTable(String tableSummaryOrId, String text) {
+        assertTablePresent(tableSummaryOrId);
+        Assert.assertTrue("Found text: [" + text + "] in table [" +
+                          tableSummaryOrId + "]",
+                          !dialog.isTextInTable(tableSummaryOrId, text));
     }
 
     /**
      * Assert that none of a set of text values are present in a specific table.
      *
-     * @param tableSummary summary value of table
+     * @param tableSummaryOrId summary or id attribute value of table
      * @param text Array of text values
      */
-    public void assertTextNotInTable(String tableSummary, String[] text) {
+    public void assertTextNotInTable(String tableSummaryOrId, String[] text) {
         for (int i = 0; i < text.length; i++) {
-            assertTextNotInTable(tableSummary, text[i]);
+            assertTextNotInTable(tableSummaryOrId, text[i]);
         }
     }
 
     /**
      * Assert that a specific table matches an ExpectedTable.
      *
-     * @param tableSummary summary value of table
+     * @param tableSummaryOrId summary or id attribute value of table
      * @param expectedTable represents expected values (colspan supported).
      */
-    public void assertTableEquals(String tableSummary, ExpectedTable expectedTable) {
-        assertTableEquals(tableSummary, expectedTable.getExpectedStrings());
+    public void assertTableEquals(String tableSummaryOrId, ExpectedTable expectedTable) {
+        assertTableEquals(tableSummaryOrId, expectedTable.getExpectedStrings());
     }
 
     /**
      * Assert that a specific table matches a matrix of supplied text values.
      *
-     * @param tableSummary summary value of table
+     * @param tableSummaryOrId summary or id attribute value of table
      * @param expectedCellValues double dimensional array of expected values
      */
-    public void assertTableEquals(String tableSummary, String[][] expectedCellValues) {
-        assertTableRowsEqual(tableSummary, 0, expectedCellValues);
+    public void assertTableEquals(String tableSummaryOrId, String[][] expectedCellValues) {
+        assertTableRowsEqual(tableSummaryOrId, 0, expectedCellValues);
     }
 
     /**
      * Assert that a range of rows for a specific table matches a matrix of supplied text values.
      *
-     * @param tableSummary summary value of table
+     * @param tableSummaryOrId summary or id attribute value of table
      * @param startRow index of start row for comparison
      * @param expectedTable represents expected values (colspan supported).
      */
-    public void assertTableRowsEqual(String tableSummary, int startRow, ExpectedTable expectedTable) {
-        assertTableRowsEqual(tableSummary, startRow, expectedTable.getExpectedStrings());
+    public void assertTableRowsEqual(String tableSummaryOrId, int startRow, ExpectedTable expectedTable) {
+        assertTableRowsEqual(tableSummaryOrId, startRow, expectedTable.getExpectedStrings());
     }
 
     /**
      * Assert that a range of rows for a specific table matches a matrix of supplied text values.
      *
-     * @param tableSummary summary value of table
+     * @param tableSummaryOrId summary or id attribute value of table
      * @param startRow index of start row for comparison
      * @param expectedCellValues double dimensional array of expected values
      */
-    public void assertTableRowsEqual(String tableSummary, int startRow, String[][] expectedCellValues) {
-        String[][] sparseTableCellValues = getSparseTable(tableSummary);
+    public void assertTableRowsEqual(String tableSummaryOrId, int startRow, String[][] expectedCellValues) {
+        String[][] sparseTableCellValues = getSparseTable(tableSummaryOrId);
         if (expectedCellValues.length > (sparseTableCellValues.length - startRow))
             Assert.fail("Expected rows [" + expectedCellValues.length + "] larger than actual rows in range being compared" +
                     " [" + (sparseTableCellValues.length - startRow) + "].");
@@ -320,19 +324,19 @@ public class WebTester {
             String[] row = expectedCellValues[i];
             for (int j = 0; j < row.length; j++) {
                 if (row.length != sparseTableCellValues[i].length)
-                    Assert.fail("Unequal number of columns for row " + i + " of table " + tableSummary +
+                    Assert.fail("Unequal number of columns for row " + i + " of table " + tableSummaryOrId +
                             ". Expected [" + row.length + "] found [" + sparseTableCellValues[i].length + "].");
                 String expectedString = row[j];
-                Assert.assertEquals("Expected " + tableSummary + " value at [" + i + "," + j + "] not found.",
+                Assert.assertEquals("Expected " + tableSummaryOrId + " value at [" + i + "," + j + "] not found.",
                         expectedString, context.toEncodedString(sparseTableCellValues[i + startRow][j].trim()));
             }
         }
 
     }
 
-    private String[][] getSparseTable(String tableSummary) {
-        assertTablePresent(tableSummary);
-        WebTable table = dialog.getWebTableBySummary(tableSummary);
+    private String[][] getSparseTable(String tableSummaryOrId) {
+        assertTablePresent(tableSummaryOrId);
+        WebTable table = dialog.getWebTableBySummaryOrId(tableSummaryOrId);
         table.purgeEmptyCells();
         String[][] sparseTableCellValues = table.asText();
         return sparseTableCellValues;
