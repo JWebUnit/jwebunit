@@ -1,15 +1,18 @@
 /********************************************************************************
  * Copyright (c) 2001, ThoughtWorks, Inc.
  * Distributed open-source, see full license under licenses/jwebunit_license.txt
-**********************************/
+ **********************************/
 package net.sourceforge.jwebunit;
 
-import javax.servlet.http.Cookie;
-
 import com.meterware.httpunit.WebClient;
+import com.meterware.httpunit.WebConversation;
 
-import java.util.*;
+import javax.servlet.http.Cookie;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Establish context for tests (things such as locale, base url for the
@@ -29,6 +32,7 @@ public class TestContext {
     private String encodingScheme = "ISO-8859-1";
     private String resourceBundleName;
     private String baseUrl = "http://localhost:8080";
+    private String userAgent;
 
     /**
      * Construct a test client context.
@@ -96,6 +100,18 @@ public class TestContext {
      */
     public List getCookies() {
         return cookies;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public void setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+    }
+
+    public boolean hasUserAgent() {
+        return userAgent != null;
     }
 
     /**
@@ -178,17 +194,37 @@ public class TestContext {
         baseUrl = url.endsWith("/") ? url : url + "/";
     }
 
+
     /**
      * Set the WebClient to use for testing.  If not set, jwebunit will create
      * an httpunit WebConversation.
      */
-    public void setWebClient(WebClient client)
-    {
+    public void setWebClient(WebClient client) {
         this.client = client;
     }
 
-    public WebClient getWebClient()
-    {
+    /**
+     * This returns a WebClient with all the appropraite settings for this TestContext.
+     */
+    public WebClient getWebClient() {
+        if (client == null) {
+            client = new WebConversation();
+        }
+
+        if (hasAuthorization()) {
+            client.setAuthorization(getUser(), getPassword());
+        }
+        if (hasCookies()) {
+            List cookies = getCookies();
+            for (Iterator iter = cookies.iterator(); iter.hasNext();) {
+                Cookie c = (Cookie) iter.next();
+                client.addCookie(c.getName(), c.getValue());
+            }
+        }
+        if (hasUserAgent()) {
+            client.setUserAgent(getUserAgent());
+        }
         return client;
     }
+
 }

@@ -4,27 +4,16 @@
  **********************************/
 package net.sourceforge.jwebunit;
 
-import com.meterware.httpunit.GetMethodWebRequest;
-import com.meterware.httpunit.HTMLElementPredicate;
-import com.meterware.httpunit.SubmitButton;
-import com.meterware.httpunit.TableCell;
-import com.meterware.httpunit.WebConversation;
-import com.meterware.httpunit.WebForm;
-import com.meterware.httpunit.WebLink;
-import com.meterware.httpunit.WebRequest;
-import com.meterware.httpunit.WebResponse;
-import com.meterware.httpunit.WebTable;
-import com.meterware.httpunit.WebClientListener;
-import com.meterware.httpunit.WebClient;
-import com.meterware.httpunit.WebWindow;
-import com.meterware.httpunit.Button;
+import com.meterware.httpunit.*;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
-import javax.servlet.http.Cookie;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Acts as the wrapper for HttpUnit access.  A dialog is initialized with a
@@ -58,34 +47,14 @@ public class HttpUnitDialog {
     }
 
     private void initWebClient() {
-        if (context != null) {
-            WebClient client = context.getWebClient();
-            if (client == null) {
-                wc = new WebConversation();
-            } else {
-                wc = client;
-            }
-
-            if (context.hasAuthorization())
-                wc.setAuthorization(context.getUser(), context.getPassword());
-            if (context.hasCookies()) {
-                List cookies = context.getCookies();
-                for (Iterator iter = cookies.iterator(); iter.hasNext();) {
-                    Cookie c = (Cookie) iter.next();
-                    wc.addCookie(c.getName(), c.getValue());
-                }
-            }
-        } else {
-            wc = new WebConversation();
-        }
+        wc = (context != null) ? context.getWebClient() : new WebConversation();
 
         wc.addClientListener(new WebClientListener() {
             public void requestSent(WebClient webClient, WebRequest webRequest) {
             }
 
             public void responseReceived(WebClient webClient, WebResponse webResponse) {
-				resp = webClient.getCurrentPage();
-//                resp = webResponse;
+                resp = webClient.getCurrentPage();
                 form = null;
             }
         });
@@ -297,10 +266,10 @@ public class HttpUnitDialog {
 
     public void updateFormParameter(String paramName, String paramValue) {
         checkFormStateWithParameter(paramName);
-        if(!multiselectMap.containsKey(paramName)) multiselectMap.put(paramName, new ArrayList());
-        List values = (List)multiselectMap.get(paramName);
-        if(!values.contains(paramValue)) values.add(paramValue);
-        getForm().setParameter(paramName, (String[])values.toArray(new String[0]));
+        if (!multiselectMap.containsKey(paramName)) multiselectMap.put(paramName, new ArrayList());
+        List values = (List) multiselectMap.get(paramName);
+        if (!values.contains(paramValue)) values.add(paramValue);
+        getForm().setParameter(paramName, (String[]) values.toArray(new String[0]));
     }
 
     /**
@@ -326,10 +295,10 @@ public class HttpUnitDialog {
 
     public void removeFormParameterWithValue(String paramName, String value) {
         checkFormStateWithParameter(paramName);
-        if(multiselectMap.containsKey(paramName)) {
-            List values = (List)multiselectMap.get(paramName);
+        if (multiselectMap.containsKey(paramName)) {
+            List values = (List) multiselectMap.get(paramName);
             values.remove(value);
-            getForm().setParameter(paramName, (String[])values.toArray(new String[0]));
+            getForm().setParameter(paramName, (String[]) values.toArray(new String[0]));
         }
     }
 
@@ -359,7 +328,7 @@ public class HttpUnitDialog {
                 Element form = (Element) forms.item(i);
                 TextAndElementWalker walker =
                         new TextAndElementWalker(form,
-                            new String[] { "input", "select", "textarea" });
+                                new String[]{"input", "select", "textarea"});
                 Element formElement =
                         walker.getElementAfterText(formElementLabel);
                 if (formElement != null) {
@@ -464,7 +433,7 @@ public class HttpUnitDialog {
             if (child.hasChildNodes()) {
                 nodeText += getNodeText(child);
             } else if (child.getNodeType() == Node.TEXT_NODE) {
-                nodeText += ((Text)child).getData();
+                nodeText += ((Text) child).getData();
             }
         }
         return nodeText;
@@ -667,8 +636,8 @@ public class HttpUnitDialog {
         WebLink link = getLinkWithTextAfterText(linkText, labelText);
         if (link == null)
             throw new RuntimeException(
-                "No Link found for \"" + linkText + "\" with label \""
-                + labelText + "\"");
+                    "No Link found for \"" + linkText + "\" with label \""
+                    + labelText + "\"");
         submitRequest(link);
     }
 
@@ -676,7 +645,7 @@ public class HttpUnitDialog {
         try {
             TextAndElementWalker walker =
                     new TextAndElementWalker(resp.getDOM().getDocumentElement(),
-                        new String[] { "a" });
+                            new String[]{"a"});
             final Element linkElement =
                     walker.getElementWithTextAfterText(linkText, labelText);
             if (linkElement != null) {
@@ -697,11 +666,11 @@ public class HttpUnitDialog {
 
             NamedNodeMap foundAttributes = foundElement.getAttributes();
             NamedNodeMap givenAttributes = givenElement.getAttributes();
-            
+
             if (foundAttributes.getLength() != givenAttributes.getLength()) {
                 return false;
             }
-            
+
             for (int i = 0; i < foundAttributes.getLength(); i++) {
                 Attr foundAttribute = (Attr) foundAttributes.item(i);
                 Attr givenAttribute =
@@ -938,7 +907,7 @@ public class HttpUnitDialog {
      *
      * @param frameName
      */
-    public  WebResponse getFrame(String frameName) {
+    public WebResponse getFrame(String frameName) {
         return wc.getMainWindow().getFrameContents(frameName);
     }
 
