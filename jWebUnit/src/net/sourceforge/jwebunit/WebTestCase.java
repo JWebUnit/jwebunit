@@ -400,6 +400,21 @@ public class WebTestCase extends TestCase {
         tester.gotoPage(page);
     }
 
+	/**
+	 * Implement tearDown method to clear unused memory.  When there are a
+	 * large number of test cases (1000+), it makes sense to hint free memory so that the
+	 * JVM can keep running all the TCs
+	 *
+	 * Patch contributed by Budi Boentaran.  
+     */
+	protected void tearDown() throws Exception {
+		tester = null;
+		//Call the next level - I hope everybody plays by the same set of
+		//rules
+		super.tearDown(); 
+		
+	} 
+
 // Debug methods
 
     protected void dumpResponse(PrintStream stream) {
