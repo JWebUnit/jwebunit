@@ -57,4 +57,18 @@ public class JavaScriptEventsTest  extends JWebUnitTest {
         assertTextPresent("Target");
     }
 
+    public void testJavaScriptInFile() {
+        defineResource("nav.js", "function gotoNext() { window.location='next.html'; return true; }");
+        defineResource("index.html", "<html> <head>" +
+		                             "<script src=\"nav.js\" type=\"text/javascript\" language=\"javascript\"></script>" +
+                                     "</head> <body>" +
+		                             "<h1>Javascript Test</h1> +" +
+                                     "<form><input type=\"button\" onclick=\"gotoNext()\" value=\"Next\" id=\"next\"></form>" +
+                                     "</body></html>");
+        defineResource("next.html", "<html><head></head><body><h1>Next</h1><p>Here is the text we expect</p></body></html>");
+        beginAt("index.html");
+        clickButton("next");
+        assertTextPresent("Here is the text we expect");
+    }
+
 }
