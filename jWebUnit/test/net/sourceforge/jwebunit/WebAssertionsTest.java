@@ -23,7 +23,8 @@ public class WebAssertionsTest extends JWebUnitTest {
     }
 
     public void testAssertTitleEquals() throws Throwable {
-        assertPassFail("assertTitleEquals", "testPage", "wrong title");
+        assertPass("assertTitleEquals", new String[] {"testPage"});
+        assertFail("assertTitleEquals", "wrong title");
     }
 
     public void testAssertTextInResponse() throws Throwable {

@@ -21,7 +21,6 @@ public class JWebUnitTest extends WebTestCase {
     private String hostPath;
     private PseudoServer server;
 
-
     public JWebUnitTest(String s) {
         super(s);
     }
@@ -33,23 +32,21 @@ public class JWebUnitTest extends WebTestCase {
         getTestContext().setBaseUrl(hostPath);
     }
 
-
     public void tearDown() throws Exception {
         if (server != null) server.shutDown();
     }
 
-
-    protected void defineResource( String resourceName, String value ) {
-        server.setResource( resourceName, value );
+    protected void defineResource(String resourceName, String value) {
+        server.setResource(resourceName, value);
     }
 
     protected void defineWebPage(String pageName, String body) {
         defineResource(pageName + ".html", "<html><head><title>" + pageName + "</title></head>\n" +
-                "<body>" + body + "</body></html>");
+                                           "<body>" + body + "</body></html>");
     }
 
-    protected void defineResource( String resourceName, PseudoServlet servlet ) {
-        server.setResource( resourceName, servlet );
+    protected void defineResource(String resourceName, PseudoServlet servlet) {
+        server.setResource(resourceName, servlet);
     }
 
     public void assertPassFail(String methodName, Object passArg, Object failArgs) throws Throwable {
@@ -84,7 +81,8 @@ public class JWebUnitTest extends WebTestCase {
             invoker.invoke();
             fail("Expected test failure did not occur for method: " + methodName);
         } catch (InvocationTargetException e) {
-            assertTrue(e.getTargetException().getClass().equals(exceptionClass));
+            assertTrue("Expected " + exceptionClass.getName() + "but was " + e.getTargetException().getClass().getName(),
+                       exceptionClass.isInstance(e.getTargetException()));
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
