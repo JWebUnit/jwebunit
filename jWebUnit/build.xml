@@ -83,13 +83,16 @@
         <antcall target="clean"/>
     </target>
 
-    <target name="jar-classes">
-        <mkdir dir="classes"/>
-        <javac destdir="classes" classpathref="src.classpath">
-            <src location="${fit.src}"/>
+    <target name="jwebfit">
+        <mkdir dir="jwebfit-classes"/>
+        <javac destdir="jwebfit-classes" classpathref="src.classpath">
             <src location="src"/>
             <src location="fitplugin/src"/>
+            <classpath>
+	            <path refid="src.classpath"/>
+            </classpath>
         </javac>
-        <jar destfile="jwebunit.jar" basedir="classes"/>
+        <jar destfile="jwebfit.jar" basedir="jwebfit-classes"/>
+        <delete dir="jwebfit-classes"/>
     </target>
 </project>
