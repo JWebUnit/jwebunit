@@ -160,11 +160,11 @@ public class WebTestCase extends TestCase {
         tester.assertFormElementNotPresent(formElementName);
     }
 
-    public void assertHasForm() {
+    public void assertFormPresent() {
         tester.assertFormPresent();
     }
 
-    public void assertHasForm(String formName) {
+    public void assertFormPresent(String formName) {
         tester.assertFormPresent(formName);
     }
 

@@ -1,5 +1,6 @@
 <project name="jWebUnit" default="test">
 
+    <property name="build.name" value="jwebunit-1.0"/>
     <property name="fit.src" value="../../fit/Source"/>
     <path id="src.classpath">
         <fileset dir="lib">
@@ -55,21 +56,21 @@
     <target name="make-zip" depends="gen-javadoc">
         <jar destfile="dist/jwebunit.jar" basedir="src-classes"/>
         <zip destfile="dist/jWebUnit.zip">
-            <zipfileset dir="sample" prefix="sample"/>
-            <zipfileset dir="src" prefix="src"/>
-            <zipfileset dir="test" prefix="test"/>
-            <zipfileset dir="doc" prefix="doc"/>
-            <zipfileset dir="lib" prefix="lib"/>
-            <fileset dir="dist" includes="jwebunit.jar"/>
-            <fileset dir="." includes="build.xml"/>
-            <fileset dir="." includes="CHANGES"/>
+            <zipfileset dir="sample" prefix="${build.name}/sample"/>
+            <zipfileset dir="src" prefix="${build.name}/src"/>
+            <zipfileset dir="test" prefix="${build.name}/test"/>
+            <zipfileset dir="docgen" prefix="${build.name}/doc"/>
+            <zipfileset dir="lib" prefix="${build.name}/lib"/>
+            <zipfileset dir="dist" includes="jwebunit.jar" prefix="${build.name}"/>
+            <zipfileset dir="." includes="build.xml" prefix="${build.name}"/>
+            <zipfileset dir="." includes="CHANGES" prefix="${build.name}"/>
         </zip>
     </target>
 
     <target name="clean">
         <delete dir="src-classes"/>
         <delete dir="test-classes"/>
-        <delete dir="doc"/>
+        <delete dir="docgen"/>
     </target>
 
     <target name="clean-dist">

@@ -19,7 +19,7 @@ import com.meterware.httpunit.WebResponse;
  */
 public class FormSubmissionTest extends JWebUnitTest {
 
-    public FormSubmissionTest(String s) {
+    public FormSubmissionTest(String s) throws Exception {
         super(s);
     }
 
