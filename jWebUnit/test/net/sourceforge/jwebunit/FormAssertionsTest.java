@@ -33,7 +33,7 @@ public class FormAssertionsTest extends JWebUnitTest {
 
     public void testAssertHasNamedForm() throws Throwable {
         assertPass("assertHasForm", new String[]{"form2"});
-        assertFail("assertHasForm", new String[]{"form3"});
+        assertFail("assertHasForm", new String[]{"form4"});
     }
 
     public void testAssertFormControlEquals() throws Throwable {

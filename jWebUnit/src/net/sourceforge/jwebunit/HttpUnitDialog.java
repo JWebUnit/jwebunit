@@ -37,17 +37,24 @@ package net.sourceforge.jwebunit;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ********************************************************************************/
 
-import com.meterware.httpunit.*;
+import com.meterware.httpunit.GetMethodWebRequest;
+import com.meterware.httpunit.SubmitButton;
+import com.meterware.httpunit.TableCell;
+import com.meterware.httpunit.WebConversation;
+import com.meterware.httpunit.WebForm;
+import com.meterware.httpunit.WebLink;
+import com.meterware.httpunit.WebRequest;
+import com.meterware.httpunit.WebResponse;
+import com.meterware.httpunit.WebTable;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import javax.servlet.http.Cookie;
 import java.io.IOException;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Wrapper for HttpUnit access.  A dialog is initialized with a
@@ -61,7 +68,6 @@ public class HttpUnitDialog {
     private WebConversation wc;
     private WebResponse resp;
     private TestContext context;
-    private Map formParameterMap = new HashMap();
     private WebForm form;
 
     public HttpUnitDialog(String initialURL, TestContext context) {
@@ -109,11 +115,11 @@ public class HttpUnitDialog {
         }
     }
 
+
     private WebForm getForm() {
-//        if(form == null)
-//            form = getForm(0);
-//        return form;
-        return getForm(0);
+        if(form == null)
+            setWorkingForm(getForm(0));
+        return form;
     }
 
     private WebForm getForm(int formIndex) {
@@ -124,21 +130,69 @@ public class HttpUnitDialog {
         }
     }
 
-    // TODO: getFormWithId(String id)
-    private WebForm getFormWithName(String formName) {
+    private WebForm getForm(String formName) {
         try {
-            return resp.getFormWithName(formName);
+            WebForm f = resp.getFormWithID(formName);
+            return (f != null) ? f : resp.getFormWithName(formName);
         } catch (SAXException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
     }
 
-    WebForm[] getForms() {
+    private WebForm getFormWithButton(String buttonName) {
+        if (hasForm()) {
+            for (int i = 0; i < getForms().length; i++) {
+                WebForm webForm = getForms()[i];
+                if (webForm.getSubmitButton(buttonName) != null)
+                    return webForm;
+            }
+        }
+        return null;
+    }
+
+    private WebForm getFormWithParameter(String paramName) {
+        if (hasForm()) {
+            for (int i = 0; i < getForms().length; i++) {
+                WebForm webForm = getForms()[i];
+                String[] names = webForm.getParameterNames();
+                for (int j = 0; j < names.length; j++) {
+                    if (names[j].equals(paramName)) return webForm;
+                }
+
+            }
+        }
+        return null;
+    }
+
+
+    private WebForm[] getForms() {
         try {
             return resp.getForms();
         } catch (SAXException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
+    }
+
+    private void checkFormStateWithParameter(String paramName) {
+        if(form == null) {
+            setWorkingForm(getFormWithParameter(paramName));
+        }
+    }
+
+    private void checkFormStateWithButton(String buttonName) {
+        if(form == null) {
+            setWorkingForm(getFormWithButton(buttonName));
+        }
+    }
+
+    public void setWorkingForm(String nameOrId) {
+        setWorkingForm(getForm(nameOrId));
+    }
+
+    private void setWorkingForm(WebForm newForm) {
+        if(newForm == null)
+            throw new UnableToSetFormException("Attempted to set form to null.");
+        form = newForm;
     }
 
     public boolean hasForm() {
@@ -151,61 +205,37 @@ public class HttpUnitDialog {
     }
 
     public boolean hasForm(String formName) {
-        return getFormWithName(formName) != null;
+        return getForm(formName) != null;
     }
 
     /**
      * Returns true if any form has this element
-     * Todo: Should only be for the "working" form
      * @param paramName
      * @return
      */
     public boolean hasFormParameterNamed(String paramName) {
-        WebForm[] forms = getForms();
-        for (int i = 0; i < forms.length; i++) {
-            WebForm form = forms[i];
-            if (form.hasParameterNamed(paramName)) return true;
-        }
-        return false;
+        checkFormStateWithParameter(paramName);
+        return getForm().hasParameterNamed(paramName);
     }
 
-    //ToDo: Use the "working" form.  If the working form is not
-    //TODO: set use the
     public void setFormParameter(String paramName, String paramValue) {
-        formParameterMap.put(paramName, paramValue);
+        checkFormStateWithParameter(paramName);
+        getForm().setParameter(paramName, paramValue);
     }
 
     public String getFormParameterValue(String paramName) {
+        checkFormStateWithParameter(paramName);
         return getForm().getParameterValue(paramName);
     }
 
     public void removeFormParameter(String paramName) {
+        checkFormStateWithParameter(paramName);
         getForm().removeParameter(paramName);
     }
 
-
-    private WebForm getFormWithButton(String buttonName) {
-        if (hasForm()) {
-            for (int i = 0; i < getForms().length; i++) {
-                WebForm webForm = getForms()[i];
-                if (webForm.getSubmitButton(buttonName) != null)
-                    return webForm;
-            }
-        }
-        throw new RuntimeException("No button [" + buttonName + "] found on any form.");
-    }
-
     public SubmitButton getSubmitButton(String buttonName) {
-        for (int i = 0; i < getForms().length; i++) {
-            WebForm webForm = getForms()[i];
-            if (webForm.getSubmitButton(buttonName) != null)
-                return webForm.getSubmitButton(buttonName);
-        }
-        return null;
-    }
-
-    public SubmitButton getSubmitButton(String buttonName, int formIndex) {
-        return getForm(formIndex).getSubmitButton(buttonName);
+        checkFormStateWithButton(buttonName);
+        return getForm().getSubmitButton(buttonName);
     }
 
     public boolean isTextInResponse(String text) {
@@ -270,39 +300,16 @@ public class HttpUnitDialog {
     }
 
     public void submit(String buttonName) {
-        WebRequest formRequest = getFormWithButton(buttonName).getRequest(buttonName);
-        submitRequest(formRequest);
+        submitRequest(getForm().getRequest(buttonName));
     }
 
-    public void submitForm(String formName) {
-        WebRequest formRequest = getFormWithName(formName).getRequest((SubmitButton) null);
-        submitRequest(formRequest);
-    }
-
-    public void submitForm(String formName, String buttonName) {
-        WebRequest formRequest = getFormWithName(formName).getRequest(buttonName);
-        submitRequest(formRequest);
-    }
-
-    private void submitRequest(WebRequest formRequest) {
-        initFormParameters(formRequest);
-        sendRequest(formRequest);
-    }
-
-    private void initFormParameters(WebRequest formRequest) {
-        Set parmSet = formParameterMap.entrySet();
-        String[] params = formRequest.getRequestParameterNames();
-        for (Iterator iterator = parmSet.iterator(); iterator.hasNext();) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            for (int i = 0; i < params.length; i++) {
-                String name = (String) entry.getKey();
-                if (params[i].equals(name))
-                    formRequest.setParameter(name, (String) entry.getValue());
-            }
-
+    private void submitRequest(WebRequest aWebRequest) {
+        try {
+            resp = wc.getResponse(aWebRequest);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
     }
-
 
     public boolean isLinkInResponse(String linkText) {
         try {
@@ -321,15 +328,7 @@ public class HttpUnitDialog {
         }
         if (link == null)
             throw new RuntimeException("No Link found for \"" + linkText + "\"");
-        sendRequest(link.getRequest());
-    }
-
-    private void sendRequest(WebRequest aWebRequest) {
-        try {
-            resp = wc.getResponse(aWebRequest);
-        } catch (Exception e) {
-            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
-        }
+        submitRequest(link.getRequest());
     }
 
     public boolean hasRadioOption(String radioGroup, String radioOption) {

@@ -73,10 +73,17 @@ public class FormSubmissionTest extends JWebUnitTest {
     public void testParamSetOnMultiForm() {
         addMultiForm();
         beginAt("/QueryForm.html");
-        setFormParameter("param2", "anyvalue");
         setFormParameter("param1", "anyvalue");
+        setWorkingForm("form2");
+        setFormParameter("param2", "anyvalue");
         submit("button2a");
         assertTextInResponse("param2=anyvalue");
+    }
+
+    public void testSetWorkingFormById() {
+        addMultiForm();
+        beginAt("/QueryForm.html");
+        setWorkingForm("form5");
     }
 
     public void testInvalidButton() {
@@ -95,7 +102,7 @@ public class FormSubmissionTest extends JWebUnitTest {
         addMultiForm();
         beginAt("/QueryForm.html");
         setFormParameter("param4", "anyvalue");
-        submitForm("form4");
+        submit();
         assertTextInResponse("param4=anyvalue");
     }
 
@@ -103,7 +110,7 @@ public class FormSubmissionTest extends JWebUnitTest {
         addMultiForm();
         beginAt("/QueryForm.html");
         setFormParameter("param2", "anyvalue");
-        submitForm("form2", "button2b");
+        submit("button2b");
         assertTextInResponse("param2=anyvalue&button2b=b2b");
     }
 
@@ -182,6 +189,7 @@ public class FormSubmissionTest extends JWebUnitTest {
 
                        "<form name=\"form4\" method=GET action=\"TargetPage\">" +
                        "<input type=\"text\" name=\"param4\"><input type=\"submit\"></form>" +
+                       "<form id=\"form5\"/>" +
                        "</body></html>");
 
     }

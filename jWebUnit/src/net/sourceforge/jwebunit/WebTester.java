@@ -39,6 +39,7 @@ package net.sourceforge.jwebunit;
 
 import com.meterware.httpunit.WebTable;
 import com.meterware.httpunit.WebForm;
+import com.meterware.httpunit.SubmitButton;
 import net.sourceforge.jwebunit.HttpUnitDialog;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import junit.framework.Assert;
@@ -109,7 +110,7 @@ public class WebTester {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("No message found for key [" + key + "]." +
-                                       "\nError: " + ExceptionUtility.stackTraceToString(e));
+                    "\nError: " + ExceptionUtility.stackTraceToString(e));
         }
         return context.toEncodedString(message);
     }
@@ -300,16 +301,16 @@ public class WebTester {
         String[][] sparseTableCellValues = getSparseTable(tableSummary);
         if (expectedCellValues.length > (sparseTableCellValues.length - startRow))
             Assert.fail("Expected rows [" + expectedCellValues.length + "] larger than actual rows in range being compared" +
-                        " [" + (sparseTableCellValues.length - startRow) + "].");
+                    " [" + (sparseTableCellValues.length - startRow) + "].");
         for (int i = 0; i < expectedCellValues.length; i++) {
             String[] row = expectedCellValues[i];
             for (int j = 0; j < row.length; j++) {
                 if (row.length != sparseTableCellValues[i].length)
                     Assert.fail("Unequal number of columns for row " + i + " of table " + tableSummary +
-                                ". Expected [" + row.length + "] found [" + sparseTableCellValues[i].length + "].");
+                            ". Expected [" + row.length + "] found [" + sparseTableCellValues[i].length + "].");
                 String expectedString = row[j];
                 Assert.assertEquals("Expected " + tableSummary + " value at [" + i + "," + j + "] not found.",
-                                    expectedString, context.toEncodedString(sparseTableCellValues[i + startRow][j].trim()));
+                        expectedString, context.toEncodedString(sparseTableCellValues[i + startRow][j].trim()));
             }
         }
 
@@ -331,7 +332,7 @@ public class WebTester {
     public void assertFormControlPresent(String formControlName) {
         assertHasForm();
         Assert.assertTrue("Did not find form control with name [" + formControlName + "].",
-                          dialog.hasFormParameterNamed(formControlName));
+                dialog.hasFormParameterNamed(formControlName));
     }
 
     /**
@@ -341,8 +342,12 @@ public class WebTester {
      */
     public void assertFormControlNotPresent(String formControlName) {
         assertHasForm();
-        Assert.assertTrue("Found form control with name [" + formControlName + "] when not expected.",
-                          !dialog.hasFormParameterNamed(formControlName));
+        try {
+            Assert.assertTrue("Found form control with name [" + formControlName + "] when not expected.",
+                    !dialog.hasFormParameterNamed(formControlName));
+        } catch (UnableToSetFormException e) {
+            // assertFormControlNotPresent
+        }
     }
 
     /**
@@ -411,7 +416,12 @@ public class WebTester {
      */
     public void assertSubmitButtonNotPresent(String buttonName) {
         assertHasForm();
-        Assert.assertNull("Button [" + buttonName + "] found.", dialog.getSubmitButton(buttonName));
+        SubmitButton button = null;
+        try {
+            button = dialog.getSubmitButton(buttonName);
+        } catch (UnableToSetFormException e) {
+        }
+        Assert.assertNull("Button [" + buttonName + "] found.", button);
     }
 
     /**
@@ -461,24 +471,6 @@ public class WebTester {
         dialog.submit(buttonName);
     }
 
-    /**
-     * Submit form with the specified name.
-     * @param formName
-     */
-    public void submitForm(String formName) {
-        assertHasForm(formName);
-        dialog.submitForm(formName);
-    }
-
-    /**
-     * Sumbit the form with the specified name by pressing named button.
-     * @param formName
-     * @param buttonName
-     */
-    public void submitForm(String formName, String buttonName) {
-        assertHasForm(formName);
-        dialog.submitForm(formName, buttonName);
-    }
 
     /**
      * Navigate by selection of a specified link.
@@ -555,8 +547,10 @@ public class WebTester {
 
     /**
      * Remove a form input element (turn a checkbox off).
+     *
      * @param parameterName
      */
+    // Todo: rename to uncheckCheckbox
     public void removeFormParameter(String parameterName) {
         assertHasForm();
         assertFormControlPresent(parameterName);
@@ -564,12 +558,12 @@ public class WebTester {
     }
 
     public void assertRadioOptionPresent(String radioGroup, String radioOption) {
-        if(!dialog.hasRadioOption(radioGroup, radioOption))
+        if (!dialog.hasRadioOption(radioGroup, radioOption))
             Assert.fail("Unable to find option " + radioOption + " in radio group " + radioGroup);
     }
 
     public void assertRadioOptionNotPresent(String radioGroup, String radioOption) {
-        if(dialog.hasRadioOption(radioGroup, radioOption))
+        if (dialog.hasRadioOption(radioGroup, radioOption))
             Assert.fail("Found option " + radioOption + " in radio group " + radioGroup);
     }
 
@@ -581,6 +575,10 @@ public class WebTester {
     public void assertRadioOptionNotSelected(String radioGroup, String radioOption) {
         Assert.assertTrue("Radio option " + radioOption + " is not selected",
                 !radioOption.equals(dialog.getFormParameterValue(radioGroup)));
+    }
+
+    public void setWorkingForm(String nameOrId) {
+        dialog.setWorkingForm(nameOrId);
     }
 
 }

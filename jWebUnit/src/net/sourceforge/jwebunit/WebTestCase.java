@@ -217,14 +217,6 @@ public class WebTestCase extends TestCase {
         tester.submit(buttonName);
     }
 
-    public void submitForm(String formName) {
-        tester.submitForm(formName);
-    }
-
-    public void submitForm(String formName, String buttonName) {
-        tester.submitForm(formName, buttonName);
-    }
-
     protected void clickLink(String linkText) {
         tester.clickLink(linkText);
     }
@@ -247,6 +239,11 @@ public class WebTestCase extends TestCase {
 
     protected void removeFormParameter(String parameterName) {
         tester.removeFormParameter(parameterName);
+    }
+
+    public void setWorkingForm(String nameOrId) {
+        tester.setWorkingForm(nameOrId);
+
     }
 
 }
