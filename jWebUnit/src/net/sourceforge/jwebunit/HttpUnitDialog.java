@@ -657,7 +657,7 @@ public class HttpUnitDialog {
         getForm().reset();
     }
 
-    private void submitRequest(WebLink aLink) {
+    protected void submitRequest(WebLink aLink) {
         try {
             aLink.click();
             resp = wc.getCurrentPage();
