@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<document>
+	<properties>
+		<author>Martijn Dashorst</author>
+		<title>Building jWebunit</title>
+	</properties>
+<body class="default">
+<section name="Building jWebUnit from source">
+	<p>
+		There are two distinct ways to build jWebUnit:
+		<ul>
+			<li>using <a href="http://ant.apache.org">Ant</a> and</li>
+			<li>using <a href="http://Maven.apache.org">Maven</a>.</li>
+		</ul>
+		Each of these methods are described below.
+	</p>
+</section>
+<section name="Building jWebUnit with ant">
+	<p>
+		TODO
+	</p>
+</section>
+<!--
+<p>
+    First download jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
+    and expand to a local directory.
+</p>
+</section>
+<subsection name="Dependencies">
+<p>
+    The following dependencies are needed to run jWebUnit and are available in the lib directory. See
+    <a href="dependencies.html">this page</a> for more information on the precise version numbers for each jar. 
+</p>
+<p>
+    <table class="default" cellspacing="2" border="1">
+        <tr>
+            <th>Dependency</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><a href="http://sourceforge.net/projects/httpunit">HttpUnit</a></td>
+            <td>Java library for the automatic stimulation and testing of web applications.</td>
+        </tr>
+        <tr>
+            <td><a href="http://www.mozilla.org/rhino/">Rhino</a></td>
+            <td>Java javascript implementation used by httpunit. Only needed if javascript in target application must be tested.</td>
+        </tr>
+        <tr>
+            <td><a href="http://www.apache.org/~andyc/neko/doc/html/">nekohtml</a></td>
+            <td>Java html parser and beautifier used by httpunit.</td>
+        </tr>
+        <tr>
+            <td><a href="http://www.junit.org">JUnit</a></td>
+            <td>Java testing framework.</td>
+        </tr>
+        <tr>
+            <td><a href="http://xml.apache.org/xerces2-j/">Apache XML API</a></td>
+            <td>Common XML stuff needed by Tidy/HttpUnit.</td>
+        </tr>
+        <tr>
+            <td><a href="http://xml.apache.org/xerces2-j/">Xerces xml parser</a></td>
+            <td>Needed for Httpunit/neko.</td>
+        </tr>
+    </table>
+</p>
+</subsection>
+-->
+<section name="Building jWebUnit with Maven">
+	<p>
+		Maven is, just like ant, a build tool. However, where you have to tell ant what it
+		needs to do and how, you only have to tell Maven what you need, if you adhere to the
+		Maven standards.
+	</p>
+	<p>
+		In order to use Maven to build jWebUnit, you need to have Maven installed. This should
+		not be any more difficult than installing ant. We've included a best practise installation
+		and configuration for Maven.
+	</p>
+<subsection name="Installing Maven">
+	<p>
+		First you need to download the latest Maven, which currently is <tt>Maven-1.0-rc3</tt> 
+		(release candidate 3), make sure you download the archive (zip), not the exe installer.
+	</p>
+	<p>
+		Installing Maven should be easy: unzip the file to any directory you like, let's say: 
+		<source>c:\Maven-1.0-rc3</source>
+	</p>
+	<p>
+		Next you need to do 3 things:
+		<ul>
+			<li>add an environment variable MAVEN_HOME which points to the install directory of Maven, i.e. C:\maven-1.0-rc3</li>
+			<li>add %MAVEN_HOME%\bin to your path (using the variable you can switch more easily when a new version arrives)</li>
+			<li>add to your home directory (under windows 2000 and XP: C:\Documents and Settings\username) a file called build.properties, and
+		and put the following entries in it:
+		<table>
+			<tr><th>entry</th><th>description</th></tr>
+			<tr><td>maven.home.local=${maven.home}/cache</td><td>The directory where Maven installs the plugins.</td></tr>
+			<tr><td>maven.repo.local=c:/maven-repository</td><td>The directory where Maven downloads dependencies of your project (jars)</td></tr>
+			<tr><td>maven.repo.remote=http://www.ibiblio.org/maven</td><td>The URL where Maven can download the dependencies from (comma seperated for multiple entries).</td></tr>
+		</table>
+		</li>
+		</ul>
+	</p>
+	<p>
+		You can replace the <tt>maven.repo.local</tt> entry with a directory of your liking. 
+		I advise you to make the directory seperate from the Maven home directory. 
+		Maven downloads all dependencies into this directory. This repository can 
+		be shared among different Maven versions and even developers on the same machine. 
+		The cache directory (the first entry) can't be shared between Maven versions, 
+		so this should stay within the Maven home directory.
+	</p>
+</subsection>
+<subsection name="Using Maven">
+	<p>
+		Maven defines several goals, depending on the plugins you've installed, for
+		creating and building your application. A goal is similar to an Ant-task. For
+		instance: to compile the java sources one could do:
+		<source>maven java:compile</source>
+		Also, a goal can depend on other goals: the <tt>jar:jar</tt> goal depends on
+		running the unit tests and compilation of the code.
+	</p>
+	<p>
+		See the <a href="http://maven.apache.org">Maven site</a> for more information 
+		on the different goals and plugins that are available.
+	</p>
+</subsection>
+<subsection name="Building jWebUnit">
+	<p>
+		Building jWebUnit merely consist of running Maven:
+		<source>maven</source>
+		If you run Maven from a fresh install and you configured Maven as described
+		earlier, you will see (an english version of) the following text:
+<source><![CDATA[
+ __  __
+|  \/  |__ _Apache__ ___
+| |\/| / _` \ V / -_) ' \  ~ intelligent projects ~
+|_|  |_\__,_|\_/\___|_||_|  v. 1.0-rc3
+
+Plugin cache will be regenerated
+Directory c:\maven-repository bestaat niet. Probeer hem aan te maken.
+Probeer junit-3.8.1.jar te downloaden.
+........
+Probeer nekohtml-0.8.1.jar te downloaden.
+....
+Probeer js-1.5R4.1.jar te downloaden.
+.......................
+Probeer xml-apis-1.0.b2.jar te downloaden.
+.....
+Probeer xercesImpl-2.6.2.jar te downloaden.
+....................................
+Probeer servletapi-2.3.jar te downloaden.
+...
+Probeer httpunit-1.5.4.jar te downloaden.
+...............
+Probeer dom4j-1.4-dev-8.jar te downloaden.
+.....................
+
+<- <- <- <- SNIP -> -> -> ->
+
+build:start:
+
+java:prepare-filesystem:
+
+java:compile:
+    [echo] Compiling to C:\workspace\jWebUnit/target/classes
+
+java:jar-resources:
+
+test:prepare-filesystem:
+
+test:test-resources:
+
+test:compile:
+
+test:test:
+    [junit] Running net.sourceforge.jwebunit.ExpectedTableAssertionsTest
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0,594 sec
+    [junit] Running net.sourceforge.jwebunit.ExpectedTableTest
+    [junit] Tests run: 4, Failures: 0, Errors: 0, Time elapsed: 0,343 sec
+<- <- <- <- SNIP -> -> -> ->
+    [junit] Running net.sourceforge.jwebunit.WebCookieTest
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0,422 sec
+
+jar:jar:
+    [echo] Warning: shortDescription is greater than 49 characters - trimming for specification title.
+    [jar] Building jar: C:\workspace\jWebUnit\target\jwebunit-1.2.jar
+BUILD SUCCESSFUL
+Total time: 1 minutes 53 seconds
+Finished at: Mon Jun 07 23:06:15 CEST 2004
+]]></source></p>
+	<p>
+		You now have successfully built the <tt>jWebUnit.jar</tt>.
+	</p>
+</subsection>
+<subsection name="Building the site">
+	<p>
+		Generating the jWebUnit website with maven is also not difficult:
+		<source>maven site</source>
+		is all there's to it.
+		After downloading lots and lots of jar files, maven will build the website which 
+		contains junit results, checkstyle results, and the like, just like the website
+		you're now looking at. You can find the website in the 
+		<source>target/docs</source> directory.
+	</p>
+	<p>
+		Just open the index.html in your browser.
+	</p>
+</subsection>
+</section>
+</body>
+</document>
