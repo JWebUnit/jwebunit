@@ -647,7 +647,8 @@ public class HttpUnitDialog {
         try {
             resp = getForm().submit();
         } catch (Exception e) {
-            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+            throw new RuntimeException("HttpUnit Error submitting form using default submit button, " +
+                    "check that form has single submit button, otherwise use submit(name): \n" + ExceptionUtility.stackTraceToString(e));
         }
     }
 

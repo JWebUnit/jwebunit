@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 		<release version="1.3" date="UNKNOWN" description="New features await us">
+			<action type="add" dev="Jim Weaver" issue="1029306">
+				Added some explanation to exception when HttpUnit fails to submit using default submit button.
+			</action>
 			<action type="add" dev="Jim Weaver" due-to="Dragos Manolescu" issue="800660">
 				Integrated patch for multiple submit buttons with different values.  API change -
 				assertSubmitButtonValue(button, value) now assertSubmitButtonPresent(button, value).
