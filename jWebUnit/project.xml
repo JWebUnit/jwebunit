@@ -283,7 +283,7 @@
 			Documentation related reports
 		-->
 		<report>maven-changes-plugin</report>
-<!--		<report>maven-faq-plugin</report> -->
+		<report>maven-faq-plugin</report>
 		<report>maven-javadoc-plugin</report>
 		<report>maven-license-plugin</report>
 		<report>maven-tasklist-plugin</report>
@@ -291,16 +291,16 @@
 		<!--
 			Test related reports
 		-->
-		<report>maven-junit-report-plugin</report>
 <!--
+		<report>maven-junit-report-plugin</report>
 		<report>maven-jcoverage-plugin</report>
 -->
 
 		<!--
 			Quality control reports
 		-->
-		<report>maven-linkcheck-plugin</report>
 <!--
+		<report>maven-linkcheck-plugin</report>
 		<report>maven-jdepend-plugin</report>
 		<report>maven-jxr-plugin</report>
 		<report>maven-checkstyle-plugin</report>
