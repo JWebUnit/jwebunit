@@ -46,6 +46,8 @@ import com.meterware.httpunit.WebLink;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 import com.meterware.httpunit.WebTable;
+import com.meterware.httpunit.WebClientListener;
+import com.meterware.httpunit.WebClient;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -80,6 +82,10 @@ public class HttpUnitDialog {
         }
     }
 
+    private WebResponse getCurrentPage() {
+        return wc.getCurrentPage();
+    }
+
     private void initWebConversation() {
         wc = new WebConversation();
         if (context != null) {
@@ -93,6 +99,14 @@ public class HttpUnitDialog {
                 }
             }
         }
+        wc.addClientListener(new WebClientListener() {
+            public void requestSent(WebClient webClient, WebRequest webRequest) {
+                form = null;
+            }
+
+            public void responseReceived(WebClient webClient, WebResponse webResponse) {
+            }
+        });
     }
 
     public WebResponse getResponse() {
@@ -116,8 +130,8 @@ public class HttpUnitDialog {
     }
 
 
-    private WebForm getForm() {
-        if(form == null)
+    public WebForm getForm() {
+        if(form == null && hasForm())
             setWorkingForm(getForm(0));
         return form;
     }
@@ -366,4 +380,7 @@ public class HttpUnitDialog {
         }
     }
 
+    public WebConversation getWebConversation() {
+        return wc;
+    }
 }

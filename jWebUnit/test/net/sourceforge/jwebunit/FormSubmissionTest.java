@@ -114,6 +114,14 @@ public class FormSubmissionTest extends JWebUnitTest {
         assertTextInResponse("param2=anyvalue&button2b=b2b");
     }
 
+    public void testFormReset() {
+        addMultiForm();
+        beginAt("/QueryForm.html");
+        setFormParameter("param2", "anyvalue");
+        submit("button2b");
+        assertNull(getDialog().getForm());
+    }
+
     private void gotoMultiButtonPage() {
         addMultiNamedButtonForm();
         beginAt("/QueryForm.html");

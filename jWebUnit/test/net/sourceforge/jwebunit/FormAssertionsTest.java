@@ -78,17 +78,17 @@ public class FormAssertionsTest extends JWebUnitTest {
                 new String[]{"cool", "cat"});
     }
 
-//    public void testAssertRadioOptionSelected() throws Throwable {
-//        assertPassFail("assertRadioOptionSelected",
-//                new String[]{"cool", "dog"},
-//                new String[]{"cool", "cat"});
-//    }
-//
-//    public void testAssertRadioOptionNotSelected() throws Throwable {
-//        assertPassFail("assertRadioOptionNotSelected",
-//                new String[]{"cool", "cat"},
-//                new String[]{"cool", "dog"});
-//    }
+    public void testAssertRadioOptionSelected() throws Throwable {
+        assertPassFail("assertRadioOptionSelected",
+                new String[]{"cool", "dog"},
+                new String[]{"cool", "cat"});
+    }
+
+    public void testAssertRadioOptionNotSelected() throws Throwable {
+        assertPassFail("assertRadioOptionNotSelected",
+                new String[]{"cool", "cat"},
+                new String[]{"cool", "dog"});
+    }
 
     private void addTestPage() {
         defineWebPage("testPage", "This is a test page." +

@@ -255,7 +255,8 @@ public class WebTestCase extends TestCase {
 
     public void setWorkingForm(String nameOrId) {
         tester.setWorkingForm(nameOrId);
-
     }
+
+
 
 }
