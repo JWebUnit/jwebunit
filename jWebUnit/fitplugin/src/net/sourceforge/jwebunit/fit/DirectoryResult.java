@@ -3,7 +3,7 @@
  * Date: Oct 5, 2002
  * Time: 1:19:50 PM
  */
-package fit;
+package net.sourceforge.jwebunit.fit;
 
 import java.io.File;
 import java.io.FileWriter;

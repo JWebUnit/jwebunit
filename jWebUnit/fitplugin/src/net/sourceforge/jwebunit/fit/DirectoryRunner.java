@@ -1,4 +1,7 @@
-package fit;
+package net.sourceforge.jwebunit.fit;
+
+import fit.FileRunner;
+import fit.Fixture;
 
 import java.io.File;
 import java.io.FilenameFilter;

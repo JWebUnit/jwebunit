@@ -3,9 +3,7 @@
  * Date: Oct 5, 2002
  * Time: 1:11:31 PM
  */
-package fit;
-
-import fit.Fixture;
+package net.sourceforge.jwebunit.fit;
 
 public class FileResult {
     private String filename;
