@@ -6,10 +6,24 @@
 	</properties>
 <body class="default">
 <section name="jWebUnit Installation">
-<p>
-    First download jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
-    and expand to a local directory.
-</p>
+	<subsection name="Download">
+		<p>
+			First download jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
+			and expand to a local directory.
+		</p>
+	</subsection>
+	<subsection name="Integrate with IDE">
+		<p>
+			Make sure you add the jwebunit jar file and the jar files in 
+			the jWebUnit/lib directory to your classpath in your IDE.
+		</p>
+	</subsection>
+	<subsection name="Create test">
+		<p>
+			Create your first webunit test. Start slow by asserting the title
+			of your page.
+		</p>
+	</subsection>
 </section>
 <section name="Dependencies">
 <p>
