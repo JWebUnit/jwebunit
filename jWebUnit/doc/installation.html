@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <title>jWebUnit</title>
+    <title>jWebUnit - Installation</title>
     <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
     <link title="Default" href="css/jwebunit.css" type="text/css" rel="stylesheet">
 </head>
@@ -10,12 +10,12 @@
     <tbody>
     <tr>
         <td valign="top" style="width: 100px; white-space: nowrap;"><br></td>
-        <td valign="top" ><h1 style="text-align: center;">jWebUnit</h1></td>
+        <td valign="top" ><h1 style="text-align: center;">jWebUnit Installation</h1></td>
     </tr>
     <tr>
         <td valign="top">
-            Home<br>
-            <a href="installation.html">Installation</a><br>
+            <a href="index.html">Home</a><br>
+            Installation<br>
             <a href="quickstart.html">Quick Start</a><br>
             <a href="api/index.html">Javadoc</a><br>
             <br>
@@ -28,17 +28,19 @@
         </td>
         <td valign="top">
 <!-- Begin Main -->
-    <h2>What is jWebUnit?</h2>
-jWebUnit is a Java framework that facilitates creation of acceptance tests for web applications. It evolved from a project where we were using <a href="http://httpunit.sourceforge.net/">HttpUnit</a> and <a href="http://www.junit.org">JUnit</a> to create acceptance tests. As the tests were being written, they were continuously refactored to remove duplication and other bad smells in the test code. jWebUnit is the result of these refactorings.
-<br>
-<br>
-    <h2>What does jWebUnit provide?</h2>
-jWebUnit provides a high-level API for navigating a web application, and a set
-of assertions to verify the application's correctness. This includes navigation
-via links, form entry and submission, validation of table contents, and other
-typical business web application features. This code is using HttpUnit behind
-the scenes. The simple navigation methods and ready-to-use assertions allow for
-more rapid test creation than using only JUnit and HttpUnit.
+First download jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>.
+Expand the zip onto your machine.  There is a jWebUnit jar in the root directory.  You can use this
+jar to run jWebUnit, but only if you already have all of jWebUnit's dependencies in your target project.
+jWebUnit includes jars for the projects it is dependent on in its lib directory.
+<p>
+<h2>Dependencies</h2>
+<table class="default" cellspacing="2" border="1">
+<tr><td>Dependency</td><td>Jar</td><td>Description</td></tr>
+<tr><td><a href="http://sourceforge.net/projects/httpunit">HttpUnit 1.4.6</a></td><td>httpunit.jar</td><td>Java library for the automatic stimulation and testing of web applications.</td></tr>
+<tr><td><a href="http://www.mozilla.org/rhino/">Rhino</a></td><td>js.jar</td><td>Java javascript implementation used by httpunit.  Only needed if javascript in target application must be tested.</td></tr>
+<tr><td><a href="http://sourceforge.net/projects/jtidy">jTidy</a></td><td>Tidy.jar</td><td>Java html parser and beautifier used by httpunit.</td></tr>
+<tr><td><a href="http://www.junit.org">JUnit 3.8.1</a></td><td>junit.jar, optional.jar</td><td>Java testing framework.</td></tr>
+</table>
 <br>
 <!-- End Main -->
         </td>
