@@ -5,6 +5,7 @@ import junit.framework.TestSuite;
 import net.sourceforge.jwebunit.NavigationTest;
 import net.sourceforge.jwebunit.FormSubmissionTest;
 import net.sourceforge.jwebunit.WebAssertionsTest;
+import net.sourceforge.jwebunit.util.reflect.MethodInvokerTest;
 
 /**
  * Test Suite for jWebUnit.
@@ -22,11 +23,13 @@ public class AllTests extends TestSuite{
         suite.addTestSuite(ExpectedTableAssertionsTest.class);
         suite.addTestSuite(FormAssertionsTest.class);
         suite.addTestSuite(TableAssertionsTest.class);
-        suite.addTestSuite(FramesAndWindowsTest.class);
         suite.addTestSuite(TextAndElementWalkerTest.class);
-        suite.addTestSuite(JavaScriptEventsTest.class);
-        suite.addTestSuite(ServletUnitTest.class);
+		suite.addTestSuite(FramesAndWindowsTest.class);
+		suite.addTestSuite(JavaScriptEventsTest.class);
+		suite.addTestSuite(ServletUnitTest.class);
+		suite.addTestSuite(MethodInvokerTest.class);
         return suite;
+//    	return new TestSuite();
     }
 
      public static void main( String[] args ) {

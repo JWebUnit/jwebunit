@@ -34,9 +34,10 @@ public class JWebUnitTest extends WebTestCase {
        getTestContext().setBaseUrl(hostPath);
     }
 
-//    public void tearDown() throws Exception {
+    public void tearDown() throws Exception {
 //        if (server != null) server.shutDown();
-//    }
+        server.clearResources();
+    }
 
     protected void defineResource(String resourceName, String value) {
         server.setResource(resourceName, value);

@@ -15,14 +15,12 @@ import com.meterware.httpunit.HttpUnitOptions;
 public class JavaScriptEventsTest  extends JWebUnitTest {
 
     public void testFormOnSubmit() {
-        defineWebPage("TargetPage", "<html><body>Target</body></html>");
+        defineWebPage("TargetPage", "Target");
         defineWebPage("FormOnSubmit",
-                "<html><body>" +
                 "<form method=GET action=\"\" " +
                     "onSubmit=\"javascript:window.open('TargetPage.html', 'child');\">" +
                 "<input type=\"submit\"/>" +
-                "</form>" +
-                "</body></html");
+                "</form>");
         beginAt("FormOnSubmit.html");
         submit();
         gotoWindow("child");
@@ -30,14 +28,12 @@ public class JavaScriptEventsTest  extends JWebUnitTest {
     }
 
     public void testFormOnReset() {
-        defineWebPage("TargetPage", "<html><body>Target</body></html>");
+        defineWebPage("TargetPage", "Target");
         defineWebPage("FormOnSubmit",
-                "<html><body>" +
                 "<form method=GET action=\"\" " +
                     "onReset=\"javascript:window.open('TargetPage.html', 'child');\">" +
                 "<input type=\"reset\"/>" +
-                "</form>" +
-                "</body></html");
+                "</form>");
         beginAt("FormOnSubmit.html");
         reset();
         gotoWindow("child");
@@ -45,14 +41,12 @@ public class JavaScriptEventsTest  extends JWebUnitTest {
     }
 
     public void testButtonOnClick() {
-        defineWebPage("TargetPage", "<html><body>Target</body></html>");
+        defineWebPage("TargetPage", "Target");
         defineWebPage("FormOnSubmit",
-                "<html><body>" +
                 "<form method=GET action=\"\" " +
                     "onReset=\"javascript:window.open('TargetPage.html', 'child');\">" +
                 "<input id=\"b1\" type=\"button\" value=\"click me\" onClick=\"javascript:window.open('TargetPage.html', 'child');\"/>" +
-                "</form>" +
-                "</body></html");
+                "</form>");
         beginAt("FormOnSubmit.html");
         clickButton("b1");
         gotoWindow("child");

@@ -157,6 +157,9 @@ public class PseudoServer {
         resource.addHeader( header );
     }
 
+    public void clearResources() {
+    	_resources.clear();
+    }
 
 //------------------------------------- private members ---------------------------------------
 
