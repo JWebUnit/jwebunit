@@ -14,24 +14,11 @@ public abstract class FitResult {
         this.output = output;
     }
 
-    public String counts() {
-        return getRight() + " right, " +
-                getWrong() + " wrong, " +
-                getIgnores() + " ignored, " +
-                getExceptions() + " exceptions";
-    }
+    public abstract String getLinkString();
 
     public abstract String getDisplayName();
 
     public abstract boolean didFail();
-
-    public String getOutname() {
-        return getOutput().getName();
-    }
-
-    public File getOutput() {
-        return output;
-    }
 
     public abstract int getRight();
 
@@ -41,4 +28,15 @@ public abstract class FitResult {
 
     public abstract int getExceptions();
 
+
+    public File getOutput() {
+        return output;
+    }
+
+    public String counts() {
+        return getRight() + " right, " +
+                getWrong() + " wrong, " +
+                getIgnores() + " ignored, " +
+                getExceptions() + " exceptions";
+    }
 }

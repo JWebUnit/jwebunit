@@ -15,7 +15,27 @@ import java.util.List;
 
 public class DirectoryResult extends FitResult {
     private List results;
-    private File directory;
+
+    public DirectoryResult(File directory) {
+        super(directory);
+        results = new ArrayList();
+    }
+
+    public String getLinkString() {
+        return getOutput().getName() + "/index.html";
+    }
+
+    public String getDisplayName() {
+        return getOutput().getName();
+    }
+
+    public boolean didFail() {
+        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
+            FitResult fitResult = (FitResult) iterator.next();
+            if (fitResult.didFail()) return true;
+        }
+        return false;
+    }
 
     public int getRight() {
         int sum = 0;
@@ -53,37 +73,15 @@ public class DirectoryResult extends FitResult {
             sum += fitResult.getExceptions();
         }
         return sum;
-
-    }
-
-    public DirectoryResult(File directory) {
-        super(directory);
-        this.directory = directory;
-        results = new ArrayList();
     }
 
     public void addResult(FitResult result) {
         results.add(result);
     }
 
-    public boolean didFail() {
-        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
-            FitResult fitResult = (FitResult) iterator.next();
-            if(fitResult.didFail()) return true;
-        }
-        return false;
-    }
-
-    public String getDisplayName() {
-        return directory.getName();
-    }
-
-    public String getOutname() {
-        return directory.getName() + "/index.html";
-    }
 
     public void writeIndexFile() {
-        File indexFile = new File(directory, "index.html");
+        File indexFile = new File(getOutput(), "index.html");
         FileWriter writer = null;
         try {
             writer = new FileWriter(indexFile);
@@ -114,16 +112,10 @@ public class DirectoryResult extends FitResult {
         for (Iterator iterator = results.iterator(); iterator.hasNext();) {
             FitResult result = (FitResult) iterator.next();
             String color = (result.didFail()) ? "#ffcfcf" : "#cfffcf";
-            writeRow(writer, result, color);
+            writer.write("<tr bgcolor=\"" + color + "\"><td>");
+            writer.write("<a href=\"" + result.getLinkString() + "\">" + result.getDisplayName() + "</a>");
+            writer.write("<td>" + result.counts() + "</td>");
+            writer.write("</td></tr>");
         }
     }
-
-    private void writeRow(FileWriter writer, FitResult result, String color) throws IOException {
-        writer.write("<tr bgcolor=\"" + color + "\"><td>");
-        writer.write("<a href=\"" + result.getOutname() + "\">" + result.getDisplayName() + "</a>");
-        writer.write("<td>" + result.counts() + "</td>");
-        writer.write("</td></tr>");
-
-    }
-
 }

@@ -19,7 +19,7 @@ public class WebFixtureTest extends TestCase {
     public void testWebFixture() throws Exception {
         PseudoWebApp app = new PseudoWebApp();
         DirectoryRunner testRunner = DirectoryRunner.parseArgs(new String[] {"fitplugin\\test"});
-        testRunner.process();
+        testRunner.run();
         assertEquals("Failures detected.", 0, getCount("wrong"));
         assertEquals("Exceptions detected.", 0, getCount("exceptions"));
     }

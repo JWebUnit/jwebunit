@@ -7,7 +7,7 @@ package net.sourceforge.jwebunit.fit;
 
 import java.io.File;
 
-public class FileResult extends FitResult  {
+public class FileResult extends FitResult {
     private int right;
     private int wrong;
     private int ignores;
@@ -21,8 +21,8 @@ public class FileResult extends FitResult  {
         this.exceptions = exceptions;
     }
 
-    public void dumpCounts() {
-        System.out.println(getDisplayName() + ": " + counts());
+    public String getLinkString() {
+        return getOutput().getName();
     }
 
     public String getDisplayName() {
