@@ -4,13 +4,6 @@
  **********************************/
 package net.sourceforge.jwebunit;
 
-import com.meterware.httpunit.*;
-import com.meterware.httpunit.cookies.CookieJar;
-
-import net.sourceforge.jwebunit.util.ExceptionUtility;
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -18,84 +11,115 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sourceforge.jwebunit.exception.UnableToSetFormException;
+import net.sourceforge.jwebunit.util.ExceptionUtility;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
+
+import com.meterware.httpunit.Button;
+import com.meterware.httpunit.GetMethodWebRequest;
+import com.meterware.httpunit.HTMLElementPredicate;
+import com.meterware.httpunit.SubmitButton;
+import com.meterware.httpunit.TableCell;
+import com.meterware.httpunit.WebClient;
+import com.meterware.httpunit.WebClientListener;
+import com.meterware.httpunit.WebConversation;
+import com.meterware.httpunit.WebForm;
+import com.meterware.httpunit.WebLink;
+import com.meterware.httpunit.WebRequest;
+import com.meterware.httpunit.WebResponse;
+import com.meterware.httpunit.WebTable;
+import com.meterware.httpunit.WebWindow;
+import com.meterware.httpunit.cookies.CookieJar;
+
 /**
- * Acts as the wrapper for HttpUnit access. A dialog is initialized with a given
- * URL, and maintains conversational state as the dialog progresses through link
- * navigation, form submission, etc. Public access is provided for wrappered
- * HttpUnit objects.
+ * Acts as the wrapper for HttpUnit access. A dialog is initialized with a given URL, and maintains conversational
+ * state as the dialog progresses through link navigation, form submission, etc. Public access is provided for
+ * wrappered HttpUnit objects.
  * 
  * @author Jim Weaver
  * @author Wilkes Joiner
  */
-public class HttpUnitDialog {
+public class HttpUnitDialog extends CompositeJWebUnitDialog {
+	
+	private WebClient wc;
+	private WebResponse resp;
+	private TestContext context;
+	private WebForm form;
+	private Map multiselectMap = new HashMap();
 
-    private WebClient wc;
+	/**
+	 * Constructor for creating a default testing engine for jWebUnit.
+	 * If the dialog is not specified then jWebUnit will default to using httpunit.
+	 */
+	public HttpUnitDialog() {
+	    super();
+	}
+	
+	/**
+	 * Begin a dialog with an initial URL and test client context.
+	 * 
+	 * @param initialURL
+	 *            absolute url at which to begin dialog.
+	 * @param context
+	 *            contains context information for the test client.
+	 */
+	public HttpUnitDialog(String initialURL, TestContext context) {
+		this.context = context;
+		initWebClient();
+		try {
+			resp = wc.getResponse(new GetMethodWebRequest(initialURL));
+		} catch (Exception e) {
+			throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+		}
+	}
 
-    private WebResponse resp;
-
-    private TestContext context;
-
-    private WebForm form;
-
-    private Map multiselectMap = new HashMap();
-
-    /**
-     * Begin a dialog with an initial URL and test client context.
-     * 
-     * @param initialURL
-     *            absolute url at which to begin dialog.
-     * @param context
-     *            contains context information for the test client.
-     */
-    public HttpUnitDialog(String initialURL, TestContext context) {
-        this.context = context;
-        initWebClient();
-        try {
-            resp = wc.getResponse(new GetMethodWebRequest(initialURL));
-        } catch (Exception e) {
-            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
-        }
+    public IJWebUnitDialog constructNewDialog(String url, TestContext context) {
+        return new HttpUnitDialog(url, context);
     }
+	
+	private void initWebClient() {
+		wc = (context != null) ? context.getWebClient() : new WebConversation();
 
-    private void initWebClient() {
-        wc = (context != null) ? context.getWebClient() : new WebConversation();
+		wc.addClientListener(new WebClientListener() {
+			public void requestSent(WebClient webClient, WebRequest webRequest) {
+			}
 
-        wc.addClientListener(new WebClientListener() {
-
-            public void requestSent(WebClient webClient, WebRequest webRequest) {
-            }
-
-            public void responseReceived(WebClient webClient,
-                    WebResponse webResponse) {
-                //            	System.out.println("**** Recieved notification of response
-                // receipt ****");
-                //            	System.out.println(webResponse.getContentType());
-                //            	if (webResponse.isHTML()) {
-                //            		resp = webResponse;
-                //            	}
-                resp = webClient.getCurrentPage();
-                //				dumpResponse(System.out);
-                //				try {
-                //					System.out.println("New Response:\n"
-                //							+ webResponse.getText());
-                //				} catch (Exception e) {
-                //					// TODO: handle exception
-                //				}
-                //				System.out.println("****************************************");
+            public void responseReceived(WebClient webClient, WebResponse webResponse) {
+				resp = webClient.getCurrentPage();
                 form = null;
                 multiselectMap.clear();
             }
         });
     }
+	/**
+	 * Return the window with the given name in the current conversation.
+	 * 
+	 * @param windowName
+	 */
+	public WebWindow getWindow(String windowName) {
+		return wc.getOpenWindow(windowName);
+	}
+	/**
+	 * Return the HttpUnit WebClient object for this dialog.
+	 */
+	public WebClient getWebClient() {
+		return wc;
+	}
 
-    /**
-     * Return the window with the given name in the current conversation.
-     * 
-     * @param windowName
-     */
-    public WebWindow getWindow(String windowName) {
-        return wc.getOpenWindow(windowName);
-    }
+	/**
+	 * Return the HttpUnit object which represents the current response.
+	 */
+	public WebResponse getResponse() {
+		return resp;
+	}
 
     /**
      * Return the first open window with the given title.
@@ -113,20 +137,6 @@ public class HttpUnitDialog {
             }
         }
         return null;
-    }
-
-    /**
-     * Return the HttpUnit WebClient object for this dialog.
-     */
-    public WebClient getWebClient() {
-        return wc;
-    }
-
-    /**
-     * Return the HttpUnit object which represents the current response.
-     */
-    public WebResponse getResponse() {
-        return resp;
     }
 
     /**
@@ -539,6 +549,24 @@ public class HttpUnitDialog {
         }
     }
 
+	
+    public boolean isCheckboxSelected(String checkBoxName) {
+        boolean bReturn = false;
+        String theFormParameterValue = getFormParameterValue(checkBoxName); 
+        if(theFormParameterValue != null && theFormParameterValue.equalsIgnoreCase("on")) {
+            bReturn = true;
+        }
+        return bReturn;
+    }
+
+    public boolean isCheckboxNotSelected(String checkBoxName) {
+        boolean bReturn = false;
+        if(getFormParameterValue(checkBoxName) == null) {
+            bReturn = true;
+        }
+        return bReturn;
+    }
+	
     /**
      * Return true if given text is present in a specified table of the
      * response.
@@ -799,6 +827,53 @@ public class HttpUnitDialog {
                         + "\" with index " + index);
         submitRequest(link);
     }
+    
+    /**
+     * Select a specified checkbox.  If the checkbox is already checked then the checkbox
+     * will stay checked.
+     * @param checkBoxName name of checkbox to be deselected.
+     */
+    public void checkCheckbox(String checkBoxName) {
+        setFormParameter(checkBoxName, "on");
+    }
+
+    public void checkCheckbox(String checkBoxName, String value) {
+        updateFormParameter(checkBoxName, value);
+    }
+
+
+    /**
+     * Deselect a specified checkbox.  If the checkbox is already unchecked then the checkbox
+     * will stay unchecked.
+     *
+     * @param checkBoxName name of checkbox to be deselected.
+     */
+    public void uncheckCheckbox(String checkBoxName) {
+        removeFormParameter(checkBoxName);
+    }
+
+    public void uncheckCheckbox(String checkBoxName, String value) {
+        removeFormParameterWithValue(checkBoxName, value);
+    }
+	
+	/**
+	 * Navigate by submitting a request based on a link with a given ID. A RuntimeException is thrown if no such link
+	 * can be found.
+	 * 
+	 * @param anID
+	 *            id of link to be navigated.
+	 */
+	public void clickLink(String anID) {
+		WebLink link = null;
+		try {
+			link = resp.getLinkWithID(anID);
+		} catch (SAXException e) {
+			throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+		}
+		if (link == null)
+			throw new RuntimeException("No Link found with ID \"" + anID + "\"");
+		submitRequest(link);
+	}
 
     private WebLink getLinkWithText(String linkText, int index) {
         WebLink link = null;
@@ -872,26 +947,6 @@ public class HttpUnitDialog {
         }
     }
 
-    /**
-     * Navigate by submitting a request based on a link with a given ID. A
-     * RuntimeException is thrown if no such link can be found.
-     * 
-     * @param anID
-     *            id of link to be navigated.
-     */
-    public void clickLink(String anID) {
-        WebLink link = null;
-        try {
-            link = resp.getLinkWithID(anID);
-        } catch (SAXException e) {
-            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
-        }
-        if (link == null)
-                throw new RuntimeException("No Link found with ID \"" + anID
-                        + "\"");
-        submitRequest(link);
-
-    }
 
     /**
      * Navigate by submitting a request based on a link with a given image file
