@@ -56,6 +56,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import javax.servlet.http.Cookie;
@@ -421,7 +422,7 @@ public class HttpUnitDialog {
         setFormParameter(selectName, getValueForOption(selectName, option));
     }
 
-    public Object getElement(String anID) {
+    public Element getElement(String anID) {
         try {
             return walkDOM(getResponse().getDOM().getDocumentElement(), anID);
         } catch (Exception e) {
@@ -441,6 +442,22 @@ public class HttpUnitDialog {
             }
         }
         return null;
+
+    }
+
+    public boolean isTextInElement(Element element, String text) {
+        NodeList children = element.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            Node child = children.item(i);
+            if (child.getNodeType() == Node.TEXT_NODE) {
+                if (((Text) child).getData().indexOf(text) != -1) return true;
+            }
+
+            if (child.getNodeType() == Node.ELEMENT_NODE) {
+                if (isTextInElement((Element) child, text)) return true;
+            }
+        }
+        return false;
 
     }
 }

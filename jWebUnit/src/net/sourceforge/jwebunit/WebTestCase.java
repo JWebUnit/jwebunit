@@ -73,7 +73,7 @@ public class WebTestCase extends TestCase {
     public String getMessage(String key) {
         return tester.getMessage(key);
     }
-    
+
 // Assertions
 
     public void assertTitleEquals(String title) {
@@ -252,28 +252,33 @@ public class WebTestCase extends TestCase {
         tester.assertElementNotPresent(anID);
     }
 
+    public void assertTextInElement(String elID, String text) {
+        tester.assertTextInElement(elID, text);
+    }
+
+
 // Form interaction methods
 
     public void setWorkingForm(String nameOrId) {
         tester.setWorkingForm(nameOrId);
     }
-    
+
     protected void setFormElement(String parameterName, String value) {
         tester.setFormElement(parameterName, value);
     }
 
     protected void checkCheckbox(String checkBoxName) {
         tester.checkCheckbox(checkBoxName);
-    }  
+    }
 
     protected void uncheckCheckbox(String checkBoxName) {
         tester.uncheckCheckbox(checkBoxName);
-    }    
+    }
 
     public void selectOption(String selectName, String option) {
         tester.selectOption(selectName, option);
     }
-    
+
 // Form submission and link navigation methods
 
     protected void submit() {
@@ -291,7 +296,7 @@ public class WebTestCase extends TestCase {
     protected void clickLinkByID(String anID) {
         tester.clickLinkByID(anID);
     }
-    
+
 // Debug methods
 
     protected void dumpResponse(PrintStream stream) {

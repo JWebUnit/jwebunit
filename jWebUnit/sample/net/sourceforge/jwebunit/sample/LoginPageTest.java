@@ -10,7 +10,6 @@ import com.meterware.pseudoserver.PseudoServer;
 import com.meterware.pseudoserver.PseudoServlet;
 import com.meterware.pseudoserver.WebResource;
 import net.sourceforge.jwebunit.WebTestCase;
-import net.sourceforge.jwebunit.TestContext;
 
 
 public class LoginPageTest extends WebTestCase {
@@ -42,8 +41,8 @@ public class LoginPageTest extends WebTestCase {
 
     public void testInitialState() {
         beginAt("/");
-        assertFormControlPresent("username");
-        assertFormControlPresent("password");
+        assertFormElementPresent("username");
+        assertFormElementPresent("password");
         assertSubmitButtonPresent("login");
     }
 
@@ -55,13 +54,13 @@ public class LoginPageTest extends WebTestCase {
     public void testInvalidUsername() {
         loginAs(INVALID_UID, VALID_PWD);
         assertTitleEquals("Login");
-        assertTextInResponse("Invalid Login");
+        assertTextPresent("Invalid Login");
     }
 
     public void testInvalidPassword() {
         loginAs(VALID_UID, INVALID_PWD);
         assertTitleEquals("Login");
-        assertTextInResponse("Invalid Login");
+        assertTextPresent("Invalid Login");
     }
 
     private void loginAs(String user, String pass) {

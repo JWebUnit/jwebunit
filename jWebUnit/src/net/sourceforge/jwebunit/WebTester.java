@@ -48,6 +48,8 @@ import java.io.PrintStream;
 import java.util.ResourceBundle;
 import java.util.Locale;
 
+import org.w3c.dom.Element;
+
 /**
  * This is a delegate to test deployed web applications using JUnit. This class
  * provides a simple API for basic web application navigation and assertions
@@ -114,7 +116,7 @@ public class WebTester {
         }
         return context.toEncodedString(message);
     }
-    
+
     //Assertions
 
     /**
@@ -410,10 +412,10 @@ public class WebTester {
         assertFormElementPresent(checkBoxName);
         Assert.assertNull(dialog.getFormParameterValue(checkBoxName));
     }
-    
+
     /**
      * Assert that a specific option is present in a radio group.
-     * 
+     *
      * @param name radio group name.
      * @param radioOption option to test for.
      */
@@ -424,7 +426,7 @@ public class WebTester {
 
     /**
      * Assert that a specific option is not present in a radio group.
-     * 
+     *
      * @param name radio group name.
      * @param radioOption option to test for.
      */
@@ -435,17 +437,17 @@ public class WebTester {
 
     /**
      * Assert that a specific option is selected in a radio group.
-     * 
+     *
      * @param name radio group name.
      * @param radioOption option to test for selection.
      */
     public void assertRadioOptionSelected(String name, String radioOption) {
         assertFormElementEquals(name, radioOption);
-     }
+    }
 
     /**
      * Assert that a specific option is not selected in a radio group.
-     * 
+     *
      * @param name radio group name.
      * @param radioOption option to test for selection.
      */
@@ -456,7 +458,7 @@ public class WebTester {
 
     /**
      * Assert that the display values of a select element's options match a given array of strings.
-     * 
+     *
      * @param selectName name of the select element.
      * @param expectedOptions expected display values for the select box.
      */
@@ -467,7 +469,7 @@ public class WebTester {
 
     /**
      * Assert that the display values of a select element's options do not match a given array of strings.
-     * 
+     *
      * @param selectName name of the select element.
      * @param expectedOptions expected display values for the select box.
      */
@@ -479,13 +481,13 @@ public class WebTester {
             return;
         }
         Assert.fail("Options not expected to be equal");
-   }
+    }
 
     /**
      * Assert that the values of a select element's options match a given array of strings.
-     * 
+     *
      * @param selectName name of the select element.
-     * @param expectedOptions expected values for the select box.
+     * @param expectedValues expected values for the select box.
      */
     public void assertOptionValuesEqual(String selectName, String[] expectedValues) {
         assertFormElementPresent(selectName);
@@ -503,7 +505,7 @@ public class WebTester {
 
     /**
      * Assert that the values of a select element's options do not match a given array of strings.
-     * 
+     *
      * @param selectName name of the select element.
      * @param expectedOptions expected values for the select box.
      */
@@ -519,7 +521,7 @@ public class WebTester {
 
     /**
      * Assert that the currently selected display value of a select box matches a given value.
-     * 
+     *
      * @param selectName name of the select element.
      * @param option expected display value of the selected option.
      */
@@ -567,22 +569,22 @@ public class WebTester {
 
     /**
      * Assert that a link with a given id is present in the response.
-     * 
+     *
      * @param linkId
      */
     public void assertLinkPresent(String linkId) {
-        Assert.assertTrue("Unable to find link with id ["+ linkId + "]", dialog.isLinkPresentById(linkId));
+        Assert.assertTrue("Unable to find link with id [" + linkId + "]", dialog.isLinkPresentById(linkId));
     }
 
     /**
      * Assert that no link with the given id is present in the response.
-     * 
+     *
      * @param linkId
      */
     public void assertLinkNotPresent(String linkId) {
-        Assert.assertTrue("Unable to find link with id ["+ linkId + "]", !dialog.isLinkPresentById(linkId));
+        Assert.assertTrue("Unable to find link with id [" + linkId + "]", !dialog.isLinkPresentById(linkId));
     }
-    
+
     /**
      * Assert that a link containing the supplied text is present.
      *
@@ -600,23 +602,30 @@ public class WebTester {
     public void assertLinkNotPresentWithText(String linkText) {
         Assert.assertTrue("Link with text [" + linkText + "] found in response.", !dialog.isLinkInResponse(linkText));
     }
-    
+
     /**
      * Assert that an element with a given id is present.
-     * 
+     *
      * @param anID element id to test for.
      */
     public void assertElementPresent(String anID) {
-        Assert.assertNotNull("Unable to locate element with id \"" +anID+ "\"", dialog.getElement(anID));
+        Assert.assertNotNull("Unable to locate element with id \"" + anID + "\"", dialog.getElement(anID));
     }
 
     /**
      * Assert that an element with a given id is not present.
-     * 
+     *
      * @param anID element id to test for.
      */
     public void assertElementNotPresent(String anID) {
-        Assert.assertNull("Located element with id \"" +anID+ "\"", dialog.getElement(anID));
+        Assert.assertNull("Located element with id \"" + anID + "\"", dialog.getElement(anID));
+    }
+
+    public void assertTextInElement(String elementID, String text) {
+        Element element = dialog.getElement(elementID);
+        Assert.assertNotNull(element);
+        Assert.assertTrue(dialog.isTextInElement(element, text));
+
     }
 
     //Form interaction methods
@@ -625,16 +634,16 @@ public class WebTester {
      * Begin interaction with a specified form.  If form interaction methods are called without
      * explicitly calling this method first, jWebUnit will attempt to determine itself which form
      * is being manipulated.
-     * 
+     *
      * It is not necessary to call this method if their is only one form on the current page.
-     * 
+     *
      * @param nameOrId name or id of the form to work with.
      */
     public void setWorkingForm(String nameOrId) {
         dialog.setWorkingForm(nameOrId);
     }
 
-     /**
+    /**
      * Set the value of a form input element.
      *
      * @param parameterName name of form element.
@@ -655,7 +664,7 @@ public class WebTester {
         assertHasForm();
         assertFormElementPresent(checkBoxName);
         dialog.setFormParameter(checkBoxName, "on");
-    }   
+    }
 
     /**
      * Deselect a specified checkbox.
@@ -666,11 +675,11 @@ public class WebTester {
         assertHasForm();
         assertFormElementPresent(checkBoxName);
         dialog.removeFormParameter(checkBoxName);
-    }   
+    }
 
     /**
      * Select an option with a given display value in a select element.
-     * 
+     *
      * @param selectName name of select element.
      * @param option display value of option to be selected.
      */
@@ -678,7 +687,7 @@ public class WebTester {
         assertFormElementPresent(selectName);
         dialog.selectOption(selectName, option);
     }
-    
+
     //Form submission and link navigation methods
 
     /**
@@ -692,7 +701,7 @@ public class WebTester {
 
     /**
      * Submit form by pressing named button.
-     * 
+     *
      * @param buttonName name of button to submit form with.
      */
     public void submit(String buttonName) {
@@ -711,7 +720,7 @@ public class WebTester {
 
     /**
      * Navigate by selection of a specified link
-     * 
+     *
      * @param anId id of link
      */
     public void clickLinkByID(String anID) {

@@ -58,6 +58,18 @@ public class WebAssertionsTest extends JWebUnitTest {
         assertPassFail("assertElementNotPresent", "no_id", "span_id");
     }
 
+    public void testAssertElementContainsText() throws Throwable {
+        assertTextInElement("span_id", "Span");
+        assertTextInElement("span_id", "Text");
+        assertTextInElement("span_id", "Span Text");
+        assertFail("assertTextInElement", new Object[] {"span_id", "Not Text"});
+    }
+    public void testAssertElementContainsTextInChild() throws Throwable {
+        assertTextInElement("outer_id", "Outer");
+        assertTextInElement("outer_id", "Text");
+        assertTextInElement("outer_id", "Inner Text");
+    }
+
 
     private void addTestPage() {
         defineWebPage("testPage", "This is a test page." +
@@ -73,6 +85,7 @@ public class WebAssertionsTest extends JWebUnitTest {
                                   "<input type=\"checkbox\" name=\"checkboxnotselected\">" +
                                   "</form>" +
                                   "<span id=\"span_id\">Span Text</span>" +
+                                  "<span id=\"outer_id\">Outer <span id=\"inner_id\">Inner Text</span> Text</span>" +
                                   "<form name=\"form2\"></form>" +
                                   "</table>");
         defineWebPage("noFormPage", "");
