@@ -38,7 +38,6 @@
 package net.sourceforge.jwebunit;
 
 import com.meterware.httpunit.WebTable;
-import com.meterware.httpunit.WebForm;
 import com.meterware.httpunit.SubmitButton;
 import net.sourceforge.jwebunit.HttpUnitDialog;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
@@ -180,6 +179,16 @@ public class WebTester {
     public void assertTablePresent(String tableSummary) {
         if (dialog.getWebTableBySummary(tableSummary) == null)
             Assert.fail("Unable to locate table \"" + tableSummary + "\"");
+    }
+
+    /**
+     * Assert that a table with a given summary value is not present.
+     *
+     * @param tableSummary summary value of table
+     */
+    public void assertTableNotPresent(String tableSummary) {
+        if (dialog.getWebTableBySummary(tableSummary) != null)
+            Assert.fail("Located table \"" + tableSummary + "\"");
     }
 
     /**
@@ -630,7 +639,7 @@ public class WebTester {
     private void assertArraysEqual(String[] exptected, String[] returned) {
         Assert.assertEquals("Arrays not same length", exptected.length, returned.length);
         for (int i = 0; i < returned.length; i++) {
-            Assert.assertEquals(exptected[i], returned[i]);
+            Assert.assertEquals("Elements " + i + "not equal", exptected[i], returned[i]);
         }
     }
 
@@ -642,6 +651,16 @@ public class WebTester {
             return;
         }
         Assert.fail("Values not expected to be equal");
+    }
+
+    public void assertOptionEquals(String selectName, String option) {
+        assertFormControlPresent(selectName);
+        Assert.assertEquals(option, dialog.getSelectedOption(selectName));
+    }
+
+    public void selectOption(String selectName, String option) {
+        assertFormControlPresent(selectName);
+        dialog.selectOption(selectName, option);
     }
 
 }

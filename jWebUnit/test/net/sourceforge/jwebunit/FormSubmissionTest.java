@@ -125,6 +125,15 @@ public class FormSubmissionTest extends JWebUnitTest {
         assertTrue(getDialog().getResponse() != oldResp);
     }
 
+    public void testSelectOption() {
+        addMultiForm();
+        beginAt("/QueryForm.html");
+        assertSelectedOptionEquals("select1", "one");
+        selectOption("select1", "two");
+        assertSelectedOptionEquals("select1", "two");
+        assertFormControlEquals("select1", "2");
+    }
+
     private void gotoMultiButtonPage() {
         addMultiNamedButtonForm();
         beginAt("/QueryForm.html");
@@ -201,6 +210,12 @@ public class FormSubmissionTest extends JWebUnitTest {
                        "<form name=\"form4\" method=GET action=\"TargetPage\">" +
                        "<input type=\"text\" name=\"param4\"><input type=\"submit\"></form>" +
                        "<form id=\"form5\"/>" +
+                       "<form id=\"form6\">" +
+                       "<select name=\"select1\">" +
+                       "<option value=\"1\">one</option>" +
+                       "<option value=\"2\">two</option>" +
+                       "<option value=\"3\">three</option>" +
+                       "</select></form>" +
                        "</body></html>");
 
     }

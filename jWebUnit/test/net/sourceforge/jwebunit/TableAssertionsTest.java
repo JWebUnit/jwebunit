@@ -18,7 +18,11 @@ public class TableAssertionsTest extends JWebUnitTest {
     }
 
     public void testAssertTablePresent() throws Throwable {
-        assertPassFail("assertTablePresent", "testTable", "notable");
+        assertPassFail("assertTablePresent", "testTable", "noTable");
+    }
+
+    public void testAssertTableNotPresent() throws Throwable {
+        assertPassFail("assertTableNotPresent", "noTable", "testTable");
     }
 
     public void testAssertTextInTable() throws Throwable {

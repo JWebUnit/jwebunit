@@ -391,4 +391,27 @@ public class HttpUnitDialog {
     public String[] getOptionValuesFor(String selectName) {
         return getForm().getOptionValues(selectName);
     }
+
+    public String getSelectedOption(String selectName) {
+        String val = getFormParameterValue(selectName);
+        String[] vals = getOptionValuesFor(selectName);
+        for (int i = 0; i < vals.length; i++) {
+            if (vals[i].equals(val))
+                return getOptionsFor(selectName)[i];
+        }
+        return null;
+    }
+
+    public String getValueForOption(String selectName, String option) {
+        String[] opts = getOptionsFor(selectName);
+        for (int i = 0; i < opts.length; i++) {
+            if (opts[i].equals(option))
+                return getOptionValuesFor(selectName)[i];
+        }
+        return null;
+    }
+
+    public void selectOption(String selectName, String option) {
+        setFormParameter(selectName, getValueForOption(selectName, option));
+    }
 }

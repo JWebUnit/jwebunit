@@ -101,6 +101,10 @@ public class WebTestCase extends TestCase {
         tester.assertTablePresent(tableSummary);
     }
 
+    public void assertTableNotPresent(String tableSummary) {
+        tester.assertTableNotPresent(tableSummary);
+    }
+
     public void assertKeyInTable(String tableSummary, String key) {
         tester.assertKeyInTable(tableSummary, key);
     }
@@ -278,4 +282,11 @@ public class WebTestCase extends TestCase {
         tester.assertOptionValuesNotEqual(selectName, options);
     }
 
+    public void assertSelectedOptionEquals(String selectName, String option) {
+        tester.assertOptionEquals(selectName, option);
+    }
+
+    public void selectOption(String selectName, String option) {
+        tester.selectOption(selectName, option);
+    }
 }
