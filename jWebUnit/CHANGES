@@ -1,3 +1,20 @@
+CHANGES SINCE 1.0:
+
+** Additional Functionality**
+
+Support for frames and multiple windows contributed by Allen Wu.
+Support for non-submit buttons (input type='button').
+Support for accessing form elements by display label contributed by Justin Sampson.
+Support for form reset and onReset event.
+
+** Bug Fixes **
+Fixed problem with onClick javascript event not being triggered by clickLink methods.
+
+
+** Miscellaneous **
+HttpUnit 1.5 incorporated, which also replaces jTidy with nekoHtml.
+
+
 CHANGES SINCE RC2:
 
 ** Additional Functionality**

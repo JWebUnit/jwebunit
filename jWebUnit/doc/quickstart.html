@@ -35,6 +35,7 @@ the WebTester class.  The QuickStart covers the following topics:<p>
 <tr><td><a href="#createTestCase">Creating a TestCase</a></td></tr>
 <tr><td><a href="#navigating">Navigating Your Web Application</a></td></tr>
 <tr><td><a href="#forms">Working With Forms</a></td></tr>
+<tr><td><a href="#framesAndWindows">Working With Frames and Windows</a></td></tr>
 <tr><td><a href="#validation">Validating Page Content</a></td></tr>
 <tr><td><a href="#tableValidation">Validating Table Content</a></td></tr>
 <tr><td><a href="#elementValidation">Using Element IDs to Validate Content</a></td></tr>
@@ -126,7 +127,7 @@ set form element values, and submit the form.
         submit();
     }
 </pre>
-You can also check for the presence of buttons on the form and submit a form with a specific button.
+You can also check for the presence of submit buttons on the form and submit with a specific button.
 <pre>
     public void testFormSubmission() {
         beginAt("/info.html");
@@ -144,6 +145,53 @@ from the form elements checked or set.  You can also set the form explicitly by 
         beginAt("/twoForm.html");
         setWorkingForm("bottomForm");
         submit();
+    }
+</pre>
+You can work with non-submit (type='button') buttons as well:
+<pre>
+    public void testPopupButton() {
+        beginAt("/info.html");
+        assertButtonPresent("popupButtonId"); //clickButton will assert this also.
+        clickButton("popupButtonId");
+        assertWindowPresent("popupWindow");
+    }
+</pre>
+In the above examples, we are working with submit buttons and form elements by their
+name.  For form elements, it is possible to work with them by label (string followed
+by colon before input element).  Before using this approach, consider that the display
+label may change, but the submission name of the element will probably remain static.
+<pre>
+    public void testFormSubmission() {
+        beginAt("/form.html");
+        assertFormElementPresentWithLabel("Credit Card Number");
+        setFormElementWithLabel("Credit Card Number", "myNumber");
+        submit();
+    }
+</pre>
+<br>
+<a name="framesAndWindows">
+<h2>Working With Frames and Windows</h2>
+You can assert the presence of and navigate to windows by name.  For instance, if clicking on a
+button on the root page should open a window, you could test for this and go to the popup window
+as follows:
+<pre>
+    public void testPopupWindow() {
+        beginAt("/rootPage.html");
+        clickLink("popupLink");
+        assertWindowPresent("popupWindow):  //optional - gotoWindow will
+                                            //perform this assertion.
+        gotoWindow("popupWindow");
+        ...
+        gotoRootWindow();  //Use this method to return to root window.
+    }
+</pre>
+You can work with frames in a similar manner:
+<pre>
+    public void testFrame() {
+        beginAt("/info.html");
+        assertFramePresent("contentFrame"); //optional as window above.
+        gotoFrame("contentFrame");
+        ...
     }
 </pre>
 <br>
