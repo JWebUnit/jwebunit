@@ -1,6 +1,6 @@
 <project name="jWebUnit" default="test">
 
-    <property name="build.name" value="jwebunit-1.1.01"/>
+    <property name="build.name" value="jwebunit-1.1.1"/>
     <property name="fit.src" value="../../fit/Source"/>
     <path id="src.classpath">
         <fileset dir="lib">
