@@ -23,10 +23,13 @@ public class JWebUnitTest extends WebTestCase {
     protected String hostPath;
     protected static PseudoServer server = new PseudoServer();
 
-    public JWebUnitTest(String s) throws Exception {
-        super(s);
-        hostPath = "http://localhost:" + server.getConnectedPort();
-     }
+    public JWebUnitTest() {
+        try {
+            hostPath = "http://localhost:" + server.getConnectedPort();
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
     public void setUp() throws Exception {
        super.setUp();

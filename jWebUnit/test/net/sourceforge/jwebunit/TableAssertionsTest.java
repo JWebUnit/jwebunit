@@ -7,10 +7,6 @@ package net.sourceforge.jwebunit;
 
 public class TableAssertionsTest extends JWebUnitTest {
 
-    public TableAssertionsTest(String s) throws Exception {
-        super(s);
-    }
-
     public void setUp() throws Exception {
         super.setUp();
         addTestPage();

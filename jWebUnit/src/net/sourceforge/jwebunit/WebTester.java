@@ -488,7 +488,6 @@ public class WebTester {
 
     }
 
-    //Todo: Move to assert utility class
     private void assertArraysEqual(String[] exptected, String[] returned) {
         Assert.assertEquals("Arrays not same length", exptected.length, returned.length);
         for (int i = 0; i < returned.length; i++) {
@@ -642,7 +641,11 @@ public class WebTester {
         Assert.assertTrue("Unable to locate ["+ text +"] in element \"" + elementID + "\"", dialog.isTextInElement(element, text));
     }
 
-    //Form interaction methods
+    public void assertWindowPresent(String windowName) {
+        Assert.assertNotNull("Unable to locate window [" + windowName + "].", dialog.getWindow(windowName));
+    }
+
+//Form interaction methods
 
     /**
      * Begin interaction with a specified form.  If form interaction methods are called without
@@ -773,7 +776,22 @@ public class WebTester {
         dialog.clickLink(linkId);
     }
 
-    //Debug methods
+//Window and Frame Navigation Methods
+
+    public void gotoWindow(String windowName) {
+        assertWindowPresent(windowName);
+        dialog.gotoWindow(windowName);
+    }
+
+    public void gotoRootWindow() {
+        dialog.gotoRootWindow();
+    }
+
+    public void gotoFrame(String frameName) {
+        dialog.gotoFrame(frameName);
+    }
+
+//Debug methods
 
     /**
      * Dump html of current response to a specified stream - for debugging purposes.
@@ -826,5 +844,7 @@ public class WebTester {
             }
         }
     }
+
+
 
 }

@@ -7,10 +7,6 @@ import net.sourceforge.jwebunit.*;
  */
 public class ExpectedTableAssertionsTest extends JWebUnitTest {
 
-    public ExpectedTableAssertionsTest(String s) throws Exception {
-        super(s);
-    }
-
     public void setUp() throws Exception {
         super.setUp();
         addTestPage();

@@ -19,10 +19,6 @@ import com.meterware.httpunit.WebResponse;
  */
 public class FormSubmissionTest extends JWebUnitTest {
 
-    public FormSubmissionTest(String s) throws Exception {
-        super(s);
-    }
-
     public void setUp() throws Exception {
         super.setUp();
         addServletResource();

@@ -15,7 +15,9 @@ import com.meterware.httpunit.WebResponse;
 import com.meterware.httpunit.WebTable;
 import com.meterware.httpunit.WebClientListener;
 import com.meterware.httpunit.WebClient;
+import com.meterware.httpunit.WebWindow;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
+import net.sourceforge.jwebunit.util.ExceptionWrapper;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -460,6 +462,17 @@ public class HttpUnitDialog {
         try {
             resp = wc.getResponse(aWebRequest);
         } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+    }
+
+    private void submitRequest(WebLink aLink) {
+        try {
+            aLink.click();
+            resp = wc.getCurrentPage();
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
     }
@@ -524,7 +537,7 @@ public class HttpUnitDialog {
         }
         if (link == null)
             throw new RuntimeException("No Link found for \"" + linkText + "\"");
-        submitRequest(link.getRequest());
+        submitRequest(link);
     }
 
     /**
@@ -542,7 +555,7 @@ public class HttpUnitDialog {
         }
         if (link == null)
             throw new RuntimeException("No Link found with ID \"" + anID + "\"");
-        submitRequest(link.getRequest());
+        submitRequest(link);
 
     }
 
@@ -564,7 +577,7 @@ public class HttpUnitDialog {
         }
         if (link == null)
             throw new RuntimeException("No Link found with imageFileName \"" + imageFileName + "\"");
-        submitRequest(link.getRequest());
+        submitRequest(link);
     }
 
     /**
@@ -690,5 +703,26 @@ public class HttpUnitDialog {
             }
         }
         return false;
+    }
+
+    public WebWindow getWindow(String windowName) {
+        return wc.getOpenWindow(windowName);
+    }
+
+    public void gotoWindow(String windowName) {
+        setMainWindow(getWindow(windowName));
+    }
+
+    public void gotoRootWindow() {
+        setMainWindow(wc.getOpenWindows()[0]);
+    }
+
+    private void setMainWindow(WebWindow win) {
+        wc.setMainWindow(win);
+        resp = wc.getMainWindow().getCurrentPage();
+    }
+
+    public void gotoFrame(String frameName) {
+        resp = wc.getMainWindow().getFrameContents(frameName);
     }
 }

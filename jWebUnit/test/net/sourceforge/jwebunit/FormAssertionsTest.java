@@ -7,10 +7,6 @@ package net.sourceforge.jwebunit;
 
 public class FormAssertionsTest extends JWebUnitTest {
 
-    public FormAssertionsTest(String s) throws Exception {
-        super(s);
-    }
-
     public void setUp() throws Exception {
         super.setUp();
         addTestPage();

@@ -26,6 +26,10 @@ public class WebTestCase extends TestCase {
         tester = new WebTester();
     }
 
+    public WebTestCase() {
+        tester = new WebTester();
+    }
+
     public HttpUnitDialog getDialog() {
         return tester.getDialog();
     }
@@ -244,6 +248,9 @@ public class WebTestCase extends TestCase {
         tester.assertTextInElement(elID, text);
     }
 
+    public void assertWindowPresent(String windowName) {
+        tester.assertWindowPresent(windowName);
+    }
 
 // Form interaction methods
 
@@ -293,6 +300,19 @@ public class WebTestCase extends TestCase {
         tester.clickLink(linkId);
     }
 
+//Window and Frame Navigation Methods
+
+    public void gotoRootWindow() {
+        tester.gotoRootWindow();
+    }
+
+    public void gotoWindow(String windowName) {
+        tester.gotoWindow(windowName);
+    }
+
+    public void gotoFrame(String frameName) {
+        tester.gotoFrame(frameName);
+    }
 // Debug methods
 
     protected void dumpResponse(PrintStream stream) {

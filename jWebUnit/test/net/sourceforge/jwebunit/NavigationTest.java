@@ -10,10 +10,6 @@ import net.sourceforge.jwebunit.JWebUnitTest;
  */
 public class NavigationTest extends JWebUnitTest {
 
-    public NavigationTest(String s) throws Exception {
-        super(s);
-    }
-
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -32,6 +28,7 @@ public class NavigationTest extends JWebUnitTest {
         beginAt("/blah.html");
         beginAt("blah.html");
     }
+
     public void testInvalidBeginAt() {
         defineResource("/", "");
         try {
@@ -62,7 +59,7 @@ public class NavigationTest extends JWebUnitTest {
 
     private void gotoLinkTestPage() {
         defineWebPage("pageWithLink", "<a href=\"/targetPage.html\" id=\"activeID\">an <b>active</b> link</A>\n" +
-                                      "<a href=\"/targetPage2.html\"><img src=\"graphic.jpg\"/></a>)\n");
+                "<a href=\"/targetPage2.html\"><img src=\"graphic.jpg\"/></a>)\n");
         defineWebPage("targetPage", "");
         defineWebPage("targetPage2", "");
         beginAt("/pageWithLink.html");

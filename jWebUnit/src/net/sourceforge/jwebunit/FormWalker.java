@@ -31,9 +31,7 @@ class FormWalker {
             currentText.append(((CharacterData) node).getData());
         } else if (node instanceof Element) {
             String tag = node.getNodeName();
-            if (tag.equals("input") || tag.equals("select") ||
-                tag.equals("textarea"))
-            {
+            if (tag.equalsIgnoreCase("input") || tag.equalsIgnoreCase("select") || tag.equalsIgnoreCase("textarea")) {
                 addFormElement((Element) node);
             } else {
                 NodeList children = node.getChildNodes();

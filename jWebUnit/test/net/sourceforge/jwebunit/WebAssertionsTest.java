@@ -10,9 +10,6 @@ import net.sourceforge.jwebunit.JWebUnitTest;
  * @author Jim Weaver
  */
 public class WebAssertionsTest extends JWebUnitTest {
-    public WebAssertionsTest(String s) throws Exception {
-        super(s);
-    }
 
     public void setUp() throws Exception {
         super.setUp();
