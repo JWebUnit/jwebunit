@@ -11,7 +11,7 @@ print "Content-type: text/html\n\n"
 
 LINK = "[A-Z][a-z0-9]+([A-Z][a-z0-9]+)+"
 
-datedpages = Dir.entries('pages').select {|e| e =~ /#{LINK}/}
+datedpages = Dir.entries('pages').select {|e| e.untaint =~ /#{LINK}/}
 datedpages.map! {|e| [File.mtime("pages/#{e}"), e]}
 datedpages.sort! { |a,b| b[0] <=> a[0] }
 

@@ -13,7 +13,7 @@ print "Content-type: text/html\n\n";
 
 LINK = "([A-Z][a-z0-9]+([A-Z][a-z0-9]+)+)";
 
-files = Dir.entries('pages').select {|e| e =~ /#{LINK}/}.sort!
+files = Dir.entries('pages').select {|e| e.untaint =~ /#{LINK}/}.sort!
 
 refs = {}
 all_targets = []

@@ -145,7 +145,7 @@ require 'cgi'
 print "Content-type: text/html\n\n"
 
 page = ENV['QUERY_STRING'] =~ /^(#{LINK})$/ ? $1 : "WelcomeVisitors"  # $& is the last match
-
+page.untaint
 par = {}
 par['page' ] = page
 par['title'] = page.gsub(/(.)([A-Z])/, '\1 \2')
@@ -166,7 +166,7 @@ else
 end
 
 par['summary'] = " -- Last edited #{date}" if date
-par['body'] = formatBody(body)
+par['body'] = formatBody(body.untaint)
 par['action'] = <<-BLAH
 <form method=post action="edit.rb?#{page}">
 <input type=submit value=" Edit ">

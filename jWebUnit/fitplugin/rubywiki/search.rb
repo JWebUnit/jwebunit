@@ -14,7 +14,7 @@ print "Content-type: text/html\n\n";
 LINK = "[A-Z][a-z0-9]+([A-Z][a-z0-9]+)+"
 
 ENV['QUERY_STRING'] =~ /search=([^\&]*)/
-target = $1
+target = $1.untaint
 target.gsub!(/\+/, ' ')
 target.gsub!(/\%(..)/) {[$1.hex].pack('C') }
 
@@ -30,7 +30,7 @@ body = <<EOF
  </form>
 EOF
 
-files = Dir.entries('pages').select {|e| e =~ /#{LINK}/}.sort!
+files = Dir.entries('pages').select {|e| e.untaint =~ /#{LINK}/}.sort!
 
 hits = 0
 files.each do |file|

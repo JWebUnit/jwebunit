@@ -12,7 +12,7 @@ MARK = "\263";
 LINK = "[A-Z][a-z0-9]+([A-Z][a-z0-9]+)+";
 
 page = ENV['QUERY_STRING'] =~ /^(#{LINK})$/ ? $1 : "WelcomeVisitors"  # $& is the last match
-
+page.untaint
 params = CGI.new.params
 bodyHash = {}
 params.each { |k,v|
@@ -44,7 +44,8 @@ end
 
 File.open("pages/#{page}", mode) { |f| f.print s }
 
-require 'wiki.rb' # maybe work?
+
+require './wiki.rb' # maybe work?
 
 #my %par;
 #$par{title} = "Thank You";

@@ -13,6 +13,7 @@ print "Content-type: text/html\n\n";
 LINK = "[A-Z][a-z0-9]+([A-Z][a-z0-9]+)+";
 MARK = "\263";
 page = ENV['QUERY_STRING'] =~ /^(#{LINK})$/ ? $1 : "WelcomeVisitors"  # $& is the last match
+page.untaint
 mode = $_ =~ /append/ ##??????
 puts "<!-- #{mode.inspect} -->"
 
