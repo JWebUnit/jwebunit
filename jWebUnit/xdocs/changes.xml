@@ -5,7 +5,37 @@
 		<author email="dashorst at users.sourceforge.net">Martijn Dashorst</author>
 	</properties>
 	<body>
-		<release version="1.2" date="june 13, 2004">
+		<release version="1.2" date="june 13, 2004" description="The long awaited release">
+		    <action type="update" dev="Jim Weaver">
+		        assertTextNotInElement method addition
+		    </action>
+		    <action type="update" dev="Jim Weaver">
+		        form assertion failure messages more accurate
+		    </action>
+		    <action type="update" dev="Wilkes Joiner">
+		        assertFormNotPresent method addition
+		    </action>
+		    <action type="update" due-to="Alex Chaffee">
+		        goto a page directly by url
+		    </action>
+		    <action type="update" due-to="justin sampson">
+		        support for clicking links by text when there are multiple links with
+                same text on page
+		    </action>
+		    <action type="update" dev="Wilkes Joiner">
+                support for multiple checkboxes with different values
+		    </action>
+			<action type="update" dev="Martijn Dashorst">
+				Moved the build system from <a href="http://ant.apache.org">Ant</a> 
+				to <a href="http://maven.apache.org">Maven</a>.
+			</action>
+			<action type="update" dev="Martijn Dashorst">
+				Upgraded all dependencies (httpunit, rhino, nekohtml, 
+				xerces, junit) to their newest released version.
+			</action>
+			<action type="update" dev="Jim Weaver" due-to="Vivek Venugopalan" issue="727614">
+				Added support for cookies.
+			</action>
 			<action type="fix" dev="Vivek Venugopalan" issue="856218" due-to="Roberto Cosenza">
 				Wrong text in Assert
 			</action>
@@ -21,17 +51,9 @@
 			<action type="fix" dev="Vivek Venugopalan" due-to="Jim Cloughley" issue="918278">
 				broken link in jwebunit-1.1.1 set of files
 			</action>
-			<action type="update" dev="Martijn Dashorst">
-				Moved the build system from <a href="http://ant.apache.org">Ant</a> 
-				to <a href="http://maven.apache.org">Maven</a>.
-			</action>
-			<action type="update" dev="Martijn Dashorst">
-				Upgraded all dependencies (httpunit, rhino, nekohtml, 
-				xerces, junit) to their newest released version.
-			</action>
-			<action type="update" dev="Jim Weaver" due-to="Vivek Venugopalan" issue="727614">
-				Added support for cookies.
-			</action>
+		    <action type="fix" dev="Jim Weaver">
+		        prevent js files from being returned as response content
+		    </action>
 			<action type="fix" dev="Jim Weaver" due-to="Brad Clarke" issue="727614">
 				Fork enabled for ant-build compile.
 			</action>
