@@ -83,7 +83,7 @@ public class WebTester {
      *
      * @param relativeURL
      */
-    public void gotoURL(String relativeURL) {
+    public void beginAt(String relativeURL) {
         dialog = new HttpUnitDialog(getTestContext().getBaseUrl() + relativeURL, context);
     }
 

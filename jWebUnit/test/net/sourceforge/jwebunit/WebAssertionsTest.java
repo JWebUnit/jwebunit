@@ -19,7 +19,7 @@ public class WebAssertionsTest extends JWebUnitTest {
     public void setUp() throws Exception {
         super.setUp();
         addTestPage();
-        gotoURL("/testPage.html");
+        beginAt("/testPage.html");
     }
 
     public void testAssertTitleEquals() throws Throwable {
@@ -124,7 +124,7 @@ public class WebAssertionsTest extends JWebUnitTest {
 
     public void testAssertHasForm() throws Throwable {
         assertPass("assertHasForm", NOARGS);
-        gotoURL("/noFormPage.html");
+        beginAt("/noFormPage.html");
         assertFail("assertHasForm", NOARGS);
     }
 

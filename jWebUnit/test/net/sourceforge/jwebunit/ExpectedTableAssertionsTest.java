@@ -14,7 +14,7 @@ public class ExpectedTableAssertionsTest extends JWebUnitTest {
     public void setUp() throws Exception {
         super.setUp();
         addTestPage();
-        gotoURL("/testPage.html");
+        beginAt("/testPage.html");
     }
 
     public void testAssertTableEquals() throws Throwable {

@@ -65,8 +65,8 @@ public class WebTestCase extends TestCase {
         return tester.getTestContext();
     }
 
-    public void gotoURL(String relativeURL) {
-        tester.gotoURL(relativeURL);
+    public void beginAt(String relativeURL) {
+        tester.beginAt(relativeURL);
     }
 
     public String getMessage(String key) {
