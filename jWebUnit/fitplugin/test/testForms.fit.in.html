@@ -4,414 +4,509 @@
   <title>jWebUnit fit Fixture Form Manipulation Test</title>
 </head>
   <body>
-  Test text input field entry, inspection of form field values, and simple 
-form submission.<br>
- <br>
-    
-<table border="1" cellpadding="4">
-  <tbody>
-     <tr>
-       <td colspan="4" valign="middle">net.sourceforge.jwebunit.fit.WebFixture</td>
-     </tr>
-  <tr>
-       <td>baseUrl</td>
-       <td>http://localhost:8081</td>
-       <td>&nbsp;</td>
-       <td valign="top"><br>
-       </td>
-     </tr>
-  <tr>
-       <td>begin</td>
-       <td>menu</td>
-       <td>&nbsp;</td>
-       <td valign="top"><br>
-       </td>
-     </tr>
-  <tr>
-       <td>press</td>
-       <td>link</td>
-       <td>Color form page</td>
-       <td valign="top"><br>
-       </td>
-     </tr>
-  <tr>
-       <td valign="top">check<br>
-       </td>
-       <td valign="top">form element equals<br>
-       </td>
-       <td valign="top">color<br>
-       </td>
-       <td valign="top">default<br>
-       </td>
-     </tr>
-     <tr>
-       <td>enter</td>
-       <td>color</td>
-       <td>red</td>
-       <td valign="top"><br>
-       </td>
-     </tr>
-  <tr>
-       <td valign="top">check<br>
-       </td>
-       <td valign="top">form element equals<br>
-       </td>
-       <td valign="top">color<br>
-       </td>
-       <td valign="top">red<br>
-       </td>
-     </tr>
-     <tr>
-       <td>press<br>
-       </td>
-       <td>submit</td>
-       <td><br>
-       </td>
-       <td valign="top"><br>
-       </td>
-     </tr>
-  <tr>
-       <td>check</td>
-       <td>title equals</td>
-       <td>Red Page<br>
-       </td>
-       <td valign="top"><br>
-       </td>
-     </tr>
-       
-  </tbody> 
-</table>
+   Test text input field entry, inspection of form field values, and simple
+ form submission.<br>
   <br>
- <br>
-   Test submit of named button where multiple buttons exist.<br>
- <br>
-    
+      
 <table border="1" cellpadding="4">
-  <tbody>
-     <tr>
-       <td colspan="3">net.sourceforge.jwebunit.fit.WebFixture</td>
-     </tr>
-  <tr>
-       <td>begin</td>
-       <td>multiButtonForm</td>
-       <td>&nbsp;</td>
-     </tr>
-  <tr>
-       <td>enter</td>
-       <td>textField</td>
-       <td>friend</td>
-     </tr>
-  <tr>
-       <td>press</td>
-       <td>submit</td>
-       <td>Button1</td>
-     </tr>
-  <tr>
-       <td>check</td>
-       <td>title equals</td>
-       <td>Button 1 Pressed Page</td>
-     </tr>
-    <tr>
-      <td valign="top">begin<br>
-      </td>
-      <td valign="top">multiButtonForm<br>
-      </td>
-      <td valign="top"><br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top">enter<br>
-      </td>
-      <td valign="top">textField<br>
-      </td>
-      <td valign="top">friend<br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top">press<br>
-      </td>
-      <td valign="top">submit<br>
-      </td>
-      <td valign="top">Button2<br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top">check<br>
-      </td>
-      <td valign="top">title equals<br>
-      </td>
-      <td valign="top">Button 2 Pressed Page<br>
-      </td>
-    </tr>
-     
-  </tbody> 
+   <tbody>
+      <tr>
+        <td colspan="4" valign="middle">net.sourceforge.jwebunit.fit.WebFixture</td>
+      </tr>
+   <tr>
+        <td>baseUrl</td>
+        <td>http://localhost:8081</td>
+        <td>&nbsp;</td>
+        <td valign="top"><br>
+        </td>
+      </tr>
+   <tr>
+        <td>begin</td>
+        <td>menu</td>
+        <td>&nbsp;</td>
+        <td valign="top"><br>
+        </td>
+      </tr>
+   <tr>
+        <td>press</td>
+        <td>link</td>
+        <td>Color form page</td>
+        <td valign="top"><br>
+        </td>
+      </tr>
+   <tr>
+        <td valign="top">check<br>
+        </td>
+        <td valign="top">form element equals<br>
+        </td>
+        <td valign="top">color<br>
+        </td>
+        <td valign="top">default<br>
+        </td>
+      </tr>
+      <tr>
+        <td>enter</td>
+        <td>color</td>
+        <td>red</td>
+        <td valign="top"><br>
+        </td>
+      </tr>
+   <tr>
+        <td valign="top">check<br>
+        </td>
+        <td valign="top">form element equals<br>
+        </td>
+        <td valign="top">color<br>
+        </td>
+        <td valign="top">red<br>
+        </td>
+      </tr>
+      <tr>
+        <td>press<br>
+        </td>
+        <td>submit</td>
+        <td><br>
+        </td>
+        <td valign="top"><br>
+        </td>
+      </tr>
+   <tr>
+        <td>check</td>
+        <td>title equals</td>
+        <td>Red Page<br>
+        </td>
+        <td valign="top"><br>
+        </td>
+      </tr>
+           
+  </tbody>  
 </table>
+   <br>
   <br>
-<br>
- Test working with page that has multiple forms. &nbsp;Should be able<br>
-to access values of one form, then submit a second form as long<br>
-as we set the working form to the second form before we begin <br>
-accessing the second form.<br>
-<br>
+    Test submit of named button where multiple buttons exist.<br>
+  <br>
+      
 <table border="1" cellpadding="4">
-  <tbody>
+   <tbody>
+      <tr>
+        <td colspan="3">net.sourceforge.jwebunit.fit.WebFixture</td>
+      </tr>
+   <tr>
+        <td>begin</td>
+        <td>multiButtonForm</td>
+        <td>&nbsp;</td>
+      </tr>
+   <tr>
+        <td>enter</td>
+        <td>textField</td>
+        <td>friend</td>
+      </tr>
+   <tr>
+        <td>press</td>
+        <td>submit</td>
+        <td>Button1</td>
+      </tr>
+   <tr>
+        <td>check</td>
+        <td>title equals</td>
+        <td>Button 1 Pressed Page</td>
+      </tr>
      <tr>
-       <td colspan="4" valign="middle">net.sourceforge.jwebunit.fit.WebFixture</td>
-     </tr>
-    <tr>
-       <td>begin</td>
-       <td>multiForm</td>
-       <td>&nbsp;</td>
-       <td valign="top"><br>
+       <td valign="top">begin<br>
        </td>
-     </tr>
-  <tr>
-       <td>check</td>
-       <td>form element equals<br>
-      </td>
-       <td>color</td>
-       <td valign="top">default<br>
-       </td>
-     </tr>
-  <tr>
-       <td valign="top">form<br>
-       </td>
-       <td valign="top">buttonForm<br>
+       <td valign="top">multiButtonForm<br>
        </td>
        <td valign="top"><br>
-      </td>
-      <td valign="top"><br>
        </td>
      </tr>
      <tr>
-       <td>enter</td>
-       <td>textField<br>
-      </td>
-       <td>friend<br>
-      </td>
-       <td valign="top"><br>
+       <td valign="top">enter<br>
+       </td>
+       <td valign="top">textField<br>
+       </td>
+       <td valign="top">friend<br>
        </td>
      </tr>
-  <tr>
+     <tr>
        <td valign="top">press<br>
        </td>
        <td valign="top">submit<br>
        </td>
-       <td valign="top">Button1<br>
-       </td>
-       <td valign="top"><br>
+       <td valign="top">Button2<br>
        </td>
      </tr>
      <tr>
-       <td>check<br>
+       <td valign="top">check<br>
        </td>
-       <td>title equals</td>
-       <td>Button 1 Pressed Page<br>
+       <td valign="top">title equals<br>
        </td>
-       <td valign="top"><br>
+       <td valign="top">Button 2 Pressed Page<br>
        </td>
      </tr>
          
-  </tbody> 
+  </tbody>  
 </table>
-<br>
-<br>
- Test manipulation of checkbox input fields. &nbsp;Note that jWebUnit <br>
-supports only single checkboxes with given name. &nbsp;Support for<br>
-multiple checkboxes with same name and different values will be<br>
-added later.<br>
-<br>
+   <br>
+ <br>
+  Test working with page that has multiple forms. &nbsp;Should be able<br>
+ to access values of one form, then submit a second form as long<br>
+ as we set the working form to the second form before we begin <br>
+ accessing the second form.<br>
+ <br>
+ 
 <table border="1" cellpadding="4">
-  <tbody>
+   <tbody>
+      <tr>
+        <td colspan="4" valign="middle">net.sourceforge.jwebunit.fit.WebFixture</td>
+      </tr>
      <tr>
-       <td colspan="3">net.sourceforge.jwebunit.fit.WebFixture</td>
-     </tr>
-  <tr>
-       <td>begin</td>
-       <td>personalInfoForm</td>
-       <td>&nbsp;</td>
-     </tr>
-  <tr>
-      <td valign="top">enter<br>
-      </td>
-      <td valign="top">fullName<br>
-      </td>
-      <td valign="top">Jim<br>
-      </td>
-    </tr>
-    <tr>
-       <td>select</td>
-       <td>checkbox</td>
-       <td>citizenCheckbox<br>
-      </td>
-     </tr>
-  <tr>
-       <td>press</td>
-       <td>submit</td>
-       <td><br>
-      </td>
-     </tr>
-  <tr>
-       <td>check</td>
-       <td>title equals</td>
-       <td>Personal Info Results</td>
-     </tr>
-    <tr>
-      <td valign="top">check<br>
-      </td>
-      <td valign="top">text present<br>
-      </td>
-      <td valign="top">Name given is Jim<br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top">check<br>
-      </td>
-      <td valign="top">text present<br>
-      </td>
-      <td valign="top">You indicated that you are a citizen<br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top">begin<br>
-      </td>
-      <td valign="top">personalInfoForm<br>
-      </td>
-      <td valign="top"><br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top">enter<br>
-      </td>
-      <td valign="top">fullName<br>
-      </td>
-      <td valign="top">Wilkes<br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top">select<br>
-      </td>
-      <td valign="top">checkbox<br>
-      </td>
-      <td valign="top">citizenCheckbox<br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top">deselect<br>
-      </td>
-      <td valign="top">checkbox<br>
-      </td>
-      <td valign="top">citizenCheckbox<br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top">press<br>
-      </td>
-      <td valign="top">submit<br>
-      </td>
-      <td valign="top"><br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top">check<br>
-      </td>
-      <td valign="top">title equals<br>
-      </td>
-      <td valign="top">Personal Info Results<br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top">check<br>
-      </td>
-      <td valign="top">text present<br>
-      </td>
-      <td valign="top">Name given is Wilkes<br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top">check<br>
-      </td>
-      <td valign="top">text present<br>
-      </td>
-      <td valign="top">You indicated that you are not a citizen<br>
-      </td>
-    </tr>
-                     
-  </tbody> 
+        <td>begin</td>
+        <td>multiForm</td>
+        <td>&nbsp;</td>
+        <td valign="top"><br>
+        </td>
+      </tr>
+   <tr>
+        <td>check</td>
+        <td>form element equals<br>
+       </td>
+        <td>color</td>
+        <td valign="top">default<br>
+        </td>
+      </tr>
+   <tr>
+        <td valign="top">form<br>
+        </td>
+        <td valign="top">buttonForm<br>
+        </td>
+        <td valign="top"><br>
+       </td>
+       <td valign="top"><br>
+        </td>
+      </tr>
+      <tr>
+        <td>enter</td>
+        <td>textField<br>
+       </td>
+        <td>friend<br>
+       </td>
+        <td valign="top"><br>
+        </td>
+      </tr>
+   <tr>
+        <td valign="top">press<br>
+        </td>
+        <td valign="top">submit<br>
+        </td>
+        <td valign="top">Button1<br>
+        </td>
+        <td valign="top"><br>
+        </td>
+      </tr>
+      <tr>
+        <td>check<br>
+        </td>
+        <td>title equals</td>
+        <td>Button 1 Pressed Page<br>
+        </td>
+        <td valign="top"><br>
+        </td>
+      </tr>
+             
+  </tbody>  
 </table>
-<br>
-   Test manipulation of select boxes (drop lists). &nbsp;Multiple-select
+ <br>
+ <br>
+  Test manipulation of checkbox input fields. &nbsp;Note that jWebUnit <br>
+ supports only single checkboxes with given name. &nbsp;Support for<br>
+ multiple checkboxes with same name and different values will be<br>
+ added later.<br>
+ <br>
+ 
+<table border="1" cellpadding="4">
+   <tbody>
+      <tr>
+        <td colspan="3">net.sourceforge.jwebunit.fit.WebFixture</td>
+      </tr>
+   <tr>
+        <td>begin</td>
+        <td>personalInfoForm</td>
+        <td>&nbsp;</td>
+      </tr>
+   <tr>
+       <td valign="top">enter<br>
+       </td>
+       <td valign="top">fullName<br>
+       </td>
+       <td valign="top">Jim<br>
+       </td>
+     </tr>
+     <tr>
+        <td>select</td>
+        <td>checkbox</td>
+        <td>citizenCheckbox<br>
+       </td>
+      </tr>
+   <tr>
+        <td>press</td>
+        <td>submit</td>
+        <td><br>
+       </td>
+      </tr>
+   <tr>
+        <td>check</td>
+        <td>title equals</td>
+        <td>Personal Info Results</td>
+      </tr>
+     <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">text present<br>
+       </td>
+       <td valign="top">Name given is Jim<br>
+       </td>
+     </tr>
+     <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">text present<br>
+       </td>
+       <td valign="top">You indicated that you are a citizen<br>
+       </td>
+     </tr>
+     <tr>
+       <td valign="top">begin<br>
+       </td>
+       <td valign="top">personalInfoForm<br>
+       </td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+     <tr>
+       <td valign="top">enter<br>
+       </td>
+       <td valign="top">fullName<br>
+       </td>
+       <td valign="top">Wilkes<br>
+       </td>
+     </tr>
+     <tr>
+       <td valign="top">select<br>
+       </td>
+       <td valign="top">checkbox<br>
+       </td>
+       <td valign="top">citizenCheckbox<br>
+       </td>
+     </tr>
+     <tr>
+       <td valign="top">deselect<br>
+       </td>
+       <td valign="top">checkbox<br>
+       </td>
+       <td valign="top">citizenCheckbox<br>
+       </td>
+     </tr>
+     <tr>
+       <td valign="top">press<br>
+       </td>
+       <td valign="top">submit<br>
+       </td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+     <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">title equals<br>
+       </td>
+       <td valign="top">Personal Info Results<br>
+       </td>
+     </tr>
+     <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">text present<br>
+       </td>
+       <td valign="top">Name given is Wilkes<br>
+       </td>
+     </tr>
+     <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">text present<br>
+       </td>
+       <td valign="top">You indicated that you are not a citizen<br>
+       </td>
+     </tr>
+                         
+  </tbody>  
+</table>
+ <br>
+    Test manipulation of select boxes (drop lists). &nbsp;Multiple-select 
 boxes<br>
-not yet supported by jWebUnit.<br>
+ not yet supported by jWebUnit.<br>
+ <br>
+ 
+<table border="1" cellpadding="4">
+   <tbody>
+      <tr>
+        <td colspan="4" valign="middle">net.sourceforge.jwebunit.fit.WebFixture</td>
+      </tr>
+     <tr>
+        <td>begin</td>
+        <td>personalInfoForm</td>
+        <td>&nbsp;</td>
+       <td valign="top"><br>
+       </td>
+             </tr>
+   <tr>
+        <td>enter</td>
+        <td>fullName</td>
+        <td>Jim</td>
+       <td valign="top"><br>
+       </td>
+             </tr>
+        <tr>
+        <td>select<br>
+       </td>
+        <td>option</td>
+       <td>state<br>
+       </td>
+       <td valign="top">Tennessee<br>
+       </td>
+             </tr>
+        <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">option equals<br>
+       </td>
+       <td valign="top">state<br>
+       </td>
+       <td valign="top">Tennessee<br>
+       </td>
+     </tr>
+     <tr>
+        <td>press<br>
+        </td>
+        <td>submit</td>
+        <td><br>
+        </td>
+       <td valign="top"><br>
+       </td>
+             </tr>
+   <tr>
+        <td>check</td>
+        <td>title equals</td>
+        <td>Personal Info Results<br>
+        </td>
+       <td valign="top"><br>
+       </td>
+             </tr>
+     <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">text present<br>
+       </td>
+       <td valign="top">You live in Tennessee<br>
+       </td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+           
+  </tbody>  
+</table>
+ <br>
+ Test row fixture for validating available options in select boxes.<br>
+ <br>
+ 
+<table border="1" cellpadding="4">
+    <tbody>
+      <tr>
+        <td colspan="2" valign="middle">net.sourceforge.jwebunit.fit.WebFixture</td>
+      </tr>
+     <tr>
+        <td>begin</td>
+        <td>personalInfoForm</td>
+                     </tr>
+                               
+  </tbody>  
+</table>
+ <br>
+We can validate the set of labels or values alone:<br>
 <br>
 <table border="1" cellpadding="4">
-  <tbody>
-     <tr>
-       <td colspan="4" valign="middle">net.sourceforge.jwebunit.fit.WebFixture</td>
-     </tr>
-    <tr>
-       <td>begin</td>
-       <td>personalInfoForm</td>
-       <td>&nbsp;</td>
-      <td valign="top"><br>
-      </td>
-            </tr>
-  <tr>
-       <td>enter</td>
-       <td>fullName</td>
-       <td>Jim</td>
-      <td valign="top"><br>
-      </td>
-            </tr>
-       <tr>
-       <td>select<br>
-      </td>
-       <td>option</td>
-      <td>state<br>
-      </td>
-      <td valign="top">Tennessee<br>
-      </td>
-            </tr>
-       <tr>
-      <td valign="top">check<br>
-      </td>
-      <td valign="top">option equals<br>
-      </td>
-      <td valign="top">state<br>
-      </td>
-      <td valign="top">Tennessee<br>
-      </td>
-    </tr>
-    <tr>
-       <td>press<br>
+   <tbody>
+      <tr>
+        <td colspan="1" valign="middle">net.sourceforge.jwebunit.fit.OptionDisplay</td>
+      </tr>
+   <tr>
+        <td>state<br>
        </td>
-       <td>submit</td>
-       <td><br>
+                     </tr>
+   <tr>
+       <td valign="top">label<br>
        </td>
-      <td valign="top"><br>
-      </td>
             </tr>
-  <tr>
-       <td>check</td>
-       <td>title equals</td>
-       <td>Personal Info Results<br>
+ <tr>
+        <td>Tennessee<br>
        </td>
-      <td valign="top"><br>
-      </td>
-            </tr>
-    <tr>
-      <td valign="top">check<br>
-      </td>
-      <td valign="top">text present<br>
-      </td>
-      <td valign="top">You live in Tennessee<br>
-      </td>
-      <td valign="top"><br>
-      </td>
-    </tr>
-       
-  </tbody> 
+                     </tr>
+   <tr>
+        <td><br>
+       </td>
+                     </tr>
+   <tr>
+        <td>Georgia<br>
+       </td>
+                     </tr>
+                         
+  </tbody>  
 </table>
 <br>
+Or vaidate both at once:<br>
+<br>
+ 
+<table border="1" cellpadding="4">
+   <tbody>
+      <tr>
+        <td colspan="2" valign="middle">net.sourceforge.jwebunit.fit.OptionDisplay</td>
+      </tr>
+   <tr>
+        <td>state<br>
+       </td>
+      <td valign="top"><br>
+      </td>
+                    </tr>
+   <tr>
+      <td valign="top">label<br>
+      </td>
+      <td valign="top">value<br>
+      </td>
+    </tr>
+    <tr>
+        <td>Tennessee<br>
+       </td>
+      <td valign="top">Tennessee<br>
+      </td>
+                    </tr>
+   <tr>
+        <td><br>
+       </td>
+      <td valign="top">None<br>
+      </td>
+                    </tr>
+   <tr>
+        <td>Georgia<br>
+       </td>
+      <td valign="top">Georgia<br>
+      </td>
+                    </tr>
+                         
+  </tbody>  
+</table>
+ <br>
+Hmmm, in the tests above, why does the empty label not get colored green?
+&nbsp;It is not being validated?<br>
+ <br>
 </body>
 </html>

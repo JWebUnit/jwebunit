@@ -87,7 +87,7 @@ public class PseudoWebApp {
                 "<input type=\"text\" name=\"fullName\"/>" +
                 "<input type=\"checkbox\" name=\"citizenCheckbox\"/>" +
                 "<select name=\"state\"><option value=\"Tennessee\">Tennessee</option>" +
-                    "<option value=\"None\" SELECTED>&nbsp</option>" +
+                    "<option value=\"None\" SELECTED> </option>" +
                     "<option value=\"Georgia\">Georgia</option></select>" +
                 "<input type=\"submit\"/>" +
                 "</form>" +
