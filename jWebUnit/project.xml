@@ -233,15 +233,30 @@
 	      -->
 		<dependency>
 			<groupId>jetty</groupId>
-			<artifactId>jetty</artifactId>
-			<version>4.2.19</version>
+			<artifactId>org.mortbay.jetty</artifactId>
+			<version>4.2.20</version>
 			<type>jar</type>
 			<url>http://www.mortbay.com</url>
 			<properties>
 				<war.bundle>false</war.bundle>
 			</properties>
 		</dependency>
-		
+		<dependency>
+		    <groupId>tomcat</groupId>
+		    <artifactId>jasper-runtime</artifactId>
+		    <version>4.1.30</version>
+		    <properties>
+		        <war.bundle>false</war.bundle>
+		    </properties>
+		</dependency>
+		<dependency>
+		    <groupId>tomcat</groupId>
+		    <artifactId>jasper-compiler</artifactId>
+		    <version>4.1.30</version>
+		    <properties>
+		        <war.bundle>false</war.bundle>
+		    </properties>
+		</dependency>
     </dependencies>
     <build>
         <sourceDirectory>src</sourceDirectory>
