@@ -87,7 +87,7 @@ public class DirectoryResult extends FitResult {
             writer = new FileWriter(indexFile);
             writer.write("<html><head><title>Fit Results Summary</title></head><body>");
             writer.write("<h1>Results</h1>");
-            writer.write("<table border=\"1\" cellspacing=\"5\" cellpadding=\"5\">");
+            writer.write("<table border=\"1\" cellspacing=\"1\" cellpadding=\"2\">");
             writeResults(writer);
             writer.write("</table>");
             writer.write("<br>");

@@ -618,9 +618,8 @@ public class WebTester {
 
     public void assertTextInElement(String elementID, String text) {
         Element element = dialog.getElement(elementID);
-        Assert.assertNotNull(element);
-        Assert.assertTrue(dialog.isTextInElement(element, text));
-
+        Assert.assertNotNull("Unable to locate element with id \"" + elementID + "\"",element);
+        Assert.assertTrue("Unable to locate ["+ text +"] in element \"" + elementID + "\"", dialog.isTextInElement(element, text));
     }
 
     //Form interaction methods

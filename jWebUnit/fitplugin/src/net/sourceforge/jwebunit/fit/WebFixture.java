@@ -91,11 +91,17 @@ public class WebFixture extends ActionFixture {
         String args[] = getArgs(cells.more.more);
         try {
             getInvoker(methName, args).invoke();
-            markLastArgumentRight(cells.more.more, args.length);
+            if(isNotEmpty(cells.more.more))
+                markLastArgumentRight(cells.more.more, args.length);
+            else
+                right(cells.more); // for no arg checks
         } catch (InvocationTargetException ite) {
             Throwable t = ite.getTargetException();
             if(t instanceof AssertionFailedError ) {
-                markLastArgumentWrong(cells.more.more, args.length, t.getMessage());
+                if(isNotEmpty(cells.more.more))
+                    markLastArgumentWrong(cells.more.more, args.length, t.getMessage());
+                else
+                    wrong(cells.more, t.getMessage()); // for no arg checks
             } else {
                 exception(cells.last(), t);
             }
@@ -107,16 +113,17 @@ public class WebFixture extends ActionFixture {
     }
 
      private MethodInvoker getInvoker(String methName, String[] args) throws NoSuchMethodException {
-        MethodInvoker invoker;
         try {
-            invoker = new MethodInvoker(tester, methName, args);
-            invoker.getMethod();
+            return getInvoker(this, methName, args);
         } catch (NoSuchMethodException e) {
-            //if the method is not on the tester,
-            //check this instance (could be defined in a subclass
-            invoker = new MethodInvoker(this, methName, args);
-            invoker.getMethod();
+            return getInvoker(tester, methName, args);
         }
+    }
+
+    private MethodInvoker getInvoker(Object target, String methName, String[] args) throws NoSuchMethodException {
+        MethodInvoker invoker;
+        invoker = new MethodInvoker(target, methName, args);
+        invoker.getMethod();
         return invoker;
     }
 
@@ -125,6 +132,7 @@ public class WebFixture extends ActionFixture {
     }
 
     private void markLastArgumentWrong(Parse more, int length, String message) {
+        if(message == null) message = "No message!";
         wrong(more.at(length - 1));
         more.at(length - 1).addToBody(label("expected") + "<hr>" + escape(message));
     }
@@ -139,13 +147,22 @@ public class WebFixture extends ActionFixture {
         return (String[])args.toArray(new String[0]);
     }
 
-    private boolean isNotEmpty(Parse cell) {
+    protected boolean isNotEmpty(Parse cell) {
         return cell != null && !cell.text().equals("");
     }
+
     protected void dumpResponse() {
         System.err.println("***************begin page***********************");
         tester.dumpResponse(System.err);
         System.err.println("***************end page*************************");
     }
 
+    // Checks
+    public void assertLink(String text) {
+        tester.assertLinkPresentWithText(text);
+    }
+
+    public void assertLinkId(String anID) {
+        tester.assertLinkPresent(anID);
+    }
 }
