@@ -1,23 +1,17 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
-<HEAD>
-  <TITLE>Wiki: $title</TITLE>
-</HEAD>
-<BODY BGCOLOR="#FFFFFF" LINK="#0000ff" VLINK="#006600">
-<H1>
-  <IMG SRC="logo.gif" ALT="wiki logo" ALIGN="Middle">
-  <A href=search.rb?search=$page>$title</A>
-</H1>
-<P>
+<html>
+<head>
+  <title>Wiki: $title</title>
+</head>
+<body bgcolor="#FFFFFF" link="#0000ff" vlink="#006600">
+<h1>
+  <img src="logo.gif" alt="wiki logo" align="Middle">
+  <a href=search.rb?search=$page>$title</A>
+</h1>
+<p>
 $body
-<P>
-<TABLE CELLSPACING="0" CELLPADDING="0" WIDTH="600px">
-  <TR>
-    <TD WIDTH="90px" align=center>$action</TD>
-    <TD WIDTH="510px" align=left valign=top>$summary
-      <P>
-      <SMALL><A HREF="http://www.wiki.org/"><EM>WikiOrg</EM></A> -- Return
-      to <A href=wiki.rb?WelcomeVisitors>WelcomeVisitors</A></SMALL></TD>
-  </TR>
-</TABLE>
-</BODY></HTML>
+<p>
+$action
+<small><a href="http://www.wiki.org/"><em>WikiOrg</em></a> -- Return to <a href=wiki.rb?WelcomeVisitors>WelcomeVisitors</a></small>
+$summary<br>
+</body></html>
