@@ -129,7 +129,7 @@ public class FormSubmissionTest extends JWebUnitTest {
         if (parms != null && !parms.equals("")) {
             resourceName += "?" + parms;
         }
-        System.out.println("resourceName = " + resourceName);
+//        System.out.println("resourceName = " + resourceName);
         defineResource(resourceName, new PseudoServlet() {
             public WebResource getPostResponse() {
                 WebResource result = new WebResource("<html><body><table><tr><td>Parms are: " + parms +

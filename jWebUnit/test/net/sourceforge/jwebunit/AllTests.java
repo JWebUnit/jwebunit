@@ -20,6 +20,8 @@ public class AllTests extends TestSuite{
         suite.addTestSuite(TestContextTest.class);
         suite.addTestSuite(ExpectedTableTest.class);
         suite.addTestSuite(ExpectedTableAssertionsTest.class);
+        suite.addTestSuite(FormAssertionsTest.class);
+        suite.addTestSuite(TableAssertionsTest.class);
         return suite;
     }
 }
