@@ -1,5 +1,12 @@
 <project name="jWebUnit" default="test">
-    <property name="build.name" value="jwebunit-1.1.1"/>
+	<property name="build.version" value="1.2"/>
+    <property name="build.name" value="jwebunit-${build.version}"/>
+	<property name="dist.name.jar" value="${build.name}.jar"/>
+	<property name="build.dir" value="target"/>
+	<property name="build.docs.dir" value="${build.dir}/docs" />
+	<property name="build.javadoc.dir" value="${build.docs.dir}/apidocs" />
+	<property name="build.classes.dir" value="${build.dir}/classes" />
+	<property name="build.test-classes.dir" value="${build.dir}/test-classes" />
 
     <path id="src.classpath">
         <fileset dir="lib">
@@ -8,28 +15,27 @@
     </path>
 
     <path id="tests.classpath">
-        <pathelement location="src-classes"/>
+        <pathelement location="${build.classes.dir}"/>
         <path refid="src.classpath"/>
     </path>
 
     <path id="junit.classpath">
-        <pathelement location="test-classes"/>
+        <pathelement location="${build.test-classes.dir}"/>
         <path refid="tests.classpath"/>
     </path>
 
     <target name="dist" depends="test, make-zip"/>
 
     <target name="init">
-        <mkdir dir="docgen"/>
-        <mkdir dir="docgen/api"/>
+        <mkdir dir="${build.javadoc.dir}"/>
         <mkdir dir="dist"/>
     </target>
 
     <target name="compile" depends="init">
-        <mkdir dir="src-classes"/>
-        <mkdir dir="test-classes"/>
-        <javac destdir="src-classes" srcdir="src" classpathref="src.classpath" debug="true" fork="true"/>
-        <javac destdir="test-classes" srcdir="test" classpathref="tests.classpath" debug="true" fork="true"/>
+        <mkdir dir="${build.classes.dir}"/>
+        <mkdir dir="${build.test-classes.dir}"/>
+        <javac destdir="${build.classes.dir}" srcdir="src" classpathref="src.classpath" debug="true" fork="true"/>
+        <javac destdir="${build.test-classes.dir}" srcdir="test" classpathref="tests.classpath" debug="true" fork="true"/>
     </target>
 
     <target name="test" depends="compile">
@@ -45,34 +51,38 @@
     <target name="gen-javadoc" depends="init">
         <javadoc sourcepath="src" overview="src/overview.html"
             packagenames="net.sourceforge.jwebunit.*"
-            destdir="docgen/api"
+            destdir="${build.javadoc.dir}"
             windowtitle="jWebUnit API">
             <bottom><![CDATA[<i>Copyright &#169; 2002 ThoughtWorks, Inc. All Rights Reserved.</i>]]></bottom>
         </javadoc>
-        <copydir src="doc" dest="docgen" excludes="**/CVS/**"/>
+        <copy todir="${build.docs.dir}">
+    		<fileset dir="doc">
+    			<exclude name="**/CVS/**" />
+    		</fileset>
+       	</copy>
     </target>
 
     <target name="make-zip" depends="gen-javadoc">
-        <jar destfile="dist/jwebunit.jar">
-            <fileset dir="src-classes"/>
+        <jar destfile="dist/${dist.name.jar}">
+            <fileset dir="${build.classes.dir}"/>
             <fileset dir="licenses"/>
         </jar>
-        <zip destfile="dist/jWebUnit.zip">
+        <zip destfile="dist/${build.name}.zip">
             <zipfileset dir="sample" prefix="${build.name}/sample"/>
             <zipfileset dir="src" prefix="${build.name}/src"/>
             <zipfileset dir="test" prefix="${build.name}/test"/>
-            <zipfileset dir="docgen" prefix="${build.name}/doc"/>
+            <zipfileset dir="${build.docs.dir}" prefix="${build.name}/doc"/>
             <zipfileset dir="licenses" prefix="${build.name}/licenses"/>
             <zipfileset dir="lib" excludes="fit.jar" prefix="${build.name}/lib"/>
-            <zipfileset dir="dist" includes="jwebunit.jar" prefix="${build.name}"/>
+            <zipfileset dir="dist" includes="${dist.name.jar}" prefix="${build.name}"/>
             <zipfileset dir="." includes="build.xml" prefix="${build.name}"/>
             <zipfileset dir="." includes="CHANGES" prefix="${build.name}"/>
         </zip>
     </target>
 
     <target name="clean">
-        <delete dir="src-classes"/>
-        <delete dir="test-classes"/>
+        <delete dir="${build.classes.dir}"/>
+        <delete dir="${build.test-classes.dir}"/>
         <delete dir="jwebfit-classes"/>
         <delete dir="docgen"/>
     </target>
