@@ -41,7 +41,14 @@ public class WebTestCase extends TestCase {
         //setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
     }
     
-
+    public void tearDown() throws Exception {
+    	
+    	//this resets the dialog / nulls out objects, etc.
+    	//close IE from the JacobieDialog.
+    	getDialog().reset();
+    	
+    	super.tearDown();
+    }
 
     /**
      * Clean up unused memory. Using <tt>setUp</tt> and <tt>tearDown</tt> is
