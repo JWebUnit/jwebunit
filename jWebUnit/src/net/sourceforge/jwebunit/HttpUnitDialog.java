@@ -445,6 +445,21 @@ public class HttpUnitDialog {
     }
 
     /**
+     * Return true if a link is present with a given image based on filename of image.
+     *
+     * @param imageFileName A suffix of the image's filename; for example, to match
+     *                      <tt>"images/my_icon.png"<tt>, you could just pass in
+     *                      <tt>"my_icon.png"<tt>.
+     */
+    public boolean isLinkPresentWithImage(String imageFileName) {
+        try {
+            return (resp.getFirstMatchingLink(new LinkImagePredicate(), imageFileName) != null);
+        } catch (SAXException e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+    }
+
+    /**
      * Return true if a link is present in the current response with the
      * specified id.
      *

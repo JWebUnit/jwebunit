@@ -1,3 +1,21 @@
+CHANGES SINCE RC2:
+
+** Additional Functionality**
+
+Support for links with images contributed by Justin Sampson
+Methods were added to assert and navigate links with images by filename.
+
+assertFormElementEmpty method added - a convenience.
+
+
+**API Changes**
+assertHasForm renamed to assertFormPresent to be consistent with other methods.
+
+
+**Miscellaneous**
+HttpUnit 1.4.6 incorporated.
+
+
 CHANGES SINCE RC1:
 
 **Additional Functionality**

@@ -575,6 +575,28 @@ public class WebTester {
     }
 
     /**
+     * Assert that a link containing a specified image is present.
+     *
+     * @param imageFileName A suffix of the image's filename; for example, to match
+     *                      <tt>"images/my_icon.png"<tt>, you could just pass in
+     *                      <tt>"my_icon.png"<tt>.
+     */
+    public void assertLinkPresentWithImage(String imageFileName) {
+        Assert.assertTrue("Link with image file [" + imageFileName + "] not found in response.", dialog.isLinkPresentWithImage(imageFileName));
+    }
+
+    /**
+     * Assert that a link containing a specified image is not present.
+     *
+     * @param imageFileName A suffix of the image's filename; for example, to match
+     *                      <tt>"images/my_icon.png"<tt>, you could just pass in
+     *                      <tt>"my_icon.png"<tt>.
+     */
+    public void assertLinkNotPresentWithImage(String imageFileName) {
+        Assert.assertTrue("Link with image file [" + imageFileName + "] found in response.", !dialog.isLinkPresentWithImage(imageFileName));
+    }
+
+    /**
      * Assert that an element with a given id is present.
      *
      * @param anID element id to test for.
@@ -688,6 +710,19 @@ public class WebTester {
         assertLinkPresentWithText(linkText);
         dialog.clickLinkWithText(linkText);
     }
+
+    /**
+     * Navigate by selection of a link with a given image.
+     *
+     * @param imageFileName A suffix of the image's filename; for example, to match
+     *                      <tt>"images/my_icon.png"<tt>, you could just pass in
+     *                      <tt>"my_icon.png"<tt>.
+     */
+    public void clickLinkWithImage(String imageFileName) {
+        assertLinkPresentWithImage(imageFileName);
+        dialog.clickLinkWithImage(imageFileName);
+    }
+
 
     /**
      * Navigate by selection of a link with given id.

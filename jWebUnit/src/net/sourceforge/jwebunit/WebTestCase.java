@@ -200,6 +200,14 @@ public class WebTestCase extends TestCase {
         tester.assertSubmitButtonValue(buttonName, expectedValue);
     }
 
+    public void assertLinkPresent(String linkId) {
+        tester.assertLinkPresent(linkId);
+    }
+
+    public void assertLinkNotPresent(String linkId) {
+        tester.assertLinkNotPresent(linkId);
+    }
+
     public void assertLinkPresentWithText(String linkText) {
         tester.assertLinkPresentWithText(linkText);
     }
@@ -208,12 +216,12 @@ public class WebTestCase extends TestCase {
         tester.assertLinkNotPresentWithText(linkText);
     }
 
-    public void assertLinkPresent(String linkId) {
-        tester.assertLinkPresent(linkId);
+    public void assertLinkPresentWithImage(String imageFileName) {
+        tester.assertLinkPresentWithImage(imageFileName);
     }
 
-    public void assertLinkNotPresent(String linkId) {
-        tester.assertLinkNotPresent(linkId);
+    public void assertLinkNotPresentWithImage(String imageFileName) {
+        tester.assertLinkNotPresentWithImage(imageFileName);
     }
 
     public void assertElementPresent(String anID) {
@@ -263,6 +271,10 @@ public class WebTestCase extends TestCase {
 
     protected void clickLinkWithText(String linkText) {
         tester.clickLinkWithText(linkText);
+    }
+
+    protected void clickLinkWithImage(String imageFileName) {
+        tester.clickLinkWithImage(imageFileName);
     }
 
     protected void clickLink(String linkId) {

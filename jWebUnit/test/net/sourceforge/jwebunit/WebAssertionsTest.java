@@ -49,6 +49,14 @@ public class WebAssertionsTest extends JWebUnitTest {
         assertPassFail("assertLinkNotPresent", "no_link_id", "test_link_id");
     }
 
+    public void testAssertLinkPresentWithImage() throws Throwable {
+        assertPassFail("assertLinkPresentWithImage", "graphic.jpg", "nosuchgraphic.jsp");
+    }
+
+    public void testAssertLinkNotPresentWithImage() throws Throwable {
+        assertPassFail("assertLinkNotPresentWithImage", "nosuchgraphic.jpg", "graphic.jpg");
+    }
+
     public void testAssertElementPresent() throws Throwable {
         assertElementPresent("row1");
         assertPassFail("assertElementPresent", "span_id", "no_id");
@@ -78,6 +86,7 @@ public class WebAssertionsTest extends JWebUnitTest {
                                   "<tr><td>table text row 2</td></tr>" +
                                   "<tr><td>table text row 3</td><td>row 3 col 1</td>" +
                                   "<a id=\"test_link_id\" href=\"someurl.html\">test link</a>" +
+                                  "<a id=\"test_graphic_link_id\" href=\"someurl2.html\"><img src=\"graphic.jpg\"/></a>" +
                                   "<form>" +
                                   "<input type=\"text\" name=\"testInputElement\" value=\"testValue\"/>" +
                                   "<input type=\"submit\" name=\"submitButton\" value=\"buttonLabel\"/>" +
