@@ -1,6 +1,7 @@
 .classpath
 .project
 classes
+docgen
 bin
 src-classes
 dist
