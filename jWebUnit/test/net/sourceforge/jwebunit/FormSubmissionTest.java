@@ -159,7 +159,7 @@ public class FormSubmissionTest extends JWebUnitTest {
         setFormElement("param2", "anyvalue");
         WebResponse oldResp = getDialog().getResponse();
         submit("button2b");
-        assertNull(getDialog().getForm());
+        assertFalse(getDialog().hasForm());
         assertTrue(getDialog().getResponse() != oldResp);
     }
 

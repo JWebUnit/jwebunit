@@ -70,7 +70,7 @@ public class NavigationTest extends WebTestCase {
             clickLinkWithText("an active link", 2);
             fail();
         } catch (AssertionFailedError expected) {
-            assertEquals("Link with text [an active link] and index 2 "
+            assertEquals("Link with text [an active link] and index [2] "
                     + "not found in response.", expected.getMessage());
         }
         assertTitleEquals("pageWithLink");
