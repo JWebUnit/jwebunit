@@ -212,7 +212,7 @@ public class WebTestCase extends TestCase {
         tester.assertOptionValuesNotEqual(selectName, options);
     }
 
-    public void assertSelectedOptionEquals(String selectName, String option) {
+    public void assertOptionEquals(String selectName, String option) {
         tester.assertOptionEquals(selectName, option);
     }
 

@@ -147,9 +147,9 @@ public class FormSubmissionTest extends JWebUnitTest {
     public void testSelectOption() {
         addMultiForm();
         beginAt("/QueryForm.html");
-        assertSelectedOptionEquals("select1", "one");
+        assertOptionEquals("select1", "one");
         selectOption("select1", "two");
-        assertSelectedOptionEquals("select1", "two");
+        assertOptionEquals("select1", "two");
         assertFormElementEquals("select1", "2");
     }
 

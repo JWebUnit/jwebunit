@@ -113,7 +113,7 @@ public class FormAssertionsTest extends JWebUnitTest {
     }
 
     public void testAssertSelectedOptionEquals() throws Throwable {
-        assertPassFail("assertSelectedOptionEquals", new String[]{"select1", "one"}, new String[]{"select1", "two"});
+        assertPassFail("assertOptionEquals", new String[]{"select1", "one"}, new String[]{"select1", "two"});
     }
 
     private void addTestPage() {
