@@ -3,13 +3,13 @@ package net.sourceforge.jwebunit.fit;
 import java.util.HashMap;
 
 /**
- * Map camelized second cell of WebFixture checks to assertion methods on the
+ * Map uncamelized second cell of WebFixture checks to assertion methods on the
  * jWebunit WebTester.  The initial purpose here is to remove the need
  * to use trailing "equal" and "equals" in the fit tables.
  *
  * i.e.
  *
- * Table entry is: check | form element | value
+ * Table entry is: | check | form element | name | value | 
  *
  * We pass into the map "form element" and return "form element equals".
  *

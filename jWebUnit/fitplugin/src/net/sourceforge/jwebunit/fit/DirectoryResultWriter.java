@@ -52,7 +52,6 @@ public class DirectoryResultWriter extends FitResultWriter {
     private void writeChildren() {
         for (Iterator iterator = results.iterator(); iterator.hasNext();) {
             FitResultWriter fitResult = (FitResultWriter) iterator.next();
-            System.out.println("Writing " + fitResult.getDisplayName());
             fitResult.write();
         }
     }

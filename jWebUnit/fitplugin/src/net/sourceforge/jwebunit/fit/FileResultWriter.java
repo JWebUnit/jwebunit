@@ -18,8 +18,8 @@ public class FileResultWriter extends FitResultWriter {
     private Parse tables;
     private Fixture.Counts counts;
 
-    public FileResultWriter(File outname, Fixture.Counts counts, Parse tables) {
-        super(outname);
+    public FileResultWriter(File output, Fixture.Counts counts, Parse tables) {
+        super(output);
         this.counts = counts;
         this.tables = tables;
     }
@@ -29,7 +29,7 @@ public class FileResultWriter extends FitResultWriter {
     }
 
     public String getDisplayName() {
-        int i = getOutput().getName().indexOf(".fit.out.html");
+		int i = getOutput().getName().indexOf(".");
         return getOutput().getName().substring(0, i);
     }
 
