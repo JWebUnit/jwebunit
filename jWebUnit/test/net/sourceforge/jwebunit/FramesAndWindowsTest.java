@@ -56,7 +56,6 @@ public class FramesAndWindowsTest extends JWebUnitTest {
 
     private void gotoRootAndOpenChild(String childName) {
         beginAt("RootPage.html");
-        dumpResponse(System.err);
         clickLink(childName);
     }
 

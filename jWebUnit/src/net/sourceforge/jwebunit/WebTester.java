@@ -764,6 +764,13 @@ public class WebTester {
     }
 
     /**
+     * Reset the current form.
+     */    
+    public void reset() {
+        dialog.reset();
+    }
+
+    /**
      * Navigate by selection of a link containing given text.
      *
      * @param linkText

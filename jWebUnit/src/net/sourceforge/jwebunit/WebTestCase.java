@@ -292,6 +292,10 @@ public class WebTestCase extends TestCase {
         tester.submit(buttonName);
     }
 
+    public void reset() {
+        tester.reset();
+    }
+
     protected void clickLinkWithText(String linkText) {
         tester.clickLinkWithText(linkText);
     }

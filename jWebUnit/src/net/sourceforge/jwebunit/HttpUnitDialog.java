@@ -1,7 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2001, ThoughtWorks, Inc.
  * Distributed open-source, see full license under licenses/jwebunit_license.txt
-**********************************/
+ **********************************/
 package net.sourceforge.jwebunit;
 
 import com.meterware.httpunit.GetMethodWebRequest;
@@ -414,7 +414,7 @@ public class HttpUnitDialog {
     public WebTable getWebTableBySummaryOrId(String tableSummaryOrId) {
         WebTable table;
         try {
-            table =  resp.getTableWithSummary(tableSummaryOrId);
+            table = resp.getTableWithSummary(tableSummaryOrId);
             if (table == null) {
                 table = resp.getTableWithID(tableSummaryOrId);
             }
@@ -425,12 +425,12 @@ public class HttpUnitDialog {
         return table;
     }
 
-   /**
-    * Return a sparse array (rows or columns without displayable text are removed)
-    * for a given table in the response.
-    *
-    * @param tableSummaryOrId summary or id of the table.
-    */
+    /**
+     * Return a sparse array (rows or columns without displayable text are removed)
+     * for a given table in the response.
+     *
+     * @param tableSummaryOrId summary or id of the table.
+     */
     public String[][] getSparseTableBySummaryOrId(String tableSummaryOrId) {
         WebTable table = getWebTableBySummaryOrId(tableSummaryOrId);
         table.purgeEmptyCells();
@@ -443,8 +443,11 @@ public class HttpUnitDialog {
      * See {@link #getForm} for an explanation of how the current form is established.
      */
     public void submit() {
-        WebRequest formRequest = getForm().getRequest((SubmitButton) null);
-        submitRequest(formRequest);
+        try {
+            resp = getForm().submit();
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
     }
 
     /**
@@ -454,16 +457,19 @@ public class HttpUnitDialog {
      * @param buttonName name of the button to use for submission.
      */
     public void submit(String buttonName) {
-        submitRequest(getForm().getRequest(buttonName));
-    }
-
-    private void submitRequest(WebRequest aWebRequest) {
         try {
-            resp = wc.getResponse(aWebRequest);
+            getForm().getSubmitButton(buttonName).click();
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
+    }
+
+    /**
+     * Reset the current form.
+     * See {@link #getForm} for an explanation of how the current form is established.
+     */
+    public void reset() {
+        getForm().reset();
     }
 
     private void submitRequest(WebLink aLink) {
@@ -471,7 +477,6 @@ public class HttpUnitDialog {
             aLink.click();
             resp = wc.getCurrentPage();
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
     }
