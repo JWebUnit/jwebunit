@@ -149,12 +149,12 @@ public class WebTestCase extends TestCase {
         tester.assertTableRowsEqual(tableSummary, startRow, expectedCellValues);
     }
 
-    public void assertFormParameterPresent(String parameterName) {
-        tester.assertFormParameterPresent(parameterName);
+    public void assertFormElementPresent(String parameterName) {
+        tester.assertFormElementPresent(parameterName);
     }
 
-    public void assertFormParameterNotPresent(String parameterName) {
-        tester.assertFormParameterNotPresent(parameterName);
+    public void assertFormElementNotPresent(String parameterName) {
+        tester.assertFormElementNotPresent(parameterName);
     }
 
     public void assertHasForm() {
@@ -165,8 +165,8 @@ public class WebTestCase extends TestCase {
         tester.assertHasForm(formName);
     }
 
-    public void assertFormParameterEquals(String parameterName, String expectedValue) {
-        tester.assertFormParameterEquals(parameterName, expectedValue);
+    public void assertFormElementEquals(String parameterName, String expectedValue) {
+        tester.assertFormElementEquals(parameterName, expectedValue);
     }
 
     public void assertCheckboxSelected(String checkBoxName) {
@@ -249,12 +249,12 @@ public class WebTestCase extends TestCase {
         tester.dumpTable(tableName, table);
     }
 
-    protected void setFormParameter(String parameterName, String value) {
-        tester.setFormParameter(parameterName, value);
+    protected void setFormElement(String parameterName, String value) {
+        tester.setFormElement(parameterName, value);
     }
 
-    protected void removeFormParameter(String parameterName) {
-        tester.removeFormParameter(parameterName);
+    protected void removeFormElement(String parameterName) {
+        tester.removeFormElement(parameterName);
     }
 
     public void setWorkingForm(String nameOrId) {

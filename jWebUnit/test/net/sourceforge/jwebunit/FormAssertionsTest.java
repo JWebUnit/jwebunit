@@ -17,12 +17,12 @@ public class FormAssertionsTest extends JWebUnitTest {
     }
 
     public void testAssertFormParameterPresent() throws Throwable {
-        assertPassFail("assertFormParameterPresent", "testInputElement", "noSuchElement");
-        assertPass("assertFormParameterPresent", "checkboxselected");
+        assertPassFail("assertFormElementPresent", "testInputElement", "noSuchElement");
+        assertPass("assertFormElementPresent", "checkboxselected");
     }
 
     public void testAssertFormParameterNotPresent() throws Throwable {
-        assertPassFail("assertFormParameterNotPresent", "noSuchElement", "testInputElement");
+        assertPassFail("assertFormElementNotPresent", "noSuchElement", "testInputElement");
     }
 
     public void testAssertHasForm() throws Throwable {
@@ -37,9 +37,9 @@ public class FormAssertionsTest extends JWebUnitTest {
     }
 
     public void testAssertFormParameterEquals() throws Throwable {
-        assertPass("assertFormParameterEquals", new Object[]{"testInputElement", "testValue"});
-        assertFail("assertFormParameterEquals", new Object[]{"testInputElement", "noSuchValue"});
-        assertFail("assertFormParameterEquals", new Object[]{"noSuchElement", "testValue"});
+        assertPass("assertFormElementEquals", new Object[]{"testInputElement", "testValue"});
+        assertFail("assertFormElementEquals", new Object[]{"testInputElement", "noSuchValue"});
+        assertFail("assertFormElementEquals", new Object[]{"noSuchElement", "testValue"});
     }
 
     public void testCheckboxSelected() throws Throwable {

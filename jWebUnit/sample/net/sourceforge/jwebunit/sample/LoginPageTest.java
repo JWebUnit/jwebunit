@@ -66,8 +66,8 @@ public class LoginPageTest extends WebTestCase {
 
     private void loginAs(String user, String pass) {
         beginAt("/");
-        setFormParameter("username", user);
-        setFormParameter("password", pass);
+        setFormElement("username", user);
+        setFormElement("password", pass);
         submit("login");
     }
 

@@ -339,7 +339,7 @@ public class WebTester {
      *
      * @param parameterName
      */
-    public void assertFormParameterPresent(String parameterName) {
+    public void assertFormElementPresent(String parameterName) {
         assertHasForm();
         Assert.assertTrue("Did not find form control with name [" + parameterName + "].",
                 dialog.hasFormParameterNamed(parameterName));
@@ -350,7 +350,7 @@ public class WebTester {
      *
      * @param parameterName
      */
-    public void assertFormParameterNotPresent(String parameterName) {
+    public void assertFormElementNotPresent(String parameterName) {
         assertHasForm();
         try {
             Assert.assertTrue("Found form control with name [" + parameterName + "] when not expected.",
@@ -382,7 +382,7 @@ public class WebTester {
      * @param formControlName
      * @param expectedValue
      */
-    public void assertFormParameterEquals(String formControlName, String expectedValue) {
+    public void assertFormElementEquals(String formControlName, String expectedValue) {
         assertHasForm();
         Assert.assertEquals(expectedValue, dialog.getFormParameterValue(formControlName));
     }
@@ -394,7 +394,7 @@ public class WebTester {
      */
     public void assertCheckboxSelected(String checkBoxName) {
         assertHasForm();
-        assertFormParameterPresent(checkBoxName);
+        assertFormElementPresent(checkBoxName);
         Assert.assertEquals("on", dialog.getFormParameterValue(checkBoxName));
     }
 
@@ -405,7 +405,7 @@ public class WebTester {
      */
     public void assertCheckboxNotSelected(String checkBoxName) {
         assertHasForm();
-        assertFormParameterPresent(checkBoxName);
+        assertFormElementPresent(checkBoxName);
         Assert.assertNull(dialog.getFormParameterValue(checkBoxName));
     }
 
@@ -488,9 +488,9 @@ public class WebTester {
      * @param parameterName name of form element.
      * @param value
      */
-    public void setFormParameter(String parameterName, String value) {
+    public void setFormElement(String parameterName, String value) {
         assertHasForm();
-        assertFormParameterPresent(parameterName);
+        assertFormElementPresent(parameterName);
         dialog.setFormParameter(parameterName, value);
     }
 
@@ -500,9 +500,9 @@ public class WebTester {
      * @param parameterName
      */
     // Todo: rename to uncheckCheckbox
-    public void removeFormParameter(String parameterName) {
+    public void removeFormElement(String parameterName) {
         assertHasForm();
-        assertFormParameterPresent(parameterName);
+        assertFormElementPresent(parameterName);
         dialog.removeFormParameter(parameterName);
     }   
 
@@ -595,7 +595,7 @@ public class WebTester {
     }
 
     public void assertRadioOptionSelected(String radioGroup, String radioOption) {
-        assertFormParameterEquals(radioGroup, radioOption);
+        assertFormElementEquals(radioGroup, radioOption);
         //Assert.assertEquals("Radio option " + radioOption + " is not selected", radioOption, dialog.getFormParameterValue(radioGroup));
     }
 
@@ -613,18 +613,18 @@ public class WebTester {
     }
 
     public String[] getOptionsFor(String selectName) {
-        assertFormParameterPresent(selectName);
+        assertFormElementPresent(selectName);
         return dialog.getOptionsFor(selectName);
     }
 
     public void assertOptionsEqual(String selectName, String[] expectedOptions) {
-        assertFormParameterPresent(selectName);
+        assertFormElementPresent(selectName);
         assertArraysEqual(expectedOptions, getOptionsFor(selectName));
     }
 
 
     public void assertOptionsNotEqual(String selectName, String[] expectedOptions) {
-        assertFormParameterPresent(selectName);
+        assertFormElementPresent(selectName);
         try {
             assertOptionsEqual(selectName, expectedOptions);
         } catch (AssertionFailedError e) {
@@ -635,7 +635,7 @@ public class WebTester {
     }
 
     public void assertOptionValuesEqual(String selectName, String[] expectedValues) {
-        assertFormParameterPresent(selectName);
+        assertFormElementPresent(selectName);
         assertArraysEqual(expectedValues, getOptionValuesFor(selectName));
 
     }
@@ -653,7 +653,7 @@ public class WebTester {
     }
 
     public void assertOptionValuesNotEqual(String selectName, String[] optionValues) {
-        assertFormParameterPresent(selectName);
+        assertFormElementPresent(selectName);
         try {
             assertOptionValuesEqual(selectName, optionValues);
         } catch (AssertionFailedError e) {
@@ -663,12 +663,12 @@ public class WebTester {
     }
 
     public void assertOptionEquals(String selectName, String option) {
-        assertFormParameterPresent(selectName);
+        assertFormElementPresent(selectName);
         Assert.assertEquals(option, dialog.getSelectedOption(selectName));
     }
 
     public void selectOption(String selectName, String option) {
-        assertFormParameterPresent(selectName);
+        assertFormElementPresent(selectName);
         dialog.selectOption(selectName, option);
     }
 
