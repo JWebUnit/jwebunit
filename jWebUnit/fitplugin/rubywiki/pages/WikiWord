@@ -1,0 +1,15 @@
+Embedding Captials is at the heart of how this variant of WikiWiki organizes links to other (internal) wiki pages.
+
+
+
+The current rule for "recognized link patterns" is:
+
+* Uppercase followed by one or more lowercase/number, repeated at least twice.
+
+Helpful anti-examples: ThisIsNotALinK (fails on uppercase being final letter). Nor_Is_This (fails on unusual character, i.e. underscore, "not [A-Z][a-z|0-9]")
+
+
+
+----
+
+'''TopicSearch''': WikiEdit
