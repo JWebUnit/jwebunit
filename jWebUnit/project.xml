@@ -33,7 +33,7 @@
     <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=${maven.sourceforge.project.groupId}</issueTrackingUrl>
 
 	<siteAddress>shell.sourceforge.net</siteAddress>
-	<siteDirectory>/home/groups/j/jw/jwebunit/htdocs/</siteDirectory>
+	<siteDirectory>/home/groups/j/jw/jwebunit/htdocs/release-${pom.currentVersion}</siteDirectory>
 
     <repository>
         <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/jwebunit:jWebUnit</connection>
