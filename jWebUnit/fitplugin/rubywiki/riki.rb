@@ -1,36 +1,23 @@
 #! /usr/bin/ruby
-## Copyright 1994-2000, Cunningham & Cunningham, Inc.
-## in collaboration with Dave W. Smith
-## Open Source for personal use only.
-## ... and then only
-## with the understanding that the owner(s) cannot be
-## responsible for any behavior of the program or
-## any damages that it may cause. See LICENSE.TXT
+# Copyright 1994-2000, Cunningham & Cunningham, Inc.
+# in collaboration with Dave W. Smith
+# Open Source for personal use only.
+# ... and then only
+# with the understanding that the owner(s) cannot be
+# responsible for any behavior of the program or
+# any damages that it may cause. See LICENSE.TXT
 
-## straight up port from Ward's perl quicki wiki to ruby
-## plus support for tables
+# straight up port from Ward's perl quicki wiki to ruby
+# plus support for tables
+require 'cgi'
 
 module Riki
     MARK = "\263"
     LINK = "[A-Z][a-z0-9]+([A-Z][a-z0-9]+)+"
     PROTOCOL = "(http|ftp|mailto|file|gopher|telnet|news)"
-
-    def Riki.applyTemplate(par)
-        template = read("template.html")
-        template.gsub!(/\$(\w+)/) { par.has_key?($1) ? par[$1] : '' }
-        template
-    end
-
-    def Riki.read(file)
-        IO.readlines(file.untaint).join
-    end
-
-    def Riki.inspect(obj)
-        puts "<!-- #{obj.inspect} -->"
-    end
-
     class RikiPage
         attr_reader :page, :title, :body, :summary, :action
+
         def initialize(page)
             @page = page
             @title, @body, @summary, @action = '', '', '', ''
@@ -51,10 +38,22 @@ module Riki
         end
 
         def display
-            print "Content-type: text/html\n\n"
+            print CGI.new.header
             run
-            print Riki.applyTemplate(displayHash)
+            template = readFile("template.html")
+            par = displayHash
+            template.gsub!(/\$(\w+)/) { par.has_key?($1) ? par[$1] : '' }
+            print template
         end
+
+        def readFile(file)
+            IO.readlines(file.untaint).join
+        end
+
+        def inspectStr(obj)
+            puts "<!-- #{obj.inspect} -->"
+        end
+
     end
 
     class ViewPage < RikiPage
@@ -102,7 +101,7 @@ module Riki
             @hits  = 0
             @searchResults = {}
             files.each do |file|
-                contents = Riki.read("pages/#{file}")
+                contents = readFile("pages/#{file}")
                 regx = /#{pat}/i
             	if regx.match(file) || regx.match(contents)
                     @hits += 1
@@ -137,7 +136,7 @@ module Riki
         def body
             text = ""
             if File.exist?("pages/#{page}")
-                text = Riki.read("pages/#{page}")
+                text = readFile("pages/#{page}")
                 text.gsub!(/&/, '&amp;')
                 text.gsub!(/</, '&lt;')
                 text.gsub!(/>/, '&gt;')
@@ -165,7 +164,7 @@ module Riki
         end
 
         def run
-            Riki.inspect(@text)
+            inspectStr(@text)
             if @text =~ /\n/
               @text.gsub!(/\r/, '') # presume PC just strip cr
             else
@@ -193,10 +192,10 @@ module Riki
             @files = Dir.entries('pages').select {|e| e =~ /#{LINK}/}.sort!
             refs = {}
             @files.each do |file|
-                contents = Riki.read("pages/#{file}")
+                contents = readFile("pages/#{file}")
                 targets = {}
                 contents.scan(/(#{LINK})/).each {|link| targets[link[0]] = file }
-                Riki.inspect targets
+                inspectStr targets
                 targets.each_key do |target|
                     refs[target] = [] unless refs.has_key?(target)
                     refs[target].push(file)
@@ -318,7 +317,6 @@ module Riki
 
         def emitCode(code, depth)
           tags = ''
-          #comment codeArr if code =~ /table/
           startTag = if code =~ /table/
                        "table border=\"1\" cellspacing=\"0\" cellpadding=\"3\""
                      else
