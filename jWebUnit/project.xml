@@ -70,7 +70,7 @@
  <!--
             <url />
  -->
-            <timezone>+9</timezone>
+            <timezone>-5</timezone>
         </developer>
         <developer>
             <name>Jim Weaver</name>
@@ -82,8 +82,8 @@
             </roles>
  <!--
             <url />
-            <timezone />
  -->
+            <timezone>-5</timezone>
         </developer>
         <developer>
             <name>Wilkes Joiner</name>
