@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 
@@ -51,7 +52,7 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
 	
 	private WebClient wc;
 	private WebResponse resp;
-	private TestContext context;
+	private TestContext testContext;
 	private WebForm form;
 	private Map multiselectMap = new HashMap();
 
@@ -71,8 +72,8 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
 	 * @param context
 	 *            contains context information for the test client.
 	 */
-	public HttpUnitDialog(String initialURL, TestContext context) {
-		this.context = context;
+	public void beginAt(String initialURL, TestContext context) {
+		this.setTestContext(context);
 		initWebClient();
 		try {
 			resp = wc.getResponse(new GetMethodWebRequest(initialURL));
@@ -81,12 +82,8 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
 		}
 	}
 
-    public IJWebUnitDialog constructNewDialog(String url, TestContext context) {
-        return new HttpUnitDialog(url, context);
-    }
-	
 	private void initWebClient() {
-		wc = (context != null) ? context.getWebClient() : new WebConversation();
+		wc = (getTestContext() != null) ? getTestContext().getWebClient() : new WebConversation();
 
 		wc.addClientListener(new WebClientListener() {
 			public void requestSent(WebClient webClient, WebRequest webRequest) {
@@ -129,7 +126,7 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
         for (int i = 0; i < webWindows.length; i++) {
             WebWindow window = webWindows[i];
             try {
-                if (context.toEncodedString(window.getCurrentPage().getTitle())
+                if (getTestContext().toEncodedString(window.getCurrentPage().getTitle())
                         .equals(title)) { return window; }
             } catch (SAXException e) {
                 throw new RuntimeException(ExceptionUtility
@@ -145,7 +142,7 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
      */
     public String getResponseText() {
         try {
-            return context.toEncodedString(resp.getText());
+            return getTestContext().toEncodedString(resp.getText());
         } catch (IOException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -157,7 +154,7 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
      */
     public String getResponsePageTitle() {
         try {
-            return context.toEncodedString(resp.getTitle());
+            return getTestContext().toEncodedString(resp.getTitle());
         } catch (SAXException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -543,7 +540,7 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
      */
     public boolean isTextInResponse(String text) {
         try {
-            return (context.toEncodedString(resp.getText()).indexOf(text) >= 0);
+            return (getTestContext().toEncodedString(resp.getText()).indexOf(text) >= 0);
         } catch (IOException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -610,7 +607,7 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
                 nodeHtml += "</" + child.getNodeName() + ">";
             }
         }
-        return context.toEncodedString(nodeHtml);
+        return getTestContext().toEncodedString(nodeHtml);
     }
 
     /**
@@ -1201,11 +1198,11 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
     /**
      * Patch sumbitted by Alex Chaffee.
      */
-    public void gotoPage(String url) {
+    public void gotoPage(String url) throws TestingEngineResponseException {
         try {
             resp = wc.getResponse(url);
         } catch (Exception e) {
-            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+            throw new TestingEngineResponseException(ExceptionUtility.stackTraceToString(e));
         }
     }
 
@@ -1289,5 +1286,20 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
             }
         }
     }
+
+	/**
+	 * @param testContext The testContext to set.
+	 */
+	public void setTestContext(TestContext testContext) {
+		this.testContext = testContext;
+	}
+
+	/**
+	 * @return Returns the testContext.
+	 */
+	public TestContext getTestContext() {
+		return testContext;
+	}
+
 
 }

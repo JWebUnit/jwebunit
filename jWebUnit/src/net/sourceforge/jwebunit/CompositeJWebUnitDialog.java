@@ -6,6 +6,8 @@ package net.sourceforge.jwebunit;
 
 import java.io.PrintStream;
 
+import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
+
 import org.w3c.dom.Element;
 
 import com.meterware.httpunit.WebClient;
@@ -18,11 +20,10 @@ import com.meterware.httpunit.WebWindow;
  * Functions: -Implements all of the interface calls with a stubbed
  * "NotSupportedException".
  * 
- * Intended uses: -Extend this when a specific engine doesn't care about
- * implementing all of the required methods.
+ * Intended uses: -Extend this when a specific engine doesn't care or just can't
+ * provide that functionality due to limitations.
  * 
  * @author Nick Neuberger
- *  
  */
 public abstract class CompositeJWebUnitDialog implements IJWebUnitDialog {
 
@@ -348,7 +349,15 @@ public abstract class CompositeJWebUnitDialog implements IJWebUnitDialog {
     public void reset() {
         throw new UnsupportedOperationException("reset");
     }
-
+    
+    /**
+     * Reset the current form. See {@link #getForm}for an explanation of how
+     * the current form is established.
+     */
+    public void resetForm() {
+    	throw new UnsupportedOperationException("resetForm");
+    }
+ 
     /*
      * (non-Javadoc)
      * 
@@ -662,7 +671,7 @@ public abstract class CompositeJWebUnitDialog implements IJWebUnitDialog {
      * 
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#gotoPage(java.lang.String)
      */
-    public void gotoPage(String url) {
+    public void gotoPage(String url) throws TestingEngineResponseException {
         throw new UnsupportedOperationException("gotoPage");
     }
 

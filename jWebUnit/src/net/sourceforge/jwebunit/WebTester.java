@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
+import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 
@@ -27,7 +28,7 @@ import org.w3c.dom.Element;
 public class WebTester {
 	private IJWebUnitDialog dialog = null;
 
-	private TestContext context = null;
+	private TestContext testContext = null;
 
 	private boolean tableEmptyCellCompression = true;
 
@@ -96,20 +97,20 @@ public class WebTester {
 	}
 
 	/**
-	 * Provide access to test context.
+	 * Provide access to test testContext.
 	 * 
 	 * @return TestContext
 	 */
 	public TestContext getTestContext() {
-		if (context == null) {
+		if (testContext == null) {
 			//defaulting to the original implementation.
-			context = new TestContext();
+			testContext = new TestContext();
 		}
-		return context;
+		return testContext;
 	}
 
 	/**
-	 * Allows setting an external test context class that might be extended from
+	 * Allows setting an external test testContext class that might be extended from
 	 * TestContext. Example: setTestContext(new CompanyATestContext());
 	 * 
 	 * CompanyATestContext extends TestContext.
@@ -117,7 +118,7 @@ public class WebTester {
 	 * @param aTestContext
 	 */
 	public void setTestContext(TestContext aTestContext) {
-		context = aTestContext;
+		testContext = aTestContext;
 	}
 
 	/**
@@ -125,15 +126,13 @@ public class WebTester {
 	 * 
 	 * @param relativeURL
 	 */
-	public void beginAt(String relativeURL) {
-		String url = createUrl(relativeURL);
-		IJWebUnitDialog theInitialDialog = getDialog();
-		dialog = theInitialDialog.constructNewDialog(url, context);
+	public void beginAt(String aRelativeURL) {
+		getDialog().beginAt(createUrl(aRelativeURL), testContext);
 	}
 
-	private String createUrl(String suffix) {
-		suffix = suffix.startsWith("/") ? suffix.substring(1) : suffix;
-		return getTestContext().getBaseUrl() + suffix;
+	private String createUrl(String aSuffix) {
+		aSuffix = aSuffix.startsWith("/") ? aSuffix.substring(1) : aSuffix;
+		return getTestContext().getBaseUrl() + aSuffix;
 	}
 
 	/**
@@ -146,7 +145,7 @@ public class WebTester {
 	 */
 	public String getMessage(String key) {
 		String message = "";
-		Locale locale = context.getLocale();
+		Locale locale = testContext.getLocale();
 		try {
 			message = ResourceBundle.getBundle(
 					getTestContext().getResourceBundleName(), locale)
@@ -157,7 +156,7 @@ public class WebTester {
 					+ "]." + "\nError: "
 					+ ExceptionUtility.stackTraceToString(e));
 		}
-		return context.toEncodedString(message);
+		return testContext.toEncodedString(message);
 	}
 
 	//Assertions
@@ -425,7 +424,7 @@ public class WebTester {
 				String expectedString = row[j];
 				Assert.assertEquals("Expected " + tableSummaryOrId
 						+ " value at [" + i + "," + j + "] not found.",
-						expectedString, context
+						expectedString, testContext
 								.toEncodedString(actualTableCellValues[i
 										+ startRow][j].trim()));
 			}
@@ -1253,11 +1252,22 @@ public class WebTester {
 	}
 
 	/**
-	 * Reset the current form.
+	 * Reset the current Dialog
+	 * @see resetForm to reset a form in the response.
 	 */
 	public void reset() {
 		getDialog().reset();
 	}
+	
+    /**
+     * Reset the current form. See {@link #getForm}for an explanation of how
+     * the current form is established.
+     */
+    public void resetForm() {
+    	getDialog().resetForm();
+    }    
+    
+	
 
 	/**
 	 * Navigate by selection of a link containing given text.
@@ -1408,8 +1418,20 @@ public class WebTester {
 	 * Patch sumbitted by Alex Chaffee.
 	 */
 	public void gotoPage(String url) {
-		getDialog().gotoPage(createUrl(url));
+		try {
+			getDialog().gotoPage(createUrl(url));
+		} catch (TestingEngineResponseException aTestingEngineResponseException) {
+			handleTestingEngineResponseException(aTestingEngineResponseException);
+		}
 	}
+	
+	/**
+	 * Allows easier coding of exceptions thrown by the testing engines.
+	 */
+	private void handleTestingEngineResponseException(TestingEngineResponseException aTestingEngineResponseException) {
+		Assert.fail("Method failed due to Exception Thrown: " + ExceptionUtility.stackTraceToString(aTestingEngineResponseException));
+	}
+	
 
 	//Debug methods
 

@@ -37,7 +37,7 @@ public class WebTestCase extends TestCase {
     	super.setUp();
 
         //New implementation on choosing a testing engine (dialog).
-        //setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_JACOBIE);
+        setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_JACOBIE);
         //setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
     }
     
@@ -480,6 +480,14 @@ public class WebTestCase extends TestCase {
         getTester().reset();
     }
 
+    /**
+     * Reset the current form. See {@link #getForm}for an explanation of how
+     * the current form is established.
+     */
+    public void resetForm() {
+    	getTester().resetForm();
+    }    
+    
     public void clickLinkWithText(String linkText) {
         getTester().clickLinkWithText(linkText);
     }

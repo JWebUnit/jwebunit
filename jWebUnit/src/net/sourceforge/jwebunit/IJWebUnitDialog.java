@@ -6,6 +6,8 @@ package net.sourceforge.jwebunit;
 
 import java.io.PrintStream;
 
+import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
+
 import org.w3c.dom.Element;
 
 import com.meterware.httpunit.WebClient;
@@ -31,6 +33,8 @@ public interface IJWebUnitDialog {
      * @return
      */
     public abstract IJWebUnitDialog constructNewDialog(String url, TestContext context);    
+    
+	public abstract void beginAt(String aInitialURL, TestContext aTestContext);
     
     /**
      * Return the window with the given name in the current conversation.
@@ -238,6 +242,12 @@ public interface IJWebUnitDialog {
      */
     public abstract void reset();
 
+    /**
+     * Reset the current form. See {@link #getForm}for an explanation of how
+     * the current form is established.
+     */
+    public abstract void resetForm();
+    
     /**
      * Return true if a link is present in the current response containing the specified text (note that HttpUnit uses
      * contains rather than an exact match - if this is a problem consider using ids on the links to uniquely identify
@@ -515,7 +525,7 @@ public interface IJWebUnitDialog {
     /**
      * Patch sumbitted by Alex Chaffee.
      */
-    public abstract void gotoPage(String url);
+    public abstract void gotoPage(String url) throws TestingEngineResponseException;
 
     /**
      * Dumps out all the cookies in the response received. The output is written to the passed in Stream
