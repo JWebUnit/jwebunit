@@ -73,11 +73,20 @@ public class WebFixture extends ActionFixture {
     }
 
     public void window() {
-        tester.gotoWindow(cells.more.text());
+        String windowIdOrTitle = cells.more.text();
+        if (tester.getDialog().getWindow(windowIdOrTitle) != null) {
+            tester.gotoWindow(cells.more.text());            
+        } else {
+            tester.gotoWindowByTitle(cells.more.text());            
+        }
     }
 
     public void baseWindow() {
         tester.gotoRootWindow();
+    }
+    
+    public void page() {
+        tester.gotoPage(cells.more.text());
     }
 
     public void enter() throws Exception {

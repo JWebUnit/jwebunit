@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <title>jWebUnit - Quick Start</title>
+    <title>jWebFit - Quick Start</title>
     <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
     <link title="Default" href="css/jwebunit.css" type="text/css" rel="stylesheet">
 </head>
@@ -10,7 +10,7 @@
     <tbody>
     <tr>
         <td valign="top" style="width: 100px; white-space: nowrap;"><br></td>
-        <td valign="top" ><h1 style="text-align: center;">jWebUnit Quick Start</h1></td>
+        <td valign="top" ><h1 style="text-align: center;">jWebFit Quick Start</h1></td>
     </tr>
     <tr>
         <td valign="top">
@@ -23,75 +23,161 @@
             <a href="http://sourceforge.net/projects/jwebunit/files">Download</a><br>
             <br>
             <a href="http://httpunit.sourceforge.net/">HttpUnit</a><br>
-            <a href="http://www.junit.org">Junit</a><br>
+            <a href="http://fit.c2.com">Fit</a><br>
             <br>
         </td>
         <td valign="top">
 <!-- Begin Main -->
-The QuickStart contains sample code and guidance to get you started with jWebUnit.  To see all
-of the methods available, consult the a <a href="api/index.html">Javadocs</a> - particularly
-the WebTester class.  The QuickStart covers the following topics:<p>
+<p>jWebFit is the clever name for extensions to jWebUnit which allow tests to be written with Ward Cunningham's fit framework
+as opposed to java / JUnit.  If you are unfamiliar with fit, give yourself a basic idea of how it works by visiting the
+<a href="http://fit.c2.com">fit site</a>.
+</p>  
+<p>There are basically two ways to approach using fit with jWebUnit: use the fit fixtures provided by
+us (primarily the WebFixture class), or write your own fit fixtures that interact with the jWebUnit WebTester class.  You can get
+off the ground quickly with the former approach, but the latter approach with custom fixtures allows you much greater control and 
+ability to define your own testing syntax.
+</p>
+The QuickStart covers the following topics:<p>
 <table class="default" id="topicsTable">
-<tr><td><a href="#navigating">Navigating Your Web Application</a></td></tr>
-<tr><td><a href="#forms">Working With Forms</a></td></tr>
-<tr><td><a href="#framesAndWindows">Working With Frames and Windows</a></td></tr>
-<tr><td><a href="#validation">Validating Page Content</a></td></tr>
-<tr><td><a href="#tableValidation">Validating Table Content</a></td></tr>
-<tr><td><a href="#elementValidation">Using Element IDs to Validate Content</a></td></tr>
-<tr><td><a href="#properties">Using Property Files to Validate Content</a></td></tr>
-<tr><td><a name="createTestCase">
+<tr><td><a href="#webfixture">Basic WebFixture Example</a></td></tr>
+<tr><td><a href="#tablefixture">Validating table contents with the TableFixture</a></td></tr>
+<tr><td><a href="#optiondisplay">Validating select options with OptionDisplay fixture</a></td></tr>
+<tr><td><a href="#customfixture">Writing custom fixtures</a></td></tr>
+<tr><td><a href="#running">Running the tests</a></td></tr>
+<tr><td><a href="#fitnesse">Integrating with Fitnesse</a></td></tr>
 </table>
 
-<a name="navigating">
-<h2>Navigating Your Web Application</h2>
+<a name="webfixture">
+<h2>Using WebFixture</h2>
 <p>
-Navigation is a two step process.  First, point the FIT test to your application, then access a particular resource. 
-Let's say that your app is running on <tt>http://myserver:8080/myapp</tt>, and the resource you want to access is info.html, then the following table will take your test there.
+The key class that adapts jWebUnit to fit is the WebFixture class.  It is a fit action fixture that delegates commands and
+checks to an instance of a jWebUnit WebTester.  The following example demonstrates use of WebFixture; see <a href="fit-api.html">the list
+of checks and commands</a> for more.
 </p>
 
-<div class="fittable">
 <table border="1">
-<tr><td colspan="2">net.sourceforge.jwebunit.fit.WebFixture</td></tr>
-<tr><td>base url</td><td>http://myserver:8080/myapp</td></tr>
-<tr><td>begin   </td><td>info.html</td></tr>
+<tr><td colspan="4"> net.sourceforge.jwebunit.fit.WebFixture</td></tr>
+<tr><td>base url</td><td colspan="3">http://myserver:8080/myapp</td></tr>
+<tr><td>begin</td><td colspan="3">info.html</td></tr>
+<tr><td>check</td><td>form present</td><td colspan="2">expectedFormName</td></tr>
+
+<tr><td> check   </td><td> form element </td><td> color                      </td><td bgcolor="#cfffcf"> red </td></tr>
+<tr><td> enter   </td><td> color        </td><td colspan="2"> pink                       </td></tr>
+<tr><td> check   </td><td> form element </td><td> color                      </td><td bgcolor="#cfffcf"> pink </td></tr>
+
+<tr><td> press   </td><td colspan="3"> submit       </td></tr>
+<tr><td> check   </td><td> title        </td><td colspan="2" bgcolor="#cfffcf"> Color Page                 </td></tr>
+<tr><td> check   </td><td> text present </td><td colspan="2" bgcolor="#cfffcf"> Your chosen color was pink </td></tr>
 </table>
-</div>
+
+<a name="tablefixture">
+<h2>Using TableFixture</h2>
+<p>
+The TableFixture and TableRow classes provides a way to validate the contents of simple data tables.  The rows and columns of the
+TableFixture act as the expected contents against the targeted application table, and fit reports the results of the
+comparison when the fixture is run.  Missing and surplus rows are reported as well as the results of column comparisons.
+</p>
+
+<table border="1">
+<tr><td colspan="4">net.sourceforge.jwebunit.fit.PersonalInfoTableFixture</td></tr>
+<tr><td>name</td><td>citizenship</td><td>state</td><td>sex</td></tr>
+<tr><td bgcolor="#cfffcf">John Doe</td><td bgcolor="#cfffcf">a citizen</td><td bgcolor="#cfffcf">Tennessee</td><td bgcolor="#cfffcf">male</td></tr>
+<tr><td bgcolor="#cfffcf">Jane Doe</td><td bgcolor="#cfffcf">a citizen</td><td bgcolor="#cfffcf">Tennessee</td><td bgcolor="#cfffcf">female</td></tr>
+<tr><td bgcolor="#cfffcf">Pat Doe</td><td bgcolor="#cfffcf">not a citizen</td><td bgcolor="#cfffcf">North Carolina</td><td bgcolor="#cfffcf">female</td></tr>
+</table>
+<p>
+To perform the above validation, both the TableFixture and TableRow classes were extended to provide both the id of the
+table to be validated and the mapping of columns to field names:
+</p>
+<pre>
+public class PersonalInfoTableFixture extends TableFixture {
+
+    protected String getSourceTableSummaryOrId() {
+        return "personalInfoTable";
+    }
+
+    public Class getTargetClass() {
+        return PersonalInfoRow.class;
+    }
+}
+</pre>
+
+<pre>
+public class PersonalInfoRow extends TableRow {
+
+    public String name;
+    public String citizenship;
+    public String state;
+    public String sex;
+
+    public PersonalInfoRow(String[] rowCells) {
+        super(rowCells);
+        this.name = rowCells[0];
+        this.citizenship = rowCells[1];
+        this.state = rowCells[2];
+        this.sex = rowCells[3];
+    }
+}
+</pre>
+
+<a name="optiondisplay">
+<h2>Using OptionDisplay</h2>
+<p>
+The OptionDisplay fixture can be used to validate the contents of an html select list.  Either the
+human readable lable or the value or both can be validated:
+</p>
+<p>
+<table border="1">
+<tr><td>net.sourceforge.jwebunit.fit.OptionDisplay</td></tr>
+<tr><td>state</td></tr>
+<tr><td>label</td></tr>
+<tr><td bgcolor="#cfffcf">Tennessee</td></tr>
+<tr><td bgcolor="#cfffcf">Georgia</td></tr>
+</table>
+</p>
+<p>
+<table border="1">
+<tr><td colspan="2">net.sourceforge.jwebunit.fit.OptionDisplay</td></tr>
+<tr><td colspan="2">state</td></tr>
+<tr><td>label</td><td>value</td></tr>
+<tr><td bgcolor="#cfffcf">Tennessee</td><td bgcolor="#cfffcf">TN</td></tr>
+<tr><td bgcolor="#cfffcf">Georgia</td><td bgcolor="#cfffcf">GA</td></tr>
+</table>
+</p>
+<p>
+The second row contains the name of the select list, while the third row indicates what is being validated (label, 
+value, or both).  Subsequent rows are the expected options.
+</p>
+
+
+<a name="customfixture">
+<h2>Using Custom Fixtures</h2>
+One of the core ideas behind fit is to create easily readable tests.  Using the WebFixture can be a little
+awkward in this regard.  Writing a custom fixture that extends WebFixture or simply uses a WebTester instance itself can
+provide a greater control over syntax, allowing for more understandable tests.
 
 <p>
-You can also navigate through links either by text contained in the link or by the link's
-id:</p>
-&lt;a id="addLink" href="/addPage"&gt;Add Widget&lt;/a&gt;<br>
-&lt;a id="editlink" href="/editPage"&gt;Edit Widget&lt;/a&gt;<br>
-<br>
-<div class="fittable">
-<table border="1">
-<tr><td colspan="3">net.sourceforge.jwebunit.fit.WebFixture</td></tr>
-<tr><td>base url</td><td colspan="2">http://myserver:8080/myapp</td></tr>
-<tr><td>begin   </td><td colspan="2">info.html</td></tr>
-<tr><td> press</td><td> link id </td><td>addLink</td></tr>
-<tr><td>press</td><td> link</td><td>Edit Widget</td></tr>
-</table>
-</div>
+For an example, consider a web page that collects a comment from a user.  It provides a form for entering
+the user's name, email address, selecting their country from a list, and a text field for the comment itself.  After
+submitting, the user is taken to a page that thanks them for their comment.  A test using the WebFixture is 
+shown below:
+</p>
 
-<br>
-<a name="forms">
-<h2>Working With Forms</h2>
-You can navigate to a page with a form, check for the presence and correct default values of form elements,
-set form element values, and submit the form.
-
-<div class="fittable">
 <table border="1">
 <tr><td colspan="4">net.sourceforge.jwebunit.fit.WebFixture</td></tr>
 <tr><td>base url</td><td colspan="3">http://myserver:8080/myapp</td></tr>
-<tr><td>begin   </td><td>info.html</td><td colspan="2"></td></tr>
-<tr><td>check</td><td> form present </td><td colspan="2">expectedFormName</td></tr>
-<tr><td>check</td><td> element present </td><td colspan="2">field1</td></tr>
-<tr><td>check</td><td> form element </td><td>field2</td><td>field2_defaultValue</td></tr>
-<tr><td>enter</td><td> field1 </td><td colspan="2">value1</td></tr>
-<tr><td>enter</td><td> fieldN </td><td colspan="2">valueN</td></tr>
-<tr><td>press</td><td>submit</td><td colspan="2"></td></tr>
+<tr><td>begin</td><td colspan="3">comment.html</td></tr>
+<tr><td>enter</td><td>customerName</td><td colspan="2">John Doe</td></tr>
+<tr><td>enter</td><td>emailAddress</td><td colspan="2">johndoe@megamail.com</td></tr>
+<tr><td>select</td><td>country</td><td colspan="2">USA</td></tr>
+<tr><td>enter</td><td>comment</td><td colspan="2">Test Comment</td></tr>
+<tr><td>press</td><td colspan="3">submit</td></tr>
+<tr><td>press</td><td> form element </td><td> color                      </td><td bgcolor="#cfffcf"> pink </td></tr>
+
+<tr><td> check   </td><td> title        </td><td colspan="2" bgcolor="#cfffcf"> Color Page                 </td></tr>
+<tr><td> check   </td><td> text present </td><td colspan="2" bgcolor="#cfffcf"> Your chosen color was pink </td></tr>
 </table>
-</div>
+
 
 <p>You can also check for the presence of submit buttons on the form and submit with a specific button.</p>
 
