@@ -101,18 +101,15 @@ def emitCode(codeArr, code, depth)
 end
 
 def asRow(s)
-    puts "<!-- asRow => #{s} -->"
-    cells = s.split('|')[1..-1]
-    puts "<!-- cells => #{cells.inspect} -->"
+    cells = s.sub!(/^\|/, '').scan(/([^|]*)\|/).flatten
     cellspans = []
     cells.each do |e|
-        if e.strip! != ''
-            cellspans << [e, 1]
+        if e.strip != ''
+            cellspans.push [e, 1]
         else
             cellspans.last[1] += 1 unless cellspans.empty?
         end
     end
-    puts "<!-- cellspans => #{cellspans.inspect} -->"
     row = '<tr>'
     cellspans.each do |cell|
         content = cell[0]
