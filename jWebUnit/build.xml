@@ -53,6 +53,7 @@
     <target name="make-zip" depends="gen-javadoc">
         <jar destfile="dist/jwebunit.jar" basedir="src-classes"/>
         <zip destfile="dist/jWebUnit.zip">
+            <zipfileset dir="sample" prefix="sample"/>
             <zipfileset dir="src" prefix="src"/>
             <zipfileset dir="test" prefix="test"/>
             <zipfileset dir="javadoc" prefix="javadoc"/>

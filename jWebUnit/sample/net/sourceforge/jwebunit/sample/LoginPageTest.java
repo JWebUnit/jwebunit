@@ -5,10 +5,10 @@
  */
 package net.sourceforge.jwebunit.sample;
 
-import net.meterware.httpunit.HttpUnitOptions;
-import net.meterware.httpunit.PseudoServer;
-import net.meterware.httpunit.PseudoServlet;
-import net.meterware.httpunit.WebResource;
+import com.meterware.httpunit.HttpUnitOptions;
+import com.meterware.httpunit.PseudoServer;
+import com.meterware.httpunit.PseudoServlet;
+import com.meterware.httpunit.WebResource;
 import net.sourceforge.jwebunit.WebTestCase;
 
 

@@ -1,7 +1,7 @@
 package net.sourceforge.jwebunit;
 
-import net.meterware.httpunit.PseudoServlet;
-import net.meterware.httpunit.WebResource;
+import com.meterware.httpunit.PseudoServlet;
+import com.meterware.httpunit.WebResource;
 import net.sourceforge.jwebunit.JWebUnitTest;
 
 import java.io.IOException;
@@ -80,13 +80,13 @@ public class FormSubmissionTest extends JWebUnitTest {
         assertTextInResponse("param2=anyvalue");
     }
 
-
     public void testInvalidButton() {
         gotoMultiButtonPage();
         try {
             submit("button1");
         } catch (RuntimeException e) {
-            assertTrue(e.getMessage().indexOf("net.meterware.httpunit.HttpNotFoundException") != -1);
+            assertTrue(e.getMessage(),
+                       e.getMessage().indexOf("com.meterware.httpunit.HttpNotFoundException") != -1);
             return;
         }
         fail("Should have failed");
@@ -133,7 +133,7 @@ public class FormSubmissionTest extends JWebUnitTest {
         defineResource(resourceName, new PseudoServlet() {
             public WebResource getPostResponse() {
                 WebResource result = new WebResource("<html><body><table><tr><td>Parms are: " + parms +
-                        "</td></tr></table></body></html>");
+                                                     "</td></tr></table></body></html>");
                 return result;
             }
 
@@ -143,48 +143,47 @@ public class FormSubmissionTest extends JWebUnitTest {
         });
     }
 
-
     private void addSingleUnnamedButtonForm() {
         defineResource("QueryForm.html",
-                "<html><head></head>" +
-                "<form method=GET action=\"TargetPage?color=blue\">" +
-                "<input type=submit></form></body></html>");
+                       "<html><head></head>" +
+                       "<form method=GET action=\"TargetPage?color=blue\">" +
+                       "<input type=submit></form></body></html>");
     }
 
     private void addSingleNamedButtonForm() {
         defineResource("QueryForm.html",
-                "<html><head></head>" +
-                "<form method=GET action=\"TargetPage\">" +
-                "<input type=\"text\" name=\"color\"><input type=\"submit\" name=\"button\"></form></body></html>");
+                       "<html><head></head>" +
+                       "<form method=GET action=\"TargetPage\">" +
+                       "<input type=\"text\" name=\"color\"><input type=\"submit\" name=\"button\"></form></body></html>");
     }
 
     private void addMultiNamedButtonForm() {
         defineResource("QueryForm.html",
-                "<html><head></head>" +
-                "<form method=GET action=\"TargetPage\">" +
-                "<input name=\"button1\" value=\"b1\" type=submit>" +
-                "<input name=\"color\" value=\"red\" type=submit>" +
-                "</form></body></html>");
+                       "<html><head></head>" +
+                       "<form method=GET action=\"TargetPage\">" +
+                       "<input name=\"button1\" value=\"b1\" type=submit>" +
+                       "<input name=\"color\" value=\"red\" type=submit>" +
+                       "</form></body></html>");
     }
 
     private void addMultiForm() {
         defineResource("QueryForm.html",
-                "<html><head></head>" +
-                "<form method=GET action=\"TargetPage\">" +
-                "<input type=\"text\" name=\"param1\">" +
-                "<input type=\"submit\" name=\"button1\"></form>" +
+                       "<html><head></head>" +
+                       "<form method=GET action=\"TargetPage\">" +
+                       "<input type=\"text\" name=\"param1\">" +
+                       "<input type=\"submit\" name=\"button1\"></form>" +
 
-                "<form name=\"form2\" method=GET action=\"TargetPage\">" +
-                "<input type=\"text\" name=\"param2\">" +
-                "<input type=\"submit\" name=\"button2a\" value=\"b2a\">" +
-                "<input type=\"submit\" name=\"button2b\" value=\"b2b\"></form>" +
+                       "<form name=\"form2\" method=GET action=\"TargetPage\">" +
+                       "<input type=\"text\" name=\"param2\">" +
+                       "<input type=\"submit\" name=\"button2a\" value=\"b2a\">" +
+                       "<input type=\"submit\" name=\"button2b\" value=\"b2b\"></form>" +
 
-                "<form name=\"form3\" method=GET action=\"TargetPage\">" +
-                "<input type=\"text\" name=\"param3\"><input type=\"submit\"></form>" +
+                       "<form name=\"form3\" method=GET action=\"TargetPage\">" +
+                       "<input type=\"text\" name=\"param3\"><input type=\"submit\"></form>" +
 
-                "<form name=\"form4\" method=GET action=\"TargetPage\">" +
-                "<input type=\"text\" name=\"param4\"><input type=\"submit\"></form>" +
-                "</body></html>");
+                       "<form name=\"form4\" method=GET action=\"TargetPage\">" +
+                       "<input type=\"text\" name=\"param4\"><input type=\"submit\"></form>" +
+                       "</body></html>");
 
     }
 

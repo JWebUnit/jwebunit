@@ -1,8 +1,8 @@
 package net.sourceforge.jwebunit;
 
-import net.meterware.httpunit.PseudoServer;
-import net.meterware.httpunit.HttpUnitOptions;
-import net.meterware.httpunit.PseudoServlet;
+import com.meterware.httpunit.PseudoServer;
+import com.meterware.httpunit.HttpUnitOptions;
+import com.meterware.httpunit.PseudoServlet;
 import net.sourceforge.jwebunit.WebTestCase;
 import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
 
