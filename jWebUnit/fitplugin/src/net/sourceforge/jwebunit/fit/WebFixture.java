@@ -71,6 +71,14 @@ public class WebFixture extends ActionFixture {
 	public void frame() {
 		tester.gotoFrame(cells.more.text());
 	}
+	
+	public void window() {
+		tester.gotoWindow(cells.more.text());
+	}
+	
+	public void baseWindow() {
+		tester.gotoRootWindow();
+	}
 
 	public void enter() throws Exception {
 		tester.setFormElement(cells.more.text(), cells.more.more.text());

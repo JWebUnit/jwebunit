@@ -34,6 +34,8 @@ public class PseudoWebApp {
         server.setResource("/personalInfoForm", read(new File(htmldir + "PersonalInfoForm.html")));
         server.setResource("/enterMoria", read(new File(htmldir + "MoriaDoorForm.html")));
         server.setResource("/moria_door.jpeg", readBytes(new File(htmldir + "moria_door.jpeg")), "jpeg image");
+        server.setResource("/pageWithPopupLink", read(new File(htmldir + "pageWithPopupLink.html")));
+        server.setResource("/popupWindow.html", read(new File(htmldir + "popupWindow.html")));
 
         server.setResource("colorPost", new PseudoServlet() {
            public WebResource getPostResponse() {
