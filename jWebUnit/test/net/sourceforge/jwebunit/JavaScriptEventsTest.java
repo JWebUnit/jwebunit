@@ -86,4 +86,14 @@ public class JavaScriptEventsTest  extends JWebUnitTest {
         assertLinkPresentWithText("foo2");
     }
 
+	public void testEmbeddedJSFile()
+	{
+        defineResource("script.js", "function gotoNext() { window.location='next.html'; return true; }");
+		defineResource("script.html", "<html><script src=\"script.js\"></script>" +
+					"<title>The Title</title></html>" );
+
+		beginAt("script.html");
+		assertTitleEquals("The Title");
+	}
+
 }
