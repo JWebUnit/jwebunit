@@ -45,7 +45,7 @@ public class WebTestCase extends TestCase {
     	
     	//this resets the dialog / nulls out objects, etc.
     	//close IE from the JacobieDialog.
-    	getDialog().reset();
+    	reset();
     	
     	super.tearDown();
     }
