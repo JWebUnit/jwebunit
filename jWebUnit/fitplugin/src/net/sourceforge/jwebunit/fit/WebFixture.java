@@ -1,10 +1,18 @@
 package net.sourceforge.jwebunit.fit;
 
 import fit.ActionFixture;
+import fit.Parse;
 import net.sourceforge.jwebunit.WebTester;
+import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
+import junit.framework.AssertionFailedError;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
+import java.lang.reflect.InvocationTargetException;
 
 public class WebFixture extends ActionFixture {
-    WebTester tester = new WebTester();
+    static WebTester tester = new WebTester();
 
     public WebFixture() {
         actor = this;
@@ -40,8 +48,47 @@ public class WebFixture extends ActionFixture {
     }
 
     public void submit() {
-        System.out.println("submit()");
-        tester.submit();
+        if(cells.more.more != null)
+            tester.submit(cells.more.more.text());
+        else
+            tester.submit();
     }
+
+    public void link() {
+        tester.clickLinkWithText(cells.more.more.text());
+    }
+
+    public void check() throws Exception {
+        String methName = cells.more.text();
+        String args[] = getArgs(cells.more.more);
+        Parse arg = cells.more.more;
+        MethodInvoker invoker = new MethodInvoker(tester, methName, args);
+        try {
+            invoker.invoke();
+            right(cells.last());
+        } catch (InvocationTargetException ite) {
+            Throwable t = ite.getTargetException();
+            if(t instanceof AssertionFailedError ) {
+                System.out.println(t.getMessage());
+                wrong(cells.last(), t.getMessage());
+            } else {
+                exception(arg, t);
+            }
+        } catch(NoSuchMethodException noMeth) {
+            exception(cells.more, noMeth);
+        } catch (Exception e) {
+            exception(arg, e);
+        }
+    }
+
+    private String[] getArgs(Parse cell) {
+        List args = new ArrayList();
+        while(cell != null) {
+            args.add(cell.text());
+            cell = cell.more;
+        }
+        return (String[])args.toArray(new String[0]);
+    }
+
 
 }

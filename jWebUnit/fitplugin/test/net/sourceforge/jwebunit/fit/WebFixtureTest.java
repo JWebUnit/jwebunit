@@ -21,24 +21,33 @@ public class WebFixtureTest extends TestCase {
             "<tr><td>jwebunit.fit.WebFixture</td></tr>" +
             "<tr><td>baseUrl</td><td>{0}</td></tr>" +
             "<tr><td>begin</td><td>start</td></tr>" +
-            "<tr><td>check</td><td>title</td><td>Start Page</td></tr>" +
+            "<tr><td>check</td><td>assertTitleEquals</td><td>Start Page</td></tr>" +
+            "<tr><td>check</td><td>assertTextInTable</td><td>t1</td><td>table text</td></tr>" +
             "</table>";
 
-        static String enterTableFmt =
+    static String enterTableFmt =
             "<table border=\"1\">" +
             "<tr><td>jwebunit.fit.WebFixture</td></tr>" +
             "<tr><td>baseUrl</td><td>{0}</td></tr>" +
             "<tr><td>begin</td><td>start</td></tr>" +
-            "<tr><td>enter</td><td>field1</td><td>fieldValue</td></tr>" +
+            "<tr><td>enter</td><td>field1</td><td>testValue</td></tr>" +
             "</table>";
 
-            static String pressTableFmt =
+    static String pressTableFmt =
             "<table border=\"1\">" +
             "<tr><td>jwebunit.fit.WebFixture</td></tr>" +
             "<tr><td>baseUrl</td><td>{0}</td></tr>" +
-            "<tr><td>begin</td><td>mainpage?field1=testValue</td></tr>" +
-            "<tr><td>enter</td><td>field1</td><td>fieldValue</td></tr>" +
+            "<tr><td>begin</td><td>start</td></tr>" +
+            "<tr><td>enter</td><td>field1</td><td>testValue</td></tr>" +
             "<tr><td>press</td><td>submit</td></tr>" +
+            "</table>";
+
+    static String pressLinkFmt =
+            "<table border=\"1\">" +
+            "<tr><td>jwebunit.fit.WebFixture</td></tr>" +
+            "<tr><td>baseUrl</td><td>{0}</td></tr>" +
+            "<tr><td>begin</td><td>start</td></tr>" +
+            "<tr><td>press</td><td>link</td><td>click me</td></tr>" +
             "</table>";
 
 
@@ -46,7 +55,7 @@ public class WebFixtureTest extends TestCase {
     private WebFixture fixture;
     private PseudoServer server;
     private Parse tables;
-    private String expectedTable = "<table border=\"1\"><tr><td>jwebunit.fit.WebFixture</td></tr><tr><td>baseUrl</td><td>{0}</td></tr><tr><td>begin</td><td>start</td></tr><tr><td>check</td><td>title</td><td bgcolor=\"#cfffcf\">Start Page</td></tr></table>";
+    private String expectedTable = "<table border=\"1\"><tr><td>jwebunit.fit.WebFixture</td></tr><tr><td>baseUrl</td><td>http://localhost:2600/</td></tr><tr><td>begin</td><td>start</td></tr><tr><td>check</td><td>assertTitleEquals</td><td bgcolor=\"#cfffcf\">Start Page</td></tr><tr><td>check</td><td>assertTextInTable</td><td bgcolor=\"#cfffcf\">t1</td><td>table text</td></tr></table>";
 
     public WebFixtureTest(String s) {
         super(s);
@@ -67,45 +76,55 @@ public class WebFixtureTest extends TestCase {
 
     private void buildSite() {
         server = new PseudoServer();
-        server.setResource("start",
+        server.setResource("/start",
                 "<html><head><title>Start Page</title></head><body>" +
-                "<form method=GET action=\"mainpage\" >" +
+                "<form method=GET action=\"/mainpage\" >" +
                 "<input type=\"text\" name=\"field1\"/>" +
                 "<input type=\"submit\"/>" +
-                "</form></body></html>");
-        server.setResource("mainpage?field1=testValue",
+                "<a href=\"/mainpage?field1=testValue\">click me</a>" +
+                "</form>" +
+                "<table summary=\"t1\">" +
+                "<tr><td>table text</td></tr>" +
+                "</table></body></html>");
+        server.setResource("/mainpage?field1=testValue",
                 "<html><head><title>Main Page</title></head>" +
                 "<body>" +
                 "<h1>Main Page</h1>" +
                 "</body></html>");
-        server.setResource("mainpage", "<html><head><title>Wrong Page</title></head><body></body></html>");
+        server.setResource("/mainpage", "<html><head><title>Wrong Page</title></head><body></body></html>");
     }
 
     public void testSetBaseUrl() {
         parseTable(formatTable(startTableFmt));
         assertEquals(baseUrl, fixture.getBaseUrl());
         fixture.tester.assertTitleEquals("Start Page");
+        //System.out.println(tableToString());
+        assertEquals(formatTable(expectedTable), tableToString());
     }
 
-    public void testCheckTitle() {
-        parseTable(formatTable(startTableFmt));
+    private String tableToString() {
         StringWriter sw = new StringWriter();
         tables.print(new PrintWriter(sw));
-        assertEquals(formatTable(expectedTable), sw.toString());
+        String tableOut = sw.toString();
+        return tableOut;
     }
 
     public void testEnter() {
         parseTable(formatTable(enterTableFmt));
-        fixture.tester.assertFormElementEquals("field1", "fieldValue");
+        fixture.tester.assertFormElementEquals("field1", "testValue");
     }
 
-    public void testPress() {
+    public void testPressSubmit() {
         parseTable(formatTable(pressTableFmt));
-        fixture.tester.dumpResponse(System.out);
+        fixture.tester.assertTitleEquals("Main Page");
+    }
+
+    public void testPressLink() {
+        parseTable(formatTable(pressLinkFmt));
         fixture.tester.assertTitleEquals("Main Page");
     }
 
     private String formatTable(String tableFmt) {
-        return MessageFormat.format(tableFmt, new Object[] { baseUrl } );
+        return MessageFormat.format(tableFmt, new Object[]{baseUrl});
     }
 }
