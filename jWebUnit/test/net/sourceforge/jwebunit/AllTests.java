@@ -29,7 +29,6 @@ public class AllTests extends TestSuite{
 		suite.addTestSuite(ServletUnitTest.class);
 		suite.addTestSuite(MethodInvokerTest.class);
         return suite;
-//    	return new TestSuite();
     }
 
      public static void main( String[] args ) {

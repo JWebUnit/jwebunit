@@ -36,11 +36,13 @@ public class FormAssertionsTest extends JWebUnitTest {
         assertPass("assertFormPresent", NOARGS);
         beginAt("/noFormPage.html");
         assertFail("assertFormPresent", NOARGS);
+        assertPass("assertFormNotPresent", NOARGS);        
     }
 
     public void testAssertHasNamedForm() throws Throwable {
         assertPass("assertFormPresent", new String[]{"form2"});
         assertFail("assertFormPresent", new String[]{"noform"});
+        assertPass("assertFormNotPresent", new String[]{"noform"});
     }
 
     public void testAssertFormParameterEquals() throws Throwable {
@@ -130,7 +132,7 @@ public class FormAssertionsTest extends JWebUnitTest {
     public void testAssertButtonNotPresent() throws Throwable {
         assertPassFail("assertButtonNotPresent", "nobutton", "b1");
     }
-
+    
     private void addTestPage() {
         defineWebPage("testPage", "This is a test page." +
                 "<table summary=\"testTable\">" +

@@ -152,6 +152,14 @@ public class WebTestCase extends TestCase {
         tester.assertFormPresent(formName);
     }
 
+    public void assertFormNotPresent() {
+    	tester.assertFormNotPresent();
+    }
+
+    public void assertFormNotPresent(String formName) {
+    	tester.assertFormNotPresent(formName);
+    }
+    
     public void assertFormElementEquals(String formElementName, String expectedValue) {
         tester.assertFormElementEquals(formElementName, expectedValue);
     }

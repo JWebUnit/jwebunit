@@ -364,6 +364,22 @@ public class WebTester {
     }
 
     /**
+     * Assert that there is not a form present.
+     *
+     */
+    public void assertFormNotPresent() {
+    	Assert.assertFalse("A form is present", dialog.hasForm());
+    }
+
+    /**
+     * Assert that there is not a form with the specified name or id present.
+     * @param nameOrID
+     */
+    public void assertFormNotPresent(String nameOrID) {
+    	Assert.assertFalse("Form present with name or id [" + nameOrID + "]", dialog.hasForm(nameOrID));
+    }
+    
+    /**
      * Assert that a specific form element has an expected value.
      *
      * @param formElementName
