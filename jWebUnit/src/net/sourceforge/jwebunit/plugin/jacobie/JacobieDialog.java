@@ -5,7 +5,6 @@
 package net.sourceforge.jwebunit.plugin.jacobie;
 
 import java.util.ListIterator;
-import java.util.Vector;
 
 import net.sf.jacobie.exception.JacobieException;
 import net.sf.jacobie.ie.A;
@@ -109,7 +108,6 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
      * Resets all private variables contained by this class.
      */
     public void reset() {
-        super.reset();
     	resetIE();
     }
 
@@ -241,36 +239,45 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
     
     
     public Input getSubmitButton(String aButtonName) {
-    	Input theInput = null;
-    	
-        Vector theVector = getForm().findInputTypeSubmits();
-        ListIterator theListIterator = theVector.listIterator();
-        while (theListIterator.hasNext()) {
-			Input theNextInput = (Input) theListIterator.next();
-			if(theNextInput.getName().equals(aButtonName)) {
-				theInput = theNextInput;
-				break;
-			}
-		}
+    	Input theInput = getForm().findSubmitButton(aButtonName);
         return theInput;
     }
 
-//    public String getSubmitButtonValue(String buttonName) {
-//        throw new UnsupportedOperationException("getSubmitButtonValue");
-//    }
+    public Input getButton(String aButtonID) {
+    	Input theInput = getForm().findButton(aButtonID);
+        return theInput;
+    }
 
+    
+    public String getSubmitButtonValue(String aButtonName) {
+    	String theButtonValue = null;
+    	Input theInput = getForm().findSubmitButton(aButtonName);
+    	if(theInput != null) {
+    		theButtonValue = theInput.getValue();
+    	}
+    	return theButtonValue;
+    }
+
+    public boolean hasSubmitButton(String aButtonName, String aButtonValue) {
+        boolean bReturn = false;
+        Input theInput = getSubmitButton(aButtonName);
+        if(theInput != null && theInput.getValue().equals(aButtonValue)) {
+        	bReturn = true;
+        }
+        return bReturn;
+    }
+
+    
+    
     public boolean hasSubmitButton(String aButtonName) {
         boolean bReturn = getSubmitButton(aButtonName) != null ? true : false;
         return bReturn;
     }
 
-//    public Button getButton(String buttonId) {
-//        throw new UnsupportedOperationException("getButton");
-//    }
-
-//    public boolean hasButton(String buttonId) {
-//        throw new UnsupportedOperationException("hasButton");
-//    }
+    public boolean hasButton(String aButtonID) {
+        boolean bReturn = getSubmitButton(aButtonID) != null ? true : false;
+        return bReturn;
+    }
 
 	/**
 	 * Submit the current form with the default submit button. See {@link #getForm}for an explanation of how the
