@@ -56,7 +56,19 @@ Sub-subheading, smallest useful
 
 2. (2.) explicit number version (common in imported text, but note that numbering will then be re-generated as the page is served)
 
+ :Definition list: (:) level 1
+
 :Definition list: (:) level 1
+
+ ::Definition list: (:) level 2
+
+::Definition list: (:) level 2
+
+ :::Definition list: (:) level 3
+
+:::Definition list: (:) level 3
+
+
 
 ----
 
@@ -87,20 +99,19 @@ Sub-subheading, smallest useful
 So-called '''preformatted text''' can be inserted for special effects:
 
 * Begin a line with one or more <spaces> and the text is assumed to be preformatted.
-
  This line is preformatted
 
  and so is this one.
-
 Note that the browser doesn't merge them as before.
 
 because by adding the space the text is,
-
  again, preformatted.
-
 You might also notice that the font changed from a proportional one to a fixed one but that is a matter determined by the browser and not this server.
 
 ----
+ | r1c1  |          | r1c2 |       |
+ | r2c1  |          | r2c2 |       |
+ | asfas | asfdasdf |      | asfsa |
 
 |r1c1 |        |r1c2|     |
 |r2c1 |        |r2c2|     |

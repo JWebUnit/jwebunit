@@ -31,7 +31,7 @@ module Riki
                 # -v- emitcode block-tag section
                 code = nil
                 s.sub!(/^\t+/, '')  # legacy pages with tab indented lists
-                code = '...'                           if s.sub!(/^\s*$/, '<p>') && @codeArr.last != 'table'
+                code = '...'                           if @codeArr.last !~ /table|pre/ && s.sub!(/^\s*$/, '<p>')
                 body += emitCode(code='pre', 1)        if s =~ /^\s/
                 body += emitCode(code='ul', $1.length) if s.sub!(/^(\*+)/, '<li>')
                 body += emitCode(code='ol', $1.length) if s.sub!(/^(\#+)/, '<li>')
@@ -71,7 +71,7 @@ module Riki
         def emitCode(code, depth)
             tags = ''
             startTag =  if code =~ /table/
-                            %Q[table class="wiki"]
+                            %Q[table class="wiki" border="1" cellspacing="0" cellpadding="3"]
                         else
                             code.dup
                         end
