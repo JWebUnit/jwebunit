@@ -1,6 +1,14 @@
 <project name="fittask" default="runfit">
-    <taskdef classname="net.sourceforge.jwebunit.fit.FitTask" name="fit"/>
     <target name="runfit">
-        <fit dir="test"/>
+        <java classname="net.sourceforge.jwebunit.fit.DirectoryRunner" fork="true">
+            <classpath>
+                <pathelement location="../classes"/>
+                <fileset dir="../lib">
+                    <include name="*.jar"/>
+                </fileset>
+
+            </classpath>
+            <arg line="testdata/input testdata/output"/>
+        </java>
     </target>
 </project>
