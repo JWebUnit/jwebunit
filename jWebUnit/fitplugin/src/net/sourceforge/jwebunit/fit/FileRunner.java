@@ -61,14 +61,7 @@ public class FileRunner extends FitRunner {
 	}
 
 	public static String read(File input) throws IOException {
-		return readWikiFile(input);
-//		if (System.getProperty("wiki") != null) {
-//			System.out.println("using wiki");
-//			return readWikiFile(input);
-//		} else {
-//			System.out.println("not using wiki");
-//			return readFile(input);
-//		}
+		return RunnerUtility.useWikiParser() ? readWikiFile(input) : readFile(input);
 	}
 
 	public static String readFile(File input) throws FileNotFoundException, IOException {

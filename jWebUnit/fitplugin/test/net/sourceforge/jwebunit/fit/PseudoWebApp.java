@@ -14,7 +14,8 @@ public class PseudoWebApp {
     public static void main (String argv[]) throws Exception {
         System.out.println("Starting up Pseudo Server...");
         htmldir = System.getProperty("user.dir") + "/" + htmldir;
-        new PseudoWebApp();
+        PseudoWebApp app = new PseudoWebApp();
+        System.out.println("Pseudo Server started on port " + app.getServer().getConnectedPort());
         while (true) { Thread.sleep(1); } //loop until process terminated.
     }
 
