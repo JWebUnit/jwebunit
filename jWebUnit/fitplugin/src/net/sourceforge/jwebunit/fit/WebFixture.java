@@ -8,7 +8,6 @@ import junit.framework.AssertionFailedError;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 import java.lang.reflect.InvocationTargetException;
 
 public class WebFixture extends ActionFixture {
@@ -16,10 +15,6 @@ public class WebFixture extends ActionFixture {
 
     public WebFixture() {
         actor = this;
-    }
-
-    public void start() throws Exception {
-        // do nothing
     }
 
     public String getBaseUrl() {
@@ -35,12 +30,12 @@ public class WebFixture extends ActionFixture {
         setBaseUrl(cells.more.text());
     }
 
-    public void begin() {
-        tester.beginAt(cells.more.text());
+    public void bundle() {
+        tester.getTestContext().setResourceBundleName(cells.more.text());
     }
 
-    public String title() {
-        return tester.getDialog().getResponsePageTitle();
+    public void begin() {
+        tester.beginAt(cells.more.text());
     }
 
     public void enter() throws Exception {
@@ -58,10 +53,13 @@ public class WebFixture extends ActionFixture {
         tester.clickLinkWithText(cells.more.more.text());
     }
 
+    public void linkId() {
+        tester.clickLink(cells.more.more.text());
+    }
+
     public void check() throws Exception {
         String methName = camel( "assert " + cells.more.text());
         String args[] = getArgs(cells.more.more);
-        Parse arg = cells.more.more;
         MethodInvoker invoker = new MethodInvoker(tester, methName, args);
         try {
             invoker.invoke();
@@ -73,12 +71,12 @@ public class WebFixture extends ActionFixture {
                 wrong(field);
                 field.addToBody(label("expected") + "<hr>" + escape(t.getMessage()));
             } else {
-                exception(arg, t);
+                exception(cells.last(), t);
             }
         } catch(NoSuchMethodException noMeth) {
             exception(cells.more, noMeth);
         } catch (Exception e) {
-            exception(arg, e);
+            exception(cells.last(), e);
         }
     }
 
@@ -90,6 +88,5 @@ public class WebFixture extends ActionFixture {
         }
         return (String[])args.toArray(new String[0]);
     }
-
 
 }

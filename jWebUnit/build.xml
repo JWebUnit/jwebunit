@@ -77,4 +77,8 @@
         <antcall target="dist"/>
         <antcall target="clean"/>
     </target>
+
+    <target name="jar-classes">
+        <jar destfile="jwebunit.jar" basedir="classes"/>
+    </target>
 </project>
