@@ -1,6 +1,5 @@
 package net.sourceforge.jwebunit;
 
-import net.sourceforge.jwebunit.util.ExceptionUtility;
 import net.sourceforge.jwebunit.JWebUnitTest;
 
 /**
