@@ -1,7 +1,10 @@
 <project name="jWebUnit" default="test">
 	<property name="build.version" value="1.2"/>
+	<property name="jwebfit.build.version" value="1.0"/>
     <property name="build.name" value="jwebunit-${build.version}"/>
+    <property name="jwebfit.build.name" value="jwebfit-${jwebfit.build.version}"/>
 	<property name="dist.name.jar" value="${build.name}.jar"/>
+	<property name="jwebfit.dist.name.jar" value="${jwebfit.build.name}.jar"/>
 	<property name="build.dir" value="target"/>
 	<property name="build.docs.dir" value="${build.dir}/docs" />
 	<property name="build.javadoc.dir" value="${build.docs.dir}/apidocs" />
@@ -93,7 +96,6 @@ Build-Time: ${TSTAMP}
         <delete dir="${build.classes.dir}"/>
         <delete dir="${build.test-classes.dir}"/>
     	<delete dir="${build.dir}" />
-        <delete dir="jwebfit-classes"/>
         <delete dir="docgen"/>
     </target>
 
@@ -103,28 +105,25 @@ Build-Time: ${TSTAMP}
         <antcall target="clean"/>
     </target>
     
-    <target name="jwebfit.compile">
-        <mkdir dir="classes"/>
-        <javac destdir="classes" debug="true">
-            <src location="src"/>
-            <src location="test"/>
+    <path id="jwebfit.classpath">
+        <fileset dir="fitplugin/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+        <path refid="src.classpath"/>
+    </path>
+	
+	<target name="jwebfit.compile">
+       <delete dir="jwebfit-classes"/>
+       <mkdir dir="jwebfit-classes"/>
+        <javac destdir="jwebfit-classes" debug="true" fork="true">
             <src location="fitplugin/src"/>
-            <classpath refid="src.classpath"/>
+            <classpath refid="jwebfit.classpath"/>    
         </javac>
     </target>
 
-    <target name="jwebfit.jar">
-        <mkdir dir="jwebfit-classes"/>
-        <javac destdir="jwebfit-classes" debug="true" fork="true">
-            <src location="src"/>
-            <src location="fitplugin/src"/>
-            <classpath>
-	            <path refid="src.classpath"/>
-            </classpath>
-        </javac>
-        <jar destfile="jwebfit.jar" basedir="jwebfit-classes"/>
-        <delete dir="jwebfit-classes"/>
-    </target>
+    <target name="jwebfit.jar" depends="jwebfit.compile">
+        <jar destfile="dist/${jwebfit.dist.name.jar}" basedir="jwebfit-classes"/>
+     </target>
     
     <target name="sampleApp.compile" depends="init, jwebfit.compile">
         <javac destdir="classes" classpathref="src.classpath" debug="true">
