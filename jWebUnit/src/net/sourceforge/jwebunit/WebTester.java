@@ -336,24 +336,24 @@ public class WebTester {
     /**
      * Assert that a form input element with a given name is present.
      *
-     * @param parameterName
+     * @param formElementName
      */
-    public void assertFormElementPresent(String parameterName) {
+    public void assertFormElementPresent(String formElementName) {
         assertHasForm();
-        Assert.assertTrue("Did not find form element with name [" + parameterName + "].",
-                dialog.hasFormParameterNamed(parameterName));
+        Assert.assertTrue("Did not find form element with name [" + formElementName + "].",
+                dialog.hasFormParameterNamed(formElementName));
     }
 
     /**
      * Assert that a form input element with a given name is not present.
      *
-     * @param parameterName
+     * @param formElementName
      */
-    public void assertFormElementNotPresent(String parameterName) {
+    public void assertFormElementNotPresent(String formElementName) {
         assertHasForm();
         try {
-            Assert.assertTrue("Found form element with name [" + parameterName + "] when not expected.",
-                    !dialog.hasFormParameterNamed(parameterName));
+            Assert.assertTrue("Found form element with name [" + formElementName + "] when not expected.",
+                    !dialog.hasFormParameterNamed(formElementName));
         } catch (UnableToSetFormException e) {
             // assertFormControlNotPresent
         }
@@ -378,12 +378,22 @@ public class WebTester {
     /**
      * Assert that a specific form element has an expected value.
      *
-     * @param formControlName
+     * @param formElementName
      * @param expectedValue
      */
-    public void assertFormElementEquals(String formControlName, String expectedValue) {
+    public void assertFormElementEquals(String formElementName, String expectedValue) {
         assertHasForm();
-        Assert.assertEquals(expectedValue, dialog.getFormParameterValue(formControlName));
+        Assert.assertEquals(expectedValue, dialog.getFormParameterValue(formElementName));
+    }
+
+    /**
+     * Assert that a form element had no value / is empty.
+     *
+     * @param formElementName
+     */
+    public void assertFormElementEmpty(String formElementName) {
+        assertHasForm();
+        Assert.assertEquals("", dialog.getFormParameterValue(formElementName));
     }
 
     /**
@@ -640,13 +650,13 @@ public class WebTester {
     /**
      * Set the value of a form input element.
      *
-     * @param parameterName name of form element.
+     * @param formElementName name of form element.
      * @param value
      */
-    public void setFormElement(String parameterName, String value) {
+    public void setFormElement(String formElementName, String value) {
         assertHasForm();
-        assertFormElementPresent(parameterName);
-        dialog.setFormParameter(parameterName, value);
+        assertFormElementPresent(formElementName);
+        dialog.setFormParameter(formElementName, value);
     }
 
     /**
