@@ -5,20 +5,39 @@
 		<author email="dashorst at users.sourceforge.net">Martijn Dashorst</author>
 	</properties>
 	<body>
-		<release version="1.2" date="pending">
-			<action dev="Martijn Dashorst" type="update"> Moved the build 
-				system from <a href="http://ant.apache.org">Ant</a> to <a 
-				href="http://maven.apache.org">Maven</a>. </action>
-			<action dev="Martijn Dashorst" type="update"> Upgraded all 
-				dependencies (httpunit, rhino, nekohtml, xerces, junit) to 
-				their newest released version. </action>
-			<action dev="Jim Weaver" type="update" due-to="Vivek Venugopalan" 
-				issue="727614"> Added support for cookies. </action>
-			<action dev="Jim Weaver" type="fix" due-to="Brad Clarke" 
-				issue="727614"> Fork enabled for ant-build compile. </action>
-			<action dev="Jim Weaver" type="fix" due-to="Charles Blaxland" 
-				issue="745868"> Form submit overload for forms with multiple 
-				submit buttons. </action>
+		<release version="1.2" date="june 13, 2004">
+			<action type="fix" dev="Vivek Venugopalan" issue="856218" due-to="Roberto Cosenza">
+				Wrong text in Assert
+			</action>
+			<action type="fix" dev="Vivek Venugopalan" issue="908440" due-to="Vasile Alaiba">
+				quickstart.html setBaseUrl is mistyped
+			</action>
+			<action type="fix" dev="Vivek Venugopalan" issue="910242" due-to="Hien Nguyen">
+				assertFormElementPresent fails when a form is in an IFRAME
+			</action>
+			<action type="fix" dev="Vivek Venugopalan" issue="908372">
+				assertLinkPresentWithImage("foo") fails if foo isn't first
+			</action>
+			<action type="fix" dev="Vivek Venugopalan" due-to="Jim Cloughley" issue="918278">
+				broken link in jwebunit-1.1.1 set of files
+			</action>
+			<action type="update" dev="Martijn Dashorst">
+				Moved the build system from <a href="http://ant.apache.org">Ant</a> 
+				to <a href="http://maven.apache.org">Maven</a>.
+			</action>
+			<action type="update" dev="Martijn Dashorst">
+				Upgraded all dependencies (httpunit, rhino, nekohtml, 
+				xerces, junit) to their newest released version.
+			</action>
+			<action type="update" dev="Jim Weaver" due-to="Vivek Venugopalan" issue="727614">
+				Added support for cookies.
+			</action>
+			<action type="fix" dev="Jim Weaver" due-to="Brad Clarke" issue="727614">
+				Fork enabled for ant-build compile.
+			</action>
+			<action type="fix" dev="Jim Weaver" due-to="Charles Blaxland" issue="745868">
+				Form submit overload for forms with multiple submit buttons.
+			</action>
 		</release>
 	</body>
 </document>
