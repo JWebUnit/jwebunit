@@ -38,6 +38,10 @@ public class WebFixture extends ActionFixture {
         tester.beginAt(cells.more.text());
     }
 
+    public void form() {
+        tester.setWorkingForm(cells.more.text());
+    }
+
     public void enter() throws Exception {
         tester.setFormElement(this.cells.more.text(), this.cells.more.more.text());
     }
@@ -67,9 +71,7 @@ public class WebFixture extends ActionFixture {
         } catch (InvocationTargetException ite) {
             Throwable t = ite.getTargetException();
             if(t instanceof AssertionFailedError ) {
-                Parse field = cells.last();
-                wrong(field);
-                field.addToBody(label("expected") + "<hr>" + escape(t.getMessage()));
+                markLastArgumentWrong(cells.more.more, args.length, t.getMessage());
             } else {
                 exception(cells.last(), t);
             }
@@ -82,6 +84,11 @@ public class WebFixture extends ActionFixture {
 
     private void markLastArgumentRight(Parse more, int length) {
         right(more.at(length - 1));
+    }
+
+    private void markLastArgumentWrong(Parse more, int length, String message) {
+        wrong(more.at(length - 1));
+        more.at(length - 1).addToBody(label("expected") + "<hr>" + escape(message));
     }
 
 

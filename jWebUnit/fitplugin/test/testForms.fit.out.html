@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>jWebUnit fit Fixture Form Manipulation Test</title>
+</head>
+  <body>
+  Test text input field entry, inspection of form field values, and simple 
+form submission.<br>
+ <br>
+    
+<table border="1" cellpadding="4">
+  <tbody>
+     <tr>
+       <td colspan="4" valign="middle">net.sourceforge.jwebunit.fit.WebFixture</td>
+     </tr>
+  <tr>
+       <td>baseUrl</td>
+       <td>http://localhost:8081</td>
+       <td>&nbsp;</td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+  <tr>
+       <td>begin</td>
+       <td>menu</td>
+       <td>&nbsp;</td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+  <tr>
+       <td>press</td>
+       <td>link</td>
+       <td>Color form page</td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+  <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">form element equals<br>
+       </td>
+       <td valign="top">color<br>
+       </td>
+       <td valign="top" bgcolor="#cfffcf">default<br>
+       </td>
+     </tr>
+     <tr>
+       <td>enter</td>
+       <td>color</td>
+       <td>red</td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+  <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">form element equals<br>
+       </td>
+       <td valign="top">color<br>
+       </td>
+       <td valign="top" bgcolor="#cfffcf">red<br>
+       </td>
+     </tr>
+     <tr>
+       <td>press<br>
+       </td>
+       <td>submit</td>
+       <td><br>
+       </td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+  <tr>
+       <td>check</td>
+       <td>title equals</td>
+       <td bgcolor="#cfffcf">Red Page<br>
+       </td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+       
+  </tbody> 
+</table>
+  <br>
+ <br>
+   Test submit of named button where multiple buttons exist.<br>
+ <br>
+    
+<table border="1" cellpadding="4">
+  <tbody>
+     <tr>
+       <td colspan="3">net.sourceforge.jwebunit.fit.WebFixture</td>
+     </tr>
+  <tr>
+       <td>begin</td>
+       <td>multiButtonForm</td>
+       <td>&nbsp;</td>
+     </tr>
+  <tr>
+       <td>enter</td>
+       <td>textField</td>
+       <td>friend</td>
+     </tr>
+  <tr>
+       <td>press</td>
+       <td>submit</td>
+       <td>Button1</td>
+     </tr>
+  <tr>
+       <td>check</td>
+       <td>title equals</td>
+       <td bgcolor="#cfffcf">Button 1 Pressed Page</td>
+     </tr>
+    <tr>
+      <td valign="top">begin<br>
+      </td>
+      <td valign="top">multiButtonForm<br>
+      </td>
+      <td valign="top"><br>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top">enter<br>
+      </td>
+      <td valign="top">textField<br>
+      </td>
+      <td valign="top">friend<br>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top">press<br>
+      </td>
+      <td valign="top">submit<br>
+      </td>
+      <td valign="top">Button2<br>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top">check<br>
+      </td>
+      <td valign="top">title equals<br>
+      </td>
+      <td valign="top" bgcolor="#cfffcf">Button 2 Pressed Page<br>
+      </td>
+    </tr>
+     
+  </tbody> 
+</table>
+  <br>
+<br>
+ Test working with page that has multiple forms. &nbsp;Should be able<br>
+to access values of one form, then submit a second form as long<br>
+as we set the working form to the second form before we begin <br>
+accessing the second form.<br>
+<br>
+<table border="1" cellpadding="4">
+  <tbody>
+     <tr>
+       <td colspan="4" valign="middle">net.sourceforge.jwebunit.fit.WebFixture</td>
+     </tr>
+    <tr>
+       <td>begin</td>
+       <td>multiForm</td>
+       <td>&nbsp;</td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+  <tr>
+       <td>check</td>
+       <td>form element equals<br>
+      </td>
+       <td>color</td>
+       <td valign="top" bgcolor="#cfffcf">default<br>
+       </td>
+     </tr>
+  <tr>
+       <td valign="top">form<br>
+       </td>
+       <td valign="top">buttonForm<br>
+       </td>
+       <td valign="top"><br>
+      </td>
+      <td valign="top"><br>
+       </td>
+     </tr>
+     <tr>
+       <td>enter</td>
+       <td>textField<br>
+      </td>
+       <td>friend<br>
+      </td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+  <tr>
+       <td valign="top">press<br>
+       </td>
+       <td valign="top">submit<br>
+       </td>
+       <td valign="top">Button1<br>
+       </td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+     <tr>
+       <td>check<br>
+       </td>
+       <td>title equals</td>
+       <td bgcolor="#cfffcf">Button 1 Pressed Page<br>
+       </td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+         
+  </tbody> 
+</table>
+<br>
+ <br>
+   <br>
+ <br>
+</body>
+</html>
