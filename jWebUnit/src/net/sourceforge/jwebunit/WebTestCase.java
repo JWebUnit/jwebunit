@@ -5,10 +5,9 @@
 
 package net.sourceforge.jwebunit;
 
-import net.sourceforge.jwebunit.HttpUnitDialog;
-import junit.framework.TestCase;
-
 import java.io.PrintStream;
+
+import junit.framework.TestCase;
 
 /**
  * Superclass for Junit TestCases which provides web application navigation and
@@ -23,18 +22,26 @@ public class WebTestCase extends TestCase {
 
     public WebTestCase(String name) {
         super(name);
-        tester = new WebTester();
+        tester = initializeWebTester();
     }
 
     public WebTestCase() {
-        tester = new WebTester();
+        tester = initializeWebTester();
+    }
+
+    /**
+     * Initializes a new instance of the web tester class.
+     * Override if necessary to return subclass of WebTester.
+     */
+    public WebTester initializeWebTester() {
+        return new WebTester();
     }
 
     protected WebTester getTester() {
         return tester;
     }
 
-    public HttpUnitDialog getDialog() {
+    public IJWebUnitDialog getDialog() {
         return tester.getDialog();
     }
 
@@ -256,6 +263,29 @@ public class WebTestCase extends TestCase {
         tester.assertLinkNotPresentWithText(linkText, index);
     }
 
+    //SF.NET RFE: 996031
+    public void assertLinkPresentWithExactText(String linkText) {
+        tester.assertLinkPresentWithExactText(linkText);
+    }
+
+    //SF.NET RFE: 996031
+    public void assertLinkNotPresentWithExactText(String linkText) {
+        tester.assertLinkNotPresentWithExactText(linkText);
+    }
+
+    //SF.NET RFE: 996031
+    public void assertLinkPresentWithExactText(String linkText, int index) {
+        tester.assertLinkPresentWithExactText(linkText, index);
+    }
+
+    //SF.NET RFE: 996031
+    public void assertLinkNotPresentWithExactText(String linkText, int index) {
+        tester.assertLinkNotPresentWithExactText(linkText, index);
+    }
+    
+    
+    
+    
     public void assertLinkPresentWithImage(String imageFileName) {
         tester.assertLinkPresentWithImage(imageFileName);
     }
@@ -299,6 +329,21 @@ public class WebTestCase extends TestCase {
     	tester.assertCookieValueEquals(cookieName, expectedValue);
     }
     
+//  is Pattern methods
+     
+    /**
+     * Return true if given text is present anywhere in the current response.
+     * 
+     * @param text
+     *            string to check for.
+     */    
+    public boolean isTextInResponse(String text) {
+        return tester.isTextInResponse(text);
+    }
+
+    
+//  cookie methods.    
+    
     public void dumpCookies() {
     	tester.dumpCookies();
     }
@@ -308,6 +353,17 @@ public class WebTestCase extends TestCase {
     }
 
 // Form interaction methods
+    
+    /**
+     * Gets the value of a form input element.  Allows getting information from a form element.
+     * Also, checks assertions as well.
+     *
+     * @param formElementName name of form element.
+     * @param value
+     */
+    public String getFormElementValue(String formElementName) {
+        return tester.getFormElementValue(formElementName);
+    }    
 
     public void setWorkingForm(String nameOrId) {
         tester.setWorkingForm(nameOrId);
@@ -363,6 +419,14 @@ public class WebTestCase extends TestCase {
         tester.clickLinkWithText(linkText, index);
     }
 
+    protected void clickLinkWithExactText(String linkText) {
+        tester.clickLinkWithExactText(linkText);
+    }
+
+    protected void clickLinkWithExactText(String linkText, int index) {
+        tester.clickLinkWithExactText(linkText, index);
+    }
+
     protected void clickLinkWithTextAfterText(String linkText, String labelText) {
         tester.clickLinkWithTextAfterText(linkText, labelText);
     }
@@ -377,6 +441,10 @@ public class WebTestCase extends TestCase {
 
     protected void clickButton(String buttonId) {
         tester.clickButton(buttonId);
+    }
+    
+    protected void clickRadioOption(String radioGroup, String radioOption) {
+        tester.clickRadioOption(radioGroup, radioOption);
     }
 
 //Window and Frame Navigation Methods

@@ -4,19 +4,39 @@
  **********************************/
 package net.sourceforge.jwebunit;
 
-import com.meterware.httpunit.*;
-import com.meterware.httpunit.cookies.CookieJar;
-
-import net.sourceforge.jwebunit.util.ExceptionUtility;
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.sourceforge.jwebunit.util.ExceptionUtility;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
+
+import com.meterware.httpunit.Button;
+import com.meterware.httpunit.GetMethodWebRequest;
+import com.meterware.httpunit.HTMLElementPredicate;
+import com.meterware.httpunit.SubmitButton;
+import com.meterware.httpunit.TableCell;
+import com.meterware.httpunit.WebClient;
+import com.meterware.httpunit.WebClientListener;
+import com.meterware.httpunit.WebConversation;
+import com.meterware.httpunit.WebForm;
+import com.meterware.httpunit.WebLink;
+import com.meterware.httpunit.WebRequest;
+import com.meterware.httpunit.WebResponse;
+import com.meterware.httpunit.WebTable;
+import com.meterware.httpunit.WebWindow;
+import com.meterware.httpunit.cookies.CookieJar;
 
 /**
  * Acts as the wrapper for HttpUnit access. A dialog is initialized with a given URL, and maintains conversational
@@ -26,13 +46,21 @@ import java.util.Map;
  * @author Jim Weaver
  * @author Wilkes Joiner
  */
-public class HttpUnitDialog {
+public class HttpUnitDialog extends CompositeJWebUnitDialog {
 	private WebClient wc;
 	private WebResponse resp;
 	private TestContext context;
 	private WebForm form;
 	private Map multiselectMap = new HashMap();
 
+	/**
+	 * Constructor for creating a default testing engine for jWebUnit.
+	 * If the dialog is not specified then jWebUnit will default to using httpunit.
+	 */
+	public HttpUnitDialog() {
+	    super();
+	}
+	
 	/**
 	 * Begin a dialog with an initial URL and test client context.
 	 * 
@@ -51,6 +79,10 @@ public class HttpUnitDialog {
 		}
 	}
 
+    public IJWebUnitDialog constructNewDialog(String url, TestContext context) {
+        return new HttpUnitDialog(url, context);
+    }
+	
 	private void initWebClient() {
 		wc = (context != null) ? context.getWebClient() : new WebConversation();
 
@@ -773,6 +805,12 @@ public class HttpUnitDialog {
 			throw new RuntimeException("No Link found with imageFileName \"" + imageFileName + "\"");
 		submitRequest(link);
 	}
+	
+    public void clickRadioOption(String radioGroup, String radioOption) {
+        //if you can figure out how the heck to get access to RadioButtonFormControl.fireOnClickEvent go ahead.
+        //I spent about 15 minutes trying to figure out how.  Nick
+        throw new UnsupportedOperationException("clickRadioOption not supported by jwebunit");
+    }
 
 	/**
 	 * Click the indicated button (input type=button).

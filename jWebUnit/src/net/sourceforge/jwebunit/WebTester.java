@@ -23,17 +23,38 @@ import org.w3c.dom.Element;
  *  @author Wilkes Joiner
  */
 public class WebTester {
-    private HttpUnitDialog dialog;
+    private IJWebUnitDialog dialog;
+    
     private TestContext context = new TestContext();
+    
+    public WebTester() {
+        super();
+    }
+    
+    public WebTester(IJWebUnitDialog aIJWebUnitDialog) {
+        super();
+        setDialog(aIJWebUnitDialog);
+    }
 
     /**
      * Provides access to the httpunit wrapper for subclasses - in case functionality not
      * yet wrappered required by test.
+     * 
+     * If the dialog is not explicitly set the jWebUnit framework will default to using
+     * the orignal testing engine, which is, httpunit.
      *
-     * @return HttpUnitDialog instance used to wrapper httpunit conversation.
+     * @return IJWebUnitDialog instance used to wrapper httpunit conversation.
      */
-    public HttpUnitDialog getDialog() {
+    public IJWebUnitDialog getDialog() {
+        if(dialog == null) {
+            //defaulting to the HttpUnitDialog implementation.
+            dialog = new HttpUnitDialog();
+        }
         return dialog;
+    }
+    
+    public void setDialog(IJWebUnitDialog aIJWebUnitDialog) {
+        dialog = aIJWebUnitDialog;
     }
 
     /**
@@ -52,7 +73,8 @@ public class WebTester {
      */
     public void beginAt(String relativeURL) {
         String url = createUrl(relativeURL);
-        dialog = new HttpUnitDialog(url, context);
+        IJWebUnitDialog theInitialDialog = getDialog();
+        dialog = theInitialDialog.constructNewDialog(url, context);
     }
 
     private String createUrl(String suffix) {
@@ -88,7 +110,7 @@ public class WebTester {
      * @param title expected title value
      */
     public void assertTitleEquals(String title) {
-        Assert.assertEquals(title, dialog.getResponsePageTitle());
+        Assert.assertEquals(title, getDialog().getResponsePageTitle());
     }
 
     /**
@@ -97,7 +119,7 @@ public class WebTester {
      * @param titleKey web resource key for title
      */
     public void assertTitleEqualsKey(String titleKey) {
-        Assert.assertEquals(getMessage(titleKey), dialog.getResponsePageTitle());
+        Assert.assertEquals(getMessage(titleKey), getDialog().getResponsePageTitle());
     }
 
     /**
@@ -115,7 +137,7 @@ public class WebTester {
      * @param text
      */
     public void assertTextPresent(String text) {
-        if (!dialog.isTextInResponse(text))
+        if (!getDialog().isTextInResponse(text))
             Assert.fail("Expected text not found in response: [" + text + "]");
     }
 
@@ -134,7 +156,7 @@ public class WebTester {
      * @param text
      */
     public void assertTextNotPresent(String text) {
-        if (dialog.isTextInResponse(text))
+        if (getDialog().isTextInResponse(text))
             Assert.fail("Text found in response when not expected: [" + text + "]");
     }
 
@@ -144,7 +166,7 @@ public class WebTester {
      * @param tableSummaryOrId summary or id attribute value of table
      */
     public void assertTablePresent(String tableSummaryOrId) {
-        if (dialog.getWebTableBySummaryOrId(tableSummaryOrId) == null)
+        if (getDialog().getWebTableBySummaryOrId(tableSummaryOrId) == null)
             Assert.fail("Unable to locate table \"" + tableSummaryOrId + "\"");
     }
 
@@ -154,7 +176,7 @@ public class WebTester {
      * @param tableSummaryOrId summary or id attribute value of table
      */
     public void assertTableNotPresent(String tableSummaryOrId) {
-        if (dialog.getWebTableBySummaryOrId(tableSummaryOrId) != null)
+        if (getDialog().getWebTableBySummaryOrId(tableSummaryOrId) != null)
             Assert.fail("Located table \"" + tableSummaryOrId + "\"");
     }
 
@@ -178,7 +200,7 @@ public class WebTester {
         assertTablePresent(tableSummaryOrId);
         Assert.assertTrue("Could not find: [" + text + "]" +
                 "in table [" + tableSummaryOrId + "]",
-                dialog.isTextInTable(tableSummaryOrId, text));
+                getDialog().isTextInTable(tableSummaryOrId, text));
     }
 
     /**
@@ -225,7 +247,7 @@ public class WebTester {
         assertTablePresent(tableSummaryOrId);
         Assert.assertTrue("Found text: [" + text + "] in table [" +
                 tableSummaryOrId + "]",
-                !dialog.isTextInTable(tableSummaryOrId, text));
+                !getDialog().isTextInTable(tableSummaryOrId, text));
     }
 
     /**
@@ -280,7 +302,7 @@ public class WebTester {
      */
     public void assertTableRowsEqual(String tableSummaryOrId, int startRow, String[][] expectedCellValues) {
         assertTablePresent(tableSummaryOrId);
-        String[][] sparseTableCellValues = dialog.getSparseTableBySummaryOrId(tableSummaryOrId);
+        String[][] sparseTableCellValues = getDialog().getSparseTableBySummaryOrId(tableSummaryOrId);
         if (expectedCellValues.length > (sparseTableCellValues.length - startRow))
             Assert.fail("Expected rows [" + expectedCellValues.length + "] larger than actual rows in range being compared" +
                     " [" + (sparseTableCellValues.length - startRow) + "].");
@@ -305,7 +327,7 @@ public class WebTester {
     public void assertFormElementPresent(String formElementName) {
         assertFormPresent();
         Assert.assertTrue("Did not find form element with name [" + formElementName + "].",
-                dialog.hasFormParameterNamed(formElementName));
+                getDialog().hasFormParameterNamed(formElementName));
     }
 
     /**
@@ -317,7 +339,7 @@ public class WebTester {
         assertFormPresent();
         try {
             Assert.assertTrue("Found form element with name [" + formElementName + "] when not expected.",
-                    !dialog.hasFormParameterNamed(formElementName));
+                    !getDialog().hasFormParameterNamed(formElementName));
         } catch (UnableToSetFormException e) {
             // assertFormControlNotPresent
         }
@@ -331,7 +353,7 @@ public class WebTester {
      */
     public void assertFormElementPresentWithLabel(String formElementLabel) {
         Assert.assertTrue("Did not find form element with label [" + formElementLabel + "].",
-                dialog.hasFormParameterLabeled(formElementLabel));
+                getDialog().hasFormParameterLabeled(formElementLabel));
     }
 
     /**
@@ -342,7 +364,7 @@ public class WebTester {
      */
     public void assertFormElementNotPresentWithLabel(String formElementLabel) {
         Assert.assertFalse("Found form element with label [" + formElementLabel + "].",
-                dialog.hasFormParameterLabeled(formElementLabel));
+                getDialog().hasFormParameterLabeled(formElementLabel));
     }
 
     /**
@@ -350,7 +372,7 @@ public class WebTester {
      *
      */
     public void assertFormPresent() {
-        Assert.assertTrue("No form present", dialog.hasForm());
+        Assert.assertTrue("No form present", getDialog().hasForm());
     }
 
     /**
@@ -358,7 +380,7 @@ public class WebTester {
      * @param nameOrID
      */
     public void assertFormPresent(String nameOrID) {
-        Assert.assertTrue("No form present with name or id [" + nameOrID + "]", dialog.hasForm(nameOrID));
+        Assert.assertTrue("No form present with name or id [" + nameOrID + "]", getDialog().hasForm(nameOrID));
     }
 
     /**
@@ -366,7 +388,7 @@ public class WebTester {
      *
      */
     public void assertFormNotPresent() {
-    	Assert.assertFalse("A form is present", dialog.hasForm());
+    	Assert.assertFalse("A form is present", getDialog().hasForm());
     }
 
     /**
@@ -374,7 +396,7 @@ public class WebTester {
      * @param nameOrID
      */
     public void assertFormNotPresent(String nameOrID) {
-    	Assert.assertFalse("Form present with name or id [" + nameOrID + "]", dialog.hasForm(nameOrID));
+    	Assert.assertFalse("Form present with name or id [" + nameOrID + "]", getDialog().hasForm(nameOrID));
     }
     
     /**
@@ -385,7 +407,7 @@ public class WebTester {
      */
     public void assertFormElementEquals(String formElementName, String expectedValue) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals(expectedValue, dialog.getFormParameterValue(formElementName));
+        Assert.assertEquals(expectedValue, getDialog().getFormParameterValue(formElementName));
     }
 
     /**
@@ -395,7 +417,7 @@ public class WebTester {
      */
     public void assertFormElementEmpty(String formElementName) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals("", dialog.getFormParameterValue(formElementName));
+        Assert.assertEquals("", getDialog().getFormParameterValue(formElementName));
     }
 
     /**
@@ -405,7 +427,7 @@ public class WebTester {
      */
     public void assertCheckboxSelected(String checkBoxName) {
         assertFormElementPresent(checkBoxName);
-        Assert.assertEquals("on", dialog.getFormParameterValue(checkBoxName));
+        Assert.assertEquals("on", getDialog().getFormParameterValue(checkBoxName));
     }
 
     /**
@@ -415,7 +437,7 @@ public class WebTester {
      */
     public void assertCheckboxNotSelected(String checkBoxName) {
         assertFormElementPresent(checkBoxName);
-        Assert.assertNull(dialog.getFormParameterValue(checkBoxName));
+        Assert.assertNull(getDialog().getFormParameterValue(checkBoxName));
     }
 
     /**
@@ -426,7 +448,7 @@ public class WebTester {
      */
     public void assertRadioOptionPresent(String name, String radioOption) {
         assertFormElementPresent(name);
-        if (!dialog.hasRadioOption(name, radioOption))
+        if (!getDialog().hasRadioOption(name, radioOption))
             Assert.fail("Unable to find option " + radioOption + " in radio group " + name);
     }
 
@@ -438,7 +460,7 @@ public class WebTester {
      */
     public void assertRadioOptionNotPresent(String name, String radioOption) {
         assertFormElementPresent(name);
-        if (dialog.hasRadioOption(name, radioOption))
+        if (getDialog().hasRadioOption(name, radioOption))
             Assert.fail("Found option " + radioOption + " in radio group " + name);
     }
 
@@ -462,7 +484,7 @@ public class WebTester {
     public void assertRadioOptionNotSelected(String name, String radioOption) {
         assertFormElementPresent(name);
         Assert.assertTrue("Radio option " + radioOption + " is not selected",
-                !radioOption.equals(dialog.getFormParameterValue(name)));
+                !radioOption.equals(getDialog().getFormParameterValue(name)));
     }
 
     /**
@@ -473,7 +495,7 @@ public class WebTester {
      */
     public void assertOptionsEqual(String selectName, String[] expectedOptions) {
         assertFormElementPresent(selectName);
-        assertArraysEqual(expectedOptions, dialog.getOptionsFor(selectName));
+        assertArraysEqual(expectedOptions, getDialog().getOptionsFor(selectName));
     }
 
     /**
@@ -500,7 +522,7 @@ public class WebTester {
      */
     public void assertOptionValuesEqual(String selectName, String[] expectedValues) {
         assertFormElementPresent(selectName);
-        assertArraysEqual(expectedValues, dialog.getOptionValuesFor(selectName));
+        assertArraysEqual(expectedValues, getDialog().getOptionValuesFor(selectName));
 
     }
 
@@ -535,7 +557,7 @@ public class WebTester {
      */
     public void assertOptionEquals(String selectName, String option) {
         assertFormElementPresent(selectName);
-        Assert.assertEquals(option, dialog.getSelectedOption(selectName));
+        Assert.assertEquals(option, getDialog().getSelectedOption(selectName));
     }
 
     /**
@@ -545,7 +567,7 @@ public class WebTester {
      */
     public void assertSubmitButtonPresent(String buttonName) {
         assertFormPresent();
-        Assert.assertTrue("Submit Button [" + buttonName + "] not found.", dialog.hasSubmitButton(buttonName));
+        Assert.assertTrue("Submit Button [" + buttonName + "] not found.", getDialog().hasSubmitButton(buttonName));
     }
 
     /**
@@ -555,7 +577,7 @@ public class WebTester {
      */
     public void assertSubmitButtonNotPresent(String buttonName) {
         assertFormPresent();
-        Assert.assertFalse("Submit Button [" + buttonName + "] found.", dialog.hasSubmitButton(buttonName));
+        Assert.assertFalse("Submit Button [" + buttonName + "] found.", getDialog().hasSubmitButton(buttonName));
     }
 
     /**
@@ -567,7 +589,7 @@ public class WebTester {
     public void assertSubmitButtonValue(String buttonName, String expectedValue) {
         assertFormPresent();
         assertSubmitButtonPresent(buttonName);
-        Assert.assertEquals(expectedValue, dialog.getSubmitButtonValue(buttonName));
+        Assert.assertEquals(expectedValue, getDialog().getSubmitButtonValue(buttonName));
     }
 
     /**
@@ -577,7 +599,7 @@ public class WebTester {
      */
     public void assertButtonPresent(String buttonId) {
         assertFormPresent();
-        Assert.assertTrue("Button [" + buttonId + "] not found.", dialog.hasButton(buttonId));
+        Assert.assertTrue("Button [" + buttonId + "] not found.", getDialog().hasButton(buttonId));
     }
 
     /**
@@ -587,7 +609,7 @@ public class WebTester {
      */
     public void assertButtonNotPresent(String buttonId) {
         assertFormPresent();
-        Assert.assertFalse("Button [" + buttonId + "] found.", dialog.hasButton(buttonId));
+        Assert.assertFalse("Button [" + buttonId + "] found.", getDialog().hasButton(buttonId));
     }
 
 
@@ -597,7 +619,7 @@ public class WebTester {
      * @param linkId
      */
     public void assertLinkPresent(String linkId) {
-        Assert.assertTrue("Unable to find link with id [" + linkId + "]", dialog.isLinkPresent(linkId));
+        Assert.assertTrue("Unable to find link with id [" + linkId + "]", getDialog().isLinkPresent(linkId));
     }
 
     /**
@@ -606,7 +628,7 @@ public class WebTester {
      * @param linkId
      */
     public void assertLinkNotPresent(String linkId) {
-        Assert.assertTrue("link with id [" + linkId + "] found in response", !dialog.isLinkPresent(linkId));
+        Assert.assertTrue("link with id [" + linkId + "] found in response", !getDialog().isLinkPresent(linkId));
     }
 
     /**
@@ -615,7 +637,7 @@ public class WebTester {
      * @param linkText
      */
     public void assertLinkPresentWithText(String linkText) {
-        Assert.assertTrue("Link with text [" + linkText + "] not found in response.", dialog.isLinkPresentWithText(linkText));
+        Assert.assertTrue("Link with text [" + linkText + "] not found in response.", getDialog().isLinkPresentWithText(linkText));
     }
 
     /**
@@ -624,7 +646,7 @@ public class WebTester {
      * @param linkText
      */
     public void assertLinkNotPresentWithText(String linkText) {
-        Assert.assertTrue("Link with text [" + linkText + "] found in response.", !dialog.isLinkPresentWithText(linkText));
+        Assert.assertTrue("Link with text [" + linkText + "] found in response.", !getDialog().isLinkPresentWithText(linkText));
     }
 
     /**
@@ -641,7 +663,7 @@ public class WebTester {
                 + "] and index "
                 + index
                 + " not found in response.",
-            dialog.isLinkPresentWithText(linkText, index));
+            getDialog().isLinkPresentWithText(linkText, index));
     }
 
     /**
@@ -658,9 +680,68 @@ public class WebTester {
                 + "] and index "
                 + index
                 + " found in response.",
-            !dialog.isLinkPresentWithText(linkText, index));
+            !getDialog().isLinkPresentWithText(linkText, index));
     }
 
+    
+    //BEGIN RFE 996031...
+    
+    /**
+     * Assert that a link containing the Exact text is present.
+     *
+     * @param linkText
+     */
+    public void assertLinkPresentWithExactText(String linkText) {
+        Assert.assertTrue("Link with Exact text [" + linkText + "] not found in response.", getDialog().isLinkPresentWithExactText(linkText));
+    }
+
+    /**
+     * Assert that no link containing the Exact text is present.
+     *
+     * @param linkText
+     */
+    public void assertLinkNotPresentWithExactText(String linkText) {
+        Assert.assertTrue("Link with Exact text [" + linkText + "] found in response.", !getDialog().isLinkPresentWithExactText(linkText));
+    }
+
+    /**
+     * Assert that a link containing the Exact text is present.
+     *
+     * @param linkText
+     * @param index The 0-based index, when more than one link with the same
+     *              text is expected.
+     */
+    public void assertLinkPresentWithExactText(String linkText, int index) {
+        Assert.assertTrue(
+            "Link with Exact text ["
+                + linkText
+                + "] and index "
+                + index
+                + " not found in response.",
+            getDialog().isLinkPresentWithExactText(linkText, index));
+    }
+
+    /**
+     * Assert that no link containing the Exact text is present.
+     *
+     * @param linkText
+     * @param index The 0-based index, when more than one link with the same
+     *              text is expected.
+     */
+    public void assertLinkNotPresentWithExactText(String linkText, int index) {
+        Assert.assertTrue(
+            "Link with Exact text ["
+                + linkText
+                + "] and index "
+                + index
+                + " found in response.",
+            !getDialog().isLinkPresentWithExactText(linkText, index));
+    }
+
+    //END RFE 996031...
+    
+    
+    
     /**
      * Assert that a link containing a specified image is present.
      *
@@ -669,7 +750,7 @@ public class WebTester {
      *                      <tt>"my_icon.png"</tt>.
      */
     public void assertLinkPresentWithImage(String imageFileName) {
-        Assert.assertTrue("Link with image file [" + imageFileName + "] not found in response.", dialog.isLinkPresentWithImage(imageFileName));
+        Assert.assertTrue("Link with image file [" + imageFileName + "] not found in response.", getDialog().isLinkPresentWithImage(imageFileName));
     }
 
     /**
@@ -680,7 +761,7 @@ public class WebTester {
      *                      <tt>"my_icon.png"</tt>.
      */
     public void assertLinkNotPresentWithImage(String imageFileName) {
-        Assert.assertTrue("Link with image file [" + imageFileName + "] found in response.", !dialog.isLinkPresentWithImage(imageFileName));
+        Assert.assertTrue("Link with image file [" + imageFileName + "] found in response.", !getDialog().isLinkPresentWithImage(imageFileName));
     }
 
     /**
@@ -689,7 +770,7 @@ public class WebTester {
      * @param anID element id to test for.
      */
     public void assertElementPresent(String anID) {
-        Assert.assertNotNull("Unable to locate element with id \"" + anID + "\"", dialog.getElement(anID));
+        Assert.assertNotNull("Unable to locate element with id \"" + anID + "\"", getDialog().getElement(anID));
     }
 
     /**
@@ -698,7 +779,7 @@ public class WebTester {
      * @param anID element id to test for.
      */
     public void assertElementNotPresent(String anID) {
-        Assert.assertNull("Located element with id \"" + anID + "\"", dialog.getElement(anID));
+        Assert.assertNull("Located element with id \"" + anID + "\"", getDialog().getElement(anID));
     }
 
     /**
@@ -708,16 +789,16 @@ public class WebTester {
      * @param text to check for.
      */
     public void assertTextInElement(String elementID, String text) {
-        Element element = dialog.getElement(elementID);
+        Element element = getDialog().getElement(elementID);
         Assert.assertNotNull("Unable to locate element with id \"" + elementID + "\"", element);
-        Assert.assertTrue("Unable to locate [" + text + "] in element \"" + elementID + "\"", dialog.isTextInElement(element, text));
+        Assert.assertTrue("Unable to locate [" + text + "] in element \"" + elementID + "\"", getDialog().isTextInElement(element, text));
     }
     
     public void assertTextNotInElement(String elementID, String text) {
         assertElementPresent(elementID);
-        Element element = dialog.getElement(elementID);
+        Element element = getDialog().getElement(elementID);
         Assert.assertNotNull("Unable to locate element with id \"" + elementID + "\"", element);
-        Assert.assertFalse("Text [" + text +"] found in element [" + elementID + "] when not expected", dialog.isTextInElement(element, text));
+        Assert.assertFalse("Text [" + text +"] found in element [" + elementID + "] when not expected", getDialog().isTextInElement(element, text));
     }
 
     /**
@@ -726,7 +807,7 @@ public class WebTester {
      * @param windowName
      */
     public void assertWindowPresent(String windowName) {
-        Assert.assertNotNull("Unable to locate window [" + windowName + "].", dialog.getWindow(windowName));
+        Assert.assertNotNull("Unable to locate window [" + windowName + "].", getDialog().getWindow(windowName));
     }
 
     /**
@@ -735,7 +816,7 @@ public class WebTester {
      * @param frameName
      */
     public void assertFramePresent(String frameName) {
-        Assert.assertNotNull("Unable to locate frame [" + frameName + "].", dialog.getFrame(frameName));
+        Assert.assertNotNull("Unable to locate frame [" + frameName + "].", getDialog().getFrame(frameName));
     }
     
     /** 
@@ -745,12 +826,12 @@ public class WebTester {
      * @param cookieName  The cookie name 
      */	
     public void assertCookiePresent(String cookieName) {
-		Assert.assertTrue("Could not find Cookie : [" + cookieName + "]", dialog.hasCookie(cookieName));
+		Assert.assertTrue("Could not find Cookie : [" + cookieName + "]", getDialog().hasCookie(cookieName));
 	}
     
     public void assertCookieValueEquals(String cookieName, String expectedValue) {
     	assertCookiePresent(cookieName);
-    	Assert.assertEquals(expectedValue, dialog.getCookieValue(cookieName));
+    	Assert.assertEquals(expectedValue, getDialog().getCookieValue(cookieName));
     }
     
     public void dumpCookies() {
@@ -758,12 +839,41 @@ public class WebTester {
     }
     
     public void dumpCookies(PrintStream stream) {
-    	dialog.dumpCookies(stream);
+    	getDialog().dumpCookies(stream);
     }
+    
+// is Pattern methods
+    
+    
+    /**
+     * Return true if given text is present anywhere in the current response.
+     * 
+     * @param text
+     *            string to check for.
+     */    
+    public boolean isTextInResponse(String text) {
+        return getDialog().isTextInResponse(text);
+    }
+    
     
 
 //Form interaction methods
 
+    /**
+     * Gets the value of a form input element.  Allows getting information from a form element.
+     * Also, checks assertions as well.
+     *
+     * @param formElementName name of form element.
+     * @param value
+     */
+    public String getFormElementValue(String formElementName) {
+        assertFormPresent();
+        assertFormElementPresent(formElementName);
+        return getDialog().getFormParameterValue(formElementName);
+    }
+
+    
+    
     /**
      * Begin interaction with a specified form.  If form interaction methods are called without
      * explicitly calling this method first, jWebUnit will attempt to determine itself which form
@@ -774,7 +884,7 @@ public class WebTester {
      * @param nameOrId name or id of the form to work with.
      */
     public void setWorkingForm(String nameOrId) {
-        dialog.setWorkingForm(nameOrId);
+        getDialog().setWorkingForm(nameOrId);
     }
 
     /**
@@ -786,7 +896,7 @@ public class WebTester {
     public void setFormElement(String formElementName, String value) {
         assertFormPresent();
         assertFormElementPresent(formElementName);
-        dialog.setFormParameter(formElementName, value);
+        getDialog().setFormParameter(formElementName, value);
     }
 
     /**
@@ -801,9 +911,9 @@ public class WebTester {
      */
     protected void setFormElementWithLabel(String formElementLabel,
                                            String value) {
-        String name = dialog.getFormElementNameForLabel(formElementLabel);
+        String name = getDialog().getFormElementNameForLabel(formElementLabel);
         Assert.assertNotNull("Did not find form element with label [" + formElementLabel + "].", name);
-        dialog.setFormParameter(name, value);
+        getDialog().setFormParameter(name, value);
     }
 
     /**
@@ -813,12 +923,12 @@ public class WebTester {
      */
     public void checkCheckbox(String checkBoxName) {
         assertFormElementPresent(checkBoxName);
-        dialog.setFormParameter(checkBoxName, "on");
+        getDialog().setFormParameter(checkBoxName, "on");
     }
 
     public void checkCheckbox(String checkBoxName, String value) {
         assertFormElementPresent(checkBoxName);
-        dialog.updateFormParameter(checkBoxName, value);
+        getDialog().updateFormParameter(checkBoxName, value);
     }
 
     /**
@@ -828,12 +938,12 @@ public class WebTester {
      */
     public void uncheckCheckbox(String checkBoxName) {
         assertFormElementPresent(checkBoxName);
-        dialog.removeFormParameter(checkBoxName);
+        getDialog().removeFormParameter(checkBoxName);
     }
 
     public void uncheckCheckbox(String checkBoxName, String value) {
         assertFormElementPresent(checkBoxName);
-        dialog.removeFormParameterWithValue(checkBoxName, value);
+        getDialog().removeFormParameterWithValue(checkBoxName, value);
     }
 
     /**
@@ -844,7 +954,7 @@ public class WebTester {
      */
     public void selectOption(String selectName, String option) {
         assertFormElementPresent(selectName);
-        dialog.selectOption(selectName, option);
+        getDialog().selectOption(selectName, option);
     }
 
     //Form submission and link navigation methods
@@ -855,7 +965,7 @@ public class WebTester {
      */
     public void submit() {
         assertFormPresent();
-        dialog.submit();
+        getDialog().submit();
     }
 
     /**
@@ -865,14 +975,14 @@ public class WebTester {
      */
     public void submit(String buttonName) {
         assertSubmitButtonPresent(buttonName);
-        dialog.submit(buttonName);
+        getDialog().submit(buttonName);
     }
 
     /**
      * Reset the current form.
      */
     public void reset() {
-        dialog.reset();
+        getDialog().reset();
     }
 
     /**
@@ -882,7 +992,7 @@ public class WebTester {
      */
     public void clickLinkWithText(String linkText) {
         assertLinkPresentWithText(linkText);
-        dialog.clickLinkWithText(linkText);
+        getDialog().clickLinkWithText(linkText);
     }
 
     /**
@@ -894,15 +1004,43 @@ public class WebTester {
      */
     public void clickLinkWithText(String linkText, int index) {
         assertLinkPresentWithText(linkText, index);
-        dialog.clickLinkWithText(linkText, index);
+        getDialog().clickLinkWithText(linkText, index);
     }
 
+    
+    /**
+     * Navigate by selection of a link with the exact given text.
+     * 
+     * SF.NET RFE: 996031
+     *
+     * @param linkText
+     */
+    public void clickLinkWithExactText(String linkText) {
+        assertLinkPresentWithExactText(linkText);
+        getDialog().clickLinkWithExactText(linkText);
+    }
+
+    /**
+     * Navigate by selection of a link with the exact given text.
+     *
+     * SF.NET RFE: 996031
+     * @param linkText
+     * @param index The 0-based index, when more than one link with the same
+     *              text is expected.
+     */
+    public void clickLinkWithExactText(String linkText, int index) {
+        assertLinkPresentWithExactText(linkText, index);
+        getDialog().clickLinkWithExactText(linkText, index);
+    }
+
+    
+    
     /**
      * Search for labelText in the document, then search forward until
      * finding a link called linkText.  Click it.
      */
     public void clickLinkWithTextAfterText(String linkText, String labelText) {
-        dialog.clickLinkWithTextAfterText(linkText, labelText);
+        getDialog().clickLinkWithTextAfterText(linkText, labelText);
     }
 
     /**
@@ -912,7 +1050,7 @@ public class WebTester {
      */
     public void clickButton(String buttonId) {
         assertButtonPresent(buttonId);
-        dialog.clickButton(buttonId);
+        getDialog().clickButton(buttonId);
     }
 
     /**
@@ -924,7 +1062,7 @@ public class WebTester {
      */
     public void clickLinkWithImage(String imageFileName) {
         assertLinkPresentWithImage(imageFileName);
-        dialog.clickLinkWithImage(imageFileName);
+        getDialog().clickLinkWithImage(imageFileName);
     }
 
 
@@ -935,7 +1073,20 @@ public class WebTester {
      */
     public void clickLink(String linkId) {
         assertLinkPresent(linkId);
-        dialog.clickLink(linkId);
+        getDialog().clickLink(linkId);
+    }
+    
+    /**
+     * Clicks a radio option.  Asserts that the radio option exists first.	 
+     * 
+     * * @param radioGroup
+	 *			name of the radio group.
+	 * @param radioOption
+	 * 			value of the option to check for.
+     */
+    public void clickRadioOption(String radioGroup, String radioOption) {
+        assertRadioOptionPresent(radioGroup, radioOption);
+        getDialog().clickRadioOption(radioGroup, radioOption);
     }
 
 //Window and Frame Navigation Methods
@@ -947,14 +1098,14 @@ public class WebTester {
      */
     public void gotoWindow(String windowName) {
         assertWindowPresent(windowName);
-        dialog.gotoWindow(windowName);
+        getDialog().gotoWindow(windowName);
     }
 
     /**
      * Make the root window active.
      */
     public void gotoRootWindow() {
-        dialog.gotoRootWindow();
+        getDialog().gotoRootWindow();
     }
 
     /**
@@ -963,14 +1114,14 @@ public class WebTester {
      * @param frameName
      */
     public void gotoFrame(String frameName) {
-        dialog.gotoFrame(frameName);
+        getDialog().gotoFrame(frameName);
     }
 
     /**
      *  Patch sumbitted by Alex Chaffee.
      */
     public void gotoPage(String url) {
-        dialog.gotoPage(createUrl(url));
+        getDialog().gotoPage(createUrl(url));
     }
 
 //Debug methods
@@ -982,7 +1133,7 @@ public class WebTester {
      * @param stream
      */
     public void dumpResponse() {
-    	dialog.dumpResponse();
+    	getDialog().dumpResponse();
     }
     
     /**
@@ -991,7 +1142,7 @@ public class WebTester {
      * @param stream
      */
     public void dumpResponse(PrintStream stream) {
-    	dialog.dumpResponse(stream);
+    	getDialog().dumpResponse(stream);
     }
 
     /**
@@ -1001,7 +1152,7 @@ public class WebTester {
      * @param stream
      */
     public void dumpTable(String tableNameOrId, PrintStream stream) {
-    	dialog.dumpTable(tableNameOrId, stream);
+    	getDialog().dumpTable(tableNameOrId, stream);
     }
 
     /**
@@ -1011,7 +1162,7 @@ public class WebTester {
      * @param table
      */
     public void dumpTable(String tableNameOrId, String[][] table) {
-    	dialog.dumpTable(tableNameOrId, table);
+    	getDialog().dumpTable(tableNameOrId, table);
     }
 
     /**
@@ -1022,7 +1173,7 @@ public class WebTester {
      * @param stream
      */
     public void dumpTable(String tableNameOrId, String[][] table, PrintStream stream) {
-    	dialog.dumpTable(tableNameOrId, table, stream);
+    	getDialog().dumpTable(tableNameOrId, table, stream);
     }
 
 }
