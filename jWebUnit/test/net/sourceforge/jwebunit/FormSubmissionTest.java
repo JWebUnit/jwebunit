@@ -94,6 +94,9 @@ public class FormSubmissionTest extends JWebUnitTest {
         gotoMultiButtonPage();
         submit("color");
         assertTextPresent("Parms are: color=red");
+        gotoMultiButtonPage();
+        submit("color", "blue");
+        assertTextPresent("Parms are: color=blue");
     }
 
     public void testBogusParameter() {
@@ -261,6 +264,7 @@ public class FormSubmissionTest extends JWebUnitTest {
                 "<form method=GET action=\"TargetPage\">" +
                 "<input name=\"button1\" value=\"b1\" type=submit>" +
                 "<input name=\"color\" value=\"red\" type=submit>" +
+                "<input name=\"color\" value=\"blue\" type=submit>" +
                 "</form></body></html>");
     }
 

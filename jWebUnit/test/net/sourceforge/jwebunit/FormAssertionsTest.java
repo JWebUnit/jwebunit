@@ -87,7 +87,7 @@ public class FormAssertionsTest extends JWebUnitTest {
     }
 
     public void testAssertSubmitButtonValue() throws Throwable {
-        assertPassFail("assertSubmitButtonValue",
+        assertPassFail("assertSubmitButtonPresent",
                 new Object[]{"submitButton", "buttonLabel"},
                 new Object[]{"submitButton", "noSuchLabel"});
     }

@@ -701,13 +701,12 @@ public class WebTester {
      * Assert that a submit button with a given name and value is present.
      * 
      * @param buttonName
-     * @param expectedValue
+     * @param buttonValue
      */
-    public void assertSubmitButtonValue(String buttonName, String expectedValue) {
+    public void assertSubmitButtonPresent(String buttonName, String buttonValue) {
         assertFormPresent();
-        assertSubmitButtonPresent(buttonName);
-        Assert.assertEquals(expectedValue, dialog
-                .getSubmitButtonValue(buttonName));
+        Assert.assertTrue("Submit Button [" + buttonName + "] with value [" + buttonValue + "] not found.", 
+                		  dialog.hasSubmitButton(buttonName, buttonValue));
     }
 
     /**
@@ -1062,6 +1061,19 @@ public class WebTester {
     public void submit(String buttonName) {
         assertSubmitButtonPresent(buttonName);
         dialog.submit(buttonName);
+    }
+    
+    /**
+     * Submit the form by pressing the named button with the given value (label).
+     * Useful if you have more than one submit button with same name.
+     * 
+     * @author Dragos Manolescu
+     * @param buttonName
+     * @param buttonValue
+     */
+    public void submit(String buttonName, String buttonValue) {
+        assertSubmitButtonPresent(buttonName, buttonValue);
+        dialog.submit(buttonName, buttonValue);
     }
 
     /**

@@ -235,8 +235,8 @@ public class WebTestCase extends TestCase {
         tester.assertSubmitButtonNotPresent(buttonName);
     }
 
-    public void assertSubmitButtonValue(String buttonName, String expectedValue) {
-        tester.assertSubmitButtonValue(buttonName, expectedValue);
+    public void assertSubmitButtonPresent(String buttonName, String expectedValue) {
+        tester.assertSubmitButtonPresent(buttonName, expectedValue);
     }
 
     public void assertButtonPresent(String buttonID) {
@@ -376,6 +376,10 @@ public class WebTestCase extends TestCase {
 
     public void submit(String buttonName) {
         tester.submit(buttonName);
+    }
+    
+    public void submit(String buttonName, String buttonValue) {
+        tester.submit(buttonName, buttonValue);
     }
 
     public void reset() {

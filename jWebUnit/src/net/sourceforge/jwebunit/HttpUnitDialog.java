@@ -451,10 +451,29 @@ public class HttpUnitDialog {
     public String getSubmitButtonValue(String buttonName) {
         return getSubmitButton(buttonName).getValue().trim();
     }
+    
+    /**
+     * Return the HttpUnit SubmitButton with a given name and value.
+     * @param buttonName
+     * @pararm buttonValue
+     */
+    public SubmitButton getSubmitButton(String buttonName, String buttonValue) {
+        checkFormStateWithButton(buttonName);
+        return getForm().getSubmitButton(buttonName, buttonValue);
+    }
 
     public boolean hasSubmitButton(String buttonName) {
         try {
             return getSubmitButton(buttonName) != null;
+        } catch (UnableToSetFormException e) {
+            return false;
+        }
+
+    }
+
+    public boolean hasSubmitButton(String buttonName, String buttonValue) {
+        try {
+            return getSubmitButton(buttonName, buttonValue) != null;
         } catch (UnableToSetFormException e) {
             return false;
         }
@@ -647,6 +666,26 @@ public class HttpUnitDialog {
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
+    }
+
+    /**
+     * Submit the current form with the specifed submit button (by name and value). See
+     * {@link #getForm}for an explanation of how the current form is
+     * established.
+     * 
+     * @author Dragos Manolescu
+     * @param buttonName
+     *            name of the button to use for submission.
+     * @param buttonValue
+     * 			  value/label of the button to use for submission
+     */
+    public void submit(String buttonName, String buttonValue) {
+        try {
+            getForm().getSubmitButton(buttonName, buttonValue).click();
+            resp = wc.getCurrentPage();
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }        
     }
 
     /**
