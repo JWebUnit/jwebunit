@@ -44,8 +44,10 @@ import java.io.PrintStream;
 
 /**
  * Superclass for Junit TestCases to test deployed web applications.
- * This class provides a simple API for basic web application navigation and assertions by wrappering HttpUnit.
- * It supports use of a property file for web resources (ala Struts), though a resource file for the app is not required.
+ * This class uses WebTester as a mixin. This class provides a simple
+ * API for basic web application navigation and assertions by wrappering HttpUnit.
+ * It supports use of a property file for web resources (ala Struts), though a
+ * resource file for the app is not required.
  *
  *  @author Jim Weaver
  *  @author Wilkes Joiner
@@ -58,8 +60,8 @@ public class WebTestCase extends TestCase {
      *
      * @param name junit test name.
      * @param baseUrl root url of web application to be tested.
-     * @param resourceBundleName path name for property file containing web resources.  May
-     * be null.
+     * @param resourceBundleName path name for property file containing web
+     * resources.  May be null.
      */
     public WebTestCase(String name, String baseUrl, String resourceBundleName) {
         this(name, baseUrl, resourceBundleName, new TestContext());

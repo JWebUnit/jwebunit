@@ -47,9 +47,10 @@ import java.util.ResourceBundle;
 import java.util.Locale;
 
 /**
- * Superclass for Junit TestCases to test deployed web applications.
- * This class provides a simple API for basic web application navigation and assertions by wrappering HttpUnit.
- * It supports use of a property file for web resources (ala Struts), though a resource file for the app is not required.
+ * This is a delegate to test deployed web applications using JUnit. This class
+ * provides a simple API for basic web application navigation and assertions
+ * by wrappering HttpUnit.  It supports use of a property file for web
+ * resources (ala Struts), though a resource file for the app is not required.
  *
  *  @author Jim Weaver
  *  @author Wilkes Joiner
@@ -77,6 +78,8 @@ public class WebTester {
         this(baseUrl, resourceBundleName);
         this.context = context;
     }
+
+
     /**
      * Change the base url used for testing.
      *
@@ -374,6 +377,10 @@ public class WebTester {
         Assert.assertTrue("No form present", dialog.hasForm());
     }
 
+    /**
+     * Assert that there is a form with the specified name present.
+     * @param formName
+     */
     public void assertHasForm(String formName) {
         Assert.assertTrue("No form present", dialog.hasForm(formName));
     }
@@ -389,12 +396,22 @@ public class WebTester {
         Assert.assertEquals(expectedValue, dialog.getFormParameterValue(formControlName));
     }
 
+    /**
+     * Assert that a specific checkbox is selected.
+     *
+     * @param checkBoxName
+     */
     public void assertCheckboxSelected(String checkBoxName) {
         assertHasForm();
         assertFormControlPresent(checkBoxName);
         Assert.assertEquals("on", dialog.getFormParameterValue(checkBoxName));
     }
 
+    /**
+     * Assert that a specific checkbox is not selected.
+     *
+     * @param checkBoxName
+     */
     public void assertCheckboxNotSelected(String checkBoxName) {
         assertHasForm();
         assertFormControlPresent(checkBoxName);
@@ -468,14 +485,22 @@ public class WebTester {
         dialog.submit(buttonName);
     }
 
+    /**
+     * Submit form with the specified name.
+     * @param formName
+     */
     public void submitForm(String formName) {
-        //TODO : Need assertHasForm(formName)
-        assertHasForm();
+        assertHasForm(formName);
         dialog.submitForm(formName);
     }
 
+    /**
+     * Sumbit the form with the specified name by pressing named button.
+     * @param formName
+     * @param buttonName
+     */
     public void submitForm(String formName, String buttonName) {
-        assertHasForm();
+        assertHasForm(formName);
         dialog.submitForm(formName, buttonName);
     }
 
