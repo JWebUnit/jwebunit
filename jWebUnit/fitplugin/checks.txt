@@ -1,0 +1,45 @@
+| check | title equals | string |
+| check | title equals key | string |
+| check | key present | string |
+| check | text present | string |
+| check | key not present | string |
+| check | text not present | string |
+| check | table present | string |
+| check | table not present | string |
+| check | key in table | string |  string |
+| check | text in table | string | [ l string |
+| check | text in table | string |  string |
+| check | keys in table | string | [ l string |
+| check | key not in table | string |  string |
+| check | text not in table | string | [ l string |
+| check | text not in table | string |  string |
+| check | table equals | string | [[ l string |
+| check | table equals | string |  expected table |
+| check | table rows equal | string | int | [[ l string |
+| check | table rows equal | string | int |  expected table |
+| check | form element present | string |
+| check | form element not present | string |
+| check | has form | string |
+| check | has form | |
+| check | form element equals | string |  string |
+| check | checkbox selected | string |
+| check | checkbox not selected | string |
+| check | radio option present | string |  string |
+| check | radio option not present | string |  string |
+| check | radio option selected | string |  string |
+| check | radio option not selected | string |  string |
+| check | options equal | string | [ l string |
+| check | options not equal | string | [ l string |
+| check | option values equal | string | [ l string |
+| check | option values not equal | string | [ l string |
+| check | option equals | string |  string |
+| check | submit button present | string |
+| check | submit button not present | string |
+| check | submit button value | string |  string |
+| check | link present | string |
+| check | link not present | string |
+| check | link present with text | string |
+| check | link not present with text | string |
+| check | element present | string |
+| check | element not present | string |
+| check | text in element | string |  string |
