@@ -51,54 +51,58 @@ first column is pure HttpUnit / JUnit, while the second column uses the jWebUnit
 <tr class="blueText"><td>JUnit/HttpUnit Test</td><td>jWebUnit Test</td></tr>
 <tr>
 <td valign="top" class="smallCode" NOWRAP>
-package net.sourceforge.jwebunit.sample;<br>
-<br>
-import junit.framework.TestCase;<br>
-import com.meterware.httpunit.WebResponse;<br>
-import com.meterware.httpunit.WebConversation;<br>
-import com.meterware.httpunit.WebForm;<br>
-import com.meterware.httpunit.WebRequest;<br>
-<br>
-public class SearchExample extends TestCase {<br>
-<br>
-    &nbsp;&nbsp;&nbsp;public void testSearch() throws Exception {<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebConversation wc = new WebConversation();<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebResponse resp = wc.getResponse( "http://www.google.com");<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebForm form = resp.getForms()[0];<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;form.setParameter("q", "HttpUnit");<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebRequest req = form.getRequest("btnG");<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resp = wc.getResponse(req);<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assertNotNull(resp.getLinkWith("HttpUnit"));<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resp = resp.getLinkWith("HttpUnit").click();<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assertEquals(resp.getTitle(), "HttpUnit");<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assertNotNull(resp.getLinkWith("User's Manual"));<br>
-    &nbsp;&nbsp;&nbsp;}<br>
-}<br>
+<pre class="smallCode">
+package net.sourceforge.jwebunit.sample;
+
+import junit.framework.TestCase;
+import com.meterware.httpunit.WebResponse;
+import com.meterware.httpunit.WebConversation;
+import com.meterware.httpunit.WebForm;
+import com.meterware.httpunit.WebRequest;
+
+public class SearchExample extends TestCase {
+
+   public void testSearch() throws Exception {
+      WebConversation wc = new WebConversation();
+      WebResponse resp = wc.getResponse( "http://www.google.com");
+      WebForm form = resp.getForms()[0];
+      form.setParameter("q", "HttpUnit");
+      WebRequest req = form.getRequest("btnG");
+      resp = wc.getResponse(req);
+      assertNotNull(resp.getLinkWith("HttpUnit"));
+      resp = resp.getLinkWith("HttpUnit").click();
+      assertEquals(resp.getTitle(), "HttpUnit");
+      assertNotNull(resp.getLinkWith("User's Manual"));
+   }
+}
+</pre>
 </td>
 <td valign="top" class="smallCode" NOWRAP>
-package net.sourceforge.jwebunit.sample;<br>
-<br>
-import net.sourceforge.jwebunit.WebTestCase;<br>
-<br>
-public class JWebUnitSearchExample extends WebTestCase {<br>
-<br>
-    &nbsp;&nbsp;&nbsp;public JWebUnitSearchExample(String name) {<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super(name);<br>
-    &nbsp;&nbsp;&nbsp;}<br>
-<br>
-    &nbsp;&nbsp;&nbsp;public void setUp() {<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getTestContext().setBaseUrl("http://www.google.com");<br>
-    &nbsp;&nbsp;&nbsp;}<br>
-<br>
-    &nbsp;&nbsp;&nbsp;public void testSearch() {<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beginAt("/");<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setFormElement("q", "httpunit");<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;submit("btnG");<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clickLinkWithText("HttpUnit");<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assertTitleEquals("HttpUnit");<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assertLinkPresentWithText("User's Manual");<br>
-    &nbsp;&nbsp;&nbsp;}<br>
-}<br>
+<pre class="smallCode">
+package net.sourceforge.jwebunit.sample;
+
+import net.sourceforge.jwebunit.WebTestCase;
+
+public class JWebUnitSearchExample extends WebTestCase {
+
+   public JWebUnitSearchExample(String name) {
+      super(name);
+   }
+
+   public void setUp() {
+      getTestContext().setBaseUrl("http://www.google.com");
+   }
+
+   public void testSearch() {
+      beginAt("/");
+      setFormElement("q", "httpunit");
+      submit("btnG");
+      clickLinkWithText("HttpUnit");
+      assertTitleEquals("HttpUnit");
+      assertLinkPresentWithText("User's Manual");
+   }
+}
+</pre>
 </td>
 </tr>
 </table>
