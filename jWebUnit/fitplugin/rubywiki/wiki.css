@@ -1,0 +1,75 @@
+a:hover {
+	background-color: #efefef;
+}
+
+table {
+    font-family: verdana, arial, helvetica, Sans-Serif;
+}
+
+td {
+    padding: 3px;
+    font-family: verdana, arial, helvetica, Sans-Serif;
+}
+
+body {
+    background-repeat: no-repeat;
+    color: black;
+    margin-left: 5%;
+    margin-right: 20%;
+    font-family: verdana, arial, helvetica, Sans-Serif;
+}
+
+h1 {
+    font-family: verdana, arial, helvetica, Sans-Serif;
+    text-align: left;
+    margin-top: 5%;
+    margin-right: 10%;
+}
+
+h1 a:link {
+    font-family: verdana, arial, helvetica, Sans-Serif;
+    text-decoration: none;
+    color: #3333ff;
+}
+h1 a:visited {
+    font-family: verdana, arial, helvetica, Sans-Serif;
+    text-decoration: none;
+    color: #3333ff;
+}
+
+dt {
+    font-weight: bold;
+    margin-top: 2ex;
+    margin-left: 1em;
+}
+
+address {
+    color: gray;
+    background: #EEEEEE;
+    text-align: right;
+    font-family: Times, serif;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+}
+
+pre {
+    white-space: pre;
+    background-color: lightgrey;
+    color: black;
+    width: 100%;
+    padding: 5px;
+    border: solid black 1px;
+}
+
+table.wiki {
+    border: solid grey 2px;
+}
+
+tr.wiki {} /* for */
+
+td.wiki {
+    font-family: Times, serif;
+    font-size: 105%;
+    border: solid grey 1px;
+}

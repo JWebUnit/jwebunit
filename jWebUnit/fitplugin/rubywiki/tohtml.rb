@@ -20,3 +20,4 @@ page = 'TestCheckbox'
 lines = IO.readlines("pages/#{page}").join
 parser = MyParser.new(page)
 puts parser.parse(lines)
+

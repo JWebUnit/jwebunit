@@ -306,7 +306,7 @@ module Riki
         def emitCode(code, depth)
             tags = ''
             startTag =  if code =~ /table/
-                            %Q[table border="1" cellspacing="2" cellpadding="2"]
+                            %Q[table class="wiki"]
                         else
                             code.dup
                         end
@@ -338,11 +338,11 @@ module Riki
                     cellspans.last[1] += 1 unless cellspans.empty?
                 end
             end
-            row = '<tr>'
+            row = '<tr class="wiki">'
             cellspans.each do |cell|
                 content = cell[0]
                 span = cell[1]
-                td = (span > 1) ? %Q[<td colspan="#{span}">] : %Q[<td>]
+                td = (span > 1) ? %Q[<td  class="wiki" colspan="#{span}">] : %Q[<td class="wiki">]
                 td += content + "</td>"
                 row += td
             end

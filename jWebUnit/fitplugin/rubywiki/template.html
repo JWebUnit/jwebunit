@@ -2,15 +2,30 @@
 <html>
 <head>
   <title>Wiki: $title</title>
+  <link REL="stylesheet" HREF="wiki.css">
 </head>
 <body bgcolor="#FFFFFF">
 <table width="600" cellpadding="2" cellspacing="2">
-<tr><td><img src="logo.gif" alt="wiki logo" align="center" valign="center"></td><td><h1><a href=wiki.rb?mode=search&search=$page>$title</a></h1></td><tr>
-<tr><td></td><td>$body</td><tr>
+<tr>
+    <td width="0%">
+        <img src="logo.gif" alt="wiki logo" align="center" valign="center">
+    </td>
+    <td width="99%">
+        <h1><a href="wiki.rb?mode=search&search=$page">$title</a></h1>
+    </td>
+<tr>
+<tr>
+    <td></td>
+    <td>$body</td>
+<tr>
 <tr>
     <td align="center">$action</td>
     <td>$summary<br>
-        <small><a href="http://www.wiki.org/"><em>WikiOrg</em></a> Return to <a href=wiki.rb?WelcomeVisitors>WelcomeVisitors</a></small>
+        <small>
+            <a href="http://www.wiki.org/"><em>WikiOrg</em></a>
+            Return to <a href=wiki.rb?WelcomeVisitors>WelcomeVisitors</a>
+        </small>
     </td></tr>
 </table>
-</body></html>
+</body>
+</html>

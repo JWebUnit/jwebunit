@@ -25,4 +25,4 @@ Test submit of named button where multiple buttons exist.
 |begin|enterMoria| |
 |enter|password|friend|
 |press|submit|RunAwayButton|
-|check|title|Moria Entry Failure|
+|check|title|Moria Entry Failure Blah|
