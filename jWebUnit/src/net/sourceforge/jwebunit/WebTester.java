@@ -57,37 +57,7 @@ import java.util.Locale;
  */
 public class WebTester {
     private HttpUnitDialog dialog;
-    private String baseUrl;
-    private String resourceBundleName;
-    private TestContext context;
-
-    /**
-     * Constructor to create a new web TestCase.
-     *
-     * @param baseUrl root url of web application to be tested.
-     * @param resourceBundleName path name for property file containing web resources.  May
-     * be null.
-     */
-    public WebTester(String baseUrl, String resourceBundleName) {
-        this.baseUrl = baseUrl;
-        this.resourceBundleName = resourceBundleName;
-        this.context = new TestContext();
-    }
-
-    public WebTester(String baseUrl, String resourceBundleName, TestContext context) {
-        this(baseUrl, resourceBundleName);
-        this.context = context;
-    }
-
-
-    /**
-     * Change the base url used for testing.
-     *
-     * @param baseUrl
-     */
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
+    private TestContext context = new TestContext();
 
     /**
      * Provides access to the httpunit wrapper for subclasses - in case functionality not
@@ -113,8 +83,8 @@ public class WebTester {
      *
      * @param relativeURL
      */
-    public void beginAt(String relativeURL) {
-        dialog = new HttpUnitDialog(baseUrl + relativeURL, context);
+    public void gotoURL(String relativeURL) {
+        dialog = new HttpUnitDialog(getTestContext().getBaseUrl() + relativeURL, context);
     }
 
     /**
@@ -128,7 +98,7 @@ public class WebTester {
         String message = "";
         Locale locale = context.getLocale();
         try {
-            message = ResourceBundle.getBundle(resourceBundleName, locale).getString(key);
+            message = ResourceBundle.getBundle(getTestContext().getResourceBundleName(), locale).getString(key);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("No message found for key [" + key + "]." +

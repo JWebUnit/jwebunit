@@ -59,26 +59,11 @@ public class WebTestCase extends TestCase {
      * Constructor to create a new web TestCase.
      *
      * @param name junit test name.
-     * @param baseUrl root url of web application to be tested.
-     * @param resourceBundleName path name for property file containing web
      * resources.  May be null.
      */
-    public WebTestCase(String name, String baseUrl, String resourceBundleName) {
-        this(name, baseUrl, resourceBundleName, new TestContext());
-    }
-
-    public WebTestCase(String name, String baseUrl, String resourceBundleName, TestContext context) {
+    public WebTestCase(String name) {
         super(name);
-        tester = new WebTester(baseUrl, resourceBundleName, context);
-    }
-
-    /**
-     * Change the base url used for testing.
-     *
-     * @param baseUrl
-     */
-    public void setBaseUrl(String baseUrl) {
-        tester.setBaseUrl(baseUrl);
+        tester = new WebTester();
     }
 
     /**
@@ -105,8 +90,8 @@ public class WebTestCase extends TestCase {
      *
      * @param relativeURL
      */
-    public void beginAt(String relativeURL) {
-        tester.beginAt(relativeURL);
+    public void gotoURL(String relativeURL) {
+        tester.gotoURL(relativeURL);
     }
 
     /**

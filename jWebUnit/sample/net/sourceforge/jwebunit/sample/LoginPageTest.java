@@ -10,6 +10,7 @@ import com.meterware.httpunit.PseudoServer;
 import com.meterware.httpunit.PseudoServlet;
 import com.meterware.httpunit.WebResource;
 import net.sourceforge.jwebunit.WebTestCase;
+import net.sourceforge.jwebunit.TestContext;
 
 
 public class LoginPageTest extends WebTestCase {
@@ -23,14 +24,15 @@ public class LoginPageTest extends WebTestCase {
 
 
     public LoginPageTest(String name) {
-        super(name, "http://localhost:80", null);
+        super(name);
+        getTestContext().setBaseUrl("http://localhost:80");
     }
 
     public void setUp() throws Exception {
         server = new PseudoServer();
         HttpUnitOptions.reset();
         hostPath = "http://localhost:" + server.getConnectedPort();
-        setBaseUrl(hostPath);
+        getTestContext().setBaseUrl(hostPath);
         defineResouces();
     }
 
@@ -39,7 +41,7 @@ public class LoginPageTest extends WebTestCase {
     }
 
     public void testInitialState() {
-        beginAt("/");
+        gotoURL("/");
         assertFormControlPresent("username");
         assertFormControlPresent("password");
         assertSubmitButtonPresent("login");
@@ -63,7 +65,7 @@ public class LoginPageTest extends WebTestCase {
     }
 
     private void loginAs(String user, String pass) {
-        beginAt("/");
+        gotoURL("/");
         setFormParameter("username", user);
         setFormParameter("password", pass);
         submit("login");

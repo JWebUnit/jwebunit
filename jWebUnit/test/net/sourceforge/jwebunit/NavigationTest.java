@@ -22,7 +22,7 @@ public class NavigationTest extends JWebUnitTest {
     public void testBeginAt() {
         defineResource("/", "");
         try {
-            beginAt("/");
+            gotoURL("/");
         } catch (Throwable t) {
             t.printStackTrace();
             fail("Unexpected exception:" + ExceptionUtility.stackTraceToString(t));
@@ -32,7 +32,7 @@ public class NavigationTest extends JWebUnitTest {
     public void testInvalidBeginAt() {
         defineResource("/", "");
         try {
-            beginAt("/blah.html");
+            gotoURL("/blah.html");
         } catch (Throwable t) {
             return;
         }
@@ -48,7 +48,7 @@ public class NavigationTest extends JWebUnitTest {
     private void gotoLinkTestPage() {
         defineWebPage("pageWithLink", "<a href=\"/targetPage.html\" id=\"activeID\">an <b>active</b> link</A>\n");
         defineWebPage("targetPage", "");
-        beginAt("/pageWithLink.html");
+        gotoURL("/pageWithLink.html");
         assertTitleEquals("pageWithLink");
     }
 

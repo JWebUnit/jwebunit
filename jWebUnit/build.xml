@@ -69,4 +69,9 @@
         <delete dir="javadoc"/>
     </target>
 
+    <target name="clean-dist">
+        <antcall target="clean"/>
+        <antcall target="dist"/>
+        <antcall target="clean"/>
+    </target>
 </project>

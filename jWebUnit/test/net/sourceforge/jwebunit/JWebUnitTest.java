@@ -23,14 +23,14 @@ public class JWebUnitTest extends WebTestCase {
 
 
     public JWebUnitTest(String s) {
-        super(s, "http://localhost:80", null);
+        super(s);
     }
 
     public void setUp() throws Exception {
         server = new PseudoServer();
         HttpUnitOptions.reset();
         hostPath = "http://localhost:" + server.getConnectedPort();
-        setBaseUrl(hostPath);
+        getTestContext().setBaseUrl(hostPath);
     }
 
 

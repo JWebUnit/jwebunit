@@ -14,8 +14,10 @@ public class TestContext {
     private String passwd;
     private List cookies;
     private boolean hasAuth;
-    private Locale locale = Locale.US;
+    private Locale locale = Locale.getDefault();
     private String encodingScheme = "ISO-8859-1";
+    private String resourceBundleName;
+    private String baseUrl = "http://localhost:8080";
 
     public TestContext() {
         cookies = new ArrayList();
@@ -83,4 +85,19 @@ public class TestContext {
         }
     }
 
+    public void setResourceBundleName(String name) {
+        resourceBundleName = name;
+    }
+
+    public String getResourceBundleName() {
+        return resourceBundleName;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String url) {
+        baseUrl = url;
+    }
 }

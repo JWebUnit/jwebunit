@@ -36,6 +36,18 @@ public class TestContextTest extends TestCase {
         assertEquals(c.getName(), "key");
         assertEquals(c.getValue(), "val");
         assertEquals(Locale.CANADA_FRENCH, context.getLocale());
+        assertEquals("http://localhost:8080", context.getBaseUrl());
+        assertNull(context.getResourceBundleName());
+    }
+
+    public void testResourceBundle() {
+        String name = "net.sourceforge.jwebunit.TestContextBundle";
+        context.setResourceBundleName("net.sourceforge.jwebunit.TestContextBundle");
+        assertEquals(name, context.getResourceBundleName());
+    }
+
+    public void testBaseUrl() {
+
     }
 
 }
