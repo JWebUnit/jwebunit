@@ -42,7 +42,7 @@
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
   <Call name="addWebApplication">
     <Arg>/jwebunit</Arg>
-    <Arg>test/</Arg>
+    <Arg>testcases/</Arg>
   </Call>
 
   <!-- =============================================================== -->
