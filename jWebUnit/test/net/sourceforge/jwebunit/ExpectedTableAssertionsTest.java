@@ -1,7 +1,5 @@
 package net.sourceforge.jwebunit;
 
-import net.sourceforge.jwebunit.*;
-
 /**
  * Test table equals assertions using expected tables.
  */
