@@ -88,7 +88,11 @@ public class JavaScriptEventsTest  extends JWebUnitTest {
                                     "<body><a href=\"foo1.html\">foo1</a><a href=\"foo1.html\">foo2</a></body></html> ");
         HttpUnitOptions.setScriptingEnabled(false);
         beginAt("test.html");
+        System.out.println("------ Response after beginAt ------");
+        dumpResponse(System.out);
         assertLinkPresentWithText("foo1");
+		System.out.println("------ Response after first assertLink ------");
+        dumpResponse(System.out);
         assertLinkPresentWithText("foo2");
     }
 
