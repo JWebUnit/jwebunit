@@ -56,6 +56,7 @@ public class HttpUnitDialog {
             public void responseReceived(WebClient webClient, WebResponse webResponse) {
                 resp = webClient.getCurrentPage();
                 form = null;
+                multiselectMap.clear();
             }
         });
     }
@@ -65,16 +66,6 @@ public class HttpUnitDialog {
      */
     public WebClient getWebClient() {
         return wc;
-    }
-
-    /**
-     * Return the HttpUnit WebClient object for this dialog, if
-     * it happens to be a WebConversation.  Suggest using getWebClient
-     * instead.
-     * @throws ClassCastException if it is not a WebConversation
-     */
-    public WebConversation getWebConversation() {
-        return (WebConversation) wc;
     }
 
     /**
@@ -481,7 +472,6 @@ public class HttpUnitDialog {
     public void submit() {
         try {
             resp = getForm().submit();
-            multiselectMap.clear();
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -497,7 +487,6 @@ public class HttpUnitDialog {
         try {
             getForm().getSubmitButton(buttonName).click();
             resp = wc.getCurrentPage();
-            multiselectMap.clear();
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -515,7 +504,6 @@ public class HttpUnitDialog {
         try {
             aLink.click();
             resp = wc.getCurrentPage();
-            multiselectMap.clear();
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -590,7 +578,6 @@ public class HttpUnitDialog {
         WebLink link = null;
         try {
             link = resp.getLinkWith(linkText);
-
         } catch (SAXException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -909,6 +896,17 @@ public class HttpUnitDialog {
      */
     public WebResponse getFrame(String frameName) {
         return wc.getMainWindow().getFrameContents(frameName);
+    }
+
+    /**
+     *  Patch sumbitted by Alex Chaffee.
+     */
+    public void gotoPage(String url) {
+        try {
+            resp = wc.getResponse(url);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
     }
 
 }

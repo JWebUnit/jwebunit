@@ -52,7 +52,6 @@ public class ServletUnitTest extends JWebUnitTest {
         HttpUnitDialog dialog = new HttpUnitDialog(url, whichContext);
 
         assertTrue(dialog.getWebClient() instanceof WebConversation);
-        assertSame(dialog.getWebClient(), dialog.getWebConversation());
     }
 
     public void testServletUnit() throws Exception {
@@ -62,11 +61,6 @@ public class ServletUnitTest extends JWebUnitTest {
         assertTitleEquals("myServlet");
 
         assertTrue(getDialog().getWebClient() instanceof ServletUnitClient);
-        try {
-            getDialog().getWebConversation();
-            fail();
-        } catch (ClassCastException expected) {
-        }        
     }
 
     public static class MyServlet extends HttpServlet {

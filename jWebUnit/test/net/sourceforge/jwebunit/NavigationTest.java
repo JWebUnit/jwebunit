@@ -114,4 +114,12 @@ public class NavigationTest extends JWebUnitTest {
         fail("Expected exception");
     }
 
+    public void testGotoPage() {
+        defineWebPage("page1", "page1");
+        defineWebPage("page2", "page2");
+        beginAt("/page1.html");
+        assertTitleEquals("page1");
+        gotoPage("page2.html");
+        assertTitleEquals("page2");
+    }
 }

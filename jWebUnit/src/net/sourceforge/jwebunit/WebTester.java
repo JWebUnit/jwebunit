@@ -929,6 +929,13 @@ public class WebTester {
         dialog.gotoFrame(frameName);
     }
 
+    /**
+     *  Patch sumbitted by Alex Chaffee.
+     */
+    public void gotoPage(String url) {
+        dialog.gotoPage(createUrl(url));
+    }
+
 //Debug methods
 
     /**

@@ -357,6 +357,14 @@ public class WebTestCase extends TestCase {
     public void gotoFrame(String frameName) {
         tester.gotoFrame(frameName);
     }
+
+    /**
+     *  Patch sumbitted by Alex Chaffee.
+     */ 
+    public void gotoPage(String page) {
+        tester.gotoPage(page);
+    }
+
 // Debug methods
 
     protected void dumpResponse(PrintStream stream) {
