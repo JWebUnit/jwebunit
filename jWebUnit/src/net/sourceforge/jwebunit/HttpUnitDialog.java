@@ -23,8 +23,7 @@ import org.xml.sax.SAXException;
 
 import javax.servlet.http.Cookie;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Acts as the wrapper for HttpUnit access.  A dialog is initialized with a
@@ -39,6 +38,7 @@ public class HttpUnitDialog {
     private WebResponse resp;
     private TestContext context;
     private WebForm form;
+    private Map multiselectMap = new HashMap();
 
     /**
      * Begin a dialog with an initial URL and test client context.
@@ -277,6 +277,14 @@ public class HttpUnitDialog {
         getForm().setParameter(paramName, paramValue);
     }
 
+    public void updateFormParameter(String paramName, String paramValue) {
+        checkFormStateWithParameter(paramName);
+        if(!multiselectMap.containsKey(paramName)) multiselectMap.put(paramName, new ArrayList());
+        List values = (List)multiselectMap.get(paramName);
+        if(!values.contains(paramValue)) values.add(paramValue);
+        getForm().setParameter(paramName, (String[])values.toArray(new String[0]));
+    }
+
     /**
      * Return the current value of a form input element.
      *
@@ -296,6 +304,15 @@ public class HttpUnitDialog {
     public void removeFormParameter(String paramName) {
         checkFormStateWithParameter(paramName);
         getForm().removeParameter(paramName);
+    }
+
+    public void removeFormParameterWithValue(String paramName, String value) {
+        checkFormStateWithParameter(paramName);
+        if(multiselectMap.containsKey(paramName)) {
+            List values = (List)multiselectMap.get(paramName);
+            values.remove(value);
+            getForm().setParameter(paramName, (String[])values.toArray(new String[0]));
+        }
     }
 
     /**
@@ -457,6 +474,7 @@ public class HttpUnitDialog {
     public void submit() {
         try {
             resp = getForm().submit();
+            multiselectMap.clear();
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -472,6 +490,7 @@ public class HttpUnitDialog {
         try {
             getForm().getSubmitButton(buttonName).click();
             resp = wc.getCurrentPage();
+            multiselectMap.clear();
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -489,6 +508,7 @@ public class HttpUnitDialog {
         try {
             aLink.click();
             resp = wc.getCurrentPage();
+            multiselectMap.clear();
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -549,6 +569,7 @@ public class HttpUnitDialog {
         WebLink link = null;
         try {
             link = resp.getLinkWith(linkText);
+
         } catch (SAXException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }

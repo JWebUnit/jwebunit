@@ -1,7 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2001, ThoughtWorks, Inc.
  * Distributed open-source, see full license under licenses/jwebunit_license.txt
-**********************************/
+ **********************************/
 package net.sourceforge.jwebunit;
 
 import com.meterware.httpunit.SubmitButton;
@@ -180,8 +180,8 @@ public class WebTester {
     public void assertTextInTable(String tableSummaryOrId, String text) {
         assertTablePresent(tableSummaryOrId);
         Assert.assertTrue("Could not find: [" + text + "]" +
-                          "in table [" + tableSummaryOrId + "]",
-                          dialog.isTextInTable(tableSummaryOrId, text));
+                "in table [" + tableSummaryOrId + "]",
+                dialog.isTextInTable(tableSummaryOrId, text));
     }
 
     /**
@@ -227,8 +227,8 @@ public class WebTester {
     public void assertTextNotInTable(String tableSummaryOrId, String text) {
         assertTablePresent(tableSummaryOrId);
         Assert.assertTrue("Found text: [" + text + "] in table [" +
-                          tableSummaryOrId + "]",
-                          !dialog.isTextInTable(tableSummaryOrId, text));
+                tableSummaryOrId + "]",
+                !dialog.isTextInTable(tableSummaryOrId, text));
     }
 
     /**
@@ -670,8 +670,8 @@ public class WebTester {
      */
     public void assertTextInElement(String elementID, String text) {
         Element element = dialog.getElement(elementID);
-        Assert.assertNotNull("Unable to locate element with id \"" + elementID + "\"",element);
-        Assert.assertTrue("Unable to locate ["+ text +"] in element \"" + elementID + "\"", dialog.isTextInElement(element, text));
+        Assert.assertNotNull("Unable to locate element with id \"" + elementID + "\"", element);
+        Assert.assertTrue("Unable to locate [" + text + "] in element \"" + elementID + "\"", dialog.isTextInElement(element, text));
     }
 
     /**
@@ -742,9 +742,13 @@ public class WebTester {
      * @param checkBoxName name of checkbox to be deselected.
      */
     public void checkCheckbox(String checkBoxName) {
-        assertFormPresent();
         assertFormElementPresent(checkBoxName);
         dialog.setFormParameter(checkBoxName, "on");
+    }
+
+    public void checkCheckbox(String checkBoxName, String value) {
+        assertFormElementPresent(checkBoxName);
+        dialog.updateFormParameter(checkBoxName, value);
     }
 
     /**
@@ -753,9 +757,13 @@ public class WebTester {
      * @param checkBoxName name of checkbox to be deselected.
      */
     public void uncheckCheckbox(String checkBoxName) {
-        assertFormPresent();
         assertFormElementPresent(checkBoxName);
         dialog.removeFormParameter(checkBoxName);
+    }
+
+    public void uncheckCheckbox(String checkBoxName, String value) {
+        assertFormElementPresent(checkBoxName);
+        dialog.removeFormParameterWithValue(checkBoxName, value);
     }
 
     /**

@@ -282,8 +282,16 @@ public class WebTestCase extends TestCase {
         tester.checkCheckbox(checkBoxName);
     }
 
+    protected void checkCheckbox(String checkBoxName, String value) {
+        tester.checkCheckbox(checkBoxName, value);
+    }
+
     protected void uncheckCheckbox(String checkBoxName) {
         tester.uncheckCheckbox(checkBoxName);
+    }
+
+    protected void uncheckCheckbox(String checkBoxName, String value) {
+        tester.uncheckCheckbox(checkBoxName, value);
     }
 
     public void selectOption(String selectName, String option) {
