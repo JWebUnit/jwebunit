@@ -65,7 +65,7 @@ def formatBody(lines)
     s.gsub!(/'{3}(.*?)'{3}/, '<strong>\1</strong>')
     s.gsub!(/'{2}(.*?)'{2}/, '<em>\1</em>')
 
-    s.gsub!(/\[Search\]/, '<form action="search.cgi">' +
+    s.gsub!(/\[Search\]/, '<form action="search.rb">' +
                           '<input type="text" name="search" size="40"><input type="submit" value="Search">'+
                           '</form>')
 
@@ -129,7 +129,7 @@ def asAnchor(title)
   if File.exists?("pages/#{title}")
     "<a href=wiki.rb?#{title}>#{title}<\/a>"
   else
-    "<a href=edit.cgi?#{title}>?<\/a>#{title}"
+    "<a href=edit.rb?#{title}>?<\/a>#{title}"
   end
 end
 
@@ -143,6 +143,8 @@ end
 ###############################################################################
 # Main                                                                        #
 ###############################################################################
+require 'cgi'
+
 print "Content-type: text/html\n\n"
 
 page = ENV['QUERY_STRING'] =~ /^(#{LINK})$/ ? $1 : "WelcomeVisitors"  # $& is the last match
@@ -158,7 +160,7 @@ if File.exist?("pages/#{page}")
   #  my %bla = split /$mark/, $_ ;
   #  $_ = $bla{text};  # convert hidden-field page to plain
   #}  # if-part same as in edit
-  date = File.ctime("pages/#{page}").strftime("%B %d, %Y")
+  date = File.mtime("pages/#{page}").strftime("%B %d, %Y")
 else
   body = <<-BODY
   "#{page}" does not yet exist. <BR>
@@ -169,7 +171,7 @@ end
 par['summary'] = " -- Last edited #{date}" if date
 par['body'] = formatBody(body)
 par['action'] = <<-BLAH
-<form method=post action="edit.cgi?#{page}">
+<form method=post action="edit.rb?#{page}">
 <input type=submit value=" Edit ">
 </form>
     BLAH

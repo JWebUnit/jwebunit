@@ -4,7 +4,7 @@ This is the top-level topic list.
 
 * WhosWho -- GuestBook -- (WikiSignature)
 
-
+AnoopRanganath
 
 Wiki related
 
@@ -12,7 +12,7 @@ Wiki related
 
 * WikiEdit -- StyleGuide -- WikiSandbox
 
-* http:changes.cgi -- see most recently edited
+* http:changes.rb -- see most recently edited
 
-* http:refcount.cgi -- count backlinks
+* http:refcount.rb -- count backlinks
 
