@@ -83,8 +83,14 @@ public class WebTester {
      *
      * @param relativeURL
      */
-    public void gotoURL(String relativeURL) {
-        dialog = new HttpUnitDialog(getTestContext().getBaseUrl() + relativeURL, context);
+    public void beginAt(String relativeURL) {
+        String url = createUrl(relativeURL);
+        dialog = new HttpUnitDialog(url, context);
+    }
+
+    private String createUrl(String suffix) {
+        suffix = suffix.startsWith("/") ? suffix.substring(1) : suffix;
+        return getTestContext().getBaseUrl() + suffix;
     }
 
     /**
@@ -102,7 +108,7 @@ public class WebTester {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("No message found for key [" + key + "]." +
-                                        "\nError: " + ExceptionUtility.stackTraceToString(e));
+                                       "\nError: " + ExceptionUtility.stackTraceToString(e));
         }
         return context.toEncodedString(message);
     }
@@ -293,21 +299,20 @@ public class WebTester {
         String[][] sparseTableCellValues = getSparseTable(tableSummary);
         if (expectedCellValues.length > (sparseTableCellValues.length - startRow))
             Assert.fail("Expected rows [" + expectedCellValues.length + "] larger than actual rows in range being compared" +
-                " [" + (sparseTableCellValues.length - startRow) + "].");
+                        " [" + (sparseTableCellValues.length - startRow) + "].");
         for (int i = 0; i < expectedCellValues.length; i++) {
             String[] row = expectedCellValues[i];
             for (int j = 0; j < row.length; j++) {
                 if (row.length != sparseTableCellValues[i].length)
                     Assert.fail("Unequal number of columns for row " + i + " of table " + tableSummary +
-                                 ". Expected [" + row.length + "] found [" + sparseTableCellValues[i].length + "].");
+                                ". Expected [" + row.length + "] found [" + sparseTableCellValues[i].length + "].");
                 String expectedString = row[j];
                 Assert.assertEquals("Expected " + tableSummary + " value at [" + i + "," + j + "] not found.",
-                             expectedString, context.toEncodedString(sparseTableCellValues[i + startRow][j].trim()));
+                                    expectedString, context.toEncodedString(sparseTableCellValues[i + startRow][j].trim()));
             }
         }
 
     }
-
 
     private String[][] getSparseTable(String tableSummary) {
         assertTablePresent(tableSummary);
@@ -325,7 +330,7 @@ public class WebTester {
     public void assertFormControlPresent(String formControlName) {
         assertHasForm();
         Assert.assertTrue("Did not find form control with name [" + formControlName + "].",
-                   dialog.hasFormParameterNamed(formControlName));
+                          dialog.hasFormParameterNamed(formControlName));
     }
 
     /**
@@ -336,7 +341,7 @@ public class WebTester {
     public void assertFormControlNotPresent(String formControlName) {
         assertHasForm();
         Assert.assertTrue("Found form control with name [" + formControlName + "] when not expected.",
-                   !dialog.hasFormParameterNamed(formControlName));
+                          !dialog.hasFormParameterNamed(formControlName));
     }
 
     /**
@@ -534,7 +539,6 @@ public class WebTester {
             }
         }
     }
-
 
     /**
      * Set the value of a form input element.

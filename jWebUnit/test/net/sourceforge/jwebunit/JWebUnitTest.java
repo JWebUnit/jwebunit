@@ -18,7 +18,7 @@ import junit.framework.AssertionFailedError;
  */
 public class JWebUnitTest extends WebTestCase {
 
-    private String hostPath;
+    protected String hostPath;
     private PseudoServer server;
 
     public JWebUnitTest(String s) {

@@ -41,7 +41,7 @@ public class LoginPageTest extends WebTestCase {
     }
 
     public void testInitialState() {
-        gotoURL("/");
+        beginAt("/");
         assertFormControlPresent("username");
         assertFormControlPresent("password");
         assertSubmitButtonPresent("login");
@@ -65,7 +65,7 @@ public class LoginPageTest extends WebTestCase {
     }
 
     private void loginAs(String user, String pass) {
-        gotoURL("/");
+        beginAt("/");
         setFormParameter("username", user);
         setFormParameter("password", pass);
         submit("login");

@@ -98,6 +98,6 @@ public class TestContext {
     }
 
     public void setBaseUrl(String url) {
-        baseUrl = url;
+        baseUrl = url.endsWith("/") ? url : url + "/";
     }
 }

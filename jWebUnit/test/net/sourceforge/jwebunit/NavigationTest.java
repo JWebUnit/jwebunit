@@ -20,19 +20,23 @@ public class NavigationTest extends JWebUnitTest {
     }
 
     public void testBeginAt() {
-        defineResource("/", "");
-        try {
-            gotoURL("/");
-        } catch (Throwable t) {
-            t.printStackTrace();
-            fail("Unexpected exception:" + ExceptionUtility.stackTraceToString(t));
-        }
+        defineResource("/blah.html", "");
+        beginAt("/blah.html");
     }
 
+    public void testForwardSlashConfusion() throws Exception {
+        defineWebPage("/app/blah", "here");
+        getTestContext().setBaseUrl(hostPath + "/app");
+        beginAt("/blah.html");
+        beginAt("blah.html");
+        getTestContext().setBaseUrl(hostPath + "/app/");
+        beginAt("/blah.html");
+        beginAt("blah.html");
+    }
     public void testInvalidBeginAt() {
         defineResource("/", "");
         try {
-            gotoURL("/blah.html");
+            beginAt("/blah.html");
         } catch (Throwable t) {
             return;
         }
@@ -48,7 +52,7 @@ public class NavigationTest extends JWebUnitTest {
     private void gotoLinkTestPage() {
         defineWebPage("pageWithLink", "<a href=\"/targetPage.html\" id=\"activeID\">an <b>active</b> link</A>\n");
         defineWebPage("targetPage", "");
-        gotoURL("/pageWithLink.html");
+        beginAt("/pageWithLink.html");
         assertTitleEquals("pageWithLink");
     }
 
