@@ -384,7 +384,7 @@ public class WebTester {
      * @param expectedValue
      */
     public void assertFormElementEquals(String formElementName, String expectedValue) {
-        assertFormPresent();
+        assertFormElementPresent(formElementName);
         Assert.assertEquals(expectedValue, dialog.getFormParameterValue(formElementName));
     }
 
@@ -394,7 +394,7 @@ public class WebTester {
      * @param formElementName
      */
     public void assertFormElementEmpty(String formElementName) {
-        assertFormPresent();
+        assertFormElementPresent(formElementName);
         Assert.assertEquals("", dialog.getFormParameterValue(formElementName));
     }
 
@@ -404,7 +404,6 @@ public class WebTester {
      * @param checkBoxName
      */
     public void assertCheckboxSelected(String checkBoxName) {
-        assertFormPresent();
         assertFormElementPresent(checkBoxName);
         Assert.assertEquals("on", dialog.getFormParameterValue(checkBoxName));
     }
@@ -415,7 +414,6 @@ public class WebTester {
      * @param checkBoxName
      */
     public void assertCheckboxNotSelected(String checkBoxName) {
-        assertFormPresent();
         assertFormElementPresent(checkBoxName);
         Assert.assertNull(dialog.getFormParameterValue(checkBoxName));
     }
@@ -427,6 +425,7 @@ public class WebTester {
      * @param radioOption option to test for.
      */
     public void assertRadioOptionPresent(String name, String radioOption) {
+        assertFormElementPresent(name);
         if (!dialog.hasRadioOption(name, radioOption))
             Assert.fail("Unable to find option " + radioOption + " in radio group " + name);
     }
@@ -438,6 +437,7 @@ public class WebTester {
      * @param radioOption option to test for.
      */
     public void assertRadioOptionNotPresent(String name, String radioOption) {
+        assertFormElementPresent(name);
         if (dialog.hasRadioOption(name, radioOption))
             Assert.fail("Found option " + radioOption + " in radio group " + name);
     }
@@ -449,6 +449,7 @@ public class WebTester {
      * @param radioOption option to test for selection.
      */
     public void assertRadioOptionSelected(String name, String radioOption) {
+        assertFormElementPresent(name);
         assertFormElementEquals(name, radioOption);
     }
 
@@ -459,6 +460,7 @@ public class WebTester {
      * @param radioOption option to test for selection.
      */
     public void assertRadioOptionNotSelected(String name, String radioOption) {
+        assertFormElementPresent(name);
         Assert.assertTrue("Radio option " + radioOption + " is not selected",
                 !radioOption.equals(dialog.getFormParameterValue(name)));
     }
@@ -709,6 +711,13 @@ public class WebTester {
         Element element = dialog.getElement(elementID);
         Assert.assertNotNull("Unable to locate element with id \"" + elementID + "\"", element);
         Assert.assertTrue("Unable to locate [" + text + "] in element \"" + elementID + "\"", dialog.isTextInElement(element, text));
+    }
+    
+    public void assertTextNotInElement(String elementID, String text) {
+        assertElementPresent(elementID);
+        Element element = dialog.getElement(elementID);
+        Assert.assertNotNull("Unable to locate element with id \"" + elementID + "\"", element);
+        Assert.assertFalse("Text [" + text +"] found in element [" + elementID + "] when not expected", dialog.isTextInElement(element, text));
     }
 
     /**

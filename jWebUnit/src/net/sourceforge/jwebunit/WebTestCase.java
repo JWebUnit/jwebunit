@@ -275,6 +275,10 @@ public class WebTestCase extends TestCase {
     public void assertTextInElement(String elID, String text) {
         tester.assertTextInElement(elID, text);
     }
+    
+    public void assertTextNotInElement(String elID, String text) {
+        tester.assertTextNotInElement(elID, text);
+    }
 
     public void assertWindowPresent(String windowName) {
         tester.assertWindowPresent(windowName);

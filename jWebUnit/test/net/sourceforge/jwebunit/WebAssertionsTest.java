@@ -80,6 +80,12 @@ public class WebAssertionsTest extends JWebUnitTest {
     public void testAssertElementNotPresent() throws Throwable {
         assertPassFail("assertElementNotPresent", "no_id", "span_id");
     }
+    
+    public void testAssertTextNotInElement() throws Throwable {
+        assertTextNotInElement("outer_id", "nosuchtext");
+        assertTextNotInElement("inner_id", "Outer");
+        assertFail("assertTextNotInElement", new Object[] {"outer_id", "Outer"});
+    }
 
     public void testAssertElementContainsText() throws Throwable {
         assertTextInElement("span_id", "Span");
