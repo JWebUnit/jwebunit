@@ -62,6 +62,7 @@ public class HttpUnitDialog {
     private WebResponse resp;
     private TestContext context;
     private Map formParameterMap = new HashMap();
+    private WebForm form;
 
     public HttpUnitDialog(String initialURL, TestContext context) {
         this.context = context;
@@ -109,6 +110,9 @@ public class HttpUnitDialog {
     }
 
     private WebForm getForm() {
+//        if(form == null)
+//            form = getForm(0);
+//        return form;
         return getForm(0);
     }
 
@@ -120,6 +124,7 @@ public class HttpUnitDialog {
         }
     }
 
+    // TODO: getFormWithId(String id)
     private WebForm getFormWithName(String formName) {
         try {
             return resp.getFormWithName(formName);
@@ -149,6 +154,12 @@ public class HttpUnitDialog {
         return getFormWithName(formName) != null;
     }
 
+    /**
+     * Returns true if any form has this element
+     * Todo: Should only be for the "working" form
+     * @param paramName
+     * @return
+     */
     public boolean hasFormParameterNamed(String paramName) {
         WebForm[] forms = getForms();
         for (int i = 0; i < forms.length; i++) {
@@ -158,6 +169,8 @@ public class HttpUnitDialog {
         return false;
     }
 
+    //ToDo: Use the "working" form.  If the working form is not
+    //TODO: set use the
     public void setFormParameter(String paramName, String paramValue) {
         formParameterMap.put(paramName, paramValue);
     }

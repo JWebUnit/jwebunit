@@ -56,7 +56,6 @@ public class FormSubmissionTest extends JWebUnitTest {
 
     public void testSingleFormMultipleButtonSubmission() {
         gotoMultiButtonPage();
-//        setButtonToSubmit("color");
         submit("color");
         assertTextInResponse("Parms are: color=red");
     }
