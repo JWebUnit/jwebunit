@@ -246,7 +246,7 @@ module Riki
             lines.gsub!(/</, '&lt;')
             lines.gsub!(/>/, '&gt;')
 
-            lines.split('\n').each do |s|
+            lines.split(/\r?\n/).each do |s|
                 urls   = []
                 urlNum = 0
 
@@ -360,9 +360,7 @@ module Riki
         def inPlaceUrl(origRef)
             ref = origRef.dup
             ref.sub!(/^(javascript.{30}).*/, "#{$1} ...")
-            if (ref =~ /\.(gif|jpeg|jpg|png)$/i)
-                return "<img src=\"#{ref}\">"
-            end
+            return "<img src=\"#{ref}\">" if (ref =~ /\.(gif|jpeg|jpg|png)$/i)
             return "<a href=\"#{origRef}\">#{ref}<\/a>"
         end
 
