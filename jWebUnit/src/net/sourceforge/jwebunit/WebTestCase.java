@@ -31,10 +31,15 @@ public class WebTestCase extends TestCase {
 
     /**
      * Initializes a new instance of the web tester class.
-     * Override if necessary to return subclass of WebTester.
+     * Override this method if you want to pass in a different testing engine (dialog).
      */
     public WebTester initializeWebTester() {
-        return new WebTester();
+    	IJWebUnitDialog theIJWebUnitDialog = null;
+    	
+    	//theIJWebUnitDialog = new HttpUnitDialog();
+    	//theIJWebUnitDialog = new JacobieDialog();
+    	
+        return new WebTester(theIJWebUnitDialog);
     }
 
     protected WebTester getTester() {
