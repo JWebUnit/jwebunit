@@ -603,6 +603,7 @@ public class HttpUnitDialog {
     public void clickButton(String buttonId) {
         try {
             getButton(buttonId).click();
+            resp = wc.getCurrentPage();
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
