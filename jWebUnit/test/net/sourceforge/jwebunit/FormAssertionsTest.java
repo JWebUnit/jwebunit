@@ -85,9 +85,7 @@ public class FormAssertionsTest extends JWebUnitTest {
     }
 
     public void testAssertRadioOptionNotSelected() throws Throwable {
-        assertPassFail("assertRadioOptionNotSelected",
-                new String[]{"cool", "cat"},
-                new String[]{"cool", "dog"});
+        assertPassFail("assertRadioOptionNotSelected", new String[]{"cool", "cat"}, new String[]{"cool", "dog"});
     }
 
     public void testAssertOptionsEqual() throws Throwable {
