@@ -51,6 +51,11 @@ import com.meterware.httpunit.WebClient;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Document;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Element;
+import org.w3c.dom.Attr;
+import org.w3c.dom.NamedNodeMap;
 import org.xml.sax.SAXException;
 
 import javax.servlet.http.Cookie;
@@ -308,6 +313,7 @@ public class HttpUnitDialog {
         return context.toEncodedString(nodeHtml);
     }
 
+
     public void submit() {
         WebRequest formRequest = getForm().getRequest((SubmitButton) null);
         submitRequest(formRequest);
@@ -408,10 +414,33 @@ public class HttpUnitDialog {
             if (opts[i].equals(option))
                 return getOptionValuesFor(selectName)[i];
         }
-        return null;
+        throw new RuntimeException("Unable to find option " + option + " for " + selectName);
     }
 
     public void selectOption(String selectName, String option) {
         setFormParameter(selectName, getValueForOption(selectName, option));
+    }
+
+    public Object getElement(String anID) {
+        try {
+            return walkDOM(getResponse().getDOM().getDocumentElement(), anID);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+    }
+
+    private Element walkDOM(Element element, String anID) {
+        if (element.getAttribute("id").equals(anID) || element.getAttribute("ID").equals(anID))
+            return element;
+        NodeList children = element.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            Node child = children.item(i);
+            if (child.getNodeType() == Node.ELEMENT_NODE) {
+                Element el = walkDOM((Element) child, anID);
+                if (el != null) return el;
+            }
+        }
+        return null;
+
     }
 }

@@ -289,4 +289,13 @@ public class WebTestCase extends TestCase {
     public void selectOption(String selectName, String option) {
         tester.selectOption(selectName, option);
     }
+
+    public void assertElementPresent(String anID) {
+        tester.assertElementPresent(anID);
+    }
+
+    public void assertElementNotPresent(String anID) {
+        tester.assertElementNotPresent(anID);
+    }
+
 }

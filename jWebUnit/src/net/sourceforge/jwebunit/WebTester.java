@@ -663,4 +663,12 @@ public class WebTester {
         dialog.selectOption(selectName, option);
     }
 
+    public void assertElementPresent(String anID) {
+        Assert.assertNotNull("Unable to locate element with id \"" +anID+ "\"", dialog.getElement(anID));
+    }
+
+    public void assertElementNotPresent(String anID) {
+        Assert.assertNull("Located element with id \"" +anID+ "\"", dialog.getElement(anID));
+    }
+
 }

@@ -49,6 +49,16 @@ public class WebAssertionsTest extends JWebUnitTest {
         assertPassFail("assertLinkNotPresentByID", "no_link_id", "test_link_id");
     }
 
+    public void testAssertElementPresent() throws Throwable {
+        assertElementPresent("row1");
+        assertPassFail("assertElementPresent", "span_id", "no_id");
+    }
+
+    public void testAssertElementNotPresent() throws Throwable {
+        assertPassFail("assertElementNotPresent", "no_id", "span_id");
+    }
+
+
     private void addTestPage() {
         defineWebPage("testPage", "This is a test page." +
                                   "<table summary=\"testTable\">" +
@@ -62,6 +72,7 @@ public class WebAssertionsTest extends JWebUnitTest {
                                   "<input type=\"checkbox\" name=\"checkboxselected\" CHECKED>" +
                                   "<input type=\"checkbox\" name=\"checkboxnotselected\">" +
                                   "</form>" +
+                                  "<span id=\"span_id\">Span Text</span>" +
                                   "<form name=\"form2\"></form>" +
                                   "</table>");
         defineWebPage("noFormPage", "");
