@@ -14,9 +14,6 @@ import net.sourceforge.jwebunit.util.ExceptionUtility;
 
 import org.w3c.dom.Element;
 
-import com.meterware.httpunit.Button;
-import com.meterware.httpunit.SubmitButton;
-
 /**
  * Provides a high-level API for basic web application navigation and validation
  * by wrapping HttpUnit and providing Junit assertions.  It supports use of a property file for web
