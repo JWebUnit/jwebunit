@@ -303,12 +303,12 @@ public class WebTestCase extends TestCase {
         tester.dumpResponse(stream);
     }
 
-    protected void dumpTable(String tableName, PrintStream stream) {
-        tester.dumpTable(tableName, stream);
+    protected void dumpTable(String tableNameOrId, PrintStream stream) {
+        tester.dumpTable(tableNameOrId, stream);
     }
 
-    protected void dumpTable(String tableName, String[][] table) {
-        tester.dumpTable(tableName, table);
+    protected void dumpTable(String tableNameOrId, String[][] table) {
+        tester.dumpTable(tableNameOrId, table);
     }
 
 }

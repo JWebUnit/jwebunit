@@ -30,6 +30,10 @@ public class ExpectedTable {
         expectedRows.addAll(exptectedTable.getExpectedRows());
     }
 
+    public void appendRow(ExpectedRow row) {
+        expectedRows.add(row);
+    }
+
     public String[][] getExpectedStrings() {
         String[][] asStringArray = new String[expectedRows.size()][];
         for (int i = 0; i < expectedRows.size(); i++) {

@@ -303,6 +303,13 @@ public class HttpUnitDialog {
         return table;
     }
 
+   public String[][] getSparseTableBySummaryOrId(String tableSummaryOrId) {
+        WebTable table = getWebTableBySummaryOrId(tableSummaryOrId);
+        table.purgeEmptyCells();
+        String[][] sparseTableCellValues = table.asText();
+        return sparseTableCellValues;
+    }
+
     private String getNodeHtml(Node node) {
         String nodeHtml = "";
         NodeList children = node.getChildNodes();
@@ -322,7 +329,6 @@ public class HttpUnitDialog {
         }
         return context.toEncodedString(nodeHtml);
     }
-
 
     public void submit() {
         WebRequest formRequest = getForm().getRequest((SubmitButton) null);

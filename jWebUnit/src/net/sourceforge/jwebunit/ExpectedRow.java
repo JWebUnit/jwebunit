@@ -7,11 +7,11 @@ package net.sourceforge.jwebunit;
  *
  * @author Jim Weaver
  */
-class ExpectedRow {
+public class ExpectedRow {
 
     private ExpectedCell[] expectedCells;
 
-    ExpectedRow(Object[] columns) {
+    public ExpectedRow(Object[] columns) {
         this.expectedCells = new ExpectedCell[columns.length];
         for (int i = 0; i < columns.length; i++) {
             Object column = columns[i];

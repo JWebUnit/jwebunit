@@ -12,7 +12,7 @@ public class DirectoryRunner extends FitRunner {
 
     public static DirectoryRunner parseArgs(String[] argv) {
         if (argv.length > 2) {
-            System.err.println("usage: java fit.DirectoryRunner [target directory] [output directory]");
+            System.err.println("usage: java fit.DirectoryRunner [input directory] [output directory]");
             System.exit(-1);
         }
         File in = (argv.length >= 1) ?  new File(argv[0]) : new File(".");

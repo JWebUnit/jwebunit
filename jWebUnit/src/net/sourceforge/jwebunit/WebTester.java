@@ -37,7 +37,6 @@
 
 package net.sourceforge.jwebunit;
 
-import com.meterware.httpunit.WebTable;
 import com.meterware.httpunit.SubmitButton;
 import net.sourceforge.jwebunit.HttpUnitDialog;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
@@ -316,7 +315,8 @@ public class WebTester {
      * @param expectedCellValues double dimensional array of expected values
      */
     public void assertTableRowsEqual(String tableSummaryOrId, int startRow, String[][] expectedCellValues) {
-        String[][] sparseTableCellValues = getSparseTable(tableSummaryOrId);
+        assertTablePresent(tableSummaryOrId);
+        String[][] sparseTableCellValues = dialog.getSparseTableBySummaryOrId(tableSummaryOrId);
         if (expectedCellValues.length > (sparseTableCellValues.length - startRow))
             Assert.fail("Expected rows [" + expectedCellValues.length + "] larger than actual rows in range being compared" +
                     " [" + (sparseTableCellValues.length - startRow) + "].");
@@ -331,15 +331,6 @@ public class WebTester {
                         expectedString, context.toEncodedString(sparseTableCellValues[i + startRow][j].trim()));
             }
         }
-
-    }
-
-    private String[][] getSparseTable(String tableSummaryOrId) {
-        assertTablePresent(tableSummaryOrId);
-        WebTable table = dialog.getWebTableBySummaryOrId(tableSummaryOrId);
-        table.purgeEmptyCells();
-        String[][] sparseTableCellValues = table.asText();
-        return sparseTableCellValues;
     }
 
     /**
@@ -752,32 +743,32 @@ public class WebTester {
     /**
      * Dump the table as the 2D array that is used for assertions - for debuggin purposes.
      *
-     * @param tableName
+     * @param tableNameOrId
      * @param stream
      */
-    public void dumpTable(String tableName, PrintStream stream) {
-        dumpTable(tableName, getSparseTable(tableName), stream);
+    public void dumpTable(String tableNameOrId, PrintStream stream) {
+        dumpTable(tableNameOrId, dialog.getSparseTableBySummaryOrId(tableNameOrId), stream);
     }
 
     /**
      * Dump the table as the 2D array that is used for assertions. - for debuggin purposes.
      *
-     * @param tableName
+     * @param tableNameOrId
      * @param table
      */
-    public void dumpTable(String tableName, String[][] table) {
-        dumpTable(tableName, table, System.out);
+    public void dumpTable(String tableNameOrId, String[][] table) {
+        dumpTable(tableNameOrId, table, System.out);
     }
 
     /**
      * Dump the table as the 2D array that is used for assertions. - for debuggin purposes.
      *
-     * @param tableName
+     * @param tableNameOrId
      * @param table
      * @param stream
      */
-    public void dumpTable(String tableName, String[][] table, PrintStream stream) {
-        stream.print("\n" + tableName + ":");
+    public void dumpTable(String tableNameOrId, String[][] table, PrintStream stream) {
+        stream.print("\n" + tableNameOrId + ":");
         for (int i = 0; i < table.length; i++) {
             String[] cell = table[i];
             stream.print("\n\t");

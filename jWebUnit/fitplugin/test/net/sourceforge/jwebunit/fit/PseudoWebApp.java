@@ -87,10 +87,12 @@ public class PseudoWebApp {
                     citizenship = "a citizen";
                 }
                 WebResource result = new WebResource("<html><head><title>Personal Info Results</title></head>" +
-                                                     "<body style=\"background-color: beige\"><br>Name given is " + getParm("fullName") + "<br>" +
-                                                     "You indicated that you are " + citizenship + ".<br>" +
-                                                     "You live in " + getParm("state") + ".<br>" +
-                                                     "You are " + getParm("sex") + "." +
+                                                     "<body style=\"background-color: beige\"><br>" +
+                                                     "<table id=\"infoTable\"><tr><td colspan=2>Personal Information Table</td></tr>" +
+                                                     "<tr><td>Name</td><td>Name given is " + getParm("fullName") + ".</td></tr>" +
+                                                     "<tr><td>Citizenship</td><td>You indicated that you are " + citizenship + ".</td></tr>" +
+                                                     "<tr><td>State of Residence</td><td>You live in " + getParm("state") + ".</td></tr>" +
+                                                     "<tr><td>Sex</td><td>You are " + getParm("sex") + ".</td></tr></table>" +
                                                      "</body></html>");
                 return result;
             }
