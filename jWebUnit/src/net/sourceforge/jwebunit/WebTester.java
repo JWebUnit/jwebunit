@@ -601,12 +601,9 @@ public class WebTester {
 
     public void assertOptionsEqual(String selectName, String[] expectedOptions) {
         assertFormControlPresent(selectName);
-        String[] returnedOptions = getOptionsFor(selectName);
-        Assert.assertEquals("Option list not same length", expectedOptions.length, returnedOptions.length);
-        for (int i = 0; i < returnedOptions.length; i++) {
-            Assert.assertEquals(expectedOptions[i], returnedOptions[i]);
-        }
+        assertArraysEqual(expectedOptions, getOptionsFor(selectName));
     }
+
 
     public void assertOptionsNotEqual(String selectName, String[] expectedOptions) {
         assertFormControlPresent(selectName);
@@ -617,6 +614,34 @@ public class WebTester {
         }
         Assert.fail("Options not expected to be equal");
 
+    }
+
+    public void assertOptionValuesEqual(String selectName, String[] expectedValues) {
+        assertFormControlPresent(selectName);
+        assertArraysEqual(expectedValues, getOptionValuesFor(selectName));
+
+    }
+
+    private String[] getOptionValuesFor(String selectName) {
+        return dialog.getOptionValuesFor(selectName);
+    }
+
+    //Todo: Move to assert utility class
+    private void assertArraysEqual(String[] exptected, String[] returned) {
+        Assert.assertEquals("Arrays not same length", exptected.length, returned.length);
+        for (int i = 0; i < returned.length; i++) {
+            Assert.assertEquals(exptected[i], returned[i]);
+        }
+    }
+
+    public void assertOptionValuesNotEqual(String selectName, String[] optionValues) {
+        assertFormControlPresent(selectName);
+        try {
+            assertOptionValuesEqual(selectName, optionValues);
+        } catch (AssertionFailedError e) {
+            return;
+        }
+        Assert.fail("Values not expected to be equal");
     }
 
 }

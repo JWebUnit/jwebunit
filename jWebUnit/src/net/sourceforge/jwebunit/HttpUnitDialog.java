@@ -387,4 +387,8 @@ public class HttpUnitDialog {
     public String[] getOptionsFor(String selectName) {
         return getForm().getOptions(selectName);
     }
+
+    public String[] getOptionValuesFor(String selectName) {
+        return getForm().getOptionValues(selectName);
+    }
 }
