@@ -299,6 +299,10 @@ public class WebTestCase extends TestCase {
         tester.assertWindowPresent(windowName);
     }
 
+    public void assertWindowPresentWithTitle(String title) {
+        tester.assertWindowPresentWithTitle(title);
+    }
+
     public void assertFramePresent(String frameName) {
         tester.assertFramePresent(frameName);
     }
@@ -398,6 +402,10 @@ public class WebTestCase extends TestCase {
 
     public void gotoRootWindow() {
         tester.gotoRootWindow();
+    }
+
+    public void gotoWindowByTitle(String title) {
+        tester.gotoWindowByTitle(title);
     }
 
     public void gotoWindow(String windowName) {

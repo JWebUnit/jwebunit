@@ -86,6 +86,25 @@ public class HttpUnitDialog {
 	public WebWindow getWindow(String windowName) {
 		return wc.getOpenWindow(windowName);
 	}
+	
+	/**
+	 * Return the first open window with the given title.
+	 */
+	public WebWindow getWindowByTitle(String title) {
+	    WebWindow [] webWindows = wc.getOpenWindows();
+	    for (int i = 0; i < webWindows.length; i++) {
+            WebWindow window = webWindows[i];
+            try {
+                if (context.toEncodedString(window.getCurrentPage().getTitle()).equals(title)) {
+                    return window;
+                }
+            } catch (SAXException e) {
+    			throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+            }
+        }
+	    return null;
+	}
+	
 	/**
 	 * Return the HttpUnit WebClient object for this dialog.
 	 */
@@ -973,6 +992,18 @@ public class HttpUnitDialog {
 	 */
 	public void gotoWindow(String windowName) {
 		setMainWindow(getWindow(windowName));
+	}
+
+	/**
+	 * Goto first window with the given title.
+	 * 
+	 * @param windowName
+	 */
+	public void gotoWindowByTitle(String title) {
+	    WebWindow window = getWindowByTitle(title);
+	    if (window != null) {
+	        setMainWindow(window);
+	    }
 	}
 
 	/**

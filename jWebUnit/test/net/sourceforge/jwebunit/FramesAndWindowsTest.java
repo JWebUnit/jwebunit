@@ -19,7 +19,7 @@ public class FramesAndWindowsTest extends JWebUnitTest {
                 "<form name='realform'><input name='color' value='blue'></form>" +
                 "<a id=\"SetColorGreen\" href='nothing.html' onClick=\"JavaScript:document.realform.color.value='green';return false;\">green</a>" +
                 "<a id=\"ChildPage1\" href=\"\" onClick=\"JavaScript:window.open('ChildPage1.html', 'ChildPage1');\">green</a>" +
-                "<a id=\"ChildPage2\">Child Page 2</a>\n");
+                "<a id=\"ChildPage2\" href=\"\" onClick=\"JavaScript:window.open('ChildPage2.html', 'WindowNameForChilePage2');\">Child Page 2</a>\n");
         defineWebPage("ChildPage1", "This is child 1");
         defineWebPage("ChildPage2", "This is child 2");
         defineResource("Frames.html", "<html><head></head><frameset rows=\"33%, 33%, 33%\"><frame name=\"TopFrame\" src=\"TopFrame.html\"><frame name=\"ContentFrame\" src=\"ContentFrame.html\"><frame name=\"BottomFrame\" src=\"BottomFrame.html\"></frameset></html>");
@@ -59,6 +59,17 @@ public class FramesAndWindowsTest extends JWebUnitTest {
         gotoRootAndOpenChild("ChildPage1");
         gotoWindow("ChildPage1");
         assertTextPresent("child 1");
+    }
+    
+    public void testGotoWindowByTitle() {
+        gotoRootAndOpenChild("ChildPage2");
+        gotoWindowByTitle("ChildPage2");
+        assertTextPresent("child 2");
+    }
+    
+    public void testAssertWindowWithTitle() throws Throwable {
+        gotoRootAndOpenChild("ChildPage2");
+        assertPassFail("assertWindowPresentWithTitle", new Object[]{"ChildPage2"}, new Object[]{"NoSuchTitle"});
     }
 
     public void testSwitchWindows() {

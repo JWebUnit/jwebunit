@@ -754,6 +754,15 @@ public class WebTester {
     }
 
     /**
+     * Assert that at least one window with the given title is open.
+     *
+     * @param title
+     */
+    public void assertWindowPresentWithTitle(String title) {
+        Assert.assertNotNull("Unable to locate window with title [" + title + "].", dialog.getWindowByTitle(title));
+    }
+
+    /**
      * Assert that a frame with the given name is present.
      *
      * @param frameName
@@ -867,7 +876,7 @@ public class WebTester {
      * @param option display value of option to be selected.
      */
     public void selectOption(String selectName, String option) {
-        assertFormElementPresent(selectName);
+        assertOptionPresent(selectName, option);
         dialog.selectOption(selectName, option);
     }
 
@@ -979,6 +988,16 @@ public class WebTester {
      */
     public void gotoRootWindow() {
         dialog.gotoRootWindow();
+    }
+
+    /**
+     * Make first window with the given title active.
+     *
+     * @param windowName
+     */
+    public void gotoWindowByTitle(String title) {
+        assertWindowPresentWithTitle(title);
+        dialog.gotoWindowByTitle(title);
     }
 
     /**
