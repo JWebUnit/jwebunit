@@ -27,6 +27,10 @@ public abstract class TableFixture extends RowFixture {
         return rowObjects;
     }
 
+    /**
+     * This is zero based
+     * @return
+     */
     protected int getDataStartRow() {
         return 2;
     }

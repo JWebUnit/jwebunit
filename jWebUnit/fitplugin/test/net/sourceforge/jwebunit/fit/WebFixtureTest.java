@@ -17,8 +17,8 @@ public class WebFixtureTest extends TestCase {
         new PseudoWebApp();
         DirectoryRunner testRunner = 
         	DirectoryRunner.parseArgs(new String[]
-        		{"fitplugin\\test\\testInput",
-				 "fitplugin\\test\\testOutput"});
+        		{"fitplugin/test/testInput",
+				 "fitplugin/test/testOutput"});
         testRunner.run();
 		testRunner.getResultWriter().write();
 		assertEquals("Failures detected.", 0, 
