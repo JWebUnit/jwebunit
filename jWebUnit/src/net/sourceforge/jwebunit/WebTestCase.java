@@ -30,6 +30,10 @@ public class WebTestCase extends TestCase {
         tester = new WebTester();
     }
 
+    protected WebTester getTester() {
+        return tester;
+    }
+
     public HttpUnitDialog getDialog() {
         return tester.getDialog();
     }
