@@ -191,7 +191,11 @@ public class HttpUnitDialog {
 
     private void checkFormStateWithParameter(String paramName) {
         if (form == null) {
-            setWorkingForm(getFormWithParameter(paramName));
+            try {
+                setWorkingForm(getFormWithParameter(paramName));
+            } catch (UnableToSetFormException e) {
+                throw new UnableToSetFormException("Unable to set form based on parameter [" + paramName + "].");
+            }
         }
     }
 
@@ -230,7 +234,11 @@ public class HttpUnitDialog {
      * @return
      */
     public boolean hasFormParameterNamed(String paramName) {
-        checkFormStateWithParameter(paramName);
+        try {
+            checkFormStateWithParameter(paramName);
+        } catch (UnableToSetFormException e) {
+            return false;
+        }
         return getForm().hasParameterNamed(paramName);
     }
 

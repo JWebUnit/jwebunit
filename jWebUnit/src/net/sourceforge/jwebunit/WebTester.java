@@ -349,7 +349,7 @@ public class WebTester {
      */
     public void assertFormElementPresent(String parameterName) {
         assertHasForm();
-        Assert.assertTrue("Did not find form control with name [" + parameterName + "].",
+        Assert.assertTrue("Did not find form element with name [" + parameterName + "].",
                 dialog.hasFormParameterNamed(parameterName));
     }
 
@@ -361,7 +361,7 @@ public class WebTester {
     public void assertFormElementNotPresent(String parameterName) {
         assertHasForm();
         try {
-            Assert.assertTrue("Found form control with name [" + parameterName + "] when not expected.",
+            Assert.assertTrue("Found form element with name [" + parameterName + "] when not expected.",
                     !dialog.hasFormParameterNamed(parameterName));
         } catch (UnableToSetFormException e) {
             // assertFormControlNotPresent
