@@ -83,6 +83,7 @@
     <target name="clean">
         <delete dir="${build.classes.dir}"/>
         <delete dir="${build.test-classes.dir}"/>
+    	<delete dir="${build.dir}" />
         <delete dir="jwebfit-classes"/>
         <delete dir="docgen"/>
     </target>
