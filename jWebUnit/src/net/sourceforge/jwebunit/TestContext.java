@@ -4,6 +4,7 @@
  **********************************/
 package net.sourceforge.jwebunit;
 
+import com.meterware.httpunit.ClientProperties;
 import com.meterware.httpunit.WebClient;
 import com.meterware.httpunit.WebConversation;
 
@@ -274,7 +275,8 @@ public class TestContext {
 			}
 		}
 		if (hasUserAgent()) {
-			client.setUserAgent(getUserAgent());
+		    ClientProperties properties = client.getClientProperties();
+		    properties.setUserAgent(getUserAgent());
 		}
 		return client;
 	}
