@@ -12,12 +12,14 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class FormWalkerTest extends TestCase {
+public class TextAndElementWalkerTest extends TestCase {
 
     public void testFindLabel() throws ParserConfigurationException {
         Element form = buildForm();
-        FormWalker walker = new FormWalker(form);
-        assertNotNull(walker.getFormElementWithLabel("First"));
+        TextAndElementWalker walker =
+                new TextAndElementWalker(form,
+                    new String[] { "input", "select", "textarea" });
+        assertNotNull(walker.getElementAfterText("First"));
     }
 
 

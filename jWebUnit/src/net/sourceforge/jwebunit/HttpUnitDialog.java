@@ -5,6 +5,7 @@
 package net.sourceforge.jwebunit;
 
 import com.meterware.httpunit.GetMethodWebRequest;
+import com.meterware.httpunit.HTMLElementPredicate;
 import com.meterware.httpunit.SubmitButton;
 import com.meterware.httpunit.TableCell;
 import com.meterware.httpunit.WebConversation;
@@ -356,9 +357,11 @@ public class HttpUnitDialog {
 
             for (int i = 0; i < forms.getLength(); i++) {
                 Element form = (Element) forms.item(i);
-                FormWalker walker = new FormWalker(form);
+                TextAndElementWalker walker =
+                        new TextAndElementWalker(form,
+                            new String[] { "input", "select", "textarea" });
                 Element formElement =
-                        walker.getFormElementWithLabel(formElementLabel);
+                        walker.getElementAfterText(formElementLabel);
                 if (formElement != null) {
                     return formElement.getAttribute("name");
                 }
@@ -453,7 +456,7 @@ public class HttpUnitDialog {
      * Return the text (without any markup) of the tree rooted
      * at node.
      */
-    private String getNodeText(Node node) {
+    private static String getNodeText(Node node) {
         String nodeText = "";
         NodeList children = node.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
@@ -640,8 +643,8 @@ public class HttpUnitDialog {
             WebLink links[] = resp.getLinks();
             int count = 0;
             for (int i = 0; i < links.length; ++i) {
-                if (getNodeText(links[i].getDOMSubtree()).
-                    indexOf(linkText) != -1) {
+                Node node = links[i].getDOMSubtree();
+                if (nodeContainsText(node, linkText)) {
                     if (count == index) {
                         link = links[i];
                         break;
@@ -654,6 +657,62 @@ public class HttpUnitDialog {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
         return link;
+    }
+
+    public static boolean nodeContainsText(Node node, String linkText) {
+        return getNodeText(node).indexOf(linkText) != -1;
+    }
+
+    public void clickLinkWithTextAfterText(String linkText, String labelText) {
+        WebLink link = getLinkWithTextAfterText(linkText, labelText);
+        if (link == null)
+            throw new RuntimeException(
+                "No Link found for \"" + linkText + "\" with label \""
+                + labelText + "\"");
+        submitRequest(link);
+    }
+
+    private WebLink getLinkWithTextAfterText(String linkText, String labelText) {
+        try {
+            TextAndElementWalker walker =
+                    new TextAndElementWalker(resp.getDOM().getDocumentElement(),
+                        new String[] { "a" });
+            final Element linkElement =
+                    walker.getElementWithTextAfterText(linkText, labelText);
+            if (linkElement != null) {
+                return resp.getFirstMatchingLink(
+                        new SameLinkPredicate(), linkElement);
+            }
+        } catch (SAXException e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+        return null;
+    }
+
+    private static class SameLinkPredicate implements HTMLElementPredicate {
+        public boolean matchesCriteria(Object found, Object given) {
+            WebLink link = (WebLink) found;
+            Element foundElement = (Element) link.getDOMSubtree();
+            Element givenElement = (Element) given;
+
+            NamedNodeMap foundAttributes = foundElement.getAttributes();
+            NamedNodeMap givenAttributes = givenElement.getAttributes();
+            
+            if (foundAttributes.getLength() != givenAttributes.getLength()) {
+                return false;
+            }
+            
+            for (int i = 0; i < foundAttributes.getLength(); i++) {
+                Attr foundAttribute = (Attr) foundAttributes.item(i);
+                Attr givenAttribute =
+                        (Attr) givenAttributes.getNamedItem(foundAttribute.getName());
+                if (!foundAttribute.getValue().equals(givenAttribute.getValue())) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 
     /**

@@ -6,7 +6,6 @@ package net.sourceforge.jwebunit;
 
 import com.meterware.httpunit.SubmitButton;
 import com.meterware.httpunit.Button;
-import net.sourceforge.jwebunit.HttpUnitDialog;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
@@ -859,6 +858,14 @@ public class WebTester {
     public void clickLinkWithText(String linkText, int index) {
         assertLinkPresentWithText(linkText, index);
         dialog.clickLinkWithText(linkText, index);
+    }
+
+    /**
+     * Search for labelText in the document, then search forward until
+     * finding a link called linkText.  Click it.
+     */
+    public void clickLinkWithTextAfterText(String linkText, String labelText) {
+        dialog.clickLinkWithTextAfterText(linkText, labelText);
     }
 
     /**

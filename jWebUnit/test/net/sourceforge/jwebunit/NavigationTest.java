@@ -65,6 +65,22 @@ public class NavigationTest extends JWebUnitTest {
         assertTitleEquals("pageWithLink");
     }
 
+    public void testClickLinkWithTextAfterText() {
+        defineWebPage("pageWithLink",
+            "First: <a href=\"/targetPage1.html\">link text</a>\n" +
+            "Second: <a href=\"/targetPage2.html\">link text</a>)\n");
+        defineWebPage("targetPage1", "");
+        defineWebPage("targetPage2", "");
+
+        beginAt("/pageWithLink.html");
+        clickLinkWithTextAfterText("link text", "First:");
+        assertTitleEquals("targetPage1");
+
+        beginAt("/pageWithLink.html");
+        clickLinkWithTextAfterText("link text", "Second:");
+        assertTitleEquals("targetPage2");
+    }
+
     public void testClickLinkWithImage() {
         gotoLinkTestPage();
         clickLinkWithImage("graphic.jpg");

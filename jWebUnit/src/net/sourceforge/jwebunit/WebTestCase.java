@@ -328,6 +328,10 @@ public class WebTestCase extends TestCase {
         tester.clickLinkWithText(linkText, index);
     }
 
+    protected void clickLinkWithTextAfterText(String linkText, String labelText) {
+        tester.clickLinkWithTextAfterText(linkText, labelText);
+    }
+
     protected void clickLinkWithImage(String imageFileName) {
         tester.clickLinkWithImage(imageFileName);
     }

@@ -23,7 +23,7 @@ public class AllTests extends TestSuite{
         suite.addTestSuite(FormAssertionsTest.class);
         suite.addTestSuite(TableAssertionsTest.class);
         suite.addTestSuite(FramesAndWindowsTest.class);
-        suite.addTestSuite(FormWalkerTest.class);
+        suite.addTestSuite(TextAndElementWalkerTest.class);
         suite.addTestSuite(JavaScriptEventsTest.class);
         suite.addTestSuite(ServletUnitTest.class);
         return suite;
