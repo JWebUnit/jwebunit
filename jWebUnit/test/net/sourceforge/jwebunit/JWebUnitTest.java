@@ -31,6 +31,9 @@ public class JWebUnitTest extends WebTestCase {
 
     public void tearDown() throws Exception {
     	server.tearDown();
+    	
+    	//must call super.
+    	super.tearDown();
     }
 
     protected void defineResource(String resourceName, String value) {
