@@ -13,17 +13,73 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class DirectoryResult {
+public class DirectoryResult extends FitResult {
     private List results;
     private File directory;
 
+    public int getRight() {
+        int sum = 0;
+        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
+            FitResult fitResult = (FitResult) iterator.next();
+            sum += fitResult.getRight();
+        }
+        return sum;
+    }
+
+    public int getWrong() {
+        int sum = 0;
+        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
+            FitResult fitResult = (FitResult) iterator.next();
+            sum += fitResult.getWrong();
+        }
+        return sum;
+
+    }
+
+    public int getIgnores() {
+        int sum = 0;
+        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
+            FitResult fitResult = (FitResult) iterator.next();
+            sum += fitResult.getIgnores();
+        }
+        return sum;
+
+    }
+
+    public int getExceptions() {
+        int sum = 0;
+        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
+            FitResult fitResult = (FitResult) iterator.next();
+            sum += fitResult.getExceptions();
+        }
+        return sum;
+
+    }
+
     public DirectoryResult(File directory) {
+        super(directory);
         this.directory = directory;
         results = new ArrayList();
     }
 
-    public void addResult(FileResult result) {
+    public void addResult(FitResult result) {
         results.add(result);
+    }
+
+    public boolean didFail() {
+        for (Iterator iterator = results.iterator(); iterator.hasNext();) {
+            FitResult fitResult = (FitResult) iterator.next();
+            if(fitResult.didFail()) return true;
+        }
+        return false;
+    }
+
+    public String getDisplayName() {
+        return directory.getName();
+    }
+
+    public String getOutname() {
+        return directory.getName() + "/index.html";
     }
 
     public void writeIndexFile() {
@@ -37,6 +93,8 @@ public class DirectoryResult {
             writeResults(writer);
             writer.write("</table>");
             writer.write("<br>");
+            writer.write("Cumulative Results: " + counts());
+            writer.write("<br><br>");
             writer.write(new Date().toString());
             writer.write("</body></html>");
             writer.flush();
@@ -54,15 +112,15 @@ public class DirectoryResult {
 
     private void writeResults(FileWriter writer) throws IOException {
         for (Iterator iterator = results.iterator(); iterator.hasNext();) {
-            FileResult result = (FileResult) iterator.next();
+            FitResult result = (FitResult) iterator.next();
             String color = (result.didFail()) ? "#ffcfcf" : "#cfffcf";
             writeRow(writer, result, color);
         }
     }
 
-    private void writeRow(FileWriter writer, FileResult result, String color) throws IOException {
+    private void writeRow(FileWriter writer, FitResult result, String color) throws IOException {
         writer.write("<tr bgcolor=\"" + color + "\"><td>");
-        writer.write("<a href=\"" + result.getOutname() + "\">" + result.getTestName() + "</a>");
+        writer.write("<a href=\"" + result.getOutname() + "\">" + result.getDisplayName() + "</a>");
         writer.write("<td>" + result.counts() + "</td>");
         writer.write("</td></tr>");
 

@@ -5,48 +5,48 @@
  */
 package net.sourceforge.jwebunit.fit;
 
-public class FileResult {
-    private String filename;
-    private String outname;
+import java.io.File;
+
+public class FileResult extends FitResult  {
     private int right;
     private int wrong;
     private int ignores;
     private int exceptions;
 
-    public FileResult(String filename, String outname, int right, int wrong, int ignores, int exceptions) {
-        this.filename = filename;
-        this.outname = outname;
+    public FileResult(File outname, int right, int wrong, int ignores, int exceptions) {
+        super(outname);
         this.right = right;
         this.wrong = wrong;
         this.ignores = ignores;
         this.exceptions = exceptions;
     }
 
-    public String counts() {
-        return right + " right, " +
-                wrong + " wrong, " +
-                ignores + " ignored, " +
-                exceptions + " exceptions";
-    }
-
     public void dumpCounts() {
-        System.out.println(getFilename() + ": " + counts());
+        System.out.println(getDisplayName() + ": " + counts());
     }
 
-    public String getFilename() {
-        return filename;
-    }
-
-    public String getOutname() {
-        return outname;
-    }
-
-    public String getTestName() {
-        int i = filename.indexOf(".fit.in.html");
-        return filename.substring(0, i);
+    public String getDisplayName() {
+        int i = getOutput().getName().indexOf(".fit.out.html");
+        return getOutput().getName().substring(0, i);
     }
 
     public boolean didFail() {
-        return wrong > 1 || exceptions > 1;
+        return getWrong() > 0 || getExceptions() > 0;
+    }
+
+    public int getRight() {
+        return right;
+    }
+
+    public int getWrong() {
+        return wrong;
+    }
+
+    public int getIgnores() {
+        return ignores;
+    }
+
+    public int getExceptions() {
+        return exceptions;
     }
 }

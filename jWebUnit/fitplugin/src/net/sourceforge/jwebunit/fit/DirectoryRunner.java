@@ -8,70 +8,83 @@ import java.io.FilenameFilter;
 import java.util.StringTokenizer;
 
 public class DirectoryRunner {
-    private File targetDirectory;
+    private File inputDir;
+    private File outputDir;
+    private DirectoryResult results;
     private int prevRight;
     private int prevWrong;
     private int prevIgnores;
     private int prevExceptions;
-    private DirectoryResult dirResult;
 
-    public static void main(String argv[]) {
-        new DirectoryRunner().run(argv);
+
+    public static DirectoryRunner parseArgs(String[] argv) {
+        if (argv.length > 2) {
+            System.err.println("usage: java fit.DirectoryRunner [target directory] [output directory]");
+            System.exit(-1);
+        }
+        File in = (argv.length >= 1) ?  new File(argv[0]) : new File(".");
+        File out = (argv.length == 2) ? new File(argv[1]) : in;
+        return new DirectoryRunner(in, out);
     }
 
-    public void run(String argv[]) {
-        process(argv);
+    public static void main(String argv[]) {
+        DirectoryRunner runner = parseArgs(argv);
+        runner.run();
+    }
+
+    public DirectoryRunner(File inputDirectory, File outputDirectory) {
+        inputDir = inputDirectory;
+        outputDir = outputDirectory;
+        results = new DirectoryResult(outputDir);
+        if (!outputDir.exists()) {
+            outputDir.mkdir();
+        }
+    }
+
+    public void run() {
+        process();
         exit();
     }
 
-    private void args(String[] argv) {
-        if (argv.length > 1) {
-            System.err.println("usage: java fit.DirectoryRunner [targetDirectory]");
-            System.exit(-1);
-        }
-        if (argv.length == 1) {
-            targetDirectory = new File(argv[0]);
-        } else {
-            targetDirectory = new File(".");
-        }
-        dirResult = new DirectoryResult(targetDirectory);
-    }
-
-    public void process(String argv[]) {
-        args(argv);
-        File[] files = targetDirectory.listFiles(new FilenameFilter() {
+    public void process() {
+        File[] files = inputDir.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
-                return name.indexOf("fit.in.html") != -1;
+                return name.indexOf("fit.in.html") != -1 || new File(dir, name).isDirectory();
             }
         });
         for (int i = 0; i < files.length; i++) {
             runFile(files[i]);
         }
-        dirResult.writeIndexFile();
+        results.writeIndexFile();
     }
 
     private void runFile(File file) {
-        setPreviousCounts();
-        final String filename = file.getName();
-        final String outname = getOutputFileName(file.getName());
-        String[] args = new String[]{file.getAbsolutePath(), targetDirectory.getPath() + "/" + outname};
-        FileRunner runner = new FileRunner() {
-            protected void exit() {
-                captureSummary(filename, outname);
-                output.close();
-            }
-        };
-        runner.run(args);
+        if (file.isDirectory()) {
+            DirectoryRunner runner = new DirectoryRunner(file, new File(outputDir, file.getName()));
+            runner.run();
+            results.addResult(runner.results);
+        } else {
+            setPreviousCounts();
+            final File outFile = getOutputFile(file.getName());
+            String[] args = new String[]{file.getAbsolutePath(), outFile.getAbsolutePath()};
+            FileRunner runner = new FileRunner() {
+                protected void exit() {
+                    captureSummary(outFile);
+                    output.close();
+                }
+            };
+            runner.run(args);
+        }
     }
 
-    protected void captureSummary(String filename, String outname) {
-        FileResult result = new FileResult(filename, outname,
-                                           Fixture.right - prevRight,
-                                           Fixture.wrong - prevWrong,
-                                           Fixture.ignores - prevIgnores,
-                                           Fixture.exceptions - prevExceptions);
+    protected void captureSummary(File outFile) {
+        FileResult result = new FileResult(outFile,
+                Fixture.right - prevRight,
+                Fixture.wrong - prevWrong,
+                Fixture.ignores - prevIgnores,
+                Fixture.exceptions - prevExceptions);
         result.dumpCounts();
-        dirResult.addResult(result);
+        results.addResult(result);
     }
 
     private void setPreviousCounts() {
@@ -81,7 +94,7 @@ public class DirectoryRunner {
         prevExceptions = Fixture.exceptions;
     }
 
-    private String getOutputFileName(String name) {
+    private File getOutputFile(String name) {
         StringTokenizer tokenizer = new StringTokenizer(name, ".", true);
         StringBuffer outputFileName = new StringBuffer();
         while (tokenizer.hasMoreTokens()) {
@@ -92,11 +105,10 @@ public class DirectoryRunner {
                 outputFileName.append(part);
             }
         }
-        return outputFileName.toString();
+        return new File(outputDir, outputFileName.toString());
     }
 
     void exit() {
         System.out.println(Fixture.counts());
-        System.exit(Fixture.wrong + Fixture.exceptions);
     }
 }
