@@ -19,9 +19,9 @@ PROTOCOL = "(http|ftp|mailto|file|gopher|telnet|news)"
 def formatBody(lines)
   codeArr = []
   body = ''
-  lines.gsub!(/&/, '&amp')
-  lines.gsub!(/</, '&lt')
-  lines.gsub!(/>/, '&gt')
+  lines.gsub!(/&/, '&amp;')
+  lines.gsub!(/</, '&lt;')
+  lines.gsub!(/>/, '&gt;')
   #puts "<!-- #{lines} -->"
 
   hnum = 0  # initialized for AsHiddenLink
