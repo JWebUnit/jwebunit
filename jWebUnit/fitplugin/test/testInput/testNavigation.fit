@@ -1,0 +1,16 @@
+Test starting at a URL, link navigation, and checking page title.
+
+Story:
+Beginning at the application menu, selecting the choose color link should navigate to the color selection page.
+
+Testing the story:
+We'll use baseUrl to establich the application root, navigate to the main menu, press the link, and check that we have the expected page title.
+
+Succesful run:
+
+|net.sourceforge.jwebunit.fit.WebFixture |
+|baseUrl | http://localhost:8081   ||
+|begin   | menu   ||
+|check   | title  | Menu Page |
+|press   | link   | Choose your favorite color |
+|check   | title  | Choose Color |

@@ -14,17 +14,17 @@ public class DirectoryRunner extends FitRunner {
                     "usage: java fit.DirectoryRunner [input directory] [output directory]");
             System.exit(-1);
         }
-        System.out.println(argv[0] + " " + argv[1]);
         File in = (argv.length >= 1) ? new File(argv[0]) : new File(".");
         File out = (argv.length == 2) ? new File(argv[1]) : in;
+        System.out.println(in +  " " + out);
         return new DirectoryRunner(in, out);
     }
 
-    public static void main(String argv[]) {
-        DirectoryRunner runner = parseArgs(argv);
-        runner.run();
-        runner.getResultWriter().write();
-        System.out.println("Cumulative Results: " + runner.getResultWriter().getCounts());
+    public static void main(String argv[]) throws Throwable {
+			DirectoryRunner runner = parseArgs(argv);
+			runner.run();
+			runner.getResultWriter().write();
+			System.out.println("Cumulative Results: " + runner.getResultWriter().getCounts());
     }
 
     public DirectoryRunner(File inputDirectory, File outputDirectory) {

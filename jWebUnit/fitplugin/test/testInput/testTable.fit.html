@@ -1,0 +1,28 @@
+Test validation of html tables.
+<p>
+<table border="1">
+<tr><td colspan="2"> net.sourceforge.jwebunit.fit.WebFixture </td></tr>
+<tr><td> baseUrl </td><td> http://localhost:8081 </td></tr>
+</table>
+<p>
+<p>
+<table border="1">
+<tr><td colspan="4"> net.sourceforge.jwebunit.fit.WebFixture </td></tr>
+<tr><td> begin  </td><td colspan="3"> personalInfoForm </td></tr>
+<tr><td> enter  </td><td> fullName         </td><td colspan="2"> Jim                   </td></tr>
+<tr><td> select </td><td> checkbox         </td><td> citizenCheckbox       </td><td> on </td></tr>
+<tr><td> select </td><td> option           </td><td> state                 </td><td> Tennessee </td></tr>
+<tr><td> enter  </td><td> sex              </td><td colspan="2"> male                  </td></tr>
+<tr><td> press  </td><td colspan="3"> submit           </td></tr>
+<tr><td> check  </td><td> title            </td><td colspan="2" bgcolor="#cfffcf"> Personal Info Results </td></tr>
+</table>
+<p>
+Use a table fixture to validate the table containing the results.
+<p>
+<table border="1">
+<tr><td colspan="4">net.sourceforge.jwebunit.fit.PersonalInfoTableFixture</td></tr>
+<tr><td>name                </td><td> citizenship   </td><td> state          </td><td> sex    </td></tr>
+<tr><td bgcolor="#cfffcf">Jim                 </td><td bgcolor="#cfffcf"> a citizen     </td><td bgcolor="#cfffcf"> Tennessee      </td><td bgcolor="#cfffcf"> male   </td></tr>
+<tr><td bgcolor="#cfffcf">Fred Evans          </td><td bgcolor="#cfffcf"> a citizen     </td><td bgcolor="#cfffcf"> Tennessee      </td><td bgcolor="#cfffcf"> male   </td></tr>
+<tr><td bgcolor="#cfffcf">Rebecca VonStavoren </td><td bgcolor="#cfffcf"> not a citizen </td><td bgcolor="#cfffcf"> North Carolina </td><td bgcolor="#cfffcf"> female </td></tr>
+</table>

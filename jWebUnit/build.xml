@@ -1,8 +1,6 @@
 <project name="jWebUnit" default="test">
-
-
     <property name="build.name" value="jwebunit-1.1.1"/>
-    <property name="fit.src" value="../../fit/Source"/>
+
     <path id="src.classpath">
         <fileset dir="lib">
             <include name="**/*.jar"/>
@@ -30,8 +28,8 @@
     <target name="compile" depends="init">
         <mkdir dir="src-classes"/>
         <mkdir dir="test-classes"/>
-        <javac destdir="src-classes" srcdir="src" classpathref="src.classpath"/>
-        <javac destdir="test-classes" srcdir="test" classpathref="tests.classpath"/>
+        <javac destdir="src-classes" srcdir="src" classpathref="src.classpath" debug="true"/>
+        <javac destdir="test-classes" srcdir="test" classpathref="tests.classpath" debug="true"/>
     </target>
 
     <target name="test" depends="compile">
@@ -75,6 +73,7 @@
     <target name="clean">
         <delete dir="src-classes"/>
         <delete dir="test-classes"/>
+        <delete dir="jwebfit-classes"/>
         <delete dir="docgen"/>
     </target>
 
@@ -83,10 +82,20 @@
         <antcall target="dist"/>
         <antcall target="clean"/>
     </target>
+    
+    <target name="jwebfit.compile">
+        <mkdir dir="classes"/>
+        <javac destdir="classes" debug="true">
+            <src location="src"/>
+            <src location="test"/>
+            <src location="fitplugin/src"/>
+            <classpath refid="src.classpath"/>
+        </javac>
+    </target>
 
-    <target name="jwebfit">
+    <target name="jwebfit.jar">
         <mkdir dir="jwebfit-classes"/>
-        <javac destdir="jwebfit-classes" classpathref="src.classpath">
+        <javac destdir="jwebfit-classes" debug="true">
             <src location="src"/>
             <src location="fitplugin/src"/>
             <classpath>
@@ -95,5 +104,40 @@
         </javac>
         <jar destfile="jwebfit.jar" basedir="jwebfit-classes"/>
         <delete dir="jwebfit-classes"/>
+    </target>
+    
+    <target name="sampleApp.compile" depends="jwebfit.compile">
+        <javac destdir="jwebfit-classes" classpathref="src.classpath" debug="true">
+            <src location="fitplugin/test"/>
+            <classpath refid="src.classpath"/>
+        </javac>    	
+    </target>
+    
+    <target name="sampleApp" depends="sampleApp.compile">
+    	<java classname="net.sourceforge.jwebunit.fit.PseudoWebApp">
+    		<classpath>
+    			<pathelement location="classes"/>
+    			<pathelement location="lib/httpunit.jar"/>
+    		</classpath>
+    	</java>
+    </target>
+    
+    <target name="jwebfit.fit" depends="jwebfit.compile">
+    	<java classname="net.sourceforge.jwebunit.fit.DirectoryRunner" fork="true">
+    		<arg path="fitplugin/test/testInput"/>
+    		<arg path="fitplugin/test/testOutput"/>
+    		<sysproperty key="wiki" value="true"/>
+	    	<classpath>
+	    	    <pathelement location="classes"/>
+    			<pathelement location="lib\fit.jar"/>
+		    	<pathelement location="lib\httpunit.jar"/>
+		    	<pathelement location="lib\js.jar"/>
+		    	<pathelement location="lib\junit.jar"/>
+		    	<pathelement location="lib\servlet.jar"/>
+		    	<pathelement location="lib\nekohtml.jar"/>
+		    	<pathelement location="lib\xercesImpl.jar"/>
+		    	<pathelement location="lib\xml-apis.jar"/>
+	    	</classpath>
+    	</java>
     </target>
 </project>

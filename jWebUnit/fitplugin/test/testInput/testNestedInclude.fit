@@ -1,0 +1,7 @@
+Includes should be relative to the file that is including it.
+
+|net.sourceforge.jwebunit.fit.IncludeFixture|
+| sub/outer |
+
+|net.sourceforge.jwebunit.fit.IncludeFixture|
+| sub/outer |

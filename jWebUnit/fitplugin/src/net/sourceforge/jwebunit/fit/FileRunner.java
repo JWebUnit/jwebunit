@@ -12,18 +12,26 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Stack;
 
 public class FileRunner extends FitRunner {
 	public Parse tables;
 	public Fixture fixture;
 	private File inFile;
 	private File outFile;
-	private static File currentFile;
+	public static Stack stack = new Stack();
 
-	public static String readIncludeFile(String fname) throws IOException {
-		//TODO: make a property
-		//return read(new File(currentFile.getParent(), fname + ".inc.in.html"));
-		return read(new File(currentFile.getParent(), fname + ".inc"));
+	public static String getCurrentDirectoryName() {
+		File currentFile = (File) FileRunner.stack.peek();
+		return currentFile.getParent();
+	}	
+
+	public static void pushFile(File currentFile) {
+		FileRunner.stack.push(currentFile);
+	}
+
+	public static File popFile() {
+		return (File) stack.pop();
 	}
 
 	public static FileRunner parseArgs(String argv[]) {
@@ -43,7 +51,7 @@ public class FileRunner extends FitRunner {
 	}
 
 	public FileRunner(File in, File out) {
-		currentFile = in;
+		stack.push(in);
 		this.inFile = in;
 		this.outFile = out;
 		fixture = new Fixture();
@@ -58,6 +66,7 @@ public class FileRunner extends FitRunner {
 			fixture.exception(tables, e);
 		}
 		resultWriter = new FileResultWriter(outFile, fixture.counts, tables);
+		stack.pop();
 	}
 
 	public static String read(File input) throws IOException {

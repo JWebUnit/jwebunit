@@ -6,6 +6,8 @@
  */
 package net.sourceforge.jwebunit.fit;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -16,14 +18,13 @@ import fit.Parse;
  * @author djoiner
  */
 public class IncludeFixture extends Fixture {
-	
+
 	public void doRow(Parse cells) {
-		Parse dataCell =cells.parts; 
+		Parse dataCell = cells.parts;
 		String fname = dataCell.text();
-		Parse tables;
 		try {
-			String c = FileRunner.readIncludeFile(fname);
-			tables = new Parse(c);
+			String c = readFile(fname);
+			Parse tables = new Parse(c);
 			this.doTables(tables);
 			StringWriter st = new StringWriter();
 			tables.print(new PrintWriter(st));
@@ -31,8 +32,16 @@ public class IncludeFixture extends Fixture {
 		} catch (Exception e) {
 			exception(dataCell, e);
 			e.printStackTrace();
-			
-		}				
+		} finally {
+			FileRunner.popFile();
+		}
+	}
+
+	private String readFile(String fname) throws IOException {
+		File includeFile =
+			new File(FileRunner.getCurrentDirectoryName(), fname + ".inc");
+		FileRunner.pushFile(includeFile);
+		return FileRunner.read(includeFile);
 	}
 
 }

@@ -1,0 +1,14 @@
+Test setting focus between browser windows.<br>
+<p>
+<table border="1">
+<tr><td> net.sourceforge.jwebunit.fit.WebFixture </td></tr>
+<tr><td> baseUrl    </td><td colspan="2"> http://localhost:8081</td></tr>
+<tr><td> begin      </td><td colspan="2"> pageWithPopupLink    </td></tr>
+<tr><td> check      </td><td> title                </td><td bgcolor="#cfffcf"> Page With Popup Link </td></tr>
+<tr><td> press      </td><td> link id              </td><td> popupLink            </td></tr>
+<tr><td> check      </td><td> window present       </td><td bgcolor="#cfffcf"> popupWindow          </td></tr>
+<tr><td> window     </td><td colspan="2"> popupWindow          </td></tr>
+<tr><td> check      </td><td> title                </td><td bgcolor="#cfffcf"> Popup Window         </td></tr>
+<tr><td colspan="3"> baseWindow </td></tr>
+<tr><td> check      </td><td> title                </td><td bgcolor="#cfffcf"> Page With Popup Link </td></tr>
+</table>

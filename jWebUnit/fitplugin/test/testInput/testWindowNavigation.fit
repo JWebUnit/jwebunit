@@ -1,0 +1,12 @@
+Test setting focus between browser windows.<br>
+
+| net.sourceforge.jwebunit.fit.WebFixture |
+| baseUrl    | http://localhost:8081||
+| begin      | pageWithPopupLink    ||
+| check      | title                | Page With Popup Link |
+| press      | link id              | popupLink            |
+| check      | window present       | popupWindow          |
+| window     | popupWindow          ||
+| check      | title                | Popup Window         |
+| baseWindow |||
+| check      | title                | Page With Popup Link |
