@@ -33,7 +33,7 @@
 				Upgraded all dependencies (httpunit, rhino, nekohtml, 
 				xerces, junit) to their newest released version.
 			</action>
-			<action type="update" dev="Jim Weaver" due-to="Vivek Venugopalan" issue="727614">
+			<action type="update" dev="Jim Weaver" due-to="Vivek Venugopalan" issue="715841">
 				Added support for cookies.
 			</action>
 			<action type="fix" dev="Vivek Venugopalan" issue="856218" due-to="Roberto Cosenza">
