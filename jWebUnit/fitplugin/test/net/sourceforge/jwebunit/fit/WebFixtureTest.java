@@ -17,7 +17,7 @@ public class WebFixtureTest extends TestCase {
         super(s);
     }
 
-    public void testWebFixture() {
+    public void testWebFixture() throws Exception {
         PseudoWebApp app = new PseudoWebApp();
         DirectoryRunner testRunner = new DirectoryRunner();
         testRunner.process(new String[] {"fitplugin\\test"});

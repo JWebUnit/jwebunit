@@ -4,120 +4,121 @@ import com.meterware.pseudoserver.PseudoServer;
 import com.meterware.pseudoserver.PseudoServlet;
 import com.meterware.pseudoserver.WebResource;
 
-import java.io.IOException;
+import java.io.*;
 
 public class PseudoWebApp {
 
     private PseudoServer server;
+    private static String htmldir = "fitplugin/test/sampleHtml/";
 
-    public static void main (String argv[]) {
+    public static void main (String argv[]) throws Exception {
+        System.out.println("Starting up Pseudo Server...");
+        htmldir = System.getProperty("user.dir") + "/" + htmldir;
         new PseudoWebApp();
-        while (true) {
-            //loop until process terminated.
-        }
+        while (true) { Thread.sleep(1); } //loop until process terminated.
     }
 
     public PseudoServer getServer() {
         return server;
     }
 
-    public PseudoWebApp() {
+    public PseudoWebApp() throws Exception {
         buildSite();
     }
 
-    private void buildSite() {
+    private void buildSite() throws Exception {
         server = new PseudoServer();
-        server.setResource("/menu",
-                "<html><head><title>Menu Page</title></head><body>" +
-                "<a href=\"/colorForm\">Color form page</a>" +
-                "<a href=\"/multiButtonForm\">Multiple button form page</a>" +
-                "<a href=\"/multiForm\">Two forms page</a>" +
-                "<a href=\"/tables\">Table page</a>" +
-                "<table summary=\"t1\">" +
-                "<tr><td>table text</td></tr>" +
-                "</table></body></html>");
-        server.setResource("/colorForm",
-                "<html><head><title>Choose Color Page</title></head><body>" +
-                "<form method=GET action=\"/colorPost\" >" +
-                "Enter color (red or blue):" +
-                "<input type=\"text\" name=\"color\" value=\"default\"/>" +
-                "<input type=\"submit\"/>" +
-                "</form>" +
-                "</body></html>");
-        server.setResource("/colorPost?color=blue",
-                "<html><head><title>Blue Page</title></head>" +
-                "<body style=\"color: rgb(0,0,0); background-color: rgb(0,0,153);\" link=\"#000099\" vlink=\"#990099\" alink=\"#000099\">" +
-                "</body></html>");
-        server.setResource("/colorPost?color=red",
-                "<html><head><title>Red Page</title></head>" +
-                "<body style=\"color: rgb(0,0,0); background-color: rgb(255,0,0);\" link=\"#000099\" vlink=\"#990099\" alink=\"#000099\">" +
-                "</body></html>");
-        server.setResource("/multiButtonForm",
-                "<html><head><title>Multi-Button Page</title></head><body>" +
-                "<form method=GET action=\"/buttonPost\" >" +
-                "Enter friend and choose button: " +
-                "<input type=\"text\" name=\"textField\"/>" +
-                "<input type=\"submit\"name=\"Button1\" value=\"Button_1\"/>" +
-                "<input type=\"submit\"name=\"Button2\" value=\"Button_2\"/>" +
-                "</form></body></html>");
-        server.setResource("/buttonPost?textField=friend&Button1=Button_1",
-                "<html><head><title>Button 1 Pressed Page</title></head>" +
-                "<body>" + "<h1>Button 1 Pressed</h1>" + "</body></html>");
-        server.setResource("/buttonPost?textField=friend&Button2=Button_2",
-                "<html><head><title>Button 2 Pressed Page</title></head>" +
-                "<body>" + "<h1>Button 2 Pressed</h1>" + "</body></html>");
-        server.setResource("/multiForm",
-                "<html><head><title>Multi-Form Page</title></head><body>" +
-                "<form name=\"buttonForm\" method=GET action=\"/buttonPost\" >" +
-                "Enter friend and choose button: " +
-                "<input type=\"text\" name=\"textField\"/>" +
-                "<input type=\"submit\"name=\"Button1\" value=\"Button_1\"/>" +
-                "<input type=\"submit\"name=\"Button2\" value=\"Button_2\"/>" +
-                "</form>" + "<hr>" +
-                "<form name=\"colorForm\" method=GET action=\"/colorPost\" >" +
-                "Enter color (red or blue):" +
-                "<input type=\"text\" name=\"color\" value=\"default\"/>" +
-                "<input type=\"submit\"/>" +
-                "</form>" +
-                "</body></html>");
-        server.setResource("/personalInfoForm",
-                "<html><head><title>Personal Info Questionnaire</title></head><body>" +
-                "<form method=POST action=\"/personalInfoPost\" >" +
-                "Stuff about you:" +
-                "<input type=\"text\" name=\"fullName\"/>" +
-                "<input type=\"checkbox\" name=\"citizenCheckbox\"/>" +
-                "<select name=\"state\"><option value=\"Tennessee\">Tennessee</option>" +
-                    "<option value=\"None\" SELECTED> </option>" +
-                    "<option value=\"Georgia\">Georgia</option></select>" +
-                "<input type=\"submit\"/>" +
-                "</form>" +
-                "</body></html>");
 
-         server.setResource("personalInfoPost", new PseudoServlet() {
+        server.setResource("/menu", read(new File(htmldir + "SampleMenu.html")));
+        server.setResource("/colorForm", read(new File(htmldir + "ColorForm.html")));
+        server.setResource("/personalInfoForm", read(new File(htmldir + "PersonalInfoForm.html")));
+        server.setResource("/enterMoria", read(new File(htmldir + "MoriaDoorForm.html")));
+        server.setResource("/moria_door.jpeg", readBytes(new File(htmldir + "moria_door.jpeg")), "jpeg image");
+
+        server.setResource("colorPost", new PseudoServlet() {
+           public WebResource getPostResponse() {
+               WebResource result = new WebResource("<html><head><title>Color Page</title></head>" +
+                                                     "<body style=\"color: rgb(0,0,0); background-color: " + getParm("color") + ";\" link=\"#000099\" vlink=\"#990099\" alink=\"#000099\">" +
+                                                     "Your chosen color was " + getParm("color") + "." +
+                                                     "</body></html>");
+               return result;
+           }
+           public WebResource getGetResponse() throws IOException {
+               return getPostResponse();
+           }
+
+           public String getParm(String s) {
+                return super.getParameter(s) != null? getParameter(s)[0] : "";
+           }
+        });
+
+        server.setResource("moriaPost", new PseudoServlet() {
+           public WebResource getPostResponse() {
+               WebResource result = null;
+               if ((!getParm("EnterButton").equals("")) &&
+                   (getParm("password").toLowerCase().equals("friend"))) {
+                   result = new WebResource("<html><head><title>Moria</title></head>" +
+                                            "<body style=\"background-color: beige\">" +
+                                            "You made it!" + "</body></html>");
+               }
+               else {
+                   result = new WebResource("<html><head><title>Moria Entry Failure</title></head>" +
+                                            "<body style=\"background-color: beige\">" +
+                                            "Nope! <a href=\"/enterMoria\">Try again!</a>" + "</body></html>");
+
+               }
+               return result;
+           }
+           public WebResource getGetResponse() throws IOException {
+               return getPostResponse();
+           }
+
+           public String getParm(String s) {
+                return super.getParameter(s) != null? getParameter(s)[0] : "";
+           }
+        });
+
+
+        server.setResource("personalInfoPost", new PseudoServlet() {
             public WebResource getPostResponse() {
-                String fullName = getParameter("fullName")[0];
-                String state = getParameter("state")[0];
                 String citizenship = "not a citizen";
                 if (getParameter("citizenCheckbox") != null &&
                     getParameter("citizenCheckbox")[0].equals("on")) {
                     citizenship = "a citizen";
                 }
                 WebResource result = new WebResource("<html><head><title>Personal Info Results</title></head>" +
-                                                     "<body>Name given is " + fullName + "<br>" +
-                                                     "You indicated that you are " + citizenship + "." +
-                                                     "You live in " + state + "." +
+                                                     "<body style=\"background-color: beige\"><br>Name given is " + getParm("fullName") + "<br>" +
+                                                     "You indicated that you are " + citizenship + ".<br>" +
+                                                     "You live in " + getParm("state") + ".<br>" +
+                                                     "You are " + getParm("sex") + "." +
                                                      "</body></html>");
                 return result;
             }
             public WebResource getGetResponse() throws IOException {
                 return getPostResponse();
             }
+
+            public String getParm(String s) {
+                 return super.getParameter(s) != null? getParameter(s)[0] : "none indicated";
+            }
          });
 
-        server.setResource("/tables",
-                "<html><head><title>Table Page</title></head><body>" +
-                "<table summary=\"t1\">" +
-                "<tr><td>table text</td></tr>" +
-                "</table></body></html>");
+    }
+
+
+    byte [] readBytes(File input) throws IOException {
+        byte bytes[] = new byte[(int)(input.length())];
+        FileInputStream in = new FileInputStream(input);
+        in.read(bytes);
+        in.close();
+        return bytes;
+    }
+
+    String read(File input) throws IOException {
+        char chars[] = new char[(int)(input.length())];
+        FileReader in = new FileReader(input);
+        in.read(chars);
+        in.close();
+        return new String(chars);
     }
 }

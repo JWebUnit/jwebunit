@@ -1,0 +1,1 @@
+java -Duser.dir=..\.. -classpath d:\projects\jwebunit\bin;d:\projects\jwebunit\lib\httpunit.jar net.sourceforge.jwebunit.fit.PseudoWebApp

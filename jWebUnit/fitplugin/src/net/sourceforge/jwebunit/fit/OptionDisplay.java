@@ -14,7 +14,6 @@ public class OptionDisplay extends RowFixture {
 
     public void doRows(Parse rows) {
         selectName = rows.parts.text();
-        System.out.println("selectName = " + selectName);
         super.doRows(rows.more);
     }
 
