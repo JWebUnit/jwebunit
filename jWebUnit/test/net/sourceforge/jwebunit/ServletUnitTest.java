@@ -49,7 +49,8 @@ public class ServletUnitTest extends JWebUnitTest {
         defineResource("foo.html", "foo");
 
         String url = getTestContext().getBaseUrl() + "foo.html";
-        HttpUnitDialog dialog = new HttpUnitDialog(url, whichContext);
+        HttpUnitDialog dialog = new HttpUnitDialog();
+        dialog.beginAt(url, whichContext);
 
         assertTrue(dialog.getWebClient() instanceof WebConversation);
     }
