@@ -1,0 +1,39 @@
+
+<html><body>
+Test starting at a URL, basic form entry and submission, checking of form element
+values and page title.<br><br>
+
+<table border="1" cellpadding=4>
+<tr><td colspan=4>net.sourceforge.jwebunit.fit.WebFixture</td></tr>
+<tr><td>baseUrl</td><td>http://localhost:8081</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>begin</td><td>start</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>check</td><td>title equals</td><td bgcolor="#cfffcf">Start Page</td><td>&nbsp;</td></tr>
+<tr><td>check</td><td>text in table</td><td>t1</td><td bgcolor="#cfffcf">table text</td></tr>
+<tr><td>enter</td><td>field1</td><td>testValue</td><td>&nbsp;</td></tr>
+<tr><td>check</td><td>form element equals</td><td>field1</td><td bgcolor="#cfffcf">testValue</td></tr>
+<tr><td>press</td><td>submit</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>check</td><td>title equals</td><td bgcolor="#cfffcf">Main Page</td><td>&nbsp;</td></tr>
+</table>
+<br><br>
+
+Test submit of named button where multiple buttons exist.<br><br>
+
+<table border="1" cellpadding=4>
+<tr><td colspan=3>net.sourceforge.jwebunit.fit.WebFixture</td></tr>
+<tr><td>begin</td><td>multiForm</td><td>&nbsp;</td></tr>
+<tr><td>enter</td><td>field1</td><td>testValue</td></tr>
+<tr><td>press</td><td>submit</td><td>Button1</td></tr>
+<tr><td>check</td><td>title equals</td><td bgcolor="#cfffcf">Button 1 Pressed Page</td></tr>
+</table>
+<br><br>
+
+Test link navigation.<br><br>
+<table border="1" cellpadding=4>
+<tr><td colspan=3>net.sourceforge.jwebunit.fit.WebFixture</td></tr>
+<tr><td>begin</td><td>start</td><td>&nbsp;</td></tr>
+<tr><td>press</td><td>link</td><td>click me</td></tr>
+<tr><td>check</td><td>title equals</td><td bgcolor="#cfffcf">Main Page</td></tr>
+</table>
+<br><br>
+
+</html></body>

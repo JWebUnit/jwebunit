@@ -1,7 +1,5 @@
 package fit;
 
-import net.sourceforge.jwebunit.fit.PseudoWebApp;
-
 import java.io.*;
 import java.util.StringTokenizer;
 
@@ -10,11 +8,15 @@ public class DirectoryRunner {
     private File targetDirectory;
 
     public static void main (String argv[]) {
-        PseudoWebApp app = new PseudoWebApp();
         new DirectoryRunner().run(argv);
     }
 
-    public void run (String argv[]) {
+    public void run(String argv[]) {
+        process(argv);
+        exit();
+    }
+
+    public void process(String argv[]) {
         args(argv);
         File [] files = targetDirectory.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
@@ -24,7 +26,7 @@ public class DirectoryRunner {
         for (int i = 0; i < files.length; i++) {
             File file = files[i];
             FileRunner runner = new FileRunner();
-            runner.run(new String[] {file.getAbsolutePath(), getOutputFileName(file.getName())});
+            runner.process(new String[] {file.getAbsolutePath(), getOutputFileName(file.getName())});
         }
     }
 
@@ -39,7 +41,7 @@ public class DirectoryRunner {
                 outputFileName.append(part);
             }
         }
-        return outputFileName.toString();
+        return targetDirectory.getPath() + "/" + outputFileName.toString();
     }
 
     void args(String[] argv) {
@@ -54,4 +56,9 @@ public class DirectoryRunner {
         }
     }
 
+
+   void exit() {
+        System.err.println(Fixture.counts());
+        System.exit(Fixture.wrong + Fixture.exceptions);
+    }
 }

@@ -63,7 +63,7 @@ public class WebFixture extends ActionFixture {
         MethodInvoker invoker = new MethodInvoker(tester, methName, args);
         try {
             invoker.invoke();
-            right(cells.last());
+            markLastArgumentRight(cells.more.more, args.length);
         } catch (InvocationTargetException ite) {
             Throwable t = ite.getTargetException();
             if(t instanceof AssertionFailedError ) {
@@ -80,9 +80,14 @@ public class WebFixture extends ActionFixture {
         }
     }
 
+    private void markLastArgumentRight(Parse more, int length) {
+        right(more.at(length - 1));
+    }
+
+
     private String[] getArgs(Parse cell) {
         List args = new ArrayList();
-        while(cell != null) {
+        while((cell != null) && (!cell.text().equals(""))) {
             args.add(cell.text());
             cell = cell.more;
         }

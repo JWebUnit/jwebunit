@@ -6,6 +6,13 @@ public class PseudoWebApp {
 
     private PseudoServer server;
 
+    public static void main (String argv[]) {
+        PseudoWebApp app = new PseudoWebApp();
+        while (true) {
+            //loop until process terminated.
+        }
+    }
+
     public PseudoServer getServer() {
         return server;
     }
