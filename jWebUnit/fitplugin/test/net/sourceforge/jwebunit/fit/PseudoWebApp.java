@@ -92,7 +92,12 @@ public class PseudoWebApp {
                                                      "<tr><td>Name</td><td>Name given is " + getParm("fullName") + ".</td></tr>" +
                                                      "<tr><td>Citizenship</td><td>You indicated that you are " + citizenship + ".</td></tr>" +
                                                      "<tr><td>State of Residence</td><td>You live in " + getParm("state") + ".</td></tr>" +
-                                                     "<tr><td>Sex</td><td>You are " + getParm("sex") + ".</td></tr></table>" +
+                                                     "<tr><td>Sex</td><td>You are " + getParm("sex") + ".</td></tr></table>" + "<br><br>" +
+                                                     "<table id=\"infoTableColHeaders\"><tr><td colspan=3>Personal Information Table - Column Headers</td></tr>" +
+                                                     "<tr><td>Name</td><td>Citizenship</td><td>State of Residence</td><td>Sex</td></tr>" +
+                                                     "<tr><td>" + getParm("fullName") + "</td><td>" + citizenship + "</td><td>" + getParm("state") + "</td><td>" + getParm("sex") + "</td></tr>" +
+                                                     "<tr><td>Fred Evans</td><td>a citizen</td><td>Tennessee</td><td>male</td></tr>" +
+                                                     "<tr><td>Rebecca VonStavoren</td><td>not a citizen</td><td>North Carolina</td><td>female</td></tr></table>" +
                                                      "</body></html>");
                 return result;
             }
