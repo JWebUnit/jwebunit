@@ -4,11 +4,19 @@
     <id>jwebunit</id>
     <name>jWebUnit</name>
     <currentVersion>1.2</currentVersion>
+<!--
     <organization>
         <name>Thoughtworks</name>
         <url>http://www.thoughtworks.com</url>
         <logo>/images/tw_logo.jpg</logo>
     </organization>
+-->
+    <organization>
+        <name>SourceForge</name>
+        <url>http://www.sourceforge.net</url>
+        <logo>http://sourceforge.net/sflogo.php?group_id=61302&amp;type=5</logo>
+    </organization>
+
     <inceptionYear>2002</inceptionYear>
     <package>net.sourceforge.jwebunit</package>
     <logo>/images/jwebunit-logo.png</logo>
