@@ -41,15 +41,20 @@
         <url>http://cvs.sourceforge.net/viewcvs.py/jwebunit</url>
     </repository>
     <versions>
-<!--
         <version>
             <id>1.2</id>
             <name>1.2</name>
-            <tag>
+            <tag>RELEASE_1_2</tag>
         </version>
--->
     </versions>
-    <branches/>
+    <branches>
+		<branch>
+			<tag>release_1_2</tag>
+		</branch>
+		<branch>
+			<tag>JACOBIE</tag>
+		</branch>
+	</branches>
     <mailingLists>
         <mailingList>
             <name>${pom.name} Development Mailing list</name>
