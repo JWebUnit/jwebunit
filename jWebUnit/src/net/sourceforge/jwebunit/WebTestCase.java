@@ -191,6 +191,14 @@ public class WebTestCase extends TestCase {
     public void assertRadioOptionNotSelected(String radioGroup, String radioOption) {
         tester.assertRadioOptionNotSelected(radioGroup, radioOption);
     }
+    
+    public void assertOptionPresent(String selectName, String optionLabel) {
+    	tester.assertOptionPresent(selectName, optionLabel);
+    }
+
+    public void assertOptionNotPresent(String selectName, String optionLabel) {
+    	tester.assertOptionNotPresent(selectName, optionLabel);
+    }
 
     public void assertOptionsEqual(String selectName, String[] options){
         tester.assertOptionsEqual(selectName, options);

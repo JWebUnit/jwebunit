@@ -881,6 +881,24 @@ public class HttpUnitDialog {
 		}
 		throw new RuntimeException("Unable to find option " + option + " for " + selectName);
 	}
+	
+	/**
+	 * Return true if a select box has the given option (by label).
+	 * 
+	 * @param selectName
+	 * 			name of the select box.
+	 * @param optionLabel
+	 * 			label of the option.
+	 * @return
+	 */
+	public boolean hasSelectOption(String selectName, String optionLabel) {
+		String[] opts = getOptionsFor(selectName);
+		for (int i = 0; i < opts.length; i++) {
+			if (opts[i].equals(optionLabel))
+				return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Select an option of a select box by display label.

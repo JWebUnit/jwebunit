@@ -464,6 +464,30 @@ public class WebTester {
         Assert.assertTrue("Radio option " + radioOption + " is not selected",
                 !radioOption.equals(dialog.getFormParameterValue(name)));
     }
+    
+    /**
+     * Assert that a specific option is present in a select box.
+     * 
+     * @param selectName name of the select element.
+     * @param expectedOption option label.
+     */
+    public void assertOptionPresent(String selectName, String optionLabel) {
+    	assertFormElementPresent(selectName);
+    	Assert.assertTrue("Option " + optionLabel + " not found in select element " + selectName,
+    					   dialog.hasSelectOption(selectName, optionLabel));
+    }
+
+    /**
+     * Assert that a specific option is not present in a select box.
+     * 
+     * @param selectName name of the select element.
+     * @param expectedOption option label.
+     */
+    public void assertOptionNotPresent(String selectName, String optionLabel) {
+    	assertFormElementPresent(selectName);
+    	Assert.assertTrue("Option " + optionLabel + " found in select element " + selectName + " when not expected.",
+    					   !dialog.hasSelectOption(selectName, optionLabel));
+    }
 
     /**
      * Assert that the display values of a select element's options match a given array of strings.
