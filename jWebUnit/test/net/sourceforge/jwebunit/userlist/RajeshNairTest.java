@@ -1,8 +1,6 @@
 /*
  * Created on Aug 29, 2004
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package net.sourceforge.jwebunit.userlist;
 
@@ -14,8 +12,6 @@ import net.sourceforge.jwebunit.util.JettySetup;
 /**
  * @author Martijn
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
  */
 public class RajeshNairTest extends WebTestCase {
 
