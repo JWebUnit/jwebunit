@@ -28,6 +28,8 @@ public class WebTester {
     private HttpUnitDialog dialog;
 
     private TestContext context = new TestContext();
+    
+    private boolean tableEmptyCellCompression = true;
 
     /**
      * Provides access to the httpunit wrapper for subclasses - in case
@@ -332,26 +334,30 @@ public class WebTester {
     public void assertTableRowsEqual(String tableSummaryOrId, int startRow,
             String[][] expectedCellValues) {
         assertTablePresent(tableSummaryOrId);
-        String[][] sparseTableCellValues = dialog
-                .getSparseTableBySummaryOrId(tableSummaryOrId);
-        if (expectedCellValues.length > (sparseTableCellValues.length - startRow))
+        String[][] actualTableCellValues;
+        if (tableEmptyCellCompression) {
+            actualTableCellValues = dialog.getSparseTableBySummaryOrId(tableSummaryOrId);
+        } else {
+            actualTableCellValues = dialog.getWebTableBySummaryOrId(tableSummaryOrId).asText();
+        }
+        if (expectedCellValues.length > (actualTableCellValues.length - startRow))
                 Assert.fail("Expected rows [" + expectedCellValues.length
                         + "] larger than actual rows in range being compared"
-                        + " [" + (sparseTableCellValues.length - startRow)
+                        + " [" + (actualTableCellValues.length - startRow)
                         + "].");
         for (int i = 0; i < expectedCellValues.length; i++) {
             String[] row = expectedCellValues[i];
             for (int j = 0; j < row.length; j++) {
-                if (row.length != sparseTableCellValues[i].length)
+                if (row.length != actualTableCellValues[i].length)
                         Assert.fail("Unequal number of columns for row " + i
                                 + " of table " + tableSummaryOrId
                                 + ". Expected [" + row.length + "] found ["
-                                + sparseTableCellValues[i].length + "].");
+                                + actualTableCellValues[i].length + "].");
                 String expectedString = row[j];
                 Assert.assertEquals("Expected " + tableSummaryOrId
                         + " value at [" + i + "," + j + "] not found.",
                         expectedString, context
-                                .toEncodedString(sparseTableCellValues[i
+                                .toEncodedString(actualTableCellValues[i
                                         + startRow][j].trim()));
             }
         }
@@ -1229,6 +1235,35 @@ public class WebTester {
     public void dumpTable(String tableNameOrId, String[][] table,
             PrintStream stream) {
         dialog.dumpTable(tableNameOrId, table, stream);
+    }
+    
+    //Settings
+    /**
+     * This setting controls whether the tester will compress html tables before
+     * compaing them against expecteds via table assertions.  Compression means that
+     * rows with no displayable contents in their cells are eliminated before comparison,
+     * and also that empty cells in a row are discarded except as padding at the end of
+     * a row to reach the number of columns needed for non-empty content.
+     * 
+     * The default is compression true.  The point of compressing the table before comparison
+     * is to prevent testers from having to worry about testing table spacing rather than content.
+     * 
+     * Confused?  Example:
+     * 
+     * If compression is true the following html table (,'s mark cell divisions):
+     * 
+     * alpha,beta,charlie
+     * delta,&nbsp;,echo,
+     * &nbsp;,&nbsp;,&nbsp;
+     * &nbsp;,foxtrot,&nbsp;
+     * 
+     * Will be compressed to the following before comparison with actual.
+     * alpha,beta,charlie
+     * delta,echo,&nbsp;
+     * foxtrot,&nbsp;,&nbsp;
+     */
+    public void setTableEmptyCellCompression(boolean bool) {
+        this.tableEmptyCellCompression = bool;
     }
 
 }

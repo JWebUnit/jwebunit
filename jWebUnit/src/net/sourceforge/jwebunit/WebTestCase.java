@@ -460,5 +460,11 @@ public class WebTestCase extends TestCase {
     protected void dumpTable(String tableNameOrId, String[][] table) {
         tester.dumpTable(tableNameOrId, table);
     }
+    
+    //Settings
+    
+    public void setTableEmptyCellCompression(boolean bool) {
+        tester.setTableEmptyCellCompression(bool);
+    }
 
 }

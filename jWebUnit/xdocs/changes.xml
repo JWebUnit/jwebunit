@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 		<release version="1.3" date="UNKNOWN" description="New features await us">
+			<action type="add" dev="Jim Weaver" due-to="nottrz" issue="897022">
+				Added a setting on webtester/webtestcase to turn table compression off.
+			</action>
 			<action type="add" dev="Jim Weaver" due-to="Jacques Morel" issue="980105">
 				Made submitRequest(WebLink link) on HttpUnitDialog  protected.
 			</action>

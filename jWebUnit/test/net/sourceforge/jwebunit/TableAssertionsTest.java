@@ -96,6 +96,23 @@ public class TableAssertionsTest extends JWebUnitTest {
                                 new String[][]{{"table text row 3", "row 3 col 1"},
                                                {"unexpected", ""}}});
     }
+    
+    public void testTableWithSpacesWithCompressionOfEmptyCells() throws Throwable {
+        assertTablePresent("tree");
+        String[][] table = {{"root", "", ""},
+        {"child1", "child2", ""},
+        {"child1.1", "child2.1", "child2.2"}};
+        assertTableEquals("tree", table);
+    }
+    
+    public void testTableWithSpacesUnCompressed() throws Throwable {
+        assertTablePresent("tree");
+        String[][] table = {{"root", "", "", ""},
+        {"child1", "", "child2", ""},
+        {"child1.1", "", "child2.1", "child2.2"}};
+        setTableEmptyCellCompression(false);
+        assertTableEquals("tree", table);
+    }
 
     private void addTestPage() {
         defineWebPage("testPage", "This is a test page." +
@@ -111,6 +128,28 @@ public class TableAssertionsTest extends JWebUnitTest {
                                   "<input type=\"checkbox\" name=\"checkboxnotselected\">" +
                                   "</form>" +
                                   "<form name=\"form2\"></form>" +
+                                  "</table>" +
+                                  "<table id=\"tree\">" +
+                                  "<tbody>" +
+                                  "<tr>" +
+                                  "<td>root</td>" +
+                                  "<td>&nbsp;</td>" +
+                                  "<td>&nbsp;</td>" +
+                                  "<td>&nbsp;</td>" +
+                                  "</tr>" +
+                                  "<tr>" +
+                                  "<td>child1</td>" +
+                                  "<td>&nbsp;</td>" +
+                                  "<td>child2</td>" +
+                                  "<td>&nbsp;</td>" +
+                                  "</tr>" +
+                                  "<tr>" +
+                                  "<td>child1.1</td>" +
+                                  "<td>&nbsp;</td>" +
+                                  "<td>child2.1</td>" +
+                                  "<td>child2.2</td>" +
+                                  "</tr>" +
+                                  "</tbody>" +
                                   "</table>");
         defineWebPage("noFormPage", "");
     }
