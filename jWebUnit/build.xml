@@ -13,7 +13,8 @@
             <include name="**/*.jar"/>
         </fileset>
     </path>
-
+	
+	<tstamp/>
     <path id="tests.classpath">
         <pathelement location="${build.classes.dir}"/>
         <path refid="src.classpath"/>
@@ -63,7 +64,15 @@
     </target>
 
     <target name="make-zip" depends="gen-javadoc">
-        <jar destfile="dist/${dist.name.jar}">
+ <echo file="${build.dir}/info.txt">Manifest-Version: 1.0
+Sealed: false
+jWebUnit-Version: ${build.version}
+Build-Date: ${TODAY}
+Build-Time: ${TSTAMP}
+</echo>
+
+        <jar destfile="dist/${dist.name.jar}"
+					manifest="${build.dir}/info.txt">
             <fileset dir="${build.classes.dir}"/>
             <fileset dir="licenses"/>
         </jar>
