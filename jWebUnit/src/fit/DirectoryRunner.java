@@ -49,7 +49,7 @@ public class DirectoryRunner {
             System.err.println("usage: java fit.DirectoryRunner [targetDirectory]");
             System.exit(-1);
         }
-        if (argv[0] != null) {
+        if(argv.length == 1) {
             targetDirectory = new File(argv[0]);
         } else {
             targetDirectory = new File(".");
