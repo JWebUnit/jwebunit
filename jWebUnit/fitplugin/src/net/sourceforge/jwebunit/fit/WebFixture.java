@@ -89,9 +89,8 @@ public class WebFixture extends ActionFixture {
     public void check() throws Exception {
         String methName = camel( "assert " + cells.more.text());
         String args[] = getArgs(cells.more.more);
-        MethodInvoker invoker = new MethodInvoker(tester, methName, args);
         try {
-            invoker.invoke();
+            getInvoker(methName, args).invoke();
             markLastArgumentRight(cells.more.more, args.length);
         } catch (InvocationTargetException ite) {
             Throwable t = ite.getTargetException();
@@ -105,6 +104,20 @@ public class WebFixture extends ActionFixture {
         } catch (Exception e) {
             exception(cells.last(), e);
         }
+    }
+
+     private MethodInvoker getInvoker(String methName, String[] args) throws NoSuchMethodException {
+        MethodInvoker invoker;
+        try {
+            invoker = new MethodInvoker(tester, methName, args);
+            invoker.getMethod();
+        } catch (NoSuchMethodException e) {
+            //if the method is not on the tester,
+            //check this instance (could be defined in a subclass
+            invoker = new MethodInvoker(this, methName, args);
+            invoker.getMethod();
+        }
+        return invoker;
     }
 
     private void markLastArgumentRight(Parse more, int length) {
@@ -124,6 +137,12 @@ public class WebFixture extends ActionFixture {
             cell = cell.more;
         }
         return (String[])args.toArray(new String[0]);
+    }
+
+    protected void dumpResponse() {
+        System.err.println("***************begin page***********************");
+        tester.dumpResponse(System.err);
+        System.err.println("***************end page*************************");
     }
 
 }
