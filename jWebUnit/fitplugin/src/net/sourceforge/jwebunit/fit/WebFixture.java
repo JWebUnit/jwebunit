@@ -87,7 +87,7 @@ public class WebFixture extends ActionFixture {
     }
 
     public void check() throws Exception {
-        String methName = camel( "assert " + cells.more.text());
+        String methName = camel( "assert " + AssertionMap.getAssertionName(cells.more.text()));
         String args[] = getArgs(cells.more.more);
         try {
             getInvoker(methName, args).invoke();

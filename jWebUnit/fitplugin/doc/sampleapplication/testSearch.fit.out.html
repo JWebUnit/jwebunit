@@ -109,7 +109,7 @@ results page.<br>
     <tr>
       <td valign="top">check<br>
       </td>
-      <td valign="top">title equals<br>
+      <td valign="top">title<br>
       </td>
       <td valign="top" bgcolor="#cfffcf">Wiki: Search Results<br>
       </td>
@@ -165,7 +165,7 @@ Finally we test search results.<br>
      <tr>
        <td valign="top">check<br>
        </td>
-       <td valign="top">title equals<br>
+       <td valign="top">title<br>
        </td>
        <td valign="top" bgcolor="#cfffcf">Wiki: Search Results<br>
        </td>
@@ -190,6 +190,12 @@ Finally we test search results.<br>
   </tbody>   
 </table>
 <br>
+This last test is not how it would appear if we were testing against a static
+set of wiki pages under our control. &nbsp;In that case, we would probably
+have search results and the search summary in separate html tables, and we
+would validate the exact contents of those tables rather than just testing
+for the one link being present. &nbsp;As soon as Martin's name gets added
+somewhere, the above test will begin failing.<br>
 <br>
 <br>
 </body>
