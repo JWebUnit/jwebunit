@@ -470,6 +470,7 @@ public class HttpUnitDialog {
     public void submit(String buttonName) {
         try {
             getForm().getSubmitButton(buttonName).click();
+            resp = wc.getCurrentPage();
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
