@@ -45,7 +45,7 @@
 
     <target name="test" depends="compile">
         <junit fork="yes" haltonfailure="yes" printsummary="yes" >
-            <formatter type="plain" usefile="false"/>
+            <formatter type="xml" usefile="true"/>
             <classpath>
                 <path refid="junit.classpath"/>
             </classpath>
