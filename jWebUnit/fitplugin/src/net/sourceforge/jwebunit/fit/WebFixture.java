@@ -9,6 +9,7 @@ import junit.framework.AssertionFailedError;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class WebFixture extends ActionFixture {
     protected static WebTester tester = new WebTester();
@@ -16,6 +17,16 @@ public class WebFixture extends ActionFixture {
     public WebFixture() {
         actor = this;
     }
+
+    public void doCells(Parse cells) {
+        this.cells = cells;
+        try {
+            Method action = getClass().getMethod(camel(cells.text()), empty);
+            action.invoke(this, empty);
+        } catch (Exception e) {
+            exception(cells, e);
+        }
+    }    
 
     public String getBaseUrl() {
         return tester.getTestContext().getBaseUrl();
