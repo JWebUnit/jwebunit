@@ -26,58 +26,20 @@
 		</p>
 	</subsection>
 	<subsection name="Building jWebUnit">
-		TODO
+		<p>
+			All you have to do is call:
+			<source>ant clean-dist</source>
+			and Ant will do the rest. The java source will be compiled, 
+			the javadocs generated, tests performed and a jar-file created.
+		</p>
 	</subsection>
 	<subsection name="Building a release">
 		<p>
-			TODO
+			The preferred method of building a release is using maven. However,
+			if you don't want to use maven, you can use <source>ant clean-dist</source>
+			for creating the distribution zip-file.
 		</p>
 	</subsection>
 </section>
-<!--
-<p>
-    First download jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
-    and expand to a local directory.
-</p>
-</section>
-<subsection name="Dependencies">
-<p>
-    The following dependencies are needed to run jWebUnit and are available in the lib directory. See
-    <a href="dependencies.html">this page</a> for more information on the precise version numbers for each jar. 
-</p>
-<p>
-    <table class="default" cellspacing="2" border="1">
-        <tr>
-            <th>Dependency</th>
-            <th>Description</th>
-        </tr>
-        <tr>
-            <td><a href="http://sourceforge.net/projects/httpunit">HttpUnit</a></td>
-            <td>Java library for the automatic stimulation and testing of web applications.</td>
-        </tr>
-        <tr>
-            <td><a href="http://www.mozilla.org/rhino/">Rhino</a></td>
-            <td>Java javascript implementation used by httpunit. Only needed if javascript in target application must be tested.</td>
-        </tr>
-        <tr>
-            <td><a href="http://www.apache.org/~andyc/neko/doc/html/">nekohtml</a></td>
-            <td>Java html parser and beautifier used by httpunit.</td>
-        </tr>
-        <tr>
-            <td><a href="http://www.junit.org">JUnit</a></td>
-            <td>Java testing framework.</td>
-        </tr>
-        <tr>
-            <td><a href="http://xml.apache.org/xerces2-j/">Apache XML API</a></td>
-            <td>Common XML stuff needed by Tidy/HttpUnit.</td>
-        </tr>
-        <tr>
-            <td><a href="http://xml.apache.org/xerces2-j/">Xerces xml parser</a></td>
-            <td>Needed for Httpunit/neko.</td>
-        </tr>
-    </table>
-</p>
-</subsection>
--->
 </body>
 </document>
