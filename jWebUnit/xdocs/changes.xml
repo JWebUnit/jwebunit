@@ -6,6 +6,11 @@
 	</properties>
 	<body>
 		<release version="1.3" date="UNKNOWN" description="New features await us">
+			<action type="add" dev="Jim Weaver" issue="1004243" due-to="Srinivasan Ranganthan">
+				Added HttpUnitDialog setter on WebTester in case someone using delegation wants to carry
+				state from one tester to another.  Also made some signatures on WebTester public that 
+				were mistakenly protected.
+			</action>
 			<action type="add" dev="Jim Weaver" issue="1029306">
 				Added some explanation to exception when HttpUnit fails to submit using default submit button.
 			</action>
