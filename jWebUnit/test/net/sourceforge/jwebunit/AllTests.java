@@ -10,10 +10,21 @@ import net.sourceforge.jwebunit.util.reflect.MethodInvokerTest;
 
 /**
  * Test Suite for jWebUnit.
- *
+ * 
  * @author Wilkes Joiner
  */
-public class AllTests extends TestSuite{
+public class AllTests extends TestSuite {
+
+    /**
+     * Runs all the tests for jWebUnit. Add each new TestCase by using the
+     * <code>addTestSuite(Class)</code> method, so that the TestCase's
+     * <code>suite</code> method <strong>isn't called </strong>. This prevents
+     * <code>JettySetup</code> from starting the Jetty server twice and
+     * consequently the error 'port 80xx is already in use'.
+     * 
+     * @return the <code>TestSuite</code> containing all the tests for
+     *         jWebUnit ready to run utilizing Jetty as testserver.
+     */
     public static Test suite() {
         TestSuite suite = new TestSuite();
         suite.addTestSuite(NavigationTest.class);
@@ -25,17 +36,17 @@ public class AllTests extends TestSuite{
         suite.addTestSuite(FormAssertionsTest.class);
         suite.addTestSuite(TableAssertionsTest.class);
         suite.addTestSuite(TextAndElementWalkerTest.class);
-		suite.addTestSuite(FramesAndWindowsTest.class);
-		suite.addTestSuite(JavaScriptEventsTest.class);
-		suite.addTestSuite(ServletUnitTest.class);
-		suite.addTestSuite(MethodInvokerTest.class);
-		suite.addTestSuite(WebCookieTest.class);
-		suite.addTestSuite(FormAssertionBug.class);
-		suite.addTestSuite(HelloWorldTest.class);
+        suite.addTestSuite(FramesAndWindowsTest.class);
+        suite.addTestSuite(JavaScriptEventsTest.class);
+        suite.addTestSuite(ServletUnitTest.class);
+        suite.addTestSuite(MethodInvokerTest.class);
+        suite.addTestSuite(WebCookieTest.class);
+        suite.addTestSuite(FormAssertionBug.class);
+        suite.addTestSuite(HelloWorldTest.class);
         return new JettySetup(suite);
     }
 
-     public static void main( String[] args ) {
-        junit.textui.TestRunner.run( suite() );
+    public static void main(String[] args) {
+        junit.textui.TestRunner.run(suite());
     }
 }
