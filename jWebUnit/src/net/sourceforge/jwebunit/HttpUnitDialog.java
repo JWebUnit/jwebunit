@@ -331,6 +331,20 @@ public class HttpUnitDialog {
         submitRequest(link.getRequest());
     }
 
+    public void clickLinkByID(String anID) {
+        WebLink link = null;
+        try {
+            link = resp.getLinkWithID(anID);
+        } catch (SAXException e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+        if (link == null)
+            throw new RuntimeException("No Link found with ID \"" + anID + "\"");
+        submitRequest(link.getRequest());
+
+    }
+
+
     public boolean hasRadioOption(String radioGroup, String radioOption) {
         WebForm[] forms = getForms();
         for (int i = 0; i < forms.length; i++) {
@@ -342,6 +356,14 @@ public class HttpUnitDialog {
             }
         }
         return false;
+    }
+
+    public boolean isLinkPresentById(String anId) {
+        try {
+            return resp.getLinkWithID(anId) != null;
+        } catch (SAXException e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
     }
 
 }

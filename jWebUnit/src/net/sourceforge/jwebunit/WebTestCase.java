@@ -209,6 +209,14 @@ public class WebTestCase extends TestCase {
         tester.assertLinkNotInResponse(linkText);
     }
 
+    public void assertLinkPresentByID(String anId) {
+        tester.assertLinkPresentByID(anId);
+    }
+
+    public void assertLinkNotPresentByID(String anId) {
+        tester.assertLinkNotPresentByID(anId);
+    }
+
     protected void submit() {
         tester.submit();
     }
@@ -219,6 +227,10 @@ public class WebTestCase extends TestCase {
 
     protected void clickLink(String linkText) {
         tester.clickLink(linkText);
+    }
+
+    protected void clickLinkByID(String anID) {
+        tester.clickLinkByID(anID);
     }
 
     protected void dumpResponse(PrintStream stream) {

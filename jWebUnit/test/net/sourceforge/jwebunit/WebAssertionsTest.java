@@ -41,13 +41,21 @@ public class WebAssertionsTest extends JWebUnitTest {
         assertPassFail("assertLinkNotInResponse", "no such link", "test link");
     }
 
+    public void testAssertLinkPresentByID() throws Throwable {
+        assertPassFail("assertLinkPresentByID", "test_link_id", "no_link_id");
+    }
+
+    public void testAssertLinkNotPresentByID() throws Throwable {
+        assertPassFail("assertLinkNotPresentByID", "no_link_id", "test_link_id");
+    }
+
     private void addTestPage() {
         defineWebPage("testPage", "This is a test page." +
                                   "<table summary=\"testTable\">" +
                                   "<tr ID=\"row1\"><td>table text</td></tr>" +
                                   "<tr><td>table text row 2</td></tr>" +
                                   "<tr><td>table text row 3</td><td>row 3 col 1</td>" +
-                                  "<a href=\"someurl.html\">test link</a>" +
+                                  "<a id=\"test_link_id\" href=\"someurl.html\">test link</a>" +
                                   "<form>" +
                                   "<input type=\"text\" name=\"testInputElement\" value=\"testValue\"/>" +
                                   "<input type=\"submit\" name=\"submitButton\" value=\"buttonLabel\"/>" +

@@ -48,6 +48,12 @@ public class NavigationTest extends JWebUnitTest {
         assertTitleEquals("targetPage");
     }
 
+    public void testClickLinkByID() {
+        gotoLinkTestPage();
+        clickLinkByID("activeID");
+        assertTitleEquals("targetPage");
+    }
+
     private void gotoLinkTestPage() {
         defineWebPage("pageWithLink", "<a href=\"/targetPage.html\" id=\"activeID\">an <b>active</b> link</A>\n");
         defineWebPage("targetPage", "");

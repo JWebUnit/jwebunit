@@ -581,4 +581,16 @@ public class WebTester {
         dialog.setWorkingForm(nameOrId);
     }
 
+    public void assertLinkPresentByID(String anId) {
+        Assert.assertTrue("Unable to find link with id ["+ anId + "]", dialog.isLinkPresentById(anId));
+    }
+
+    public void assertLinkNotPresentByID(String anId) {
+        Assert.assertTrue("Unable to find link with id ["+ anId + "]", !dialog.isLinkPresentById(anId));
+    }
+
+    public void clickLinkByID(String anID) {
+        dialog.clickLinkByID(anID);
+    }
+
 }
