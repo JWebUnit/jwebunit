@@ -22,7 +22,7 @@ public class FramesAndWindowsTest extends JWebUnitTest {
                 "<a id=\"ChildPage2\">Child Page 2</a>\n");
         defineWebPage("ChildPage1", "This is child 1");
         defineWebPage("ChildPage2", "This is child 2");
-        defineWebPage("Frames", "<html><frameset rows=\"33%, 33%, 33%\"><frame name=\"TopFrame\" src=\"TopFrame.html\"><frame name=\"ContentFrame\" src=\"ContentFrame.html\"><frame name=\"BottomFrame\" src=\"BottomFrame.html\"></frameset></html>");
+        defineResource("Frames.html", "<html><head></head><frameset rows=\"33%, 33%, 33%\"><frame name=\"TopFrame\" src=\"TopFrame.html\"><frame name=\"ContentFrame\" src=\"ContentFrame.html\"><frame name=\"BottomFrame\" src=\"BottomFrame.html\"></frameset></html>");
         defineWebPage("TopFrame", "<html><body>TopFrame</body></html>");
         defineWebPage("ContentFrame", "<html><body>ContentFrame" +
                         "<form name='frameForm' method ='GET' action='TargetPage'>" +
@@ -81,4 +81,5 @@ public class FramesAndWindowsTest extends JWebUnitTest {
         submit();
         assertTextPresent("This is the red page");
     }
+
 }

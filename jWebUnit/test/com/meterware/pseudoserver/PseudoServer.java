@@ -209,12 +209,11 @@ public class PseudoServer {
                 if (resource.getResponseCode() != HttpURLConnection.HTTP_OK) {
                     response.setResponse( resource.getResponseCode(), "" );
                 }
-                response.addHeader( "Content-type: " + resource.getContentType() + resource.getCharacterSetParameter() );
                 String[] headers = resource.getHeaders();
                 for (int i = 0; i < headers.length; i++) {
                     response.addHeader( headers[i] );
                 }
-                response.write( resource.getContents() );
+                response.write( resource );
             }
         } catch (UnknownMethodException e) {
             response.setResponse( HttpURLConnection.HTTP_BAD_METHOD, "unsupported method: " + e.getMethod() );
@@ -310,9 +309,9 @@ class HttpResponseStream {
     }
 
 
-    void write( byte[] contents ) throws IOException {
+    void write( WebResource resource ) throws IOException {
         flushHeaders();
-        _stream.write( contents, 0, contents.length );
+        resource.writeTo( _stream );
     }
 
 
@@ -322,7 +321,7 @@ class HttpResponseStream {
     }
 
 
-    private void flushHeaders() throws IOException {
+    private void flushHeaders() {
         if (!_headersWritten) {
             sendResponse( _responseCode, _responseText );
             for (Enumeration e = _headers.elements(); e.hasMoreElements();) {
@@ -335,18 +334,18 @@ class HttpResponseStream {
     }
 
 
-    private void sendResponse( int responseCode, String responseText ) throws IOException {
+    private void sendResponse( int responseCode, String responseText ) {
         sendLine( "HTTP/1.0 " + responseCode + ' ' + responseText );
     }
 
 
-    private void sendLine( String text ) throws IOException {
+    private void sendLine( String text ) {
         sendText( text );
         sendText( CRLF );
     }
 
 
-    private void sendText( String text ) throws IOException {
+    private void sendText( String text ) {
         _pw.write( text );
     }
 
@@ -360,3 +359,4 @@ class HttpResponseStream {
 
     private boolean   _headersWritten;
 }
+
