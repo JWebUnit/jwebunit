@@ -10,17 +10,19 @@
     <tbody>
     <tr>
         <td valign="top" style="width: 100px; white-space: nowrap;"><br></td>
-        <td valign="top" ><h1 style="text-align: center;">jWebUnit Cookbook</h1></td>
+        <td valign="top" ><h1 style="text-align: center;">jWebUnit Quick Start</h1></td>
     </tr>
     <tr>
         <td valign="top">
-            <a href="http://sourceforge.net/projects/jwebunit/">Project Page</a><br>
-            <br>
+            <a href="index.html">Home</a><br>
+            Quick Start<br>
             <a href="doc/index.html">Javadoc</a><br>
-            <a href="quickstart.html">Quick Start</a><br>
+            <br>
+            <a href="http://sourceforge.net/projects/jwebunit/">Project Page</a><br>
+            <a href="http://sourceforge.net/projects/jwebunit/files">Download</a><br>
             <br>
             <a href="http://httpunit.sourceforge.net/">HttpUnit</a><br>
-            <a href="www.junit.org">Junit</a><br>
+            <a href="http://www.junit.org">Junit</a><br>
             <br>
         </td>
         <td valign="top">
@@ -53,6 +55,7 @@ public class ExampleWebTestCase extends TestCase {
 </pre>
 For the rest of the examples, we will use the inheritence approach.
 <br>
+<br>
 <h2>Navigating Your Web Application</h2>
 Navigation is a two step process.  First, point your TestCase to your application, then access a particular resource. Let's say that your app is running on <tt>http://myserver:8080/myapp</tt>.  To minimize the number of the times we must set this, we set this either in the constructor or in the setUp() method of our TestCase.
 <pre>
@@ -67,7 +70,7 @@ or
         getTestContext().setBaseURL("http://myserver:8080/myapp");
     }
 </pre>
-The TestContext encapsulates the configuration a TestCase.  More information is availible in the <a href="">Javadocs</a>.<br>
+The TestContext encapsulates the configuration a TestCase.  More information is availible in the <a href="doc/index.html">Javadocs</a>.<br>
 <br>
 Now that your TestCase is pointed at your application, you can navigate to your particular resource.  For example, you have a html page, info.html, located under your application root, then you can access it in your test method with the following code:
 <pre>
@@ -110,6 +113,7 @@ Once you have navigated to the page you wish to test, you can call the assertion
         assertTextInResponse("User successfully added."):
     }
 </pre>
+For more information, consult the <a href="doc/index.html">Javadocs</a>.
 <br>
 <!-- End Main -->
         </td>
