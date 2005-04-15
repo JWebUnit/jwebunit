@@ -717,7 +717,7 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
     /**
      * Resets the Dialog
      */
-    public void reset() {
+    public void reset() throws TestingEngineResponseException {
     }
 
     /**

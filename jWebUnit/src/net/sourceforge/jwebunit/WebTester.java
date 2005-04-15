@@ -1256,7 +1256,11 @@ public class WebTester {
 	 * @see resetForm to reset a form in the response.
 	 */
 	public void reset() {
-		getDialog().reset();
+		try {
+			getDialog().reset();
+		} catch (TestingEngineResponseException aTestingEngineResponseException) {
+			handleTestingEngineResponseException(aTestingEngineResponseException);
+		}
 	}
 	
     /**

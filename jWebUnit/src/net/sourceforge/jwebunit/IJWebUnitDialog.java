@@ -240,7 +240,7 @@ public interface IJWebUnitDialog {
     /**
      * Reset the Dialog for the next test.  This is not reset Form.
      */
-    public abstract void reset();
+    public abstract void reset() throws TestingEngineResponseException;
 
     /**
      * Reset the current form. See {@link #getForm}for an explanation of how

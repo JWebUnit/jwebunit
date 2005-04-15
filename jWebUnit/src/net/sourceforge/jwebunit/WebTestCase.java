@@ -37,7 +37,7 @@ public class WebTestCase extends TestCase {
     	super.setUp();
 
         //New implementation on choosing a testing engine (dialog).
-        setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_JACOBIE);
+        //setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_JACOBIE);
         //setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
     }
     
