@@ -1,14 +1,23 @@
 package net.sourceforge.jwebunit;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.util.JettySetup;
+
 /**
  * Test table equals assertions using expected tables.
  */
-public class ExpectedTableAssertionsTest extends JWebUnitTest {
+public class ExpectedTableAssertionsTest extends JWebUnitAPITestCase {
+
+
+	public static Test suite() {
+		return new JettySetup(new TestSuite(ExpectedTableAssertionsTest.class));
+	}
 
     public void setUp() throws Exception {
         super.setUp();
-        addTestPage();
-        beginAt("/testPage.html");
+		getTestContext().setBaseUrl(HOST_PATH + "/ExpectedTableAssertionsTest");
+		beginAt("/ExpectedTableAssertionsTestPage.html");
     }
 
     public void testAssertTableEquals() throws Throwable {
@@ -28,17 +37,5 @@ public class ExpectedTableAssertionsTest extends JWebUnitTest {
         });
         assertFail("assertTableEquals", new Object[]{"testTable", badTable});
     }
-
-    private void addTestPage() {
-        defineWebPage("testPage", "This is a test page." +
-                                  "<table summary=\"testTable\">" +
-                                  "<tr><td>table text</td></tr>" +
-                                  "<tr><td>table text row 2</td></tr>" +
-                                  "<tr><td>table text row 3</td><td>row 3 col 1</td></tr>" +
-                                  "<tr><td colspan=\"2\">row 4</td></tr>" +
-                                  "</table>");
-        defineWebPage("noFormPage", "");
-    }
-
 
 }

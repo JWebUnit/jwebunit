@@ -6,7 +6,7 @@ package net.sourceforge.jwebunit.userlist;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.WebTestCase;
+import net.sourceforge.jwebunit.JWebUnitAPITestCase;
 import net.sourceforge.jwebunit.util.JettySetup;
 
 /**
@@ -14,36 +14,35 @@ import net.sourceforge.jwebunit.util.JettySetup;
  * bugreport under number <a
  * href="http://sourceforge.net/support/tracker.php?aid=1049592">1049592 </a>.
  */
-public class RajeshNairTest extends WebTestCase {
+public class RajeshNairTest extends JWebUnitAPITestCase {
 
-    /**
-     * Create the testsuite decorated with the Jetty setup.
-     * 
-     * @return the decorated testsuite.
-     */
-    public static Test suite() {
-        return new JettySetup(new TestSuite(RajeshNairTest.class));
-    }
+	/**
+	 * Create the testsuite decorated with the Jetty setup.
+	 * 
+	 * @return the decorated testsuite.
+	 */
+	public static Test suite() {
+		return new JettySetup(new TestSuite(RajeshNairTest.class));
+	}
 
-    /**
-     * This test gives a <code>NullPointerException</code> when the
-     * <code>submit()</code> function is called. This is actually a bug in
-     * HTTPUnit.
-     * 
-     * @todo TODO confirm this bug has been solved in a new release of HTTPUnit.
-     */
-    public void testSubmitForm() {
-        getTestContext().setBaseUrl(
-                "http://localhost:8081/jwebunit/Userlist/RajeshNair");
-        beginAt("report.htm");
-        try {
-            // submit(); // gives NullPointerException.
-            clickButton("submit_View_Report"); // works.
-        } catch (RuntimeException e) {
-            if (e.getMessage().startsWith("java.lang.NullPointerException")) {
-                fail("NullPointerException caught");
-            }
-            throw e;
-        }
-    }
+	/**
+	 * This test gives a <code>NullPointerException</code> when the
+	 * <code>submit()</code> function is called. This is actually a bug in
+	 * HTTPUnit.
+	 * 
+	 * @todo TODO confirm this bug has been solved in a new release of HTTPUnit.
+	 */
+	public void testSubmitForm() {
+		getTestContext().setBaseUrl(HOST_PATH + "/Userlist/RajeshNair");
+		beginAt("report.htm");
+		try {
+			// submit(); // gives NullPointerException.
+			clickButton("submit_View_Report"); // works.
+		} catch (RuntimeException e) {
+			if (e.getMessage().startsWith("java.lang.NullPointerException")) {
+				fail("NullPointerException caught");
+			}
+			throw e;
+		}
+	}
 }

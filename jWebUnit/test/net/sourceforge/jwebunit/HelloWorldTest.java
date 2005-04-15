@@ -12,21 +12,23 @@ import net.sourceforge.jwebunit.util.JettySetup;
  * 
  * @author Martijn Dashorst
  */
-public class HelloWorldTest extends WebTestCase {
-    public HelloWorldTest(String name) {
-        super(name);
-    }
+public class HelloWorldTest extends JWebUnitAPITestCase {
+	public HelloWorldTest(String name) {
+		super(name);
+	}
 
-    public void setUp() {
-        getTestContext().setBaseUrl("http://localhost:8081/jwebunit");
-        beginAt("/helloworld.html");
-    }
+	public static Test suite() {
+		return new JettySetup(new TestSuite(HelloWorldTest.class));
+	}
 
-    public void testTitle() {
-        assertTitleEquals("Hello, World!");
-    }
+	public void setUp() throws Exception {
+		super.setUp();
+		getTestContext().setBaseUrl("http://localhost:8081/jwebunit");
+		beginAt("/helloworld.html");
+	}
 
-    public static Test suite() {
-        return new JettySetup(new TestSuite(HelloWorldTest.class));
-    }
+	public void testTitle() {
+		assertTitleEquals("Hello, World!");
+	}
+
 }

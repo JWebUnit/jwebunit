@@ -1,157 +1,131 @@
 /*
- * User: djoiner
- * Date: Sep 9, 2002
- * Time: 3:26:47 PM
+ * User: djoiner Date: Sep 9, 2002 Time: 3:26:47 PM
  */
 package net.sourceforge.jwebunit;
 
-public class TableAssertionsTest extends JWebUnitTest {
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.util.JettySetup;
 
-    public void setUp() throws Exception {
-        super.setUp();
-        addTestPage();
-        beginAt("/testPage.html");
-    }
+public class TableAssertionsTest extends JWebUnitAPITestCase {
 
-    public void testAssertTablePresent() throws Throwable {
-        assertPassFail("assertTablePresent", "testTable", "noTable");
-    }
+	public static Test suite() {
+		Test suite = new TestSuite(TableAssertionsTest.class);
+		return new JettySetup(suite);
+	}
 
-    public void testAssertTableNotPresent() throws Throwable {
-        assertPassFail("assertTableNotPresent", "noTable", "testTable");
-    }
+	public void setUp() throws Exception {
+		super.setUp();
+		getTestContext().setBaseUrl(HOST_PATH + "/TableAssertionsTest");
+		beginAt("/TableAssertionsTestPage.html");
+	}
 
-    public void testAssertTextInTable() throws Throwable {
-        assertPassFail("assertTextInTable",
-                       new Object[]{"testTable", "table text"},
-                       new Object[]{"testTable", "no such text"});
-    }
+	public void testAssertTablePresent() throws Throwable {
+		assertPassFail("assertTablePresent", "testTable", "noTable");
+	}
 
-    public void testAssertTextNotInTable() throws Throwable {
-        assertPassFail("assertTextNotInTable",
-                       new Object[]{"testTable", "no such text"},
-                       new Object[]{"testTable", "table text"});
-    }
+	public void testAssertTableNotPresent() throws Throwable {
+		assertPassFail("assertTableNotPresent", "noTable", "testTable");
+	}
 
-    public void testAssertTextArrayInTable() throws Throwable {
-        assertPassFail("assertTextInTable",
-                       new Object[]{"testTable", new String[]{"table text", "table text row 2"}},
-                       new Object[]{"testTable", new String[]{"table text", "no such row 2"}});
-    }
+	public void testAssertTextInTable() throws Throwable {
+		assertPassFail("assertTextInTable", new Object[] { "testTable",
+				"table text" }, new Object[] { "testTable", "no such text" });
+	}
 
-    public void testAssertTextArrayNotInTable() throws Throwable {
-        assertPassFail("assertTextNotInTable",
-                       new Object[]{"testTable", new String[]{"no such row 1", "no such row 2"}},
-                       new Object[]{"testTable", new String[]{"no such row 1", "table text row 2"}});
-    }
+	public void testAssertTextNotInTable() throws Throwable {
+		assertPassFail("assertTextNotInTable", new Object[] { "testTable",
+				"no such text" }, new Object[] { "testTable", "table text" });
+	}
 
-    public void testAssertTableEquals() throws Throwable {
-        assertPass("assertTableEquals",
-                   new Object[]{"testTable", new String[][]{{"table text", ""},
-                                                            {"table text row 2", ""},
-                                                            {"table text row 3", "row 3 col 1"}}});
-    }
+	public void testAssertTextArrayInTable() throws Throwable {
+		assertPassFail("assertTextInTable", new Object[] { "testTable",
+				new String[] { "table text", "table text row 2" } },
+				new Object[] { "testTable",
+						new String[] { "table text", "no such row 2" } });
+	}
 
-    public void testAssertTableEqualsExtraColumn() throws Throwable {
-        assertFail("assertTableEquals",
-                   new Object[]{"testTable", new String[][]{{"table text", "", "extra column"},
-                                                            {"table text row 2", ""},
-                                                            {"table text row 3", "row 3 col 1"}}});
-    }
+	public void testAssertTextArrayNotInTable() throws Throwable {
+		assertPassFail("assertTextNotInTable", new Object[] { "testTable",
+				new String[] { "no such row 1", "no such row 2" } },
+				new Object[] { "testTable",
+						new String[] { "no such row 1", "table text row 2" } });
+	}
 
-    public void testAssertTableEqualsExtraRow() throws Throwable {
-        assertFail("assertTableEquals",
-                   new Object[]{"testTable", new String[][]{{"table text", ""},
-                                                            {"table text row 2", ""},
-                                                            {"table text row 3", "row 3 col 1"},
-                                                            {"no row 4"}}});
-    }
+	public void testAssertTableEquals() throws Throwable {
+		assertPass("assertTableEquals", new Object[] {
+				"testTable",
+				new String[][] { { "table text", "" },
+						{ "table text row 2", "" },
+						{ "table text row 3", "row 3 col 1" } } });
+	}
 
-    public void testAssertTableEqualsInvalidColumnText() throws Throwable {
-        assertFail("assertTableEquals",
-                   new Object[]{"testTable", new String[][]{{"table text", ""},
-                                                            {"no such text in row 2", ""},
-                                                            {"table text row 3", "row 3 col 1"}}});
-    }
+	public void testAssertTableEqualsExtraColumn() throws Throwable {
+		assertFail("assertTableEquals", new Object[] {
+				"testTable",
+				new String[][] { { "table text", "", "extra column" },
+						{ "table text row 2", "" },
+						{ "table text row 3", "row 3 col 1" } } });
+	}
 
-    public void testAssertTableEqualsMissingText() throws Throwable {
-        assertFail("assertTableEquals",
-                   new Object[]{"testTable", new String[][]{{"table text", ""},
-                                                            {"table text row 2", ""},
-                                                            {"table text row 3", ""}}});
-    }
+	public void testAssertTableEqualsExtraRow() throws Throwable {
+		assertFail("assertTableEquals",
+				new Object[] {
+						"testTable",
+						new String[][] { { "table text", "" },
+								{ "table text row 2", "" },
+								{ "table text row 3", "row 3 col 1" },
+								{ "no row 4" } } });
+	}
 
-    public void testAssertTableRowsEquals() throws Throwable {
-        assertPass("assertTableRowsEqual",
-                   new Object[]{"testTable",
-                                new Integer(1),
-                                new String[][]{{"table text row 2", ""},
-                                               {"table text row 3", "row 3 col 1"}}});
-    }
+	public void testAssertTableEqualsInvalidColumnText() throws Throwable {
+		assertFail("assertTableEquals", new Object[] {
+				"testTable",
+				new String[][] { { "table text", "" },
+						{ "no such text in row 2", "" },
+						{ "table text row 3", "row 3 col 1" } } });
+	}
 
-    public void testAssertTableRowsEqualsTooManyExpected() throws Throwable {
-        assertFail("assertTableRowsEqual",
-                   new Object[]{"testTable",
-                                new Integer(2),
-                                new String[][]{{"table text row 3", "row 3 col 1"},
-                                               {"unexpected", ""}}});
-    }
-    
-    public void testTableWithSpacesWithCompressionOfEmptyCells() throws Throwable {
-        assertTablePresent("tree");
-        String[][] table = {{"root", "", ""},
-        {"child1", "child2", ""},
-        {"child1.1", "child2.1", "child2.2"}};
-        assertTableEquals("tree", table);
-    }
-    
-    public void testTableWithSpacesUnCompressed() throws Throwable {
-        assertTablePresent("tree");
-        String[][] table = {{"root", "", "", ""},
-        {"child1", "", "child2", ""},
-        {"child1.1", "", "child2.1", "child2.2"}};
-        setTableEmptyCellCompression(false);
-        assertTableEquals("tree", table);
-    }
+	public void testAssertTableEqualsMissingText() throws Throwable {
+		assertFail("assertTableEquals",
+				new Object[] {
+						"testTable",
+						new String[][] { { "table text", "" },
+								{ "table text row 2", "" },
+								{ "table text row 3", "" } } });
+	}
 
-    private void addTestPage() {
-        defineWebPage("testPage", "This is a test page." +
-                                  "<table id=\"testTable\">" +
-                                  "<tr><td>table text</td></tr>" +
-                                  "<tr><td>table text row 2</td></tr>" +
-                                  "<tr><td>table text row 3</td><td>row 3 col 1</td>" +
-                                  "<a href=\"someurl.html\">test link</a>" +
-                                  "<form>" +
-                                  "<input type=\"text\" name=\"testInputElement\" value=\"testValue\"/>" +
-                                  "<input type=\"submit\" name=\"submitButton\" value=\"buttonLabel\"/>" +
-                                  "<input type=\"checkbox\" name=\"checkboxselected\" CHECKED>" +
-                                  "<input type=\"checkbox\" name=\"checkboxnotselected\">" +
-                                  "</form>" +
-                                  "<form name=\"form2\"></form>" +
-                                  "</table>" +
-                                  "<table id=\"tree\">" +
-                                  "<tbody>" +
-                                  "<tr>" +
-                                  "<td>root</td>" +
-                                  "<td>&nbsp;</td>" +
-                                  "<td>&nbsp;</td>" +
-                                  "<td>&nbsp;</td>" +
-                                  "</tr>" +
-                                  "<tr>" +
-                                  "<td>child1</td>" +
-                                  "<td>&nbsp;</td>" +
-                                  "<td>child2</td>" +
-                                  "<td>&nbsp;</td>" +
-                                  "</tr>" +
-                                  "<tr>" +
-                                  "<td>child1.1</td>" +
-                                  "<td>&nbsp;</td>" +
-                                  "<td>child2.1</td>" +
-                                  "<td>child2.2</td>" +
-                                  "</tr>" +
-                                  "</tbody>" +
-                                  "</table>");
-        defineWebPage("noFormPage", "");
-    }
+	public void testAssertTableRowsEquals() throws Throwable {
+		assertPass("assertTableRowsEqual", new Object[] {
+				"testTable",
+				new Integer(1),
+				new String[][] { { "table text row 2", "" },
+						{ "table text row 3", "row 3 col 1" } } });
+	}
+
+	public void testAssertTableRowsEqualsTooManyExpected() throws Throwable {
+		assertFail("assertTableRowsEqual", new Object[] {
+				"testTable",
+				new Integer(2),
+				new String[][] { { "table text row 3", "row 3 col 1" },
+						{ "unexpected", "" } } });
+	}
+
+	public void testTableWithSpacesWithCompressionOfEmptyCells()
+			throws Throwable {
+		assertTablePresent("tree");
+		String[][] table = { { "root", "", "" }, { "child1", "child2", "" },
+				{ "child1.1", "child2.1", "child2.2" } };
+		assertTableEquals("tree", table);
+	}
+
+	public void testTableWithSpacesUnCompressed() throws Throwable {
+		assertTablePresent("tree");
+		String[][] table = { { "root", "", "", "" },
+				{ "child1", "", "child2", "" },
+				{ "child1.1", "", "child2.1", "child2.2" } };
+		setTableEmptyCellCompression(false);
+		assertTableEquals("tree", table);
+	}
 
 }

@@ -12,120 +12,117 @@ import junit.framework.TestSuite;
  * @author Jim Weaver
  * @author Wilkes Joiner
  */
-public class NavigationTest extends WebTestCase {
+public class NavigationTest extends JWebUnitAPITestCase {
 
-    private String hostPath;
+	public static Test suite() {
+		Test suite = new TestSuite(NavigationTest.class);
+		return new JettySetup(suite);
+	}
 
-    public static Test suite() {
-        Test suite = new TestSuite(NavigationTest.class);
-        return new JettySetup(suite);
-    }
+	public void setUp() throws Exception {
+		super.setUp();
+		getTestContext().setBaseUrl(HOST_PATH + "/NavigationTest");
+	}
 
-    public void setUp() throws Exception {
-        hostPath = "http://localhost:8081/jwebunit";
-        getTestContext().setBaseUrl(hostPath + "/NavigationTest");
-    }
+	public void testBeginAt() {
+		beginAt("/blah.html");
+	}
 
-    public void testBeginAt() {
-        beginAt("/blah.html");
-    }
+	public void testForwardSlashConfusion() throws Exception {
+		beginAt("/blah.html");
+		beginAt("blah.html");
+		getTestContext().setBaseUrl(HOST_PATH + "/NavigationTest/");
+		beginAt("/blah.html");
+		beginAt("blah.html");
+	}
 
-    public void testForwardSlashConfusion() throws Exception {
-        beginAt("/blah.html");
-        beginAt("blah.html");
-        getTestContext().setBaseUrl(hostPath + "/NavigationTest/");
-        beginAt("/blah.html");
-        beginAt("blah.html");
-    }
+	public void testInvalidBeginAt() {
 
-    public void testInvalidBeginAt() {
-        try {
-            beginAt("/nosuchresource.html");
-            fail("Expected exception");
-        } catch (Throwable t) {
-        }
-    }
+		beginAt("/nosuchresource.html");
+		assertTitleEquals("Error 404 Not Found");
 
-    public void testClickLinkWithText() {
-        beginAt("/pageWithLink.html");
-        assertTitleEquals("pageWithLink");
+	}
 
-        clickLinkWithText("an active link");
-        assertTitleEquals("targetPage");
-    }
+	public void testClickLinkWithText() {
+		beginAt("/pageWithLink.html");
+		assertTitleEquals("pageWithLink");
 
-    public void testClickLinkWithTextN() {
-        beginAt("/pageWithLink.html");
-        assertTitleEquals("pageWithLink");
+		clickLinkWithText("an active link");
+		assertTitleEquals("targetPage");
+	}
 
-        clickLinkWithText("an active link", 0);
-        assertTitleEquals("targetPage");
+	public void testClickLinkWithTextN() {
+		beginAt("/pageWithLink.html");
+		assertTitleEquals("pageWithLink");
 
-        beginAt("/pageWithLink.html");
-        clickLinkWithText("an active link", 1);
+		clickLinkWithText("an active link", 0);
+		assertTitleEquals("targetPage");
 
-        assertTitleEquals("targetPage2");
-        beginAt("/pageWithLink.html");
-        try {
-            clickLinkWithText("an active link", 2);
-            fail();
-        } catch (AssertionFailedError expected) {
-            assertEquals("Link with text [an active link] and index [2] "
-                    + "not found in response.", expected.getMessage());
-        }
-        assertTitleEquals("pageWithLink");
-    }
+		beginAt("/pageWithLink.html");
+		clickLinkWithText("an active link", 1);
 
-    public void testClickLinkWithTextAfterText() {
-        beginAt("/pageWithLinkWithTextAfterText.html");
-        clickLinkWithTextAfterText("link text", "First:");
-        assertTitleEquals("targetPage");
+		assertTitleEquals("targetPage2");
+		beginAt("/pageWithLink.html");
+		try {
+			clickLinkWithText("an active link", 2);
+			fail();
+		} catch (AssertionFailedError expected) {
+			assertEquals("Link with text [an active link] and index [2] "
+					+ "not found in response.", expected.getMessage());
+		}
+		assertTitleEquals("pageWithLink");
+	}
 
-        beginAt("/pageWithLinkWithTextAfterText.html");
-        clickLinkWithTextAfterText("link text", "Second:");
-        assertTitleEquals("targetPage2");
-    }
+//	public void testClickLinkWithTextAfterText() {	
+//		beginAt("/pageWithLinkWithTextAfterText.html");
+//		clickLinkWithTextAfterText("link text", "First:");
+//		assertTitleEquals("targetPage");
+//
+//		beginAt("/pageWithLinkWithTextAfterText.html");
+//		clickLinkWithTextAfterText("link text", "Second:");
+//		assertTitleEquals("targetPage2");
+//	}
 
-    public void testClickLinkWithImage() {
-        beginAt("/pageWithLink.html");
-        assertTitleEquals("pageWithLink");
+	public void testClickLinkWithImage() {
+		beginAt("/pageWithLink.html");
+		assertTitleEquals("pageWithLink");
 
-        clickLinkWithImage("graphic.jpg");
-        assertTitleEquals("targetPage2");
-    }
+		clickLinkWithImage("graphic.jpg");
+		assertTitleEquals("targetPage2");
+	}
 
-    public void testClickLinkByID() {
-        beginAt("/pageWithLink.html");
-        assertTitleEquals("pageWithLink");
+	public void testClickLinkByID() {
+		beginAt("/pageWithLink.html");
+		assertTitleEquals("pageWithLink");
 
-        clickLink("activeID");
-        assertTitleEquals("targetPage");
-    }
+		clickLink("activeID");
+		assertTitleEquals("targetPage");
+	}
 
-    public void testInvalidClickLink() {
-        beginAt("/pageWithLink.html");
-        assertTitleEquals("pageWithLink");
+	public void testInvalidClickLink() {
+		beginAt("/pageWithLink.html");
+		assertTitleEquals("pageWithLink");
 
-        try {
-            clickLinkWithText("no such link");
-        } catch (Throwable t) {
-            return;
-        }
-        fail("Expected exception");
-    }
+		try {
+			clickLinkWithText("no such link");
+		} catch (Throwable t) {
+			return;
+		}
+		fail("Expected exception");
+	}
 
-    public void testGotoPage() {
-        beginAt("/targetPage.html");
-        assertTitleEquals("targetPage");
-        gotoPage("/targetPage2.html");
-        assertTitleEquals("targetPage2");
-    }
-    
-    //For bug 726143
-    public void testLinkWithEscapedText() {
-        beginAt("/pageWithAmpersandInLink.html");
-        assertLinkPresentWithText("Map & Directions");
-        clickLinkWithText("Map & Directions");
-        assertTitleEquals("targetPage");
-    }
+	public void testGotoPage() {
+		beginAt("/targetPage.html");
+		assertTitleEquals("targetPage");
+		gotoPage("/targetPage2.html");
+		assertTitleEquals("targetPage2");
+	}
+
+	//For bug 726143
+	public void testLinkWithEscapedText() {
+		beginAt("/pageWithAmpersandInLink.html");
+		assertLinkPresentWithText("Map & Directions");
+		clickLinkWithText("Map & Directions");
+		assertTitleEquals("targetPage");
+	}
 }

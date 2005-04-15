@@ -15,6 +15,8 @@ import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
  */
 public abstract class JWebUnitAPITestCase extends WebTestCase {
 
+    protected static final Object[] NOARGS = new Object[0];
+
 	public final String HOST_PATH = "http://localhost:8081/jwebunit";
 	
 	/**

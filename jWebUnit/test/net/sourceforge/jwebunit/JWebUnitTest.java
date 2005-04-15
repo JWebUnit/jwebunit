@@ -10,6 +10,9 @@ import com.meterware.pseudoserver.PseudoServlet;
 /**
  * Superclass for testing jWebUnit.  Uses test utilities from httpunit's test package.
  *
+ * @deprecated  This class is deprecated due to using the httpunit code as a test server.  Moving to using the
+ * new superclass which uses Jetty as a test webserver for "testing" the jwebunit api.
+ *
  * @author Jim Weaver
  * @author Wilkes Joiner
  */
