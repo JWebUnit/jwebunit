@@ -106,7 +106,7 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 	/**
 	 * Resets all private variables contained by this class.
 	 */
-	public void reset() {
+	public void reset() throws TestingEngineResponseException {
 		resetIE();
 	}
 
@@ -122,12 +122,17 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 	 * Resets the IE object. Must kill the object (quit) before calling a new
 	 * one.
 	 */
-	public void resetIE() {
+	public void resetIE() throws TestingEngineResponseException {
 		IE theIE = getIe();
-		theIE.Quit();
-		//ComThread.Release(); //this may have been causing problems between
-		// each "test" method ran.
-		setIe(null);
+		try {
+			theIE.Quit();
+		} catch (InterruptedException aInterruptedException) {
+			throw new TestingEngineResponseException(ExceptionUtility
+					.stackTraceToString(aInterruptedException));
+		} finally {
+			setIe(null);
+		}
+
 	}
 
 	public String getResponsePageTitle() {
@@ -207,7 +212,7 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 
 		if (theString == null) {
 			throw new RuntimeException(
-					"Element Not Found witht the following name: [" + paramName
+					"Element Not Found with the following name: [" + paramName
 							+ "]");
 		}
 
@@ -384,7 +389,8 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 	public boolean isLinkPresentWithImage(String imageFileName) {
 		boolean bReturn = false;
 		Document theDocument = getIe().getDocument();
-		if (theDocument != null && theDocument.hasLinkByInnerHTML(imageFileName)) {
+		if (theDocument != null
+				&& theDocument.hasLinkByInnerHTML(imageFileName)) {
 			bReturn = true;
 		}
 		return bReturn;
@@ -548,15 +554,16 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 		}
 	}
 
-    /**
-     * Navigate by submitting a request based on a link with a given image file name. A RuntimeException is thrown if
-     * no such link can be found.
-     * 
-     * @param imageFileName
-     *            A suffix of the image's filename; for example, to match <tt>"images/my_icon.png"<tt>, you could just pass in
-     *                      <tt>"my_icon.png"<tt>.
-     */
-    public void clickLinkWithImage(String imageFileName) {
+	/**
+	 * Navigate by submitting a request based on a link with a given image file
+	 * name. A RuntimeException is thrown if no such link can be found.
+	 * 
+	 * @param imageFileName
+	 *            A suffix of the image's filename; for example, to match
+	 *            <tt>"images/my_icon.png"<tt>, you could just pass in
+	 *                      <tt>"my_icon.png"<tt>.
+	 */
+	public void clickLinkWithImage(String imageFileName) {
 		try {
 			IE theIE = getIe();
 			Document theDocument = theIE.getDocument();
@@ -568,11 +575,9 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 			throw new RuntimeException(ExceptionUtility
 					.stackTraceToString(anException));
 		}
-    	
-    }
 
-	
-	
+	}
+
 	public void clickLinkWithText(String linkText) {
 		try {
 			IE theIE = getIe();
@@ -616,6 +621,11 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 			}
 
 		}
+	}
+
+	public void clickLinkWithTextAfterText(String linkText, String labelText) {
+		throw new UnsupportedOperationException(
+				"clickLinkWithTextAfterText not supported yet by Jacobie");
 	}
 
 	/**
