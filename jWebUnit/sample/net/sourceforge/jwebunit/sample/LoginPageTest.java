@@ -28,6 +28,7 @@ public class LoginPageTest extends WebTestCase {
     }
 
     public void setUp() throws Exception {
+    	super.setUp();
         server = new PseudoServer();
         HttpUnitOptions.reset();
         hostPath = "http://localhost:" + server.getConnectedPort();
@@ -36,7 +37,10 @@ public class LoginPageTest extends WebTestCase {
     }
 
     public void tearDown() throws Exception {
-        if (server != null) server.shutDown();
+        super.tearDown();
+        if (server != null) {
+        	server.shutDown();
+        }
     }
 
     public void testInitialState() {
