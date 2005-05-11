@@ -55,14 +55,14 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 		super();
 	}
 
-	public void beginAt(String url, TestContext context) {
+	public void beginAt(String url, TestContext context) throws TestingEngineResponseException {
 		//no notion yet of a test context.
 		initWebClient();
 		try {
 			naviateToPage(url);
-		} catch (Exception anException) {
-			throw new RuntimeException(ExceptionUtility
-					.stackTraceToString(anException));
+		} catch (Exception aException) {			
+			//cant find requested page.  most browsers will return a page with 404 in the body or title.
+            throw new TestingEngineResponseException(ExceptionUtility.stackTraceToString(aException));
 		}
 
 	}

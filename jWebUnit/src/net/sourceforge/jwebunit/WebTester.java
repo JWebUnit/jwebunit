@@ -126,8 +126,13 @@ public class WebTester {
 	 * 
 	 * @param relativeURL
 	 */
-	public void beginAt(String aRelativeURL) {
-		getDialog().beginAt(createUrl(aRelativeURL), testContext);
+	public void beginAt(String aRelativeURL) {		
+		try {
+			getDialog().beginAt(createUrl(aRelativeURL), testContext);
+		} catch (TestingEngineResponseException aTestingEngineResponseException) {
+			handleTestingEngineResponseException(aTestingEngineResponseException);
+		}
+
 	}
 
 	private String createUrl(String aSuffix) {

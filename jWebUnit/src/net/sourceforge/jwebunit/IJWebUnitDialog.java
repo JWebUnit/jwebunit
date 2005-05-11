@@ -34,7 +34,8 @@ public interface IJWebUnitDialog {
      */
     public abstract IJWebUnitDialog constructNewDialog(String url, TestContext context);    
     
-	public abstract void beginAt(String aInitialURL, TestContext aTestContext);
+    
+	public abstract void beginAt(String aInitialURL, TestContext aTestContext) throws TestingEngineResponseException;
     
     /**
      * Return the window with the given name in the current conversation.

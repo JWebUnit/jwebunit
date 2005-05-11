@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 import com.meterware.httpunit.Button;
 import com.meterware.httpunit.GetMethodWebRequest;
 import com.meterware.httpunit.HTMLElementPredicate;
+import com.meterware.httpunit.HttpNotFoundException;
 import com.meterware.httpunit.SubmitButton;
 import com.meterware.httpunit.TableCell;
 import com.meterware.httpunit.WebClient;
@@ -71,14 +72,19 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
 	 *            absolute url at which to begin dialog.
 	 * @param context
 	 *            contains context information for the test client.
+	 * @throws TestingEngineResponseException
 	 */
-	public void beginAt(String initialURL, TestContext context) {
+	public void beginAt(String initialURL, TestContext context) throws TestingEngineResponseException{
 		this.setTestContext(context);
 		initWebClient();
 		try {
 			resp = wc.getResponse(new GetMethodWebRequest(initialURL));
-		} catch (Exception e) {
-			throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+		} catch (HttpNotFoundException aException) {
+			//cant find requested page.  most browsers will return a page with 404 in the body or title.
+            throw new TestingEngineResponseException(ExceptionUtility.stackTraceToString(aException));
+			
+		} catch (Exception aException) {
+			throw new RuntimeException(ExceptionUtility.stackTraceToString(aException));
 		}
 	}
 
