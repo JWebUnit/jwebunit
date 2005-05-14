@@ -38,8 +38,8 @@ public class NavigationTest extends JWebUnitAPITestCase {
 
 	public void testInvalidBeginAt() {
 
-		beginAt("/nosuchresource.html");
-		assertTitleEquals("Error 404 Not Found");
+		//the testing engines should throw an exception if a 404 Error is found.
+        assertFail("beginAt", "/nosuchresource.html");
 
 	}
 

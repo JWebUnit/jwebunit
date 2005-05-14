@@ -43,9 +43,6 @@ public class AllTests extends TestSuite {
 		//not moved over to using jetty / JWebUnitAPITestCase
 		//suite.addTestSuite(JavaScriptEventsTest.class);
 		
-		//not moved over to using jetty / JWebUnitAPITestCase
-		//suite.addTestSuite(ServletUnitTest.class);
-		
 		suite.addTestSuite(MethodInvokerTest.class);
 		suite.addTestSuite(WebCookieTest.class);
 
