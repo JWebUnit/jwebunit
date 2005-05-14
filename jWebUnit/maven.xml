@@ -42,6 +42,12 @@
 		</fileset>
 	</ant:copy>
 
+	<ant:copy todir="${maven.dist.bin.assembly.dir}/dll">
+		<fileset dir="dll">
+			<include name="**/*"/>
+		</fileset>
+	</ant:copy>
+
 	<ant:copy todir="${maven.dist.bin.assembly.dir}/test">
 		<fileset dir="test">
 			<include name="**/*"/>
