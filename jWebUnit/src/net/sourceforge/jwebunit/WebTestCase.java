@@ -107,6 +107,10 @@ public class WebTestCase extends TestCase {
         getTester().assertTitleEquals(title);
     }
 
+    public void assertTitleMatch(String regexp) {
+        tester.assertTitleMatch(regexp);
+    }
+
     public void assertTitleEqualsKey(String titleKey) {
         getTester().assertTitleEqualsKey(titleKey);
     }
@@ -119,12 +123,20 @@ public class WebTestCase extends TestCase {
         getTester().assertTextPresent(text);
     }
 
+    public void assertMatch(String regexp) {
+        tester.assertMatch(regexp);
+    }
+
     public void assertKeyNotPresent(String key) {
         getTester().assertKeyNotPresent(key);
     }
 
     public void assertTextNotPresent(String text) {
         getTester().assertTextNotPresent(text);
+    }
+
+    public void assertNoMatch(String regexp) {
+        tester.assertNoMatch(regexp);
     }
 
     public void assertTablePresent(String tableSummaryOrId) {
@@ -143,12 +155,20 @@ public class WebTestCase extends TestCase {
         getTester().assertTextInTable(tableSummaryOrId, text);
     }
 
+    public void assertMatchInTable(String tableSummaryOrId, String regexp) {
+        tester.assertMatchInTable(tableSummaryOrId, regexp);
+    }
+
     public void assertKeysInTable(String tableSummaryOrId, String[] keys) {
         getTester().assertKeysInTable(tableSummaryOrId, keys);
     }
 
     public void assertTextInTable(String tableSummaryOrId, String[] text) {
         getTester().assertTextInTable(tableSummaryOrId, text);
+    }
+
+    public void assertMatchInTable(String tableSummaryOrId, String[] regexp) {
+        tester.assertMatchInTable(tableSummaryOrId, regexp);
     }
 
     public void assertKeyNotInTable(String tableSummaryOrId, String key) {
@@ -161,6 +181,14 @@ public class WebTestCase extends TestCase {
 
     public void assertTextNotInTable(String tableSummaryOrId, String[] text) {
         getTester().assertTextNotInTable(tableSummaryOrId, text);
+    }
+
+    public void assertNoMatchInTable(String tableSummaryOrId, String regexp) {
+        tester.assertNoMatchInTable(tableSummaryOrId, regexp);
+    }
+
+    public void assertNoMatchInTable(String tableSummaryOrId, String[] regexp) {
+        tester.assertNoMatchInTable(tableSummaryOrId, regexp);
     }
 
     public void assertTableEquals(String tableSummaryOrId, ExpectedTable expectedTable) {
@@ -177,6 +205,28 @@ public class WebTestCase extends TestCase {
 
     public void assertTableRowsEqual(String tableSummaryOrId, int startRow, String[][] expectedCellValues) {
         getTester().assertTableRowsEqual(tableSummaryOrId, startRow, expectedCellValues);
+    }
+
+    public void assertTableMatch(String tableSummaryOrId,
+            ExpectedTable expectedTable) {
+        tester.assertTableMatch(tableSummaryOrId, expectedTable
+                .getExpectedStrings());
+    }
+
+    public void assertTableMatch(String tableSummaryOrId,
+            String[][] expectedCellValues) {
+        tester.assertTableMatch(tableSummaryOrId, expectedCellValues);
+    }
+
+    public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
+            ExpectedTable expectedTable) {
+        tester.assertTableRowsMatch(tableSummaryOrId, startRow, expectedTable);
+    }
+
+    public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
+            String[][] expectedCellValues) {
+        tester.assertTableRowsMatch(tableSummaryOrId, startRow,
+                expectedCellValues);
     }
 
     public void assertFormElementPresent(String formElementName) {
@@ -214,6 +264,11 @@ public class WebTestCase extends TestCase {
     public void assertFormElementEquals(String formElementName,
             String expectedValue) {
         getTester().assertFormElementEquals(formElementName, expectedValue);
+    }
+
+    public void assertFormElementMatch(String formElementName,
+            String regexp) {
+        tester.assertFormElementMatch(formElementName, regexp);
     }
 
     public void assertFormElementEmpty(String formElementName) {
@@ -270,6 +325,10 @@ public class WebTestCase extends TestCase {
 
     public void assertOptionEquals(String selectName, String option) {
         getTester().assertOptionEquals(selectName, option);
+    }
+
+    public void assertOptionMatch(String selectName, String regexp) {
+        tester.assertOptionMatch(selectName, regexp);
     }
 
     public void assertSubmitButtonPresent(String buttonName) {
@@ -371,6 +430,14 @@ public class WebTestCase extends TestCase {
         getTester().assertTextNotInElement(elID, text);
     }
 
+    public void assertMatchInElement(String elID, String regexp) {
+        tester.assertMatchInElement(elID, regexp);
+    }
+
+    public void assertNoMatchInElement(String elID, String regexp) {
+        tester.assertNoMatchInElement(elID, regexp);
+    }
+
     public void assertWindowPresent(String windowName) {
         getTester().assertWindowPresent(windowName);
     }
@@ -394,6 +461,10 @@ public class WebTestCase extends TestCase {
         getTester().assertCookieValueEquals(cookieName, expectedValue);
     }
     
+    public void assertCookieValueMatch(String cookieName, String regexp) {
+        tester.assertCookieValueMatch(cookieName, regexp);
+    }
+
 //  is Pattern methods
      
     /**

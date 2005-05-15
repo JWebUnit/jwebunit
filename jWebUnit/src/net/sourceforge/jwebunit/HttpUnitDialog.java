@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.regexp.RE;
+
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
@@ -552,6 +554,20 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
         }
     }
 
+    /**
+     * Return true if given regexp has a match anywhere in the current response.
+     * 
+     * @param regexp
+     *            regexp to match.
+     */
+    public boolean isMatchInResponse(String regexp) {
+        try {
+            RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+            return re.match(getTestContext().toEncodedString(resp.getText()));
+        } catch (IOException e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+    }
 	
     public boolean isCheckboxSelected(String checkBoxName) {
         boolean bReturn = false;
@@ -590,6 +606,34 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
                 if (cell != null) {
                     String cellHtml = getNodeHtml(cell.getDOM());
                     if (cellHtml.indexOf(text) != -1) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Return true if given regexp has a match in a specified table of the response.
+     * 
+     * @param tableSummaryOrId
+     *            table summary or id to inspect for expected text.
+     * @param regexp
+     *            regexp to match.
+     */
+    public boolean isMatchInTable(String tableSummaryOrId, String regexp) {
+        WebTable table = getWebTableBySummaryOrId(tableSummaryOrId);
+        if (table == null) {
+            throw new RuntimeException("No table with summary or id [" + tableSummaryOrId + "] found in response.");
+        }
+        RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+        for (int row = 0; row < table.getRowCount(); row++) {
+            for (int col = 0; col < table.getColumnCount(); col++) {
+                TableCell cell = table.getTableCell(row, col);
+                if (cell != null) {
+                    String cellHtml = getNodeHtml(cell.getDOM());
+                    if (re.match(cellHtml)) {
+                        return true;
+                    }
                 }
             }
         }
@@ -1144,6 +1188,34 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
 
             if (child.getNodeType() == Node.ELEMENT_NODE) {
                 if (isTextInElement((Element) child, text)) return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Return true if a given regexp is contained within the specified element.
+     * 
+     * @param element
+     *            org.w3c.com.Element to inspect.
+     * @param regexp
+     *            regexp to match.
+     */
+    public boolean isMatchInElement(Element element, String regexp) {
+        NodeList children = element.getChildNodes();
+        RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+        for (int i = 0; i < children.getLength(); i++) {
+            Node child = children.item(i);
+            if (child.getNodeType() == Node.TEXT_NODE) {
+                if (re.match(((Text) child).getData())) {
+                    return true;
+                }
+            }
+
+            if (child.getNodeType() == Node.ELEMENT_NODE) {
+                if (isMatchInElement((Element) child, regexp)) {
+                    return true;
+                }
             }
         }
         return false;

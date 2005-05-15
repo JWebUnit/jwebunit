@@ -281,6 +281,15 @@ public abstract class CompositeJWebUnitDialog implements IJWebUnitDialog {
 	/*
 	 * (non-Javadoc)
 	 * 
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isMatchInResponse(java.lang.String)
+     */
+    public boolean isMatchInResponse(String regexp) {
+        throw new UnsupportedOperationException("matchInResponse");
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
 	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#isTextInTable(java.lang.String,
 	 *      java.lang.String)
 	 */
@@ -291,6 +300,16 @@ public abstract class CompositeJWebUnitDialog implements IJWebUnitDialog {
 	/*
 	 * (non-Javadoc)
 	 * 
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isMatchInTable(java.lang.String,
+     *      java.lang.String)
+     */
+    public boolean isMatchInTable(String tableSummaryOrId, String regexp) {
+        throw new UnsupportedOperationException("isTextInTable");
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
 	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#getWebTableBySummaryOrId(java.lang.String)
 	 */
 	public WebTable getWebTableBySummaryOrId(String tableSummaryOrId) {
@@ -624,6 +643,17 @@ public abstract class CompositeJWebUnitDialog implements IJWebUnitDialog {
 	/*
 	 * (non-Javadoc)
 	 * 
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isMatchInElement(org.w3c.dom.Element,
+     *      java.lang.String)
+     */
+    public boolean isMatchInElement(Element element, String regexp) {
+        throw new UnsupportedOperationException("isTextInElement");
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
 	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#gotoWindow(java.lang.String)
 	 */
 	public void gotoWindow(String windowName) {

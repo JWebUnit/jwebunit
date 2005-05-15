@@ -182,6 +182,14 @@ public interface IJWebUnitDialog {
     public abstract boolean isTextInResponse(String text);
 
     /**
+     * Return true if given regexp has a match anywhere in the current response.
+     * 
+     * @param regexp
+     *            regexp to match.
+     */
+    public abstract boolean isMatchInResponse(String regexp);
+
+    /**
      * Return true if given text is present in a specified table of the response.
      * 
      * @param tableSummaryOrId
@@ -190,6 +198,16 @@ public interface IJWebUnitDialog {
      *            expected text to check for.
      */
     public abstract boolean isTextInTable(String tableSummaryOrId, String text);
+
+    /**
+     * Return true if given regexp has a match in a specified table of the response.
+     * 
+     * @param tableSummaryOrId
+     *            table summary or id to inspect for expected text.
+     * @param regexp
+     *            regexp to match.
+     */
+    public abstract boolean isMatchInTable(String tableSummaryOrId, String regexp);
 
     /**
      * Return the HttpUnit WebTable object representing a specified table in the current response. Null is returned if
@@ -489,6 +507,16 @@ public interface IJWebUnitDialog {
      *            text to check for.
      */
     public abstract boolean isTextInElement(Element element, String text);
+
+    /**
+     * Return true if a given regexp is contained within the specified element.
+     * 
+     * @param element
+     *            org.w3c.com.Element to inspect.
+     * @param regexp
+     *            regexp to match.
+     */
+    public abstract boolean isMatchInElement(Element element, String regexp);
 
     /**
      * Make the window with the given name in the current conversation active.

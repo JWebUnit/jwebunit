@@ -14,6 +14,7 @@ import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 
+import org.apache.regexp.RE;
 import org.w3c.dom.Element;
 
 /**
@@ -177,6 +178,19 @@ public class WebTester {
 		Assert.assertEquals(title, getDialog().getResponsePageTitle());
 	}
 
+    /**
+     * Assert title of current html page in conversation matches an expected
+     * regexp.
+     * 
+     * @param regexp
+     *            expected title regexp
+     */
+    public void assertTitleMatch(String regexp) {
+        RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+        Assert.assertTrue("Unable to match [" + regexp + "] in title",
+                          re.match(getDialog().getResponsePageTitle()));
+    }
+
 	/**
 	 * Assert title of current html page matches the value of a specified web
 	 * resource.
@@ -209,6 +223,16 @@ public class WebTester {
 			Assert.fail("Expected text not found in response: [" + text + "]");
 	}
 
+    /**
+     * Assert that supplied regexp is matched.
+     *
+     * @param regexp
+     */
+    public void assertMatch(String regexp) {
+        if (!getDialog().isMatchInResponse(regexp))
+            Assert.fail("Expected rexexp not matched in response: [" + regexp + "]");
+    }
+
 	/**
 	 * Assert that a web resource's value is not present.
 	 * 
@@ -229,6 +253,16 @@ public class WebTester {
 			Assert.fail("Text found in response when not expected: [" + text
 					+ "]");
 	}
+
+    /**
+     * Assert that supplied regexp is not present.
+     *
+     * @param regexp
+     */
+    public void assertNoMatch(String regexp) {
+        if (getDialog().isMatchInResponse(regexp))
+            Assert.fail("Regexp matched in response when not expected: [" + regexp + "]");
+    }
 
 	/**
 	 * Assert that a table with a given summary or id value is present.
@@ -279,6 +313,19 @@ public class WebTester {
 				tableSummaryOrId, text));
 	}
 
+    /**
+     * Assert that supplied regexp is matched in a specific table.
+     *
+     * @param tableSummaryOrId summary or id attribute value of table
+     * @param regexp
+     */
+    public void assertMatchInTable(String tableSummaryOrId, String regexp) {
+        assertTablePresent(tableSummaryOrId);
+        Assert.assertTrue("Could not match: [" + regexp + "]" +
+                "in table [" + tableSummaryOrId + "]",
+                getDialog().isMatchInTable(tableSummaryOrId, regexp));
+    }
+
 	/**
 	 * Assert that the values of a set of web resources are all present in a
 	 * specific table.
@@ -307,6 +354,18 @@ public class WebTester {
 			assertTextInTable(tableSummaryOrId, text[i]);
 		}
 	}
+
+    /**
+     * Assert that a set of regexp values are all matched in a specific table.
+     *
+     * @param tableSummaryOrId summary or id attribute value of table
+     * @param text Array of expected regexps to match.
+     */
+    public void assertMatchInTable(String tableSummaryOrId, String[] regexp) {
+        for (int i = 0; i < regexp.length; i++) {
+            assertMatchInTable(tableSummaryOrId, regexp[i]);
+        }
+    }
 
 	/**
 	 * Assert that the value of a given web resource is not present in a
@@ -348,6 +407,31 @@ public class WebTester {
 			assertTextNotInTable(tableSummaryOrId, text[i]);
 		}
 	}
+
+    /**
+     * Assert that supplied regexp is not present in a specific table.
+     *
+     * @param tableSummaryOrId summary or id attribute value of table
+     * @param text
+     */
+    public void assertNoMatchInTable(String tableSummaryOrId, String regexp) {
+        assertTablePresent(tableSummaryOrId);
+        Assert.assertTrue("Found regexp: [" + regexp + "] in table [" +
+                tableSummaryOrId + "]",
+                !getDialog().isMatchInTable(tableSummaryOrId, regexp));
+    }
+
+    /**
+     * Assert that none of a set of regexp values are present in a specific table.
+     *
+     * @param tableSummaryOrId summary or id attribute value of table
+     * @param text Array of text values
+     */
+    public void assertNoMatchInTable(String tableSummaryOrId, String[] regexp) {
+        for (int i = 0; i < regexp.length; i++) {
+            assertNoMatchInTable(tableSummaryOrId, regexp[i]);
+        }
+    }
 
 	/**
 	 * Assert that a specific table matches an ExpectedTable.
@@ -435,6 +519,91 @@ public class WebTester {
 			}
 		}
 	}
+
+    /**
+     * Assert that a specific table matches an ExpectedTable.
+     * 
+     * @param tableSummaryOrId
+     *            summary or id attribute value of table
+     * @param expectedTable
+     *            represents expected regexps (colspan supported).
+     */
+    public void assertTableMatch(String tableSummaryOrId,
+            ExpectedTable expectedTable) {
+        assertTableMatch(tableSummaryOrId, expectedTable.getExpectedStrings());
+    }
+
+    /**
+     * Assert that a specific table matches a matrix of supplied regexps.
+     * 
+     * @param tableSummaryOrId
+     *            summary or id attribute value of table
+     * @param expectedCellValues
+     *            double dimensional array of expected regexps
+     */
+    public void assertTableMatch(String tableSummaryOrId,
+            String[][] expectedCellValues) {
+        assertTableRowsMatch(tableSummaryOrId, 0, expectedCellValues);
+    }
+
+    /**
+     * Assert that a range of rows for a specific table matches a matrix of
+     * supplied regexps.
+     * 
+     * @param tableSummaryOrId
+     *            summary or id attribute value of table
+     * @param startRow
+     *            index of start row for comparison
+     * @param expectedTable
+     *            represents expected regexps (colspan supported).
+     */
+    public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
+            ExpectedTable expectedTable) {
+        assertTableRowsMatch(tableSummaryOrId, startRow, expectedTable
+                .getExpectedStrings());
+    }
+
+    /**
+     * Assert that a range of rows for a specific table matches a matrix of
+     * supplied regexps.
+     * 
+     * @param tableSummaryOrId
+     *            summary or id attribute value of table
+     * @param startRow
+     *            index of start row for comparison
+     * @param expectedCellValues
+     *            double dimensional array of expected regexps
+     */
+    public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
+            String[][] expectedCellValues) {
+        assertTablePresent(tableSummaryOrId);
+        String[][] actualTableCellValues;
+        if (tableEmptyCellCompression) {
+            actualTableCellValues = getDialog().getSparseTableBySummaryOrId(tableSummaryOrId);
+        } else {
+            actualTableCellValues = getDialog().getWebTableBySummaryOrId(tableSummaryOrId).asText();
+        }
+        if (expectedCellValues.length > (actualTableCellValues.length - startRow))
+                Assert.fail("Expected rows [" + expectedCellValues.length
+                        + "] larger than actual rows in range being compared"
+                        + " [" + (actualTableCellValues.length - startRow)
+                        + "].");
+        for (int i = 0; i < expectedCellValues.length; i++) {
+            String[] row = expectedCellValues[i];
+            for (int j = 0; j < row.length; j++) {
+                if (row.length != actualTableCellValues[i].length)
+                        Assert.fail("Unequal number of columns for row " + i
+                                + " of table " + tableSummaryOrId
+                                + ". Expected [" + row.length + "] found ["
+                                + actualTableCellValues[i].length + "].");
+                String regexp = row[j];
+                RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+                Assert.assertTrue("Unable to match " + regexp + " in " + tableSummaryOrId
+                    + " at [" + i + "," + j + "].",
+                    re.match(getTestContext().toEncodedString(actualTableCellValues[i + startRow][j].trim())));
+            }
+        }
+    }
 
 	/**
 	 * Assert that a form input element with a given name is present.
@@ -537,6 +706,20 @@ public class WebTester {
 		Assert.assertEquals(expectedValue, getDialog().getFormParameterValue(
 				formElementName));
 	}
+
+    /**
+     * Assert that a specific form element matches an expected regexp.
+     * 
+     * @param formElementName
+     * @param regexp
+     */
+    public void assertFormElementMatch(String formElementName,
+            String regexp) {
+        assertFormElementPresent(formElementName);
+        RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+        Assert.assertTrue("Unable to match [" + regexp + "] in form element \"" + formElementName + "\"",
+                          re.match(getDialog().getFormParameterValue(formElementName)));
+    }
 
 	/**
 	 * Assert that a form element had no value / is empty.
@@ -757,6 +940,22 @@ public class WebTester {
 		assertFormElementPresent(selectName);
 		Assert.assertEquals(option, getDialog().getSelectedOption(selectName));
 	}
+
+    /**
+     * Assert that the currently selected display value of a select box matches
+     * a given value.
+     * 
+     * @param selectName
+     *            name of the select element.
+     * @param option
+     *            expected display value of the selected option.
+     */
+    public void assertOptionMatch(String selectName, String regexp) {
+        assertFormElementPresent(selectName);
+        RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+        Assert.assertTrue("Unable to match [" + regexp + "] in option \"" + selectName + "\"",
+                          re.match(getDialog().getSelectedOption(selectName)));
+    }
 
 	/**
 	 * Assert that a submit button with a given name is present.
@@ -1035,6 +1234,33 @@ public class WebTester {
 				text));
 	}
 
+    /**
+     * Assert that a given element matches a specific regexp.
+     *
+     * @param elementID id of element to be inspected.
+     * @param regexp to match.
+     */
+    public void assertMatchInElement(String elementID, String regexp) {
+        Element element = getDialog().getElement(elementID);
+        Assert.assertNotNull("Unable to locate element with id \"" + elementID + "\"", element);
+        Assert.assertTrue("Unable to match [" + regexp + "] in element \"" + elementID + "\"", getDialog().isMatchInElement(element, regexp));
+    }
+
+    /**
+     * Assert that a given element does not match a specific regexp.
+     *
+     * @param elementID id of element to be inspected.
+     * @param regexp to match.
+     */
+    public void assertNoMatchInElement(String elementID, String regexp) {
+        assertElementPresent(elementID);
+        Element element = getDialog().getElement(elementID);
+        Assert.assertNotNull("Unable to locate element with id \"" + elementID
+                + "\"", element);
+        Assert.assertFalse("Regexp [" + regexp + "] matched in element [" + elementID
+                + "] when not expected", getDialog().isMatchInElement(element, regexp));
+    }
+
 	/**
 	 * Assert that a window with the given name is open.
 	 * 
@@ -1082,6 +1308,13 @@ public class WebTester {
 		Assert.assertEquals(expectedValue, getDialog().getCookieValue(
 				cookieName));
 	}
+
+    public void assertCookieValueMatch(String cookieName, String regexp) {
+        assertCookiePresent(cookieName);
+        RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+        Assert.assertTrue("Unable to match [" + regexp + "] in cookie \"" + cookieName + "\"",
+                          re.match(getDialog().getCookieValue(cookieName)));
+    }
 
 	public void dumpCookies() {
 		dumpCookies(System.out);

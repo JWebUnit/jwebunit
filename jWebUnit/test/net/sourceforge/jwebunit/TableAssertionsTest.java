@@ -52,6 +52,30 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 						new String[] { "no such row 1", "table text row 2" } });
 	}
 
+    public void testAssertMatchInTable() throws Throwable {
+        assertPassFail("assertMatchInTable",
+                       new Object[]{"testTable", "table [Tt]ext"},
+                       new Object[]{"testTable", "no.*text"});
+    }
+
+    public void testAssertNoMatchInTable() throws Throwable {
+        assertPassFail("assertNoMatchInTable",
+                       new Object[]{"testTable", "no.*text"},
+                       new Object[]{"testTable", "table [Tt]ext"});
+    }
+
+    public void testAssertMatchArrayInTable() throws Throwable {
+        assertPassFail("assertMatchInTable",
+                       new Object[]{"testTable", new String[]{"table [Tt]ext", "table [Tt]ext row 2"}},
+                       new Object[]{"testTable", new String[]{"table [Tt]ext", "no.*row 2"}});
+    }
+
+    public void testAssertNoMatchArrayInTable() throws Throwable {
+        assertPassFail("assertNoMatchInTable",
+                       new Object[]{"testTable", new String[]{"no.*row 1", "no.*row 2"}},
+                       new Object[]{"testTable", new String[]{"no.*row 1", "table [Tt]ext row 2"}});
+    }
+
 	public void testAssertTableEquals() throws Throwable {
 		assertPass("assertTableEquals", new Object[] {
 				"testTable",
@@ -127,5 +151,74 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 		setTableEmptyCellCompression(false);
 		assertTableEquals("tree", table);
 	}
+
+    public void testAssertTableMatch() throws Throwable {
+        assertPass("assertTableMatch",
+                   new Object[]{"testTable", new String[][]{{"table [Tt]ext", ""},
+                                                            {"table [Tt]ext row 2", "^$"},
+                                                            {"table [Tt]ext row 3", "row [0-9] col 1"}}});
+    }
+
+    public void testAssertTableMatchExtraColumn() throws Throwable {
+        assertFail("assertTableMatch",
+                   new Object[]{"testTable", new String[][]{{"table text", "", "extra column"},
+                                                            {"table text row 2", ""},
+                                                            {"table text row 3", "row 3 col 1"}}});
+    }
+
+    public void testAssertTableMatchExtraRow() throws Throwable {
+        assertFail("assertTableMatch",
+                   new Object[]{"testTable", new String[][]{{"table text", ""},
+                                                            {"table text row 2", ""},
+                                                            {"table text row 3", "row 3 col 1"},
+                                                            {"no row 4"}}});
+    }
+
+    public void testAssertTableMatchInvalidColumnText() throws Throwable {
+        assertFail("assertTableMatch",
+                   new Object[]{"testTable", new String[][]{{"table [Tt]ext", ""},
+                                                            {"no such [Tt]ext in row 2", ""},
+                                                            {"table text row 3", "row 3 col 1"}}});
+    }
+
+    public void testAssertTableMatchMissingText() throws Throwable {
+        assertFail("assertTableMatch",
+                   new Object[]{"testTable", new String[][]{{"table text", ""},
+                                                            {"table text row 2", ""},
+                                                            {"table text row 3", "^$"}}});
+    }
+
+    public void testAssertTableRowsMatch() throws Throwable {
+        assertPass("assertTableRowsMatch",
+                   new Object[]{"testTable",
+                                new Integer(1),
+                                new String[][]{{"table text row 2", ""},
+                                               {"table text row 3", "row 3 col 1"}}});
+    }
+
+    public void testAssertTableRowsMatchTooManyExpected() throws Throwable {
+        assertFail("assertTableRowsMatch",
+                   new Object[]{"testTable",
+                                new Integer(2),
+                                new String[][]{{"table text row 3", "row 3 col 1"},
+                                               {"unexpected", ""}}});
+    }
+    
+    public void testTableWithSpacesWithCompressionOfEmptyCellsMatch() throws Throwable {
+        assertTablePresent("tree");
+        String[][] table = {{"root", "", ""},
+        {"child1", "child2", ""},
+        {"child1.1", "child2.1", "child2.2"}};
+        assertTableMatch("tree", table);
+    }
+    
+    public void testTableWithSpacesUnCompressedMatch() throws Throwable {
+        assertTablePresent("tree");
+        String[][] table = {{"root", "", "", ""},
+        {"child1", "", "child2", ""},
+        {"child1.1", "", "child2.1", "child2.2"}};
+        setTableEmptyCellCompression(false);
+        assertTableMatch("tree", table);
+    }
 
 }

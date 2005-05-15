@@ -24,21 +24,34 @@ public class WebAssertionsTest extends JWebUnitAPITestCase {
 		beginAt("/testPage.html");
 	}
 
-	public void testAssertTitleEquals() throws Throwable {
-		assertPass("assertTitleEquals", new String[] { "testPage" });
-		assertFail("assertTitleEquals", "wrong title");
-	}
+    public void testAssertTitleEquals() throws Throwable {
+        assertPass("assertTitleEquals", new String[] { "testPage" });
+        assertFail("assertTitleEquals", "wrong title");
+    }
+
+    public void testAssertTitleMatch() throws Throwable {
+        assertPass("assertTitleMatch", new String[] { "test[Pp]age" });
+        assertFail("assertTitleMatch", "[Ww]rong title");
+    }
 
 	public void testAssertTextPresent() throws Throwable {
 		assertPassFail("assertTextPresent", "This is a test.",
 				"no such text");
 	}
+    public void testAssertMatch() throws Throwable {
+        assertPassFail("assertMatch", "This (is)* a .* test.", "no.*text");
+    }
 
 	public void testAssertTextNotPresent() throws Throwable {
 		assertTextNotPresent("no such text");
 		//assertPassFail("assertTextNotPresent", "no such text",
 		//		"This is a test page.");
 	}
+
+    public void testAssertNoMatch() throws Throwable {
+        assertNoMatch("no.*text");
+        //assertPassFail("assertNoMatch", "no.*text", "This (is)* a .* page.");
+    }
 
 	public void testAssertLinkPresentWithText() throws Throwable {
 		assertPassFail("assertLinkPresentWithText", "test link", "no such link");
@@ -111,5 +124,45 @@ public class WebAssertionsTest extends JWebUnitAPITestCase {
 		assertTextInElement("outer_id", "Inner Text");
 		assertTextInElement("outer2", "$100,000/$300,000");
 	}
+
+    public void testAssertNoMatchInElement() throws Throwable {
+        assertNoMatchInElement("outer_id", "no[Ss]uchtext");
+        assertNoMatchInElement("inner_id", "Out+er");
+        assertFail("assertNoMatchInElement", new Object[] {"outer_id", "Out+er"});
+    }
+
+    public void testAssertMatchInElement() throws Throwable {
+        assertMatchInElement("span_id", "Sp[Aa]n");
+        assertMatchInElement("span_id", "Te+xt");
+        assertMatchInElement("span_id", "Span\\sText");
+        assertFail("assertMatchInElement", new Object[] {"span_id", "Not.*Text"});
+    }
+    
+    public void testAssertMatchInElementChild() throws Throwable {
+        assertMatchInElement("outer_id", "Out+er");
+        assertMatchInElement("outer_id", "Texx*t");
+        assertMatchInElement("outer_id", "Inner.*Text");
+    }
+
+    public void testAssertFormElementEquals() throws Throwable {
+        assertFormElementEquals("testInputElement", "testValue");
+        assertFail("assertFormElementEquals", new Object[] {"testInputElement", "AnotherValue"});
+    }
+
+    public void testAssertFormElementMatch() throws Throwable {
+        assertFormElementMatch("testInputElement", "test[Vv]alue");
+        assertFail("assertFormElementMatch", new Object[] {"testInputElement", "Another[Vv]alue"});
+    }
+
+    public void testAssertOptionEquals() throws Throwable {
+        assertOptionEquals("testSelect", "Value1");
+        assertFail("assertOptionEquals", new Object[] {"testSelect", "AnotherValue"});
+    }
+
+    public void testAssertOptionMatch() throws Throwable {
+        assertOptionMatch("testSelect", "[Vv]alue1");
+        assertFail("assertOptionMatch", new Object[] {"testSelect", "Another[Vv]alue"});
+    }
+
 
 }
