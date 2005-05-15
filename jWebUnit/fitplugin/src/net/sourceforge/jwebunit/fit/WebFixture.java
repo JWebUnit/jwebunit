@@ -51,7 +51,15 @@ public class WebFixture extends ActionFixture {
         tester.getTestContext().setBaseUrl(url);
     }
 
+    public void setExceptionsThrownOnScriptError(boolean flag) {
+        com.meterware.httpunit.HttpUnitOptions.setExceptionsThrownOnScriptError(flag);
+    }
+
     // Actions
+    public void exceptionsThrownOnScriptError() {
+        setExceptionsThrownOnScriptError("true".equalsIgnoreCase(cells.more.text()));
+    }
+
     public void baseUrl() {
         setBaseUrl(cells.more.text());
     }
@@ -127,9 +135,33 @@ public class WebFixture extends ActionFixture {
             tester.submit();
     }
 
+    public void button() {
+        try {
+            tester.clickButton(cells.more.more.text());
+        } catch (Throwable t) {
+            if (t instanceof AssertionFailedError) {
+                markLastArgumentWrong(cells.more.more, 1, t.getMessage());
+            } else {
+                exception(cells.last(), t);
+            }
+        }
+    }
+
     public void link() {
         try {
             tester.clickLinkWithText(cells.more.more.text());
+        } catch (Throwable t) {
+            if (t instanceof AssertionFailedError) {
+                markLastArgumentWrong(cells.more.more, 1, t.getMessage());
+            } else {
+                exception(cells.last(), t);
+            }
+        }
+    }
+
+    public void linkWithImage() {
+        try {
+            tester.clickLinkWithImage(cells.more.more.text());
         } catch (Throwable t) {
             if (t instanceof AssertionFailedError) {
                 markLastArgumentWrong(cells.more.more, 1, t.getMessage());
