@@ -84,6 +84,7 @@ Build-Time: ${TSTAMP}
             <zipfileset dir="sample" prefix="${build.name}/sample"/>
             <zipfileset dir="src" prefix="${build.name}/src"/>
             <zipfileset dir="test" prefix="${build.name}/test"/>
+            <zipfileset dir="testcases" prefix="${build.name}/testcases"/>
             <zipfileset dir="${build.docs.dir}" prefix="${build.name}/doc"/>
             <zipfileset dir="licenses" prefix="${build.name}/licenses"/>
             <zipfileset dir="lib" excludes="fit.jar" prefix="${build.name}/lib"/>
