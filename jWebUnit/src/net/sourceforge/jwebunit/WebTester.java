@@ -1581,6 +1581,16 @@ public class WebTester {
 		getDialog().clickButton(buttonId);
 	}
 
+    /**
+     *  Clicks a button with <code>text</code> of the value attribute.
+     * @param text
+     *            the text of the button (contents of the value attribute).
+	 */
+	public void clickButtonWithText(String buttonValueText) {
+		assertButtonPresentWithText(buttonValueText);
+		getDialog().clickButtonWithText(buttonValueText);
+	}
+
 	/**
 	 * Navigate by selection of a link with a given image.
 	 * 

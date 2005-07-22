@@ -557,6 +557,10 @@ public abstract class CompositeJWebUnitDialog implements IJWebUnitDialog {
 		throw new UnsupportedOperationException("clickButton");
 	}
 
+	public void clickButtonWithText(String buttonValueText) {
+		throw new UnsupportedOperationException("clickButtonWithText");
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

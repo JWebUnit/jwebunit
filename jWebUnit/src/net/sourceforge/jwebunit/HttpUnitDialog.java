@@ -853,6 +853,44 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
         }
     }
 
+
+	/*
+	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#isLinkPresentWithText(java.lang.String)
+	 */
+	public boolean isLinkPresentWithExactText(String linkText) {
+		throw new UnsupportedOperationException("isLinkPresentWithText");
+	}
+
+	/*
+	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#isLinkPresentWithText(java.lang.String,
+	 *      int)
+	 */
+	public boolean isLinkPresentWithExactText(String linkText, int index) {
+		throw new UnsupportedOperationException("isLinkPresentWithText");
+	}
+
+    
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithExactText(java.lang.String)
+	 */
+	public void clickLinkWithExactText(String linkText) {
+		throw new UnsupportedOperationException("clickLinkWithExactText");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithExactText(java.lang.String,
+	 *      int)
+	 */
+	public void clickLinkWithExactText(String linkText, int index) {
+		throw new UnsupportedOperationException("clickLinkWithExactText");
+	}
+
+    
+
     /**
      * Navigate by submitting a request based on a link containing the specified
      * text. A RuntimeException is thrown if no such link can be found.

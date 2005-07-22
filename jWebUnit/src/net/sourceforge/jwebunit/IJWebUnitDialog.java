@@ -415,6 +415,16 @@ public interface IJWebUnitDialog {
     public abstract void clickButton(String buttonId);
 
     /**
+     * Clicks a button with <code>text</code> of the value attribute.
+     * 
+     * @param text
+     *            the text of the button (contents of the value attribute).
+     */
+    public abstract void clickButtonWithText(String buttonValueText);
+
+    
+    
+    /**
      * Clicks a radio option.  Asserts that the radio option exists first.	 
      * 
      * * @param radioGroup

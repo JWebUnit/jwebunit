@@ -591,6 +591,10 @@ public class WebTestCase extends TestCase {
         getTester().clickButton(buttonId);
     }
     
+    public void clickButtonWithText(String buttonValueText) {
+        getTester().clickButtonWithText(buttonValueText);
+    }
+    
     protected void clickRadioOption(String radioGroup, String radioOption) {
         getTester().clickRadioOption(radioGroup, radioOption);
     }

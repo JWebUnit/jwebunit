@@ -295,6 +295,16 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 		return bReturn;
 	}
 
+	public void clickButton(String buttonId) {
+		throw new UnsupportedOperationException("clickButton");
+	}
+
+	public void clickButtonWithText(String buttonValueText) {
+		throw new UnsupportedOperationException("clickButtonWithText");
+	}
+
+	
+	
 	/**
 	 * Patch sumbitted by Alex Chaffee.
 	 */
@@ -367,7 +377,7 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 	public boolean isLinkPresent(String anId) {
 		boolean bReturn = false;
 		Document theDocument = getIe().getDocument();
-		if (theDocument != null && theDocument.findLinkByID(anId) != null) {
+		if (theDocument != null && theDocument.hasLinkByID(anId)) {
 			bReturn = true;
 		}
 		return bReturn;
@@ -395,11 +405,53 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 		}
 		return bReturn;
 	}
+	
+    /**
+     * Return true if a link is present in the current response containing the Exact specified text.
+     * Note. This will call String.trim() to trim all leading / trailing spaces.
+     * 
+     * RFE 996031...
+     * 
+     * @param linkText
+     *            text to check for in links on the response.
+     */
+    public boolean isLinkPresentWithExactText(String linkText) {
+		boolean bReturn = false;
+		Document theDocument = getIe().getDocument();
+		if (theDocument != null && theDocument.hasLink(linkText)) {
+			bReturn = true;
+		}
+		return bReturn;    	
+    }
+
+    /**
+     * Return true if a link is present in the current response containing the Exact specified text.
+     * Note. This will call String.trim() to trim all leading / trailing spaces.
+     * 
+     * RFE 996031...
+     * 
+     * @param linkText
+     *            text to check for in links on the response.
+     * @param index
+     *            The 0-based index, when more than one link with the same text is expected.
+     */
+    public boolean isLinkPresentWithExactText(String linkText, int index) {
+		int iZeroToOneIndex = index + 1; //converting to jacobie 1 based index.
+
+		boolean bReturn = false;
+		Document theDocument = getIe().getDocument();
+		if (theDocument != null && theDocument.hasLinks()) {
+			bReturn = theDocument.hasLink(linkText, iZeroToOneIndex);
+		}
+		return bReturn;    	
+    }
+    
+	
 
 	public boolean isLinkPresentWithText(String linkText) {
 		boolean bReturn = false;
 		Document theDocument = getIe().getDocument();
-		if (theDocument != null && theDocument.hasLink(linkText)) {
+		if (theDocument != null && theDocument.hasLinkByInnerHTML(linkText)) {
 			bReturn = true;
 		}
 		return bReturn;
@@ -411,10 +463,7 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 		boolean bReturn = false;
 		Document theDocument = getIe().getDocument();
 		if (theDocument != null && theDocument.hasLinks()) {
-			A theA = theDocument.findLink(linkText, iZeroToOneIndex);
-			if (theA != null) {
-				bReturn = true;
-			}
+			bReturn = theDocument.hasLink(linkText, iZeroToOneIndex);
 		}
 		return bReturn;
 	}
@@ -578,12 +627,52 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 
 	}
 
-	public void clickLinkWithText(String linkText) {
+	/*
+	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithExactText(java.lang.String)
+	 */
+	public void clickLinkWithExactText(String linkText) {
 		try {
 			IE theIE = getIe();
 			Document theDocument = theIE.getDocument();
 			if (theDocument != null && theDocument.hasLinks()) {
 				A theA = theDocument.findLink(linkText);
+				clickLink(theIE, theA);
+			}
+		} catch (JacobieException anException) {
+			throw new RuntimeException(ExceptionUtility
+					.stackTraceToString(anException));
+		}
+
+	}
+
+	/*
+	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithExactText(java.lang.String,
+	 *      int)
+	 */
+	public void clickLinkWithExactText(String linkText, int index) {
+		int iZeroToOneIndex = index + 1; //converting to jacobie 1 based index.
+		try {
+			IE theIE = getIe();
+			Document theDocument = theIE.getDocument();
+			if (theDocument != null && theDocument.hasLinks()) {
+				A theA = theDocument.findLink(linkText, iZeroToOneIndex);
+				clickLink(theIE, theA);
+			}
+		} catch (JacobieException anException) {
+			throw new RuntimeException(ExceptionUtility
+					.stackTraceToString(anException));
+		}
+
+	}
+
+	
+	
+	public void clickLinkWithText(String linkText) {
+		try {
+			IE theIE = getIe();
+			Document theDocument = theIE.getDocument();
+			if (theDocument != null && theDocument.hasLinks()) {
+				A theA = theDocument.findLinkByInnerText(linkText);
 				clickLink(theIE, theA);
 			}
 		} catch (JacobieException anException) {
@@ -599,7 +688,7 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 			IE theIE = getIe();
 			Document theDocument = theIE.getDocument();
 			if (theDocument != null && theDocument.hasLinks()) {
-				A theA = theDocument.findLink(linkText, iZeroToOneIndex);
+				A theA = theDocument.findLinkByInnerText(linkText, iZeroToOneIndex);
 				clickLink(theIE, theA);
 			}
 		} catch (JacobieException anException) {
