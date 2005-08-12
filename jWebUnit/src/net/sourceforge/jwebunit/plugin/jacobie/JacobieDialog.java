@@ -267,6 +267,12 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 		return theInput;
 	}
 
+	public Input getButtonByValue(String aButtonValue) {
+		Input theInput = getForm().findButtonByValue(aButtonValue);
+		return theInput;
+	}
+
+
 	public String getSubmitButtonValue(String aButtonName) {
 		String theButtonValue = null;
 		Input theInput = getForm().findSubmitButton(aButtonName);
@@ -294,16 +300,25 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 		boolean bReturn = getSubmitButton(aButtonID) != null ? true : false;
 		return bReturn;
 	}
-
-	public void clickButton(String buttonId) {
-		throw new UnsupportedOperationException("clickButton");
-	}
-
-	public void clickButtonWithText(String buttonValueText) {
-		throw new UnsupportedOperationException("clickButtonWithText");
+	
+	public boolean hasButtonByValue(String aButtonValue) {
+		boolean bReturn = getButtonByValue(aButtonValue) != null ? true : false;
+		return bReturn;
 	}
 
 	
+
+	public void clickButton(String buttonId) {
+	    if(hasButton(buttonId)) {
+	        getSubmitButton(buttonId).click();
+	    }
+	}
+
+	public void clickButtonWithText(String buttonValueText) {
+	    if(hasButtonByValue(buttonValueText)) {
+	        getButtonByValue(buttonValueText).click();
+	    }
+	}
 	
 	/**
 	 * Patch sumbitted by Alex Chaffee.

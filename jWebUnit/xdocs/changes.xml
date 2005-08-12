@@ -11,6 +11,9 @@
 				state from one tester to another.  Also made some signatures on WebTester public that 
 				were mistakenly protected.
 			</action>
+			<action type="update" dev="Nicholas Neuberger" issue="1064807">
+					 Added new method to clickButtonWithText. I believe it is useful addition to existing functionality as we already have assertButtonPresentWithText().
+			</action>
 			<action type="add" dev="Jim Weaver" issue="1029306">
 				Added some explanation to exception when HttpUnit fails to submit using default submit button.
 			</action>
