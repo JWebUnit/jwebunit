@@ -511,20 +511,25 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
      *            the text of the button (contents of the value attribute).
      * @return <code>true</code> when the button with text could be found.
      */
-    public boolean hasButtonWithText(String text) {
-        Button[] buttons = getForm().getButtons();
+    public boolean hasButtonByValue(String text) {
+        boolean bReturn = getButtonByValue(text) != null ? true : false;
+        return bReturn;
+    }
 
-        boolean found = false;
+    public Button getButtonByValue(String buttonValueText) {
+        Button theButton = null;
+        Button[] buttons = getForm().getButtons();
         for (int i = 0; i < buttons.length; i++) {
             Button button = buttons[i];
-            if (button.getValue().equals(text)) {
-                found = true;
+            if (button.getValue().equals(buttonValueText)) {
+                theButton = button;
                 break;
             }
         }
-        return found;
+        return theButton;
     }
-
+    
+    
     /**
      * Returns if the button identified by <code>buttonId</code> is present.
      * 
@@ -1076,6 +1081,18 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
     }
+    
+	public void clickButtonWithText(String buttonValueText) {
+	    try {
+	        if(hasButtonByValue(buttonValueText)) {
+		        getButtonByValue(buttonValueText).click();
+	            resp = wc.getCurrentPage();
+		    }
+	    } catch (Exception e) {
+	        throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+	    }
+	}
+    
 
     /**
      * Return true if a radio group contains the indicated option.
