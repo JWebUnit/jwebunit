@@ -25,6 +25,19 @@
 		</p>
 	</subsection>
 </section>
+<section name="jacobie Installation">
+	<subsection name="Quick Install for Jacobie Testing Engine">
+		<p>
+			1) Locate the jacob.dll from the installdir\dll directory.  Either place this dll in your PATH system variable
+			or just drop it into the windows system32 directory.
+		</p>
+		<p>
+			2) Thats it for installation.  Now, just determine how you want to run the code, via command line, etc.  You should be able to run the unit tests with no modifcations.
+			I run the unit tests while running code via the eclipse Run As -> Junit Test.
+		</p>
+	</subsection>
+</section>
+
 <section name="Dependencies">
 <p>
     The following dependencies are needed to run jWebUnit and are available in the lib directory. See
@@ -39,6 +52,10 @@
         <tr>
             <td><a href="http://sourceforge.net/projects/httpunit">HttpUnit</a></td>
             <td>Java library for the automatic stimulation and testing of web applications.</td>
+        </tr>
+        <tr>
+            <td><a href="http://sourceforge.net/projects/jacobie">Jacobie</a></td>
+            <td>Java library for the automating Internet Explorer and testing of web applications.</td>
         </tr>
         <tr>
             <td><a href="http://www.mozilla.org/rhino/">Rhino</a></td>
