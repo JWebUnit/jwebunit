@@ -60,13 +60,6 @@ public class WebFixture extends ActionFixture {
 
     public void setLoggingHttpHeaders(boolean flag) {
         com.meterware.httpunit.HttpUnitOptions.setLoggingHttpHeaders(flag);
-        if (flag) {
-        	CookieProperties.addCookieListener(new CookieListener() {
-				public void cookieRejected(String arg0, int arg1, String arg2) {
-					System.out.println("cookieRejected: " + arg0 + " " + arg1 + " " + arg2);
-				}
-        	});
-        }
     }
 
     public void setCookieMatchingStrict(boolean flag) {
