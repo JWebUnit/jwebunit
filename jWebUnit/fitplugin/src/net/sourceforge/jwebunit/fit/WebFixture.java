@@ -5,6 +5,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.meterware.httpunit.cookies.CookieListener;
+import com.meterware.httpunit.cookies.CookieProperties;
+
 import junit.framework.AssertionFailedError;
 import net.sourceforge.jwebunit.WebTester;
 import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
@@ -55,9 +58,33 @@ public class WebFixture extends ActionFixture {
         com.meterware.httpunit.HttpUnitOptions.setExceptionsThrownOnScriptError(flag);
     }
 
+    public void setLoggingHttpHeaders(boolean flag) {
+        com.meterware.httpunit.HttpUnitOptions.setLoggingHttpHeaders(flag);
+        if (flag) {
+        	CookieProperties.addCookieListener(new CookieListener() {
+				public void cookieRejected(String arg0, int arg1, String arg2) {
+					System.out.println("cookieRejected: " + arg0 + " " + arg1 + " " + arg2);
+				}
+        	});
+        }
+    }
+
+    public void setCookieMatchingStrict(boolean flag) {
+    	CookieProperties.setDomainMatchingStrict(false);
+    	CookieProperties.setPathMatchingStrict(false);
+    }
+
     // Actions
     public void exceptionsThrownOnScriptError() {
         setExceptionsThrownOnScriptError("true".equalsIgnoreCase(cells.more.text()));
+    }
+
+    public void loggingHttpHeaders() {
+    	setLoggingHttpHeaders("true".equalsIgnoreCase(cells.more.text()));
+    }
+
+    public void cookieMatchingStrict() {
+    	setCookieMatchingStrict("true".equalsIgnoreCase(cells.more.text()));
     }
 
     public void baseUrl() {
