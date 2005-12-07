@@ -952,6 +952,20 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
         removeFormParameterWithValue(checkBoxName, value);
     }
 	
+
+    
+    /**
+     * Clicks a radio option.  Asserts that the radio option exists first.	 
+     * 
+     * * @param radioGroup
+	 *			name of the radio group.
+	 * @param radioOption
+	 * 			value of the option to check for.
+     */    
+	public void clickRadioOption(String radioGroup, String radioOption) {
+        setFormParameter(radioGroup, radioOption);
+	}
+
 	/**
 	 * Navigate by submitting a request based on a link with a given ID. A RuntimeException is thrown if no such link
 	 * can be found.
