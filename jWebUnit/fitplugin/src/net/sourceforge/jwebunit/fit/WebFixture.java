@@ -5,12 +5,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.meterware.httpunit.cookies.CookieListener;
-import com.meterware.httpunit.cookies.CookieProperties;
-
 import junit.framework.AssertionFailedError;
 import net.sourceforge.jwebunit.WebTester;
 import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
+
+import com.meterware.httpunit.cookies.CookieProperties;
+
 import fit.ActionFixture;
 import fit.Parse;
 
@@ -128,6 +128,10 @@ public class WebFixture extends ActionFixture {
                 tester.checkCheckbox(fieldNameCell.text());
             else
                 tester.checkCheckbox(fieldNameCell.text(), fieldNameCell.more.text());
+        } else if (cells.more.text().equals("radio option")) {
+            tester.clickRadioOption(
+                    cells.more.more.text(),
+                    cells.more.more.more.text());
         } else if (cells.more.text().equals("option")) {
             tester.selectOption(
                     cells.more.more.text(),
