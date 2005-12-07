@@ -511,12 +511,12 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
      *            the text of the button (contents of the value attribute).
      * @return <code>true</code> when the button with text could be found.
      */
-    public boolean hasButtonByValue(String text) {
-        boolean bReturn = getButtonByValue(text) != null ? true : false;
+    public boolean hasButtonWithText(String text) {
+        boolean bReturn = getButtonWithText(text) != null ? true : false;
         return bReturn;
     }
 
-    public Button getButtonByValue(String buttonValueText) {
+    public Button getButtonWithText(String buttonValueText) {
         Button theButton = null;
         Button[] buttons = getForm().getButtons();
         for (int i = 0; i < buttons.length; i++) {
@@ -1098,8 +1098,8 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
     
 	public void clickButtonWithText(String buttonValueText) {
 	    try {
-	        if(hasButtonByValue(buttonValueText)) {
-		        getButtonByValue(buttonValueText).click();
+	        if(hasButtonWithText(buttonValueText)) {
+		        getButtonWithText(buttonValueText).click();
 	            resp = wc.getCurrentPage();
 		    }
 	    } catch (Exception e) {
