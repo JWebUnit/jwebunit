@@ -63,8 +63,8 @@ public class WebFixture extends ActionFixture {
     }
 
     public void setCookieMatchingStrict(boolean flag) {
-    	CookieProperties.setDomainMatchingStrict(false);
-    	CookieProperties.setPathMatchingStrict(false);
+    	CookieProperties.setDomainMatchingStrict(flag);
+    	CookieProperties.setPathMatchingStrict(flag);
     }
 
     // Actions
