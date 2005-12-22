@@ -24,7 +24,7 @@ class TextAndElementWalker {
         walk(root);
     }
 
-    private void walk(Node node) {
+    protected void walk(Node node) {
         if (node instanceof CharacterData) {
             currentText.append(((CharacterData) node).getData());
         } else if (node instanceof Element) {
@@ -33,10 +33,14 @@ class TextAndElementWalker {
                 rememberElement((Element) node);
             } else {
                 NodeList children = node.getChildNodes();
-                for (int i = 0; i < children.getLength(); i++) {
-                    walk(children.item(i));
-                }
+                traverse(children);
             }
+        }
+    }
+
+    protected void traverse(NodeList children) {
+        for (int i = 0; i < children.getLength(); i++) {
+            walk(children.item(i));
         }
     }
 
