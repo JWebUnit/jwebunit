@@ -612,4 +612,25 @@ public interface IJWebUnitDialog {
      */
     public abstract void dumpTable(String tableNameOrId, String[][] table,
             PrintStream stream);
+
+    /**
+     * Get the name of the first input element appearing before a text label.
+     * @param formElementLabel the input element label
+     * @return the 'name' attribute of the first input element preceding the text
+     */
+    public abstract String getFormElementNameBeforeLabel(String formElementLabel);
+
+    /**
+     * Get the vale of the first input element appearing before a text label.
+     * @param formElementLabel the input element label
+     * @return the 'value' attribute of the first input element preceding the text
+     */
+    public abstract String getFormElementValueBeforeLabel(String formElementLabel);
+
+    /**
+     * Get the value of the first input element appearing after a text label.
+     * @param formElementLabel the input element label
+     * @return the 'name' attribute of the first input element preceding the text
+     */
+    public abstract String getFormElementValueForLabel(String formElementLabel);
 }

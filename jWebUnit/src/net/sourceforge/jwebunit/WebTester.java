@@ -1424,6 +1424,40 @@ public class WebTester {
 		getDialog().checkCheckbox(checkBoxName, value);
 	}
 
+    /**
+     * Identifies and checks checkbox based on a label appearing before the input tag.
+     * 
+     * Checkboxes are identified by name+value. If both are known, use
+     * {@see #checkCheckbox(String, String)} or {@see #setFormElement(String, String)}
+     * to check the box. If name or value is unknown, use this method if there is a
+     * known text label appearing after the checkbox.
+     * 
+     * @param formElementLabel The text label, appearing after the checkbox
+     */
+    public void checkCheckboxBeforeLabel(String formElementLabel) {
+        assertTextPresent(formElementLabel);
+        String name = getDialog().getFormElementNameBeforeLabel(formElementLabel);
+        String value = getDialog().getFormElementValueBeforeLabel(formElementLabel);
+        checkCheckbox(name, value);
+    }
+
+    /**
+     * Identifies and checks checkbox based on a label appearing after the input tag.
+     * 
+     * Checkboxes are identified by name+value. If both are known, use
+     * {@see #checkCheckbox(String, String)} or {@see #setFormElement(String, String)}
+     * to check the box. If name or value is unknown, use this method if there is a
+     * known text label appearing before the checkbox.
+     * 
+     * @param formElementLabel The text label, appearing after the checkbox
+     */
+    public void checkCheckboxWithLabel(String formElementLabel) {
+        assertTextPresent(formElementLabel);
+        String name = getDialog().getFormElementNameForLabel(formElementLabel);
+        String value = getDialog().getFormElementValueForLabel(formElementLabel);
+        checkCheckbox(name, value);
+    }    
+    
 	/**
 	 * Deselect a specified checkbox. If the checkbox is already unchecked then
 	 * the checkbox will stay unchecked.

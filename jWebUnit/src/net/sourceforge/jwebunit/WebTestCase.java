@@ -521,6 +521,14 @@ public class WebTestCase extends TestCase {
         getTester().checkCheckbox(checkBoxName, value);
     }
 
+    public void checkCheckboxWithLabel(String formElementLabel) {
+        getTester().checkCheckboxWithLabel(formElementLabel);
+    }
+    
+    public void checkCheckboxBeforeLabel(String formElementLabel) {
+        getTester().checkCheckboxBeforeLabel(formElementLabel);
+    }    
+    
     public void uncheckCheckbox(String checkBoxName) {
         getTester().uncheckCheckbox(checkBoxName);
     }

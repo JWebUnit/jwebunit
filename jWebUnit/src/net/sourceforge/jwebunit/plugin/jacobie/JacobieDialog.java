@@ -891,4 +891,18 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 		return htmlElementFocusBlurEnabled;
 	}
 
+    // The following methods have only been implemented in HttpUnitDialog
+    
+    public String getFormElementNameBeforeLabel(String formElementLabel) {
+        throw new UnsupportedOperationException("Method JacobieDialog#getFormElementNameBeforeLabel not implemented yet.");
+    }
+
+    public String getFormElementValueBeforeLabel(String formElementLabel) {
+        throw new UnsupportedOperationException("Method JacobieDialog#getFormElementValueBeforeLabel not implemented yet.");
+    }
+
+    public String getFormElementValueForLabel(String formElementLabel) {
+        throw new UnsupportedOperationException("Method JacobieDialog#getFormElementValueForLabel not implemented yet.");
+    }
+
 }

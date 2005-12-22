@@ -430,26 +430,92 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
      *            label of the input element to fetch name.
      */
     public String getFormElementNameForLabel(String formElementLabel) {
+        Element formElement = getFormElementForLabel(formElementLabel);
+        if (formElement != null) { 
+            return formElement.getAttribute("name"); 
+        }
+        return null;
+    }
+
+    /**
+     * Finds the first form element after a text label 
+     * @param formElementLabel
+     * @return
+     */
+    private Element getFormElementForLabel(String formElementLabel) {
+        Element formElement = null;
         try {
             Document document = getResponse().getDOM();
             Element root = document.getDocumentElement();
             NodeList forms = root.getElementsByTagName("form");
 
-            for (int i = 0; i < forms.getLength(); i++) {
+            for (int i = 0; i < forms.getLength() && formElement == null; i++) {
                 Element form = (Element) forms.item(i);
                 TextAndElementWalker walker = new TextAndElementWalker(form,
                         new String[] { "input", "select", "textarea" });
-                Element formElement = walker
+                formElement = walker
                         .getElementAfterText(formElementLabel);
-                if (formElement != null) { return formElement
-                        .getAttribute("name"); }
             }
-
-            return null;
         } catch (SAXException e) {
             e.printStackTrace();
-            return null;
         }
+        return formElement;
+    }
+    
+    /**
+     * Finds the first form element before a label
+     * @param formElementLabel
+     * @return
+     */
+    private Element getFormElementBeforeLabel(String formElementLabel) {
+        Element formElement = null;
+        try {
+            Document document = getResponse().getDOM();
+            Element root = document.getDocumentElement();
+            NodeList forms = root.getElementsByTagName("form");
+
+            for (int i = 0; i < forms.getLength() && formElement == null; i++) {
+                Element form = (Element) forms.item(i);
+                TextAndElementWalkerReverse walker = new TextAndElementWalkerReverse(form,
+                        new String[] { "input" });
+                formElement = walker
+                        .getElementAfterText(formElementLabel);
+            }
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+        return formElement;
+    }   
+    
+    /**
+     * Return the name of a form parameter (input element) on the current
+     * response preceded by a givel label.
+     * 
+     * @param formElementLabel
+     *            label of the input element to fetch name.
+     */
+    public String getFormElementValueForLabel(String formElementLabel) {
+        Element formElement = getFormElementForLabel(formElementLabel);
+        if (formElement != null) {
+            return formElement.getAttribute("value"); 
+        }
+        return null;
+    }
+    
+    public String getFormElementNameBeforeLabel(String formElementLabel) {
+        Element formElement = getFormElementBeforeLabel(formElementLabel);
+        if (formElement != null) { 
+            return formElement.getAttribute("name"); 
+        }
+        return null;
+    }
+
+    public String getFormElementValueBeforeLabel(String formElementLabel) {
+        Element formElement = getFormElementBeforeLabel(formElementLabel);
+        if (formElement != null) { 
+            return formElement.getAttribute("value"); 
+        }
+        return null;
     }
 
     /**

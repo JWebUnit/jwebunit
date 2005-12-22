@@ -37,6 +37,7 @@ public class AllTests extends TestSuite {
 		suite.addTestSuite(TableAssertionsTest.class);
 		suite.addTestSuite(TextAndElementWalkerTest.class);
         suite.addTestSuite(TextAndElementWalkerReverseTest.class);
+        suite.addTestSuite(FormSubmissionCheckboxesTest.class);
 		
 		//not moved over to using jetty / JWebUnitAPITestCase
 		//suite.addTestSuite(FramesAndWindowsTest.class);
