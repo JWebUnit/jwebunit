@@ -28,14 +28,16 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 	}
 
 	public void testSetInputField() {
-		beginAt("/SingleNamedButtomForm.jsp");
+		beginAt("/SingleNamedButtonForm.html");
 		setFormElement("color", "blue");
 		submit("button");
-		assertTextPresent("Parms are: color=blue");
-		beginAt("/QueryForm.html");
+        assertTextPresent("Submitted parameters");
+        //dumpResponse(System.out);
+		assertTextPresent("Params are: color=blue");
+		clickLink("return");
 		setFormElement("color", "red");
 		submit();
-		assertTextPresent("Parms are: color=red");
+		assertTextPresent("Params are: color=red");
 	}
 
 	public void testCheckBoxSelection() {
@@ -43,7 +45,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		checkCheckbox("checkBox");
 		setFormElement("color", "blue");
 		submit();
-		assertTextPresent("Parms are: color=blue&checkBox=on");
+		assertTextPresent("Params are: color=blue checkBox=on");
 	}
 
 	public void testCheckBoxSelectionWithSameFieldName() {
@@ -52,7 +54,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		checkCheckbox("checkBox", "3");
 		checkCheckbox("checkBox", "3"); // check for duplicates
 		submit();
-		assertTextPresent("Parms are: checkBox=1&checkBox=3");
+		assertTextPresent("Params are: checkBox=1,3 ");
 	}
 
 	public void testCheckBoxDeSelectionWithSameFieldName() {
@@ -61,38 +63,40 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		checkCheckbox("checkBox", "3");
 		uncheckCheckbox("checkBox", "3");
 		submit();
-		assertTextPresent("Parms are: checkBox=1");
+		assertTextPresent("Params are: checkBox=1");
 	}
 
 	public void testCheckBoxDeselection() {
 		beginAt("/SingleNamedButtonForm.html");
 		checkCheckbox("checkBox");
+        assertFormElementEquals("checkBox", "on");
 		setFormElement("color", "blue");
 		uncheckCheckbox("checkBox");
 		submit();
-		assertTextPresent("Parms are: color=blue");
+		assertTextPresent("Params are: color=blue ");
 	}
 
 	public void testSingleFormSingleUnnamedButtonSubmission() {
 		beginAt("/SingleUnnamedButtonForm.html");
+        setFormElement("color", "blue");
 		submit();
-		assertTextPresent("Parms are: color=blue");
+		assertTextPresent(" color=blue ");
 	}
 
 	public void testSingleNamedButtonSubmission() {
 		beginAt("/SingleNamedButtonForm.html");
 		setFormElement("color", "red");
 		submit();
-		assertTextPresent("Parms are: color=red");
+		assertTextPresent("Params are: color=red");
 	}
 
 	public void testSingleFormMultipleButtonSubmission() {
 		gotoMultiButtonPage();
 		submit("color");
-		assertTextPresent("Parms are: color=red");
+		assertTextPresent("Params are: color=red");
 		gotoMultiButtonPage();
 		submit("color", "blue");
-		assertTextPresent("Parms are: color=blue");
+		assertTextPresent("Params are: color=blue");
 	}
 
 	public void testBogusParameter() {
@@ -120,15 +124,14 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 	}
 
 	public void testInvalidButton() {
-		gotoMultiButtonPage();
+        beginAt("/InvalidActionForm.html");
 		try {
 			submit("button1");
+            fail("Should have failed because the target page does not exist");
 		} catch (RuntimeException e) {
-			assertTrue(e.getMessage(), e.getMessage().indexOf(
+			assertTrue("Should return 404 error", e.getMessage().indexOf(
 					"com.meterware.httpunit.HttpNotFoundException") != -1);
-			return;
 		}
-		fail("Should have failed");
 	}
 
 	public void testUnnamedSubmitOnSpecificForm() {
@@ -142,7 +145,8 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		beginAt("/MultiFormPage.html");
 		setFormElement("param2", "anyvalue");
 		submit("button2b");
-		assertTextPresent("param2=anyvalue&button2b=b2b");
+		assertTextPresent(" param2=anyvalue ");
+        assertTextPresent(" button2b=b2b ");
 	}
 
 	public void testSubmissionReset() {
@@ -167,7 +171,8 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		setFormElementWithLabel("First", "oneValue");
 		setFormElementWithLabel("Second", "anotherValue");
 		submit();
-		assertTextPresent("param1=oneValue&param2=anotherValue");
+		assertTextPresent(" param1=oneValue ");
+        assertTextPresent(" param2=anotherValue ");
 	}
 
 	public void testTrickyLabeledForm() {
@@ -175,29 +180,12 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		setFormElementWithLabel("Trick", "oneValue");
 		setFormElementWithLabel("Treat", "anotherValue");
 		submit();
-		assertTextPresent("param3=oneValue&param4=anotherValue");
+		assertTextPresent(" param3=oneValue ");
+        assertTextPresent(" param4=anotherValue ");
 	}
 
 	private void gotoMultiButtonPage() {
 		beginAt("/MultiNamedButtonForm.html");
-	}
-
-	private void addServletResource() {
-		//		addTargetResource("TargetPage", "color=blue");
-		//		addTargetResource("TargetPage", "color=red");
-		//		addTargetResource("TargetPage", "color=blue&checkBox=on");
-		//		addTargetResource("TargetPage", "color=blue&size=big");
-		//		addTargetResource("TargetPage", "color=blue&size=small");
-		//		addTargetResource("TargetPage", "param2=anyvalue");
-		//		addTargetResource("TargetPage", "param4=anyvalue");
-		//		addTargetResource("TargetPage", "param2=anyvalue&button2b=b2b");
-		//		addTargetResource("TargetPage", "param2=anyvalue&button2a=b2a");
-		//		addTargetResource("TargetPage",
-		// "param1=oneValue&param2=anotherValue");
-		//		addTargetResource("TargetPage",
-		// "param3=oneValue&param4=anotherValue");
-		//		addTargetResource("TargetPage", "checkBox=1&checkBox=3");
-		//		addTargetResource("TargetPage", "checkBox=1");
 	}
 
 }

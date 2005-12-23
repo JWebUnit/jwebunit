@@ -24,11 +24,8 @@ public class AllTests extends TestSuite {
 	 */
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
+        
 		suite.addTestSuite(NavigationTest.class);
-
-		//major work. requires using jsp / servlet request response cycles.
-		//suite.addTestSuite(FormSubmissionTest.class);
-
 		suite.addTestSuite(WebAssertionsTest.class);
 		suite.addTestSuite(TestContextTest.class);
 		suite.addTestSuite(ExpectedTableTest.class);
@@ -37,6 +34,7 @@ public class AllTests extends TestSuite {
 		suite.addTestSuite(TableAssertionsTest.class);
 		suite.addTestSuite(TextAndElementWalkerTest.class);
         suite.addTestSuite(TextAndElementWalkerReverseTest.class);
+        suite.addTestSuite(FormSubmissionTest.class);
         suite.addTestSuite(FormSubmissionCheckboxesTest.class);
 		
 		//not moved over to using jetty / JWebUnitAPITestCase

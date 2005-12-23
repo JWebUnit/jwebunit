@@ -8,9 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<p>Parameters are:</p>
-<p>
-<%
+<h1>Submitted parameters</h1>
+<p>Params are:<%
 	/* Prints POST and GET parameters as name=value1[,value2...] separated with spaces */
 	java.util.Enumeration params = request.getParameterNames();
 	for (; params.hasMoreElements() ;) {
@@ -27,6 +26,7 @@
     }
 	out.write(" ");
 %>
+<p><a id="return" href="<%= request.getHeader("Referer") %>">return</a></p>
 </p>
 </body>
 </html>
