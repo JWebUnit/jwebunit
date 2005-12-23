@@ -16,16 +16,17 @@ public class FormSubmissionCheckboxesTest extends JWebUnitAPITestCase {
 	
 	public void setUp() throws Exception {
 		super.setUp();
-		getTestContext().setBaseUrl(HOST_PATH + "/FormSubmissionTest");
+		getTestContext().setBaseUrl(HOST_PATH + "/FormSubmissionTest/");
 	}
 
 	public void testCheckboxIdentificationLabelBeforeBox() {
-		beginAt("/CheckboxFormWithLabels.html");
+		beginAt("CheckboxFormWithLabels.html");
+        assertFormPresent();
 		// we don't know the name or value, just the label
-		checkCheckboxWithLabel("Check 20");
-		//submit();
-		//assertTextPresent("Params are: chk=20");
-		assertFormElementEquals("chk", "20");
+        checkCheckboxWithLabel("Check 20");
+        assertFormElementEquals("chk", "20");
+		submit();
+		assertTextPresent(" chk=20 ");
 	}
 
 	public void testCheckboxIdentificationLabelAfterBox1() {
@@ -37,11 +38,11 @@ public class FormSubmissionCheckboxesTest extends JWebUnitAPITestCase {
 	 * @param value
 	 */
 	private void doTestCheckboxBefore(int value) {
-		beginAt("/CheckboxFormWithLabels.html");
+		beginAt("CheckboxFormWithLabels.html");
 		checkCheckboxBeforeLabel("Check " + value);
-		//submit();
-		//assertTextPresent("Params are: chk=" + value);
-		assertFormElementEquals("chk", "" + value);
+        assertFormElementEquals("chk", "" + value);
+        submit();
+		assertTextPresent(" chk=" + value + " ");
 	}	
 
 	public void testCheckboxIdentificationLabelAfterBox2() {
@@ -53,12 +54,11 @@ public class FormSubmissionCheckboxesTest extends JWebUnitAPITestCase {
 	}
 
 	private void doTestRadioBefore(int value) {
-		beginAt("/CheckboxFormWithLabels.html");
-		// we don't know the name or value, just the label
+		beginAt("CheckboxFormWithLabels.html");
 		checkCheckboxBeforeLabel("Radio " + value);
-		//submit("button");
-		//assertTextPresent("Params are: chk=" + value);
-		assertFormElementEquals("rad", "" + value);
+        assertFormElementEquals("radio", "" + value);
+		submit();
+		assertTextPresent(" radio=" + value + " ");
 	}	
 	
 	public void testCheckboxIdentificationLabelAfterBox10() {
