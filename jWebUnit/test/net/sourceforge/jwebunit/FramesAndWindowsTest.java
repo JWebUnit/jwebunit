@@ -40,15 +40,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
     public void testOpenWindow() throws Throwable {
         gotoRootAndOpenChild("ChildPage1");
         assertPassFail("assertWindowPresent", new Object[]{"ChildPage1"}, new Object[]{"NoSuchChild"});
-    }
-
-    //todo: move to javascript events test
-    public void testGreenLink() {
-        beginAt("RootPage.html");
-        assertFormElementEquals("color", "blue");
-        clickLink("SetColorGreen");
-        assertFormElementEquals("color", "green");
-    }
+    }   
 
     public void testGotoWindow() {
         beginAt("RootPage.html");

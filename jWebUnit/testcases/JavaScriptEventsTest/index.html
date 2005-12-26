@@ -5,9 +5,13 @@
 </head>
 <body>
 <h1>Javascript Test</h1>
-<form>
+<form method="GET" name="indexform" action="../params.jsp">
+<input name="color" value="blue">
 <input type="button" onclick="gotoNext()" value="Next" id="next">
 </form>
 <a id="linkNext" href="javascript:void(0)" onclick="javascript:gotoNext()">Next using link</a>
+<br />
+<a id="SetColorGreen" href="nothing.html" 
+	onClick="javascript:document.indexform.color.value='green';return false;">green</a>
 </body>
 </html>

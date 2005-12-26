@@ -44,6 +44,7 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
 
     public void testButtonOnClick() {
         beginAt("FormOnSubmit.html");
+        assertButtonPresent("b1");
         clickButton("b1");
         gotoWindow("child");
         assertTextPresent("Target");
@@ -101,4 +102,10 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
         assertTextPresent(" testSelect=V2 ");
 	}
 
+    public void testGreenLink() {
+        beginAt("index.html");
+        assertFormElementEquals("color", "blue");
+        clickLink("SetColorGreen");
+        assertFormElementEquals("color", "green");
+    }    
 }
