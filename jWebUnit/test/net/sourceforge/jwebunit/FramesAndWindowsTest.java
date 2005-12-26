@@ -4,44 +4,39 @@
  **********************************/
 package net.sourceforge.jwebunit;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.util.JettySetup;
+
 /**
  * User: djoiner
  * Date: Nov 21, 2002
  * Time: 11:35:52 AM
  */
 
-public class FramesAndWindowsTest extends JWebUnitTest {
-
+public class FramesAndWindowsTest extends JWebUnitAPITestCase {
+    
+    public static Test suite() {
+        Test suite = new TestSuite(FramesAndWindowsTest.class);
+        return new JettySetup(suite);
+    }   
+    
     public void setUp() throws Exception {
         super.setUp();
-        defineWebPage("RootPage",
-                "This is the Root" +
-                "<form name='realform'><input name='color' value='blue'></form>" +
-                "<a id=\"SetColorGreen\" href='nothing.html' onClick=\"JavaScript:document.realform.color.value='green';return false;\">green</a>" +
-                "<a id=\"ChildPage1\" href=\"\" onClick=\"JavaScript:window.open('ChildPage1.html', 'ChildPage1');\">green</a>" +
-                "<a id=\"ChildPage2\" href=\"\" onClick=\"JavaScript:window.open('ChildPage2.html', 'WindowNameForChilePage2');\">Child Page 2</a>\n");
-        defineWebPage("ChildPage1", "This is child 1");
-        defineWebPage("ChildPage2", "This is child 2");
-        defineResource("Frames.html", "<html><head></head><frameset rows=\"33%, 33%, 33%\"><frame name=\"TopFrame\" src=\"TopFrame.html\"><frame name=\"ContentFrame\" src=\"ContentFrame.html\"><frame name=\"BottomFrame\" src=\"BottomFrame.html\"></frameset></html>");
-        defineWebPage("TopFrame", "<html><body>TopFrame</body></html>");
-        defineWebPage("ContentFrame", "<html><body>ContentFrame" +
-                        "<form name='frameForm' method ='GET' action='TargetPage'>" +
-                        "  <input name='color' value='blue'>" +
-                        "  <input type='submit'>" +
-                        "</form></body></html>");
-        defineWebPage("BottomFrame", "<html><body>BottomFrame</body></html>");
-        defineResource("TargetPage?color=red", "<html><body>This is the red page</html></body>");
-		defineResource("TargetPage?color=green", "<html><head><title>Frames2</title></head><frameset rows=\"33%, 33%, 33%\"><frame name=\"TopFrame\" src=\"TopFrame.html\"><frame name=\"ContentFrame\" src=\"ContentFrame.html\"><frame name=\"BottomFrame\" src=\"BottomFrame.html\"></frameset></html>");
-		defineResource("InlineFrame.html", 
-		"<html><head></head><body>TopFrame<br/><iframe name=\"ContentFrame\" src=\"ContentFrame.html\"/></body></html>");
-		defineWebPage("ContentFrame", "<html><body>ContentFrame" +
-						"<form name='frameForm' method ='GET' action='TargetPage'>" +
-						"  <input name='color' value='blue'>" +
-						"  <input type='submit'>" +
-						"</form></body></html>");
+        getTestContext().setBaseUrl(HOST_PATH + "/FramesAndWindowsTest");
+    }    
 
+    /**
+     * helper function
+     * @param childName
+     */
+    private void gotoRootAndOpenChild(String childName) {
+        beginAt("RootPage.html");
+        clickLink(childName);
     }
-
+    
+    // ------------ windows test ------------
+    
     public void testOpenWindow() throws Throwable {
         gotoRootAndOpenChild("ChildPage1");
         assertPassFail("assertWindowPresent", new Object[]{"ChildPage1"}, new Object[]{"NoSuchChild"});
@@ -56,6 +51,7 @@ public class FramesAndWindowsTest extends JWebUnitTest {
     }
 
     public void testGotoWindow() {
+        beginAt("RootPage.html");
         gotoRootAndOpenChild("ChildPage1");
         gotoWindow("ChildPage1");
         assertTextPresent("child 1");
@@ -79,10 +75,7 @@ public class FramesAndWindowsTest extends JWebUnitTest {
         assertTextPresent("This is the Root");
     }
 
-    private void gotoRootAndOpenChild(String childName) {
-        beginAt("RootPage.html");
-        clickLink(childName);
-    }
+    // ----------- frames test --------------
 
     public void testGotoFrame() {
         beginAt("Frames.html");
@@ -97,31 +90,33 @@ public class FramesAndWindowsTest extends JWebUnitTest {
         assertTextPresent("ContentFrame");
     }
 
-	/**
-	 * Broken in httpunit
-	 *
-	 */
 	public void testGotoInlineFrame() {
 		beginAt("InlineFrame.html");
 		assertTextPresent("TopFrame");
+        // Is this how it should work? see also the test below
+        assertTextNotPresent("<p>ContentFrame</p>");
 		gotoFrame("ContentFrame");
-		assertTextPresent("ContentFrame");
+		assertTextPresent("<p>ContentFrame</p>"); // only 'ContentFrame' matches frameset tag too
 	}
 
     public void testFormInputInFrame() {
         beginAt("Frames.html");
         gotoFrame("ContentFrame");
+        assertFormPresent();
         setFormElement("color", "red");
-        submit();
-        assertTextPresent("This is the red page");
+        submit("submit");
+        // TODO should it bee nessecary to select frame again?
+        gotoFrame("ContentFrame");
+        assertTextPresent(" color=red ");
     }
 
-	public void testFormInputInFrameToFrame() {
+	/* this just posts to a new frameset inside the frame, is the test needed?
+    public void testFormInputInFrameToFrame() {
 		beginAt("Frames.html");
 		gotoFrame("ContentFrame");
 		setFormElement("color", "green");
 		submit();
 		assertTitleEquals("Frames2");
-	}
-
+	} */
+    
 }
