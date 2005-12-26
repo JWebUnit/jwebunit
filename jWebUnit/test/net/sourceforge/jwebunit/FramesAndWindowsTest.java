@@ -51,13 +51,13 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
     
     public void testGotoWindowByTitle() {
         gotoRootAndOpenChild("ChildPage2");
-        gotoWindowByTitle("ChildPage2");
+        gotoWindowByTitle("Child Page 2");
         assertTextPresent("child 2");
     }
     
     public void testAssertWindowWithTitle() throws Throwable {
         gotoRootAndOpenChild("ChildPage2");
-        assertPassFail("assertWindowPresentWithTitle", new Object[]{"ChildPage2"}, new Object[]{"NoSuchTitle"});
+        assertPassFail("assertWindowPresentWithTitle", new Object[]{"Child Page 2"}, new Object[]{"NoSuchTitle"});
     }
 
     public void testSwitchWindows() {

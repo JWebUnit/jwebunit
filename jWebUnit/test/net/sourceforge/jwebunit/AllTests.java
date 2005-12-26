@@ -36,12 +36,8 @@ public class AllTests extends TestSuite {
         suite.addTestSuite(TextAndElementWalkerReverseTest.class);
         suite.addTestSuite(FormSubmissionTest.class);
         suite.addTestSuite(FormSubmissionCheckboxesTest.class);
-		
-		//not moved over to using jetty / JWebUnitAPITestCase
-		//suite.addTestSuite(FramesAndWindowsTest.class);
-
-		//not moved over to using jetty / JWebUnitAPITestCase
-		//suite.addTestSuite(JavaScriptEventsTest.class);
+		suite.addTestSuite(FramesAndWindowsTest.class);
+		suite.addTestSuite(JavaScriptEventsTest.class);
 		
 		suite.addTestSuite(MethodInvokerTest.class);
 		suite.addTestSuite(WebCookieTest.class);

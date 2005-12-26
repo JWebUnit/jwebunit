@@ -1,10 +1,10 @@
 <html>
 <body>
 <form method="GET" action="javascript:void(0)" 
-	onSubmit="javascript:window.open('../params.jsp', 'child');"
-	onReset="javascript:window.open('../params.jsp', 'child');">
+	onsubmit="javascript:window.open('../params.jsp?on=submit', 'child');"
+	onreset="javascript:window.open('../params.jsp?on=reset', 'child');">
 <input name="b1" id="b1" type="button" value="click me" 
-	onClick="javascript:window.open('../params.jsp', 'child');" />
+	onclick="javascript:window.open('../params.jsp?on=click', 'child');" />
 <input type="reset" />
 <input type="submit" />
 </form>
