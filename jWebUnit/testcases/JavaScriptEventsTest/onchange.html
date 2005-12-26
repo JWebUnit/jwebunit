@@ -1,0 +1,16 @@
+<html>
+<script>
+function changeSelect() {
+document.forms[0].submit();
+}
+</script>
+<title>The Title</title>
+<body>
+<form name="testForm" action="../params.jsp" method="get">
+<select type="select" name="testSelect" onchange="changeSelect();">
+<option value="V1" selected="true">Value1</option>
+<option value="V2">Value2</option>
+</select>
+</form>
+</body>
+</html>
