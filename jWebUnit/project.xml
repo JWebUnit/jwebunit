@@ -303,11 +303,11 @@
         <sourceDirectory>src</sourceDirectory>
         <unitTestSourceDirectory>test</unitTestSourceDirectory>
 		<unitTest>
+		    <includes>
+		        <include>**/*Test.java</include>
+		    </includes>
 			<excludes>
-				<exclude>**/AllTests.java</exclude>
 				<exclude>**/JWebUnitTest.java</exclude>
-				<exclude>**/TestServer.java</exclude>
-				<exclude>**/JettySetup.java</exclude>
 			</excludes>
 			<resources>
 				<resource>
@@ -342,9 +342,7 @@
 			Test related reports
 		-->
 		<report>maven-junit-report-plugin</report>
-<!--
 		<report>maven-jcoverage-plugin</report>
--->
 
 		<!--
 			Quality control reports
