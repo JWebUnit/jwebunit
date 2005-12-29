@@ -634,10 +634,8 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
      */
     public boolean isMatchInResponse(String regexp) {
         try {
-            RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+            RE re = getRE(regexp);
             return re.match(getTestContext().toEncodedString(resp.getText()));
-        } catch (RESyntaxException e) {
-            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         } catch (IOException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -699,7 +697,7 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
         if (table == null) {
             throw new RuntimeException("No table with summary or id [" + tableSummaryOrId + "] found in response.");
         }
-        RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+        RE re = getRE(regexp);
         for (int row = 0; row < table.getRowCount(); row++) {
             for (int col = 0; col < table.getColumnCount(); col++) {
                 TableCell cell = table.getTableCell(row, col);
@@ -1341,7 +1339,7 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
      */
     public boolean isMatchInElement(Element element, String regexp) {
         NodeList children = element.getChildNodes();
-        RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+        RE re = getRE(regexp);
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child.getNodeType() == Node.TEXT_NODE) {
@@ -1357,6 +1355,14 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
             }
         }
         return false;
+    }
+
+    private RE getRE(String regexp) {
+        try {
+            return new RE(regexp, RE.MATCH_SINGLELINE);
+        } catch (RESyntaxException e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
     }
 
     /**
