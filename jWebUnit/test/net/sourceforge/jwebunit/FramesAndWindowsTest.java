@@ -24,8 +24,17 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
     public void setUp() throws Exception {
         super.setUp();
         getTestContext().setBaseUrl(HOST_PATH + "/FramesAndWindowsTest");
-    }    
-
+    }
+    
+    public void testHttpUnitWithRhinoForWindowOpen() throws Throwable {
+        try {
+            beginAt("RootPage.html");
+            clickLink("ChildPage1"); // does javascript:window.open(...)
+        } catch (NoSuchFieldError e) {
+            fail("HttpUnit 1.6 does not support the current version of Rhino");
+        }
+    }   
+    
     /**
      * helper function
      * @param childName
@@ -35,7 +44,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         clickLink(childName);
     }
     
-    // ------------ windows test ------------
+    // ------------ windows test ------------    
     
     public void testOpenWindow() throws Throwable {
         gotoRootAndOpenChild("ChildPage1");
