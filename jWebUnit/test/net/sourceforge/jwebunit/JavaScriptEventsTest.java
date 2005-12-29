@@ -38,7 +38,6 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
     public void testFormOnReset() {
         beginAt("FormOnSubmit.html");
         reset();
-        dumpResponse(System.out);
         // seems that onreset is not executed 
         //gotoWindow("child");
         //assertTextPresent(" on=reset ");
@@ -109,5 +108,12 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
         assertFormElementEquals("color", "blue");
         clickLink("SetColorGreen");
         assertFormElementEquals("color", "green");
-    }    
+    } 
+    
+    public void testFormOnSubmitSetTarget() {
+        beginAt("FormOnSubmitSetTarget.html");
+        setWorkingForm("formID");
+        submit("go");
+        return;
+    }
 }

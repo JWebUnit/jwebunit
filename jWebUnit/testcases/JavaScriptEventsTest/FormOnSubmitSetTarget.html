@@ -1,0 +1,19 @@
+<html>
+<body>
+<!-- JavaScript ------------------------------------------------------>
+<script language="JavaScript">
+
+function openReport()
+{
+    var myform = document.forms['formID'];
+    myform.target = "newt";
+    return false;
+}
+</script>
+<!-- End of JavaScript ----------------------------------------------->
+<form id="formID" name="report-input" target="" method="POST" action="../params.jsp" onSubmit="openReport()" >
+<input type="submit" name="go" value="go" />
+</form>
+hi
+</body>
+</html>
