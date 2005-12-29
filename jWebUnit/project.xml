@@ -233,7 +233,7 @@
         <dependency>
             <groupId>httpunit</groupId>
             <artifactId>httpunit</artifactId>
-            <version>1.6</version>
+            <version>1.6.1-20060101</version>
             <url>http://httpunit.sourceforge.net</url>
         </dependency>
         
@@ -290,6 +290,14 @@
 		        <war.bundle>false</war.bundle>
 		    </properties>
 		</dependency>
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.6.5</version>
+            <properties>
+                <war.bundle>false</war.bundle>
+            </properties>           
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src</sourceDirectory>
