@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.regexp.RE;
+import org.apache.regexp.RESyntaxException;
 
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
@@ -635,6 +636,8 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
         try {
             RE re = new RE(regexp, RE.MATCH_SINGLELINE);
             return re.match(getTestContext().toEncodedString(resp.getText()));
+        } catch (RESyntaxException e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         } catch (IOException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
