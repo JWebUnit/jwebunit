@@ -136,6 +136,14 @@ public class WebFixture extends ActionFixture {
             tester.selectOption(
                     cells.more.more.text(),
                     cells.more.more.more.text());
+        } else if (cells.more.text().equals("checkbox after")) {
+            // checkbox or radio button appearing after the text label given in next cell
+            tester.checkCheckboxWithLabel(
+                    cells.more.more.text());
+        } else if (cells.more.text().equals("checkbox before")) {
+            // checkbox or radio button appearing before the text label given in next cell
+            tester.checkCheckboxBeforeLabel(
+                    cells.more.more.text());
         } else {
             exception(
                     cells.more,
