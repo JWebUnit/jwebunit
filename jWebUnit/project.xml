@@ -208,7 +208,7 @@
             <groupId>jtidy</groupId>
             <artifactId>jtidy</artifactId>
             <version>4aug2000r7-dev</version>
-            <url>http://jtidy.sourceforge.net/nightly/</url>
+            <url>http://jtidy.sourceforge.net/</url>
         </dependency>
         
         <dependency>
