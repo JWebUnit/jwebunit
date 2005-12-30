@@ -147,7 +147,7 @@ Build-Time: ${TSTAMP}
     		<arg path="fitplugin/test/testOutput"/>
     		<sysproperty key="wiki" value="true"/>
     		<classpath refid="jwebfit.classpath"/>    		
-    		<classpath location="classes"/>
+    		<classpath location="jwebfit-classes"/>
     	</java>
     </target>
 </project>
