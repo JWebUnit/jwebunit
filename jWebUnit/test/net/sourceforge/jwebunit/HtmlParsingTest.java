@@ -66,4 +66,10 @@ public class HtmlParsingTest extends JWebUnitAPITestCase {
         //submit();
     }    
     
+    public void testXhtmlStrict() {
+        beginAt("XhtmlStrict.html");
+        // run a method that gets the DOM
+        assertElementPresent("div1");
+        // which gives a "org.w3c.dom.DOMException: NOT_SUPPORTED_ERR" with nekohtml 0.9.5
+    }
 }
