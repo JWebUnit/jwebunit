@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <project>
     <pomVersion>3</pomVersion>
-    <id>jwebunit</id>
+    <groupId>jwebunit</groupId>
+    <artifactId>jwebunit</artifactId>
     <name>jWebUnit</name>
     <currentVersion>1.3</currentVersion>
 <!--
@@ -195,13 +196,21 @@
             <url>http://ant.apache.org</url>
         </dependency>
 -->
+<!-- 
         <dependency>
             <groupId>nekohtml</groupId>
             <artifactId>nekohtml</artifactId>
             <version>0.9.5</version>
             <url>http://www.apache.org/~andyc/neko/doc/html/index.html</url>
         </dependency>
-
+-->
+        <dependency>
+            <groupId>jtidy</groupId>
+            <artifactId>jtidy</artifactId>
+            <version>4aug2000r7-dev</version>
+            <url>http://jtidy.sourceforge.net/nightly/</url>
+        </dependency>
+        
         <dependency>
             <groupId>rhino</groupId>
             <artifactId>js</artifactId>
