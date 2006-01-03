@@ -15,6 +15,7 @@ import net.sourceforge.jwebunit.WebTester;
 import org.mortbay.http.HttpContext;
 import org.mortbay.http.HttpServer;
 import org.mortbay.http.SocketListener;
+import org.mortbay.http.handler.DumpHandler;
 import org.mortbay.http.handler.ResourceHandler;
 import org.mortbay.util.Resource;
 
@@ -24,7 +25,6 @@ public class WebFixtureTest extends TestCase {
 
     public static final int MINIMUM_TESTS = 50;
     public static final String PLUGIN_FOLDER = "fitplugin/";
-    public static final String TEST_ROOT = "test/";
     public static final String TEST_HTML_FOLDER = "sampleHtml/";
     public static final int JETTY_PORT_DEFAULT = 8081;
     public static final String JETTY_PORT_PROPERTY = "jetty.port";
@@ -32,6 +32,7 @@ public class WebFixtureTest extends TestCase {
     public static final String JETTY_HOST = "localhost";
     
     private HttpServer server = null;
+    private String testRoot = "test/";
     
     // translation between urls used in old .fit files and the urls in jetty context
     private static Map oldUrls = null;
@@ -77,15 +78,15 @@ public class WebFixtureTest extends TestCase {
         // run the tests
         DirectoryRunner testRunner = 
             DirectoryRunner.parseArgs(new String[]
-                {TEST_ROOT + "testInput",
-                 TEST_ROOT + "testOutput"});
+                {testRoot + "testInput",
+                 testRoot + "testOutput"});
         testRunner.run();
         testRunner.getResultWriter().write();
         // sanity check
         assertTrue("Should find at least " + MINIMUM_TESTS + " tests",
                 0 < testRunner.getResultWriter().getTotal());
         // report failures to JUnit
-        String resultsUrl = TEST_ROOT + "testOutput/index.html";
+        String resultsUrl = testRoot + "testOutput/index.html";
         assertEquals("Failures detected. Check " + resultsUrl + ".", 0, 
             testRunner.getResultWriter().getCounts().wrong);
         assertEquals("Exceptions detected. Check " + resultsUrl + ".", 0, 
@@ -107,10 +108,11 @@ public class WebFixtureTest extends TestCase {
     private void setUpContextWithTestWebapp() throws IOException {
         // add the files in sampleHtml to context
         HttpContext context = server.addContext(JETTY_CONTEXT);
-        context.setResourceBase(TEST_ROOT + TEST_HTML_FOLDER);
+        setUpPathToStaticContents(context);
         if (!context.getResource("index.html").exists()) {
             // allow the test to run from parent project
-            context.setResourceBase(PLUGIN_FOLDER + TEST_ROOT + TEST_HTML_FOLDER);
+            testRoot = PLUGIN_FOLDER + testRoot;
+            setUpPathToStaticContents(context);
         }
         // check that the context root contains the web pages
         assertTrue("Should find index.html in the configured jetty context: " + context.getResourceBase(),
@@ -118,9 +120,14 @@ public class WebFixtureTest extends TestCase {
         setUpContextHandlers(context);
     }
 
+    private void setUpPathToStaticContents(HttpContext context) {
+        context.setResourceBase(testRoot + TEST_HTML_FOLDER);
+    }
+
     private void setUpContextHandlers(HttpContext context) {
         // handle static HTML
-        context.addHandler(getStaticHTMLResourceHandler());        
+        context.addHandler(getStaticHTMLResourceHandler()); 
+        //context.addHandler(new DumpHandler());
     }
     
     private ResourceHandler getStaticHTMLResourceHandler() {
