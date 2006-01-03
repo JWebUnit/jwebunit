@@ -11,12 +11,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sourceforge.jwebunit.WebTester;
+import net.sourceforge.jwebunit.fit.testservlets.ColorPostServlet;
+import net.sourceforge.jwebunit.fit.testservlets.MoriaPostServlet;
+import net.sourceforge.jwebunit.fit.testservlets.PersonalInfoPostServlet;
 
 import org.mortbay.http.HttpContext;
+import org.mortbay.http.HttpException;
+import org.mortbay.http.HttpRequest;
+import org.mortbay.http.HttpResponse;
 import org.mortbay.http.HttpServer;
 import org.mortbay.http.SocketListener;
 import org.mortbay.http.handler.DumpHandler;
 import org.mortbay.http.handler.ResourceHandler;
+import org.mortbay.jetty.servlet.ServletHandler;
 import org.mortbay.util.Resource;
 
 import junit.framework.TestCase;
@@ -125,22 +132,31 @@ public class WebFixtureTest extends TestCase {
     }
 
     private void setUpContextHandlers(HttpContext context) {
+        // servlet handlers for the post requests from old .fit files
+        ServletHandler handler= new ServletHandler();
+        handler.addServlet("colorPost","/colorPost", ColorPostServlet.class.getName());
+        handler.addServlet("moriaPost","/moriaPost", MoriaPostServlet.class.getName());
+        handler.addServlet("personalInfoPost", "/personalInfoPost", PersonalInfoPostServlet.class.getName());
+        context.addHandler(handler);
         // handle static HTML
         context.addHandler(getStaticHTMLResourceHandler()); 
-        //context.addHandler(new DumpHandler());
     }
     
     private ResourceHandler getStaticHTMLResourceHandler() {
-        return new ResourceHandler() {
+        ResourceHandler handler = new ResourceHandler() {
             protected Resource getResource(String pathInContext) throws IOException {
                 Resource r = super.getResource(pathInContext);
                 if (!r.exists() && oldUrls.containsKey(pathInContext)) { // don't want to update the .fit files until the old tests work
                     r = super.getResource(oldUrls.get(pathInContext).toString());
                 }
+                if (!r.exists()) {
+                    
+                }
                 assertTrue("The requested resource '" + pathInContext + "' must exist", r.exists());
                 return r;
             }
         };
+        return handler;
     }
     
     public static int getJettyPort() {

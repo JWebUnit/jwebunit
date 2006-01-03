@@ -38,7 +38,7 @@ public class DirectoryRunner extends FitRunner {
 
     public void run() {
         if (!inputDir.exists()) {
-            throw new RuntimeException("The input directory '" + inputDir + "' does not exist.");
+            throw new RuntimeException("The input directory '" + inputDir.getAbsolutePath() + "' does not exist.");
         }
         File[] files = inputDir.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {

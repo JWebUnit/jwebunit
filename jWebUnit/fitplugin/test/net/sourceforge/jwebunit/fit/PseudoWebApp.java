@@ -6,6 +6,9 @@ import com.meterware.pseudoserver.WebResource;
 
 import java.io.*;
 
+/**
+ * @deprecated Jetty and servlets is used instead.
+ */
 public class PseudoWebApp {
 
     private PseudoServer server;
