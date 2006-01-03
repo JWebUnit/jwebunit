@@ -42,7 +42,7 @@ public class WebFixtureTest extends TestCase {
         oldUrls.put("/personalInfoForm", "/PersonalInfoForm.html");
         oldUrls.put("/sampleMenu", "/SampleMenu.html");
         oldUrls.put("/pageWithPopupLink", "/pageWithPopupLink.html");
-        oldUrls.put("/menu", "/menu.html");
+        oldUrls.put("/menu", "/SampleMenu.html");
     }
     
     public WebFixtureTest(String s) {
