@@ -6,6 +6,7 @@
 package net.sourceforge.jwebunit.fit;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,14 +26,14 @@ public class WebFixtureTest extends TestCase {
     public static final String PLUGIN_FOLDER = "fitplugin/";
     public static final String TEST_ROOT = "test/";
     public static final String TEST_HTML_FOLDER = "sampleHtml/";
-    public static final String TEST_CONTEXT = "/";
     public static final int JETTY_PORT_DEFAULT = 8081;
     public static final String JETTY_PORT_PROPERTY = "jetty.port";
-    private static final String HOST = "localhost";
+    public static final String JETTY_CONTEXT = "/";
+    public static final String JETTY_HOST = "localhost";
     
     private HttpServer server = null;
     
-    // translation between urls used in .fit files and the urls in jetty context
+    // translation between urls used in old .fit files and the urls in jetty context
     private static Map oldUrls = null;
     static {
         oldUrls = new HashMap();
@@ -50,46 +51,25 @@ public class WebFixtureTest extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        server = new HttpServer();
-        SocketListener listener = new SocketListener();
-        listener.setPort(getJettyPort());
-        listener.setHost(HOST);
-        listener.setMinThreads(1);
-        listener.setMaxThreads(10);
-        server.addListener(listener);
-        // add the files in sampleHtml to context
-        HttpContext context = server.addContext(TEST_CONTEXT);
-        context.setResourceBase(TEST_ROOT + TEST_HTML_FOLDER);
-        if (!context.getResource("index.html").exists()) {
-            // allow the test to run from parent project
-            context.setResourceBase(PLUGIN_FOLDER + TEST_ROOT + TEST_HTML_FOLDER);
-        }
-        // check that the context root contains the web pages
-        assertTrue("Should find index.html in the configured jetty context: " + context.getResourceBase(),
-                context.getResource("index.html").exists());
-        // handle static HTML
-        context.addHandler(new ResourceHandler() {
-            protected Resource getResource(String pathInContext) throws IOException {
-                Resource r = super.getResource(pathInContext);
-                if (!r.exists() && oldUrls.containsKey(pathInContext)) { // don't want to update the .fit files until the old tests work
-                    r = super.getResource(oldUrls.get(pathInContext).toString());
-                }
-                assertTrue("The requested resource '" + pathInContext + "' must exist", r.exists());
-                return r;
-            }
-        });
+        setUpConfiguredServer();
+        setUpContextWithTestWebapp();
         // run
         server.start();
+    }
+    
+    protected void tearDown() throws Exception {
+        server.stop();
+        super.tearDown();
     }
 
     public void testFixtureStart() throws Exception {
         WebFixture fixture = new WebFixture();
-        fixture.setBaseUrl("http://" + HOST + ":" + getJettyPort());
+        fixture.setBaseUrl("http://" + JETTY_HOST + ":" + getJettyPort());
         WebTester tester = WebFixture.tester;
         tester.beginAt("index.html");
         tester.assertTitleEquals("Test root");
     }
-    
+
     public void testWebFixture() throws Exception {
         //new PseudoWebApp();
         // avoid the need of the system property, always use .fit files for input
@@ -100,22 +80,60 @@ public class WebFixtureTest extends TestCase {
                 {TEST_ROOT + "testInput",
                  TEST_ROOT + "testOutput"});
         testRunner.run();
-		testRunner.getResultWriter().write();
+        testRunner.getResultWriter().write();
         // sanity check
         assertTrue("Should find at least " + MINIMUM_TESTS + " tests",
                 0 < testRunner.getResultWriter().getTotal());
         // report failures to JUnit
         String resultsUrl = TEST_ROOT + "testOutput/index.html";
-		assertEquals("Failures detected. Check " + resultsUrl + ".", 0, 
-			testRunner.getResultWriter().getCounts().wrong);
+        assertEquals("Failures detected. Check " + resultsUrl + ".", 0, 
+            testRunner.getResultWriter().getCounts().wrong);
         assertEquals("Exceptions detected. Check " + resultsUrl + ".", 0, 
-        	testRunner.getResultWriter().getCounts().exceptions);
+            testRunner.getResultWriter().getCounts().exceptions);
+    }    
+    
+    // ---- below are methods for setting up the test web ----
+    
+    private void setUpConfiguredServer() throws UnknownHostException {
+        server = new HttpServer();
+        SocketListener listener = new SocketListener();
+        listener.setPort(getJettyPort());
+        listener.setHost(JETTY_HOST);
+        listener.setMinThreads(1);
+        listener.setMaxThreads(10);
+        server.addListener(listener);
     }
     
-    protected void tearDown() throws Exception {
-        server.stop();
-        server = null;
-        super.tearDown();
+    private void setUpContextWithTestWebapp() throws IOException {
+        // add the files in sampleHtml to context
+        HttpContext context = server.addContext(JETTY_CONTEXT);
+        context.setResourceBase(TEST_ROOT + TEST_HTML_FOLDER);
+        if (!context.getResource("index.html").exists()) {
+            // allow the test to run from parent project
+            context.setResourceBase(PLUGIN_FOLDER + TEST_ROOT + TEST_HTML_FOLDER);
+        }
+        // check that the context root contains the web pages
+        assertTrue("Should find index.html in the configured jetty context: " + context.getResourceBase(),
+                context.getResource("index.html").exists());
+        setUpContextHandlers(context);
+    }
+
+    private void setUpContextHandlers(HttpContext context) {
+        // handle static HTML
+        context.addHandler(getStaticHTMLResourceHandler());        
+    }
+    
+    private ResourceHandler getStaticHTMLResourceHandler() {
+        return new ResourceHandler() {
+            protected Resource getResource(String pathInContext) throws IOException {
+                Resource r = super.getResource(pathInContext);
+                if (!r.exists() && oldUrls.containsKey(pathInContext)) { // don't want to update the .fit files until the old tests work
+                    r = super.getResource(oldUrls.get(pathInContext).toString());
+                }
+                assertTrue("The requested resource '" + pathInContext + "' must exist", r.exists());
+                return r;
+            }
+        };
     }
     
     public static int getJettyPort() {
