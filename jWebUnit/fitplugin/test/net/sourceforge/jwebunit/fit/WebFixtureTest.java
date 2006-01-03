@@ -22,8 +22,10 @@ import junit.framework.TestCase;
 public class WebFixtureTest extends TestCase {
 
     public static final int MINIMUM_TESTS = 50;
-    public static final String TEST_ROOT = "fitplugin/test/";
+    public static final String PLUGIN_FOLDER = "fitplugin/";
+    public static final String TEST_ROOT = "test/";
     public static final String TEST_HTML_FOLDER = "sampleHtml/";
+    public static final String TEST_CONTEXT = "/";
     public static final int JETTY_PORT_DEFAULT = 8081;
     public static final String JETTY_PORT_PROPERTY = "jetty.port";
     private static final String HOST = "localhost";
@@ -56,10 +58,16 @@ public class WebFixtureTest extends TestCase {
         listener.setMaxThreads(10);
         server.addListener(listener);
         // add the files in sampleHtml to context
-        final HttpContext context = server.addContext("/");
+        HttpContext context = server.addContext(TEST_CONTEXT);
         context.setResourceBase(TEST_ROOT + TEST_HTML_FOLDER);
+        if (!context.getResource("index.html").exists()) {
+            // allow the test to run from parent project
+            context.setResourceBase(PLUGIN_FOLDER + TEST_ROOT + TEST_HTML_FOLDER);
+        }
+        // check that the context root contains the web pages
         assertTrue("Should find index.html in the configured jetty context: " + context.getResourceBase(),
                 context.getResource("index.html").exists());
+        // handle static HTML
         context.addHandler(new ResourceHandler() {
             protected Resource getResource(String pathInContext) throws IOException {
                 Resource r = super.getResource(pathInContext);
