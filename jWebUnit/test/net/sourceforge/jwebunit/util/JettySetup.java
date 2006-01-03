@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.mortbay.jetty.Server;
-import org.mortbay.jetty.servlet.ServletHandler;
 import org.mortbay.util.MultiException;
 
 import junit.extensions.TestSetup;
@@ -49,7 +48,6 @@ public class JettySetup extends TestSetup {
                 fail("Unable to locate jetty-test-config.xml on the classpath");
             }
             jettyServer = new Server(jettyConfig);
-            addCustomHandlers(jettyServer);
             jettyServer.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,19 +56,6 @@ public class JettySetup extends TestSetup {
             e.printStackTrace();
             fail("Could not start the Jetty server: " + e);
         }
-    }
-
-    /**
-     * Adds any extra handlers programmatically
-     * @param jettyServer2
-     * @deprecated remove this method if the webapp seems to work
-     */
-    private void addCustomHandlers(Server jettyServer) {
-        // Use web.xml instead so that the servlet can have the same path as the jsp
-        //ServletHandler handler= new ServletHandler();
-        //handler.addServlet("Params","/params.do",
-        //    ParamsServlet.class.getName());
-        //jettyServer.getContext("/").addHandler(handler);
     }
 
     /**

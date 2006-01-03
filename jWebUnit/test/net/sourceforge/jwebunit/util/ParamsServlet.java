@@ -34,7 +34,7 @@ public class ParamsServlet extends HttpServlet {
                 }
             }
         }
-        out.write(" \n");
+        out.write(" </p>\n");
         out.write(HtmlHelper.getLinkParagraph("return", request.getHeader("Referer")));
         out.write(HtmlHelper.getEnd());
     }

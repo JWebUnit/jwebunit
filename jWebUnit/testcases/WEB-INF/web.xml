@@ -3,7 +3,7 @@
 
 <web-app>
 
-<!-- don't use the JSP because it requires compilation -->
+<!-- Use servlets instead of JSP to avoid time consuming configuration and extra dependencies -->
 <servlet>
     <servlet-name>ParamsServlet</servlet-name>
     <servlet-class>net.sourceforge.jwebunit.util.ParamsServlet</servlet-class>

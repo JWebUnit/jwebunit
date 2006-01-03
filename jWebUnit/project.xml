@@ -188,15 +188,8 @@
             <version>3.8.1</version>
             <url>http://www.junit.org</url>
         </dependency>
-<!--
-        <dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant-optional</artifactId>
-            <version>1.5.3-1</version>
-            <url>http://ant.apache.org</url>
-        </dependency>
--->
-<!-- 
+
+<!-- Nekohtml does not work with getDOM() in httpunit. Using jTidy instead
         <dependency>
             <groupId>nekohtml</groupId>
             <artifactId>nekohtml</artifactId>
@@ -299,6 +292,7 @@
 		        <war.bundle>false</war.bundle>
 		    </properties>
 		</dependency>
+		<!-- only needed to compile JSPs
         <dependency>
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>
@@ -307,6 +301,7 @@
                 <war.bundle>false</war.bundle>
             </properties>           
         </dependency>
+        -->
     </dependencies>
     <build>
         <sourceDirectory>src</sourceDirectory>
