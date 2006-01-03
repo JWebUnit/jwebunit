@@ -9,21 +9,31 @@ import junit.framework.TestCase;
 
 public class WebFixtureTest extends TestCase {
 
+    public static final int MINIMUM_TESTS = 50;
+    
     public WebFixtureTest(String s) {
         super(s);
     }
 
     public void testWebFixture() throws Exception {
         new PseudoWebApp();
+        // avoid the need of the system property, always use .fit files for input
+        RunnerUtility.overrideSystemPropertyAndUseWikiParser = true;
+        // run the tests
         DirectoryRunner testRunner = 
         	DirectoryRunner.parseArgs(new String[]
         		{"fitplugin/test/testInput",
 				 "fitplugin/test/testOutput"});
         testRunner.run();
 		testRunner.getResultWriter().write();
-		assertEquals("Failures detected.", 0, 
+        // sanity check
+        assertTrue("Should find at least " + MINIMUM_TESTS + " tests",
+                0 < testRunner.getResultWriter().getTotal());
+        // report failures to JUnit
+        String resultsUrl = "fitplugin/test/testOutput/index.html";
+		assertEquals("Failures detected. Check " + resultsUrl + ".", 0, 
 			testRunner.getResultWriter().getCounts().wrong);
-        assertEquals("Exceptions detected.", 0, 
+        assertEquals("Exceptions detected. Check " + resultsUrl + ".", 0, 
         	testRunner.getResultWriter().getCounts().exceptions);
     }
 

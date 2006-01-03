@@ -46,4 +46,11 @@ public abstract class FitResultWriter {
     public File getOutput() {
         return output;
     }
+    
+    /**
+     * @return the total number of executed tests
+     */
+    public int getTotal() {
+        return getRight() + getWrong() + getIgnores() + getExceptions();
+    }
 }

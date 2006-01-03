@@ -37,6 +37,9 @@ public class DirectoryRunner extends FitRunner {
     }
 
     public void run() {
+        if (!inputDir.exists()) {
+            throw new RuntimeException("The input directory '" + inputDir + "' does not exist.");
+        }
         File[] files = inputDir.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return hasRightExtension(name) || (new File(dir, name).isDirectory() && !name.equals("CVS"));
