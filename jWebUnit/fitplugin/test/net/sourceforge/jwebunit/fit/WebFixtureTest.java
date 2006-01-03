@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 public class WebFixtureTest extends TestCase {
 
     public static final int MINIMUM_TESTS = 50;
+    public static final String TEST_ROOT = "fitplugin/test/";
     
     public WebFixtureTest(String s) {
         super(s);
@@ -21,16 +22,16 @@ public class WebFixtureTest extends TestCase {
         RunnerUtility.overrideSystemPropertyAndUseWikiParser = true;
         // run the tests
         DirectoryRunner testRunner = 
-        	DirectoryRunner.parseArgs(new String[]
-        		{"fitplugin/test/testInput",
-				 "fitplugin/test/testOutput"});
+            DirectoryRunner.parseArgs(new String[]
+                {TEST_ROOT + "testInput",
+                 TEST_ROOT + "testOutput"});
         testRunner.run();
 		testRunner.getResultWriter().write();
         // sanity check
         assertTrue("Should find at least " + MINIMUM_TESTS + " tests",
                 0 < testRunner.getResultWriter().getTotal());
         // report failures to JUnit
-        String resultsUrl = "fitplugin/test/testOutput/index.html";
+        String resultsUrl = TEST_ROOT + "testOutput/index.html";
 		assertEquals("Failures detected. Check " + resultsUrl + ".", 0, 
 			testRunner.getResultWriter().getCounts().wrong);
         assertEquals("Exceptions detected. Check " + resultsUrl + ".", 0, 
