@@ -55,10 +55,10 @@ public class WebFixtureTest extends TestCase {
         listener.setMinThreads(1);
         listener.setMaxThreads(10);
         server.addListener(listener);
-        // add the tiles in sampleHtml to context
+        // add the files in sampleHtml to context
         final HttpContext context = server.addContext("/");
         context.setResourceBase(TEST_ROOT + TEST_HTML_FOLDER);
-        assertTrue("Should find index.html in the configured jetty context",
+        assertTrue("Should find index.html in the configured jetty context: " + context.getResourceBase(),
                 context.getResource("index.html").exists());
         context.addHandler(new ResourceHandler() {
             protected Resource getResource(String pathInContext) throws IOException {
