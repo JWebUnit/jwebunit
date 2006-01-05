@@ -68,10 +68,14 @@ public class WebFixtureTest extends TestCase {
 
     public void testFixtureStart() throws Exception {
         WebFixture fixture = new WebFixture();
-        fixture.setBaseUrl("http://" + JETTY_HOST + ":" + getJettyPort());
+        fixture.setBaseUrl(getApplicationRootUrl());
         WebTester tester = WebFixture.tester;
-        tester.beginAt("index.html");
+        tester.beginAt("readme.html");
         tester.assertTitleEquals("Test root");
+    }
+
+    protected String getApplicationRootUrl() {
+        return "http://" + JETTY_HOST + ":" + getJettyPort();
     }
 
     public void testWebFixture() throws Exception {
@@ -111,14 +115,14 @@ public class WebFixtureTest extends TestCase {
         // add the files in sampleHtml to context
         HttpContext context = server.addContext(JETTY_CONTEXT);
         setUpPathToStaticContents(context);
-        if (!context.getResource("index.html").exists()) {
+        if (!context.getResource("readme.html").exists()) {
             // allow the test to run from parent project
             testRoot = PLUGIN_FOLDER + testRoot;
             setUpPathToStaticContents(context);
         }
         // check that the context root contains the web pages
-        assertTrue("Should find index.html in the configured jetty context: " + context.getResourceBase(),
-                context.getResource("index.html").exists());
+        assertTrue("Should find readme.html in the configured jetty context: " + context.getResourceBase(),
+                context.getResource("readme.html").exists());
         setUpContextHandlers(context);
     }
 
