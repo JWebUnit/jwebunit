@@ -16,12 +16,8 @@ import net.sourceforge.jwebunit.fit.testservlets.MoriaPostServlet;
 import net.sourceforge.jwebunit.fit.testservlets.PersonalInfoPostServlet;
 
 import org.mortbay.http.HttpContext;
-import org.mortbay.http.HttpException;
-import org.mortbay.http.HttpRequest;
-import org.mortbay.http.HttpResponse;
 import org.mortbay.http.HttpServer;
 import org.mortbay.http.SocketListener;
-import org.mortbay.http.handler.DumpHandler;
 import org.mortbay.http.handler.ResourceHandler;
 import org.mortbay.jetty.servlet.ServletHandler;
 import org.mortbay.util.Resource;
@@ -46,7 +42,7 @@ public class WebFixtureTest extends TestCase {
     static {
         oldUrls = new HashMap();
         oldUrls.put("/colorForm", "/ColorForm.html");
-        oldUrls.put("/moriaDoorForm", "/MoriaDoorForm.html");
+        oldUrls.put("/enterMoria", "/MoriaDoorForm.html");
         oldUrls.put("/personalInfoForm", "/PersonalInfoForm.html");
         oldUrls.put("/sampleMenu", "/SampleMenu.html");
         oldUrls.put("/pageWithPopupLink", "/pageWithPopupLink.html");
@@ -79,7 +75,6 @@ public class WebFixtureTest extends TestCase {
     }
 
     public void testWebFixture() throws Exception {
-        //new PseudoWebApp();
         // avoid the need of the system property, always use .fit files for input
         RunnerUtility.overrideSystemPropertyAndUseWikiParser = true;
         // run the tests
@@ -144,9 +139,11 @@ public class WebFixtureTest extends TestCase {
     
     private ResourceHandler getStaticHTMLResourceHandler() {
         ResourceHandler handler = new ResourceHandler() {
+            private static final long serialVersionUID = 1L;
             protected Resource getResource(String pathInContext) throws IOException {
                 Resource r = super.getResource(pathInContext);
-                if (!r.exists() && oldUrls.containsKey(pathInContext)) { // don't want to update the .fit files until the old tests work
+                // don't want to update the .fit files until the old tests work
+                if (!r.exists() && oldUrls.containsKey(pathInContext)) {
                     r = super.getResource(oldUrls.get(pathInContext).toString());
                 }
                 if (!r.exists()) {
