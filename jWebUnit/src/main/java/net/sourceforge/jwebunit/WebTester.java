@@ -15,6 +15,7 @@ import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 
 import org.apache.regexp.RE;
+import org.apache.regexp.RESyntaxException;
 
 /**
  * Provides a high-level API for basic web application navigation and validation
@@ -185,7 +186,12 @@ public class WebTester {
      *            expected title regexp
      */
     public void assertTitleMatch(String regexp) {
-        RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+        RE re = null;
+        try {
+            re = new RE(regexp, RE.MATCH_SINGLELINE);
+        } catch (RESyntaxException e) {
+            Assert.fail(e.toString());
+        }
         Assert.assertTrue("Unable to match [" + regexp + "] in title",
                           re.match(getDialog().getResponsePageTitle()));
     }
@@ -596,7 +602,12 @@ public class WebTester {
                                 + ". Expected [" + row.length + "] found ["
                                 + actualTableCellValues[i].length + "].");
                 String regexp = row[j];
-                RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+                RE re = null;
+                try {
+                    re = new RE(regexp, RE.MATCH_SINGLELINE);
+                } catch (RESyntaxException e) {
+                    Assert.fail(e.toString());
+                }
                 Assert.assertTrue("Unable to match " + regexp + " in " + tableSummaryOrId
                     + " at [" + i + "," + j + "].",
                     re.match(getTestContext().toEncodedString(actualTableCellValues[i + startRow][j].trim())));
@@ -715,7 +726,12 @@ public class WebTester {
     public void assertFormElementMatch(String formElementName,
             String regexp) {
         assertFormElementPresent(formElementName);
-        RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+        RE re = null;
+        try {
+            re = new RE(regexp, RE.MATCH_SINGLELINE);
+        } catch (RESyntaxException e) {
+            Assert.fail(e.toString());
+        }
         Assert.assertTrue("Unable to match [" + regexp + "] in form element \"" + formElementName + "\"",
                           re.match(getDialog().getFormParameterValue(formElementName)));
     }
@@ -951,7 +967,12 @@ public class WebTester {
      */
     public void assertOptionMatch(String selectName, String regexp) {
         assertFormElementPresent(selectName);
-        RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+        RE re = null;
+        try {
+            re = new RE(regexp, RE.MATCH_SINGLELINE);
+        } catch (RESyntaxException e) {
+            Assert.fail(e.toString());
+        }
         Assert.assertTrue("Unable to match [" + regexp + "] in option \"" + selectName + "\"",
                           re.match(getDialog().getSelectedOption(selectName)));
     }
@@ -1306,7 +1327,12 @@ public class WebTester {
 
     public void assertCookieValueMatch(String cookieName, String regexp) {
         assertCookiePresent(cookieName);
-        RE re = new RE(regexp, RE.MATCH_SINGLELINE);
+        RE re = null;
+        try {
+            re = new RE(regexp, RE.MATCH_SINGLELINE);
+        } catch (RESyntaxException e) {
+            Assert.fail(e.toString());
+        }
         Assert.assertTrue("Unable to match [" + regexp + "] in cookie \"" + cookieName + "\"",
                           re.match(getDialog().getCookieValue(cookieName)));
     }
