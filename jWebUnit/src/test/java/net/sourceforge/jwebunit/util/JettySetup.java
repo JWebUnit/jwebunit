@@ -52,7 +52,7 @@ public class JettySetup extends TestSetup {
         } catch (IOException e) {
             e.printStackTrace();
             fail("Could not start the Jetty server: " + e);
-        } catch (MultiException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Could not start the Jetty server: " + e);
         }
