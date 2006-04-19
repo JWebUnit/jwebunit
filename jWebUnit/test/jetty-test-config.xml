@@ -19,7 +19,7 @@
   <Call name="addListener">
     <Arg>
       <New class="org.mortbay.http.SocketListener">
-        <Set name="Port"><SystemProperty name="jetty.port" default="8081"/></Set>
+        <Set name="Port"><SystemProperty name="jetty.port" default="8082"/></Set>
         <Set name="MinThreads">10</Set>
         <Set name="MaxThreads">100</Set>
         <Set name="MaxIdleTimeMs">30000</Set>

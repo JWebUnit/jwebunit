@@ -2,6 +2,8 @@ package net.sourceforge.jwebunit;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.plugins.httpunit.TextAndElementWalkerReverseTest;
+import net.sourceforge.jwebunit.plugins.httpunit.TextAndElementWalkerTest;
 import net.sourceforge.jwebunit.util.JettySetup;
 import net.sourceforge.jwebunit.util.reflect.MethodInvokerTest;
 

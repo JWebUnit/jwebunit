@@ -7,7 +7,8 @@ package net.sourceforge.jwebunit;
 import java.util.Hashtable;
 
 import net.sourceforge.jwebunit.exception.TestingEngineRegistryException;
-import net.sourceforge.jwebunit.plugin.jacobie.JacobieDialog;
+import net.sourceforge.jwebunit.plugins.httpunit.HttpUnitDialog;
+import net.sourceforge.jwebunit.plugins.jacobie.JacobieDialog;
 
 /**
  * This will maintain a registry of known testing engines to be used by jWebUnit.

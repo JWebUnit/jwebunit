@@ -23,7 +23,7 @@ public class HelloWorldTest extends JWebUnitAPITestCase {
 
 	public void setUp() throws Exception {
 		super.setUp();
-		getTestContext().setBaseUrl("http://localhost:8081/jwebunit");
+		getTestContext().setBaseUrl(HOST_PATH);
 		beginAt("/helloworld.html");
 	}
 

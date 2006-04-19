@@ -2,7 +2,7 @@
  * Copyright (c) 2001, ThoughtWorks, Inc.
  * Distributed open-source, see full license under licenses/jwebunit_license.txt
  **********************************/
-package net.sourceforge.jwebunit;
+package net.sourceforge.jwebunit.plugins.httpunit;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -14,6 +14,8 @@ import java.util.Map;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
+import net.sourceforge.jwebunit.CompositeJWebUnitDialog;
+import net.sourceforge.jwebunit.TestContext;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.util.ExceptionUtility;

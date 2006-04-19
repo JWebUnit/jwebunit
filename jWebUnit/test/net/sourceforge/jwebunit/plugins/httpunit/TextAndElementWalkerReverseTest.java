@@ -1,4 +1,4 @@
-package net.sourceforge.jwebunit;
+package net.sourceforge.jwebunit.plugins.httpunit;
 
 import junit.framework.TestCase;
 import org.w3c.dom.Element;
