@@ -4,11 +4,10 @@
  **********************************/
 package net.sourceforge.jwebunit;
 
-import com.meterware.httpunit.ClientProperties;
-import com.meterware.httpunit.WebClient;
-import com.meterware.httpunit.WebConversation;
-
 import javax.servlet.http.Cookie;
+
+import net.sourceforge.jwebunit.plugins.httpunit.HttpUnitDialog;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,7 +24,6 @@ import java.util.Locale;
  * @author Jim Weaver
  */
 public class TestContext {
-	private WebClient client;
 	private String user;
 	private String passwd;
 	private List cookies;
@@ -241,44 +239,6 @@ public class TestContext {
 	 */
 	public void setBaseUrl(String url) {
 		baseUrl = url.endsWith("/") ? url : url + "/";
-	}
-
-	/**
-	 * Set the WebClient to use for testing. If not set, jwebunit will create
-	 * an httpunit WebConversation.
-	 */
-	public void setWebClient(WebClient client) {
-		this.client = client;
-	}
-
-	/**
-	 * This returns a WebClient with all the appropraite settings for this
-	 * TestContext.
-	 */
-	public WebClient getWebClient() {
-		if (client == null) {
-			client = new WebConversation();
-		}
-
-		if (hasAuthorization()) {
-			client.setAuthorization(getUser(), getPassword());
-		}
-		if (hasProxy()) {
-			client.setProxyServer(getProxyName(), getProxyPort());
-		}
-	
-		if (hasCookies()) {
-			List cookies = getCookies();
-			for (Iterator iter = cookies.iterator(); iter.hasNext();) {
-				Cookie c = (Cookie) iter.next();
-				client.addCookie(c.getName(), c.getValue());
-			}
-		}
-		if (hasUserAgent()) {
-		    ClientProperties properties = client.getClientProperties();
-		    properties.setUserAgent(getUserAgent());
-		}
-		return client;
 	}
 
 }

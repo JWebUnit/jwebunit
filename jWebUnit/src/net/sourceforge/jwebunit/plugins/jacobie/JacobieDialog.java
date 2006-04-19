@@ -4,6 +4,7 @@
  **********************************/
 package net.sourceforge.jwebunit.plugins.jacobie;
 
+import java.io.PrintStream;
 import java.util.ListIterator;
 
 import net.sf.jacobie.exception.JacobieException;
@@ -14,7 +15,7 @@ import net.sf.jacobie.ie.Form;
 import net.sf.jacobie.ie.IE;
 import net.sf.jacobie.ie.Input;
 import net.sf.jacobie.ie.Select;
-import net.sourceforge.jwebunit.CompositeJWebUnitDialog;
+import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
@@ -28,7 +29,7 @@ import net.sourceforge.jwebunit.util.ExceptionUtility;
  * 
  * @author Nick Neuberger
  */
-public class JacobieDialog extends CompositeJWebUnitDialog {
+public class JacobieDialog implements IJWebUnitDialog {
 
 	public IE ie = null;
 
@@ -903,6 +904,278 @@ public class JacobieDialog extends CompositeJWebUnitDialog {
 
     public String getFormElementValueForLabel(String formElementLabel) {
         throw new UnsupportedOperationException("Method JacobieDialog#getFormElementValueForLabel not implemented yet.");
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpCookies(java.io.PrintStream)
+     */
+    public void dumpCookies(PrintStream stream) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpResponse()
+     */
+    public void dumpResponse() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpResponse(java.io.PrintStream)
+     */
+    public void dumpResponse(PrintStream stream) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpTable(java.lang.String, java.io.PrintStream)
+     */
+    public void dumpTable(String tableNameOrId, PrintStream stream) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpTable(java.lang.String, java.lang.String[][], java.io.PrintStream)
+     */
+    public void dumpTable(String tableNameOrId, String[][] table, PrintStream stream) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpTable(java.lang.String, java.lang.String[][])
+     */
+    public void dumpTable(String tableNameOrId, String[][] table) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getCookieValue(java.lang.String)
+     */
+    public String getCookieValue(String cookieName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getFormElementNameForLabel(java.lang.String)
+     */
+    public String getFormElementNameForLabel(String formElementLabel) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getOptionsFor(java.lang.String)
+     */
+    public String[] getOptionsFor(String selectName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getOptionValuesFor(java.lang.String)
+     */
+    public String[] getOptionValuesFor(String selectName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getResponseText()
+     */
+    public String getResponseText() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSparseTableBySummaryOrId(java.lang.String)
+     */
+    public String[][] getSparseTableBySummaryOrId(String tableSummaryOrId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getTableBySummaryOrId(java.lang.String)
+     */
+    public String[][] getTableBySummaryOrId(String tableSummaryOrId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#gotoFrame(java.lang.String)
+     */
+    public void gotoFrame(String frameName) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#gotoRootWindow()
+     */
+    public void gotoRootWindow() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#gotoWindow(java.lang.String)
+     */
+    public void gotoWindow(String windowName) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#gotoWindowByTitle(java.lang.String)
+     */
+    public void gotoWindowByTitle(String title) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasButtonWithText(java.lang.String)
+     */
+    public boolean hasButtonWithText(String text) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasCookie(java.lang.String)
+     */
+    public boolean hasCookie(String cookieName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasFormParameterLabeled(java.lang.String)
+     */
+    public boolean hasFormParameterLabeled(String paramLabel) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isElementPresent(java.lang.String)
+     */
+    public boolean isElementPresent(String anID) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isFramePresent(java.lang.String)
+     */
+    public boolean isFramePresent(String frameName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isMatchInElement(java.lang.String, java.lang.String)
+     */
+    public boolean isMatchInElement(String elementID, String regexp) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isMatchInResponse(java.lang.String)
+     */
+    public boolean isMatchInResponse(String regexp) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isMatchInTable(java.lang.String, java.lang.String)
+     */
+    public boolean isMatchInTable(String tableSummaryOrId, String regexp) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isTextInElement(java.lang.String, java.lang.String)
+     */
+    public boolean isTextInElement(String elementID, String text) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isTextInTable(java.lang.String, java.lang.String)
+     */
+    public boolean isTextInTable(String tableSummaryOrId, String text) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isWebTableBySummaryOrIdPresent(java.lang.String)
+     */
+    public boolean isWebTableBySummaryOrIdPresent(String tableSummaryOrId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isWindowByTitlePresent(java.lang.String)
+     */
+    public boolean isWindowByTitlePresent(String title) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isWindowPresent(java.lang.String)
+     */
+    public boolean isWindowPresent(String windowName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#removeFormParameter(java.lang.String)
+     */
+    public void removeFormParameter(String paramName) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#removeFormParameterWithValue(java.lang.String, java.lang.String)
+     */
+    public void removeFormParameterWithValue(String paramName, String value) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#setWorkingForm(java.lang.String)
+     */
+    public void setWorkingForm(String nameOrId) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#updateFormParameter(java.lang.String, java.lang.String)
+     */
+    public void updateFormParameter(String paramName, String paramValue) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

@@ -14,7 +14,7 @@ import java.util.Map;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
-import net.sourceforge.jwebunit.CompositeJWebUnitDialog;
+import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
@@ -54,7 +54,7 @@ import com.meterware.httpunit.cookies.CookieJar;
  * @author Jim Weaver
  * @author Wilkes Joiner
  */
-public class HttpUnitDialog extends CompositeJWebUnitDialog {
+public class HttpUnitDialog implements IJWebUnitDialog {
 	
 	private WebClient wc;
 	private WebResponse resp;
@@ -94,7 +94,7 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
 	}
 
 	private void initWebClient() {
-		wc = (getTestContext() != null) ? getTestContext().getWebClient() : new WebConversation();
+		wc = new WebConversation();
 
 		wc.addClientListener(new WebClientListener() {
 			public void requestSent(WebClient webClient, WebRequest webRequest) {
@@ -1524,6 +1524,62 @@ public class HttpUnitDialog extends CompositeJWebUnitDialog {
 	public TestContext getTestContext() {
 		return testContext;
 	}
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getTableBySummaryOrId(java.lang.String)
+     */
+    public String[][] getTableBySummaryOrId(String tableSummaryOrId) {
+        return getWebTableBySummaryOrId(tableSummaryOrId).asText();
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isElementPresent(java.lang.String)
+     */
+    public boolean isElementPresent(String anID) {
+        return getElement(anID)!=null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isFramePresent(java.lang.String)
+     */
+    public boolean isFramePresent(String frameName) {
+        return getFrame(frameName)!=null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isMatchInElement(java.lang.String, java.lang.String)
+     */
+    public boolean isMatchInElement(String elementID, String regexp) {
+        return isMatchInElement(getElement(elementID), regexp);
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isTextInElement(java.lang.String, java.lang.String)
+     */
+    public boolean isTextInElement(String elementID, String text) {
+        return isTextInElement(getElement(elementID), text);
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isWebTableBySummaryOrIdPresent(java.lang.String)
+     */
+    public boolean isWebTableBySummaryOrIdPresent(String tableSummaryOrId) {
+        return getWebTableBySummaryOrId(tableSummaryOrId)!=null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isWindowByTitlePresent(java.lang.String)
+     */
+    public boolean isWindowByTitlePresent(String title) {
+        return getWindowByTitle(title)!=null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isWindowPresent(java.lang.String)
+     */
+    public boolean isWindowPresent(String windowName) {
+        return getWindow(windowName)!=null;
+    }
 
 
 }

@@ -15,7 +15,6 @@ import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 
 import org.apache.regexp.RE;
-import org.w3c.dom.Element;
 
 /**
  * Provides a high-level API for basic web application navigation and validation
@@ -271,7 +270,7 @@ public class WebTester {
 	 *            summary or id attribute value of table
 	 */
 	public void assertTablePresent(String tableSummaryOrId) {
-		if (getDialog().getWebTableBySummaryOrId(tableSummaryOrId) == null)
+		if (!getDialog().isWebTableBySummaryOrIdPresent(tableSummaryOrId))
 			Assert.fail("Unable to locate table \"" + tableSummaryOrId + "\"");
 	}
 
@@ -282,7 +281,7 @@ public class WebTester {
 	 *            summary or id attribute value of table
 	 */
 	public void assertTableNotPresent(String tableSummaryOrId) {
-		if (getDialog().getWebTableBySummaryOrId(tableSummaryOrId) != null)
+		if (getDialog().isWebTableBySummaryOrIdPresent(tableSummaryOrId))
 			Assert.fail("Located table \"" + tableSummaryOrId + "\"");
 	}
 
@@ -495,8 +494,8 @@ public class WebTester {
 			actualTableCellValues = getDialog().getSparseTableBySummaryOrId(
 					tableSummaryOrId);
 		} else {
-			actualTableCellValues = getDialog().getWebTableBySummaryOrId(
-					tableSummaryOrId).asText();
+			actualTableCellValues = getDialog().getTableBySummaryOrId(
+					tableSummaryOrId);
 		}
 		if (expectedCellValues.length > (actualTableCellValues.length - startRow))
 			Assert.fail("Expected rows [" + expectedCellValues.length
@@ -581,7 +580,7 @@ public class WebTester {
         if (tableEmptyCellCompression) {
             actualTableCellValues = getDialog().getSparseTableBySummaryOrId(tableSummaryOrId);
         } else {
-            actualTableCellValues = getDialog().getWebTableBySummaryOrId(tableSummaryOrId).asText();
+            actualTableCellValues = getDialog().getTableBySummaryOrId(tableSummaryOrId);
         }
         if (expectedCellValues.length > (actualTableCellValues.length - startRow))
                 Assert.fail("Expected rows [" + expectedCellValues.length
@@ -1193,8 +1192,8 @@ public class WebTester {
 	 *            element id to test for.
 	 */
 	public void assertElementPresent(String anID) {
-		Assert.assertNotNull("Unable to locate element with id \"" + anID
-				+ "\"", getDialog().getElement(anID));
+		Assert.assertTrue("Unable to locate element with id \"" + anID
+				+ "\"", getDialog().isElementPresent(anID));
 	}
 
 	/**
@@ -1204,8 +1203,8 @@ public class WebTester {
 	 *            element id to test for.
 	 */
 	public void assertElementNotPresent(String anID) {
-		Assert.assertNull("Located element with id \"" + anID + "\"",
-				getDialog().getElement(anID));
+		Assert.assertFalse("Located element with id \"" + anID + "\"",
+				getDialog().isElementPresent(anID));
 	}
 
 	/**
@@ -1217,20 +1216,18 @@ public class WebTester {
 	 *            to check for.
 	 */
 	public void assertTextInElement(String elementID, String text) {
-		Element element = getDialog().getElement(elementID);
-		Assert.assertNotNull("Unable to locate element with id \"" + elementID
-				+ "\"", element);
+		Assert.assertTrue("Unable to locate element with id \"" + elementID
+				+ "\"", getDialog().isElementPresent(elementID));
 		Assert.assertTrue("Unable to locate [" + text + "] in element \""
-				+ elementID + "\"", getDialog().isTextInElement(element, text));
+				+ elementID + "\"", getDialog().isTextInElement(elementID, text));
 	}
 
 	public void assertTextNotInElement(String elementID, String text) {
 		assertElementPresent(elementID);
-		Element element = getDialog().getElement(elementID);
-		Assert.assertNotNull("Unable to locate element with id \"" + elementID
-				+ "\"", element);
+        Assert.assertTrue("Unable to locate element with id \"" + elementID
+                + "\"", getDialog().isElementPresent(elementID));
 		Assert.assertFalse("Text [" + text + "] found in element [" + elementID
-				+ "] when not expected", getDialog().isTextInElement(element,
+				+ "] when not expected", getDialog().isTextInElement(elementID,
 				text));
 	}
 
@@ -1241,9 +1238,8 @@ public class WebTester {
      * @param regexp to match.
      */
     public void assertMatchInElement(String elementID, String regexp) {
-        Element element = getDialog().getElement(elementID);
-        Assert.assertNotNull("Unable to locate element with id \"" + elementID + "\"", element);
-        Assert.assertTrue("Unable to match [" + regexp + "] in element \"" + elementID + "\"", getDialog().isMatchInElement(element, regexp));
+        Assert.assertTrue("Unable to locate element with id \"" + elementID + "\"", getDialog().isElementPresent(elementID));
+        Assert.assertTrue("Unable to match [" + regexp + "] in element \"" + elementID + "\"", getDialog().isMatchInElement(elementID, regexp));
     }
 
     /**
@@ -1254,11 +1250,10 @@ public class WebTester {
      */
     public void assertNoMatchInElement(String elementID, String regexp) {
         assertElementPresent(elementID);
-        Element element = getDialog().getElement(elementID);
-        Assert.assertNotNull("Unable to locate element with id \"" + elementID
-                + "\"", element);
+        Assert.assertTrue("Unable to locate element with id \"" + elementID
+                + "\"", getDialog().isElementPresent(elementID));
         Assert.assertFalse("Regexp [" + regexp + "] matched in element [" + elementID
-                + "] when not expected", getDialog().isMatchInElement(element, regexp));
+                + "] when not expected", getDialog().isMatchInElement(elementID, regexp));
     }
 
 	/**
@@ -1267,8 +1262,8 @@ public class WebTester {
 	 * @param windowName
 	 */
 	public void assertWindowPresent(String windowName) {
-		Assert.assertNotNull("Unable to locate window [" + windowName + "].",
-				getDialog().getWindow(windowName));
+		Assert.assertTrue("Unable to locate window [" + windowName + "].",
+				getDialog().isWindowPresent(windowName));
 	}
 
 	/**
@@ -1277,8 +1272,8 @@ public class WebTester {
 	 * @param title
 	 */
 	public void assertWindowPresentWithTitle(String title) {
-		Assert.assertNotNull("Unable to locate window with title [" + title
-				+ "].", getDialog().getWindowByTitle(title));
+		Assert.assertTrue("Unable to locate window with title [" + title
+				+ "].", getDialog().isWindowByTitlePresent(title));
 	}
 
 	/**
@@ -1287,8 +1282,8 @@ public class WebTester {
 	 * @param frameName
 	 */
 	public void assertFramePresent(String frameName) {
-		Assert.assertNotNull("Unable to locate frame [" + frameName + "].",
-				getDialog().getFrame(frameName));
+		Assert.assertTrue("Unable to locate frame [" + frameName + "].",
+				getDialog().isFramePresent(frameName));
 	}
 
 	/**

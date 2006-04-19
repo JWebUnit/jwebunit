@@ -5,8 +5,6 @@ import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import com.meterware.httpunit.WebResponse;
-
 /**
  * Test form submission related methods of WebTestCase.
  * 
@@ -149,14 +147,14 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent(" button2b=b2b ");
 	}
 
-	public void testSubmissionReset() {
-		beginAt("/MultiFormPage.html");
-		setFormElement("param2", "anyvalue");
-		WebResponse oldResp = getDialog().getResponse();
-		submit("button2b");
-		assertFalse(getDialog().hasForm());
-		assertTrue(getDialog().getResponse() != oldResp);
-	}
+//	public void testSubmissionReset() {
+//		beginAt("/MultiFormPage.html");
+//		setFormElement("param2", "anyvalue");
+//		WebResponse oldResp = getDialog().getResponse();
+//		submit("button2b");
+//		assertFalse(getDialog().hasForm());
+//		assertTrue(getDialog().getResponse() != oldResp);
+//	}
 
 	public void testSelectOption() {
 		beginAt("/MultiFormPage.html");
