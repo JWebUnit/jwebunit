@@ -1,6 +1,22 @@
 <?xml version="1.0"?>
 <project name="jWebUnit">
-	<title>jWebUnit</title>
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-stylus-skin</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</skin>
+
+	<bannerLeft>
+		<name>SourceForge</name>
+		<src>http://sourceforge.net/sflogo.php?group_id=61302&amp;type=5</src>
+		<href>http://sourceforge.net</href>
+	</bannerLeft>
+
+	<bannerRight>
+		<name>jWebUnit</name>
+		<src>./images/jwebunit-logo.png</src>
+		<href>http://jwebunit.sourceforge.net</href>
+	</bannerRight>
 	<body>
 		<links>
 		    <item name="JUnit" href="http://www.junit.org"/>
@@ -55,6 +71,8 @@
 	        <item name="Lists" href="http://sourceforge.net/projects/jwebunit/lists" />
 	        <item name="Issue tracking" href="http://sourceforge.net/tracker/?group_id=61302"/>
 	    </menu>
-<!--	    <search /> -->
+	    
+	    ${reports}
+
 	</body>
 </project>
