@@ -2,6 +2,8 @@ package net.sourceforge.jwebunit;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.mortbay.http.handler.SetResponseHeadersHandler;
+
 import junit.framework.AssertionFailedError;
 import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
 
@@ -36,6 +38,8 @@ public abstract class JWebUnitAPITestCase extends WebTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		getTestContext().setBaseUrl(HOST_PATH);
+        //setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
+        setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_JACOBIE);
 	}
 
     public void assertPassFail(String methodName, Object passArg, Object failArgs) throws Throwable {
