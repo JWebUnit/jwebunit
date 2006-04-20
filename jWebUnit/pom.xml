@@ -14,15 +14,6 @@
   <issueManagement>
     <url>http://sourceforge.net/tracker/?atid=497982&amp;group_id=61302</url>
   </issueManagement>
-  <ciManagement>
-    <notifiers>
-      <notifier>
-        <configuration>
-          <address></address>
-        </configuration>
-      </notifier>
-    </notifiers>
-  </ciManagement>
   <inceptionYear>2002</inceptionYear>
   <mailingLists>
     <mailingList>
@@ -223,7 +214,7 @@
       <version>1.6.1-20060101</version>
     </dependency>
     <dependency>
-      <groupId>net.sf.jacobie</groupId>
+      <groupId>net.sourceforge.jacobie</groupId>
       <artifactId>jacobie</artifactId>
       <version>1.3</version>
     </dependency>
