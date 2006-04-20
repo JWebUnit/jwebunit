@@ -119,20 +119,13 @@
     <name>SourceForge</name>
     <url>http://sourceforge.net</url>
   </organization>
-  <repositories>
-		<repository>
-			<id>private</id>
-			<name>Private repository</name>
-			<url>file:${basedir}/private-repository</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
   <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ftp</artifactId>
+      </extension>
+    </extensions>
     <plugins>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -155,13 +148,16 @@
         </executions>
       </plugin>
     </plugins>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-         <artifactId>wagon-ftp</artifactId>
-      </extension>
-    </extensions>
   </build>
+  <repositories>
+    <repository>
+      <releases />
+      <snapshots />
+      <id>private</id>
+      <name>Private repository</name>
+      <url>file:${basedir}/private-repository</url>
+    </repository>
+  </repositories>
   <pluginRepositories>
     <pluginRepository>
       <releases>
@@ -181,19 +177,14 @@
       <version>3.8.1</version>
     </dependency>
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.13</version>
-    </dependency>
-    <dependency>
-      <groupId>htmlunit</groupId>
-      <artifactId>htmlunit</artifactId>
-      <version>1.9-prerelease</version>
+      <groupId>regexp</groupId>
+      <artifactId>regexp</artifactId>
+      <version>1.3</version>
     </dependency>
     <dependency>
       <groupId>jetty</groupId>
       <artifactId>org.mortbay.jetty</artifactId>
-      <version>5.1.9</version>
+      <version>5.1.10</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -217,6 +208,12 @@
       <groupId>net.sourceforge.jacobie</groupId>
       <artifactId>jacobie</artifactId>
       <version>1.3</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.4</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <reporting>
