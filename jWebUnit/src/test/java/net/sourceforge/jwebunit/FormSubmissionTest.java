@@ -31,7 +31,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		setFormElement("color", "blue");
 		submit("button");
         assertTextPresent("Submitted parameters");
-        dumpResponse(System.out);
+        //dumpResponse(System.out);
 		assertTextPresent("Params are: color=blue");
 		clickLink("return");
 		setFormElement("color", "red");
