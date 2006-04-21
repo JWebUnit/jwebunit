@@ -33,6 +33,7 @@ import com.meterware.httpunit.Button;
 import com.meterware.httpunit.GetMethodWebRequest;
 import com.meterware.httpunit.HTMLElementPredicate;
 import com.meterware.httpunit.HttpNotFoundException;
+import com.meterware.httpunit.HttpUnitOptions;
 import com.meterware.httpunit.SubmitButton;
 import com.meterware.httpunit.TableCell;
 import com.meterware.httpunit.WebClient;
@@ -1579,6 +1580,13 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      */
     public boolean isWindowPresent(String windowName) {
         return getWindow(windowName)!=null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#setScriptingEnabled(boolean)
+     */
+    public void setScriptingEnabled(boolean value) {
+        HttpUnitOptions.setScriptingEnabled(value);
     }
 
 

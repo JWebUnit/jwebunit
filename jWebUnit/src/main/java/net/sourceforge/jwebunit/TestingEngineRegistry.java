@@ -7,6 +7,7 @@ package net.sourceforge.jwebunit;
 import java.util.Hashtable;
 
 import net.sourceforge.jwebunit.exception.TestingEngineRegistryException;
+import net.sourceforge.jwebunit.plugins.htmlunit.HtmlUnitDialog;
 import net.sourceforge.jwebunit.plugins.httpunit.HttpUnitDialog;
 import net.sourceforge.jwebunit.plugins.jacobie.JacobieDialog;
 
@@ -17,6 +18,7 @@ import net.sourceforge.jwebunit.plugins.jacobie.JacobieDialog;
 public class TestingEngineRegistry {
 	
 	public final static String TESTING_ENGINE_HTTPUNIT = "TestingEngineHttpUnit"; 
+    public final static String TESTING_ENGINE_HTMLUNIT = "TestingEngineHtmlUnit";
 	public final static String TESTING_ENGINE_JACOBIE = "TestingEngineJacobie"; 
 
 	private static Hashtable testingEngineMap = null;
@@ -33,6 +35,7 @@ public class TestingEngineRegistry {
 			testingEngineMap = new Hashtable();
 
 			testingEngineMap.put(TESTING_ENGINE_HTTPUNIT, HttpUnitDialog.class);
+            testingEngineMap.put(TESTING_ENGINE_HTMLUNIT, HtmlUnitDialog.class);
 			testingEngineMap.put(TESTING_ENGINE_JACOBIE, JacobieDialog.class);
 		}
 		return testingEngineMap;

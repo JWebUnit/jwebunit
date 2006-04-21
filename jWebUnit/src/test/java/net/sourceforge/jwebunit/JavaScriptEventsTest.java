@@ -8,8 +8,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import net.sourceforge.jwebunit.util.JettySetup;
 
-import com.meterware.httpunit.HttpUnitOptions;
-
 /**
  * User: djoiner
  * Date: Nov 22, 2002
@@ -67,19 +65,19 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
     }
  
     public void testLinkAssertsWorkJavascriptDisabled() {
-        HttpUnitOptions.setScriptingEnabled(false);
+        setScriptingEnabled(false);
         beginAt("index.html");
         clickLink("linkNext");
         assertTitleEquals("Startpage");
         assertTextNotPresent("Here is the text we expect");
-        HttpUnitOptions.setScriptingEnabled(true);
+        setScriptingEnabled(true);
 
-        HttpUnitOptions.setScriptingEnabled(false);
+        setScriptingEnabled(false);
         beginAt("index.html");
         clickButton("next");
         assertTitleEquals("Startpage");
         assertTextNotPresent("Here is the text we expect");
-        HttpUnitOptions.setScriptingEnabled(true);
+        setScriptingEnabled(true);
         
         // and test that javascript is enabled for the next begin
         beginAt("index.html");

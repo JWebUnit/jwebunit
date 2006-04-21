@@ -1178,4 +1178,12 @@ public class JacobieDialog implements IJWebUnitDialog {
         
     }
 
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#setScriptingEnabled(boolean)
+     */
+    public void setScriptingEnabled(boolean value) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

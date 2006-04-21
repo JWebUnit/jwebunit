@@ -77,6 +77,10 @@ public class WebTestCase extends TestCase {
     	getTester().setTestingEngineKey(aTestingEngineKey);
     }
     
+    public void setScriptingEnabled(boolean value) {
+        getTester().setScriptingEnabled(value);
+    }
+    
     public WebTester getTester() {
         return tester;
     }

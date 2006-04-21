@@ -83,9 +83,11 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
 		assertFramePresent("TopFrame");
         gotoFrame("TopFrame");
         assertTextPresent("TopFrame");
-		assertFramePresent("BottomFrame");
+        gotoRootWindow();
+        assertFramePresent("BottomFrame");
         gotoFrame("BottomFrame");
         assertTextPresent("BottomFrame");
+        gotoRootWindow();
 		assertFramePresent("ContentFrame");
         gotoFrame("ContentFrame");
         assertTextPresent("ContentFrame");
@@ -107,6 +109,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         setFormElement("color", "red");
         submit("submit");
         // TODO should it bee nessecary to select frame again?
+        gotoRootWindow();
         gotoFrame("ContentFrame");
         assertTextPresent(" color=red ");
     }

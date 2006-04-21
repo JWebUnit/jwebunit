@@ -58,6 +58,11 @@ public interface IJWebUnitDialog {
     //WebForm getForm();
 
     /**
+     * Enable or disable Javascript support
+     */
+    void setScriptingEnabled(boolean value);
+    
+    /**
      * Set the form on the current response that the client wishes to work with explicitly by either the form name or
      * id (match by id is attempted first).
      * 

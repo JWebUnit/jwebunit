@@ -1824,6 +1824,13 @@ public class WebTester {
 		this.tableEmptyCellCompression = bool;
 	}
 
+    /**
+     * Enable or disable Javascript support
+     */
+    public void setScriptingEnabled(boolean value) {
+        getDialog().setScriptingEnabled(value);
+    }
+    
 	/**
 	 * Set the Testing Engine that you want to use for the tests based on the
 	 * Testing Engine Key.
