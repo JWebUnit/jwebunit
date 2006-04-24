@@ -1,62 +1,45 @@
 <?xml version="1.0"?>
 <document>
 	<properties>
-		<author>Martijn Dashorst</author>
+		<author>Julien Henry</author>
 		<title>Building jWebunit</title>
 	</properties>
 <body class="default">
-<section name="Building jWebUnit with Maven">
+<section name="Building jWebUnit with Maven 2">
 	<p>
 		Maven is, just like ant, a build tool. However, where you have to tell ant what it
 		needs to do and how, you only have to tell Maven what you need, if you adhere to the
 		Maven standards.
 	</p>
 	<p>
-		In order to use Maven to build jWebUnit, you need to have Maven installed. This should
+		In order to use Maven to build jWebUnit, you need to have Maven 2 installed. This should
 		not be any more difficult than installing ant. We've included a best practise installation
 		and configuration for Maven.
 	</p>
 <subsection name="Installing Maven">
 	<p>
-		First you need to download the latest Maven, which currently is <tt>Maven-1.0-rc3</tt> 
-		(release candidate 3), make sure you download the archive (zip), not the exe installer.
+		First you need to download the latest Maven 2, which currently is <a href="http://maven.apache.org"><tt>Maven-2.0.4</tt></a>, 
+		make sure you download the binary archive (maven-2.0.4-bin.zip).
 	</p>
 	<p>
 		Installing Maven should be easy: unzip the file to any directory you like, let's say: 
-		<source>c:\Maven-1.0-rc3</source>
+		<source>C:\maven-2.0.4</source>
 	</p>
 	<p>
-		Next you need to do 3 things:
+		Next you need to do 2 things:
 		<ul>
-			<li>add an environment variable MAVEN_HOME which points to the install directory of Maven, i.e. C:\maven-1.0-rc3</li>
+			<li>add an environment variable MAVEN_HOME which points to the install directory of Maven, i.e. C:\maven-2.0.4</li>
 			<li>add <tt>%MAVEN_HOME%\bin</tt> to your path (using the variable you can switch more easily when a new version arrives)</li>
-			<li>add to your home directory (under windows 2000 and XP: C:\Documents and Settings\username) a file called build.properties, and
-		and put the following entries in it:
-		<table>
-			<tr><th>entry</th><th>description</th></tr>
-			<tr><td>maven.home.local=${maven.home}/cache</td><td>The directory where Maven installs the plugins.</td></tr>
-			<tr><td>maven.repo.local=c:/maven-repository</td><td>The directory where Maven downloads dependencies of your project (jars)</td></tr>
-			<tr><td>maven.repo.remote=http://www.ibiblio.org/maven</td><td>The URL where Maven can download the dependencies from (comma seperated for multiple entries).</td></tr>
-		</table>
-		</li>
 		</ul>
-	</p>
-	<p>
-		You can replace the <tt>maven.repo.local</tt> entry with a directory of your liking. 
-		I advise you to make the directory seperate from the Maven home directory. 
-		Maven downloads all dependencies into this directory. This repository can 
-		be shared among different Maven versions and even developers on the same machine. 
-		The cache directory (the first entry) can't be shared between Maven versions, 
-		so this should stay within the Maven home directory.
 	</p>
 </subsection>
 <subsection name="Using Maven">
 	<p>
-		Maven defines several goals, depending on the plugins you've installed, for
+		Maven defines several goals, for
 		creating and building your application. A goal is similar to an Ant-task. For
 		instance: to compile the java sources one could do:
-		<source>maven java:compile</source>
-		Also, a goal can depend on other goals: the <tt>jar:jar</tt> goal depends on
+		<source>mvn compile</source>
+		Also, a goal can depend on other goals: the <tt>package</tt> goal depends on
 		running the unit tests and compilation of the code.
 	</p>
 	<p>
@@ -67,98 +50,103 @@
 <subsection name="Building jWebUnit">
 	<p>
 		Building jWebUnit merely consist of running Maven:
-		<source>maven</source>
-		If you run Maven from a fresh install and you configured Maven as described
-		earlier, you will see (an english version of) the following text:
+		<source>mvn package</source>
+		If you build jWebUnit for the first time and you configured Maven as described
+		earlier, you will see the following text:
 <source><![CDATA[
- __  __
-|  \/  |__ _Apache__ ___
-| |\/| / _` \ V / -_) ' \  ~ intelligent projects ~
-|_|  |_\__,_|\_/\___|_||_|  v. 1.0-rc3
+[INFO] Scanning for projects...
+[INFO] ----------------------------------------------------------------------------
+[INFO] Building jWebUnit
+[INFO]    task-segment: [package]
+[INFO] ----------------------------------------------------------------------------
+[INFO] artifact org.apache.maven.plugins:maven-jar-plugin: checking for updates from Maven CodeHaus Snapshots
+[INFO] snapshot org.apache.maven.plugins:maven-jar-plugin:2.1-SNAPSHOT: checking for updates from Maven CodeHaus Snapshots
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/jacobie/jacobie/1.3/jacobie-1.3.pom
+612b downloaded
+[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/jacobie/jacobie/1.3/jacobie-1.3.pom - IGNORING
+Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/jacob-project/jacob/1.7/jacob-1.7.pom
+423b downloaded
+[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/jacob-project/jacob/1.7/jacob-1.7.pom - IGNORING
+Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/htmlunit/htmlunit/1.9-prerelease/htmlunit-1.9-prerelease.pom
+8K downloaded
+[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/htmlunit/htmlunit/1.9-prerelease/htmlunit-1.9-prerelease.pom - IGNORING
+[WARNING]
+        Artifact commons-logging:commons-logging:jar:1.0.4:test retains local scope 'test' overriding broader scope 'compile'
+        given by a dependency. If this is not intended, modify or remove the local scope.
 
-Plugin cache will be regenerated
-Directory c:\maven-repository bestaat niet. Probeer hem aan te maken.
-Probeer junit-3.8.1.jar te downloaden.
-........
-Probeer nekohtml-0.8.1.jar te downloaden.
-....
-Probeer js-1.5R4.1.jar te downloaden.
-.......................
-Probeer xml-apis-1.0.b2.jar te downloaden.
-.....
-Probeer xercesImpl-2.6.2.jar te downloaden.
-....................................
-Probeer servletapi-2.3.jar te downloaden.
-...
-Probeer httpunit-1.5.4.jar te downloaden.
-...............
-Probeer dom4j-1.4-dev-8.jar te downloaden.
-.....................
+Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/httpunit/httpunit/1.6.1-20060101/httpunit-1.6.1-20060101.pom
+1K downloaded
+[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/httpunit/httpunit/1.6.1-20060101/httpunit-1.6.1-20060101.pom - IGNORING
+Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/httpunit/httpunit/1.6.1-20060101/httpunit-1.6.1-20060101.jar
+397K downloaded
+[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/httpunit/httpunit/1.6.1-20060101/httpunit-1.6.1-20060101.jar - IGNORING
+Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/jacobie/jacobie/1.3/jacobie-1.3.jar
+32K downloaded
+[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/jacobie/jacobie/1.3/jacobie-1.3.jar - IGNORING
+Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/htmlunit/htmlunit/1.9-prerelease/htmlunit-1.9-prerelease.jar
+356K downloaded
+[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/htmlunit/htmlunit/1.9-prerelease/htmlunit-1.9-prerelease.jar - IGNORING
+Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/jacob-project/jacob/1.7/jacob-1.7.jar
+16K downloaded
+[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/jacob-project/jacob/1.7/jacob-1.7.jar - IGNORING
+[INFO] [compiler:compile]
+Compiling 21 source files to D:\jhenry\jwebunit\jWebUnit\target\classes
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+Compiling 25 source files to D:\jhenry\jwebunit\jWebUnit\target\test-classes
+[INFO] [surefire:test]
+[INFO] Setting reports dir: D:\jhenry\jwebunit\jWebUnit\target/surefire-reports
 
-<- <- <- <- SNIP -> -> -> ->
-
-build:start:
-
-java:prepare-filesystem:
-
-java:compile:
-    [echo] Compiling to C:\workspace\jWebUnit/target/classes
-
-java:jar-resources:
-
-test:prepare-filesystem:
-
-test:test-resources:
-
-test:compile:
-
-test:test:
-    [junit] Running net.sourceforge.jwebunit.ExpectedTableAssertionsTest
-    [junit] Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0,594 sec
-    [junit] Running net.sourceforge.jwebunit.ExpectedTableTest
-    [junit] Tests run: 4, Failures: 0, Errors: 0, Time elapsed: 0,343 sec
-<- <- <- <- SNIP -> -> -> ->
-    [junit] Running net.sourceforge.jwebunit.WebCookieTest
-    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0,422 sec
-
-jar:jar:
-    [echo] Warning: shortDescription is greater than 49 characters - trimming for specification title.
-    [jar] Building jar: C:\workspace\jWebUnit\target\jwebunit-1.2.jar
-BUILD SUCCESSFUL
-Total time: 1 minutes 53 seconds
-Finished at: Mon Jun 07 23:06:15 CEST 2004
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+[surefire] Running net.sourceforge.jwebunit.AllTests
+log4j:WARN No appenders could be found for logger (org.mortbay.xml.XmlParser).
+log4j:WARN Please initialize the log4j system properly.
+[surefire] Tests run: 151, Failures: 2, Errors: 20, Time elapsed: 15,907 sec <<<<<<<< FAILURE !!
+[ERROR] There are test failures.
+[INFO] [jar:jar]
+[INFO] Building jar: D:\jhenry\jwebunit\jWebUnit\target\jwebunit-1.3-SNAPSHOT.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 27 seconds
+[INFO] Finished at: Mon Apr 24 14:14:52 CEST 2006
+[INFO] Final Memory: 7M/24M
+[INFO] ------------------------------------------------------------------------
 ]]></source></p>
 	<p>
-		You now have successfully built the <tt>jWebUnit.jar</tt>.
+		You now have successfully built the <tt>jwebunit-1.3-SNAPSHOT.jar</tt>.
 	</p>
 </subsection>
 <subsection name="Building the site">
 	<p>
-		Generating the jWebUnit website with maven is also not difficult:
-		<source>maven site</source>
+		Generating the jWebUnit website with Maven is also not difficult:
+		<source>mvn site</source>
 		is all there's to it.
-		After downloading lots and lots of jar files, maven will build the website which 
+		After downloading lots and lots of jar files, Maven will build the website which 
 		contains junit results, checkstyle results, and the like, just like the website
 		you're now looking at. You can find the website in the 
-		<source>target/docs</source> directory.
+		<source>target/site</source> directory.
 	</p>
 	<p>
 		Just open the index.html in your browser.
 	</p>
 </subsection>
-<subsection name="Building a release">
-	<p>
-		Building a release with maven consists of executing Maven like this:
-		<source>maven dist</source>
-		This will create the binary and source distributions in the directory
-		<source>target/distributions</source>
-		In the jWebUnit case, only the binary release is relevant, as it includes
-		the full source in order to build maven oneself.
-	</p>
-	<p>
-		Distribution of the release is not automated. In the <tt>project.xml</tt>
-		my local linux machine is used to test the distribution. This will change
-		in the near future to use the sourceforge filesystems.
+<subsection name="Building an assembly">
+	<p>     An assembly is a package for final users.
+		Building an assembly with Maven consists of executing Maven like this:
+		<source>mvn assembly:assembly -DdescriptorId=XXX</source>
+		Where XXX is:
+		<ul>
+		  <li>bin : Package jwebunit-xx.jar in 3 formats (zip, tar.gz and tar.bz2)</li>
+		  <li>jar-with-dependencies : Create jwebunit-xx-with-dependencies.jar, a big jar with all
+		  dependencies included</li>
+		  <li>src : Package sources of jWebUnit in 3 formats (zip, tar.gz and tar.bz2)</li>
+		</ul>
 	</p>
 </subsection>
 </section>
