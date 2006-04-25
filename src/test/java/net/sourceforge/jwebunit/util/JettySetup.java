@@ -4,11 +4,9 @@
  **********************************/
 package net.sourceforge.jwebunit.util;
 
-import java.io.IOException;
 import java.net.URL;
 
 import org.mortbay.jetty.Server;
-import org.mortbay.util.MultiException;
 
 import junit.extensions.TestSetup;
 import junit.framework.Test;
@@ -49,9 +47,6 @@ public class JettySetup extends TestSetup {
             }
             jettyServer = new Server(jettyConfig);
             jettyServer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-            fail("Could not start the Jetty server: " + e);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Could not start the Jetty server: " + e);

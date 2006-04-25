@@ -6,6 +6,12 @@
 	</properties>
 	<body>
 		<release version="1.3" date="UNKNOWN" description="New features await us">
+			<action type="add" dev="Julien Henry">
+				Added HtmlUnitDialog, that provide better Javascript support.
+			</action>
+			<action type="add" dev="Julien Henry">
+				Added Maven 2 support.
+			</action>
 			<action type="add" dev="Jim Weaver" issue="1004243" due-to="Srinivasan Ranganthan">
 				Added HttpUnitDialog setter on WebTester in case someone using delegation wants to carry
 				state from one tester to another.  Also made some signatures on WebTester public that 

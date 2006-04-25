@@ -43,6 +43,7 @@
   <Call name="addWebApplication">
     <Arg>/jwebunit</Arg>
     <Arg>src/test/resources/testcases/</Arg>
+    <Set name="DefaultsDescriptor">/webdefault.xml</Set>
   </Call>
 
   <!-- =============================================================== -->

@@ -9,7 +9,7 @@ import com.meterware.httpunit.WebConversation;
 /**
  * Contributed by 
  * @author Archie Cowan (archiec at users.sourceforge.net)
- *
+ * @deprecated
  */
 public class TestServer extends HttpUserAgentTest {
 
