@@ -7,6 +7,7 @@ package net.sourceforge.jwebunit.util;
 import java.net.URL;
 
 import org.mortbay.jetty.Server;
+import org.mortbay.xml.XmlConfiguration;
 
 import junit.extensions.TestSetup;
 import junit.framework.Test;
@@ -45,7 +46,9 @@ public class JettySetup extends TestSetup {
             if(jettyConfig==null) {
                 fail("Unable to locate jetty-test-config.xml on the classpath");
             }
-            jettyServer = new Server(jettyConfig);
+            jettyServer = new Server();
+            XmlConfiguration xmlConfiguration = new XmlConfiguration(jettyConfig);
+            xmlConfiguration.configure(jettyServer);
             jettyServer.start();
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,6 +67,9 @@ public class JettySetup extends TestSetup {
         } catch (InterruptedException e) {
             e.printStackTrace();
             fail("Jetty server was interrupted: " + e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Could not stop the Jetty server: " + e);
         }
     }
 }

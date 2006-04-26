@@ -31,7 +31,7 @@ public class WebTester {
 
 	private TestContext testContext = null;
 
-	private boolean tableEmptyCellCompression = true;
+	private boolean tableEmptyCellCompression = false;
 
 	/**
 	 * This is the reference to the testing engine registry that contains the

@@ -112,6 +112,5 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
         beginAt("FormOnSubmitSetTarget.html");
         setWorkingForm("formID");
         submit("go");
-        return;
     }
 }

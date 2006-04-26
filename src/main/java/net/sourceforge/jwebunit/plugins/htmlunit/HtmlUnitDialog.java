@@ -6,6 +6,9 @@
  */
 package net.sourceforge.jwebunit.plugins.htmlunit;
 
+import org.apache.commons.httpclient.Cookie;
+import org.apache.commons.httpclient.HttpState;
+import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -35,6 +38,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebWindow;
 import com.gargoylesoftware.htmlunit.WebWindowEvent;
 import com.gargoylesoftware.htmlunit.WebWindowListener;
+import com.gargoylesoftware.htmlunit.WebWindowNotFoundException;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -77,7 +81,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     private TestContext testContext;
 
     private HtmlForm form;
-    
+
     /**
      * Is Javascript enabled
      */
@@ -162,14 +166,21 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             public void webWindowOpened(WebWindowEvent event) {
                 String win = event.getWebWindow().getName();
                 Page newPage = event.getNewPage();
-                logger.info("Window " + win + " closed : "
-                        + ((HtmlPage) newPage).getTitleText());
+                if (newPage != null) {
+                    logger.info("Window " + win + " closed : "
+                            + ((HtmlPage) newPage).getTitleText());
+                }
             }
         });
     }
 
     public boolean isWindowExists(String windowName) {
-        return getWindow(windowName) != null;
+        try {
+            getWindow(windowName);
+        } catch (WebWindowNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -1378,7 +1389,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *      java.lang.String)
      */
     public void clickLinkWithTextAfterText(String linkText, String labelText) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("clickLinkWithTextAfterText");
     }
 
     /*
@@ -1397,7 +1408,11 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpCookies(java.io.PrintStream)
      */
     public void dumpCookies(PrintStream stream) {
-        throw new UnsupportedOperationException("");
+        final HttpState stateForUrl = wc.getWebConnection().getState();
+        Cookie[] cookies = stateForUrl.getCookies();
+        for (int i = 0; i < cookies.length; i++) {
+            stream.println(cookies[i].toString());
+        }
     }
 
     /*
@@ -1431,7 +1446,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 InputStream in = ((UnexpectedPage) page).getInputStream();
                 while ((data = in.read()) > -1) {
                     // Just print the data
-                    Character c = new Character((char)data);
+                    Character c = new Character((char) data);
                     stream.print(c + "");
                 }
                 in.close();
@@ -1448,7 +1463,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *      java.io.PrintStream)
      */
     public void dumpTable(String tableNameOrId, PrintStream stream) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("dumpTable");
     }
 
     /*
@@ -1459,7 +1474,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      */
     public void dumpTable(String tableNameOrId, String[][] table,
             PrintStream stream) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("dumpTable");
     }
 
     /*
@@ -1469,7 +1484,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *      java.lang.String[][])
      */
     public void dumpTable(String tableNameOrId, String[][] table) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("dumpTable");
     }
 
     /*
@@ -1478,11 +1493,11 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getCookieValue(java.lang.String)
      */
     public String getCookieValue(String cookieName) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("getCookieValue");
     }
-    
+
     private HtmlElement getHtmlElementForLabel(String formElementLabel) {
-        return getXPathElement("");
+        return getXPathElement("getHtmlElementForLabel");
     }
 
     /*
@@ -1491,7 +1506,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getFormElementNameBeforeLabel(java.lang.String)
      */
     public String getFormElementNameBeforeLabel(String formElementLabel) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("getFormElementNameBeforeLabel");
     }
 
     /*
@@ -1500,7 +1515,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getFormElementNameForLabel(java.lang.String)
      */
     public String getFormElementNameForLabel(String formElementLabel) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("getFormElementNameForLabel");
     }
 
     /*
@@ -1509,7 +1524,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getFormElementValueBeforeLabel(java.lang.String)
      */
     public String getFormElementValueBeforeLabel(String formElementLabel) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("getFormElementValueBeforeLabel");
     }
 
     /*
@@ -1518,7 +1533,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getFormElementValueForLabel(java.lang.String)
      */
     public String getFormElementValueForLabel(String formElementLabel) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("getFormElementValueForLabel");
     }
 
     /*
@@ -1560,7 +1575,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSparseTableBySummaryOrId(java.lang.String)
      */
     public String[][] getSparseTableBySummaryOrId(String tableSummaryOrId) {
-        return getTableBySummaryOrIdAsText(tableSummaryOrId);
+        throw new UnsupportedOperationException("getSparseTableBySummaryOrId");
     }
 
     /*
@@ -1578,7 +1593,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasCookie(java.lang.String)
      */
     public boolean hasCookie(String cookieName) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("hasCookie");
     }
 
     /*
@@ -1587,7 +1602,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasFormParameterLabeled(java.lang.String)
      */
     public boolean hasFormParameterLabeled(String paramLabel) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("hasFormParameterLabeled");
     }
 
     /*
@@ -1644,7 +1659,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#removeFormParameter(java.lang.String)
      */
     public void removeFormParameter(String paramName) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("removeFormParameter");
     }
 
     /*
@@ -1654,7 +1669,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *      java.lang.String)
      */
     public void removeFormParameterWithValue(String paramName, String value) {
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("removeFormParameterWithValue");
     }
 
     /*
@@ -1706,14 +1721,16 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     public void reset() throws TestingEngineResponseException {
         // Nothing to do
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#setScriptingEnabled(boolean)
      */
     public void setScriptingEnabled(boolean value) {
         // This variable is used to set Javascript before wc is instancied
         jsEnabled = value;
-        if (wc!=null) {
+        if (wc != null) {
             wc.setJavaScriptEnabled(value);
         }
     }

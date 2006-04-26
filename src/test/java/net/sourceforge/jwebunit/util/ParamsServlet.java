@@ -34,16 +34,16 @@ public class ParamsServlet extends HttpServlet {
             out.write(" " + p + "=");
             int n = v.length;
             if (n > 0) {
-                out.write(v[0]);
+                out.write(v[0]!=null?v[0]:"");
                 for (int i = 1; i < n; i++) {
-                    out.write("," + v[i]);
+                    out.write("," + (v[i]!=null?v[i]:""));
                 }
             }
         }
         out.write(" </p>\n");
         String ref = request.getHeader("Referer");
         if (ref==null) {
-            if (request.getParameterValues("myReferer") != null) {
+            if (request.getParameterValues("myReferer").length>0) {
                 ref = request.getParameterValues("myReferer")[0];
             }
         }

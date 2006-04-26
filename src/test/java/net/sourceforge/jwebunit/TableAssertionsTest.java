@@ -140,6 +140,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 		assertTablePresent("tree");
 		String[][] table = { { "root", "", "" }, { "child1", "child2", "" },
 				{ "child1.1", "child2.1", "child2.2" } };
+        setTableEmptyCellCompression(true);
 		assertTableEquals("tree", table);
 	}
 
@@ -209,6 +210,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
         String[][] table = {{"root", "", ""},
         {"child1", "child2", ""},
         {"child1.1", "child2.1", "child2.2"}};
+        setTableEmptyCellCompression(true);
         assertTableMatch("tree", table);
     }
     

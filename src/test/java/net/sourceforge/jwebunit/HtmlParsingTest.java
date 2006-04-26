@@ -62,14 +62,13 @@ public class HtmlParsingTest extends JWebUnitAPITestCase {
     public void testValidFormNoDoctype() {
         beginAt("ValidFormNoDoctype.html");
         assertFormPresent();
-        // TODO looks like HttpUnit can not find the single submit button in all kinds of pages
-        //submit();
+        submit();
     }    
     
     public void testXhtmlStrict() {
         beginAt("XhtmlStrict.html");
         // run a method that gets the DOM
         assertElementPresent("div1");
-        // which gives a "org.w3c.dom.DOMException: NOT_SUPPORTED_ERR" with nekohtml 0.9.5
+        //TODO This test gives a "org.w3c.dom.DOMException: NOT_SUPPORTED_ERR" with nekohtml 0.9.5 and httpunit
     }
 }

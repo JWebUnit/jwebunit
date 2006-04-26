@@ -1,5 +1,5 @@
-<?xml version="1.0"?> 
-<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure 1.2//EN" "http://jetty.mortbay.org/configure_1_2.dtd">
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
 
 
 
@@ -8,49 +8,82 @@
 <!-- =============================================================== -->
 <Configure class="org.mortbay.jetty.Server">
 
-  <!-- =============================================================== -->
-  <!-- Configure the Request Listeners                                 -->
-  <!-- =============================================================== -->
-
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-  <!-- Add and configure a HTTP listener to port 8081                  -->
-  <!-- The default port can be changed using: java -Djetty.port=80     -->
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-  <Call name="addListener">
-    <Arg>
-      <New class="org.mortbay.http.SocketListener">
-        <Set name="Port"><SystemProperty name="jetty.port" default="8082"/></Set>
-        <Set name="MinThreads">10</Set>
-        <Set name="MaxThreads">100</Set>
-        <Set name="MaxIdleTimeMs">30000</Set>
-        <Set name="LowResourcePersistTimeMs">5000</Set>
-        <Set name="ConfidentialPort">8443</Set>
-        <Set name="IntegralPort">8443</Set>
+   <!-- =========================================================== -->
+    <!-- Server Thread Pool                                          -->
+    <!-- =========================================================== -->
+    <Set name="ThreadPool">
+      <New class="org.mortbay.thread.BoundedThreadPool">
+        <Set name="minThreads">10</Set>
+        <Set name="maxThreads">100</Set>
       </New>
-    </Arg>
-  </Call>
+    </Set>
 
-  <!-- =============================================================== -->
-  <!-- Configure the Contexts                                          -->
-  <!-- =============================================================== -->
-  
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-  <!-- Add and configure a specific web application                    -->
-  <!-- + Set Unpack WAR files                                          -->
-  <!-- + Set Default Descriptor.  Resource, file or URL                -->
-  <!-- + Set Virtual Hosts. A Null host or empty array means all hosts -->
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-  <Call name="addWebApplication">
-    <Arg>/jwebunit</Arg>
-    <Arg>src/test/resources/testcases/</Arg>
-    <Set name="DefaultsDescriptor">/webdefault.xml</Set>
-  </Call>
+    <!-- =========================================================== -->
+    <!-- Set connectors                                              -->
+    <!-- =========================================================== -->
+    <!-- One of each type!                                           -->
+    <!-- =========================================================== -->
+    <Set name="connectors">
+      <Array type="org.mortbay.jetty.Connector">
 
-  <!-- =============================================================== -->
-  <!-- Configure the Other Server Options                              -->
-  <!-- =============================================================== -->
-  <Set name="requestsPerGC">2000</Set>
-  <Set name="statsOn">false</Set>
+        <!-- Use this connector if NIO is not available.
+        <Item>
+          <New class="org.mortbay.jetty.bio.SocketConnector">
+            <Set name="port">8081</Set>
+            <Set name="maxIdleTime">50000</Set>
+          </New>
+        </Item>
+ -->
+       
+        <!-- Use this connector for few very active connections.
+        <Item>
+          <New class="org.mortbay.jetty.nio.BlockingChannelConnector">
+            <Set name="port">8080</Set>
+          </New>
+        </Item>
+        -->
+
+        <!-- Use this connector for many frequently idle connections
+             and for threadless continuations.
+        -->
+        <Item>
+          <New class="org.mortbay.jetty.nio.SelectChannelConnector">
+            <Set name="port">8082</Set>
+            <Set name="maxIdleTime">30000</Set>
+            <Set name="Acceptors">10</Set>
+          </New>
+        </Item>
+
+      </Array>
+    </Set>
+
+    <!-- =========================================================== -->
+    <!-- Set handlers                                                -->
+    <!-- =========================================================== -->
+    <Set name="handlers">
+      <Array type="org.mortbay.jetty.Handler">
+
+        <!-- ======================================================= -->
+        <!-- Configure a test web application with web.xml           -->
+        <!-- ======================================================= -->
+        <Item>
+          <New id="testWebAppContext"  class="org.mortbay.jetty.webapp.WebAppContext">
+            <Set name="contextPath">/jwebunit</Set>
+            <Set name="war">./src/test/resources/testcases/</Set>
+            <Set name="VirtualHosts"><Array type="java.lang.String"></Array></Set>
+            <Get name="SessionHandler">
+              <Set name="SessionManager"><New class="org.mortbay.jetty.servlet.HashSessionManager"/></Set>
+            </Get>
+          </New>
+        </Item>
+        
+      </Array>
+    </Set>
+
+    <!-- =========================================================== -->
+    <!-- extra options                                               -->
+    <!-- =========================================================== -->
+    <Set name="stopAtShutdown">true</Set>
 
 </Configure>
 
