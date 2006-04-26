@@ -4,7 +4,7 @@
 	<groupId>htmlunit</groupId>
 	<artifactId>htmlunit</artifactId>
 	<name>htmlunit</name>
-	<version>1.9-prerelease</version>
+	<version>1.9-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<organization>
 		<name>Gargoyle Software Inc.</name>
