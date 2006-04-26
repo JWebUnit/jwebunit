@@ -4,19 +4,12 @@
 ** HtmlUnitDialog **
  - Add **ForLabel functions (I don't know how to do this)
  - Add **BeforeLabel functions (I don't know how to do this)
- - Find why Javascript window.open(...) fail
  - Correct some function that use CompressedTable
  
 ** JacobieDialog **
  - Implement all auto-generated classes
  - Find an easy way to cope with jacob.dll
  
-** Tests **
- - Move to Jetty 6 (less dependencies)
- - Remove AllTest.java, because we can't have detail of each test in Maven reports
- - Find a way to launch tests for each dialogs, in order to avoid regressions
- 
 ** Website **
  - Correct dead links (a few are due to Maven bug)
- - Upload new site build by Maven 2
  - Add documentation
