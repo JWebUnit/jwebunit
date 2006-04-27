@@ -7,9 +7,6 @@ package net.sourceforge.jwebunit;
 import java.util.Hashtable;
 
 import net.sourceforge.jwebunit.exception.TestingEngineRegistryException;
-import net.sourceforge.jwebunit.plugins.htmlunit.HtmlUnitDialog;
-import net.sourceforge.jwebunit.plugins.httpunit.HttpUnitDialog;
-import net.sourceforge.jwebunit.plugins.jacobie.JacobieDialog;
 
 /**
  * This will maintain a registry of known testing engines to be used by jWebUnit.
@@ -34,9 +31,9 @@ public class TestingEngineRegistry {
 		if (testingEngineMap == null) {
 			testingEngineMap = new Hashtable();
 
-			testingEngineMap.put(TESTING_ENGINE_HTTPUNIT, HttpUnitDialog.class);
-            testingEngineMap.put(TESTING_ENGINE_HTMLUNIT, HtmlUnitDialog.class);
-			testingEngineMap.put(TESTING_ENGINE_JACOBIE, JacobieDialog.class);
+			testingEngineMap.put(TESTING_ENGINE_HTTPUNIT, "net.sourceforge.jwebunit.plugins.httpunit.HttpUnitDialog");
+            testingEngineMap.put(TESTING_ENGINE_HTMLUNIT, "net.sourceforge.jwebunit.plugins.htmlunit.HtmlUnitDialog");
+			testingEngineMap.put(TESTING_ENGINE_JACOBIE, "net.sourceforge.jwebunit.plugins.jacobie.JacobieDialog");
 		}
 		return testingEngineMap;
 	}
@@ -46,8 +43,8 @@ public class TestingEngineRegistry {
 	 * @param aKey
 	 * @return
 	 */
-	public Class getTestingEngineClass(String aKey) {
-		Class theClass = (Class) getTestingEngineMap().get(aKey);
+	public Class getTestingEngineClass(String aKey) throws ClassNotFoundException {
+		Class theClass = Class.forName((String) getTestingEngineMap().get(aKey));
 		if (theClass == null) {
 			throw new TestingEngineRegistryException("Testing Engine with Key: [" + aKey + "] not defined for jWebUnit.");
 		}

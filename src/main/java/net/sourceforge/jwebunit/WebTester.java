@@ -74,8 +74,13 @@ public class WebTester {
 	public IJWebUnitDialog initializeDialog() {
 		IJWebUnitDialog theIJWebUnitDialog = null;
 		String theTestingEngineKey = getTestingEngineKey();
-		Class theClass = getTestingEngineRegistry().getTestingEngineClass(
-				theTestingEngineKey);
+		Class theClass;
+        try {
+            theClass = getTestingEngineRegistry().getTestingEngineClass(
+            		theTestingEngineKey);
+        } catch (ClassNotFoundException e1) {
+            throw new RuntimeException(e1);
+        }
 		try {
 			theIJWebUnitDialog = (IJWebUnitDialog) theClass.newInstance();
 		} catch (InstantiationException e) {
