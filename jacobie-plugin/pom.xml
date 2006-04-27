@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>net.sourceforge.jwebunit</groupId>
+		<artifactId>jwebunit</artifactId>
+		<relativePath>../</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>jacobie-plugin</artifactId>
+	<packaging>jar</packaging>
+	<name>jWebUnit - Jacobie - Plugin</name>
+	<url>http://jwebunit.sourceforge.net/jacobie</url>
+	<repositories>
+		<repository>
+			<releases />
+			<snapshots />
+			<id>private</id>
+			<name>Private repository</name>
+			<url>file:${basedir}/private-repository</url>
+		</repository>
+	</repositories>
+	<scm>
+		<connection>
+			scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/trunk/jacobie
+		</connection>
+		<developerConnection>
+			scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/trunk/jacobie
+		</developerConnection>
+		<url>http://svn.sourceforge.net/viewcvs.cgi/jwebunit/jacobie/</url>
+	</scm>
+	<distributionManagement>
+		<site>
+			<id>jwebunit-website</id>
+			<name>jWebUnit WebSite - Jacobie - Sourceforge</name>
+			<url>
+				scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/jacobie
+			</url>
+		</site>
+	</distributionManagement>
+	
+</project>

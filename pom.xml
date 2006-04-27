@@ -14,7 +14,7 @@
 		test code. jWebUnit is the result of these refactorings.
 		jWebUnit support multiple dialog as HtmlUnit or HttpUnit.
 	</description>
-	<url>http://jwebunit.sourceforge.ne</url>
+	<url>http://jwebunit.sourceforge.net</url>
 	<issueManagement>
 		<system>sourceforge</system>
 		<url>
@@ -22,6 +22,12 @@
 		</url>
 	</issueManagement>
 	<inceptionYear>2002</inceptionYear>
+	<modules>
+    		<module>core</module>
+    		<module>httpunit-plugin</module>
+    		<module>htmlunit-plugin</module>
+    		<module>jacobie-plugin</module>
+  	</modules>
 	<mailingLists>
 		<mailingList>
 			<name>jWebUnit Development Mailing list</name>
