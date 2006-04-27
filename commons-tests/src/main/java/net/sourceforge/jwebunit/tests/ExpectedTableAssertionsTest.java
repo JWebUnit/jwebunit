@@ -2,7 +2,9 @@ package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.util.JettySetup;
+import net.sourceforge.jwebunit.ExpectedCell;
+import net.sourceforge.jwebunit.ExpectedTable;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
  * Test table equals assertions using expected tables.

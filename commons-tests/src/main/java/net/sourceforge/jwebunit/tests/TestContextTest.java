@@ -8,6 +8,9 @@ package net.sourceforge.jwebunit.tests;
 import junit.framework.TestCase;
 
 import javax.servlet.http.Cookie;
+
+import net.sourceforge.jwebunit.TestContext;
+
 import java.util.List;
 import java.util.Locale;
 

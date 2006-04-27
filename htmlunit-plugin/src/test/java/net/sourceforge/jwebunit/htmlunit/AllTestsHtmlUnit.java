@@ -2,6 +2,7 @@ package net.sourceforge.jwebunit.htmlunit;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.TestingEngineRegistry;
 import net.sourceforge.jwebunit.util.JettySetup;
 import net.sourceforge.jwebunit.util.reflect.MethodInvokerTest;
 import net.sourceforge.jwebunit.tests.*;

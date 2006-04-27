@@ -1,5 +1,7 @@
 package net.sourceforge.jwebunit.tests;
 
+import net.sourceforge.jwebunit.ExpectedCell;
+import net.sourceforge.jwebunit.ExpectedTable;
 import junit.framework.TestCase;
 
 /**

@@ -2,7 +2,7 @@ package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.util.JettySetup;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
  * Test the Cookies provided by WebTestCase using the PseudoServer test package

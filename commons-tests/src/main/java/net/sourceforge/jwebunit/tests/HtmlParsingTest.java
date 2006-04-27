@@ -16,7 +16,7 @@ package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.util.JettySetup;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
  * Tests the use of HttpUnit and the types of html documents accepted.

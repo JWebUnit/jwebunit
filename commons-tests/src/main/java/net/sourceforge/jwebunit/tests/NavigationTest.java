@@ -1,6 +1,6 @@
 package net.sourceforge.jwebunit.tests;
 
-import net.sourceforge.jwebunit.util.JettySetup;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestSuite;
