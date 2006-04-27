@@ -2,7 +2,7 @@
  * Copyright (c) 2001, ThoughtWorks, Inc.
  * Distributed open-source, see full license under licenses/jwebunit_license.txt
  **********************************/
-package net.sourceforge.jwebunit.util;
+package net.sourceforge.jwebunit.tests.util;
 
 import java.net.URL;
 

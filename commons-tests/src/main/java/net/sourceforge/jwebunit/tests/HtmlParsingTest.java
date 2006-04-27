@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.jwebunit;
+package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

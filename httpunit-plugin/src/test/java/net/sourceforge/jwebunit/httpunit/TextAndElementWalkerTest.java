@@ -3,7 +3,7 @@
  * Date: Nov 21, 2002
  * Time: 10:34:16 AM
  */
-package net.sourceforge.jwebunit.plugins.httpunit;
+package net.sourceforge.jwebunit.httpunit;
 
 import junit.framework.TestCase;
 import org.w3c.dom.Element;

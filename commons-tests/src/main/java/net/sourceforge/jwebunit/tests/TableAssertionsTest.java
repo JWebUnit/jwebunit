@@ -1,7 +1,7 @@
 /*
  * User: djoiner Date: Sep 9, 2002 Time: 3:26:47 PM
  */
-package net.sourceforge.jwebunit;
+package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

@@ -3,7 +3,7 @@
  * Date: Jul 19, 2002
  * Time: 2:53:19 PM
  */
-package net.sourceforge.jwebunit.util.reflect;
+package net.sourceforge.jwebunit.tests.util.reflect;
 
 import junit.framework.TestCase;
 

@@ -2,7 +2,7 @@
  * Copyright (c) 2001, ThoughtWorks, Inc.
  * Distributed open-source, see full license under licenses/jwebunit_license.txt
  **********************************/
-package net.sourceforge.jwebunit.plugins.httpunit;
+package net.sourceforge.jwebunit.httpunit;
 
 import java.io.IOException;
 import java.io.PrintStream;

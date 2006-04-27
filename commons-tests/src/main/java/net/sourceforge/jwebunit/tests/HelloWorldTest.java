@@ -1,7 +1,7 @@
 /*
  * Created on Jul 12, 2004
  */
-package net.sourceforge.jwebunit;
+package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

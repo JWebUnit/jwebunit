@@ -3,7 +3,7 @@
  * Date: Aug 16, 2002
  * Time: 8:41:00 AM
  */
-package net.sourceforge.jwebunit;
+package net.sourceforge.jwebunit.tests;
 
 import junit.framework.TestCase;
 

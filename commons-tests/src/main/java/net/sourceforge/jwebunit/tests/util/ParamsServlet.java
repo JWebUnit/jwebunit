@@ -1,4 +1,4 @@
-package net.sourceforge.jwebunit.util;
+package net.sourceforge.jwebunit.tests.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;

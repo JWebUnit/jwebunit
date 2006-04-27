@@ -4,7 +4,7 @@
  * @author Julien HENRY
  * @version 1.0
  */
-package net.sourceforge.jwebunit.plugins.htmlunit;
+package net.sourceforge.jwebunit.htmlunit;
 
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.HttpState;

@@ -1,4 +1,4 @@
-package net.sourceforge.jwebunit;
+package net.sourceforge.jwebunit.tests;
 
 import java.lang.reflect.InvocationTargetException;
 

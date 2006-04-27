@@ -3,7 +3,7 @@
  * Date: Sep 9, 2002
  * Time: 3:15:10 PM
  */
-package net.sourceforge.jwebunit;
+package net.sourceforge.jwebunit.tests;
 
 import net.sourceforge.jwebunit.util.JettySetup;
 import junit.framework.Test;

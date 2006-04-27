@@ -1,4 +1,4 @@
-package net.sourceforge.jwebunit.util;
+package net.sourceforge.jwebunit.tests.util;
 
 public abstract class HtmlHelper {
 

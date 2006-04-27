@@ -1,4 +1,4 @@
-package net.sourceforge.jwebunit;
+package net.sourceforge.jwebunit.tests;
 
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.util.JettySetup;

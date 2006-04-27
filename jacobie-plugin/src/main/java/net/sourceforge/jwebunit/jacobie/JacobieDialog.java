@@ -2,7 +2,7 @@
  * Copyright (c) 2001, ThoughtWorks, Inc.
  * Distributed open-source, see full license under licenses/jwebunit_license.txt
  **********************************/
-package net.sourceforge.jwebunit.plugins.jacobie;
+package net.sourceforge.jwebunit.jacobie;
 
 import java.io.PrintStream;
 import java.util.ListIterator;

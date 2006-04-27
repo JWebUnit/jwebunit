@@ -2,12 +2,12 @@
  * Copyright (c) 2001, ThoughtWorks, Inc.
  * Distributed open-source, see full license under licenses/jwebunit_license.txt
  **********************************/
-package net.sourceforge.jwebunit.userlist;
+package net.sourceforge.jwebunit.tests.userlist;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.JWebUnitAPITestCase;
-import net.sourceforge.jwebunit.util.JettySetup;
+import net.sourceforge.jwebunit.tests.JWebUnitAPITestCase;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
  * Test to show the results of userlist message, which was submitted as a
