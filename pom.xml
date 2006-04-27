@@ -28,6 +28,7 @@
     		<module>httpunit-plugin</module>
     		<module>htmlunit-plugin</module>
     		<module>jacobie-plugin</module>
+    		<module>commons-tests</module>
   	</modules>
 	<mailingLists>
 		<mailingList>

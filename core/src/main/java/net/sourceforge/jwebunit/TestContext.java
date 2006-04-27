@@ -6,8 +6,6 @@ package net.sourceforge.jwebunit;
 
 import javax.servlet.http.Cookie;
 
-import net.sourceforge.jwebunit.plugins.httpunit.HttpUnitDialog;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
