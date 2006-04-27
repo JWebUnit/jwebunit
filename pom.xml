@@ -189,15 +189,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<releases />
-			<snapshots />
-			<id>private</id>
-			<name>Private repository</name>
-			<url>file:${basedir}/private-repository</url>
-		</repository>
-	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
 			<releases>
