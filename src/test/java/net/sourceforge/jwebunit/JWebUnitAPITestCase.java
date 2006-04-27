@@ -19,7 +19,7 @@ public abstract class JWebUnitAPITestCase extends WebTestCase {
 
 	public final String HOST_PATH = "http://localhost:8082/jwebunit";
 	
-    private static String dialogKey = TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT;
+    private static String dialogKey = null;
 	/**
 	 * @param name
 	 */

@@ -1841,6 +1841,7 @@ public class WebTester {
 	 */
 	public void setTestingEngineKey(String testingEngineKey) {
 		this.testingEngineKey = testingEngineKey;
+        dialog=null;
 	}
 
 	/**

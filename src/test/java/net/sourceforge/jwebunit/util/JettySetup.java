@@ -6,6 +6,9 @@ package net.sourceforge.jwebunit.util;
 
 import java.net.URL;
 
+import net.sourceforge.jwebunit.JWebUnitAPITestCase;
+import net.sourceforge.jwebunit.TestingEngineRegistry;
+
 import org.mortbay.jetty.Server;
 import org.mortbay.xml.XmlConfiguration;
 
@@ -23,6 +26,19 @@ public class JettySetup extends TestSetup {
      * The Jetty server we are going to use as test server.
      */
     private Server jettyServer = null;
+    
+    private String key;
+
+    /**
+     * Constructor.
+     * 
+     * @param test
+     * @param key The name of the dialog that will be used
+     */
+    public JettySetup(Test test, String key) {
+        super(test);
+        this.key=key;
+    }
 
     /**
      * Constructor.
@@ -31,6 +47,7 @@ public class JettySetup extends TestSetup {
      */
     public JettySetup(Test test) {
         super(test);
+        this.key=TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT;
     }
 
     /**
@@ -54,6 +71,7 @@ public class JettySetup extends TestSetup {
             e.printStackTrace();
             fail("Could not start the Jetty server: " + e);
         }
+        JWebUnitAPITestCase.setDialogKey(key);
     }
 
     /**

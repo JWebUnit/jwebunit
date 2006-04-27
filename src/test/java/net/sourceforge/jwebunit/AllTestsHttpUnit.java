@@ -23,7 +23,6 @@ public class AllTestsHttpUnit extends TestSuite {
 	 *         jWebUnit ready to run utilizing Jetty as testserver.
 	 */
     public static Test suite() {
-        JWebUnitAPITestCase.setDialogKey(TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
         TestSuite suite = new TestSuite("Test for net.sourceforge.jwebunit");
         //$JUnit-BEGIN$
         suite.addTestSuite(FormSubmissionTest.class);
@@ -42,7 +41,7 @@ public class AllTestsHttpUnit extends TestSuite {
         suite.addTestSuite(NavigationTest.class);
         suite.addTestSuite(MethodInvokerTest.class);
         //$JUnit-END$
-        return new JettySetup(suite);
+        return new JettySetup(suite, TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
     }
 
 	public static void main(String[] args) {
