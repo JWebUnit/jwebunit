@@ -54,6 +54,19 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<build>
+	<plugins>
+				<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+	</plugins>
+	</build>
 	<distributionManagement>
 		<site>
 			<id>jwebunit-website</id>

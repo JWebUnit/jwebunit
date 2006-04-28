@@ -17,8 +17,12 @@ import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
 public abstract class JWebUnitAPITestCase extends WebTestCase {
 
     protected static final Object[] NOARGS = new Object[0];
+    
+    public static final int JETTY_PORT = 8082;
+    
+    public static final String JETTY_URL = "/jwebunit";
 
-	public final String HOST_PATH = "http://localhost:8082/jwebunit";
+	public static final String HOST_PATH = "http://localhost:"+JETTY_PORT+JETTY_URL;
 	
     private static String dialogKey = null;
 	/**

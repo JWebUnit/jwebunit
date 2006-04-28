@@ -2,8 +2,8 @@ package net.sourceforge.jwebunit.httpunit;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.util.JettySetup;
-import net.sourceforge.jwebunit.util.reflect.MethodInvokerTest;
+import net.sourceforge.jwebunit.TestingEngineRegistry;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 import net.sourceforge.jwebunit.tests.*;
 
 /**
@@ -11,7 +11,7 @@ import net.sourceforge.jwebunit.tests.*;
  * 
  * @author Wilkes Joiner
  */
-public class AllTestsHttpUnit extends TestSuite {
+public class JWebUnitTest extends TestSuite {
 
 	/**
 	 * Runs all the tests for jWebUnit. Add each new TestCase by using the
@@ -40,7 +40,6 @@ public class AllTestsHttpUnit extends TestSuite {
         suite.addTestSuite(TestContextTest.class);
         suite.addTestSuite(FormAssertionsTest.class);
         suite.addTestSuite(NavigationTest.class);
-        suite.addTestSuite(MethodInvokerTest.class);
         //$JUnit-END$
         return new JettySetup(suite, TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
     }

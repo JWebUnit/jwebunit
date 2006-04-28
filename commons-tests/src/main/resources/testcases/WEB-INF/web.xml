@@ -6,7 +6,7 @@
 <!-- Use servlets instead of JSP to avoid time consuming configuration and extra dependencies -->
 <servlet>
     <servlet-name>ParamsServlet</servlet-name>
-    <servlet-class>net.sourceforge.jwebunit.util.ParamsServlet</servlet-class>
+    <servlet-class>net.sourceforge.jwebunit.tests.util.ParamsServlet</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>ParamsServlet</servlet-name>

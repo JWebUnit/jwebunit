@@ -6,14 +6,18 @@ package net.sourceforge.jwebunit.tests.util;
 
 import java.net.URL;
 
-import net.sourceforge.jwebunit.JWebUnitAPITestCase;
-import net.sourceforge.jwebunit.TestingEngineRegistry;
-
+import org.mortbay.jetty.Connector;
+import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
+import org.mortbay.jetty.bio.SocketConnector;
+import org.mortbay.jetty.webapp.WebAppContext;
 import org.mortbay.xml.XmlConfiguration;
 
 import junit.extensions.TestSetup;
 import junit.framework.Test;
+
+import net.sourceforge.jwebunit.TestingEngineRegistry;
+import net.sourceforge.jwebunit.tests.JWebUnitAPITestCase;
 
 /**
  * Sets up and tears down the Jetty servlet engine before and after the tests in
@@ -58,14 +62,16 @@ public class JettySetup extends TestSetup {
      */
     public void setUp() {
         try {
-            URL jettyConfig = JettySetup.class
-                    .getResource("/jetty-test-config.xml");
-            if(jettyConfig==null) {
-                fail("Unable to locate jetty-test-config.xml on the classpath");
-            }
             jettyServer = new Server();
-            XmlConfiguration xmlConfiguration = new XmlConfiguration(jettyConfig);
-            xmlConfiguration.configure(jettyServer);
+            SocketConnector connector = new SocketConnector();
+            connector.setPort(JWebUnitAPITestCase.JETTY_PORT);
+            jettyServer.setConnectors (new Connector[]{connector});
+            WebAppContext wah = new WebAppContext();
+            wah.setServer(jettyServer);
+            wah.setContextPath(JWebUnitAPITestCase.JETTY_URL);
+            URL url = this.getClass().getResource("/testcases");
+            wah.setWar(url.toString());
+            jettyServer.addHandler(wah);
             jettyServer.start();
         } catch (Exception e) {
             e.printStackTrace();

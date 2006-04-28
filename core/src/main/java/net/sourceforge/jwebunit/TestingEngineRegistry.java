@@ -31,9 +31,9 @@ public class TestingEngineRegistry {
 		if (testingEngineMap == null) {
 			testingEngineMap = new Hashtable();
 
-			testingEngineMap.put(TESTING_ENGINE_HTTPUNIT, "net.sourceforge.jwebunit.plugins.httpunit.HttpUnitDialog");
-            testingEngineMap.put(TESTING_ENGINE_HTMLUNIT, "net.sourceforge.jwebunit.plugins.htmlunit.HtmlUnitDialog");
-			testingEngineMap.put(TESTING_ENGINE_JACOBIE, "net.sourceforge.jwebunit.plugins.jacobie.JacobieDialog");
+			testingEngineMap.put(TESTING_ENGINE_HTTPUNIT, "net.sourceforge.jwebunit.httpunit.HttpUnitDialog");
+            testingEngineMap.put(TESTING_ENGINE_HTMLUNIT, "net.sourceforge.jwebunit.htmlunit.HtmlUnitDialog");
+			testingEngineMap.put(TESTING_ENGINE_JACOBIE, "net.sourceforge.jwebunit.jacobie.JacobieDialog");
 		}
 		return testingEngineMap;
 	}
