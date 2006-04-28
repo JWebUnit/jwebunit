@@ -135,7 +135,7 @@
 	<licenses>
 		<license>
 			<name>BSD License</name>
-			<url>LICENSE.txt</url>
+			<url>${topDirectoryLocation}/LICENSE.txt</url>
 		</license>
 	</licenses>
 	<scm>
@@ -194,30 +194,19 @@
 			<url>http://snapshots.maven.codehaus.org/maven2</url>
 		</pluginRepository>
 	</pluginRepositories>
+	<properties>
+        	<topDirectoryLocation>.</topDirectoryLocation>
+  	</properties>
 	<reporting>
 		<plugins>
-			<plugin>
-				<artifactId>maven-javadoc-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jxr-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>surefire-report-maven-plugin</artifactId>
-			</plugin>
 			<plugin>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
 					<configLocation>
-						src/main/checkstyle/jwebunit-checkstyle.xml
+						${basedir}/${topDirectoryLocation}/src/checkstyle/jwebunit-checkstyle.xml
 					</configLocation>
 					<headerFile>
-						src/main/checkstyle/license-checkstyle.txt
+						${basedir}/${topDirectoryLocation}/src/checkstyle/license-checkstyle.txt
 					</headerFile>
 					<xrefLocation>xref</xrefLocation>
 				</configuration>
@@ -231,17 +220,8 @@
 				<artifactId>taglist-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<artifactId>
-					maven-project-info-reports-plugin
-				</artifactId>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>changelog-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

@@ -10,24 +10,9 @@
 	<artifactId>core</artifactId>
 	<name>jWebUnit - Core - API</name>
 	<url>http://jwebunit.sourceforge.net/core</url>
-	<scm>
-		<connection>
-			scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/trunk/core
-		</connection>
-		<developerConnection>
-			scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/trunk/core
-		</developerConnection>
-		<url>http://svn.sourceforge.net/viewcvs.cgi/jwebunit/core/</url>
-	</scm>
-	<repositories>
-		<repository>
-			<releases />
-			<snapshots />
-			<id>private</id>
-			<name>Private repository</name>
-			<url>file:${basedir}/private-repository</url>
-		</repository>
-	</repositories>
+	<properties>
+        	<topDirectoryLocation>..</topDirectoryLocation>
+  	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -58,13 +43,37 @@
 			</plugin>
 		</plugins>
 	</build>
-	<distributionManagement>
-		<site>
-			<id>jwebunit-website</id>
-			<name>jWebUnit WebSite - Core - Sourceforge</name>
-			<url>
-				scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/core
-			</url>
-		</site>
-	</distributionManagement>
+	  	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+						<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jxr-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>surefire-report-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>
+					maven-project-info-reports-plugin
+				</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>changelog-maven-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+	</reporting>
+
 </project>
