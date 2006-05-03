@@ -24,7 +24,7 @@
 		    <item name="HTTPUnit" href="http://httpunit.sourceforge.net"/>
 		    <item name="HTMLUnit" href="http://htmlunit.sourceforge.net"/>
 		    <item name="Jacobie" href="http://jacobie.sourceforge.net"/>
-		</links>				    
+		</links>
 	    <menu name="jWebUnit">
 	        <item name="Home" href="/index.html"/>
 	        <item name="Installation" href="/installation.html" collapse="true">
@@ -39,6 +39,11 @@
 	        	<item name="Using Element IDs" href="#Using_Element_IDs_to_Validate_Content" />
 	        	<item name="Using Property Files" href="#Using_Property_Files_to_Validate_Content" />
 	        </item>
+	    </menu>
+	    <menu name="Plugins">
+	        <item name="HttpUnit Plugin" href="httpunit-plugin/index.html"/>
+	        <item name="HtmlUnit Plugin" href="htmlunit-plugin/index.html"/>
+	        <item name="Jacobie Plugin" href="jacobie-plugin/index.html"/>
 	    </menu>
 		<menu name="Building jWebUnit">
 			<item name="With Ant" href="/building-ant.html" collapse="true">
@@ -58,7 +63,7 @@
 	        <item name="Project page" href="http://sourceforge.net/projects/jwebunit"/>
 	        <item name="Download" href="http://sourceforge.net/projects/jwebunit/files"/>
 	    </menu>
-	    
+	    ${modules}
 	    ${reports}
 
 	</body>

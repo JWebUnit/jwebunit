@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<project name="jWebUnit">
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-stylus-skin</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</skin>
+
+	<bannerLeft>
+		<name>SourceForge</name>
+		<src>http://sourceforge.net/sflogo.php?group_id=61302&amp;type=5</src>
+		<href>http://sourceforge.net</href>
+	</bannerLeft>
+
+	<bannerRight>
+		<name>jWebUnit</name>
+		<src>../images/jwebunit-logo.png</src>
+		<href>http://jwebunit.sourceforge.net</href>
+	</bannerRight>
+	<body>
+		<links>
+		    <item name="JUnit" href="http://www.junit.org"/>
+		    <item name="Maven" href="http://maven.apache.org"/>
+		    <item name="HTTPUnit" href="http://httpunit.sourceforge.net"/>
+		    <item name="HTMLUnit" href="http://htmlunit.sourceforge.net"/>
+		    <item name="Jacobie" href="http://jacobie.sourceforge.net"/>
+		</links>				    
+	    <menu name="jWebUnit">
+	        <item name="Home" href="../index.html"/>
+	    </menu>
+    	    <menu name="Plugins">
+	        <item name="HttpUnit Plugin" href="../httpunit-plugin/index.html"/>
+	        <item name="HtmlUnit Plugin" href="./index.html"/>
+	        <item name="Jacobie Plugin" href="../jacobie-plugin/index.html"/>
+	    </menu>
+	    <menu name="Sourceforge">
+	        <item name="Project page" href="http://sourceforge.net/projects/jwebunit"/>
+	        <item name="Download" href="http://sourceforge.net/projects/jwebunit/files"/>
+	    </menu>
+	    ${parentProject}
+	    ${reports}
+
+	</body>
+</project>

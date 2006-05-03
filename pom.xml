@@ -226,6 +226,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>changes-maven-plugin</artifactId>
+				<inherited>false</inherited>
 			</plugin>
 		</plugins>
 	</reporting>
@@ -235,6 +236,7 @@
 			<name>jWebUnit WebSite - Sourceforge</name>
 			<url>
 				scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
+				<!--file://c:\temp-jwebunit-->
 			</url>
 		</site>
 	</distributionManagement>

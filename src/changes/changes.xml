@@ -7,6 +7,11 @@
 	<body>
 		<release version="1.3" date="UNKNOWN" description="New features await us">
 			<action type="update" dev="Julien Henry">
+				Split jWebUnit in modules: one for the core (jWebUnit API), one for the tests (that all plugins should pass),
+				and one for each plugin (currently HtmlUnit, HttpUnit and Jacobie). This way, for example,  when you want to use
+				HtmlUnit plugin, you don't have to include all HttpUnit dependencies.
+			</action>
+			<action type="update" dev="Julien Henry">
 				Updated to Jetty 6 for running tests. Need less dependencies and run faster.
 			</action>
 			<action type="add" dev="Julien Henry">
@@ -14,6 +19,9 @@
 			</action>
 			<action type="add" dev="Julien Henry">
 				Added Maven 2 support. There are many reports available on the website.
+			</action>
+			<action type="add" dev="Nick Neuberger">
+				Added JacobieDialog.
 			</action>
 			<action type="add" dev="Jim Weaver" issue="1004243" due-to="Srinivasan Ranganthan">
 				Added HttpUnitDialog setter on WebTester in case someone using delegation wants to carry

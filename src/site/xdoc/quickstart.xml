@@ -42,6 +42,24 @@ public class ExampleWebTestCase extends TestCase {
 For the rest of the examples, we will use inheritance.
 </p>
 </subsection>
+<subsection name="Selecting the plugin you want to use">
+<p>
+    jWebUnit can use different plugins to execute the tests you write. Only one line makes the difference:
+<source>
+import net.sourceforge.jwebunit.WebTestCase;
+import net.sourceforge.jwebunit.TestingEngineRegistry;
+
+public class ExampleWebTestCase extends WebTestCase {
+    public ExampleWebTestCase(String name) {
+        super(name);
+        setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
+        // or setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);
+        // or setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_JACOBIE);
+    }
+}
+</source>
+</p>
+</subsection>
 <subsection name="Navigating Your Web Application">
 <p>
     Navigation is a two step process.  First, point the TestCase to your application, then access a 
@@ -57,6 +75,7 @@ For the rest of the examples, we will use inheritance.
 or
 <source>
     public void setUp() throws Exception {
+    	setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);
         getTestContext().setBaseUrl("http://myserver:8080/myapp");
     }
 </source>
