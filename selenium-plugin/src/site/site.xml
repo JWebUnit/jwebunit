@@ -31,8 +31,8 @@
 	    </menu>
     	    <menu name="Other Plugins">
 	        <item name="HttpUnit Plugin" href="../httpunit-plugin/index.html"/>
+	        <item name="HtmlUnit Plugin" href="../htmlunit-plugin/index.html"/>
 	        <item name="Jacobie Plugin" href="../jacobie-plugin/index.html"/>
-	        <item name="Selenium Plugin" href="../selenium-plugin/index.html"/>
 	    </menu>
 	    <menu name="Sourceforge">
 	        <item name="Project page" href="http://sourceforge.net/projects/jwebunit"/>

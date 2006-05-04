@@ -29,7 +29,7 @@
     		<module>httpunit-plugin</module>
     		<module>htmlunit-plugin</module>
     		<module>jacobie-plugin</module>
-    		
+    		<module>selenium-plugin</module>
   	</modules>
 	<mailingLists>
 		<mailingList>
@@ -235,8 +235,8 @@
 			<id>jwebunit-website</id>
 			<name>jWebUnit WebSite - Sourceforge</name>
 			<url>
-				scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
-				<!--file://c:\temp-jwebunit-->
+				<!--scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs-->
+				file://c:\temp-jwebunit
 			</url>
 		</site>
 	</distributionManagement>

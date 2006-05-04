@@ -6,7 +6,7 @@
     </properties>
     <meta name="keyword" content="jwebunit, java, junit, htmlunit, jacobie, httpunit, integration, test, automated, html, webtest"/>
 	<head>
-		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
 	</head>
 <body>
 <section name="HttpUnit plugin">

@@ -6,6 +6,11 @@
 	</properties>
 	<body>
 		<release version="1.3" date="UNKNOWN" description="New features await us">
+			<action type="add" dev="Julien Henry">
+				Added Selenium plugin module. SeleniumDialog uses Selenium-RC project, that take control of
+				your web browser to execute the tests. Main advantage is perfect Javascript support. Drawbacks are:
+				tests are slow; you need a browser and an X server.
+			</action>
 			<action type="update" dev="Julien Henry">
 				Split jWebUnit in modules: one for the core (jWebUnit API), one for the tests (that all plugins should pass),
 				and one for each plugin (currently HtmlUnit, HttpUnit and Jacobie). This way, for example,  when you want to use

@@ -12,7 +12,6 @@
 	<artifactId>jacobie-plugin</artifactId>
 	<packaging>jar</packaging>
 	<name>jWebUnit - Jacobie - Plugin</name>
-	<url>http://jwebunit.sourceforge.net/jacobie</url>
 	<repositories>
 		<repository>
 			<releases />

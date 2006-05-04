@@ -11,12 +11,15 @@ import net.sourceforge.jwebunit.exception.TestingEngineRegistryException;
 /**
  * This will maintain a registry of known testing engines to be used by jWebUnit.
  * @author Nicholas Neuberger
+ * @author Julien Henry
  */
 public class TestingEngineRegistry {
 	
+	//TODO Move this to a JDK1.5 typesafe enum	
 	public final static String TESTING_ENGINE_HTTPUNIT = "TestingEngineHttpUnit"; 
-    public final static String TESTING_ENGINE_HTMLUNIT = "TestingEngineHtmlUnit";
+    	public final static String TESTING_ENGINE_HTMLUNIT = "TestingEngineHtmlUnit";
 	public final static String TESTING_ENGINE_JACOBIE = "TestingEngineJacobie"; 
+	public final static String TESTING_ENGINE_SELENIUM = "TestingEngineSelenium"; 
 
 	private static Hashtable testingEngineMap = null;
 	
@@ -32,8 +35,9 @@ public class TestingEngineRegistry {
 			testingEngineMap = new Hashtable();
 
 			testingEngineMap.put(TESTING_ENGINE_HTTPUNIT, "net.sourceforge.jwebunit.httpunit.HttpUnitDialog");
-            testingEngineMap.put(TESTING_ENGINE_HTMLUNIT, "net.sourceforge.jwebunit.htmlunit.HtmlUnitDialog");
+            		testingEngineMap.put(TESTING_ENGINE_HTMLUNIT, "net.sourceforge.jwebunit.htmlunit.HtmlUnitDialog");
 			testingEngineMap.put(TESTING_ENGINE_JACOBIE, "net.sourceforge.jwebunit.jacobie.JacobieDialog");
+			testingEngineMap.put(TESTING_ENGINE_SELENIUM, "net.sourceforge.jwebunit.selenium.SeleniumDialog");
 		}
 		return testingEngineMap;
 	}

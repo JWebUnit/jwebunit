@@ -9,7 +9,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>htmlunit-plugin</artifactId>
 	<name>jWebUnit - HtmlUnit - Plugin</name>
-	<url>http://jwebunit.sourceforge.net/htmlunit</url>
 	<repositories>
 		<repository>
 			<releases />
