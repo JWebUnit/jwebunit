@@ -69,7 +69,7 @@ public class JettySetup extends TestSetup {
             WebAppContext wah = new WebAppContext();
             wah.setServer(jettyServer);
             wah.setContextPath(JWebUnitAPITestCase.JETTY_URL);
-            URL url = this.getClass().getResource("/testcases");
+            URL url = this.getClass().getResource("/testcases/");
             wah.setWar(url.toString());
             jettyServer.addHandler(wah);
             jettyServer.start();

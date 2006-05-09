@@ -235,8 +235,8 @@
 			<id>jwebunit-website</id>
 			<name>jWebUnit WebSite - Sourceforge</name>
 			<url>
-				<!--scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs-->
-				file://c:\temp-jwebunit
+				scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
+				<!--file://c:\temp-jwebunit-->
 			</url>
 		</site>
 	</distributionManagement>

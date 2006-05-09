@@ -43,7 +43,7 @@ public class ParamsServlet extends HttpServlet {
         out.write(" </p>\n");
         String ref = request.getHeader("Referer");
         if (ref==null) {
-            if (request.getParameterValues("myReferer").length>0) {
+            if (request.getParameterValues("myReferer")!=null) {
                 ref = request.getParameterValues("myReferer")[0];
             }
         }
