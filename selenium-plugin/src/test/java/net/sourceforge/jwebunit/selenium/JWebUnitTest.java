@@ -24,7 +24,7 @@ public class JWebUnitTest extends TestSuite {
 	 *         jWebUnit ready to run utilizing Jetty as testserver.
 	 */
     public static Test suite() {
-        TestSuite suite = new TestSuite("Test for net.sourceforge.jwebunit");
+        TestSuite suite = new TestSuite("Test for net.sourceforge.jwebunit.selenium");
         //$JUnit-BEGIN$
         suite.addTestSuite(FormSubmissionTest.class);
         suite.addTestSuite(WebAssertionsTest.class);
