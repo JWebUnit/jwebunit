@@ -24,7 +24,7 @@
 	</issueManagement>
 	<inceptionYear>2002</inceptionYear>
 	<modules>
-    		<module>core</module>
+    		<module>jwebunit-core</module>
     		<module>commons-tests</module>
     		<module>httpunit-plugin</module>
     		<module>htmlunit-plugin</module>
