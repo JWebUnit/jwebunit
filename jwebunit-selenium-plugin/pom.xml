@@ -7,8 +7,8 @@
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>selenium-plugin</artifactId>
-	<name>jWebUnit - Selenium - Plugin</name>
+	<artifactId>jwebunit-selenium-plugin</artifactId>
+	<name>jWebUnit Selenium plugin</name>
 	<repositories>
 		<repository>
 			<releases />
@@ -39,7 +39,7 @@
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.jwebunit</groupId>
-			<artifactId>commons-tests</artifactId>
+			<artifactId>jwebunit-commons-tests</artifactId>
 			<version>1.3-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
