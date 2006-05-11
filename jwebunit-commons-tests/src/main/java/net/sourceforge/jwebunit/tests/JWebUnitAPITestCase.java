@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import junit.framework.AssertionFailedError;
 import net.sourceforge.jwebunit.WebTestCase;
-import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
+import net.sourceforge.jwebunit.tests.util.reflect.MethodInvoker;
 
 
 /**

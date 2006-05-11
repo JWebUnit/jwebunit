@@ -2,7 +2,7 @@
  * Copyright (c) 2001, ThoughtWorks, Inc.
  * Distributed open-source, see full license under licenses/jwebunit_license.txt
 **********************************/
-package net.sourceforge.jwebunit.util.reflect;
+package net.sourceforge.jwebunit.tests.util.reflect;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 import java.lang.reflect.InvocationTargetException;
 
-import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
+import net.sourceforge.jwebunit.tests.util.reflect.MethodInvoker;
 
 
 public class MethodInvokerTest extends TestCase {
