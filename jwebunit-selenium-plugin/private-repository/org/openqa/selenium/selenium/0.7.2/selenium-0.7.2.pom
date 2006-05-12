@@ -1,0 +1,16 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.openqa.selenium</groupId>
+  <version>0.7.2</version>
+  <artifactId>selenium</artifactId>
+  <name>Selenium</name>
+  <packaging>pom</packaging>
+  <modules>
+    <module>javascript-core</module>
+    <module>server</module>
+    <module>clients/java</module>
+  </modules>
+  <properties>
+    <core.javascript.path>D:\jhenry\selenium\code\javascript</core.javascript.path>
+  </properties>
+</project>
