@@ -134,7 +134,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
      */
     public boolean hasForm() {
         try {
-            selenium.assertElementPresent("//form");
+            selenium.isElementPresent("//form");
         } catch (SeleniumException e) {
             return false;
         }
@@ -149,7 +149,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
      */
     public boolean hasForm(String nameOrID) {
         try {
-            selenium.assertElementPresent("//form[@name=\"" + nameOrID
+            selenium.isElementPresent("//form[@name=\"" + nameOrID
                     + "\" or @id=\"" + nameOrID + "\"]");
         } catch (SeleniumException e) {
             return false;
@@ -166,7 +166,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
      */
     public boolean hasFormInputNamed(String inputName) {
         try {
-            selenium.assertElementPresent("//input[@name=\"" + inputName
+            selenium.isElementPresent("//input[@name=\"" + inputName
                     + "\"]");
         } catch (SeleniumException e) {
             return false;
@@ -182,7 +182,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
      */
     public boolean hasFormButtonNamed(String buttonName) {
         try {
-            selenium.assertElementPresent("//button[@name=\"" + buttonName
+            selenium.isElementPresent("//button[@name=\"" + buttonName
                     + "\"]");
         } catch (SeleniumException e) {
             return false;
@@ -219,7 +219,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
     public boolean hasSubmitButton(String buttonName) {
         try {
             selenium
-                    .assertElementPresent("//input[@type=\"submit\" and @name=\""
+                    .isElementPresent("//input[@type=\"submit\" and @name=\""
                             + buttonName + "\"]");
         } catch (SeleniumException e) {
             return false;
@@ -230,7 +230,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
     public boolean hasSubmitButton(String buttonName, String buttonValue) {
         try {
             selenium
-                    .assertElementPresent("//input[@type=\"submit\" and @name=\""
+                    .isElementPresent("//input[@type=\"submit\" and @name=\""
                             + buttonName
                             + "\" and @value=\""
                             + buttonValue
@@ -271,7 +271,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
      */
     public boolean isTextInResponse(String text) {
         try {
-            selenium.assertTextPresent(text);
+            selenium.isTextPresent(text);
         } catch (SeleniumException e) {
             return false;
         }
