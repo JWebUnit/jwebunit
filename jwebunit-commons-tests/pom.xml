@@ -9,15 +9,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jwebunit-commons-tests</artifactId>
     <name>jWebUnit commons tests</name>
-    <repositories>
-        <repository>
-            <releases />
-            <snapshots />
-            <id>private</id>
-            <name>Private repository</name>
-            <url>file:${basedir}/private-repository</url>
-        </repository>
-    </repositories>
     <properties>
         <topDirectoryLocation>..</topDirectoryLocation>
     </properties>
@@ -30,7 +21,7 @@
         <dependency>
             <groupId>org.mortbay.jetty</groupId>
             <artifactId>jetty</artifactId>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0.0beta15</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
