@@ -1,6 +1,7 @@
 package net.sourceforge.jwebunit.httpunit;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sourceforge.jwebunit.TestingEngineRegistry;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
@@ -11,7 +12,7 @@ import net.sourceforge.jwebunit.tests.*;
  * 
  * @author Wilkes Joiner
  */
-public class JWebUnitTest extends TestSuite {
+public class JWebUnitTest extends TestCase {
 
 	/**
 	 * Runs all the tests for jWebUnit. Add each new TestCase by using the
@@ -45,7 +46,4 @@ public class JWebUnitTest extends TestSuite {
         return new JettySetup(suite, TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
     }
 
-	public static void main(String[] args) {
-		junit.textui.TestRunner.run(suite());
-	}
 }
