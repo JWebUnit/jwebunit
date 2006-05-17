@@ -31,14 +31,14 @@
 	        <item name="Installation" href="/installation.html" collapse="true">
 	        </item>
 	        <item name="Quick start" href="/quickstart.html" collapse="true">
-	        	<item name="Creating a TestCase" href="#Creating_a_TestCase"/>
-	        	<item name="Site Navigation" href="#Navigating_Your_Web_Application" />
-	        	<item name="Validating Forms" href="#Working_With_Forms"/>
-	        	<item name="Frames and Windows" href="#Working_With_Frames_and_Windows" />
-	        	<item name="Validating Page Content" href="#Validating_Page_Content" />
-	        	<item name="Validating Table Content" href="#Validating_Table_Content" />
-	        	<item name="Using Element IDs" href="#Using_Element_IDs_to_Validate_Content" />
-	        	<item name="Using Property Files" href="#Using_Property_Files_to_Validate_Content" />
+	        	<item name="Creating a TestCase" href="#Creating a TestCase"/>
+	        	<item name="Site Navigation" href="#Navigating Your Web Application" />
+	        	<item name="Validating Forms" href="#Working With Forms"/>
+	        	<item name="Frames and Windows" href="#Working With Frames and Windows" />
+	        	<item name="Validating Page Content" href="#Validating Page Content" />
+	        	<item name="Validating Table Content" href="#Validating Table Content" />
+	        	<item name="Using Element IDs" href="#Using Element IDs to Validate Content" />
+	        	<item name="Using Property Files" href="#Using Property Files to Validate Content" />
 	        </item>
 	    </menu>
 	    <menu name="Available Plugins">
