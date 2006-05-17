@@ -53,7 +53,6 @@ public class TestContextTest extends JWebUnitAPITestCase {
         String userAgent = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.3) Gecko/20060426 Firefox/1.5.0.3";
         getTestContext().setUserAgent(userAgent);
         beginAt("/testPage.html");
-        dumpResponse(System.out);
         assertTextPresent("Browser user-agent: "+userAgent);
     }
 

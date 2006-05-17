@@ -1,72 +1,91 @@
 <?xml version="1.0"?>
 <project name="jWebUnit">
-	<skin>
-		<groupId>org.apache.maven.skins</groupId>
-		<artifactId>maven-stylus-skin</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</skin>
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-stylus-skin</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </skin>
 
-	<bannerLeft>
-		<name>SourceForge</name>
-		<src>http://sourceforge.net/sflogo.php?group_id=61302&amp;type=5</src>
-		<href>http://sourceforge.net</href>
-	</bannerLeft>
+    <bannerLeft>
+        <name>SourceForge</name>
+        <src>
+            http://sourceforge.net/sflogo.php?group_id=61302&amp;type=5
+        </src>
+        <href>http://sourceforge.net</href>
+    </bannerLeft>
 
-	<bannerRight>
-		<name>jWebUnit</name>
-		<src>./images/jwebunit-logo.png</src>
-		<href>http://jwebunit.sourceforge.net</href>
-	</bannerRight>
-	<body>
-		<links>
-		    <item name="JUnit" href="http://www.junit.org"/>
-		    <item name="Maven" href="http://maven.apache.org"/>
-		    <item name="HTTPUnit" href="http://httpunit.sourceforge.net"/>
-		    <item name="HTMLUnit" href="http://htmlunit.sourceforge.net"/>
-		    <item name="Jacobie" href="http://jacobie.sourceforge.net"/>
-		    <item name="Selenium" href="http://openqa.org/selenium-rc/"/>
-		</links>
-	    <menu name="jWebUnit">
-	        <item name="Home" href="/index.html"/>
-	        <item name="Installation" href="/installation.html" collapse="true">
-	        </item>
-	        <item name="Quick start" href="/quickstart.html" collapse="true">
-	        	<item name="Creating a TestCase" href="#Creating a TestCase"/>
-	        	<item name="Site Navigation" href="#Navigating Your Web Application" />
-	        	<item name="Validating Forms" href="#Working With Forms"/>
-	        	<item name="Frames and Windows" href="#Working With Frames and Windows" />
-	        	<item name="Validating Page Content" href="#Validating Page Content" />
-	        	<item name="Validating Table Content" href="#Validating Table Content" />
-	        	<item name="Using Element IDs" href="#Using Element IDs to Validate Content" />
-	        	<item name="Using Property Files" href="#Using Property Files to Validate Content" />
-	        </item>
-	    </menu>
-	    <menu name="Available Plugins">
-	        <item name="HttpUnit Plugin" href="httpunit-plugin/index.html"/>
-	        <item name="HtmlUnit Plugin" href="htmlunit-plugin/index.html"/>
-	        <item name="Jacobie Plugin" href="jacobie-plugin/index.html"/>
-	        <item name="Selenium Plugin" href="selenium-plugin/index.html"/>
-	    </menu>
-		<menu name="Building jWebUnit">
-			<item name="With Ant" href="/building-ant.html" collapse="true">
-				<item name="Installing Ant" href="/building-ant.html#Installing_Ant" />
-				<item name="Building jWebUnit" href="/building-ant.html#Building_jWebUnit" />
-				<item name="Building a release" href="/building-ant.html#Building_a_release" />
-			</item>
-			<item name="With Maven" href="/building-maven.html" collapse="true">
-				<item name="Installing Maven" href="/building-maven.html#Installing_Maven" />
-				<item name="Using Maven" href="/building-maven.html#Using_Maven" />
-				<item name="Building jWebUnit" href="/building-maven.html#Building_jWebUnit" />
-				<item name="Building the site" href="/building-maven.html#Building_the_site" />
-				<item name="Building a release" href="/building-maven.html#Building_a_release" />
-			</item>
-		</menu>
-	    <menu name="Sourceforge">
-	        <item name="Project page" href="http://sourceforge.net/projects/jwebunit"/>
-	        <item name="Download" href="http://sourceforge.net/projects/jwebunit/files"/>
-	    </menu>
-	    ${modules}
-	    ${reports}
-
-	</body>
+    <bannerRight>
+        <name>jWebUnit</name>
+        <src>./images/jwebunit-logo.png</src>
+        <href>http://jwebunit.sourceforge.net</href>
+    </bannerRight>
+    <body>
+        <links>
+            <item name="JUnit" href="http://www.junit.org" />
+            <item name="Maven" href="http://maven.apache.org" />
+            <item name="HTTPUnit"
+                href="http://httpunit.sourceforge.net" />
+            <item name="HTMLUnit"
+                href="http://htmlunit.sourceforge.net" />
+            <item name="Jacobie" href="http://jacobie.sourceforge.net" />
+            <item name="Selenium" href="http://openqa.org/selenium-rc/" />
+        </links>
+        <menu name="jWebUnit">
+            <item name="Home" href="/index.html" />
+            <item name="Installation" href="/installation.html"
+                collapse="true">
+            </item>
+            <item name="Quick start" href="/quickstart.html"
+                collapse="true">
+                <item name="Creating a TestCase"
+                    href="#Creating a TestCase" />
+                <item name="Site Navigation"
+                    href="#Navigating Your Web Application" />
+                <item name="Validating Forms"
+                    href="#Working With Forms" />
+                <item name="Frames and Windows"
+                    href="#Working With Frames and Windows" />
+                <item name="Validating Page Content"
+                    href="#Validating Page Content" />
+                <item name="Validating Table Content"
+                    href="#Validating Table Content" />
+                <item name="Using Element IDs"
+                    href="#Using Element IDs to Validate Content" />
+                <item name="Using Property Files"
+                    href="#Using Property Files to Validate Content" />
+            </item>
+        </menu>
+        <menu name="Building jWebUnit">
+            <item name="With Ant" href="/building-ant.html"
+                collapse="true">
+                <item name="Installing Ant"
+                    href="/building-ant.html#Installing_Ant" />
+                <item name="Building jWebUnit"
+                    href="/building-ant.html#Building_jWebUnit" />
+                <item name="Building a release"
+                    href="/building-ant.html#Building_a_release" />
+            </item>
+            <item name="With Maven" href="/building-maven.html"
+                collapse="true">
+                <item name="Installing Maven"
+                    href="/building-maven.html#Installing_Maven" />
+                <item name="Using Maven"
+                    href="/building-maven.html#Using_Maven" />
+                <item name="Building jWebUnit"
+                    href="/building-maven.html#Building_jWebUnit" />
+                <item name="Building the site"
+                    href="/building-maven.html#Building_the_site" />
+                <item name="Building a release"
+                    href="/building-maven.html#Building_a_release" />
+            </item>
+        </menu>
+        <menu name="Sourceforge">
+            <item name="Project page"
+                href="http://sourceforge.net/projects/jwebunit" />
+            <item name="Download"
+                href="http://sourceforge.net/projects/jwebunit/files" />
+        </menu>
+        ${modules}
+        ${reports}
+    </body>
 </project>

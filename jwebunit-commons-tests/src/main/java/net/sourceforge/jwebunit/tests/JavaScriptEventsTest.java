@@ -57,11 +57,9 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
         assertTextPresent("Here is the text we expect");
         
         beginAt("index.html");
-        //commented out for now due to HttpUnit bug; submit does not trigger onClick, but clickButton of a
-        // submit button will trigger both the submission and the onClick.
-//        submit();
-//        dumpResponse(System.out);
-//        assertTextPresent("Here is the text we expect");
+        assertTitleEquals("Startpage");
+        submit();
+        assertTextPresent("Here is the text we expect");
     }
  
     public void testLinkAssertsWorkJavascriptDisabled() {
