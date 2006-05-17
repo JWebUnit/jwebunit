@@ -96,6 +96,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
 
 	private void initWebClient() {
 		wc = new WebConversation();
+        
+        wc.getClientProperties().setUserAgent(testContext.getUserAgent());
 
 		wc.addClientListener(new WebClientListener() {
 			public void requestSent(WebClient webClient, WebRequest webRequest) {
@@ -152,7 +154,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * Return the string representation of the current response, encoded as
      * specified by the current {@link net.sourceforge.jwebunit.TestContext}.
      */
-    public String getResponseText() {
+    public String getPageText() {
         try {
             return getTestContext().toEncodedString(resp.getText());
         } catch (IOException e) {
@@ -164,7 +166,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * Return the page title of the current response page, encoded as specified
      * by the current {@link net.sourceforge.jwebunit.TestContext}.
      */
-    public String getResponsePageTitle() {
+    public String getPageTitle() {
         try {
             return getTestContext().toEncodedString(resp.getTitle());
         } catch (SAXException e) {
@@ -370,6 +372,10 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         if (oldPage != getWebClient().getCurrentPage()) {
             resp = getWebClient().getCurrentPage();
         }
+    }
+    
+    public void setTextField(String paramName, String paramValue) {
+        setFormParameter(paramName, paramValue);
     }
 
     public void updateFormParameter(String paramName, String paramValue) {
@@ -842,14 +848,14 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     /**
      * Resets the Dialog
      */
-    public void reset() throws TestingEngineResponseException {
+    public void resetDialog() throws TestingEngineResponseException {
     }
 
     /**
      * Reset the current form. See {@link #getForm}for an explanation of how
      * the current form is established.
      */
-    public void resetForm() {
+    public void reset() {
         getForm().reset();
     }
 
@@ -1462,7 +1468,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      */
     public void dumpResponse(PrintStream stream) {
         try {
-            stream.println(getResponseText());
+            stream.println(getPageText());
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -1588,6 +1594,5 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     public void setScriptingEnabled(boolean value) {
         HttpUnitOptions.setScriptingEnabled(value);
     }
-
 
 }

@@ -107,7 +107,7 @@ public class JacobieDialog implements IJWebUnitDialog {
 	/**
 	 * Resets all private variables contained by this class.
 	 */
-	public void reset() throws TestingEngineResponseException {
+	public void resetDialog() throws TestingEngineResponseException {
 		resetIE();
 	}
 
@@ -115,8 +115,8 @@ public class JacobieDialog implements IJWebUnitDialog {
 	 * Reset the current form. See {@link #getForm}for an explanation of how
 	 * the current form is established.
 	 */
-	public void resetForm() {
-		throw new UnsupportedOperationException("resetForm");
+	public void reset() {
+		throw new UnsupportedOperationException("reset");
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class JacobieDialog implements IJWebUnitDialog {
 
 	}
 
-	public String getResponsePageTitle() {
+	public String getPageTitle() {
 		String theString = null;
 		try {
 			theString = getIe().getDocument().getTitle().trim();
@@ -234,6 +234,10 @@ public class JacobieDialog implements IJWebUnitDialog {
 			theDefaultHTMLElement.blur();
 		}
 	}
+    
+    public void setTextField(String paramName, String paramValue) {
+        setFormParameter(paramName, paramValue);
+    }
 
 	/**
 	 * Return true if a radio group contains the indicated option.
@@ -989,7 +993,7 @@ public class JacobieDialog implements IJWebUnitDialog {
     /* (non-Javadoc)
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getResponseText()
      */
-    public String getResponseText() {
+    public String getPageText() {
         // TODO Auto-generated method stub
         return null;
     }

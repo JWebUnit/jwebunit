@@ -27,6 +27,11 @@ public interface IJWebUnitDialog {
 	void beginAt(String aInitialURL, TestContext aTestContext) throws TestingEngineResponseException;
     
     /**
+     * Reset the dialog for the next test.
+     */
+    void resetDialog() throws TestingEngineResponseException;
+
+    /**
      * Test if the window with the given name is in the current conversation.
      * 
      * @param windowName
@@ -39,23 +44,31 @@ public interface IJWebUnitDialog {
     boolean isWindowByTitlePresent(String title);
     
     /**
-     * Return the string representation of the current response, encoded as specified by the current
+     * Return the string representation of the current page, encoded as specified by the current
      * {@link net.sourceforge.jwebunit.TestContext}.
      */
-    String getResponseText();
-
+    String getPageText();
+    
     /**
      * Return the page title of the current response page, encoded as specified by the current
      * {@link net.sourceforge.jwebunit.TestContext}.
      */
-    String getResponsePageTitle();
-
+    String getPageTitle();
+    
+    /**
+     * Test if a cookie is present with given name.
+     * @param cookieName name of the cookie.
+     * @return true if the cookie is present.
+     */
     boolean hasCookie(String cookieName);
 
+    /**
+     * Get cookie value.
+     * @param cookieName name of the cookie.
+     * @return value of the cookie.
+     */
     String getCookieValue(String cookieName);
 
-    //TODO: Move other dump methods to dialog!!
-    //WebForm getForm();
 
     /**
      * Enable or disable Javascript support
@@ -99,10 +112,9 @@ public interface IJWebUnitDialog {
      *            name of the input element
      * @param paramValue
      *            parameter value to submit for the element.
+     * @deprecated use setTextField, checkCheckBox, ...
      */
     void setFormParameter(String paramName, String paramValue);
-
-    void updateFormParameter(String paramName, String paramValue);
 
     /**
      * Return the current value of a form input element.
@@ -111,18 +123,6 @@ public interface IJWebUnitDialog {
      *            name of the input element.
      */
     String getFormParameterValue(String paramName);
-
-    /**
-     * Specify that no parameter value should be submitted for a given input element. Typically used to uncheck check
-     * boxes.
-     * 
-     * @param paramName
-     *            name of the input element.
-     */
-    void removeFormParameter(String paramName);
-
-    void removeFormParameterWithValue(String paramName,
-            String value);
 
     /**
      * Return true if a form parameter (input element) is present on the current response preceded by a given label.
@@ -145,6 +145,16 @@ public interface IJWebUnitDialog {
     boolean hasSubmitButton(String buttonName);
 
     boolean hasSubmitButton(String buttonName, String buttonValue);
+    
+    /**
+     * Fill a text or password field with the provided value.
+     * 
+     * @param inputName
+     *            name of the text or password input element
+     * @param textOrPasswd
+     *            value to type in the field.
+     */
+    void setTextField(String inputName, String textOrPasswd);
 
     /**
      * Checks if a button with <code>text</code> is present.
@@ -248,15 +258,10 @@ public interface IJWebUnitDialog {
     void submit(String buttonName, String buttonValue);
 
     /**
-     * Reset the Dialog for the next test.  This is not reset Form.
-     */
-    void reset() throws TestingEngineResponseException;
-
-    /**
      * Reset the current form. See {@link #getForm}for an explanation of how
      * the current form is established.
      */
-    void resetForm();
+    void reset();
     
     /**
      * Return true if a link is present in the current response containing the specified text (note that HttpUnit uses

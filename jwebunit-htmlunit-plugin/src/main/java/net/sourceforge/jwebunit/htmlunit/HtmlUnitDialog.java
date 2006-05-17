@@ -8,7 +8,6 @@ package net.sourceforge.jwebunit.htmlunit;
 
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.HttpState;
-import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -30,6 +29,7 @@ import net.sourceforge.jwebunit.util.ExceptionUtility;
 import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.TextPage;
@@ -70,20 +70,32 @@ import com.gargoylesoftware.htmlunit.xml.XmlPage;
  */
 public class HtmlUnitDialog implements IJWebUnitDialog {
     /**
-     * Logger for this class
+     * Logger for this class.
      */
-    private static final Logger logger = Logger.getLogger(HtmlUnitDialog.class);
+    private static final Logger LOGGER = Logger.getLogger(HtmlUnitDialog.class);
 
+    /**
+     * Encapsulate browser abilities.
+     */
     private WebClient wc;
 
+    /**
+     * The currently selected window.
+     */
     private WebWindow win;
 
+    /**
+     * A ref to the test context.
+     */
     private TestContext testContext;
 
+    /**
+     * The currently selected form.
+     */
     private HtmlForm form;
 
     /**
-     * Is Javascript enabled
+     * Is Javascript enabled.
      */
     private boolean jsEnabled = true;
 
@@ -116,6 +128,15 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#reset()
+     */
+    public void resetDialog() throws TestingEngineResponseException {
+        // Nothing to do
+    }
+
     public void gotoPage(String initialURL)
             throws TestingEngineResponseException {
         try {
@@ -135,7 +156,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     private void initWebClient() {
-        wc = new WebClient();
+        wc = new WebClient(new BrowserVersion("htmlunit","1.8",testContext.getUserAgent(),"1.2",6));
         wc.setJavaScriptEnabled(jsEnabled);
         wc.addWebWindowListener(new WebWindowListener() {
             public void webWindowClosed(WebWindowEvent event) {
@@ -145,7 +166,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 }
                 String win = event.getWebWindow().getName();
                 Page oldPage = event.getOldPage();
-                logger.info("Window " + win + " closed : "
+                LOGGER.info("Window " + win + " closed : "
                         + ((HtmlPage) oldPage).getTitleText());
             }
 
@@ -159,7 +180,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 String newPageTitle = "non_html";
                 if (newPage instanceof HtmlPage)
                     newPageTitle = ((HtmlPage) newPage).getTitleText();
-                logger.info("Window " + win + " changed : " + oldPageTitle
+                LOGGER.info("Window " + win + " changed : " + oldPageTitle
                         + " became " + newPageTitle);
             }
 
@@ -167,7 +188,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 String win = event.getWebWindow().getName();
                 Page newPage = event.getNewPage();
                 if (newPage != null) {
-                    logger.info("Window " + win + " closed : "
+                    LOGGER.info("Window " + win + " closed : "
                             + ((HtmlPage) newPage).getTitleText());
                 }
             }
@@ -460,7 +481,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param paramValue
      *            parameter value to submit for the element.
      */
-    public void setFormTextOrPassword(String fieldName, String paramValue) {
+    public void setTextField(String fieldName, String paramValue) {
         checkFormStateWithInput(fieldName);
         getForm().getInputByName(fieldName).setValueAttribute(paramValue);
     }
@@ -610,11 +631,9 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *            string to check for.
      */
     public boolean isTextInResponse(String text) {
-        return (getTestContext().toEncodedString(
-                win.getEnclosedPage().getWebResponse().getContentAsString())
-                .indexOf(text) >= 0);
+        return getPageText().indexOf(text) >= 0;
     }
-
+    
     /**
      * Return true if given regexp has a match anywhere in the current response.
      * 
@@ -811,7 +830,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * Reset the current form. See {@link #getForm}for an explanation of how
      * the current form is established.
      */
-    public void resetForm() {
+    public void reset() {
         getForm().reset();
     }
 
@@ -1524,7 +1543,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getFormElementValueBeforeLabel(java.lang.String)
      */
     public String getFormElementValueBeforeLabel(String formElementLabel) {
-        throw new UnsupportedOperationException("getFormElementValueBeforeLabel");
+        throw new UnsupportedOperationException(
+                "getFormElementValueBeforeLabel");
     }
 
     /*
@@ -1556,17 +1576,16 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * 
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getResponsePageTitle()
      */
-    public String getResponsePageTitle() {
+    public String getPageTitle() {
         return getCurrentPageTitle();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getResponseText()
-     */
-    public String getResponseText() {
+    public String getPageHtml() {
         return getCurrentPage().getWebResponse().getContentAsString();
+    }
+
+    public String getPageText() {
+        return ((HtmlPage)getCurrentPage()).asText();
     }
 
     /*
@@ -1679,7 +1698,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *      java.lang.String)
      */
     public void setFormParameter(String paramName, String paramValue) {
-        setFormTextOrPassword(paramName, paramValue);
+        setTextField(paramName, paramValue);
     }
 
     /*
@@ -1711,15 +1730,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      */
     public void updateFormParameter(String paramName, String paramValue) {
         throw new UnsupportedOperationException("updateFormParameter");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#reset()
-     */
-    public void reset() throws TestingEngineResponseException {
-        // Nothing to do
     }
 
     /*

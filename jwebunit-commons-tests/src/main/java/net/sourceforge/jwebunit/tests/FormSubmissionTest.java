@@ -27,13 +27,13 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 
 	public void testSetInputField() {
 		beginAt("/SingleNamedButtonForm.html");
-		setFormElement("color", "blue");
+		setTextField("color", "blue");
 		submit("button");
         assertTextPresent("Submitted parameters");
         //dumpResponse(System.out);
 		assertTextPresent("Params are: color=blue");
 		clickLink("return");
-		setFormElement("color", "red");
+        setTextField("color", "red");
 		submit();
 		assertTextPresent("Params are: color=red");
 	}
@@ -41,7 +41,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 	public void testCheckBoxSelection() {
 		beginAt("/SingleNamedButtonForm.html");
 		checkCheckbox("checkBox");
-		setFormElement("color", "blue");
+        setTextField("color", "blue");
 		submit();
 		assertTextPresent("Params are: color=blue checkBox=on");
 	}
@@ -68,7 +68,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		beginAt("/SingleNamedButtonForm.html");
 		checkCheckbox("checkBox");
         assertFormElementEquals("checkBox", "on");
-		setFormElement("color", "blue");
+        setTextField("color", "blue");
 		uncheckCheckbox("checkBox");
 		submit();
 		assertTextPresent("Params are: color=blue ");
@@ -76,14 +76,14 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 
 	public void testSingleFormSingleUnnamedButtonSubmission() {
 		beginAt("/SingleUnnamedButtonForm.html");
-        setFormElement("color", "blue");
+        setTextField("color", "blue");
 		submit();
 		assertTextPresent(" color=blue ");
 	}
 
 	public void testSingleNamedButtonSubmission() {
 		beginAt("/SingleNamedButtonForm.html");
-		setFormElement("color", "red");
+        setTextField("color", "red");
 		submit();
 		assertTextPresent("Params are: color=red");
 	}
@@ -100,7 +100,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 	public void testBogusParameter() {
 		gotoMultiButtonPage();
 		try {
-			setFormElement("nonexistent", "anyvalue");
+            setTextField("nonexistent", "anyvalue");
 		} catch (AssertionFailedError e) {
 			return;
 		}
@@ -109,9 +109,9 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 
 	public void testParamSetOnMultiForm() {
 		beginAt("/MultiFormPage.html");
-		setFormElement("param1", "anyvalue");
+        setTextField("param1", "anyvalue");
 		setWorkingForm("form2");
-		setFormElement("param2", "anyvalue");
+        setTextField("param2", "anyvalue");
 		submit("button2a");
 		assertTextPresent("param2=anyvalue");
 	}
@@ -134,28 +134,27 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 
 	public void testUnnamedSubmitOnSpecificForm() {
 		beginAt("/MultiFormPage.html");
-		setFormElement("param4", "anyvalue");
+        setTextField("param4", "anyvalue");
 		submit();
 		assertTextPresent("param4=anyvalue");
 	}
 
 	public void testNamedSubmitOnSpecificForm() {
 		beginAt("/MultiFormPage.html");
-		setFormElement("param2", "anyvalue");
+        setTextField("param2", "anyvalue");
 		submit("button2b");
 		assertTextPresent(" param2=anyvalue ");
         assertTextPresent(" button2b=b2b ");
 	}
 
-    //TODO Test Reset without using getResponse
-//	public void testSubmissionReset() {
-//		beginAt("/MultiFormPage.html");
-//		setFormElement("param2", "anyvalue");
-//		WebResponse oldResp = getDialog().getResponse();
-//		submit("button2b");
-//		assertFalse(getDialog().hasForm());
-//		assertTrue(getDialog().getResponse() != oldResp);
-//	}
+	public void testSubmissionReset() {
+		beginAt("/MultiFormPage.html");
+        setTextField("param2", "anyvalue");
+        reset();
+		submit("button2b");
+        assertTextNotPresent(" param2=anyvalue ");
+        assertTextPresent(" button2b=b2b ");
+	}
 
 	public void testSelectOption() {
 		beginAt("/MultiFormPage.html");

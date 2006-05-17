@@ -33,6 +33,7 @@ public class JWebUnitTest extends TestSuite {
         suite.addTestSuite(TableAssertionsTest.class);
         suite.addTestSuite(ExpectedTableAssertionsTest.class);
         suite.addTestSuite(JavaScriptEventsTest.class);
+        suite.addTestSuite(JavaScriptTest.class);
         suite.addTestSuite(HelloWorldTest.class);
         suite.addTestSuite(ExpectedTableTest.class);
         suite.addTestSuite(HtmlParsingTest.class);

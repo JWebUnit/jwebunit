@@ -45,7 +45,7 @@ public class WebTestCase extends TestCase {
     	
     	//this resets the dialog / nulls out objects, etc.
     	//close IE from the JacobieDialog.
-    	reset();
+    	resetDialog();
     	
     	super.tearDown();
     }
@@ -99,6 +99,10 @@ public class WebTestCase extends TestCase {
 
     public void beginAt(String relativeURL) {
         getTester().beginAt(relativeURL);
+    }
+
+    public void resetDialog() {
+        getTester().resetDialog();
     }
 
     public String getMessage(String key) {
@@ -509,8 +513,17 @@ public class WebTestCase extends TestCase {
         getTester().setWorkingForm(nameOrId);
     }
 
+    /**
+     * @deprecated use setTextField or others methods
+     * @param formElementName
+     * @param value
+     */
     public void setFormElement(String formElementName, String value) {
         getTester().setFormElement(formElementName, value);
+    }
+    
+    public void setTextField(String textFieldName, String value) {
+        getTester().setTextField(textFieldName, value);
     }
 
     public void setFormElementWithLabel(String formElementLabel, String value) {
@@ -559,16 +572,12 @@ public class WebTestCase extends TestCase {
         getTester().submit(buttonName, buttonValue);
     }
 
-    public void reset() {
-        getTester().reset();
-    }
-
     /**
      * Reset the current form. See {@link #getForm}for an explanation of how
      * the current form is established.
      */
-    public void resetForm() {
-    	getTester().resetForm();
+    public void reset() {
+    	getTester().reset();
     }    
     
     public void clickLinkWithText(String linkText) {

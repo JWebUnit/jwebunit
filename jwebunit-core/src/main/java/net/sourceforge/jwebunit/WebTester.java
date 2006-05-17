@@ -97,7 +97,19 @@ public class WebTester {
 
 		return theIJWebUnitDialog;
 	}
-
+    
+    /**
+     * Reset the current Dialog
+     * @see resetForm to reset a form in the response.
+     */
+    public void resetDialog() {
+        try {
+            getDialog().resetDialog();
+        } catch (TestingEngineResponseException aTestingEngineResponseException) {
+            handleTestingEngineResponseException(aTestingEngineResponseException);
+        }
+    }
+    
 	public void setDialog(IJWebUnitDialog aIJWebUnitDialog) {
 		dialog = aIJWebUnitDialog;
 	}
@@ -180,7 +192,7 @@ public class WebTester {
 	 *            expected title value
 	 */
 	public void assertTitleEquals(String title) {
-		Assert.assertEquals(title, getDialog().getResponsePageTitle());
+		Assert.assertEquals(title, getDialog().getPageTitle());
 	}
 
     /**
@@ -198,7 +210,7 @@ public class WebTester {
             Assert.fail(e.toString());
         }
         Assert.assertTrue("Unable to match [" + regexp + "] in title",
-                          re.match(getDialog().getResponsePageTitle()));
+                          re.match(getDialog().getPageTitle()));
     }
 
 	/**
@@ -210,7 +222,7 @@ public class WebTester {
 	 */
 	public void assertTitleEqualsKey(String titleKey) {
 		Assert.assertEquals(getMessage(titleKey), getDialog()
-				.getResponsePageTitle());
+				.getPageTitle());
 	}
 
 	/**
@@ -1408,12 +1420,26 @@ public class WebTester {
 	 * @param formElementName
 	 *            name of form element.
 	 * @param value
+     * @deprecated use setTextField or other methods
 	 */
 	public void setFormElement(String formElementName, String value) {
 		assertFormPresent();
 		assertFormElementPresent(formElementName);
 		getDialog().setFormParameter(formElementName, value);
 	}
+    
+    /**
+     * Set the value of a text or password input field.
+     * 
+     * @param inputName
+     *            name of form element.
+     * @param value value to set.
+     */
+    public void setTextField(String inputName, String value) {
+        assertFormPresent();
+        assertFormElementPresent(inputName);
+        getDialog().setTextField(inputName, value);
+    }
 
 	/**
 	 * Set the value of a form input element. The element is identified by a
@@ -1549,24 +1575,12 @@ public class WebTester {
 		getDialog().submit(buttonName, buttonValue);
 	}
 
-	/**
-	 * Reset the current Dialog
-	 * @see resetForm to reset a form in the response.
-	 */
-	public void reset() {
-		try {
-			getDialog().reset();
-		} catch (TestingEngineResponseException aTestingEngineResponseException) {
-			handleTestingEngineResponseException(aTestingEngineResponseException);
-		}
-	}
-	
     /**
      * Reset the current form. See {@link #getForm}for an explanation of how
      * the current form is established.
      */
-    public void resetForm() {
-    	getDialog().resetForm();
+    public void reset() {
+    	getDialog().reset();
     }    
     
 	

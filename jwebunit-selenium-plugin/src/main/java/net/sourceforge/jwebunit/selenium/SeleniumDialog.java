@@ -8,7 +8,7 @@ import java.io.PrintStream;
 
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
-import org.openqa.selenium.server.SeleniumServer;
+//import org.openqa.selenium.server.SeleniumServer;
 
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
@@ -31,7 +31,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     private DefaultSelenium selenium;
 
-    private static SeleniumServer server;
+   // private static SeleniumServer server;
     
     private static final int port = 4444;
 
@@ -40,15 +40,15 @@ public class SeleniumDialog implements IJWebUnitDialog {
     private String form = null;
 
     public SeleniumDialog() {
-        if (server == null) {
-            try {
-                server = new SeleniumServer(port);
-                server.start();
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
+//        if (server == null) {
+//            try {
+//                server = new SeleniumServer(port);
+//                server.start();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                throw new RuntimeException(e);
+//            }
+//        }
     }
 
     /**
@@ -198,7 +198,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
      * @param paramValue
      *            parameter value to submit for the element.
      */
-    public void setFormTextOrPassword(String fieldName, String paramValue) {
+    public void setTextField(String fieldName, String paramValue) {
         selenium.type(fieldName, paramValue);
     }
 
@@ -885,7 +885,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
      * 
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getResponsePageTitle()
      */
-    public String getResponsePageTitle() {
+    public String getPageTitle() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -895,7 +895,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
      * 
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getResponseText()
      */
-    public String getResponseText() {
+    public String getPageText() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -1055,9 +1055,9 @@ public class SeleniumDialog implements IJWebUnitDialog {
     /*
      * (non-Javadoc)
      * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#resetForm()
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#resetDialog()
      */
-    public void resetForm() {
+    public void resetDialog() {
         // TODO Auto-generated method stub
 
     }

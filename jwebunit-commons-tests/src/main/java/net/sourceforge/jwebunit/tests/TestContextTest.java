@@ -5,8 +5,6 @@
  */
 package net.sourceforge.jwebunit.tests;
 
-import junit.framework.TestCase;
-
 import javax.servlet.http.Cookie;
 
 import net.sourceforge.jwebunit.TestContext;
@@ -14,14 +12,15 @@ import net.sourceforge.jwebunit.TestContext;
 import java.util.List;
 import java.util.Locale;
 
-public class TestContextTest extends TestCase {
+public class TestContextTest extends JWebUnitAPITestCase {
     private TestContext context;
 
     public TestContextTest(String s) {
         super(s);
     }
 
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
+        super.setUp();
         context = new TestContext();
         context.setAuthorization("user", "pwd");
         context.addCookie("key", "val");
@@ -49,8 +48,13 @@ public class TestContextTest extends TestCase {
         assertEquals(name, context.getResourceBundleName());
     }
 
-    public void testBaseUrl() {
-
+    public void testUserAgent() {
+        getTestContext().setBaseUrl(HOST_PATH + "/TestContextTest");
+        String userAgent = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.3) Gecko/20060426 Firefox/1.5.0.3";
+        getTestContext().setUserAgent(userAgent);
+        beginAt("/testPage.html");
+        dumpResponse(System.out);
+        assertTextPresent("Browser user-agent: "+userAgent);
     }
 
 }
