@@ -31,19 +31,6 @@ public class JettySetup extends TestSetup {
      */
     private Server jettyServer = null;
     
-    private String key;
-
-    /**
-     * Constructor.
-     * 
-     * @param test
-     * @param key The name of the dialog that will be used
-     */
-    public JettySetup(Test test, String key) {
-        super(test);
-        this.key=key;
-    }
-
     /**
      * Constructor.
      * 
@@ -51,7 +38,6 @@ public class JettySetup extends TestSetup {
      */
     public JettySetup(Test test) {
         super(test);
-        this.key=TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT;
     }
 
     /**
@@ -77,7 +63,6 @@ public class JettySetup extends TestSetup {
             e.printStackTrace();
             fail("Could not start the Jetty server: " + e);
         }
-        JWebUnitAPITestCase.setDialogKey(key);
     }
 
     /**

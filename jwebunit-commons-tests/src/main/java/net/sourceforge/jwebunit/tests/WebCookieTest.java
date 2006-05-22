@@ -25,6 +25,6 @@ public class WebCookieTest extends JWebUnitAPITestCase {
     }
     
 	public void testAssertCookieDump() throws Throwable {
-		dumpCookies();
+		//dumpCookies();
 	}
 }

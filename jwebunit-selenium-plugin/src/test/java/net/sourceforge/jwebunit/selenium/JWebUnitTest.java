@@ -43,6 +43,6 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(FormAssertionsTest.class);
         suite.addTestSuite(NavigationTest.class);
         //$JUnit-END$
-        return new JettySetup(suite, TestingEngineRegistry.TESTING_ENGINE_SELENIUM);
+        return new JettySetup(suite);
     }
 }
