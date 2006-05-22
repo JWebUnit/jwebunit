@@ -30,7 +30,7 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(FormSubmissionTest.class);
         suite.addTestSuite(WebAssertionsTest.class);
         suite.addTestSuite(FramesAndWindowsTest.class);
-        suite.addTestSuite(FormSubmissionCheckboxesTest.class);
+        //suite.addTestSuite(FormSubmissionCheckboxesTest.class); (**Label fonctions are not supported by HtmlUnit)
         suite.addTestSuite(TableAssertionsTest.class);
         suite.addTestSuite(ExpectedTableAssertionsTest.class);
         suite.addTestSuite(JavaScriptEventsTest.class);

@@ -1,5 +1,7 @@
 ** Global **
  - Add log4j support and log each function
+ - Find a way for each dialog to report its presence to the Dialog Registry
+ - Use only available dialog if present (currently, HttpUnit is used by default, even if not present)
 
 ** HtmlUnitDialog **
  - Add **ForLabel functions (I don't know how to do this)
@@ -11,5 +13,4 @@
  - Find an easy way to cope with jacob.dll
  
 ** Website **
- - Correct dead links (a few are due to Maven bug)
  - Add documentation

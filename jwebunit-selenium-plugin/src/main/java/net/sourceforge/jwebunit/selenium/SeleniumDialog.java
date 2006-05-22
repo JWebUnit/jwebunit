@@ -1105,4 +1105,172 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     }
 
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#closeBrowser()
+     */
+    public void closeBrowser() throws TestingEngineResponseException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#closeWindow()
+     */
+    public void closeWindow() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getCookies()
+     */
+    public String[][] getCookies() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getPageSource()
+     */
+    public String getPageSource() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSelectedOptions(java.lang.String)
+     */
+    public String[] getSelectedOptions(String selectName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getServerResponse()
+     */
+    public String getServerResponse() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSparseTable(java.lang.String)
+     */
+    public String[][] getSparseTable(String tableSummaryNameOrId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getTable(java.lang.String)
+     */
+    public String[][] getTable(String tableSummaryNameOrId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#goBack()
+     */
+    public void goBack() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasElement(java.lang.String)
+     */
+    public boolean hasElement(String anID) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasFrame(java.lang.String)
+     */
+    public boolean hasFrame(String frameName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasLink(java.lang.String)
+     */
+    public boolean hasLink(String anId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasLinkWithExactText(java.lang.String, int)
+     */
+    public boolean hasLinkWithExactText(String linkText, int index) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasLinkWithImage(java.lang.String, int)
+     */
+    public boolean hasLinkWithImage(String imageFileName, int index) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasLinkWithText(java.lang.String, int)
+     */
+    public boolean hasLinkWithText(String linkText, int index) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasTable(java.lang.String)
+     */
+    public boolean hasTable(String tableSummaryNameOrId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasWindow(java.lang.String)
+     */
+    public boolean hasWindow(String windowName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasWindowByTitle(java.lang.String)
+     */
+    public boolean hasWindowByTitle(String title) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#refresh()
+     */
+    public void refresh() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#selectOptions(java.lang.String, java.lang.String[])
+     */
+    public void selectOptions(String selectName, String[] options) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#unselectOptions(java.lang.String, java.lang.String[])
+     */
+    public void unselectOptions(String selectName, String[] options) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

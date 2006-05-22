@@ -99,6 +99,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      */
     private boolean jsEnabled = true;
 
+    // Implementation of IJWebUnitDialog
+
     /**
      * Begin a dialog with an initial URL and test client context.
      * 
@@ -128,13 +130,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#reset()
-     */
-    public void resetDialog() throws TestingEngineResponseException {
-        // Nothing to do
+    public void closeBrowser() throws TestingEngineResponseException {
+        wc = null;
     }
 
     public void gotoPage(String initialURL)
@@ -155,8 +152,271 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
     }
 
+    public void goBack() {
+        // TODO Implement goBack in HtmlUnitDialog
+        throw new UnsupportedOperationException("goBack");
+    }
+
+    public void refresh() {
+        // TODO Implement refresh in HtmlUnitDialog
+        throw new UnsupportedOperationException("refresh");
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#setScriptingEnabled(boolean)
+     */
+    public void setScriptingEnabled(boolean value) {
+        // This variable is used to set Javascript before wc is instancied
+        jsEnabled = value;
+        if (wc != null) {
+            wc.setJavaScriptEnabled(value);
+        }
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasCookie(java.lang.String)
+     */
+    public boolean hasCookie(String cookieName) {
+        final HttpState stateForUrl = wc.getWebConnection().getState();
+        Cookie[] cookies = stateForUrl.getCookies();
+        for (int i = 0; i < cookies.length; i++) {
+            if (cookies[i].getName().equals(cookieName))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getCookieValue(java.lang.String)
+     */
+    public String getCookieValue(String cookieName) {
+        final HttpState stateForUrl = wc.getWebConnection().getState();
+        Cookie[] cookies = stateForUrl.getCookies();
+        for (int i = 0; i < cookies.length; i++) {
+            if (cookies[i].getName().equals(cookieName))
+                return cookies[i].getValue();
+        }
+        throw new RuntimeException("Cookie " + cookieName + " not found");
+    }
+
+    public String[][] getCookies() {
+        final HttpState stateForUrl = wc.getWebConnection().getState();
+        Cookie[] cookies = stateForUrl.getCookies();
+        String[][] result = new String[cookies.length][2];
+        for (int i = 0; i < cookies.length; i++) {
+            result[i][0] = cookies[i].getName();
+            result[i][1] = cookies[i].getValue();
+        }
+        return result;
+    }
+
+    public boolean hasWindow(String windowName) {
+        try {
+            getWindow(windowName);
+        } catch (WebWindowNotFoundException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean hasWindowByTitle(String title) {
+        return getWindowByTitle(title) != null;
+    }
+
+    /**
+     * Make the window with the given name in the current conversation active.
+     * 
+     * @param windowName
+     */
+    public void gotoWindow(String windowName) {
+        setMainWindow(getWindow(windowName));
+    }
+
+    /**
+     * Goto first window with the given title.
+     * 
+     * @param windowName
+     */
+    public void gotoWindowByTitle(String title) {
+        WebWindow window = getWindowByTitle(title);
+        if (window != null) {
+            setMainWindow(window);
+        }
+    }
+
+    public void closeWindow() {
+        // TODO Implement closeWindow in HtmlUnitDialog
+        throw new UnsupportedOperationException("closeWindow");
+    }
+
+    public boolean hasFrame(String frameName) {
+        return getFrame(frameName) != null;
+    }
+
+    /**
+     * Make the frame with the given name active in the current conversation.
+     * 
+     * @param frameName
+     */
+    public void gotoFrame(String frameName) {
+        win = getFrame(frameName);
+    }
+
+    /**
+     * Set the form on the current response that the client wishes to work with
+     * explicitly by either the form name or id (match by id is attempted
+     * first).
+     * 
+     * @param nameOrId
+     *            name or id of the form to be worked with.
+     */
+    public void setWorkingForm(String nameOrId) {
+        setWorkingForm(getForm(nameOrId));
+    }
+
+    /**
+     * Return true if the current response contains a form.
+     */
+    public boolean hasForm() {
+        return ((HtmlPage) win.getEnclosedPage()).getForms().size() > 0;
+    }
+
+    /**
+     * Return true if the current response contains a specific form.
+     * 
+     * @param nameOrID
+     *            name of id of the form to check for.
+     */
+    public boolean hasForm(String nameOrID) {
+        return getForm(nameOrID) != null;
+    }
+
+    public boolean hasFormParameterNamed(String paramName) {
+        if (hasFormSelectNamed(paramName))
+            return true;
+        return hasFormInputNamed(paramName);
+    }
+
+    /**
+     * Return the current value of a form input element. A special attention is
+     * given to checkboxes, as we want value of checked element
+     * 
+     * @param paramName
+     *            name of the input element.
+     */
+    public String getFormParameterValue(String paramName) {
+        checkFormStateWithInput(paramName);
+        HtmlRadioButtonInput rbtn = getForm().getCheckedRadioButton(paramName);
+        if (rbtn != null)
+            return rbtn.getValueAttribute();
+        try {
+            //TODO What should I return when it is a multi-select
+            return ((HtmlOption)getForm().getSelectByName(paramName).getSelectedOptions().get(0)).getValueAttribute();
+        } catch (ElementNotFoundException e) {
+
+        }
+        try {
+            return getForm().getInputByName(paramName).getValueAttribute();
+        } catch (ElementNotFoundException e) {
+
+        }
+        throw new RuntimeException("getFormParameterValue a échoué");
+    }
+
+    /**
+     * Set a form text or password element to the provided value.
+     * 
+     * @param fieldName
+     *            name of the input element
+     * @param paramValue
+     *            parameter value to submit for the element.
+     */
+    public void setTextField(String fieldName, String paramValue) {
+        checkFormStateWithInput(fieldName);
+        getForm().getInputByName(fieldName).setValueAttribute(paramValue);
+    }
+
+    /**
+     * Return a string array of select box option labels.
+     * 
+     * @param selectName
+     *            name of the select box.
+     */
+    public String[] getOptionsFor(String selectName) {
+        HtmlSelect sel = getForm().getSelectByName(selectName);
+        ArrayList result = new ArrayList();
+        List opts = sel.getOptions();
+        for (int i = 0; i < opts.size(); i++) {
+            HtmlOption opt = (HtmlOption) opts.get(i);
+            result.add(opt.asText());
+        }
+        return (String[]) result.toArray(new String[0]);
+    }
+
+    /**
+     * Return a string array of select box option values.
+     * 
+     * @param selectName
+     *            name of the select box.
+     */
+    public String[] getOptionValuesFor(String selectName) {
+        HtmlSelect sel = getForm().getSelectByName(selectName);
+        ArrayList result = new ArrayList();
+        List opts = sel.getOptions();
+        for (int i = 0; i < opts.size(); i++) {
+            HtmlOption opt = (HtmlOption) opts.get(i);
+            result.add(opt.getValueAttribute());
+        }
+        return (String[]) result.toArray(new String[0]);
+    }
+
+    public String[] getSelectedOptions(String selectName) {
+        HtmlSelect sel = getForm().getSelectByName(selectName);
+        List opts = sel.getSelectedOptions();
+        String[] result = new String[opts.size()];
+        for (int i = 0; i < result.length; i++)
+            result[i] = ((HtmlOption) opts.get(i)).asText();
+        return result;
+    }
+
+    /**
+     * Get the value for a given option of a select box.
+     * 
+     * @param selectName
+     *            name of the select box.
+     * @param option
+     *            label of the option.
+     */
+    public String getValueForOption(String selectName, String option) {
+        String[] opts = getOptionsFor(selectName);
+        for (int i = 0; i < opts.length; i++) {
+            if (opts[i].equals(option))
+                return getOptionValuesFor(selectName)[i];
+        }
+        throw new RuntimeException("Unable to find option " + option + " for "
+                + selectName);
+    }
+
+    public String getPageSource() {
+        return getCurrentPage().getWebResponse().getContentAsString();
+    }
+
+    public String getPageTitle() {
+        return getCurrentPageTitle();
+    }
+
+    public String getPageText() {
+        return ((HtmlPage) getCurrentPage()).asText();
+    }
+
+    public String getServerResponse() {
+        return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
+                .getContentAsString();
+    }
+
     private void initWebClient() {
-        wc = new WebClient(new BrowserVersion("htmlunit","1.8",testContext.getUserAgent(),"1.2",6));
+        wc = new WebClient(new BrowserVersion("htmlunit", "1.8", testContext
+                .getUserAgent(), "1.2", 6));
         wc.setJavaScriptEnabled(jsEnabled);
         wc.addWebWindowListener(new WebWindowListener() {
             public void webWindowClosed(WebWindowEvent event) {
@@ -180,28 +440,21 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 String newPageTitle = "non_html";
                 if (newPage instanceof HtmlPage)
                     newPageTitle = ((HtmlPage) newPage).getTitleText();
-                LOGGER.info("Window " + win + " changed : " + oldPageTitle
-                        + " became " + newPageTitle);
+                LOGGER.info("Window \"" + win + "\" changed : \"" + oldPageTitle
+                        + "\" became \"" + newPageTitle +"\"");
             }
 
             public void webWindowOpened(WebWindowEvent event) {
                 String win = event.getWebWindow().getName();
                 Page newPage = event.getNewPage();
                 if (newPage != null) {
-                    LOGGER.info("Window " + win + " closed : "
+                    LOGGER.info("Window " + win + " openend : "
                             + ((HtmlPage) newPage).getTitleText());
+                } else {
+                    LOGGER.info("Window " + win + " openend");
                 }
             }
         });
-    }
-
-    public boolean isWindowExists(String windowName) {
-        try {
-            getWindow(windowName);
-        } catch (WebWindowNotFoundException e) {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -213,11 +466,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return wc.getWebWindowByName(windowName);
     }
 
-    public boolean isWindowByTitleExists(String title) {
-        return getWindowByTitle(title) != null;
-    }
-
-    public boolean isElementPresent(String anID) {
+    public boolean hasElement(String anID) {
         return getElement(anID) != null;
     }
 
@@ -406,39 +655,10 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
     }
 
-    /**
-     * Set the form on the current response that the client wishes to work with
-     * explicitly by either the form name or id (match by id is attempted
-     * first).
-     * 
-     * @param nameOrId
-     *            name or id of the form to be worked with.
-     */
-    public void setWorkingForm(String nameOrId) {
-        setWorkingForm(getForm(nameOrId));
-    }
-
     private void setWorkingForm(HtmlForm newForm) {
         if (newForm == null)
             throw new UnableToSetFormException("Attempted to set form to null.");
         form = newForm;
-    }
-
-    /**
-     * Return true if the current response contains a form.
-     */
-    public boolean hasForm() {
-        return ((HtmlPage) win.getEnclosedPage()).getForms().size() > 0;
-    }
-
-    /**
-     * Return true if the current response contains a specific form.
-     * 
-     * @param nameOrID
-     *            name of id of the form to check for.
-     */
-    public boolean hasForm(String nameOrID) {
-        return getForm(nameOrID) != null;
     }
 
     /**
@@ -471,39 +691,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      */
     public boolean hasFormButtonNamed(String buttonName) {
         return (getFormWithButton(buttonName) != null);
-    }
-
-    /**
-     * Set a form text or password element to the provided value.
-     * 
-     * @param fieldName
-     *            name of the input element
-     * @param paramValue
-     *            parameter value to submit for the element.
-     */
-    public void setTextField(String fieldName, String paramValue) {
-        checkFormStateWithInput(fieldName);
-        getForm().getInputByName(fieldName).setValueAttribute(paramValue);
-    }
-
-    /**
-     * Return the current value of a form input element. A special attention is
-     * given to checkboxes, as we want value of checked element
-     * 
-     * @param paramName
-     *            name of the input element.
-     */
-    public String getFormInputValue(String paramName) {
-        checkFormStateWithInput(paramName);
-        HtmlRadioButtonInput rbtn = getForm().getCheckedRadioButton(paramName);
-        if (rbtn != null)
-            return rbtn.getValueAttribute();
-        try {
-            return getForm().getInputByName(paramName).getValueAttribute();
-        } catch (ElementNotFoundException e) {
-
-        }
-        throw new RuntimeException("getFormParameterValue a échoué");
     }
 
     /**
@@ -624,28 +811,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
     }
 
-    /**
-     * Return true if given text is present anywhere in the current response.
-     * 
-     * @param text
-     *            string to check for.
-     */
-    public boolean isTextInResponse(String text) {
-        return getPageText().indexOf(text) >= 0;
-    }
-    
-    /**
-     * Return true if given regexp has a match anywhere in the current response.
-     * 
-     * @param regexp
-     *            regexp to match.
-     */
-    public boolean isMatchInResponse(String regexp) {
-        RE re = getRE(regexp);
-        return re.match(getTestContext().toEncodedString(
-                win.getEnclosedPage().getWebResponse().getContentAsString()));
-    }
-
     public boolean isCheckboxSelected(String checkBoxName) {
         HtmlCheckBoxInput cb = (HtmlCheckBoxInput) getForm().getInputByName(
                 checkBoxName);
@@ -668,7 +833,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *            expected text to check for.
      */
     public boolean isTextInTable(String tableSummaryOrId, String text) {
-        HtmlTable table = getWebTableBySummaryOrId(tableSummaryOrId);
+        HtmlTable table = getHtmlTable(tableSummaryOrId);
         if (table == null) {
             throw new RuntimeException("No table with summary or id ["
                     + tableSummaryOrId + "] found in response.");
@@ -686,38 +851,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return false;
     }
 
-    /**
-     * Return true if given regexp has a match in a specified table of the
-     * response.
-     * 
-     * @param tableSummaryOrId
-     *            table summary or id to inspect for expected text.
-     * @param regexp
-     *            regexp to match.
-     */
-    public boolean isMatchInTable(String tableSummaryOrId, String regexp) {
-        HtmlTable table = getWebTableBySummaryOrId(tableSummaryOrId);
-        if (table == null) {
-            throw new RuntimeException("No table with summary or id ["
-                    + tableSummaryOrId + "] found in response.");
-        }
-        RE re = getRE(regexp);
-        for (int row = 0; row < table.getRowCount(); row++) {
-            for (int col = 0; table.getCellAt(row, col) != null; col++) {
-                HtmlTableCell cell = table.getCellAt(row, col);
-                if (cell != null) {
-                    String cellHtml = cell.asText();
-                    if (re.match(cellHtml)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    public String[][] getTableBySummaryOrIdAsText(String tableSummaryOrId) {
-        HtmlTable table = getWebTableBySummaryOrId(tableSummaryOrId);
+    public String[][] getTable(String tableSummaryOrId) {
+        HtmlTable table = getHtmlTable(tableSummaryOrId);
         int size = getTableColCount(table);
         String[][] result = new String[table.getRowCount()][size];
         for (int i = 0; i < table.getRowCount(); i++) {
@@ -746,7 +881,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param tableSummaryOrId
      *            summary or id of the table to return.
      */
-    public HtmlTable getWebTableBySummaryOrId(String tableSummaryOrId) {
+    public HtmlTable getHtmlTable(String tableSummaryOrId) {
         try {
             return (HtmlTable) ((HtmlPage) win.getEnclosedPage())
                     .getHtmlElementById(tableSummaryOrId);
@@ -763,8 +898,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return null;
     }
 
-    public boolean isTableBySummaryOrIdExists(String tableSummaryOrId) {
-        HtmlTable table = getWebTableBySummaryOrId(tableSummaryOrId);
+    public boolean hasTable(String tableSummaryOrId) {
+        HtmlTable table = getHtmlTable(tableSummaryOrId);
         return (table != null);
     }
 
@@ -775,7 +910,12 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      */
     public void submit() {
         try {
-            getForm().submit();
+            Object[] inpt = getForm().getHtmlElementsByTagName("input").toArray();
+            for (int i=0; i<inpt.length; i++) {
+                if (inpt[i] instanceof HtmlSubmitInput) {
+                    ((HtmlSubmitInput) inpt[i]).click();
+                }
+            }            
         } catch (IOException e) {
             throw new RuntimeException(
                     "HtmlUnit Error submitting form using default submit button, "
@@ -843,7 +983,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param linkText
      *            text to check for in links on the response.
      */
-    public boolean isLinkPresentWithText(String linkText) {
+    public boolean hasLinkWithText(String linkText) {
         return getLinkWithText(linkText) != null;
     }
 
@@ -859,24 +999,11 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *            The 0-based index, when more than one link with the same text
      *            is expected.
      */
-    public boolean isLinkPresentWithText(String linkText, int index) {
+    public boolean hasLinkWithText(String linkText, int index) {
         return getLinkWithText(linkText, index) != null;
     }
 
-    /**
-     * Return true if a link is present with a given image based on filename of
-     * image.
-     * 
-     * @param imageFileName
-     *            A suffix of the image's filename; for example, to match
-     *            <tt>"images/my_icon.png"<tt>, you could just pass in
-     *                      <tt>"my_icon.png"<tt>.
-     */
-    public boolean isLinkPresentWithImage(String imageFileName) {
-        return getLinkWithImage(imageFileName, 0) != null;
-    }
-
-    public boolean isLinkPresentWithImage(String imageFileName, int index) {
+    public boolean hasLinkWithImage(String imageFileName, int index) {
         return getLinkWithImage(imageFileName, index) != null;
     }
 
@@ -887,7 +1014,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param anId
      *            link id to check for.
      */
-    public boolean isLinkPresent(String anId) {
+    public boolean hasLink(String anId) {
         try {
             ((HtmlPage) win.getEnclosedPage()).getHtmlElementById(anId);
         } catch (ElementNotFoundException e) {
@@ -897,17 +1024,10 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     /*
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isLinkPresentWithText(java.lang.String)
-     */
-    public boolean isLinkPresentWithExactText(String linkText) {
-        throw new UnsupportedOperationException("isLinkPresentWithText");
-    }
-
-    /*
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#isLinkPresentWithText(java.lang.String,
      *      int)
      */
-    public boolean isLinkPresentWithExactText(String linkText, int index) {
+    public boolean hasLinkWithExactText(String linkText, int index) {
         throw new UnsupportedOperationException("isLinkPresentWithText");
     }
 
@@ -1137,70 +1257,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Return a string array of select box option labels.
-     * 
-     * @param selectName
-     *            name of the select box.
-     */
-    public String[] getOptionsFor(String selectName) {
-        HtmlSelect sel = getForm().getSelectByName(selectName);
-        ArrayList result = new ArrayList();
-        List opts = sel.getOptions();
-        for (int i = 0; i < opts.size(); i++) {
-            HtmlOption opt = (HtmlOption) opts.get(i);
-            result.add(opt.asText());
-        }
-        return (String[]) result.toArray(new String[0]);
-    }
-
-    /**
-     * Return a string array of select box option values.
-     * 
-     * @param selectName
-     *            name of the select box.
-     */
-    public String[] getOptionValuesFor(String selectName) {
-        HtmlSelect sel = getForm().getSelectByName(selectName);
-        ArrayList result = new ArrayList();
-        List opts = sel.getOptions();
-        for (int i = 0; i < opts.size(); i++) {
-            HtmlOption opt = (HtmlOption) opts.get(i);
-            result.add(opt.getValueAttribute());
-        }
-        return (String[]) result.toArray(new String[0]);
-    }
-
-    /**
-     * Return the label of the currently selected item in a select box.
-     * 
-     * @param selectName
-     *            name of the select box.
-     */
-    public String getSelectedOption(String selectName) {
-        HtmlSelect sel = getForm().getSelectByName(selectName);
-        List opts = sel.getSelectedOptions();
-        return ((HtmlOption) opts.get(0)).asText();
-    }
-
-    /**
-     * Get the value for a given option of a select box.
-     * 
-     * @param selectName
-     *            name of the select box.
-     * @param option
-     *            label of the option.
-     */
-    public String getValueForOption(String selectName, String option) {
-        String[] opts = getOptionsFor(selectName);
-        for (int i = 0; i < opts.length; i++) {
-            if (opts[i].equals(option))
-                return getOptionValuesFor(selectName)[i];
-        }
-        throw new RuntimeException("Unable to find option " + option + " for "
-                + selectName);
-    }
-
-    /**
      * Return true if a select box contains the indicated option.
      * 
      * @param selectName
@@ -1235,25 +1291,46 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return false;
     }
 
-    /**
-     * Select an option of a select box by display label.
-     * 
-     * @param selectName
-     *            name of the select box.
-     * @param option
-     *            label of the option to select.
-     */
-    public void selectOption(String selectName, String option) {
+    public void selectOptions(String selectName, String[] options) {
         HtmlSelect sel = getForm().getSelectByName(selectName);
+        if (!sel.isMultipleSelectEnabled() && options.length > 1)
+            throw new RuntimeException("Multiselect not enabled");
         List l = sel.getOptions();
-        for (int i = 0; i < l.size(); i++) {
-            HtmlOption opt = (HtmlOption) l.get(i);
-            if (opt.asText().equals(option)) {
-                sel.setSelectedAttribute(opt, true);
-                return;
+        for (int j = 0; j < options.length; j++) {
+            boolean found = false;
+            for (int i = 0; i < l.size(); i++) {
+                HtmlOption opt = (HtmlOption) l.get(i);
+                if (opt.asText().equals(options[j])) {
+                    sel.setSelectedAttribute(opt, true);
+                    found = true;
+                    break;
+                }
             }
+            if (!found)
+                throw new RuntimeException("Option " + options[j]
+                        + " not found");
         }
-        throw new RuntimeException("Option label not found");
+    }
+
+    public void unselectOptions(String selectName, String[] options) {
+        HtmlSelect sel = getForm().getSelectByName(selectName);
+        if (!sel.isMultipleSelectEnabled() && options.length > 1)
+            throw new RuntimeException("Multiselect not enabled");
+        List l = sel.getOptions();
+        for (int j = 0; j < options.length; j++) {
+            boolean found = false;
+            for (int i = 0; i < l.size(); i++) {
+                HtmlOption opt = (HtmlOption) l.get(i);
+                if (opt.asText().equals(options[j])) {
+                    sel.setSelectedAttribute(opt, false);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+                throw new RuntimeException("Option " + options[j]
+                        + " not found");
+        }
     }
 
     /**
@@ -1311,27 +1388,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Make the window with the given name in the current conversation active.
-     * 
-     * @param windowName
-     */
-    public void gotoWindow(String windowName) {
-        setMainWindow(getWindow(windowName));
-    }
-
-    /**
-     * Goto first window with the given title.
-     * 
-     * @param windowName
-     */
-    public void gotoWindowByTitle(String title) {
-        WebWindow window = getWindowByTitle(title);
-        if (window != null) {
-            setMainWindow(window);
-        }
-    }
-
-    /**
      * Make the root window in the current conversation active.
      */
     public void gotoRootWindow() {
@@ -1344,24 +1400,11 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Make the frame with the given name active in the current conversation.
-     * 
-     * @param frameName
-     */
-    public void gotoFrame(String frameName) {
-        win = getFrame(frameName);
-    }
-
-    public boolean isFrameExists(String frameName) {
-        return getFrame(frameName) != null;
-    }
-
-    /**
      * Return the response for the given frame in the current conversation.
      * 
      * @param frameName
      */
-    public WebWindow getFrame(String frameName) {
+    private WebWindow getFrame(String frameName) {
         return ((HtmlPage) win.getEnclosedPage()).getFrameByName(frameName);
     }
 
@@ -1369,14 +1412,14 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param testContext
      *            The testContext to set.
      */
-    public void setTestContext(TestContext testContext) {
+    private void setTestContext(TestContext testContext) {
         this.testContext = testContext;
     }
 
     /**
      * @return Returns the testContext.
      */
-    public TestContext getTestContext() {
+    private TestContext getTestContext() {
         return testContext;
     }
 
@@ -1401,312 +1444,40 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithTextAfterText(java.lang.String,
-     *      java.lang.String)
-     */
     public void clickLinkWithTextAfterText(String linkText, String labelText) {
         throw new UnsupportedOperationException("clickLinkWithTextAfterText");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#constructNewDialog(java.lang.String,
-     *      net.sourceforge.jwebunit.TestContext)
-     */
-    public IJWebUnitDialog constructNewDialog(String url, TestContext context) {
-        return this;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpCookies(java.io.PrintStream)
-     */
-    public void dumpCookies(PrintStream stream) {
-        final HttpState stateForUrl = wc.getWebConnection().getState();
-        Cookie[] cookies = stateForUrl.getCookies();
-        for (int i = 0; i < cookies.length; i++) {
-            stream.println(cookies[i].toString());
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpResponse()
-     */
-    public void dumpResponse() {
-        dumpResponse(System.out);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpResponse(java.io.PrintStream)
-     */
-    public void dumpResponse(PrintStream stream) {
-        Page page = win.getEnclosedPage();
-        if (page instanceof HtmlPage) {
-            stream.println(((HtmlPage) page).asXml());
-        }
-        if (page instanceof XmlPage) {
-            stream.println(((XmlPage) page).getContent());
-        }
-        if (page instanceof TextPage) {
-            stream.println(((TextPage) page).getContent());
-        }
-        if (page instanceof UnexpectedPage) {
-            int data;
-            try {
-                InputStream in = ((UnexpectedPage) page).getInputStream();
-                while ((data = in.read()) > -1) {
-                    // Just print the data
-                    Character c = new Character((char) data);
-                    stream.print(c + "");
-                }
-                in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpTable(java.lang.String,
-     *      java.io.PrintStream)
-     */
-    public void dumpTable(String tableNameOrId, PrintStream stream) {
-        throw new UnsupportedOperationException("dumpTable");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpTable(java.lang.String,
-     *      java.lang.String[][], java.io.PrintStream)
-     */
-    public void dumpTable(String tableNameOrId, String[][] table,
-            PrintStream stream) {
-        throw new UnsupportedOperationException("dumpTable");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#dumpTable(java.lang.String,
-     *      java.lang.String[][])
-     */
-    public void dumpTable(String tableNameOrId, String[][] table) {
-        throw new UnsupportedOperationException("dumpTable");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getCookieValue(java.lang.String)
-     */
-    public String getCookieValue(String cookieName) {
-        throw new UnsupportedOperationException("getCookieValue");
-    }
-
-    private HtmlElement getHtmlElementForLabel(String formElementLabel) {
-        return getXPathElement("getHtmlElementForLabel");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getFormElementNameBeforeLabel(java.lang.String)
-     */
     public String getFormElementNameBeforeLabel(String formElementLabel) {
         throw new UnsupportedOperationException("getFormElementNameBeforeLabel");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getFormElementNameForLabel(java.lang.String)
-     */
     public String getFormElementNameForLabel(String formElementLabel) {
         throw new UnsupportedOperationException("getFormElementNameForLabel");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getFormElementValueBeforeLabel(java.lang.String)
-     */
     public String getFormElementValueBeforeLabel(String formElementLabel) {
         throw new UnsupportedOperationException(
                 "getFormElementValueBeforeLabel");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getFormElementValueForLabel(java.lang.String)
-     */
     public String getFormElementValueForLabel(String formElementLabel) {
         throw new UnsupportedOperationException("getFormElementValueForLabel");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getFormParameterValue(java.lang.String)
-     */
-    public String getFormParameterValue(String paramName) {
-        try {
-            return ((HtmlOption) getForm().getSelectByName(paramName)
-                    .getSelectedOptions().get(0)).getValueAttribute();
-        } catch (ElementNotFoundException e) {
-
-        }
-        return getFormInputValue(paramName);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getResponsePageTitle()
-     */
-    public String getPageTitle() {
-        return getCurrentPageTitle();
-    }
-
-    public String getPageHtml() {
-        return getCurrentPage().getWebResponse().getContentAsString();
-    }
-
-    public String getPageText() {
-        return ((HtmlPage)getCurrentPage()).asText();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSparseTableBySummaryOrId(java.lang.String)
-     */
-    public String[][] getSparseTableBySummaryOrId(String tableSummaryOrId) {
+    public String[][] getSparseTable(String tableSummaryOrId) {
+        // TODO Implement getSparseTable in HtmlUnitDialog
         throw new UnsupportedOperationException("getSparseTableBySummaryOrId");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getTableBySummaryOrId(java.lang.String)
-     */
-    public String[][] getTableBySummaryOrId(String tableSummaryOrId) {
-        return getTableBySummaryOrIdAsText(tableSummaryOrId);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasCookie(java.lang.String)
-     */
-    public boolean hasCookie(String cookieName) {
-        throw new UnsupportedOperationException("hasCookie");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasFormParameterLabeled(java.lang.String)
-     */
     public boolean hasFormParameterLabeled(String paramLabel) {
         throw new UnsupportedOperationException("hasFormParameterLabeled");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasFormParameterNamed(java.lang.String)
-     */
-    public boolean hasFormParameterNamed(String paramName) {
-        if (hasFormSelectNamed(paramName))
-            return true;
-        return hasFormInputNamed(paramName);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isFramePresent(java.lang.String)
-     */
-    public boolean isFramePresent(String frameName) {
-        return isFrameExists(frameName);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isWebTableBySummaryOrIdPresent(java.lang.String)
-     */
-    public boolean isWebTableBySummaryOrIdPresent(String tableSummaryOrId) {
-        return isTableBySummaryOrIdExists(tableSummaryOrId);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isWindowByTitlePresent(java.lang.String)
-     */
-    public boolean isWindowByTitlePresent(String title) {
-        return isWindowByTitleExists(title);
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isWindowPresent(java.lang.String)
-     */
-    public boolean isWindowPresent(String windowName) {
-        return isWindowExists(windowName);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#removeFormParameter(java.lang.String)
-     */
-    public void removeFormParameter(String paramName) {
-        throw new UnsupportedOperationException("removeFormParameter");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#removeFormParameterWithValue(java.lang.String,
-     *      java.lang.String)
-     */
-    public void removeFormParameterWithValue(String paramName, String value) {
-        throw new UnsupportedOperationException("removeFormParameterWithValue");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#setFormParameter(java.lang.String,
-     *      java.lang.String)
-     */
     public void setFormParameter(String paramName, String paramValue) {
         setTextField(paramName, paramValue);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#uncheckCheckbox(java.lang.String,
-     *      java.lang.String)
-     */
     public void uncheckCheckbox(String checkBoxName, String value) {
         List l = getForm().getInputsByName(checkBoxName);
         for (int i = 0; i < l.size(); i++) {
@@ -1719,29 +1490,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                     e.printStackTrace();
                     throw new RuntimeException("uncheckCheckbox failed :" + e);
                 }
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#updateFormParameter(java.lang.String,
-     *      java.lang.String)
-     */
-    public void updateFormParameter(String paramName, String paramValue) {
-        throw new UnsupportedOperationException("updateFormParameter");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#setScriptingEnabled(boolean)
-     */
-    public void setScriptingEnabled(boolean value) {
-        // This variable is used to set Javascript before wc is instancied
-        jsEnabled = value;
-        if (wc != null) {
-            wc.setJavaScriptEnabled(value);
         }
     }
 

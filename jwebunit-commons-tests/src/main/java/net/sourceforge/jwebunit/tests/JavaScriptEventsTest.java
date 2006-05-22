@@ -68,9 +68,7 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
         clickLink("linkNext");
         assertTitleEquals("Startpage");
         assertTextNotPresent("Here is the text we expect");
-        setScriptingEnabled(true);
 
-        setScriptingEnabled(false);
         beginAt("index.html");
         clickButton("next");
         assertTitleEquals("Startpage");
@@ -80,6 +78,7 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
         // and test that javascript is enabled for the next begin
         beginAt("index.html");
         clickLink("linkNext");
+        //dumpHtml();
         assertTitleEquals("Next page");
     }
 
@@ -94,7 +93,7 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
 	public void testOnChangeSetsWindowLocation() throws Exception {
 		beginAt("onchange.html");
 		assertTitleEquals("The Title");
-		selectOption("testSelect", "Value2");
+		selectOptions("testSelect", new String[] {"Value2"});
 		assertTitleEquals("Submitted parameters");
         assertTextPresent(" testSelect=V2 ");
 	}

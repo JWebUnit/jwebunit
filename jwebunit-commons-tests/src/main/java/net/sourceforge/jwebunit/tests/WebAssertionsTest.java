@@ -155,13 +155,13 @@ public class WebAssertionsTest extends JWebUnitAPITestCase {
     }
 
     public void testAssertOptionEquals() throws Throwable {
-        assertOptionEquals("testSelect", "Value1");
-        assertFail("assertOptionEquals", new Object[] {"testSelect", "AnotherValue"});
+        assertSelectedOptionEquals("testSelect", "Value1");
+        assertFail("assertSelectedOptionEquals", new Object[] {"testSelect", "AnotherValue"});
     }
 
     public void testAssertOptionMatch() throws Throwable {
-        assertOptionMatch("testSelect", "[Vv]alue1");
-        assertFail("assertOptionMatch", new Object[] {"testSelect", "Another[Vv]alue"});
+        assertSelectedOptionMatches("testSelect", "[Vv]alue1");
+        assertFail("assertSelectedOptionMatches", new Object[] {"testSelect", "Another[Vv]alue"});
     }
 
 

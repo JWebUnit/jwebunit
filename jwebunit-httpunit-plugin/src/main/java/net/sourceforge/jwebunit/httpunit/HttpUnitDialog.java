@@ -5,7 +5,6 @@
 package net.sourceforge.jwebunit.httpunit;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,89 +47,101 @@ import com.meterware.httpunit.WebWindow;
 import com.meterware.httpunit.cookies.CookieJar;
 
 /**
- * Acts as the wrapper for HttpUnit access. A dialog is initialized with a given URL, and maintains conversational
- * state as the dialog progresses through link navigation, form submission, etc. Public access is provided for
- * wrappered HttpUnit objects.
+ * Acts as the wrapper for HttpUnit access. A dialog is initialized with a given
+ * URL, and maintains conversational state as the dialog progresses through link
+ * navigation, form submission, etc. Public access is provided for wrappered
+ * HttpUnit objects.
  * 
  * @author Jim Weaver
  * @author Wilkes Joiner
  */
 public class HttpUnitDialog implements IJWebUnitDialog {
-	
-	private WebClient wc;
-	private WebResponse resp;
-	private TestContext testContext;
-	private WebForm form;
-	private Map multiselectMap = new HashMap();
 
-	/**
-	 * Constructor for creating a default testing engine for jWebUnit.
-	 * If the dialog is not specified then jWebUnit will default to using httpunit.
-	 */
-	public HttpUnitDialog() {
-	    super();
-	}
-	
-	/**
-	 * Begin a dialog with an initial URL and test client context.
-	 * 
-	 * @param initialURL
-	 *            absolute url at which to begin dialog.
-	 * @param context
-	 *            contains context information for the test client.
-	 * @throws TestingEngineResponseException
-	 */
-	public void beginAt(String initialURL, TestContext context) throws TestingEngineResponseException{
-		this.setTestContext(context);
-		initWebClient();
-		try {
-			resp = wc.getResponse(new GetMethodWebRequest(initialURL));
-		} catch (HttpNotFoundException aException) {
-			//cant find requested page.  most browsers will return a page with 404 in the body or title.
-            throw new TestingEngineResponseException(ExceptionUtility.stackTraceToString(aException));
-			
-		} catch (Exception aException) {
-			throw new RuntimeException(ExceptionUtility.stackTraceToString(aException));
-		}
-	}
+    private WebClient wc;
 
-	private void initWebClient() {
-		wc = new WebConversation();
-        
+    private WebResponse resp;
+
+    private TestContext testContext;
+
+    private WebForm form;
+
+    private Map multiselectMap = new HashMap();
+
+    /**
+     * Constructor for creating a default testing engine for jWebUnit. If the
+     * dialog is not specified then jWebUnit will default to using httpunit.
+     */
+    public HttpUnitDialog() {
+        super();
+    }
+
+    /**
+     * Begin a dialog with an initial URL and test client context.
+     * 
+     * @param initialURL
+     *            absolute url at which to begin dialog.
+     * @param context
+     *            contains context information for the test client.
+     * @throws TestingEngineResponseException
+     */
+    public void beginAt(String initialURL, TestContext context)
+            throws TestingEngineResponseException {
+        this.setTestContext(context);
+        initWebClient();
+        try {
+            resp = wc.getResponse(new GetMethodWebRequest(initialURL));
+        } catch (HttpNotFoundException aException) {
+            // cant find requested page. most browsers will return a page with
+            // 404 in the body or title.
+            throw new TestingEngineResponseException(ExceptionUtility
+                    .stackTraceToString(aException));
+
+        } catch (Exception aException) {
+            throw new RuntimeException(ExceptionUtility
+                    .stackTraceToString(aException));
+        }
+    }
+
+    private void initWebClient() {
+        wc = new WebConversation();
+
         wc.getClientProperties().setUserAgent(testContext.getUserAgent());
 
-		wc.addClientListener(new WebClientListener() {
-			public void requestSent(WebClient webClient, WebRequest webRequest) {
-			}
+        wc.addClientListener(new WebClientListener() {
+            public void requestSent(WebClient webClient, WebRequest webRequest) {
+            }
 
-            public void responseReceived(WebClient webClient, WebResponse webResponse) {
-				resp = webClient.getCurrentPage();
+            public void responseReceived(WebClient webClient,
+                    WebResponse webResponse) {
+                resp = webClient.getCurrentPage();
                 form = null;
                 multiselectMap.clear();
             }
         });
     }
-	/**
-	 * Return the window with the given name in the current conversation.
-	 * 
-	 * @param windowName
-	 */
-	public WebWindow getWindow(String windowName) {
-		return wc.getOpenWindow(windowName);
-	}
-	/**
-	 * Return the HttpUnit WebClient object for this dialog.
-	 */
-	public WebClient getWebClient() {
-		return wc;
-	}
 
-	/**
-	 * Return the HttpUnit object which represents the current response.
-	 */
-	public WebResponse getResponse() {
-		return resp;
-	}
+    /**
+     * Return the window with the given name in the current conversation.
+     * 
+     * @param windowName
+     */
+    public WebWindow getWindow(String windowName) {
+        return wc.getOpenWindow(windowName);
+    }
+
+    /**
+     * Return the HttpUnit WebClient object for this dialog.
+     */
+    public WebClient getWebClient() {
+        return wc;
+    }
+
+    /**
+     * Return the HttpUnit object which represents the current response.
+     */
+    public WebResponse getResponse() {
+        return resp;
+    }
 
     /**
      * Return the first open window with the given title.
@@ -140,8 +151,10 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         for (int i = 0; i < webWindows.length; i++) {
             WebWindow window = webWindows[i];
             try {
-                if (getTestContext().toEncodedString(window.getCurrentPage().getTitle())
-                        .equals(title)) { return window; }
+                if (getTestContext().toEncodedString(
+                        window.getCurrentPage().getTitle()).equals(title)) {
+                    return window;
+                }
             } catch (SAXException e) {
                 throw new RuntimeException(ExceptionUtility
                         .stackTraceToString(e));
@@ -150,15 +163,17 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         return null;
     }
 
-    /**
-     * Return the string representation of the current response, encoded as
-     * specified by the current {@link net.sourceforge.jwebunit.TestContext}.
-     */
     public String getPageText() {
+        // TODO Implement correctly getPageText() in HttpUnitDialog (currently,
+        // it returns page source)
+        return getPageSource();
+    }
+
+    public String getPageSource() {
         try {
-            return getTestContext().toEncodedString(resp.getText());
+            return resp.getText();
         } catch (IOException e) {
-            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+            throw new RuntimeException(e);
         }
     }
 
@@ -175,27 +190,53 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     /**
+     * Return the string representation of the current response, encoded as
+     * specified by the current {@link net.sourceforge.jwebunit.TestContext}.
+     */
+    public String getServerResponse() {
+        // TODO Add headers to the response.
+        try {
+            return resp.getText();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Contributed by Vivek Venugopalan.
      */
-    private CookieJar getCookies() {
+    private CookieJar getCookiesJar() {
         return (getResponse() != null) ? new CookieJar(getResponse()) : null;
     }
 
+    public String[][] getCookies() {
+        CookieJar respJar = getCookiesJar();
+        String[] cookieNames = respJar.getCookieNames();
+        String[][] result = new String[cookieNames.length][2];
+        for (int i = 0; i < cookieNames.length; i++) {
+            result[i][0] = cookieNames[i];
+            result[i][1] = respJar.getCookieValue(cookieNames[i]);
+        }
+        return result;
+    }
+
     public boolean hasCookie(String cookieName) {
-        CookieJar respJar = getCookies();
+        CookieJar respJar = getCookiesJar();
         String[] cookieNames = respJar.getCookieNames();
 
         for (int i = 0; i < cookieNames.length; i++) {
-            if (cookieNames[i].equals(cookieName)) { return true; }
+            if (cookieNames[i].equals(cookieName)) {
+                return true;
+            }
         }
         return false;
     }
 
     public String getCookieValue(String cookieName) {
-        return getCookies().getCookieValue(cookieName);
+        return getCookiesJar().getCookieValue(cookieName);
     }
 
-    //TODO: Move other dump methods to dialog!!
+    // TODO: Move other dump methods to dialog!!
 
     /**
      * <p>
@@ -225,7 +266,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      *         the response.
      */
     public WebForm getForm() {
-        if (form == null && hasForm()) setWorkingForm(getForm(0));
+        if (form == null && hasForm())
+            setWorkingForm(getForm(0));
         return form;
     }
 
@@ -251,7 +293,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
             for (int i = 0; i < getForms().length; i++) {
                 WebForm webForm = getForms()[i];
                 if (webForm.getSubmitButton(buttonName) != null)
-                        return webForm;
+                    return webForm;
             }
         }
         return null;
@@ -263,7 +305,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
                 WebForm webForm = getForms()[i];
                 String[] names = webForm.getParameterNames();
                 for (int j = 0; j < names.length; j++) {
-                    if (names[j].equals(paramName)) return webForm;
+                    if (names[j].equals(paramName))
+                        return webForm;
                 }
 
             }
@@ -311,8 +354,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
 
     private void setWorkingForm(WebForm newForm) {
         if (newForm == null)
-                throw new UnableToSetFormException(
-                        "Attempted to set form to null.");
+            throw new UnableToSetFormException("Attempted to set form to null.");
         form = newForm;
     }
 
@@ -366,14 +408,14 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         checkFormStateWithParameter(paramName);
         WebResponse oldPage = getWebClient().getCurrentPage();
         getForm().setParameter(paramName, paramValue);
-        //if an onchange event caused our page to change, set response to new
+        // if an onchange event caused our page to change, set response to new
         // page - otherwise leave
         // the response alone.
         if (oldPage != getWebClient().getCurrentPage()) {
             resp = getWebClient().getCurrentPage();
         }
     }
-    
+
     public void setTextField(String paramName, String paramValue) {
         setFormParameter(paramName, paramValue);
     }
@@ -381,9 +423,10 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     public void updateFormParameter(String paramName, String paramValue) {
         checkFormStateWithParameter(paramName);
         if (!multiselectMap.containsKey(paramName))
-                multiselectMap.put(paramName, new ArrayList());
+            multiselectMap.put(paramName, new ArrayList());
         List values = (List) multiselectMap.get(paramName);
-        if (!values.contains(paramValue)) values.add(paramValue);
+        if (!values.contains(paramValue))
+            values.add(paramValue);
         getForm().setParameter(paramName,
                 (String[]) values.toArray(new String[0]));
     }
@@ -441,14 +484,15 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      */
     public String getFormElementNameForLabel(String formElementLabel) {
         Element formElement = getFormElementForLabel(formElementLabel);
-        if (formElement != null) { 
-            return formElement.getAttribute("name"); 
+        if (formElement != null) {
+            return formElement.getAttribute("name");
         }
         return null;
     }
 
     /**
-     * Finds the first form element after a text label 
+     * Finds the first form element after a text label
+     * 
      * @param formElementLabel
      * @return
      */
@@ -463,17 +507,17 @@ public class HttpUnitDialog implements IJWebUnitDialog {
                 Element form = (Element) forms.item(i);
                 TextAndElementWalker walker = new TextAndElementWalker(form,
                         new String[] { "input", "select", "textarea" });
-                formElement = walker
-                        .getElementAfterText(formElementLabel);
+                formElement = walker.getElementAfterText(formElementLabel);
             }
         } catch (SAXException e) {
             e.printStackTrace();
         }
         return formElement;
     }
-    
+
     /**
      * Finds the first form element before a label
+     * 
      * @param formElementLabel
      * @return
      */
@@ -486,17 +530,16 @@ public class HttpUnitDialog implements IJWebUnitDialog {
 
             for (int i = 0; i < forms.getLength() && formElement == null; i++) {
                 Element form = (Element) forms.item(i);
-                TextAndElementWalkerReverse walker = new TextAndElementWalkerReverse(form,
-                        new String[] { "input" });
-                formElement = walker
-                        .getElementAfterText(formElementLabel);
+                TextAndElementWalkerReverse walker = new TextAndElementWalkerReverse(
+                        form, new String[] { "input" });
+                formElement = walker.getElementAfterText(formElementLabel);
             }
         } catch (SAXException e) {
             e.printStackTrace();
         }
         return formElement;
-    }   
-    
+    }
+
     /**
      * Return the name of a form parameter (input element) on the current
      * response preceded by a givel label.
@@ -507,23 +550,23 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     public String getFormElementValueForLabel(String formElementLabel) {
         Element formElement = getFormElementForLabel(formElementLabel);
         if (formElement != null) {
-            return formElement.getAttribute("value"); 
+            return formElement.getAttribute("value");
         }
         return null;
     }
-    
+
     public String getFormElementNameBeforeLabel(String formElementLabel) {
         Element formElement = getFormElementBeforeLabel(formElementLabel);
-        if (formElement != null) { 
-            return formElement.getAttribute("name"); 
+        if (formElement != null) {
+            return formElement.getAttribute("name");
         }
         return null;
     }
 
     public String getFormElementValueBeforeLabel(String formElementLabel) {
         Element formElement = getFormElementBeforeLabel(formElementLabel);
-        if (formElement != null) { 
-            return formElement.getAttribute("value"); 
+        if (formElement != null) {
+            return formElement.getAttribute("value");
         }
         return null;
     }
@@ -542,9 +585,10 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     public String getSubmitButtonValue(String buttonName) {
         return getSubmitButton(buttonName).getValue().trim();
     }
-    
+
     /**
      * Return the HttpUnit SubmitButton with a given name and value.
+     * 
      * @param buttonName
      * @pararm buttonValue
      */
@@ -604,8 +648,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         }
         return theButton;
     }
-    
-    
+
     /**
      * Returns if the button identified by <code>buttonId</code> is present.
      * 
@@ -629,7 +672,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      */
     public boolean isTextInResponse(String text) {
         try {
-            return (getTestContext().toEncodedString(resp.getText()).indexOf(text) >= 0);
+            return (getTestContext().toEncodedString(resp.getText()).indexOf(
+                    text) >= 0);
         } catch (IOException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -649,11 +693,12 @@ public class HttpUnitDialog implements IJWebUnitDialog {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
     }
-	
+
     public boolean isCheckboxSelected(String checkBoxName) {
         boolean bReturn = false;
-        String theFormParameterValue = getFormParameterValue(checkBoxName); 
-        if(theFormParameterValue != null && theFormParameterValue.equalsIgnoreCase("on")) {
+        String theFormParameterValue = getFormParameterValue(checkBoxName);
+        if (theFormParameterValue != null
+                && theFormParameterValue.equalsIgnoreCase("on")) {
             bReturn = true;
         }
         return bReturn;
@@ -661,12 +706,12 @@ public class HttpUnitDialog implements IJWebUnitDialog {
 
     public boolean isCheckboxNotSelected(String checkBoxName) {
         boolean bReturn = false;
-        if(getFormParameterValue(checkBoxName) == null) {
+        if (getFormParameterValue(checkBoxName) == null) {
             bReturn = true;
         }
         return bReturn;
     }
-	
+
     /**
      * Return true if given text is present in a specified table of the
      * response.
@@ -678,15 +723,17 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      */
     public boolean isTextInTable(String tableSummaryOrId, String text) {
         WebTable table = getWebTableBySummaryOrId(tableSummaryOrId);
-        if (table == null) { throw new RuntimeException(
-                "No table with summary or id [" + tableSummaryOrId
-                        + "] found in response."); }
+        if (table == null) {
+            throw new RuntimeException("No table with summary or id ["
+                    + tableSummaryOrId + "] found in response.");
+        }
         for (int row = 0; row < table.getRowCount(); row++) {
             for (int col = 0; col < table.getColumnCount(); col++) {
                 TableCell cell = table.getTableCell(row, col);
                 if (cell != null) {
                     String cellHtml = getNodeHtml(cell.getDOM());
-                    if (cellHtml.indexOf(text) != -1) return true;
+                    if (cellHtml.indexOf(text) != -1)
+                        return true;
                 }
             }
         }
@@ -694,7 +741,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Return true if given regexp has a match in a specified table of the response.
+     * Return true if given regexp has a match in a specified table of the
+     * response.
      * 
      * @param tableSummaryOrId
      *            table summary or id to inspect for expected text.
@@ -704,7 +752,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     public boolean isMatchInTable(String tableSummaryOrId, String regexp) {
         WebTable table = getWebTableBySummaryOrId(tableSummaryOrId);
         if (table == null) {
-            throw new RuntimeException("No table with summary or id [" + tableSummaryOrId + "] found in response.");
+            throw new RuntimeException("No table with summary or id ["
+                    + tableSummaryOrId + "] found in response.");
         }
         RE re = getRE(regexp);
         for (int row = 0; row < table.getRowCount(); row++) {
@@ -787,7 +836,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * @param tableSummaryOrId
      *            summary or id of the table.
      */
-    public String[][] getSparseTableBySummaryOrId(String tableSummaryOrId) {
+    public String[][] getSparseTable(String tableSummaryOrId) {
         WebTable table = getWebTableBySummaryOrId(tableSummaryOrId);
         table.purgeEmptyCells();
         String[][] sparseTableCellValues = table.asText();
@@ -803,8 +852,10 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         try {
             resp = getForm().submit();
         } catch (Exception e) {
-            throw new RuntimeException("HttpUnit Error submitting form using default submit button, " +
-                    "check that form has single submit button, otherwise use submit(name): \n" + ExceptionUtility.stackTraceToString(e));
+            throw new RuntimeException(
+                    "HttpUnit Error submitting form using default submit button, "
+                            + "check that form has single submit button, otherwise use submit(name): \n"
+                            + ExceptionUtility.stackTraceToString(e));
         }
     }
 
@@ -826,15 +877,15 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Submit the current form with the specifed submit button (by name and value). See
-     * {@link #getForm}for an explanation of how the current form is
-     * established.
+     * Submit the current form with the specifed submit button (by name and
+     * value). See {@link #getForm}for an explanation of how the current form
+     * is established.
      * 
      * @author Dragos Manolescu
      * @param buttonName
      *            name of the button to use for submission.
      * @param buttonValue
-     * 			  value/label of the button to use for submission
+     *            value/label of the button to use for submission
      */
     public void submit(String buttonName, String buttonValue) {
         try {
@@ -842,7 +893,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
             resp = wc.getCurrentPage();
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
-        }        
+        }
     }
 
     /**
@@ -877,7 +928,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * @param linkText
      *            text to check for in links on the response.
      */
-    public boolean isLinkPresentWithText(String linkText) {
+    public boolean hasLinkWithText(String linkText) {
         try {
             return (resp.getLinkWith(linkText) != null);
         } catch (SAXException e) {
@@ -897,7 +948,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      *            The 0-based index, when more than one link with the same text
      *            is expected.
      */
-    public boolean isLinkPresentWithText(String linkText, int index) {
+    public boolean hasLinkWithText(String linkText, int index) {
         return getLinkWithText(linkText, index) != null;
     }
 
@@ -909,11 +960,14 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      *            A suffix of the image's filename; for example, to match
      *            <tt>"images/my_icon.png"<tt>, you could just pass in
      *                      <tt>"my_icon.png"<tt>.
+     * @param index
+     *            The 0-based index, when more than one link with the same text
+     *            is expected.
      */
-    public boolean isLinkPresentWithImage(String imageFileName) {
+    public boolean hasLinkWithImage(String imageFileName, int index) {
         try {
-            return (resp.getFirstMatchingLink(new LinkImagePredicate(),
-                    imageFileName) != null);
+            return (resp.getMatchingLinks(new LinkImagePredicate(),
+                    imageFileName).length > index);
         } catch (SAXException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -926,7 +980,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * @param anId
      *            link id to check for.
      */
-    public boolean isLinkPresent(String anId) {
+    public boolean hasLink(String anId) {
         try {
             return resp.getLinkWithID(anId) != null;
         } catch (SAXException e) {
@@ -934,43 +988,39 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         }
     }
 
+    /*
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isLinkPresentWithText(java.lang.String)
+     */
+    public boolean hasLinkWithExactText(String linkText) {
+        throw new UnsupportedOperationException("isLinkPresentWithText");
+    }
 
-	/*
-	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#isLinkPresentWithText(java.lang.String)
-	 */
-	public boolean isLinkPresentWithExactText(String linkText) {
-		throw new UnsupportedOperationException("isLinkPresentWithText");
-	}
+    /*
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isLinkPresentWithText(java.lang.String,
+     *      int)
+     */
+    public boolean hasLinkWithExactText(String linkText, int index) {
+        throw new UnsupportedOperationException("isLinkPresentWithText");
+    }
 
-	/*
-	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#isLinkPresentWithText(java.lang.String,
-	 *      int)
-	 */
-	public boolean isLinkPresentWithExactText(String linkText, int index) {
-		throw new UnsupportedOperationException("isLinkPresentWithText");
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithExactText(java.lang.String)
+     */
+    public void clickLinkWithExactText(String linkText) {
+        throw new UnsupportedOperationException("clickLinkWithExactText");
+    }
 
-    
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithExactText(java.lang.String)
-	 */
-	public void clickLinkWithExactText(String linkText) {
-		throw new UnsupportedOperationException("clickLinkWithExactText");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithExactText(java.lang.String,
-	 *      int)
-	 */
-	public void clickLinkWithExactText(String linkText, int index) {
-		throw new UnsupportedOperationException("clickLinkWithExactText");
-	}
-
-    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithExactText(java.lang.String,
+     *      int)
+     */
+    public void clickLinkWithExactText(String linkText, int index) {
+        throw new UnsupportedOperationException("clickLinkWithExactText");
+    }
 
     /**
      * Navigate by submitting a request based on a link containing the specified
@@ -987,23 +1037,24 @@ public class HttpUnitDialog implements IJWebUnitDialog {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
         if (link == null)
-                throw new RuntimeException("No Link found for \"" + linkText
-                        + "\"");
+            throw new RuntimeException("No Link found for \"" + linkText + "\"");
         submitRequest(link);
     }
 
     public void clickLinkWithText(String linkText, int index) {
         WebLink link = getLinkWithText(linkText, index);
         if (link == null)
-                throw new RuntimeException("No Link found for \"" + linkText
-                        + "\" with index " + index);
+            throw new RuntimeException("No Link found for \"" + linkText
+                    + "\" with index " + index);
         submitRequest(link);
     }
-    
+
     /**
-     * Select a specified checkbox.  If the checkbox is already checked then the checkbox
-     * will stay checked.
-     * @param checkBoxName name of checkbox to be deselected.
+     * Select a specified checkbox. If the checkbox is already checked then the
+     * checkbox will stay checked.
+     * 
+     * @param checkBoxName
+     *            name of checkbox to be deselected.
      */
     public void checkCheckbox(String checkBoxName) {
         setFormParameter(checkBoxName, "on");
@@ -1013,12 +1064,12 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         updateFormParameter(checkBoxName, value);
     }
 
-
     /**
-     * Deselect a specified checkbox.  If the checkbox is already unchecked then the checkbox
-     * will stay unchecked.
-     *
-     * @param checkBoxName name of checkbox to be deselected.
+     * Deselect a specified checkbox. If the checkbox is already unchecked then
+     * the checkbox will stay unchecked.
+     * 
+     * @param checkBoxName
+     *            name of checkbox to be deselected.
      */
     public void uncheckCheckbox(String checkBoxName) {
         removeFormParameter(checkBoxName);
@@ -1027,39 +1078,37 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     public void uncheckCheckbox(String checkBoxName, String value) {
         removeFormParameterWithValue(checkBoxName, value);
     }
-	
 
-    
     /**
-     * Clicks a radio option.  Asserts that the radio option exists first.	 
+     * Clicks a radio option. Asserts that the radio option exists first. *
      * 
-     * * @param radioGroup
-	 *			name of the radio group.
-	 * @param radioOption
-	 * 			value of the option to check for.
-     */    
-	public void clickRadioOption(String radioGroup, String radioOption) {
+     * @param radioGroup
+     *            name of the radio group.
+     * @param radioOption
+     *            value of the option to check for.
+     */
+    public void clickRadioOption(String radioGroup, String radioOption) {
         setFormParameter(radioGroup, radioOption);
-	}
+    }
 
-	/**
-	 * Navigate by submitting a request based on a link with a given ID. A RuntimeException is thrown if no such link
-	 * can be found.
-	 * 
-	 * @param anID
-	 *            id of link to be navigated.
-	 */
-	public void clickLink(String anID) {
-		WebLink link = null;
-		try {
-			link = resp.getLinkWithID(anID);
-		} catch (SAXException e) {
-			throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
-		}
-		if (link == null)
-			throw new RuntimeException("No Link found with ID \"" + anID + "\"");
-		submitRequest(link);
-	}
+    /**
+     * Navigate by submitting a request based on a link with a given ID. A
+     * RuntimeException is thrown if no such link can be found.
+     * 
+     * @param anID
+     *            id of link to be navigated.
+     */
+    public void clickLink(String anID) {
+        WebLink link = null;
+        try {
+            link = resp.getLinkWithID(anID);
+        } catch (SAXException e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+        if (link == null)
+            throw new RuntimeException("No Link found with ID \"" + anID + "\"");
+        submitRequest(link);
+    }
 
     private WebLink getLinkWithText(String linkText, int index) {
         WebLink link = null;
@@ -1090,8 +1139,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     public void clickLinkWithTextAfterText(String linkText, String labelText) {
         WebLink link = getLinkWithTextAfterText(linkText, labelText);
         if (link == null)
-                throw new RuntimeException("No Link found for \"" + linkText
-                        + "\" with label \"" + labelText + "\"");
+            throw new RuntimeException("No Link found for \"" + linkText
+                    + "\" with label \"" + labelText + "\"");
         submitRequest(link);
     }
 
@@ -1101,8 +1150,10 @@ public class HttpUnitDialog implements IJWebUnitDialog {
                     .getDOM().getDocumentElement(), new String[] { "a" });
             final Element linkElement = walker.getElementWithTextAfterText(
                     linkText, labelText);
-            if (linkElement != null) { return resp.getFirstMatchingLink(
-                    new SameLinkPredicate(), linkElement); }
+            if (linkElement != null) {
+                return resp.getFirstMatchingLink(new SameLinkPredicate(),
+                        linkElement);
+            }
         } catch (SAXException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -1119,20 +1170,23 @@ public class HttpUnitDialog implements IJWebUnitDialog {
             NamedNodeMap foundAttributes = foundElement.getAttributes();
             NamedNodeMap givenAttributes = givenElement.getAttributes();
 
-            if (foundAttributes.getLength() != givenAttributes.getLength()) { return false; }
+            if (foundAttributes.getLength() != givenAttributes.getLength()) {
+                return false;
+            }
 
             for (int i = 0; i < foundAttributes.getLength(); i++) {
                 Attr foundAttribute = (Attr) foundAttributes.item(i);
                 Attr givenAttribute = (Attr) givenAttributes
                         .getNamedItem(foundAttribute.getName());
                 if (!foundAttribute.getValue()
-                        .equals(givenAttribute.getValue())) { return false; }
+                        .equals(givenAttribute.getValue())) {
+                    return false;
+                }
             }
 
             return true;
         }
     }
-
 
     /**
      * Navigate by submitting a request based on a link with a given image file
@@ -1152,9 +1206,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
         if (link == null)
-                throw new RuntimeException(
-                        "No Link found with imageFileName \"" + imageFileName
-                                + "\"");
+            throw new RuntimeException("No Link found with imageFileName \""
+                    + imageFileName + "\"");
         submitRequest(link);
     }
 
@@ -1171,18 +1224,17 @@ public class HttpUnitDialog implements IJWebUnitDialog {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
     }
-    
-	public void clickButtonWithText(String buttonValueText) {
-	    try {
-	        if(hasButtonWithText(buttonValueText)) {
-		        getButtonWithText(buttonValueText).click();
-	            resp = wc.getCurrentPage();
-		    }
-	    } catch (Exception e) {
-	        throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
-	    }
-	}
-    
+
+    public void clickButtonWithText(String buttonValueText) {
+        try {
+            if (hasButtonWithText(buttonValueText)) {
+                getButtonWithText(buttonValueText).click();
+                resp = wc.getCurrentPage();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+    }
 
     /**
      * Return true if a radio group contains the indicated option.
@@ -1199,7 +1251,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
             String[] opts = form.getOptionValues(radioGroup);
             for (int j = 0; j < opts.length; j++) {
                 String opt = opts[j];
-                if (radioOption.equals(opt)) return true;
+                if (radioOption.equals(opt))
+                    return true;
             }
         }
         return false;
@@ -1231,11 +1284,13 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * @param selectName
      *            name of the select box.
      */
-    public String getSelectedOption(String selectName) {
+    public String[] getSelectedOptions(String selectName) {
         String val = getFormParameterValue(selectName);
         String[] vals = getOptionValuesFor(selectName);
+        // TODO Manage multi-select in getSelectedOptions
         for (int i = 0; i < vals.length; i++) {
-            if (vals[i].equals(val)) return getOptionsFor(selectName)[i];
+            if (vals[i].equals(val))
+                return new String[] { getOptionsFor(selectName)[i] };
         }
         return null;
     }
@@ -1252,9 +1307,20 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         String[] opts = getOptionsFor(selectName);
         for (int i = 0; i < opts.length; i++) {
             if (opts[i].equals(option))
-                    return getOptionValuesFor(selectName)[i];
+                return getOptionValuesFor(selectName)[i];
         }
         throw new RuntimeException("Unable to find option " + option + " for "
+                + selectName);
+    }
+
+    public String getLabelForOption(String selectName, String optionValue) {
+        String[] opts = getOptionsFor(selectName);
+        String[] optsValues = getOptionValuesFor(selectName);
+        for (int i = 0; i < opts.length; i++) {
+            if (optsValues[i].equals(optionValue))
+                return opts[i];
+        }
+        throw new RuntimeException("Unable to find option value " + optionValue + " for "
                 + selectName);
     }
 
@@ -1270,7 +1336,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     public boolean hasSelectOption(String selectName, String optionLabel) {
         String[] opts = getOptionsFor(selectName);
         for (int i = 0; i < opts.length; i++) {
-            if (opts[i].equals(optionLabel)) return true;
+            if (opts[i].equals(optionLabel))
+                return true;
         }
         return false;
     }
@@ -1280,11 +1347,17 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * 
      * @param selectName
      *            name of the select box.
-     * @param option
-     *            label of the option to select.
+     * @param options
+     *            label of the option(s) to select.
      */
-    public void selectOption(String selectName, String option) {
-        setFormParameter(selectName, getValueForOption(selectName, option));
+    public void selectOptions(String selectName, String[] options) {
+        // TODO Manage multi-select in selectOptions
+        setFormParameter(selectName, options[0]);
+    }
+
+    public void unselectOptions(String selectName, String[] options) {
+        // TODO Implement unselectOptions in HttpUnitDialog
+        throw new UnsupportedOperationException("unselectOptions");
     }
 
     /**
@@ -1303,13 +1376,15 @@ public class HttpUnitDialog implements IJWebUnitDialog {
 
     private Element walkDOM(Element element, String anID) {
         if (element.getAttribute("id").equals(anID)
-                || element.getAttribute("ID").equals(anID)) return element;
+                || element.getAttribute("ID").equals(anID))
+            return element;
         NodeList children = element.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child.getNodeType() == Node.ELEMENT_NODE) {
                 Element el = walkDOM((Element) child, anID);
-                if (el != null) return el;
+                if (el != null)
+                    return el;
             }
         }
         return null;
@@ -1328,11 +1403,13 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child.getNodeType() == Node.TEXT_NODE) {
-                if (((Text) child).getData().indexOf(text) != -1) return true;
+                if (((Text) child).getData().indexOf(text) != -1)
+                    return true;
             }
 
             if (child.getNodeType() == Node.ELEMENT_NODE) {
-                if (isTextInElement((Element) child, text)) return true;
+                if (isTextInElement((Element) child, text))
+                    return true;
             }
         }
         return false;
@@ -1364,14 +1441,6 @@ public class HttpUnitDialog implements IJWebUnitDialog {
             }
         }
         return false;
-    }
-
-    private RE getRE(String regexp) {
-        try {
-            return new RE(regexp, RE.MATCH_SINGLELINE);
-        } catch (RESyntaxException e) {
-            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
-        }
     }
 
     /**
@@ -1433,166 +1502,146 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         try {
             resp = wc.getResponse(url);
         } catch (Exception e) {
-            throw new TestingEngineResponseException(ExceptionUtility.stackTraceToString(e));
+            throw new TestingEngineResponseException(ExceptionUtility
+                    .stackTraceToString(e));
         }
     }
 
     /**
-     * Dumps out all the cookies in the response received. The output is written
-     * to the passed in Stream
-     * 
-     * @return void
+     * @param testContext
+     *            The testContext to set.
      */
-    public void dumpCookies(PrintStream stream) {
-        CookieJar respJar = getCookies();
-        String[] cookieNames = respJar.getCookieNames();
-        for (int i = 0; i < cookieNames.length; i++)
-            stream.print(cookieNames[i] + " :  ["
-                    + respJar.getCookieValue(cookieNames[i]) + "]\n");
+    public void setTestContext(TestContext testContext) {
+        this.testContext = testContext;
     }
 
     /**
-     * Dump html of current response to System.out - for debugging purposes.
-     * 
-     * @param stream
+     * @return Returns the testContext.
      */
-    public void dumpResponse() {
-        dumpResponse(System.out);
+    public TestContext getTestContext() {
+        return testContext;
     }
 
-    /**
-     * Dump html of current response to a specified stream - for debugging
-     * purposes.
+    /*
+     * (non-Javadoc)
      * 
-     * @param stream
-     */
-    public void dumpResponse(PrintStream stream) {
-        try {
-            stream.println(getPageText());
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    /**
-     * Dump the table as the 2D array that is used for assertions - for
-     * debugging purposes.
-     * 
-     * @param tableNameOrId
-     * @param stream
-     */
-    public void dumpTable(String tableNameOrId, PrintStream stream) {
-        dumpTable(tableNameOrId, getSparseTableBySummaryOrId(tableNameOrId),
-                stream);
-    }
-
-    /**
-     * Dump the table as the 2D array that is used for assertions - for
-     * debugging purposes.
-     * 
-     * @param tableNameOrId
-     * @param table
-     */
-    public void dumpTable(String tableNameOrId, String[][] table) {
-        dumpTable(tableNameOrId, table, System.out);
-    }
-
-    /**
-     * Dump the table as the 2D array that is used for assertions - for
-     * debugging purposes.
-     * 
-     * @param tableNameOrId
-     * @param table
-     * @param stream
-     */
-    public void dumpTable(String tableNameOrId, String[][] table,
-            PrintStream stream) {
-        stream.print("\n" + tableNameOrId + ":");
-        for (int i = 0; i < table.length; i++) {
-            String[] cell = table[i];
-            stream.print("\n\t");
-            for (int j = 0; j < cell.length; j++) {
-                stream.print("[" + cell[j] + "]");
-            }
-        }
-    }
-
-	/**
-	 * @param testContext The testContext to set.
-	 */
-	public void setTestContext(TestContext testContext) {
-		this.testContext = testContext;
-	}
-
-	/**
-	 * @return Returns the testContext.
-	 */
-	public TestContext getTestContext() {
-		return testContext;
-	}
-
-    /* (non-Javadoc)
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getTableBySummaryOrId(java.lang.String)
      */
-    public String[][] getTableBySummaryOrId(String tableSummaryOrId) {
+    public String[][] getTable(String tableSummaryOrId) {
         return getWebTableBySummaryOrId(tableSummaryOrId).asText();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#isElementPresent(java.lang.String)
      */
-    public boolean isElementPresent(String anID) {
-        return getElement(anID)!=null;
+    public boolean hasElement(String anID) {
+        return getElement(anID) != null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#isFramePresent(java.lang.String)
      */
-    public boolean isFramePresent(String frameName) {
-        return getFrame(frameName)!=null;
+    public boolean hasFrame(String frameName) {
+        return getFrame(frameName) != null;
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isMatchInElement(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isMatchInElement(java.lang.String,
+     *      java.lang.String)
      */
     public boolean isMatchInElement(String elementID, String regexp) {
         return isMatchInElement(getElement(elementID), regexp);
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isTextInElement(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isTextInElement(java.lang.String,
+     *      java.lang.String)
      */
     public boolean isTextInElement(String elementID, String text) {
         return isTextInElement(getElement(elementID), text);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#isWebTableBySummaryOrIdPresent(java.lang.String)
      */
-    public boolean isWebTableBySummaryOrIdPresent(String tableSummaryOrId) {
-        return getWebTableBySummaryOrId(tableSummaryOrId)!=null;
+    public boolean hasTable(String tableSummaryOrId) {
+        return getWebTableBySummaryOrId(tableSummaryOrId) != null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#isWindowByTitlePresent(java.lang.String)
      */
-    public boolean isWindowByTitlePresent(String title) {
-        return getWindowByTitle(title)!=null;
+    public boolean hasWindowByTitle(String title) {
+        return getWindowByTitle(title) != null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#isWindowPresent(java.lang.String)
      */
-    public boolean isWindowPresent(String windowName) {
-        return getWindow(windowName)!=null;
+    public boolean hasWindow(String windowName) {
+        return getWindow(windowName) != null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#setScriptingEnabled(boolean)
      */
     public void setScriptingEnabled(boolean value) {
         HttpUnitOptions.setScriptingEnabled(value);
+    }
+
+    private RE getRE(String regexp) {
+        try {
+            return new RE(regexp, RE.MATCH_SINGLELINE);
+        } catch (RESyntaxException e) {
+            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        }
+    }
+
+    public void closeBrowser() throws TestingEngineResponseException {
+        wc = null;
+        resp = null;
+        form = null;
+    }
+
+    public void closeWindow() {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#goBack()
+     */
+    public void goBack() {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#refresh()
+     */
+    public void refresh() {
+        // TODO Auto-generated method stub
+
     }
 
 }

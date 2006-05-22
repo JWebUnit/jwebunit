@@ -173,7 +173,7 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
 
     public void testAssertSelectedOptionEquals() throws Throwable {
         beginAt("/testPage.html");
-        assertPassFail("assertOptionEquals", new String[]{"select1", "one"}, new String[]{"select1", "two"});
+        assertPassFail("assertSelectedOptionEquals", new String[]{"select1", "one"}, new String[]{"select1", "two"});
     }
 
     public void testAssertButtonPresent() throws Throwable {

@@ -42,11 +42,7 @@ public class WebTestCase extends TestCase {
     }
     
     public void tearDown() throws Exception {
-    	
-    	//this resets the dialog / nulls out objects, etc.
-    	//close IE from the JacobieDialog.
-    	resetDialog();
-    	
+    	closeBrowser();
     	super.tearDown();
     }
 
@@ -101,8 +97,8 @@ public class WebTestCase extends TestCase {
         getTester().beginAt(relativeURL);
     }
 
-    public void resetDialog() {
-        getTester().resetDialog();
+    public void closeBrowser() {
+        getTester().closeBrowser();
     }
 
     public String getMessage(String key) {
@@ -331,12 +327,20 @@ public class WebTestCase extends TestCase {
         getTester().assertOptionValuesNotEqual(selectName, options);
     }
 
-    public void assertOptionEquals(String selectName, String option) {
-        getTester().assertOptionEquals(selectName, option);
+    public void assertSelectedOptionEquals(String selectName, String option) {
+        getTester().assertSelectedOptionEquals(selectName, option);
     }
 
-    public void assertOptionMatch(String selectName, String regexp) {
-        tester.assertOptionMatch(selectName, regexp);
+    public void assertSelectedOptionsEqual(String selectName, String[] options) {
+        getTester().assertSelectedOptionsEqual(selectName, options);
+    }
+
+    public void assertSelectedOptionMatches(String selectName, String regexp) {
+        tester.assertSelectedOptionMatches(selectName, regexp);
+    }
+
+    public void assertSelectedOptionsMatch(String selectName, String[] regexps) {
+        tester.assertSelectedOptionsMatch(selectName, regexps);
     }
 
     public void assertSubmitButtonPresent(String buttonName) {
@@ -473,29 +477,6 @@ public class WebTestCase extends TestCase {
         tester.assertCookieValueMatch(cookieName, regexp);
     }
 
-//  is Pattern methods
-     
-    /**
-     * Return true if given text is present anywhere in the current response.
-     * 
-     * @param text
-     *            string to check for.
-     */    
-    public boolean isTextInResponse(String text) {
-        return getTester().isTextInResponse(text);
-    }
-
-    
-//  cookie methods.    
-    
-    public void dumpCookies() {
-        getTester().dumpCookies();
-    }
-
-    public void dumpCookies(PrintStream stream) {
-        getTester().dumpCookies(stream);
-    }
-
     // Form interaction methods
     
     /**
@@ -556,6 +537,10 @@ public class WebTestCase extends TestCase {
 
     public void selectOption(String selectName, String option) {
         getTester().selectOption(selectName, option);
+    }
+
+    public void selectOptions(String selectName, String[] options) {
+        getTester().selectOptions(selectName, options);
     }
 
     // Form submission and link navigation methods
@@ -637,6 +622,10 @@ public class WebTestCase extends TestCase {
     public void gotoFrame(String frameName) {
         getTester().gotoFrame(frameName);
     }
+    
+    protected void dumpCookies() {
+        getTester().dumpCookies();
+    }
 
     /**
      * Patch sumbitted by Alex Chaffee.
@@ -647,16 +636,20 @@ public class WebTestCase extends TestCase {
 
     // Debug methods
 
-    protected void dumpResponse(PrintStream stream) {
-        getTester().dumpResponse(stream);
+    protected void dumpHtml() {
+        getTester().dumpHtml();
+    }
+
+    protected void dumpHtml(PrintStream stream) {
+        getTester().dumpHtml(stream);
     }
 
     protected void dumpTable(String tableNameOrId, PrintStream stream) {
         getTester().dumpTable(tableNameOrId, stream);
     }
 
-    protected void dumpTable(String tableNameOrId, String[][] table) {
-        getTester().dumpTable(tableNameOrId, table);
+    protected void dumpTable(String tableNameOrId) {
+        getTester().dumpTable(tableNameOrId);
     }
     
     //Settings

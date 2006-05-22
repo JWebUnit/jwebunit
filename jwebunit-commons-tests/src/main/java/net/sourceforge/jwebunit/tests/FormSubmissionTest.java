@@ -158,10 +158,9 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 
 	public void testSelectOption() {
 		beginAt("/MultiFormPage.html");
-		assertOptionEquals("select1", "one");
+		assertSelectedOptionEquals("select1", "one");
 		selectOption("select1", "two");
-		assertOptionEquals("select1", "two");
-		assertFormElementEquals("select1", "2");
+		assertSelectedOptionEquals("select1", "two");
 	}
 
 	public void testSimpleLabeledForm() {
