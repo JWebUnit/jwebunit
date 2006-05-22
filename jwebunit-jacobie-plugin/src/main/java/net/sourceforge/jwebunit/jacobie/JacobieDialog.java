@@ -1358,4 +1358,36 @@ public class JacobieDialog implements IJWebUnitDialog {
         
     }
 
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSelectOptionLabelForValue(java.lang.String, java.lang.String)
+     */
+    public String getSelectOptionLabelForValue(String selectName, String optionValue) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSelectOptionValueForLabel(java.lang.String, java.lang.String)
+     */
+    public String getSelectOptionValueForLabel(String selectName, String optionLabel) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSelectOptionValues(java.lang.String)
+     */
+    public String[] getSelectOptionValues(String selectName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasSelectOptionValue(java.lang.String, java.lang.String)
+     */
+    public boolean hasSelectOptionValue(String selectName, String optionValue) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

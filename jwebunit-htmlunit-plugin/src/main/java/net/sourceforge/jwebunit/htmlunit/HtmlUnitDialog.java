@@ -336,22 +336,22 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         getForm().getInputByName(fieldName).setValueAttribute(paramValue);
     }
 
-    /**
-     * Return a string array of select box option labels.
-     * 
-     * @param selectName
-     *            name of the select box.
-     */
-    public String[] getOptionsFor(String selectName) {
-        HtmlSelect sel = getForm().getSelectByName(selectName);
-        ArrayList result = new ArrayList();
-        List opts = sel.getOptions();
-        for (int i = 0; i < opts.size(); i++) {
-            HtmlOption opt = (HtmlOption) opts.get(i);
-            result.add(opt.asText());
-        }
-        return (String[]) result.toArray(new String[0]);
-    }
+//    /**
+//     * Return a string array of select box option labels.
+//     * 
+//     * @param selectName
+//     *            name of the select box.
+//     */
+//    public String[] getOptionsFor(String selectName) {
+//        HtmlSelect sel = getForm().getSelectByName(selectName);
+//        ArrayList result = new ArrayList();
+//        List opts = sel.getOptions();
+//        for (int i = 0; i < opts.size(); i++) {
+//            HtmlOption opt = (HtmlOption) opts.get(i);
+//            result.add(opt.asText());
+//        }
+//        return (String[]) result.toArray(new String[0]);
+//    }
 
     /**
      * Return a string array of select box option values.
@@ -359,7 +359,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param selectName
      *            name of the select box.
      */
-    public String[] getOptionValuesFor(String selectName) {
+    public String[] getSelectOptionValues(String selectName) {
         HtmlSelect sel = getForm().getSelectByName(selectName);
         ArrayList result = new ArrayList();
         List opts = sel.getOptions();
@@ -375,25 +375,31 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         List opts = sel.getSelectedOptions();
         String[] result = new String[opts.size()];
         for (int i = 0; i < result.length; i++)
-            result[i] = ((HtmlOption) opts.get(i)).asText();
+            result[i] = ((HtmlOption) opts.get(i)).getValueAttribute();
         return result;
     }
 
-    /**
-     * Get the value for a given option of a select box.
-     * 
-     * @param selectName
-     *            name of the select box.
-     * @param option
-     *            label of the option.
-     */
-    public String getValueForOption(String selectName, String option) {
-        String[] opts = getOptionsFor(selectName);
-        for (int i = 0; i < opts.length; i++) {
-            if (opts[i].equals(option))
-                return getOptionValuesFor(selectName)[i];
+    public String getSelectOptionValueForLabel(String selectName, String label) {
+        HtmlSelect sel = getForm().getSelectByName(selectName);
+        List opts = sel.getOptions();
+        for (int i = 0; i < opts.size(); i++) {
+            HtmlOption opt = (HtmlOption) opts.get(i);
+            if (opt.asText().equals(label))
+                return opt.getValueAttribute();
         }
-        throw new RuntimeException("Unable to find option " + option + " for "
+        throw new RuntimeException("Unable to find option " + label + " for "
+                + selectName);
+    }
+
+    public String getSelectOptionLabelForValue(String selectName, String value) {
+        HtmlSelect sel = getForm().getSelectByName(selectName);
+        List opts = sel.getOptions();
+        for (int i = 0; i < opts.size(); i++) {
+            HtmlOption opt = (HtmlOption) opts.get(i);
+            if (opt.getValueAttribute().equals(value))
+                return opt.asText();
+        }
+        throw new RuntimeException("Unable to find option " + value + " for "
                 + selectName);
     }
 
@@ -1265,10 +1271,10 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *            label of the option.
      */
     public boolean hasSelectOption(String selectName, String optionLabel) {
-        String[] opts = getOptionsFor(selectName);
+        String[] opts = getSelectOptionValues(selectName);
         for (int i = 0; i < opts.length; i++) {
-            String opt = opts[i];
-            if (opt.equals(optionLabel))
+            String label = getSelectOptionLabelForValue(selectName, opts[i]);
+            if (label.equals(optionLabel))
                 return true;
         }
         return false;
@@ -1282,8 +1288,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param optionValue
      *            value of the option.
      */
-    public boolean hasSelectOptionByValue(String selectName, String optionValue) {
-        String[] opts = getOptionValuesFor(selectName);
+    public boolean hasSelectOptionValue(String selectName, String optionValue) {
+        String[] opts = getSelectOptionValues(selectName);
         for (int i = 0; i < opts.length; i++) {
             if (opts[i].equals(optionValue))
                 return true;

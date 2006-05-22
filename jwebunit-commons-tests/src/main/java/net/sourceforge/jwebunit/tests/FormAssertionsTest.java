@@ -131,49 +131,68 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
     
     public void testAssertSelectOptionPresent() throws Throwable {
         beginAt("/testPage.html");
-        assertPassFail("assertOptionPresent",
+        assertPassFail("assertSelectOptionPresent",
                 new String[]{"selectOption", "One"},
                 new String[]{"selectOption", "NoSuchOption"});
     }
     
     public void testAssertSelectOptionNotPresent() throws Throwable {
         beginAt("/testPage.html");
-        assertPassFail("assertOptionNotPresent",
+        assertPassFail("assertSelectOptionNotPresent",
                 new String[]{"selectOption", "NoSuchOption"},
                 new String[]{"selectOption", "One"});    	
     }
 
-    public void testAssertOptionsEqual() throws Throwable {
+    public void testAssertSelectOptionValuePresent() throws Throwable {
         beginAt("/testPage.html");
-        assertPass("assertOptionsEqual", new Object[]{"select1", new String[]{"one", "two", "three", "four"}});
-        assertFail("assertOptionsEqual", new Object[]{"select1", new String[]{"one", "four", "three", "two"}});
-        assertFail("assertOptionsEqual", new Object[]{"select1", new String[]{"one", "two", "three", "four", "five"}});
+        assertPassFail("assertSelectOptionValuePresent",
+                new String[]{"selectOption", "1"},
+                new String[]{"selectOption", "NoSuchOption"});
+    }
+    
+    public void testAssertSelectOptionValueNotPresent() throws Throwable {
+        beginAt("/testPage.html");
+        assertPassFail("assertSelectOptionValueNotPresent",
+                new String[]{"selectOption", "NoSuchOption"},
+                new String[]{"selectOption", "1"});       
     }
 
-    public void testAssertOptionsNotEqual() throws Throwable {
+    public void testAssertSelectOptionsEqual() throws Throwable {
         beginAt("/testPage.html");
-        assertFail("assertOptionsNotEqual", new Object[]{"select1", new String[]{"one", "two", "three", "four"}});
-        assertPass("assertOptionsNotEqual", new Object[]{"select1", new String[]{"one", "four", "three", "two"}});
-        assertPass("assertOptionsNotEqual", new Object[]{"select1", new String[]{"one", "two", "three", "four", "five"}});
+        assertPass("assertSelectOptionsEqual", new Object[]{"select1", new String[]{"one", "two", "three", "four"}});
+        assertFail("assertSelectOptionsEqual", new Object[]{"select1", new String[]{"one", "four", "three", "two"}});
+        assertFail("assertSelectOptionsEqual", new Object[]{"select1", new String[]{"one", "two", "three", "four", "five"}});
     }
 
-    public void testAssertOptionValuesEqual() throws Throwable {
+    public void testAssertSelectOptionsNotEqual() throws Throwable {
         beginAt("/testPage.html");
-        assertPass("assertOptionValuesEqual", new Object[]{"select1", new String[]{"1", "2", "3", "4"}});
-        assertFail("assertOptionValuesEqual", new Object[]{"select1", new String[]{"1", "4", "3", "2"}});
-        assertFail("assertOptionValuesEqual", new Object[]{"select1", new String[]{"1", "2", "3", "4", "5"}});
+        assertFail("assertSelectOptionsNotEqual", new Object[]{"select1", new String[]{"one", "two", "three", "four"}});
+        assertPass("assertSelectOptionsNotEqual", new Object[]{"select1", new String[]{"one", "four", "three", "two"}});
+        assertPass("assertSelectOptionsNotEqual", new Object[]{"select1", new String[]{"one", "two", "three", "four", "five"}});
     }
 
-    public void testAssertOptionValuesNotEqual() throws Throwable {
+    public void testAssertSelectOptionValuesEqual() throws Throwable {
         beginAt("/testPage.html");
-        assertFail("assertOptionValuesNotEqual", new Object[]{"select1", new String[]{"1", "2", "3", "4"}});
-        assertPass("assertOptionValuesNotEqual", new Object[]{"select1", new String[]{"1", "4", "3", "2"}});
-        assertPass("assertOptionValuesNotEqual", new Object[]{"select1", new String[]{"1", "2", "3", "4", "5"}});
+        assertPass("assertSelectOptionValuesEqual", new Object[]{"select1", new String[]{"1", "2", "3", "4"}});
+        assertFail("assertSelectOptionValuesEqual", new Object[]{"select1", new String[]{"1", "4", "3", "2"}});
+        assertFail("assertSelectOptionValuesEqual", new Object[]{"select1", new String[]{"1", "2", "3", "4", "5"}});
+    }
+
+    public void testAssertSelectOptionValuesNotEqual() throws Throwable {
+        beginAt("/testPage.html");
+        assertFail("assertSelectOptionValuesNotEqual", new Object[]{"select1", new String[]{"1", "2", "3", "4"}});
+        assertPass("assertSelectOptionValuesNotEqual", new Object[]{"select1", new String[]{"1", "4", "3", "2"}});
+        assertPass("assertSelectOptionValuesNotEqual", new Object[]{"select1", new String[]{"1", "2", "3", "4", "5"}});
     }
 
     public void testAssertSelectedOptionEquals() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertSelectedOptionEquals", new String[]{"select1", "one"}, new String[]{"select1", "two"});
+    }
+
+    public void testAssertSelectedOptionValueEquals() throws Throwable {
+        beginAt("/testPage.html");
+        assertPassFail("assertSelectedOptionValueEquals", new String[]{"select1", "1"}, new String[]{"select1", "2"});
     }
 
     public void testAssertButtonPresent() throws Throwable {

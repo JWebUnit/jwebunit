@@ -180,34 +180,6 @@ public interface IJWebUnitDialog {
     void setTextField(String inputName, String text);
 
     /**
-     * Return a string array of select box option labels. <br/>
-     * 
-     * Exemple: <br/>
-     * 
-     * <pre>
-     *        &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-     *          &lt;P&gt;
-     *            &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-     *              &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-     *              &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-     *              &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-     *              &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-     *              &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-     *            &lt;/SELECT&gt;
-     *            &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-     *          &lt;/P&gt;
-     *        &lt;/FORM&gt;
-     * </pre>
-     * 
-     * Should return [Component_1, Component_2, Component_3, Component_4,
-     * Component_5]
-     * 
-     * @param selectName
-     *            name of the select box.
-     */
-    String[] getOptionsFor(String selectName);
-
-    /**
      * Return a string array of select box option values.
      * 
      * Exemple: <br/>
@@ -233,15 +205,25 @@ public interface IJWebUnitDialog {
      * @param selectName
      *            name of the select box.
      */
-    String[] getOptionValuesFor(String selectName);
+    String[] getSelectOptionValues(String selectName);
 
     /**
-     * Return the label of the currently selected items in a select box.
+     * Return the values of the currently selected items in a select box.
      * 
      * @param selectName
      *            name of the select box.
      */
     String[] getSelectedOptions(String selectName);
+
+    /**
+     * Get the label for a given option of a select box.
+     * 
+     * @param selectName
+     *            name of the select box.
+     * @param optionValue
+     *            label of the option.
+     */
+    String getSelectOptionLabelForValue(String selectName, String optionValue);
 
     /**
      * Get the value for a given option of a select box.
@@ -251,15 +233,15 @@ public interface IJWebUnitDialog {
      * @param optionLabel
      *            label of the option.
      */
-    String getValueForOption(String selectName, String optionLabel);
+    String getSelectOptionValueForLabel(String selectName, String optionLabel);
 
     /**
      * Select option(s) of a select box by value.
      * 
      * @param selectName
      *            name of the select box.
-     * @param options
-     *            labels of the options to select.
+     * @param optionsValue
+     *            values of the options to select.
      */
     void selectOptions(String selectName, String[] optionsValue);
 
@@ -268,8 +250,8 @@ public interface IJWebUnitDialog {
      * 
      * @param selectName
      *            name of the select box.
-     * @param options
-     *            labels of the options to unselect.
+     * @param optionsValue
+     *            vaules of the options to unselect.
      */
     void unselectOptions(String selectName, String[] options);
 
@@ -283,6 +265,17 @@ public interface IJWebUnitDialog {
      * @return true if a select box has the given option (by label).
      */
     boolean hasSelectOption(String selectName, String optionLabel);
+
+    /**
+     * Test if a select box has the given option (by value).
+     * 
+     * @param selectName
+     *            name of the select box.
+     * @param optionValue
+     *            value of the option.
+     * @return true if a select box has the given option (by value).
+     */
+    boolean hasSelectOptionValue(String selectName, String optionValue);
 
     /**
      * Determines if the checkbox is selected.

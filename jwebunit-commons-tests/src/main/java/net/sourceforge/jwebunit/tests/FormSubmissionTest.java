@@ -163,7 +163,14 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		assertSelectedOptionEquals("select1", "two");
 	}
 
-	public void testSimpleLabeledForm() {
+    public void testSelectOptionByValue() {
+        beginAt("/MultiFormPage.html");
+        assertSelectedOptionValueEquals("select1", "1");
+        selectOptionByValue("select1", "2");
+        assertSelectedOptionValueEquals("select1", "2");
+    }
+
+    public void testSimpleLabeledForm() {
 		beginAt("/QueryFormSimple.html");
 		setFormElementWithLabel("First", "oneValue");
 		setFormElementWithLabel("Second", "anotherValue");

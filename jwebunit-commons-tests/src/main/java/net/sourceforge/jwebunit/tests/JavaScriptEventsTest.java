@@ -93,7 +93,7 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
 	public void testOnChangeSetsWindowLocation() throws Exception {
 		beginAt("onchange.html");
 		assertTitleEquals("The Title");
-		selectOptions("testSelect", new String[] {"Value2"});
+		selectOption("testSelect", "Value2");
 		assertTitleEquals("Submitted parameters");
         assertTextPresent(" testSelect=V2 ");
 	}

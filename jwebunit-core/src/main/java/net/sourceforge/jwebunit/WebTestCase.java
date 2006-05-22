@@ -303,36 +303,52 @@ public class WebTestCase extends TestCase {
         getTester().assertRadioOptionNotSelected(radioGroup, radioOption);
     }
 
-    public void assertOptionPresent(String selectName, String optionLabel) {
-        getTester().assertOptionPresent(selectName, optionLabel);
+    public void assertSelectOptionPresent(String selectName, String optionLabel) {
+        getTester().assertSelectOptionPresent(selectName, optionLabel);
     }
 
-    public void assertOptionNotPresent(String selectName, String optionLabel) {
-        getTester().assertOptionNotPresent(selectName, optionLabel);
+    public void assertSelectOptionNotPresent(String selectName, String optionLabel) {
+        getTester().assertSelectOptionNotPresent(selectName, optionLabel);
     }
 
-    public void assertOptionsEqual(String selectName, String[] options) {
-        getTester().assertOptionsEqual(selectName, options);
+    public void assertSelectOptionValuePresent(String selectName, String optionValue) {
+        getTester().assertSelectOptionValuePresent(selectName, optionValue);
     }
 
-    public void assertOptionsNotEqual(String selectName, String[] options) {
-        getTester().assertOptionsNotEqual(selectName, options);
+    public void assertSelectOptionValueNotPresent(String selectName, String optionValue) {
+        getTester().assertSelectOptionValueNotPresent(selectName, optionValue);
     }
 
-    public void assertOptionValuesEqual(String selectName, String[] options) {
-        getTester().assertOptionValuesEqual(selectName, options);
+    public void assertSelectOptionsEqual(String selectName, String[] options) {
+        getTester().assertSelectOptionsEqual(selectName, options);
     }
 
-    public void assertOptionValuesNotEqual(String selectName, String[] options) {
-        getTester().assertOptionValuesNotEqual(selectName, options);
+    public void assertSelectOptionsNotEqual(String selectName, String[] options) {
+        getTester().assertSelectOptionsNotEqual(selectName, options);
     }
 
-    public void assertSelectedOptionEquals(String selectName, String option) {
-        getTester().assertSelectedOptionEquals(selectName, option);
+    public void assertSelectOptionValuesEqual(String selectName, String[] options) {
+        getTester().assertSelectOptionValuesEqual(selectName, options);
     }
 
-    public void assertSelectedOptionsEqual(String selectName, String[] options) {
-        getTester().assertSelectedOptionsEqual(selectName, options);
+    public void assertSelectOptionValuesNotEqual(String selectName, String[] options) {
+        getTester().assertSelectOptionValuesNotEqual(selectName, options);
+    }
+
+    public void assertSelectedOptionEquals(String selectName, String label) {
+        getTester().assertSelectedOptionEquals(selectName, label);
+    }
+
+    public void assertSelectedOptionsEqual(String selectName, String[] labels) {
+        getTester().assertSelectedOptionsEqual(selectName, labels);
+    }
+
+    public void assertSelectedOptionValueEquals(String selectName, String value) {
+        getTester().assertSelectedOptionValueEquals(selectName, value);
+    }
+
+    public void assertSelectedOptionValuesEqual(String selectName, String[] values) {
+        getTester().assertSelectedOptionValuesEqual(selectName, values);
     }
 
     public void assertSelectedOptionMatches(String selectName, String regexp) {
@@ -535,14 +551,29 @@ public class WebTestCase extends TestCase {
         getTester().uncheckCheckbox(checkBoxName, value);
     }
 
-    public void selectOption(String selectName, String option) {
-        getTester().selectOption(selectName, option);
+    /**
+     * Select an option with a given display label in a select element.
+     * 
+     * @param selectName
+     *            name of select element.
+     * @param label
+     *            label of option to be selected.
+     */
+    public void selectOption(String selectName, String label) {
+        getTester().selectOption(selectName, label);
     }
 
-    public void selectOptions(String selectName, String[] options) {
-        getTester().selectOptions(selectName, options);
+    public void selectOptions(String selectName, String[] labels) {
+        getTester().selectOptions(selectName, labels);
     }
 
+    public void selectOptionByValue(String selectName, String value) {
+        getTester().selectOptionByValue(selectName, value);
+    }
+
+    public void selectOptionsByValues(String selectName, String[] values) {
+        getTester().selectOptionsByValues(selectName, values);
+    }
     // Form submission and link navigation methods
 
     public void submit() {

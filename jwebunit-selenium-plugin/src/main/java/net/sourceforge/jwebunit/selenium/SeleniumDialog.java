@@ -563,6 +563,10 @@ public class SeleniumDialog implements IJWebUnitDialog {
         throw new UnsupportedOperationException("hasSelectOption");
     }
 
+    public boolean hasSelectOptionValue(String selectName, String optionValue) {
+        throw new UnsupportedOperationException("hasSelectOption");
+    }
+
     /**
      * Return true if a select box contains the indicated option.
      * 
@@ -1271,6 +1275,30 @@ public class SeleniumDialog implements IJWebUnitDialog {
     public void unselectOptions(String selectName, String[] options) {
         // TODO Auto-generated method stub
         
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSelectOptionLabelForValue(java.lang.String, java.lang.String)
+     */
+    public String getSelectOptionLabelForValue(String selectName, String optionValue) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSelectOptionValueForLabel(java.lang.String, java.lang.String)
+     */
+    public String getSelectOptionValueForLabel(String selectName, String optionLabel) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSelectOptionValues(java.lang.String)
+     */
+    public String[] getSelectOptionValues(String selectName) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

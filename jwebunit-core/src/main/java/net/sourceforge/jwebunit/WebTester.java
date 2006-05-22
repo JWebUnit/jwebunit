@@ -866,23 +866,75 @@ public class WebTester {
     }
 
     /**
-     * Assert that a specific option is present in a select box.
+     * Assert that given options are present in a select box (by label).
      * 
      * @param selectName
      *            name of the select element.
      * @param optionLabels
      *            option labels.
      */
-    public void assertOptionsPresent(String selectName, String[] optionLabels) {
+    public void assertSelectOptionsPresent(String selectName,
+            String[] optionLabels) {
         assertFormElementPresent(selectName);
-        for (int i=0; i<optionLabels.length; i++)
-        Assert.assertTrue("Option [" + optionLabels[i]
-                + "] not found in select element " + selectName, getDialog()
-                .hasSelectOption(selectName, optionLabels[i]));
+        for (int i = 0; i < optionLabels.length; i++)
+            Assert.assertTrue("Option [" + optionLabels[i]
+                    + "] not found in select element " + selectName,
+                    getDialog().hasSelectOption(selectName, optionLabels[i]));
     }
-    
-    public void assertOptionPresent(String selectName, String optionLabel) {
-        assertOptionsPresent(selectName, new String[]{optionLabel});
+
+    /**
+     * Assert that a specific option is present in a select box (by label).
+     * 
+     * @param selectName
+     *            name of the select element.
+     * @param optionLabel
+     *            option label.
+     */
+    public void assertSelectOptionPresent(String selectName, String optionLabel) {
+        assertSelectOptionsPresent(selectName, new String[] { optionLabel });
+    }
+
+    /**
+     * Assert that given options are present in a select box (by value).
+     * 
+     * @param selectName
+     *            name of the select element.
+     * @param optionValues
+     *            option labels.
+     */
+    public void assertSelectOptionValuesPresent(String selectName,
+            String[] optionValues) {
+        assertFormElementPresent(selectName);
+        for (int i = 0; i < optionValues.length; i++)
+            Assert.assertTrue("Option [" + optionValues[i]
+                    + "] not found in select element " + selectName,
+                    getDialog().hasSelectOptionValue(selectName,
+                            optionValues[i]));
+    }
+
+    /**
+     * Assert that a specific option is present in a select box (by value).
+     * 
+     * @param selectName
+     *            name of the select element.
+     * @param optionValue
+     *            option value.
+     */
+    public void assertSelectOptionValuePresent(String selectName,
+            String optionValue) {
+        assertSelectOptionValuesPresent(selectName,
+                new String[] { optionValue });
+    }
+
+    public void assertSelectOptionValueNotPresent(String selectName,
+            String optionValue) {
+        try {
+            assertSelectOptionValuePresent(selectName, optionValue);
+        } catch (AssertionFailedError e) {
+            return;
+        }
+        Assert.fail("Option value" + optionValue + " found in select element "
+                + selectName + " when not expected.");
     }
 
     /**
@@ -893,11 +945,15 @@ public class WebTester {
      * @param expectedOption
      *            option label.
      */
-    public void assertOptionNotPresent(String selectName, String optionLabel) {
-        assertFormElementPresent(selectName);
-        Assert.assertTrue("Option " + optionLabel + " found in select element "
-                + selectName + " when not expected.", !getDialog()
-                .hasSelectOption(selectName, optionLabel));
+    public void assertSelectOptionNotPresent(String selectName,
+            String optionLabel) {
+        try {
+            assertSelectOptionPresent(selectName, optionLabel);
+        } catch (AssertionFailedError e) {
+            return;
+        }
+        Assert.fail("Option " + optionLabel + " found in select element "
+                + selectName + " when not expected.");
     }
 
     /**
@@ -907,12 +963,12 @@ public class WebTester {
      * @param selectName
      *            name of the select element.
      * @param expectedOptions
-     *            expected display values for the select box.
+     *            expected labels for the select box.
      */
-    public void assertOptionsEqual(String selectName, String[] expectedOptions) {
+    public void assertSelectOptionsEqual(String selectName,
+            String[] expectedOptions) {
         assertFormElementPresent(selectName);
-        assertArraysEqual(expectedOptions, getDialog()
-                .getOptionsFor(selectName));
+        assertArraysEqual(expectedOptions, getOptionsFor(selectName));
     }
 
     /**
@@ -924,11 +980,11 @@ public class WebTester {
      * @param expectedOptions
      *            expected display values for the select box.
      */
-    public void assertOptionsNotEqual(String selectName,
+    public void assertSelectOptionsNotEqual(String selectName,
             String[] expectedOptions) {
         assertFormElementPresent(selectName);
         try {
-            assertOptionsEqual(selectName, expectedOptions);
+            assertSelectOptionsEqual(selectName, expectedOptions);
         } catch (AssertionFailedError e) {
             return;
         }
@@ -944,21 +1000,12 @@ public class WebTester {
      * @param expectedValues
      *            expected values for the select box.
      */
-    public void assertOptionValuesEqual(String selectName,
+    public void assertSelectOptionValuesEqual(String selectName,
             String[] expectedValues) {
         assertFormElementPresent(selectName);
-        assertArraysEqual(expectedValues, getDialog().getOptionValuesFor(
+        assertArraysEqual(expectedValues, getDialog().getSelectOptionValues(
                 selectName));
 
-    }
-
-    private void assertArraysEqual(String[] exptected, String[] returned) {
-        Assert.assertEquals("Arrays not same length", exptected.length,
-                returned.length);
-        for (int i = 0; i < returned.length; i++) {
-            Assert.assertEquals("Elements " + i + "not equal", exptected[i],
-                    returned[i]);
-        }
     }
 
     /**
@@ -970,11 +1017,11 @@ public class WebTester {
      * @param optionValues
      *            expected values for the select box.
      */
-    public void assertOptionValuesNotEqual(String selectName,
+    public void assertSelectOptionValuesNotEqual(String selectName,
             String[] optionValues) {
         assertFormElementPresent(selectName);
         try {
-            assertOptionValuesEqual(selectName, optionValues);
+            assertSelectOptionValuesEqual(selectName, optionValues);
         } catch (AssertionFailedError e) {
             return;
         }
@@ -982,25 +1029,58 @@ public class WebTester {
     }
 
     /**
-     * Assert that the currently selected display value(s) of a select box
-     * matches given value(s).
+     * Assert that the currently selected display label(s) of a select box
+     * matches given label(s).
      * 
      * @param selectName
      *            name of the select element.
-     * @param options
-     *            expected display value(s) of the selected option.
+     * @param labels
+     *            expected display label(s) of the selected option.
      */
-    public void assertSelectedOptionsEqual(String selectName, String[] options) {
+    public void assertSelectedOptionsEqual(String selectName, String[] labels) {
         assertFormElementPresent(selectName);
-        Assert.assertEquals(options.length, getDialog().getSelectedOptions(
+        Assert.assertEquals(labels.length, getDialog().getSelectedOptions(
                 selectName).length);
-        for (int i = 0; i < options.length; i++)
-            Assert.assertEquals(options[i], getDialog().getSelectedOptions(
+        for (int i = 0; i < labels.length; i++)
+            Assert.assertEquals(labels[i], getDialog()
+                    .getSelectOptionLabelForValue(selectName,
+                            getDialog().getSelectedOptions(selectName)[i]));
+    }
+
+    public void assertSelectedOptionEquals(String selectName, String option) {
+        assertSelectedOptionsEqual(selectName, new String[] { option });
+    }
+
+    /**
+     * Assert that the currently selected value(s) of a select box matches given
+     * value(s).
+     * 
+     * @param selectName
+     *            name of the select element.
+     * @param values
+     *            expected value(s) of the selected option.
+     */
+    public void assertSelectedOptionValuesEqual(String selectName,
+            String[] values) {
+        assertFormElementPresent(selectName);
+        Assert.assertEquals(values.length, getDialog().getSelectedOptions(
+                selectName).length);
+        for (int i = 0; i < values.length; i++)
+            Assert.assertEquals(values[i], getDialog().getSelectedOptions(
                     selectName)[i]);
     }
-    
-    public void assertSelectedOptionEquals(String selectName, String option) {
-        assertSelectedOptionsEqual(selectName, new String[]{option});
+
+    /**
+     * Assert that the currently selected value of a select box matches given
+     * value.
+     * 
+     * @param selectName
+     *            name of the select element.
+     * @param value
+     *            expected value of the selected option.
+     */
+    public void assertSelectedOptionValueEquals(String selectName, String value) {
+        assertSelectedOptionValuesEqual(selectName, new String[] { value });
     }
 
     /**
@@ -1024,9 +1104,9 @@ public class WebTester {
                     .match(getDialog().getSelectedOptions(selectName)[i]));
         }
     }
-    
+
     public void assertSelectedOptionMatches(String selectName, String regexp) {
-        assertSelectedOptionsMatch(selectName, new String[]{regexp});        
+        assertSelectedOptionsMatch(selectName, new String[] { regexp });
     }
 
     /**
@@ -1133,8 +1213,8 @@ public class WebTester {
      */
     public void assertLinkPresentWithText(String linkText) {
         Assert.assertTrue("Link with text [" + linkText
-                + "] not found in response.", getDialog()
-                .hasLinkWithText(linkText, 0));
+                + "] not found in response.", getDialog().hasLinkWithText(
+                linkText, 0));
     }
 
     /**
@@ -1172,8 +1252,8 @@ public class WebTester {
      */
     public void assertLinkNotPresentWithText(String linkText, int index) {
         Assert.assertTrue("Link with text [" + linkText + "] and index "
-                + index + " found in response.", !getDialog()
-                .hasLinkWithText(linkText, index));
+                + index + " found in response.", !getDialog().hasLinkWithText(
+                linkText, index));
     }
 
     // BEGIN RFE 996031...
@@ -1185,8 +1265,8 @@ public class WebTester {
      */
     public void assertLinkPresentWithExactText(String linkText) {
         Assert.assertTrue("Link with Exact text [" + linkText
-                + "] not found in response.", getDialog()
-                .hasLinkWithExactText(linkText, 0));
+                + "] not found in response.", getDialog().hasLinkWithExactText(
+                linkText, 0));
     }
 
     /**
@@ -1196,8 +1276,8 @@ public class WebTester {
      */
     public void assertLinkNotPresentWithExactText(String linkText) {
         Assert.assertTrue("Link with Exact text [" + linkText
-                + "] found in response.", !getDialog()
-                .hasLinkWithExactText(linkText, 0));
+                + "] found in response.", !getDialog().hasLinkWithExactText(
+                linkText, 0));
     }
 
     /**
@@ -1240,8 +1320,8 @@ public class WebTester {
      */
     public void assertLinkPresentWithImage(String imageFileName) {
         Assert.assertTrue("Link with image file [" + imageFileName
-                + "] not found in response.", getDialog()
-                .hasLinkWithImage(imageFileName, 0));
+                + "] not found in response.", getDialog().hasLinkWithImage(
+                imageFileName, 0));
     }
 
     /**
@@ -1564,21 +1644,55 @@ public class WebTester {
     }
 
     /**
-     * Select an option with a given display value in a select element.
+     * Select options with given display labels in a select element.
      * 
      * @param selectName
      *            name of select element.
-     * @param option
-     *            display value of option to be selected.
+     * @param labels
+     *            labels of options to be selected.
      */
-    public void selectOptions(String selectName, String[] options) {
-        assertOptionsPresent(selectName, options);
-        getDialog().selectOptions(selectName, options);
+    public void selectOptions(String selectName, String[] labels) {
+        assertSelectOptionsPresent(selectName, labels);
+        selectOptionsByLabel(selectName, labels);
     }
 
-    public void selectOption(String selectName, String option) {
-        selectOptions(selectName, new String[] {option});
+    /**
+     * Select an option with a given display label in a select element.
+     * 
+     * @param selectName
+     *            name of select element.
+     * @param label
+     *            label of option to be selected.
+     */
+    public void selectOption(String selectName, String label) {
+        selectOptions(selectName, new String[] { label });
     }
+
+    /**
+     * Select options with given values in a select element.
+     * 
+     * @param selectName
+     *            name of select element.
+     * @param values
+     *            values of options to be selected.
+     */
+    public void selectOptionsByValues(String selectName, String[] values) {
+        assertSelectOptionValuesPresent(selectName, values);
+        getDialog().selectOptions(selectName, values);
+    }
+
+    /**
+     * Select an option with a given value in a select element.
+     * 
+     * @param selectName
+     *            name of select element.
+     * @param values
+     *            values of options to be selected.
+     */
+    public void selectOptionByValue(String selectName, String value) {
+        selectOptionsByValues(selectName, new String[] { value });
+    }
+
     // Form submission and link navigation methods
 
     /**
@@ -1798,13 +1912,13 @@ public class WebTester {
                 + ExceptionUtility
                         .stackTraceToString(aTestingEngineResponseException));
     }
-    
+
     public void dumpCookies() {
         String[][] cookies = getDialog().getCookies();
-        for (int i=0;i<cookies.length;i++) {
-            System.out.println(cookies[i][0]+"="+cookies[i][1]);
+        for (int i = 0; i < cookies.length; i++) {
+            System.out.println(cookies[i][0] + "=" + cookies[i][1]);
         }
-            
+
     }
 
     // Debug methods
@@ -1916,8 +2030,15 @@ public class WebTester {
      */
     public String getTestingEngineKey() {
         if (testingEngineKey == null) {
-            // default to using the httpunit testing engine.
-            setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
+            // use first available dialog
+            if (TestingEngineRegistry.getTestingEngineMap().keys()
+                    .hasMoreElements()) {
+                setTestingEngineKey((String) TestingEngineRegistry
+                        .getTestingEngineMap().keys().nextElement());
+            } else {
+                throw new RuntimeException(
+                        "TestingEngineRegistry contains no dialog. Check you put at least one plugin in the classpath.");
+            }
         }
         return testingEngineKey;
     }
@@ -1973,4 +2094,67 @@ public class WebTester {
         }
         return false;
     }
+
+    /**
+     * Return a string array of select box option labels. <br/>
+     * 
+     * Exemple: <br/>
+     * 
+     * <pre>
+     *             &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+     *               &lt;P&gt;
+     *                 &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+     *                   &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+     *                   &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+     *                   &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+     *                   &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+     *                   &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+     *                 &lt;/SELECT&gt;
+     *                 &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+     *               &lt;/P&gt;
+     *             &lt;/FORM&gt;
+     * </pre>
+     * 
+     * Should return [Component_1, Component_2, Component_3, Component_4,
+     * Component_5]
+     * 
+     * @param selectName
+     *            name of the select box.
+     */
+    private String[] getOptionsFor(String selectName) {
+        String[] values = getDialog().getSelectOptionValues(selectName);
+        String[] result = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            result[i] = getDialog().getSelectOptionLabelForValue(selectName,
+                    values[i]);
+        }
+        return result;
+    }
+
+    /**
+     * Select options by given labels in a select box
+     * 
+     * @param selectName
+     *            name of the select
+     * @param labels
+     *            labels of options to be selected
+     */
+    private void selectOptionsByLabel(String selectName, String[] labels) {
+        String[] values = new String[labels.length];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = getDialog().getSelectOptionValueForLabel(selectName,
+                    labels[i]);
+        }
+        getDialog().selectOptions(selectName, values);
+    }
+
+    private void assertArraysEqual(String[] exptected, String[] returned) {
+        Assert.assertEquals("Arrays not same length", exptected.length,
+                returned.length);
+        for (int i = 0; i < returned.length; i++) {
+            Assert.assertEquals("Elements " + i + "not equal", exptected[i],
+                    returned[i]);
+        }
+    }
+
 }

@@ -1258,15 +1258,15 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         return false;
     }
 
-    /**
-     * Return a string array of select box option labels.
-     * 
-     * @param selectName
-     *            name of the select box.
-     */
-    public String[] getOptionsFor(String selectName) {
-        return getForm().getOptions(selectName);
-    }
+//    /**
+//     * Return a string array of select box option labels.
+//     * 
+//     * @param selectName
+//     *            name of the select box.
+//     */
+//    public String[] getOptionsFor(String selectName) {
+//        return getForm().getOptions(selectName);
+//    }
 
     /**
      * Return a string array of select box option values.
@@ -1274,7 +1274,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * @param selectName
      *            name of the select box.
      */
-    public String[] getOptionValuesFor(String selectName) {
+    public String[] getSelectOptionValues(String selectName) {
         return getForm().getOptionValues(selectName);
     }
 
@@ -1285,14 +1285,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      *            name of the select box.
      */
     public String[] getSelectedOptions(String selectName) {
-        String val = getFormParameterValue(selectName);
-        String[] vals = getOptionValuesFor(selectName);
         // TODO Manage multi-select in getSelectedOptions
-        for (int i = 0; i < vals.length; i++) {
-            if (vals[i].equals(val))
-                return new String[] { getOptionsFor(selectName)[i] };
-        }
-        return null;
+        return new String[]{getFormParameterValue(selectName)};
     }
 
     /**
@@ -1300,22 +1294,22 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * 
      * @param selectName
      *            name of the select box.
-     * @param option
+     * @param label
      *            label of the option.
      */
-    public String getValueForOption(String selectName, String option) {
-        String[] opts = getOptionsFor(selectName);
+    public String getSelectOptionValueForLabel(String selectName, String label) {
+        String[] opts = getForm().getOptions(selectName);
         for (int i = 0; i < opts.length; i++) {
-            if (opts[i].equals(option))
-                return getOptionValuesFor(selectName)[i];
+            if (opts[i].equals(label))
+                return getSelectOptionValues(selectName)[i];
         }
-        throw new RuntimeException("Unable to find option " + option + " for "
+        throw new RuntimeException("Unable to find option " + label + " for "
                 + selectName);
     }
 
-    public String getLabelForOption(String selectName, String optionValue) {
-        String[] opts = getOptionsFor(selectName);
-        String[] optsValues = getOptionValuesFor(selectName);
+    public String getSelectOptionLabelForValue(String selectName, String optionValue) {
+        String[] opts = getForm().getOptions(selectName);
+        String[] optsValues = getSelectOptionValues(selectName);
         for (int i = 0; i < opts.length; i++) {
             if (optsValues[i].equals(optionValue))
                 return opts[i];
@@ -1334,25 +1328,43 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * @return
      */
     public boolean hasSelectOption(String selectName, String optionLabel) {
-        String[] opts = getOptionsFor(selectName);
-        for (int i = 0; i < opts.length; i++) {
-            if (opts[i].equals(optionLabel))
+        String[] optLabels = getForm().getOptions(selectName);
+        for (int i = 0; i < optLabels.length; i++) {
+            if (optLabels[i].equals(optionLabel))
                 return true;
         }
         return false;
     }
 
     /**
-     * Select an option of a select box by display label.
+     * Return true if a select box has the given option (by value).
      * 
      * @param selectName
      *            name of the select box.
-     * @param options
-     *            label of the option(s) to select.
+     * @param optionValue
+     *            value of the option.
+     * @return
      */
-    public void selectOptions(String selectName, String[] options) {
+    public boolean hasSelectOptionValue(String selectName, String optionValue) {
+        String[] optValues = getSelectOptionValues(selectName);
+        for (int i = 0; i < optValues.length; i++) {
+            if (optValues[i].equals(optionValue))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Select an option of a select box by value.
+     * 
+     * @param selectName
+     *            name of the select box.
+     * @param values
+     *            value(s) of the option(s) to select.
+     */
+    public void selectOptions(String selectName, String[] values) {
         // TODO Manage multi-select in selectOptions
-        setFormParameter(selectName, options[0]);
+        setFormParameter(selectName, values[0]);
     }
 
     public void unselectOptions(String selectName, String[] options) {
