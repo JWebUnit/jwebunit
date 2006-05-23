@@ -10,6 +10,7 @@ import net.sourceforge.jwebunit.tests.*;
 /**
  * Test Suite for jWebUnit.
  * 
+ * @author Julien Henry
  * @author Wilkes Joiner
  */
 public class JWebUnitTest extends TestCase {
@@ -42,6 +43,7 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(TestContextTest.class);
         suite.addTestSuite(FormAssertionsTest.class);
         suite.addTestSuite(NavigationTest.class);
+        suite.addTestSuite(XPathTest.class);
         //$JUnit-END$
         return new JettySetup(suite);
     }

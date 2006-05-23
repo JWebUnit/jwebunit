@@ -1301,4 +1301,20 @@ public class SeleniumDialog implements IJWebUnitDialog {
         return null;
     }
 
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickElementByXPath(java.lang.String)
+     */
+    public void clickElementByXPath(String xpath) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasElementByXPath(java.lang.String)
+     */
+    public boolean hasElementByXPath(String xpath) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

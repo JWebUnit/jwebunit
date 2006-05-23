@@ -472,14 +472,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return wc.getWebWindowByName(windowName);
     }
 
-    public boolean hasElement(String anID) {
-        return getElement(anID) != null;
-    }
-
-    public boolean isXPathElementPresent(String xpath) {
-        return getXPathElement(xpath) != null;
-    }
-
     private HtmlElement getElement(String anID) {
         try {
             return ((HtmlPage) win.getEnclosedPage()).getHtmlElementById(anID);
@@ -488,7 +480,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
     }
 
-    private HtmlElement getXPathElement(String xpath) {
+    private HtmlElement getElementByXPath(String xpath) {
         List l = null;
         try {
             final HtmlUnitXPath xp = new HtmlUnitXPath(xpath);
@@ -1145,30 +1137,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *            id of link to be navigated.
      */
     public void clickLink(String anID) {
-        clickXPathElement("//a[@id=\"" + anID + "\"]");
-    }
-
-    /**
-     * Clicks element by xpath. A RuntimeException is thrown if no such element
-     * can be found or if element is not clickable.
-     * 
-     * @param xpath
-     *            xpath of element to be clicked.
-     */
-    public void clickXPathElement(String xpath) {
-        HtmlElement e = getXPathElement(xpath);
-        if (e == null)
-            throw new RuntimeException("No element found with xpath \"" + xpath
-                    + "\"");
-        try {
-            ClickableElement c = (ClickableElement) e;
-            c.click();
-        } catch (ClassCastException exp) {
-            throw new RuntimeException("Element with xpath \"" + xpath
-                    + "\" is not clickable");
-        } catch (IOException exp) {
-            throw new RuntimeException("Click failed");
-        }
+        clickElementByXPath("//a[@id=\"" + anID + "\"]");
     }
 
     private HtmlAnchor getLinkWithText(String linkText) {
@@ -1176,7 +1145,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     private HtmlAnchor getLinkWithImage(String filename, int index) {
-        return (HtmlAnchor) getXPathElement("(//a[img[contains(@src,\""
+        return (HtmlAnchor) getElementByXPath("(//a[img[contains(@src,\""
                 + filename + "\")]])[" + index + 1 + "]");
     }
 
@@ -1200,10 +1169,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *            <tt>"images/my_icon.png"<tt>, you could just pass in
      *                      <tt>"my_icon.png"<tt>.
      */
-    public void clickLinkWithImage(String imageFileName) {
-        clickLinkWithImage(imageFileName, 0);
-    }
-
     public void clickLinkWithImage(String imageFileName, int index) {
         HtmlAnchor link = getLinkWithImage(imageFileName, index);
         if (link == null)
@@ -1212,6 +1177,30 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         try {
             link.click();
         } catch (IOException e) {
+            throw new RuntimeException("Click failed");
+        }
+    }
+    
+    public boolean hasElement(String anID) {
+        return getElement(anID) != null;
+    }
+
+    public boolean hasElementByXPath(String xpath) {
+        return getElementByXPath(xpath) != null;
+    }
+    
+    public void clickElementByXPath(String xpath) {
+        HtmlElement e = getElementByXPath(xpath);
+        if (e == null)
+            throw new RuntimeException("No element found with xpath \"" + xpath
+                    + "\"");
+        try {
+            ClickableElement c = (ClickableElement) e;
+            c.click();
+        } catch (ClassCastException exp) {
+            throw new RuntimeException("Element with xpath \"" + xpath
+                    + "\" is not clickable");
+        } catch (IOException exp) {
             throw new RuntimeException("Click failed");
         }
     }
@@ -1498,5 +1487,4 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 }
         }
     }
-
 }

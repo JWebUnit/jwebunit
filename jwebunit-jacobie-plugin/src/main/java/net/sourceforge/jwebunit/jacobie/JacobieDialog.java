@@ -1390,4 +1390,28 @@ public class JacobieDialog implements IJWebUnitDialog {
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickElementByXPath(java.lang.String)
+     */
+    public void clickElementByXPath(String xpath) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithImage(java.lang.String, int)
+     */
+    public void clickLinkWithImage(String imageFileName, int index) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasElementByXPath(java.lang.String)
+     */
+    public boolean hasElementByXPath(String xpath) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

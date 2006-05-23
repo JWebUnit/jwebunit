@@ -1,7 +1,3 @@
-/********************************************************************************
- * Copyright (c) 2001, ThoughtWorks, Inc.
- * Distributed open-source, see full license under licenses/jwebunit_license.txt
- **********************************/
 package net.sourceforge.jwebunit;
 
 import java.io.PrintStream;
@@ -23,6 +19,7 @@ import org.apache.regexp.RESyntaxException;
  * property file for web resources (a la Struts), though a resource file for the
  * app is not required.
  * 
+ * @author Julien Henry
  * @author Jim Weaver
  * @author Wilkes Joiner
  */
@@ -32,12 +29,6 @@ public class WebTester {
     private TestContext testContext = null;
 
     private boolean tableEmptyCellCompression = false;
-
-    /**
-     * This is the reference to the testing engine registry that contains the
-     * list of known testing engines for jWebUnit to use for testing.
-     */
-    private TestingEngineRegistry testingEngineRegistry = new TestingEngineRegistry();
 
     /**
      * This is the testing engine key that the webtester will use to find the
@@ -76,7 +67,7 @@ public class WebTester {
         String theTestingEngineKey = getTestingEngineKey();
         Class theClass;
         try {
-            theClass = getTestingEngineRegistry().getTestingEngineClass(
+            theClass = TestingEngineRegistry.getTestingEngineClass(
                     theTestingEngineKey);
         } catch (ClassNotFoundException e1) {
             throw new RuntimeException(e1);
@@ -683,6 +674,7 @@ public class WebTester {
      * @param formElementLabel
      *            label preceding form element.
      * @see #setFormElementWithLabel(String,String)
+     * @deprecated
      */
     public void assertFormElementPresentWithLabel(String formElementLabel) {
         Assert.assertTrue("Did not find form element with label ["
@@ -696,6 +688,7 @@ public class WebTester {
      * @param formElementLabel
      *            label preceding form element.
      * @see #setFormElementWithLabel(String,String)
+     * @deprecated
      */
     public void assertFormElementNotPresentWithLabel(String formElementLabel) {
         Assert.assertFalse("Found form element with label [" + formElementLabel
@@ -1361,6 +1354,28 @@ public class WebTester {
     }
 
     /**
+     * Assert that an element with a given xpath is present.
+     * 
+     * @param xpath
+     *            element xpath to test for.
+     */
+    public void assertElementPresentByXPath(String xpath) {
+        Assert.assertTrue("Unable to locate element with xpath \"" + xpath + "\"",
+                getDialog().hasElementByXPath(xpath));
+    }
+
+    /**
+     * Assert that an element with a given xpath is not present.
+     * 
+     * @param xpath
+     *            element xpath to test for.
+     */
+    public void assertElementNotPresentByXPath(String xpath) {
+        Assert.assertFalse("Located element with xpath \"" + xpath + "\"",
+                getDialog().hasElementByXPath(xpath));
+    }
+
+    /**
      * Assert that a given element contains specific text.
      * 
      * @param elementID
@@ -1558,6 +1573,7 @@ public class WebTester {
      * @param formElementLabel
      *            label preceding form element.
      * @param value
+     * @deprecated
      */
     public void setFormElementWithLabel(String formElementLabel, String value) {
         String name = getDialog().getFormElementNameForLabel(formElementLabel);
@@ -1571,13 +1587,22 @@ public class WebTester {
      * checkbox will stay checked.
      * 
      * @param checkBoxName
-     *            name of checkbox to be deselected.
+     *            name of checkbox to be selected.
      */
     public void checkCheckbox(String checkBoxName) {
         assertFormElementPresent(checkBoxName);
         getDialog().checkCheckbox(checkBoxName);
     }
 
+    /**
+     * Select a specified checkbox. If the checkbox is already checked then the
+     * checkbox will stay checked.
+     * 
+     * @param checkBoxName
+     *            name of checkbox to be selected.
+     * @param value
+     *            value of checkbox to be selected.
+     */
     public void checkCheckbox(String checkBoxName, String value) {
         assertFormElementPresent(checkBoxName);
         getDialog().checkCheckbox(checkBoxName, value);
@@ -1595,6 +1620,7 @@ public class WebTester {
      * 
      * @param formElementLabel
      *            The text label, appearing after the checkbox
+     * @deprecated
      */
     public void checkCheckboxBeforeLabel(String formElementLabel) {
         assertTextPresent(formElementLabel);
@@ -1617,6 +1643,7 @@ public class WebTester {
      * 
      * @param formElementLabel
      *            The text label, appearing after the checkbox
+     * @deprecated
      */
     public void checkCheckboxWithLabel(String formElementLabel) {
         assertTextPresent(formElementLabel);
@@ -1638,6 +1665,15 @@ public class WebTester {
         getDialog().uncheckCheckbox(checkBoxName);
     }
 
+    /**
+     * Deselect a specified checkbox. If the checkbox is already unchecked then
+     * the checkbox will stay unchecked.
+     * 
+     * @param checkBoxName
+     *            name of checkbox to be deselected.
+     * @param value
+     *            value of checkbox to be deselected.
+     */
     public void uncheckCheckbox(String checkBoxName, String value) {
         assertFormElementPresent(checkBoxName);
         getDialog().uncheckCheckbox(checkBoxName, value);
@@ -1791,6 +1827,7 @@ public class WebTester {
     /**
      * Search for labelText in the document, then search forward until finding a
      * link called linkText. Click it.
+     * @deprecated
      */
     public void clickLinkWithTextAfterText(String linkText, String labelText) {
         getDialog().clickLinkWithTextAfterText(linkText, labelText);
@@ -1827,7 +1864,7 @@ public class WebTester {
      */
     public void clickLinkWithImage(String imageFileName) {
         assertLinkPresentWithImage(imageFileName);
-        getDialog().clickLinkWithImage(imageFileName);
+        getDialog().clickLinkWithImage(imageFileName, 0);
     }
 
     /**
@@ -1852,6 +1889,17 @@ public class WebTester {
     public void clickRadioOption(String radioGroup, String radioOption) {
         assertRadioOptionPresent(radioGroup, radioOption);
         getDialog().clickRadioOption(radioGroup, radioOption);
+    }
+    
+    /**
+     * Click element with given xpath.
+     * 
+     * @param xpath
+     *            xpath of the element.
+     */
+    public void clickElementByXPath(String xpath) {
+        assertElementPresentByXPath(xpath);
+        getDialog().clickElementByXPath(xpath);
     }
 
     // Window and Frame Navigation Methods
@@ -2041,27 +2089,6 @@ public class WebTester {
             }
         }
         return testingEngineKey;
-    }
-
-    /**
-     * Protected only because consumers outside don't need to set a new
-     * registry.
-     * 
-     * @param testingEngineRegistry
-     *            The testingEngineRegistry to set.
-     */
-    protected void setTestingEngineRegistry(
-            TestingEngineRegistry testingEngineRegistry) {
-        this.testingEngineRegistry = testingEngineRegistry;
-    }
-
-    /**
-     * Gets the Testing Engine Registry.
-     * 
-     * @return Returns the testingEngineRegistry.
-     */
-    public TestingEngineRegistry getTestingEngineRegistry() {
-        return testingEngineRegistry;
     }
 
     private RE getRE(String regexp) {

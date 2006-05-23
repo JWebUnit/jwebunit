@@ -1,8 +1,3 @@
-/********************************************************************************
- * Copyright (c) 2001, ThoughtWorks, Inc.
- * Distributed open-source, see full license under licenses/jwebunit_license.txt
- **********************************/
-
 package net.sourceforge.jwebunit;
 
 import java.io.PrintStream;
@@ -14,14 +9,15 @@ import junit.framework.TestCase;
  * Junit assertions. This class uses {@link net.sourceforge.jwebunit.WebTester}
  * as a mixin - See that class for method documentation.
  * 
+ * @author Julien Henry
  * @author Jim Weaver
  * @author Wilkes Joiner
  */
 public class WebTestCase extends TestCase {
     private WebTester tester = null;
 
-    //BEGIN CONSTRUCTORS....
-    
+    // BEGIN CONSTRUCTORS....
+
     public WebTestCase(String name) {
         super(name);
     }
@@ -29,21 +25,21 @@ public class WebTestCase extends TestCase {
     public WebTestCase() {
     }
 
-    //END CONSTRUCTORS....
-    
-    //BEGIN JUNIT SETUP / TEARDOWN / RUNBARE OVERRIDES....
-    
-    public void setUp() throws Exception {
-    	super.setUp();
+    // END CONSTRUCTORS....
 
-        //New implementation on choosing a testing engine (dialog).
-        //setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_JACOBIE);
-        //setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
+    // BEGIN JUNIT SETUP / TEARDOWN / RUNBARE OVERRIDES....
+
+    public void setUp() throws Exception {
+        super.setUp();
+
+        // New implementation on choosing a testing engine (dialog).
+        // setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_JACOBIE);
+        // setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
     }
-    
+
     public void tearDown() throws Exception {
-    	closeBrowser();
-    	super.tearDown();
+        closeBrowser();
+        super.tearDown();
     }
 
     /**
@@ -62,27 +58,27 @@ public class WebTestCase extends TestCase {
         }
     }
 
-    //END JUNIT SETUP / TEARDOWN / RUNBARE OVERRIDES....  
+    // END JUNIT SETUP / TEARDOWN / RUNBARE OVERRIDES....
 
     /**
-     * Select the Testing Engine that you want to use for the tests. 
-     * If this isn't called, then jWebUnit will default to using
-     * httpunit as the testing engine.
+     * Select the Testing Engine that you want to use for the tests. If this
+     * isn't called, then jWebUnit will default to using httpunit as the testing
+     * engine.
      */
     public void setTestingEngineKey(String aTestingEngineKey) {
-    	getTester().setTestingEngineKey(aTestingEngineKey);
+        getTester().setTestingEngineKey(aTestingEngineKey);
     }
-    
+
     public void setScriptingEnabled(boolean value) {
         getTester().setScriptingEnabled(value);
     }
-    
+
     public WebTester getTester() {
         return tester;
     }
 
     public void setTester(WebTester aWebTester) {
-		this.tester = aWebTester;
+        this.tester = aWebTester;
     }
 
     public IJWebUnitDialog getDialog() {
@@ -195,20 +191,27 @@ public class WebTestCase extends TestCase {
         tester.assertNoMatchInTable(tableSummaryOrId, regexp);
     }
 
-    public void assertTableEquals(String tableSummaryOrId, ExpectedTable expectedTable) {
-        getTester().assertTableEquals(tableSummaryOrId, expectedTable.getExpectedStrings());
+    public void assertTableEquals(String tableSummaryOrId,
+            ExpectedTable expectedTable) {
+        getTester().assertTableEquals(tableSummaryOrId,
+                expectedTable.getExpectedStrings());
     }
 
-    public void assertTableEquals(String tableSummaryOrId, String[][] expectedCellValues) {
+    public void assertTableEquals(String tableSummaryOrId,
+            String[][] expectedCellValues) {
         getTester().assertTableEquals(tableSummaryOrId, expectedCellValues);
     }
 
-    public void assertTableRowsEqual(String tableSummaryOrId, int startRow, ExpectedTable expectedTable) {
-        getTester().assertTableRowsEqual(tableSummaryOrId, startRow, expectedTable);
+    public void assertTableRowsEqual(String tableSummaryOrId, int startRow,
+            ExpectedTable expectedTable) {
+        getTester().assertTableRowsEqual(tableSummaryOrId, startRow,
+                expectedTable);
     }
 
-    public void assertTableRowsEqual(String tableSummaryOrId, int startRow, String[][] expectedCellValues) {
-        getTester().assertTableRowsEqual(tableSummaryOrId, startRow, expectedCellValues);
+    public void assertTableRowsEqual(String tableSummaryOrId, int startRow,
+            String[][] expectedCellValues) {
+        getTester().assertTableRowsEqual(tableSummaryOrId, startRow,
+                expectedCellValues);
     }
 
     public void assertTableMatch(String tableSummaryOrId,
@@ -270,8 +273,7 @@ public class WebTestCase extends TestCase {
         getTester().assertFormElementEquals(formElementName, expectedValue);
     }
 
-    public void assertFormElementMatch(String formElementName,
-            String regexp) {
+    public void assertFormElementMatch(String formElementName, String regexp) {
         tester.assertFormElementMatch(formElementName, regexp);
     }
 
@@ -291,7 +293,8 @@ public class WebTestCase extends TestCase {
         getTester().assertRadioOptionPresent(radioGroup, radioOption);
     }
 
-    public void assertRadioOptionNotPresent(String radioGroup, String radioOption) {
+    public void assertRadioOptionNotPresent(String radioGroup,
+            String radioOption) {
         getTester().assertRadioOptionNotPresent(radioGroup, radioOption);
     }
 
@@ -299,7 +302,8 @@ public class WebTestCase extends TestCase {
         getTester().assertRadioOptionSelected(radioGroup, radioOption);
     }
 
-    public void assertRadioOptionNotSelected(String radioGroup, String radioOption) {
+    public void assertRadioOptionNotSelected(String radioGroup,
+            String radioOption) {
         getTester().assertRadioOptionNotSelected(radioGroup, radioOption);
     }
 
@@ -307,15 +311,18 @@ public class WebTestCase extends TestCase {
         getTester().assertSelectOptionPresent(selectName, optionLabel);
     }
 
-    public void assertSelectOptionNotPresent(String selectName, String optionLabel) {
+    public void assertSelectOptionNotPresent(String selectName,
+            String optionLabel) {
         getTester().assertSelectOptionNotPresent(selectName, optionLabel);
     }
 
-    public void assertSelectOptionValuePresent(String selectName, String optionValue) {
+    public void assertSelectOptionValuePresent(String selectName,
+            String optionValue) {
         getTester().assertSelectOptionValuePresent(selectName, optionValue);
     }
 
-    public void assertSelectOptionValueNotPresent(String selectName, String optionValue) {
+    public void assertSelectOptionValueNotPresent(String selectName,
+            String optionValue) {
         getTester().assertSelectOptionValueNotPresent(selectName, optionValue);
     }
 
@@ -327,11 +334,13 @@ public class WebTestCase extends TestCase {
         getTester().assertSelectOptionsNotEqual(selectName, options);
     }
 
-    public void assertSelectOptionValuesEqual(String selectName, String[] options) {
+    public void assertSelectOptionValuesEqual(String selectName,
+            String[] options) {
         getTester().assertSelectOptionValuesEqual(selectName, options);
     }
 
-    public void assertSelectOptionValuesNotEqual(String selectName, String[] options) {
+    public void assertSelectOptionValuesNotEqual(String selectName,
+            String[] options) {
         getTester().assertSelectOptionValuesNotEqual(selectName, options);
     }
 
@@ -347,7 +356,8 @@ public class WebTestCase extends TestCase {
         getTester().assertSelectedOptionValueEquals(selectName, value);
     }
 
-    public void assertSelectedOptionValuesEqual(String selectName, String[] values) {
+    public void assertSelectedOptionValuesEqual(String selectName,
+            String[] values) {
         getTester().assertSelectedOptionValuesEqual(selectName, values);
     }
 
@@ -367,7 +377,8 @@ public class WebTestCase extends TestCase {
         getTester().assertSubmitButtonNotPresent(buttonName);
     }
 
-    public void assertSubmitButtonPresent(String buttonName, String expectedValue) {
+    public void assertSubmitButtonPresent(String buttonName,
+            String expectedValue) {
         getTester().assertSubmitButtonPresent(buttonName, expectedValue);
     }
 
@@ -411,29 +422,26 @@ public class WebTestCase extends TestCase {
         getTester().assertLinkNotPresentWithText(linkText, index);
     }
 
-    //SF.NET RFE: 996031
+    // SF.NET RFE: 996031
     public void assertLinkPresentWithExactText(String linkText) {
         getTester().assertLinkPresentWithExactText(linkText);
     }
 
-    //SF.NET RFE: 996031
+    // SF.NET RFE: 996031
     public void assertLinkNotPresentWithExactText(String linkText) {
         getTester().assertLinkNotPresentWithExactText(linkText);
     }
 
-    //SF.NET RFE: 996031
+    // SF.NET RFE: 996031
     public void assertLinkPresentWithExactText(String linkText, int index) {
         getTester().assertLinkPresentWithExactText(linkText, index);
     }
 
-    //SF.NET RFE: 996031
+    // SF.NET RFE: 996031
     public void assertLinkNotPresentWithExactText(String linkText, int index) {
         getTester().assertLinkNotPresentWithExactText(linkText, index);
     }
-    
-    
-    
-    
+
     public void assertLinkPresentWithImage(String imageFileName) {
         getTester().assertLinkPresentWithImage(imageFileName);
     }
@@ -448,6 +456,26 @@ public class WebTestCase extends TestCase {
 
     public void assertElementNotPresent(String anID) {
         getTester().assertElementNotPresent(anID);
+    }
+
+    /**
+     * Assert that an element with a given xpath is present.
+     * 
+     * @param xpath
+     *            element xpath to test for.
+     */
+    public void assertElementPresentByXPath(String xpath) {
+        getTester().assertElementPresentByXPath(xpath);
+    }
+
+    /**
+     * Assert that an element with a given xpath is not present.
+     * 
+     * @param xpath
+     *            element xpath to test for.
+     */
+    public void assertElementNotPresentByXPath(String xpath) {
+        getTester().assertElementNotPresentByXPath(xpath);
     }
 
     public void assertTextInElement(String elID, String text) {
@@ -488,23 +516,24 @@ public class WebTestCase extends TestCase {
     public void assertCookieValueEquals(String cookieName, String expectedValue) {
         getTester().assertCookieValueEquals(cookieName, expectedValue);
     }
-    
+
     public void assertCookieValueMatch(String cookieName, String regexp) {
         tester.assertCookieValueMatch(cookieName, regexp);
     }
 
     // Form interaction methods
-    
+
     /**
-     * Gets the value of a form input element.  Allows getting information from a form element.
-     * Also, checks assertions as well.
-     *
-     * @param formElementName name of form element.
+     * Gets the value of a form input element. Allows getting information from a
+     * form element. Also, checks assertions as well.
+     * 
+     * @param formElementName
+     *            name of form element.
      * @param value
      */
     public String getFormElementValue(String formElementName) {
         return getTester().getFormElementValue(formElementName);
-    }    
+    }
 
     public void setWorkingForm(String nameOrId) {
         getTester().setWorkingForm(nameOrId);
@@ -518,7 +547,7 @@ public class WebTestCase extends TestCase {
     public void setFormElement(String formElementName, String value) {
         getTester().setFormElement(formElementName, value);
     }
-    
+
     public void setTextField(String textFieldName, String value) {
         getTester().setTextField(textFieldName, value);
     }
@@ -527,10 +556,26 @@ public class WebTestCase extends TestCase {
         getTester().setFormElementWithLabel(formElementLabel, value);
     }
 
+    /**
+     * Select a specified checkbox. If the checkbox is already checked then the
+     * checkbox will stay checked.
+     * 
+     * @param checkBoxName
+     *            name of checkbox to be selected.
+     */
     public void checkCheckbox(String checkBoxName) {
         getTester().checkCheckbox(checkBoxName);
     }
 
+    /**
+     * Select a specified checkbox. If the checkbox is already checked then the
+     * checkbox will stay checked.
+     * 
+     * @param checkBoxName
+     *            name of checkbox to be selected.
+     * @param value
+     *            value of checkbox to be selected.
+     */
     public void checkCheckbox(String checkBoxName, String value) {
         getTester().checkCheckbox(checkBoxName, value);
     }
@@ -538,15 +583,31 @@ public class WebTestCase extends TestCase {
     public void checkCheckboxWithLabel(String formElementLabel) {
         getTester().checkCheckboxWithLabel(formElementLabel);
     }
-    
+
     public void checkCheckboxBeforeLabel(String formElementLabel) {
         getTester().checkCheckboxBeforeLabel(formElementLabel);
-    }    
-    
+    }
+
+    /**
+     * Deselect a specified checkbox. If the checkbox is already unchecked then
+     * the checkbox will stay unchecked.
+     * 
+     * @param checkBoxName
+     *            name of checkbox to be deselected.
+     */
     public void uncheckCheckbox(String checkBoxName) {
         getTester().uncheckCheckbox(checkBoxName);
     }
 
+    /**
+     * Deselect a specified checkbox. If the checkbox is already unchecked then
+     * the checkbox will stay unchecked.
+     * 
+     * @param checkBoxName
+     *            name of checkbox to be deselected.
+     * @param value
+     *            value of checkbox to be deselected.
+     */
     public void uncheckCheckbox(String checkBoxName, String value) {
         getTester().uncheckCheckbox(checkBoxName, value);
     }
@@ -574,6 +635,7 @@ public class WebTestCase extends TestCase {
     public void selectOptionsByValues(String selectName, String[] values) {
         getTester().selectOptionsByValues(selectName, values);
     }
+
     // Form submission and link navigation methods
 
     public void submit() {
@@ -583,7 +645,7 @@ public class WebTestCase extends TestCase {
     public void submit(String buttonName) {
         getTester().submit(buttonName);
     }
-    
+
     public void submit(String buttonName, String buttonValue) {
         getTester().submit(buttonName, buttonValue);
     }
@@ -593,9 +655,9 @@ public class WebTestCase extends TestCase {
      * the current form is established.
      */
     public void reset() {
-    	getTester().reset();
-    }    
-    
+        getTester().reset();
+    }
+
     public void clickLinkWithText(String linkText) {
         getTester().clickLinkWithText(linkText);
     }
@@ -616,6 +678,14 @@ public class WebTestCase extends TestCase {
         getTester().clickLinkWithTextAfterText(linkText, labelText);
     }
 
+    /**
+     * Navigate by selection of a link with a given image.
+     * 
+     * @param imageFileName
+     *            A suffix of the image's filename; for example, to match
+     *            <tt>"images/my_icon.png"</tt>, you could just pass in
+     *            <tt>"my_icon.png"</tt>.
+     */
     public void clickLinkWithImage(String imageFileName) {
         getTester().clickLinkWithImage(imageFileName);
     }
@@ -627,16 +697,27 @@ public class WebTestCase extends TestCase {
     public void clickButton(String buttonId) {
         getTester().clickButton(buttonId);
     }
-    
+
     public void clickButtonWithText(String buttonValueText) {
         getTester().clickButtonWithText(buttonValueText);
     }
-    
+
     protected void clickRadioOption(String radioGroup, String radioOption) {
         getTester().clickRadioOption(radioGroup, radioOption);
     }
+    
+    /**
+     * Click element with given xpath.
+     * 
+     * @param xpath
+     *            xpath of the element.
+     */
+    protected void clickElementByXPath(String xpath) {
+        getTester().clickElementByXPath(xpath);
+    }
 
-    //Window and Frame Navigation Methods
+
+    // Window and Frame Navigation Methods
 
     public void gotoRootWindow() {
         getTester().gotoRootWindow();
@@ -653,7 +734,7 @@ public class WebTestCase extends TestCase {
     public void gotoFrame(String frameName) {
         getTester().gotoFrame(frameName);
     }
-    
+
     protected void dumpCookies() {
         getTester().dumpCookies();
     }
@@ -682,9 +763,9 @@ public class WebTestCase extends TestCase {
     protected void dumpTable(String tableNameOrId) {
         getTester().dumpTable(tableNameOrId);
     }
-    
-    //Settings
-    
+
+    // Settings
+
     public void setTableEmptyCellCompression(boolean bool) {
         getTester().setTableEmptyCellCompression(bool);
     }

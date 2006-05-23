@@ -575,8 +575,11 @@ public interface IJWebUnitDialog {
      *            A suffix of the image's filename; for example, to match
      *            <tt>"images/my_icon.png"<tt>, you could just pass in
      *                      <tt>"my_icon.png"<tt>.
+     * @param index
+     *            The 0-based index, when more than one link with the same text
+     *            is expected.
      */
-    void clickLinkWithImage(String imageFileName);
+    void clickLinkWithImage(String imageFileName, int index);
 
     /**
      * Test if element with given id exists.
@@ -585,6 +588,22 @@ public interface IJWebUnitDialog {
      *            id of the element.
      */
     boolean hasElement(String anID);
+
+    /**
+     * Test if element with given xpath exists.
+     * 
+     * @param xpath
+     *            xpath of the element.
+     */
+    boolean hasElementByXPath(String xpath);
+    
+    /**
+     * Click element with given xpath.
+     * 
+     * @param xpath
+     *            xpath of the element.
+     */
+    void clickElementByXPath(String xpath);
 
     /**
      * Return true if a given string is contained within the specified element.

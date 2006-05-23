@@ -1197,18 +1197,18 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      *            <tt>"images/my_icon.png"<tt>, you could just pass in
      *                      <tt>"my_icon.png"<tt>.
      */
-    public void clickLinkWithImage(String imageFileName) {
-        WebLink link = null;
+    public void clickLinkWithImage(String imageFileName, int index) {
+        WebLink[] link = null;
         try {
-            link = resp.getFirstMatchingLink(new LinkImagePredicate(),
+            link = resp.getMatchingLinks(new LinkImagePredicate(),
                     imageFileName);
         } catch (SAXException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
-        if (link == null)
+        if (link == null || link.length<=index)
             throw new RuntimeException("No Link found with imageFileName \""
-                    + imageFileName + "\"");
-        submitRequest(link);
+                    + imageFileName + "\" and index "+index);
+        submitRequest(link[index]);
     }
 
     /**
@@ -1543,13 +1543,18 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         return getWebTableBySummaryOrId(tableSummaryOrId).asText();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isElementPresent(java.lang.String)
-     */
     public boolean hasElement(String anID) {
         return getElement(anID) != null;
+    }
+
+    public boolean hasElementByXPath(String xpath) {
+        //TODO Implement hasElementByXPath in HttpUnitDialog
+        throw new UnsupportedOperationException("hasElementByXPath");
+    }
+    
+    public void clickElementByXPath(String xpath) {
+        //TODO Implement clickElementByXPath in HttpUnitDialog
+        throw new UnsupportedOperationException("clickElementByXPath");
     }
 
     /*
