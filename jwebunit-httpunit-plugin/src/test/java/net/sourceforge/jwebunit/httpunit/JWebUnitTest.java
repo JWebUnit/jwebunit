@@ -28,6 +28,7 @@ public class JWebUnitTest extends TestCase {
         TestSuite suite = new TestSuite("Test for net.sourceforge.jwebunit");
         //$JUnit-BEGIN$
         suite.addTestSuite(FormSubmissionTest.class);
+        suite.addTestSuite(FormSubmissionWithLabelTest.class);
         suite.addTestSuite(WebAssertionsTest.class);
         suite.addTestSuite(FramesAndWindowsTest.class);
         suite.addTestSuite(FormSubmissionCheckboxesTest.class);
@@ -41,6 +42,7 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(WebCookieTest.class);
         suite.addTestSuite(TestContextTest.class);
         suite.addTestSuite(FormAssertionsTest.class);
+        suite.addTestSuite(FormAssertionsWithLabelTest.class);
         suite.addTestSuite(NavigationTest.class);
         //$JUnit-END$
         return new JettySetup(suite);

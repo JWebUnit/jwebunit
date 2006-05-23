@@ -40,18 +40,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPassFail("assertFormElementNotPresent", "noSuchElement", "testInputElement");
     }
 
-    public void testAssertFormParameterPresentWithLabel() throws Throwable {
-        beginAt("/testPage.html");
-        assertPassFail("assertFormElementPresentWithLabel", "Test Input", "No Such Label");
-        assertFail("assertFormElementPresentWithLabel", "This is a test page");
-    }
-
-    public void testAssertFormParameterNotPresentWithLabel() throws Throwable {
-        beginAt("/testPage.html");
-        assertPassFail("assertFormElementNotPresentWithLabel", "No Such Label", "Test Input");
-        assertPass("assertFormElementNotPresentWithLabel", "This is a test page");
-    }
-
     public void testAssertHasForm() throws Throwable {
         beginAt("/testPage.html");
         assertPass("assertFormPresent", NOARGS);
