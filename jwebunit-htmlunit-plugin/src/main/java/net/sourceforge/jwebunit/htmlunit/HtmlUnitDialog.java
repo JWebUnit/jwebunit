@@ -1295,7 +1295,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             boolean found = false;
             for (int i = 0; i < l.size(); i++) {
                 HtmlOption opt = (HtmlOption) l.get(i);
-                if (opt.asText().equals(options[j])) {
+                if (opt.getValueAttribute().equals(options[j])) {
                     sel.setSelectedAttribute(opt, true);
                     found = true;
                     break;
