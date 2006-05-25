@@ -8,7 +8,9 @@ package net.sourceforge.jwebunit.htmlunit;
 
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.HttpState;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
@@ -72,7 +75,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     /**
      * Logger for this class.
      */
-    private static final Logger LOGGER = Logger.getLogger(HtmlUnitDialog.class);
+    private static final Log LOGGER = LogFactory.getLog(HtmlUnitDialog.class);
 
     /**
      * Encapsulate browser abilities.

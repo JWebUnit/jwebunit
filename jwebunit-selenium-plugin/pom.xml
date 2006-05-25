@@ -24,11 +24,6 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.openqa.selenium.server</groupId>
-            <artifactId>selenium-server</artifactId>
-            <version>0.7.2-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.openqa.selenium.client-drivers</groupId>
             <artifactId>selenium-java-client-driver</artifactId>
             <version>0.7.2-SNAPSHOT</version>
@@ -44,11 +39,6 @@
             <version>1.3-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.13</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -60,7 +50,7 @@
                         <include>**/*Test.java</include>
                     </includes>
                     <testFailureIgnore>true</testFailureIgnore>
-                    <skip>true</skip>
+                    <skip>false</skip>
                 </configuration>
             </plugin>
         </plugins>
