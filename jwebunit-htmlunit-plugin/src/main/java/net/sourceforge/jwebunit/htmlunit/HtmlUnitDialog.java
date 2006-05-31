@@ -427,6 +427,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         wc = new WebClient(new BrowserVersion("htmlunit", "1.8", testContext
                 .getUserAgent(), "1.2", 6));
         wc.setJavaScriptEnabled(jsEnabled);
+        wc.setThrowExceptionOnScriptError(true);
         wc.addWebWindowListener(new WebWindowListener() {
             public void webWindowClosed(WebWindowEvent event) {
                 if (event.getOldPage().equals(win.getEnclosedPage())) {
@@ -753,7 +754,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Return the HttpUnit Button with a given id.
+     * Return the HtmlUnit Button with a given id.
      * 
      * @param buttonId
      */
