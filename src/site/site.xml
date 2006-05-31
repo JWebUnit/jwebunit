@@ -85,7 +85,7 @@
             <item name="Download"
                 href="http://sourceforge.net/projects/jwebunit/files" />
         </menu>
-        ${modules}
-        ${reports}
+        <menu ref="modules" />
+        <menu ref="reports" />
     </body>
 </project>

@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <project name="jWebUnit">
     <body>
-        ${parentProject} 
+        <menu ref="parent" /> 
         <menu name="Sourceforge">
             <item name="Project page"
                 href="http://sourceforge.net/projects/jwebunit" />
             <item name="Download"
                 href="http://sourceforge.net/projects/jwebunit/files" />
         </menu>
-        ${reports}
+        <menu ref="reports" />
     </body>
 </project>

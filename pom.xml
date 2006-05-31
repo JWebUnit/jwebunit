@@ -230,9 +230,21 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>
-                    maven-project-info-reports-plugin
-                </artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>dependencies</report>
+                            <report>project-team</report>
+                            <report>mailing-list</report>
+                            <report>license</report>
+                            <report>issue-tracking</report>
+                            <report>scm</report>
+                       </reports>
+                   </reportSet>
+               </reportSets>
             </plugin>
         </plugins>
     </reporting>
@@ -241,8 +253,8 @@
             <id>jwebunit-website</id>
             <name>jWebUnit WebSite - Sourceforge</name>
             <url>
-                scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
-                <!--file://c:\temp-jwebunit-->
+              <!--scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs-->
+                file:///home/julien/temp-jwebunit
             </url>
         </site>
     </distributionManagement>
