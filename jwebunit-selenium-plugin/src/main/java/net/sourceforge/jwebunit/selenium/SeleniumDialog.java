@@ -320,7 +320,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     public boolean isCheckboxSelected(String checkBoxName) {
         return selenium.isChecked("xpath=//input[@type='checkbox' and @name='"
-                + checkBoxName + "']").equals("true");
+                + checkBoxName + "']");
     }
 
     public boolean isMatchInElement(String elementID, String regexp) {
