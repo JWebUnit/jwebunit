@@ -180,9 +180,32 @@
     <properties>
         <topDirectoryLocation>.</topDirectoryLocation>
     </properties>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Maven CodeHaus Snapshots</id>
+            <url>http://snapshots.maven.codehaus.org/maven2</url>
+            <releases>
+	        <updatePolicy>daily</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>Maven Snapshots</id>
+            <url>http://people.apache.org/maven-snapshot-repository/</url>
+            <releases>
+	        <updatePolicy>daily</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
     <reporting>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
                     <configLocation>
@@ -194,10 +217,14 @@
                     <xrefLocation>xref</xrefLocation>
                 </configuration>
             </plugin>
-            <!--plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-surefire-report-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jdepend-maven-plugin</artifactId>
-            </plugin-->
+                </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>taglist-maven-plugin</artifactId>
@@ -213,7 +240,11 @@
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>changelog-maven-plugin</artifactId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -223,8 +254,8 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jxr-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
                 <configuration>
                     <aggregate>true</aggregate>
                 </configuration>
@@ -253,9 +284,27 @@
             <id>jwebunit-website</id>
             <name>jWebUnit WebSite - Sourceforge</name>
             <url>
-              <!--scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs-->
-                file:///home/julien/temp-jwebunit
+              scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
+                <!--file://c:\temp-jwebunit-->
             </url>
         </site>
+        <repository>
+            <id>jwebunit-repository</id>
+            <url>
+                scpexe://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/m2-repo
+            </url>
+            <name>
+                jWebUnit Maven 2 Repository
+            </name>
+        </repository>
+        <snapshotRepository>
+            <id>jwebunit-snapshots-repository</id>
+            <url>
+                scpexe://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/m2-repo-snapshots
+            </url>
+            <name>
+                jWebUnit Maven 2 Snapshots Repository
+            </name>
+        </snapshotRepository>
     </distributionManagement>
 </project>
