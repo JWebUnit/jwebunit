@@ -1103,6 +1103,16 @@ public class WebTester {
     }
 
     /**
+     * Assert that a submit button is present.
+     * 
+     */
+    public void assertSubmitButtonPresent() {
+        assertFormPresent();
+        Assert.assertTrue("no submit button found.",
+                getDialog().hasSubmitButton());
+    }
+
+    /**
      * Assert that a submit button with a given name is present.
      * 
      * @param buttonName
@@ -1111,6 +1121,17 @@ public class WebTester {
         assertFormPresent();
         Assert.assertTrue("Submit Button [" + buttonName + "] not found.",
                 getDialog().hasSubmitButton(buttonName));
+    }
+
+    /**
+     * Assert that no submit button is present in the current form.
+     * 
+     * @param buttonName
+     */
+    public void assertSubmitButtonNotPresent() {
+        assertFormPresent();
+        Assert.assertFalse("Submit Button found.",
+                getDialog().hasSubmitButton());
     }
 
     /**
@@ -1135,6 +1156,49 @@ public class WebTester {
         Assert.assertTrue("Submit Button [" + buttonName + "] with value ["
                 + buttonValue + "] not found.", getDialog().hasSubmitButton(
                 buttonName, buttonValue));
+    }
+
+    /**
+     * Assert that a reset button is present.
+     * 
+     */
+    public void assertResetButtonPresent() {
+        assertFormPresent();
+        Assert.assertTrue("no reset button found.",
+                getDialog().hasResetButton());
+    }
+
+    /**
+     * Assert that a reset button with a given name is present.
+     * 
+     * @param buttonName
+     */
+    public void assertResetButtonPresent(String buttonName) {
+        assertFormPresent();
+        Assert.assertTrue("Reset Button [" + buttonName + "] not found.",
+                getDialog().hasResetButton(buttonName));
+    }
+
+    /**
+     * Assert that no reset button is present in the current form.
+     * 
+     * @param buttonName
+     */
+    public void assertResetButtonNotPresent() {
+        assertFormPresent();
+        Assert.assertFalse("Reset Button found.",
+                getDialog().hasResetButton());
+    }
+
+    /**
+     * Assert that a reset button with a given name is not present.
+     * 
+     * @param buttonName
+     */
+    public void assertResetButtonNotPresent(String buttonName) {
+        assertFormPresent();
+        Assert.assertFalse("Reset Button [" + buttonName + "] found.",
+                getDialog().hasResetButton(buttonName));
     }
 
     /**

@@ -349,10 +349,16 @@ public interface IJWebUnitDialog {
     boolean hasRadioOption(String radioGroup, String radioOptionValue);
 
     /**
+     * Checks if the current form contains a submit button.
+     * 
+     */
+    boolean hasSubmitButton();
+
+    /**
      * Checks if the current form contains a specific submit button.
      * 
      * @param nameOrID
-     *            name of id of the button to check for.
+     *            name or id of the button to check for.
      */
     boolean hasSubmitButton(String nameOrID);
 
@@ -395,6 +401,20 @@ public interface IJWebUnitDialog {
      *            value/label of the button to use for submission
      */
     void submit(String buttonName, String buttonValue);
+
+    /**
+     * Checks if the current form contains a reset button.
+     * 
+     */
+    boolean hasResetButton();
+
+    /**
+     * Checks if the current form contains a specific reset button.
+     * 
+     * @param nameOrID
+     *            name or id of the button to check for.
+     */
+    boolean hasResetButton(String nameOrID);
 
     /**
      * Reset the current form with the default reset button. See

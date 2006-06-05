@@ -369,17 +369,68 @@ public class WebTestCase extends TestCase {
         tester.assertSelectedOptionsMatch(selectName, regexps);
     }
 
+    /**
+     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonPresent()
+     */
+    public void assertSubmitButtonPresent() {
+        getTester().assertSubmitButtonPresent();
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonPresent(String)
+     */
     public void assertSubmitButtonPresent(String buttonName) {
         getTester().assertSubmitButtonPresent(buttonName);
     }
 
+    /**
+     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonNotPresent()
+     */
+    public void assertSubmitButtonNotPresent() {
+        getTester().assertSubmitButtonNotPresent();
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonNotPresent(String)
+     */
     public void assertSubmitButtonNotPresent(String buttonName) {
         getTester().assertSubmitButtonNotPresent(buttonName);
     }
 
+    /**
+     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonPresent(String, String)
+     */
     public void assertSubmitButtonPresent(String buttonName,
             String expectedValue) {
         getTester().assertSubmitButtonPresent(buttonName, expectedValue);
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.WebTester#assertResetButtonPresent()
+     */
+    public void assertResetButtonPresent() {
+        getTester().assertResetButtonPresent();
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.WebTester#assertResetButtonPresent(String)
+     */
+    public void assertResetButtonPresent(String buttonName) {
+        getTester().assertResetButtonPresent(buttonName);
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.WebTester#assertResetButtonNotPresent()
+     */
+    public void assertResetButtonNotPresent() {
+        getTester().assertResetButtonNotPresent();
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.WebTester#assertResetButtonNotPresent(String)
+     */
+    public void assertResetButtonNotPresent(String buttonName) {
+        getTester().assertResetButtonNotPresent(buttonName);
     }
 
     public void assertButtonPresent(String buttonID) {
