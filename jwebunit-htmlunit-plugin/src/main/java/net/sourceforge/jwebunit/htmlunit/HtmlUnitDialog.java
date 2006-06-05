@@ -424,7 +424,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     private void initWebClient() {
-        wc = new WebClient(new BrowserVersion("htmlunit", "1.8", testContext
+        wc = new WebClient(new BrowserVersion(BrowserVersion.INTERNET_EXPLORER, "4.0", testContext
                 .getUserAgent(), "1.2", 6));
         wc.setJavaScriptEnabled(jsEnabled);
         wc.setThrowExceptionOnScriptError(true);
@@ -761,8 +761,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     public ClickableElement getButton(String buttonId) {
         HtmlElement btn = null;
         try {
-            btn = ((HtmlPage) win.getEnclosedPage())
-                    .getHtmlElementById(buttonId);
+            btn = getCurrentPage().getHtmlElementById(buttonId);
         } catch (ElementNotFoundException e) {
             // Non trouvé
             return null;
@@ -916,6 +915,13 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             for (int i=0; i<inpt.length; i++) {
                 if (inpt[i] instanceof HtmlSubmitInput) {
                     ((HtmlSubmitInput) inpt[i]).click();
+                    return;
+                }
+            }            
+            for (int i=0; i<inpt.length; i++) {
+                if (inpt[i] instanceof HtmlButtonInput) {
+                    ((HtmlButtonInput) inpt[i]).click();
+                    return;
                 }
             }            
         } catch (IOException e) {
@@ -924,6 +930,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                             + "check that form has single submit button, otherwise use submit(name): \n"
                             + ExceptionUtility.stackTraceToString(e));
         }
+        throw new RuntimeException("No submit button found in current form.");
     }
 
     /**
