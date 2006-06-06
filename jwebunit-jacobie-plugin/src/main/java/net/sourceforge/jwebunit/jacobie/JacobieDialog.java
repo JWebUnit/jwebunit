@@ -1414,4 +1414,19 @@ public class JacobieDialog implements IJWebUnitDialog {
         return false;
     }
 
+    public boolean hasResetButton() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public boolean hasResetButton(String nameOrID) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public boolean hasSubmitButton() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

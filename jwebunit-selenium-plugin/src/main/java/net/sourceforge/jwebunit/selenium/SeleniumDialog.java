@@ -42,9 +42,10 @@ public class SeleniumDialog implements IJWebUnitDialog {
     public void beginAt(String aInitialURL, TestContext aTestContext)
             throws TestingEngineResponseException {
         this.setTestContext(aTestContext);
-        selenium = new DefaultSelenium("localhost", port, "*firefox",
+        selenium = new DefaultSelenium("localhost", port, "*chrome",
                 aInitialURL);
         selenium.start();
+        gotoPage(aInitialURL);
     }
 
     public void checkCheckbox(String checkBoxName, String value) {
@@ -62,7 +63,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public void clickButtonWithText(String buttonValueText) {
-        selenium.click("xpath=//button[contains(.,'" + buttonValueText + "')]");
+        selenium.click("xpath=" + formSelector() + "//button[contains(.,'" + buttonValueText + "')]");
     }
 
     public void clickElementByXPath(String xpath) {
@@ -91,7 +92,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public void clickRadioOption(String radioGroup, String radioOptionValue) {
-        selenium.click("xpath=//input[@name='" + radioGroup + "' and @value='"
+        selenium.click("xpath=" + formSelector() + "//input[@name='" + radioGroup + "' and @value='"
                 + radioOptionValue + "']");
     }
 
@@ -131,7 +132,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public String getFormParameterValue(String paramName) {
-        return selenium.getValue("xpath=//form[" + formIdent + "]/*[@name='"
+        return selenium.getValue("xpath=" + formSelector() + "//*[@name='"
                 + paramName + "']");
     }
 
@@ -148,25 +149,25 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public String[] getSelectedOptions(String selectName) {
-        return selenium.getSelectedValues("xpath=//form[" + formIdent
-                + "]/select[@name='" + selectName + "']");
+        return selenium.getSelectedValues("xpath=" + formSelector()
+                + "//select[@name='" + selectName + "']");
     }
 
     public String getSelectOptionLabelForValue(String selectName,
             String optionValue) {
-        return selenium.getText("xpath=//form[" + formIdent
-                + "]/select/option[@value='" + optionValue + "']");
+        return selenium.getText("xpath=" + formSelector()
+                + "//select/option[@value='" + optionValue + "']");
     }
 
     public String getSelectOptionValueForLabel(String selectName,
             String optionLabel) {
-        return selenium.getValue("xpath=//form[" + formIdent
-                + "]/select/option[contains(.,'" + optionLabel + "']");
+        return selenium.getValue("xpath=" + formSelector()
+                + "//select/option[contains(.,'" + optionLabel + "']");
     }
 
     public String[] getSelectOptionValues(String selectName) {
-        String[] labels = selenium.getSelectOptions("xpath=//form[" + formIdent
-                + "]/select[@name='" + selectName + "']");
+        String[] labels = selenium.getSelectOptions("xpath=" + formSelector()
+                + "//select[@name='" + selectName + "']");
         String[] values = new String[labels.length];
         for (int i = 0; i < values.length; i++) {
             values[i] = getSelectOptionValueForLabel(selectName, labels[i]);
@@ -204,12 +205,14 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public boolean hasButton(String buttonId) {
+        // Not bothering with formSelector here because we're using an ID
+        // to identify the element.  Is this the right thing to do?
         return selenium.isElementPresent("xpath=//button[@id='" + buttonId
                 + "']");
     }
 
     public boolean hasButtonWithText(String text) {
-        return selenium.isElementPresent("xpath=//button[contains(.,'" + text
+        return selenium.isElementPresent("xpath=" + formSelector() + "//button[contains(.,'" + text
                 + "')]");
     }
 
@@ -240,8 +243,8 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public boolean hasFormParameterNamed(String paramName) {
-        return selenium.isElementPresent("xpath=//form[" + formIdent
-                + "]/*[@name='" + paramName + "']");
+        return selenium.isElementPresent("xpath=" + formSelector()
+                + "//*[@name='" + paramName + "']");
     }
 
     public boolean hasFrame(String frameName) {
@@ -269,7 +272,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public boolean hasRadioOption(String radioGroup, String radioOptionValue) {
-        return selenium.isElementPresent("xpath=//input[@name='" + radioGroup
+        return selenium.isElementPresent("xpath=" + formSelector() + "//input[@name='" + radioGroup
                 + "' and @value='" + radioOptionValue + "']");
     }
 
@@ -290,17 +293,33 @@ public class SeleniumDialog implements IJWebUnitDialog {
             return false;
         }
     }
+    
+    public boolean hasSubmitButton() {
+        return selenium
+        .isElementPresent("xpath=" + formSelector() + "//input[@type='submit']");
+    }
 
     public boolean hasSubmitButton(String nameOrID, String value) {
         return selenium
-                .isElementPresent("xpath=//input[@type='submit' and (@id='"
+                .isElementPresent("xpath=" + formSelector() + "//input[@type='submit' and (@id='"
                         + nameOrID + "' or @name='" + nameOrID
                         + "') and @value='" + value + "']");
     }
 
     public boolean hasSubmitButton(String nameOrID) {
         return selenium
-                .isElementPresent("xpath=//input[@type='submit' and (@id='"
+                .isElementPresent("xpath=" + formSelector() + "//input[@type='submit' and (@id='"
+                        + nameOrID + "' or @name='" + nameOrID + "')]");
+    }
+
+    public boolean hasResetButton() {
+        return selenium
+        .isElementPresent("xpath=" + formSelector() + "//input[@type='reset']");
+    }
+
+    public boolean hasResetButton(String nameOrID) {
+        return selenium
+                .isElementPresent("xpath=" + formSelector() + "//input[@type='reset' and (@id='"
                         + nameOrID + "' or @name='" + nameOrID + "')]");
     }
 
@@ -319,7 +338,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public boolean isCheckboxSelected(String checkBoxName) {
-        return selenium.isChecked("xpath=//input[@type='checkbox' and @name='"
+        return selenium.isChecked("xpath=" + formSelector() + "//input[@type='checkbox' and @name='"
                 + checkBoxName + "']");
     }
 
@@ -338,12 +357,12 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public void reset() {
-        selenium.click("xpath=//form["+formIdent+"]/input[@type='reset']");
+        selenium.click("xpath=" + formSelector() + "//input[@type='reset']");
     }
 
     public void selectOptions(String selectName, String[] optionsValue) {
         for (int i=0; i<optionsValue.length; i++) {
-            selenium.addSelection("xpath=//form["+formIdent+"]/select[@name='"+selectName+"']","value="+optionsValue[i]);
+            selenium.addSelection("xpath=" + formSelector() + "//select[@name='"+selectName+"']","value="+optionsValue[i]);
         }
     }
 
@@ -357,38 +376,41 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public void setTextField(String inputName, String text) {
-        selenium.type("xpath=//form["+formIdent+"]/input[@name='"+inputName+"' and (@type=text or @type=password)]", text);
+        selenium.type("xpath=" + formSelector() + "//input[@name='"+inputName+"' and (@type=text or @type=password)]", text);
     }
 
     public void setWorkingForm(String nameOrId) {
-        formIdent="@name='"+nameOrId+"' or @id='"+nameOrId+"'";
+        if (nameOrId != null)
+            formIdent="@name='"+nameOrId+"' or @id='"+nameOrId+"'";
+        else
+            formIdent=null;
     }
 
     public void submit() {
-        selenium.click("xpath=//form["+formIdent+"]/input[@type='submit']");
+        selenium.click("xpath=" + formSelector() + "//input[@type='submit']");
     }
 
     public void submit(String buttonName, String buttonValue) {
-        selenium.click("xpath=//form["+formIdent+"]/input[@type='submit' and @name='"+buttonName+"' and @value='"+buttonValue+"']");
+        selenium.click("xpath=" + formSelector() + "//input[@type='submit' and @name='"+buttonName+"' and @value='"+buttonValue+"']");
     }
 
     public void submit(String buttonName) {
-        selenium.click("xpath=//form["+formIdent+"]/input[@type='submit' and @name='"+buttonName+"']");
+        selenium.click("xpath=" + formSelector() + "//input[@type='submit' and @name='"+buttonName+"']");
     }
 
     public void uncheckCheckbox(String checkBoxName, String value) {
-        selenium.uncheck("xpath=//input[@type='checkbox' and @name='"
+        selenium.uncheck("xpath=" + formSelector() + "//input[@type='checkbox' and @name='"
                 + checkBoxName + "' and @value='" + value + "']");
     }
 
     public void uncheckCheckbox(String checkBoxName) {
-        selenium.uncheck("xpath=//input[@type='checkbox' and @name='"
+        selenium.uncheck("xpath=" + formSelector() + "//input[@type='checkbox' and @name='"
                 + checkBoxName + "']");
     }
 
     public void unselectOptions(String selectName, String[] options) {
         for (int i=0; i<options.length; i++) {
-            selenium.removeSelection("xpath=//form["+formIdent+"]/select[@name='"+selectName+"']","value="+options[i]);
+            selenium.removeSelection("xpath=" + formSelector() + "//select[@name='"+selectName+"']","value="+options[i]);
         }
     }
 
@@ -410,4 +432,10 @@ public class SeleniumDialog implements IJWebUnitDialog {
         return null;
     }
 
+    protected String formSelector() {
+        if (formIdent == null)
+            return "";
+
+        return "//form[" + formIdent + "]";
+    }
 }

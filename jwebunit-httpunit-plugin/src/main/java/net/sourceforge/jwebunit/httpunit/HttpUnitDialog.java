@@ -597,6 +597,10 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         return getForm().getSubmitButton(buttonName, buttonValue);
     }
 
+    public boolean hasSubmitButton() {
+        return getForm().getSubmitButtons().length>0;
+    }
+    
     public boolean hasSubmitButton(String buttonName) {
         try {
             return getSubmitButton(buttonName) != null;
@@ -612,7 +616,16 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         } catch (UnableToSetFormException e) {
             return false;
         }
+    }
+    
+    public boolean hasResetButton() {
+        //TODO Implement hasResetButton in HttpUnitDialog
+        throw new UnsupportedOperationException("hasResetButton");
+    }
 
+    public boolean hasResetButton(String buttonName) {
+        //TODO Implement hasResetButton(String) in HttpUnitDialog
+        throw new UnsupportedOperationException("hasResetButton");
     }
 
     /**

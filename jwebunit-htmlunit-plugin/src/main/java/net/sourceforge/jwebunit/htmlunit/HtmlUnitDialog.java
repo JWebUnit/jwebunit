@@ -711,6 +711,23 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             return (HtmlSubmitInput) getForm().getInputByName(buttonName);
         } catch (ElementNotFoundException e) {
             return null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    public HtmlResetInput getResetButton(String buttonName) {
+        try {
+            checkFormStateWithButton(buttonName);
+        } catch (UnableToSetFormException e) {
+            return null;
+        }
+        try {
+            return (HtmlResetInput) getForm().getInputByName(buttonName);
+        } catch (ElementNotFoundException e) {
+            return null;
+        } catch (ClassCastException e) {
+            return null;
         }
     }
 
@@ -740,6 +757,17 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return null;
     }
 
+    public boolean hasSubmitButton() {
+        List l = null;
+        try {
+            final HtmlUnitXPath xp = new HtmlUnitXPath("//input[@type=\"submit\"]");
+            l = xp.selectNodes(getForm());
+        } catch (JaxenException e) {
+            throw new RuntimeException(e);
+        }
+        return (l.size() > 0);
+    }
+
     public boolean hasSubmitButton(String buttonName) {
         return getSubmitButton(buttonName) != null;
     }
@@ -751,6 +779,21 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             return false;
         }
 
+    }
+
+    public boolean hasResetButton() {
+        List l = null;
+        try {
+            final HtmlUnitXPath xp = new HtmlUnitXPath("//input[@type=\"reset\"]");
+            l = xp.selectNodes(getForm());
+        } catch (JaxenException e) {
+            throw new RuntimeException(e);
+        }
+        return (l.size() > 0);
+    }
+
+    public boolean hasResetButton(String buttonName) {
+        return getResetButton(buttonName) != null;
     }
 
     /**
