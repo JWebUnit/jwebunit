@@ -128,12 +128,25 @@
             <email>henryju at users.sourceforge.net</email>
             <url></url>
             <organization>Capgemini</organization>
+            <organizationUrl>http://www.capgemini.com</organizationUrl>
             <roles>
                 <role>Developer</role>
             </roles>
             <timezone>+2</timezone>
         </developer>
     </developers>
+    <contributors>
+        <contributor>
+            <name>Jon Frisby</name>
+            <email>jfrisby@mac.com</email>
+            <url/>
+            <organization/>
+            <organizationUrl/>
+            <roles/>
+            <timezone/>
+            <properties/>
+        </contributor>
+    </contributors>
     <licenses>
         <license>
             <name>BSD License</name>
