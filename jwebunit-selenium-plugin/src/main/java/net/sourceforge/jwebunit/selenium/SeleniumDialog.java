@@ -24,6 +24,8 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     private Selenium selenium;
 
+    // Timeout in milliseconds.  It's a string 'cause Selenium wants a string.
+    private static final String timeout = "3000";
     private static final int port = 4444;
 
     private TestContext testContext;
@@ -60,31 +62,38 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     public void clickButton(String buttonId) {
         selenium.click("id=buttonId");
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void clickButtonWithText(String buttonValueText) {
         selenium.click("xpath=" + formSelector() + "//button[contains(.,'" + buttonValueText + "')]");
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void clickElementByXPath(String xpath) {
         selenium.click("xpath=" + xpath);
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void clickLink(String anID) {
         selenium.click("xpath=//a[@id='" + anID + "']");
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void clickLinkWithExactText(String linkText, int index) {
         selenium.click("xpath=//a[.//*='" + linkText + "'][" + index + 1 + "]");
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void clickLinkWithImage(String imageFileName, int index) {
         selenium.click("xpath=//a[contains(img/@src,'" + imageFileName + "')]");
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void clickLinkWithText(String linkText, int index) {
         selenium.click("xpath=//a[contains(.,'" + linkText + "')][" + index + 1
                 + "]");
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void clickLinkWithTextAfterText(String linkText, String labelText) {
@@ -181,6 +190,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     public void goBack() {
         selenium.goBack();
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void gotoFrame(String frameName) {
@@ -189,6 +199,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     public void gotoPage(String url) throws TestingEngineResponseException {
         selenium.open(url);
+        // selenium.waitForPageToLoad(timeout); implicit after open() 
     }
 
     public void gotoRootWindow() {
@@ -354,10 +365,12 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     public void refresh() {
         selenium.refresh();
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void reset() {
         selenium.click("xpath=" + formSelector() + "//input[@type='reset']");
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void selectOptions(String selectName, String[] optionsValue) {
@@ -388,14 +401,17 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     public void submit() {
         selenium.click("xpath=" + formSelector() + "//input[@type='submit']");
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void submit(String buttonName, String buttonValue) {
         selenium.click("xpath=" + formSelector() + "//input[@type='submit' and @name='"+buttonName+"' and @value='"+buttonValue+"']");
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void submit(String buttonName) {
         selenium.click("xpath=" + formSelector() + "//input[@type='submit' and @name='"+buttonName+"']");
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void uncheckCheckbox(String checkBoxName, String value) {
