@@ -8,32 +8,32 @@
 <section name="jWebUnit Installation">
 	<subsection name="Download">
 		<p>
-			First download jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
+			First download latest stable version of jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
 			and expand to a local directory.
+		</p>
+		<p>
+			NB : We are currently performing great improvements to jWebUnit. If you want to get the
+			latest, you can either get it from SVN, or download it from our 
+			<a href="http://jwebunit.sourceforge.net/m2-repo-snapshots/net/sourceforge/jwebunit/">private Maven 2 snapshots repository</a>.
 		</p>
 	</subsection>
 	<subsection name="Choose what plugin you want to use">
 		<p>
-			There are currently 3 available plugins:
+			There are currently 4 available plugins (certain are still in development):
 			<ul>
 				<li>HttpUnit: Was the first supported plugin. Javascript support is very basic.</li>
 				<li>HtmlUnit: A real solution if you want better Javascript support.</li>
 				<li>Jacobie: You can run your tests directly in Ms Internet Explorer (Windows Only).</li>
+				<li>Selenium: You can run your tests directly in your favorite browser.</li>
 			</ul>
 		</p>
 	</subsection>
 	<subsection name="Integrate with IDE">
 		<p>
 			The simplest way to manage dependencies is to use Maven 2. If you don't want to
-			migrate to Maven, make sure you add the XXX-plugin (where XXX is the plugin you choose) and core jar files to your classpath in your IDE.
+			migrate to Maven, make sure you add the jwebunit-XXX-plugin (where XXX is the plugin you choose) and jwebunit-core jar files to your classpath in your IDE.
 			You will also need numerous additionnal dependencies, depending on what plugin you choose.
 			Please refer to each plugin page to know the dependencies they need.
-		</p>
-	</subsection>
-	<subsection name="Create test">
-		<p>
-			Create your first webunit test. Start slow by asserting the title
-			of your page.
 		</p>
 	</subsection>
 </section>

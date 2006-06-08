@@ -5,7 +5,7 @@
 		<title>Building jWebunit with Ant</title>
 	</properties>
 <body class="default">
-<section name="Building jWebUnit with Ant">
+<section name="Building jWebUnit with Ant (DEPRECATED)">
 	<p>
 		Ant is make for Java. Most open source Java projects use Ant as their build tool. With ant
 		you can compile, test, package your release with just a few lines of XML code in the <tt>build.xml</tt>

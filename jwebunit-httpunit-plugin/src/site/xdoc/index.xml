@@ -83,7 +83,7 @@ public class SearchExemple extends WebTestCase {
     ...
     &lt;dependency&gt;
         &lt;groupId&gt;net.sourceforge.jwebunit&lt;/groupId&gt;
-        &lt;artifactId&gt;httpunit-plugin&lt;/artifactId&gt;
+        &lt;artifactId&gt;jwebunit-httpunit-plugin&lt;/artifactId&gt;
         &lt;version&gt;1.3-SNAPSHOT&lt;/version&gt;
     &lt;/dependency&gt;
     ...
