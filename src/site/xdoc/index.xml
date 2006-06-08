@@ -28,7 +28,7 @@
         more rapid test creation than using only JUnit and HttpUnit/HtmlUnit/Jacobie. And if you want to switch
         from HttpUnit to HtmlUnit, no need to rewrite your tests.
     </p>
-    <img src="images/jwebunit-architecture.png" alt="JWebUnit architecture" width="800" height="632"/>
+    <img src="images/jwebunit-architecture.png" alt="JWebUnit architecture"/>
 </section>
 </body>    
 </document>
