@@ -26,7 +26,6 @@ public class TestContext {
 	private List cookies;
 	private boolean hasAuth;
 	private Locale locale = Locale.getDefault();
-	private String encodingScheme = "ISO-8859-1";
 	private String resourceBundleName;
 	private String baseUrl = "http://localhost:8080";
 	private String userAgent;
@@ -130,40 +129,6 @@ public class TestContext {
 	 */
 	public void setLocale(Locale locale) {
 		this.locale = locale;
-	}
-
-	/**
-	 * Return the encoding scheme for the test context. The default encoding
-	 * scheme is ISO-8859-1.
-	 */
-	public String getEncodingScheme() {
-		return encodingScheme;
-	}
-
-	/**
-	 * Set the encoding scheme for the test context which is applied to
-	 * response text.
-	 */
-	public void setEncodingScheme(String encodingScheme) {
-		this.encodingScheme = encodingScheme;
-	}
-
-	/**
-	 * Return the value of a String in the encoding specified by the test
-	 * context.
-	 * 
-	 * @param text
-	 *            input text.
-	 * @return String representing bytes of text converted by context's
-	 *         encoding scheme.
-	 */
-	public String toEncodedString(String text) {
-		try {
-			return new String(text.getBytes(), encodingScheme);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return text;
-		}
 	}
 
 	/**

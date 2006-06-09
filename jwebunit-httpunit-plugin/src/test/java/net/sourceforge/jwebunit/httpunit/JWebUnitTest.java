@@ -44,6 +44,7 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(FormAssertionsTest.class);
         suite.addTestSuite(FormAssertionsWithLabelTest.class);
         suite.addTestSuite(NavigationTest.class);
+        suite.addTestSuite(CharsetTest.class);
         //$JUnit-END$
         return new JettySetup(suite);
     }

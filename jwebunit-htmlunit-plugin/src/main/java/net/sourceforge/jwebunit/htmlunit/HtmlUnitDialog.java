@@ -503,9 +503,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         for (int i = 0; i < webWindows.size(); i++) {
             WebWindow window = (WebWindow) webWindows.get(i);
             if (window.getEnclosedPage() instanceof HtmlPage
-                    && getTestContext().toEncodedString(
-                            ((HtmlPage) window.getEnclosedPage())
-                                    .getTitleText()).equals(title)) {
+                    && ((HtmlPage) window.getEnclosedPage())
+                                    .getTitleText().equals(title)) {
                 return window;
             }
         }
@@ -518,8 +517,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      */
     public String getCurrentPageTitle() {
         if (win.getEnclosedPage() instanceof HtmlPage) {
-            return getTestContext().toEncodedString(
-                    ((HtmlPage) win.getEnclosedPage()).getTitleText());
+            return ((HtmlPage) win.getEnclosedPage()).getTitleText();
         }
         return "";
     }

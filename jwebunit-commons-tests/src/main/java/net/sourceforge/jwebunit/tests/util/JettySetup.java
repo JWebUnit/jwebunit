@@ -8,6 +8,7 @@ import java.net.URL;
 
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Handler;
+import org.mortbay.jetty.MimeTypes;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
@@ -53,6 +54,11 @@ public class JettySetup extends TestSetup {
             connector.setPort(JWebUnitAPITestCase.JETTY_PORT);
             jettyServer.setConnectors (new Connector[]{connector});
             WebAppContext wah = new WebAppContext();
+            // Handle files encoded in UTF-8
+            MimeTypes mimeTypes = new MimeTypes();
+            mimeTypes.addMimeMapping("html_utf-8", "text/html; charset=UTF-8");
+            wah.setMimeTypes(mimeTypes);
+            
             wah.setServer(jettyServer);
             wah.setContextPath(JWebUnitAPITestCase.JETTY_URL);
             URL url = this.getClass().getResource("/testcases/");

@@ -151,8 +151,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         for (int i = 0; i < webWindows.length; i++) {
             WebWindow window = webWindows[i];
             try {
-                if (getTestContext().toEncodedString(
-                        window.getCurrentPage().getTitle()).equals(title)) {
+                if (window.getCurrentPage().getTitle().equals(title)) {
                     return window;
                 }
             } catch (SAXException e) {
@@ -183,7 +182,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      */
     public String getPageTitle() {
         try {
-            return getTestContext().toEncodedString(resp.getTitle());
+            return resp.getTitle();
         } catch (SAXException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -685,7 +684,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      */
     public boolean isTextInResponse(String text) {
         try {
-            return (getTestContext().toEncodedString(resp.getText()).indexOf(
+            return (resp.getText().indexOf(
                     text) >= 0);
         } catch (IOException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
@@ -701,7 +700,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     public boolean isMatchInResponse(String regexp) {
         try {
             RE re = getRE(regexp);
-            return re.match(getTestContext().toEncodedString(resp.getText()));
+            return re.match(resp.getText());
         } catch (IOException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -800,7 +799,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
                 nodeHtml += "</" + child.getNodeName() + ">";
             }
         }
-        return getTestContext().toEncodedString(nodeHtml);
+        return nodeHtml;
     }
 
     /**

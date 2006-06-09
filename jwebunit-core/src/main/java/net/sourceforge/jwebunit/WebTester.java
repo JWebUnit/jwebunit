@@ -171,7 +171,7 @@ public class WebTester {
                     + "]." + "\nError: "
                     + ExceptionUtility.stackTraceToString(e));
         }
-        return testContext.toEncodedString(message);
+        return message;
     }
 
     // Assertions
@@ -539,9 +539,8 @@ public class WebTester {
                 String expectedString = row[j];
                 Assert.assertEquals("Expected " + tableSummaryNameOrId
                         + " value at [" + i + "," + j + "] not found.",
-                        expectedString, testContext
-                                .toEncodedString(actualTableCellValues[i
-                                        + startRow][j].trim()));
+                        expectedString, actualTableCellValues[i
+                                        + startRow][j].trim());
             }
         }
     }
@@ -632,10 +631,8 @@ public class WebTester {
                 Assert
                         .assertTrue("Unable to match " + regexp + " in "
                                 + tableSummaryNameOrId + " at [" + i + "," + j
-                                + "].", re.match(getTestContext()
-                                .toEncodedString(
-                                        actualTableCellValues[i + startRow][j]
-                                                .trim())));
+                                + "].", re.match(actualTableCellValues[i + startRow][j]
+                                                .trim()));
             }
         }
     }

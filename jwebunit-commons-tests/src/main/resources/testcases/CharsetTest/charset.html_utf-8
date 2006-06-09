@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Characters</title>
+    </head>
+    <body>
+        <h1>Characters</h1>
+        <form action="/">
+          <table>
+            <tr><th>NAME</th><th>Symbol</th></tr>
+            <tr><td>EUR</td><td><input type="text" name="eur" value="€"/></td></tr>
+            <tr><td>YEN</td><td><input type="text" name="yen" value="¥"/></td></tr>
+            <tr><td>GBP</td><td><input type="text" name="gbp" value="£"/></td></tr>
+	        <tr><td>USD</td><td><input type="text" name="usd" value="$"/></td></tr>
+          </table>
+        </form>
+    </body>
+</html>
