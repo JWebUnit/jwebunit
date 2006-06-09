@@ -40,7 +40,7 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPassFail("assertFormElementNotPresent", "noSuchElement", "testInputElement");
     }
 
-    public void testAssertHasForm() throws Throwable {
+    public void testAssertFormPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPass("assertFormPresent", NOARGS);
         beginAt("/noFormPage.html");
@@ -48,7 +48,7 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPass("assertFormNotPresent", NOARGS);        
     }
 
-    public void testAssertHasNamedForm() throws Throwable {
+    public void testAssertFormPresentByName() throws Throwable {
         beginAt("/testPage.html");
         assertPass("assertFormPresent", new String[]{"form2"});
         assertFail("assertFormPresent", new String[]{"noform"});
@@ -89,6 +89,16 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPassFail("assertSubmitButtonPresent",
                 new Object[]{"submitButton", "buttonLabel"},
                 new Object[]{"submitButton", "noSuchLabel"});
+    }
+
+    public void testAssertResetButtonPresent() throws Throwable {
+        beginAt("/testPage.html");
+        assertPassFail("assertResetButtonPresent", "resetButton", "noSuchButton");
+    }
+
+    public void testAssertResetButtonNotPresent() throws Throwable {
+        beginAt("/testPage.html");
+        assertPassFail("assertResetButtonNotPresent", "noSuchButton", "resetButton");
     }
 
     public void testAssertRadioOptionPresent() throws Throwable {
