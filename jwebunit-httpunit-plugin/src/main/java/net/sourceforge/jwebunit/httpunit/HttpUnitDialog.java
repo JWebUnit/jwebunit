@@ -17,6 +17,9 @@ import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
+import net.sourceforge.jwebunit.html.Cell;
+import net.sourceforge.jwebunit.html.Row;
+import net.sourceforge.jwebunit.html.Table;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 
 import org.w3c.dom.Attr;
@@ -35,6 +38,7 @@ import com.meterware.httpunit.HttpNotFoundException;
 import com.meterware.httpunit.HttpUnitOptions;
 import com.meterware.httpunit.SubmitButton;
 import com.meterware.httpunit.TableCell;
+import com.meterware.httpunit.TableRow;
 import com.meterware.httpunit.WebClient;
 import com.meterware.httpunit.WebClientListener;
 import com.meterware.httpunit.WebConversation;
@@ -597,9 +601,9 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     public boolean hasSubmitButton() {
-        return getForm().getSubmitButtons().length>0;
+        return getForm().getSubmitButtons().length > 0;
     }
-    
+
     public boolean hasSubmitButton(String buttonName) {
         try {
             return getSubmitButton(buttonName) != null;
@@ -616,14 +620,14 @@ public class HttpUnitDialog implements IJWebUnitDialog {
             return false;
         }
     }
-    
+
     public boolean hasResetButton() {
-        //TODO Implement hasResetButton in HttpUnitDialog
+        // TODO Implement hasResetButton in HttpUnitDialog
         throw new UnsupportedOperationException("hasResetButton");
     }
 
     public boolean hasResetButton(String buttonName) {
-        //TODO Implement hasResetButton(String) in HttpUnitDialog
+        // TODO Implement hasResetButton(String) in HttpUnitDialog
         throw new UnsupportedOperationException("hasResetButton");
     }
 
@@ -684,8 +688,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      */
     public boolean isTextInResponse(String text) {
         try {
-            return (resp.getText().indexOf(
-                    text) >= 0);
+            return (resp.getText().indexOf(text) >= 0);
         } catch (IOException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
@@ -1217,9 +1220,9 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         } catch (SAXException e) {
             throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
         }
-        if (link == null || link.length<=index)
+        if (link == null || link.length <= index)
             throw new RuntimeException("No Link found with imageFileName \""
-                    + imageFileName + "\" and index "+index);
+                    + imageFileName + "\" and index " + index);
         submitRequest(link[index]);
     }
 
@@ -1270,15 +1273,15 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         return false;
     }
 
-//    /**
-//     * Return a string array of select box option labels.
-//     * 
-//     * @param selectName
-//     *            name of the select box.
-//     */
-//    public String[] getOptionsFor(String selectName) {
-//        return getForm().getOptions(selectName);
-//    }
+    // /**
+    // * Return a string array of select box option labels.
+    // *
+    // * @param selectName
+    // * name of the select box.
+    // */
+    // public String[] getOptionsFor(String selectName) {
+    // return getForm().getOptions(selectName);
+    // }
 
     /**
      * Return a string array of select box option values.
@@ -1298,7 +1301,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      */
     public String[] getSelectedOptions(String selectName) {
         // TODO Manage multi-select in getSelectedOptions
-        return new String[]{getFormParameterValue(selectName)};
+        return new String[] { getFormParameterValue(selectName) };
     }
 
     /**
@@ -1319,15 +1322,16 @@ public class HttpUnitDialog implements IJWebUnitDialog {
                 + selectName);
     }
 
-    public String getSelectOptionLabelForValue(String selectName, String optionValue) {
+    public String getSelectOptionLabelForValue(String selectName,
+            String optionValue) {
         String[] opts = getForm().getOptions(selectName);
         String[] optsValues = getSelectOptionValues(selectName);
         for (int i = 0; i < opts.length; i++) {
             if (optsValues[i].equals(optionValue))
                 return opts[i];
         }
-        throw new RuntimeException("Unable to find option value " + optionValue + " for "
-                + selectName);
+        throw new RuntimeException("Unable to find option value " + optionValue
+                + " for " + selectName);
     }
 
     /**
@@ -1551,8 +1555,24 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * 
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getTableBySummaryOrId(java.lang.String)
      */
-    public String[][] getTable(String tableSummaryOrId) {
-        return getWebTableBySummaryOrId(tableSummaryOrId).asText();
+    public Table getTable(String tableSummaryOrId) {
+        WebTable httpTable = getWebTableBySummaryOrId(tableSummaryOrId);
+        TableRow[] rows = httpTable.getRows();
+        Table result = new Table();
+        for (int i = 0; i < httpTable.getRowCount(); i++) {
+            Row newRow = new Row();
+            TableRow row = rows[i];
+            //TODO Wait until getCells become public in HttpUnit 
+            //TableCell[] cells = row.getCells(); 
+            TableCell[] cells = new TableCell[0];
+            for (int j = 0; j < cells.length; j++) {
+                TableCell httpCell = cells[j];
+                if (httpCell!=null) newRow.appendCell(new Cell(httpCell.getText(), httpCell
+                        .getColSpan(), httpCell.getRowSpan()));
+            }
+            result.appendRow(newRow);
+        }
+        return result;
     }
 
     public boolean hasElement(String anID) {
@@ -1560,12 +1580,12 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     public boolean hasElementByXPath(String xpath) {
-        //TODO Implement hasElementByXPath in HttpUnitDialog
+        // TODO Implement hasElementByXPath in HttpUnitDialog
         throw new UnsupportedOperationException("hasElementByXPath");
     }
-    
+
     public void clickElementByXPath(String xpath) {
-        //TODO Implement clickElementByXPath in HttpUnitDialog
+        // TODO Implement clickElementByXPath in HttpUnitDialog
         throw new UnsupportedOperationException("clickElementByXPath");
     }
 

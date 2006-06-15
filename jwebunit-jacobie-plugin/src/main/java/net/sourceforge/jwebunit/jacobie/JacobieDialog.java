@@ -18,6 +18,7 @@ import net.sf.jacobie.ie.Select;
 import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
+import net.sourceforge.jwebunit.html.Table;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 
 /**
@@ -1249,7 +1250,7 @@ public class JacobieDialog implements IJWebUnitDialog {
     /* (non-Javadoc)
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#getTable(java.lang.String)
      */
-    public String[][] getTable(String tableSummaryNameOrId) {
+    public Table getTable(String tableSummaryNameOrId) {
         // TODO Auto-generated method stub
         return null;
     }

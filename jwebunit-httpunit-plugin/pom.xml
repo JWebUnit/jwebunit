@@ -34,7 +34,7 @@
         <dependency>
             <groupId>net.sourceforge.httpunit</groupId>
             <artifactId>httpunit</artifactId>
-            <version>1.6.1-20060101</version>
+            <version>1.6.2</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>

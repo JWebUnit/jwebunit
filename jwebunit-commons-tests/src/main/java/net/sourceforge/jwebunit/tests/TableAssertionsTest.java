@@ -79,16 +79,16 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 	public void testAssertTableEquals() throws Throwable {
 		assertPass("assertTableEquals", new Object[] {
 				"testTable",
-				new String[][] { { "table text", "" },
-						{ "table text row 2", "" },
+				new String[][] { { "table text" },
+						{ "table text row 2" },
 						{ "table text row 3", "row 3 col 1" } } });
 	}
 
 	public void testAssertTableEqualsExtraColumn() throws Throwable {
 		assertFail("assertTableEquals", new Object[] {
 				"testTable",
-				new String[][] { { "table text", "", "extra column" },
-						{ "table text row 2", "" },
+				new String[][] { { "table text", "extra column" },
+						{ "table text row 2" },
 						{ "table text row 3", "row 3 col 1" } } });
 	}
 
@@ -96,8 +96,8 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 		assertFail("assertTableEquals",
 				new Object[] {
 						"testTable",
-						new String[][] { { "table text", "" },
-								{ "table text row 2", "" },
+						new String[][] { { "table text" },
+								{ "table text row 2" },
 								{ "table text row 3", "row 3 col 1" },
 								{ "no row 4" } } });
 	}
@@ -105,8 +105,8 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 	public void testAssertTableEqualsInvalidColumnText() throws Throwable {
 		assertFail("assertTableEquals", new Object[] {
 				"testTable",
-				new String[][] { { "table text", "" },
-						{ "no such text in row 2", "" },
+				new String[][] { { "table text" },
+						{ "no such text in row 2" },
 						{ "table text row 3", "row 3 col 1" } } });
 	}
 
@@ -114,8 +114,8 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 		assertFail("assertTableEquals",
 				new Object[] {
 						"testTable",
-						new String[][] { { "table text", "" },
-								{ "table text row 2", "" },
+						new String[][] { { "table text" },
+								{ "table text row 2" },
 								{ "table text row 3", "" } } });
 	}
 
@@ -123,7 +123,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 		assertPass("assertTableRowsEqual", new Object[] {
 				"testTable",
 				new Integer(1),
-				new String[][] { { "table text row 2", "" },
+				new String[][] { { "table text row 2" },
 						{ "table text row 3", "row 3 col 1" } } });
 	}
 
@@ -132,31 +132,21 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 				"testTable",
 				new Integer(2),
 				new String[][] { { "table text row 3", "row 3 col 1" },
-						{ "unexpected", "" } } });
+						{ "unexpected" } } });
 	}
 
-	public void testTableWithSpacesWithCompressionOfEmptyCells()
-			throws Throwable {
-		assertTablePresent("tree");
-		String[][] table = { { "root", "", "" }, { "child1", "child2", "" },
-				{ "child1.1", "child2.1", "child2.2" } };
-        setTableEmptyCellCompression(true);
-		assertTableEquals("tree", table);
-	}
-
-	public void testTableWithSpacesUnCompressed() throws Throwable {
+	public void testTableWithSpaces() throws Throwable {
 		assertTablePresent("tree");
 		String[][] table = { { "root", "", "", "" },
 				{ "child1", "", "child2", "" },
 				{ "child1.1", "", "child2.1", "child2.2" } };
-		setTableEmptyCellCompression(false);
 		assertTableEquals("tree", table);
 	}
 
     public void testAssertTableMatch() throws Throwable {
         assertPass("assertTableMatch",
-                   new Object[]{"testTable", new String[][]{{"table [Tt]ext", ""},
-                                                            {"table [Tt]ext row 2", "^$"},
+                   new Object[]{"testTable", new String[][]{{"table [Tt]ext"},
+                                                            {"table [Tt]ext row 2"},
                                                             {"table [Tt]ext row 3", "row [0-9] col 1"}}});
     }
 
@@ -193,7 +183,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
         assertPass("assertTableRowsMatch",
                    new Object[]{"testTable",
                                 new Integer(1),
-                                new String[][]{{"table text row 2", ""},
+                                new String[][]{{"table text row 2"},
                                                {"table text row 3", "row 3 col 1"}}});
     }
 
@@ -205,21 +195,11 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
                                                {"unexpected", ""}}});
     }
     
-    public void testTableWithSpacesWithCompressionOfEmptyCellsMatch() throws Throwable {
-        assertTablePresent("tree");
-        String[][] table = {{"root", "", ""},
-        {"child1", "child2", ""},
-        {"child1.1", "child2.1", "child2.2"}};
-        setTableEmptyCellCompression(true);
-        assertTableMatch("tree", table);
-    }
-    
-    public void testTableWithSpacesUnCompressedMatch() throws Throwable {
+    public void testTableWithSpacesMatch() throws Throwable {
         assertTablePresent("tree");
         String[][] table = {{"root", "", "", ""},
         {"child1", "", "child2", ""},
         {"child1.1", "", "child2.1", "child2.2"}};
-        setTableEmptyCellCompression(false);
         assertTableMatch("tree", table);
     }
 

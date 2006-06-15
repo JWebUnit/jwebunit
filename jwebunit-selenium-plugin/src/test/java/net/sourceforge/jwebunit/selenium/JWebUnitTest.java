@@ -3,7 +3,6 @@ package net.sourceforge.jwebunit.selenium;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.TestingEngineRegistry;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 import net.sourceforge.jwebunit.tests.*;
 
@@ -33,11 +32,11 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(FramesAndWindowsTest.class);
         suite.addTestSuite(FormSubmissionCheckboxesTest.class);
         suite.addTestSuite(TableAssertionsTest.class);
-        suite.addTestSuite(ExpectedTableAssertionsTest.class);
+        suite.addTestSuite(ExpectedTableAssertionsHtmlTest.class);
+        suite.addTestSuite(ExpectedTableAssertionsXHtmlTest.class);
         suite.addTestSuite(JavaScriptEventsTest.class);
         suite.addTestSuite(JavaScriptTest.class);
         suite.addTestSuite(HelloWorldTest.class);
-        suite.addTestSuite(ExpectedTableTest.class);
         suite.addTestSuite(HtmlParsingTest.class);
         suite.addTestSuite(WebCookieTest.class);
         suite.addTestSuite(TestContextTest.class);

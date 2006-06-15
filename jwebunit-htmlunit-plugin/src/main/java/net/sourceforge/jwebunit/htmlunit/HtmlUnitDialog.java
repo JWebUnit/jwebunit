@@ -28,6 +28,9 @@ import org.jaxen.JaxenException;
 
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
+import net.sourceforge.jwebunit.html.Cell;
+import net.sourceforge.jwebunit.html.Row;
+import net.sourceforge.jwebunit.html.Table;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
@@ -60,6 +63,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 import com.gargoylesoftware.htmlunit.html.ClickableElement;
 import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
 import com.gargoylesoftware.htmlunit.html.xpath.HtmlUnitXPath;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
 
@@ -893,24 +897,18 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return false;
     }
 
-    public String[][] getTable(String tableSummaryOrId) {
+    public Table getTable(String tableSummaryOrId) {
         HtmlTable table = getHtmlTable(tableSummaryOrId);
-        int size = getTableColCount(table);
-        String[][] result = new String[table.getRowCount()][size];
-        for (int i = 0; i < table.getRowCount(); i++) {
-            for (int j = 0; j < size; j++) {
-                HtmlTableCell cell = table.getCellAt(i, j);
-                result[i][j] = cell != null ? cell.asText() : "";
+        Table result = new Table();
+        for (int i=0; i<table.getRowCount(); i++) {
+            Row newRow = new Row();
+            HtmlTableRow htmlRow = table.getRow(i);
+            CellIterator cellIt = htmlRow.getCellIterator();
+            while(cellIt.hasNext()) {
+                HtmlTableCell htmlCell = cellIt.nextCell();
+                newRow.appendCell(new Cell(htmlCell.asText(), htmlCell.getColumnSpan(), htmlCell.getRowSpan()));
             }
-        }
-        return result;
-    }
-
-    private int getTableColCount(HtmlTable table) {
-        int result = 0;
-        for (int i = 0; i < table.getRowCount(); i++) {
-            HtmlTableRow row = table.getRow(i);
-            result = Math.max(row.getCells().size(), result);
+            result.appendRow(newRow);
         }
         return result;
     }
@@ -1510,11 +1508,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 
     public String getFormElementValueForLabel(String formElementLabel) {
         throw new UnsupportedOperationException("getFormElementValueForLabel");
-    }
-
-    public String[][] getSparseTable(String tableSummaryOrId) {
-        // TODO Implement getSparseTable in HtmlUnitDialog
-        throw new UnsupportedOperationException("getSparseTableBySummaryOrId");
     }
 
     public boolean hasFormParameterLabeled(String paramLabel) {

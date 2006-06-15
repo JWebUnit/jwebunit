@@ -6,6 +6,12 @@
 	</properties>
 	<body>
 		<release version="1.3" date="UNKNOWN" description="New features await us">
+			<action type="update" dev="Julien Henry">
+				Refactoring of Table assertions to handle perfectly colspan and rowspan.
+			</action>
+			<action type="add" dev="Julien Henry">
+				Added XPath methods to core API. Only HtmlUnit and Selenium implement it.
+			</action>
 			<action type="add" dev="Julien Henry">
 				Added Selenium plugin module. SeleniumDialog uses Selenium-RC project, that take control of
 				your web browser to execute the tests. Main advantage is perfect Javascript support. Drawbacks are:

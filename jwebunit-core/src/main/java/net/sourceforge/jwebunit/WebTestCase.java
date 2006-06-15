@@ -2,6 +2,8 @@ package net.sourceforge.jwebunit;
 
 import java.io.PrintStream;
 
+import net.sourceforge.jwebunit.html.Table;
+
 import junit.framework.TestCase;
 
 /**
@@ -192,9 +194,8 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertTableEquals(String tableSummaryOrId,
-            ExpectedTable expectedTable) {
-        getTester().assertTableEquals(tableSummaryOrId,
-                expectedTable.getExpectedStrings());
+            Table expectedTable) {
+        getTester().assertTableEquals(tableSummaryOrId, expectedTable);
     }
 
     public void assertTableEquals(String tableSummaryOrId,
@@ -203,7 +204,7 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertTableRowsEqual(String tableSummaryOrId, int startRow,
-            ExpectedTable expectedTable) {
+            Table expectedTable) {
         getTester().assertTableRowsEqual(tableSummaryOrId, startRow,
                 expectedTable);
     }
@@ -215,9 +216,8 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertTableMatch(String tableSummaryOrId,
-            ExpectedTable expectedTable) {
-        tester.assertTableMatch(tableSummaryOrId, expectedTable
-                .getExpectedStrings());
+            Table expectedTable) {
+        getTester().assertTableMatch(tableSummaryOrId, expectedTable);
     }
 
     public void assertTableMatch(String tableSummaryOrId,
@@ -226,7 +226,7 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
-            ExpectedTable expectedTable) {
+            Table expectedTable) {
         tester.assertTableRowsMatch(tableSummaryOrId, startRow, expectedTable);
     }
 
@@ -813,12 +813,6 @@ public class WebTestCase extends TestCase {
 
     protected void dumpTable(String tableNameOrId) {
         getTester().dumpTable(tableNameOrId);
-    }
-
-    // Settings
-
-    public void setTableEmptyCellCompression(boolean bool) {
-        getTester().setTableEmptyCellCompression(bool);
     }
 
 }

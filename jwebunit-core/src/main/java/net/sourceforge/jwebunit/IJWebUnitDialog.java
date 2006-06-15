@@ -5,6 +5,7 @@
 package net.sourceforge.jwebunit;
 
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
+import net.sourceforge.jwebunit.html.Table;
 
 /**
  * This is the interface for all communications between jWebUnit and the
@@ -482,27 +483,20 @@ public interface IJWebUnitDialog {
      * Check if the Table object representing a specified table exists.
      * 
      * @param tableSummaryNameOrId
-     *            summary, name or id of the table to return.
+     *            summary, name or id of the table.
      * @return true if table exists.
      */
     boolean hasTable(String tableSummaryNameOrId);
-
+    
     /**
-     * Return a array for a given table.
-     * 
-     * @param tableSummaryNameOrId
-     *            summary or id of the table.
+     * Each framework have it's own way to represent a Table. Dialogs
+     * are responsible for converting to the unified jWebUnit format.
+     * @param  tableSummaryNameOrId
+     *            summary, name or id of the table to return.
+     * @return unified jWebUnit representation of a table.
      */
-    String[][] getTable(String tableSummaryNameOrId);
+    Table getTable(String tableSummaryNameOrId);
 
-    /**
-     * Return a sparse array (rows or columns without displayable text are
-     * removed) for a given table in the response.
-     * 
-     * @param tableSummaryNameOrId
-     *            summary or id of the table.
-     */
-    String[][] getSparseTable(String tableSummaryNameOrId);
 
     /**
      * Return true if a link is present in the current response containing the

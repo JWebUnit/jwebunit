@@ -8,6 +8,7 @@ import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
+import net.sourceforge.jwebunit.html.Table;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 
 import org.apache.regexp.RE;
@@ -27,8 +28,6 @@ public class WebTester {
     private IJWebUnitDialog dialog = null;
 
     private TestContext testContext = null;
-
-    private boolean tableEmptyCellCompression = false;
 
     /**
      * This is the testing engine key that the webtester will use to find the
@@ -327,8 +326,8 @@ public class WebTester {
     public void assertTextInTable(String tableSummaryNameOrId, String text) {
         assertTablePresent(tableSummaryNameOrId);
         Assert.assertTrue("Could not find: [" + text + "]" + "in table ["
-                + tableSummaryNameOrId + "]", isTextInTable(getDialog()
-                .getTable(tableSummaryNameOrId), text));
+                + tableSummaryNameOrId + "]", getDialog()
+                .getTable(tableSummaryNameOrId).hasText(text));
     }
 
     /**
@@ -341,8 +340,8 @@ public class WebTester {
     public void assertMatchInTable(String tableSummaryNameOrId, String regexp) {
         assertTablePresent(tableSummaryNameOrId);
         Assert.assertTrue("Could not match: [" + regexp + "]" + "in table ["
-                + tableSummaryNameOrId + "]", isMatchInTable(getDialog()
-                .getTable(tableSummaryNameOrId), regexp));
+                + tableSummaryNameOrId + "]", getDialog()
+                .getTable(tableSummaryNameOrId).hasMatch(regexp));
     }
 
     /**
@@ -411,8 +410,8 @@ public class WebTester {
     public void assertTextNotInTable(String tableSummaryNameOrId, String text) {
         assertTablePresent(tableSummaryNameOrId);
         Assert.assertTrue("Found text: [" + text + "] in table ["
-                + tableSummaryNameOrId + "]", !isTextInTable(getDialog()
-                .getTable(tableSummaryNameOrId), text));
+                + tableSummaryNameOrId + "]", !getDialog()
+                .getTable(tableSummaryNameOrId).hasText(text));
     }
 
     /**
@@ -439,8 +438,8 @@ public class WebTester {
     public void assertNoMatchInTable(String tableSummaryNameOrId, String regexp) {
         assertTablePresent(tableSummaryNameOrId);
         Assert.assertTrue("Found regexp: [" + regexp + "] in table ["
-                + tableSummaryNameOrId + "]", !isMatchInTable(getDialog()
-                .getTable(tableSummaryNameOrId), regexp));
+                + tableSummaryNameOrId + "]", !getDialog()
+                .getTable(tableSummaryNameOrId).hasMatch(regexp));
     }
 
     /**
@@ -468,9 +467,8 @@ public class WebTester {
      *            represents expected values (colspan supported).
      */
     public void assertTableEquals(String tableSummaryNameOrId,
-            ExpectedTable expectedTable) {
-        assertTableEquals(tableSummaryNameOrId, expectedTable
-                .getExpectedStrings());
+            Table expectedTable) {
+        getDialog().getTable(tableSummaryNameOrId).assertEquals(expectedTable);
     }
 
     /**
@@ -483,7 +481,7 @@ public class WebTester {
      */
     public void assertTableEquals(String tableSummaryNameOrId,
             String[][] expectedCellValues) {
-        assertTableRowsEqual(tableSummaryNameOrId, 0, expectedCellValues);
+        getDialog().getTable(tableSummaryNameOrId).assertEquals(new Table(expectedCellValues));
     }
 
     /**
@@ -495,12 +493,11 @@ public class WebTester {
      * @param startRow
      *            index of start row for comparison
      * @param expectedTable
-     *            represents expected values (colspan supported).
+     *            represents expected values (colspan and rowspan supported).
      */
     public void assertTableRowsEqual(String tableSummaryNameOrId, int startRow,
-            ExpectedTable expectedTable) {
-        assertTableRowsEqual(tableSummaryNameOrId, startRow, expectedTable
-                .getExpectedStrings());
+            Table expectedTable) {
+        getDialog().getTable(tableSummaryNameOrId).assertSubTableEquals(startRow, expectedTable);
     }
 
     /**
@@ -511,38 +508,12 @@ public class WebTester {
      *            summary, name or id attribute value of table
      * @param startRow
      *            index of start row for comparison
-     * @param expectedCellValues
-     *            double dimensional array of expected values
+     * @param expectedTable
+     *            represents expected values (colspan and rowspan supported).
      */
     public void assertTableRowsEqual(String tableSummaryNameOrId, int startRow,
-            String[][] expectedCellValues) {
-        assertTablePresent(tableSummaryNameOrId);
-        String[][] actualTableCellValues;
-        if (tableEmptyCellCompression) {
-            actualTableCellValues = getDialog().getSparseTable(
-                    tableSummaryNameOrId);
-        } else {
-            actualTableCellValues = getDialog().getTable(tableSummaryNameOrId);
-        }
-        if (expectedCellValues.length > (actualTableCellValues.length - startRow))
-            Assert.fail("Expected rows [" + expectedCellValues.length
-                    + "] larger than actual rows in range being compared"
-                    + " [" + (actualTableCellValues.length - startRow) + "].");
-        for (int i = 0; i < expectedCellValues.length; i++) {
-            String[] row = expectedCellValues[i];
-            for (int j = 0; j < row.length; j++) {
-                if (row.length != actualTableCellValues[i].length)
-                    Assert.fail("Unequal number of columns for row " + i
-                            + " of table " + tableSummaryNameOrId
-                            + ". Expected [" + row.length + "] found ["
-                            + actualTableCellValues[i].length + "].");
-                String expectedString = row[j];
-                Assert.assertEquals("Expected " + tableSummaryNameOrId
-                        + " value at [" + i + "," + j + "] not found.",
-                        expectedString, actualTableCellValues[i
-                                        + startRow][j].trim());
-            }
-        }
+            String[][] expectedTable) {
+        getDialog().getTable(tableSummaryNameOrId).assertSubTableEquals(startRow, new Table(expectedTable));
     }
 
     /**
@@ -554,8 +525,8 @@ public class WebTester {
      *            represents expected regexps (colspan supported).
      */
     public void assertTableMatch(String tableSummaryOrId,
-            ExpectedTable expectedTable) {
-        assertTableMatch(tableSummaryOrId, expectedTable.getExpectedStrings());
+            Table expectedTable) {
+        getDialog().getTable(tableSummaryOrId).assertMatch(expectedTable);
     }
 
     /**
@@ -568,7 +539,7 @@ public class WebTester {
      */
     public void assertTableMatch(String tableSummaryOrId,
             String[][] expectedCellValues) {
-        assertTableRowsMatch(tableSummaryOrId, 0, expectedCellValues);
+        getDialog().getTable(tableSummaryOrId).assertMatch(new Table(expectedCellValues));
     }
 
     /**
@@ -580,61 +551,27 @@ public class WebTester {
      * @param startRow
      *            index of start row for comparison
      * @param expectedTable
-     *            represents expected regexps (colspan supported).
+     *            represents expected regexps (colspan and rowspan supported).
      */
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
-            ExpectedTable expectedTable) {
-        assertTableRowsMatch(tableSummaryOrId, startRow, expectedTable
-                .getExpectedStrings());
+            Table expectedTable) {
+        getDialog().getTable(tableSummaryOrId).assertSubTableMatch(startRow, expectedTable);
     }
 
     /**
      * Assert that a range of rows for a specific table matches a matrix of
      * supplied regexps.
      * 
-     * @param tableSummaryNameOrId
-     *            summary, name or id attribute value of table
+     * @param tableSummaryOrId
+     *            summary or id attribute value of table
      * @param startRow
      *            index of start row for comparison
-     * @param expectedCellValues
-     *            double dimensional array of expected regexps
+     * @param expectedTable
+     *            represents expected regexps (colspan and rowspan not supported).
      */
-    public void assertTableRowsMatch(String tableSummaryNameOrId, int startRow,
-            String[][] expectedCellValues) {
-        assertTablePresent(tableSummaryNameOrId);
-        String[][] actualTableCellValues;
-        if (tableEmptyCellCompression) {
-            actualTableCellValues = getDialog().getSparseTable(
-                    tableSummaryNameOrId);
-        } else {
-            actualTableCellValues = getDialog().getTable(tableSummaryNameOrId);
-        }
-        if (expectedCellValues.length > (actualTableCellValues.length - startRow))
-            Assert.fail("Expected rows [" + expectedCellValues.length
-                    + "] larger than actual rows in range being compared"
-                    + " [" + (actualTableCellValues.length - startRow) + "].");
-        for (int i = 0; i < expectedCellValues.length; i++) {
-            String[] row = expectedCellValues[i];
-            for (int j = 0; j < row.length; j++) {
-                if (row.length != actualTableCellValues[i].length)
-                    Assert.fail("Unequal number of columns for row " + i
-                            + " of table " + tableSummaryNameOrId
-                            + ". Expected [" + row.length + "] found ["
-                            + actualTableCellValues[i].length + "].");
-                String regexp = row[j];
-                RE re = null;
-                try {
-                    re = new RE(regexp, RE.MATCH_SINGLELINE);
-                } catch (RESyntaxException e) {
-                    Assert.fail(e.toString());
-                }
-                Assert
-                        .assertTrue("Unable to match " + regexp + " in "
-                                + tableSummaryNameOrId + " at [" + i + "," + j
-                                + "].", re.match(actualTableCellValues[i + startRow][j]
-                                                .trim()));
-            }
-        }
+    public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
+            String[][] expectedTable) {
+        getDialog().getTable(tableSummaryOrId).assertSubTableMatch(startRow, new Table(expectedTable));
     }
 
     /**
@@ -2071,45 +2008,20 @@ public class WebTester {
      * @param stream
      */
     public void dumpTable(String tableNameOrId, PrintStream stream) {
-        String[][] table = getDialog().getTable(tableNameOrId);
-        stream.print("\n" + tableNameOrId + ":");
-        for (int i = 0; i < table.length; i++) {
-            String[] cell = table[i];
-            stream.print("\n\t");
-            for (int j = 0; j < cell.length; j++) {
-                stream.print("[" + cell[j] + "]");
-            }
-        }
+//        String[][] table = getDialog().getTable(tableNameOrId).getStrings();
+//        //TODO Print correctly cells with colspan
+//        stream.print("\n" + tableNameOrId + ":");
+//        for (int i = 0; i < table.length; i++) {
+//            String[] cell = table[i];
+//            stream.print("\n\t");
+//            for (int j = 0; j < cell.length; j++) {
+//                stream.print("[" + cell[j] + "]");
+//            }
+//        }
 
     }
 
     // Settings
-    /**
-     * This setting controls whether the tester will compress html tables before
-     * compaing them against expecteds via table assertions. Compression means
-     * that rows with no displayable contents in their cells are eliminated
-     * before comparison, and also that empty cells in a row are discarded
-     * except as padding at the end of a row to reach the number of columns
-     * needed for non-empty content.
-     * 
-     * The default is compression true. The point of compressing the table
-     * before comparison is to prevent testers from having to worry about
-     * testing table spacing rather than content.
-     * 
-     * Confused? Example:
-     * 
-     * If compression is true the following html table (,'s mark cell
-     * divisions):
-     * 
-     * alpha,beta,charlie delta,&nbsp;,echo, &nbsp;,&nbsp;,&nbsp;
-     * &nbsp;,foxtrot,&nbsp;
-     * 
-     * Will be compressed to the following before comparison with actual.
-     * alpha,beta,charlie delta,echo,&nbsp; foxtrot,&nbsp;,&nbsp;
-     */
-    public void setTableEmptyCellCompression(boolean bool) {
-        this.tableEmptyCellCompression = bool;
-    }
 
     /**
      * Enable or disable Javascript support
@@ -2160,27 +2072,6 @@ public class WebTester {
             Assert.fail(e.toString());
         }
         return re;
-    }
-
-    private boolean isTextInTable(String[][] table, String text) {
-        for (int i = 0; i < table.length; i++) {
-            for (int j = 0; j < table[i].length; j++) {
-                if (table[i][j].indexOf(text) >= 0)
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isMatchInTable(String[][] table, String regexp) {
-        RE re = getRE(regexp);
-        for (int i = 0; i < table.length; i++) {
-            for (int j = 0; j < table[i].length; j++) {
-                if (re.match(table[i][j]))
-                    return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -2244,5 +2135,30 @@ public class WebTester {
                     returned[i]);
         }
     }
+    
+    /**
+     * Return a sparse array (rows or columns without displayable text are
+     * removed) for a given table in the response.
+     * 
+     * @param tableSummaryNameOrId
+     *            summary or id of the table.
+     */
+//    private String[][] getSparseTable(String tableSummaryNameOrId) {
+//        
+//    }
+    
+    /**
+     * Return a array for a given table.
+     * 
+     * @param tableSummaryNameOrId
+     *            summary or id of the table.
+     */
+//    private String[][] getTable(String tableSummaryNameOrId) {
+//        
+//    }
+
+
+
+
 
 }

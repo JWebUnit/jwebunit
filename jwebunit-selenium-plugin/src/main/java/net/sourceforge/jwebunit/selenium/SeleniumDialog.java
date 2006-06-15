@@ -4,6 +4,7 @@ import java.io.PrintStream;
 
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
+import net.sourceforge.jwebunit.html.Table;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
@@ -438,12 +439,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
         this.testContext = testContext;
     }
 
-    public String[][] getSparseTable(String tableSummaryNameOrId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String[][] getTable(String tableSummaryNameOrId) {
+    public Table getTable(String tableSummaryNameOrId) {
         // TODO Auto-generated method stub
         return null;
     }
