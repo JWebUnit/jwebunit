@@ -12,6 +12,9 @@ import java.util.Map;
 
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
+import org.jaxen.JaxenException;
+import org.jaxen.XPath;
+import org.jaxen.dom.DOMXPath;
 
 import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
@@ -49,6 +52,7 @@ import com.meterware.httpunit.WebResponse;
 import com.meterware.httpunit.WebTable;
 import com.meterware.httpunit.WebWindow;
 import com.meterware.httpunit.cookies.CookieJar;
+import com.meterware.httpunit.parsing.HTMLParserFactory;
 
 /**
  * Acts as the wrapper for HttpUnit access. A dialog is initialized with a given
@@ -107,6 +111,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     private void initWebClient() {
+        HTMLParserFactory.useJTidyParser();
         wc = new WebConversation();
 
         wc.getClientProperties().setUserAgent(testContext.getUserAgent());
@@ -622,13 +627,11 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     public boolean hasResetButton() {
-        // TODO Implement hasResetButton in HttpUnitDialog
-        throw new UnsupportedOperationException("hasResetButton");
+        return hasElementByXPath("//input[@type='reset']");
     }
 
     public boolean hasResetButton(String buttonName) {
-        // TODO Implement hasResetButton(String) in HttpUnitDialog
-        throw new UnsupportedOperationException("hasResetButton");
+        return hasElementByXPath("//input[@type='reset' and @name='"+buttonName+"']");
     }
 
     /**
@@ -1394,7 +1397,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * @param anID
      *            id of the element.
      */
-    public Element getElement(String anID) {
+    private Element getElement(String anID) {
         try {
             return walkDOM(getResponse().getDOM().getDocumentElement(), anID);
         } catch (Exception e) {
@@ -1580,13 +1583,34 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     public boolean hasElementByXPath(String xpath) {
-        // TODO Implement hasElementByXPath in HttpUnitDialog
-        throw new UnsupportedOperationException("hasElementByXPath");
+        return getElementByXPath(xpath)!=null;
+    }
+    
+    private XPath makeXpath(String xpathString) throws JaxenException {
+        return new DOMXPath(xpathString);
+    }
+    
+    private Object getElementByXPath(String xpath) {
+        try {
+            Document rootNode = getResponse().getDOM();
+            XPath xpathObject = makeXpath(xpath);
+            return xpathObject.selectSingleNode(rootNode);
+        } catch (SAXException e) {
+            throw new RuntimeException(e);
+        } catch (JaxenException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void clickElementByXPath(String xpath) {
-        // TODO Implement clickElementByXPath in HttpUnitDialog
-        throw new UnsupportedOperationException("clickElementByXPath");
+        Object o = getElementByXPath(xpath);
+        if (o instanceof Node) {
+            //TODO fix clickElementByXPath in HttpUnitDialog
+            throw new UnsupportedOperationException("clickElementByXPath");
+        } 
+        else {
+            throw new RuntimeException("Don't know how to click on this element");
+        }
     }
 
     /*
