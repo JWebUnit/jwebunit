@@ -9,6 +9,14 @@
   <artifactId>jwebunit-htmlunit-plugin</artifactId>
   <name>HtmlUnit Plugin</name>
   <description>HtmlUnit plugin for jWebUnit.</description>
+  <repositories>
+        <repository>
+            <snapshots />
+            <id>jwebunit-m2-repo-snapshots</id>
+            <name>JWebUnit snapshots repository</name>
+            <url>http://jwebunit.sourceforge.net/m2-repo-snapshots</url>
+        </repository>
+  </repositories>
   <build>
     <plugins>
       <plugin>
@@ -27,15 +35,6 @@
       </plugin>
     </plugins>
   </build>
-  <repositories>
-    <repository>
-      <releases />
-      <snapshots />
-      <id>private</id>
-      <name>Private repository</name>
-      <url>file:${basedir}/private-repository</url>
-    </repository>
-  </repositories>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

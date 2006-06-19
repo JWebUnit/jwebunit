@@ -21,7 +21,7 @@ public class WebCookieTest extends JWebUnitAPITestCase {
         super.setUp();
 		getTestContext().addCookie("cookie1", "Cookievalue1");
 		getTestContext().setBaseUrl(HOST_PATH + "/ExpectedTableAssertionsTest");
-		beginAt("/ExpectedTableAssertionsTestPage.html");
+		beginAt("/TableAssertionsTestPageHtml.html");
     }
     
 	public void testAssertCookieDump() throws Throwable {

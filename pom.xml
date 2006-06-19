@@ -302,7 +302,7 @@
             </url>
         </site>
         <repository>
-            <id>jwebunit-repository</id>
+            <id>jwebunit-m2-repo</id>
             <url>
                 scpexe://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/m2-repo
             </url>
@@ -311,7 +311,7 @@
             </name>
         </repository>
         <snapshotRepository>
-            <id>jwebunit-snapshots-repository</id>
+            <id>jwebunit-m2-repo-snapshots</id>
             <url>
                 scpexe://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/m2-repo-snapshots
             </url>

@@ -10,19 +10,6 @@
     <artifactId>jwebunit-core</artifactId>
     <name>Core - API</name>
     <description>The core API of jWebUnit. Define how tests should be written.</description>
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <include>**/*Tests*.java</include>
-                    </includes>
-                    <testFailureIgnore>false</testFailureIgnore>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
