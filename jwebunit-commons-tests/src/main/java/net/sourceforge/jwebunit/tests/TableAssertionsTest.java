@@ -84,7 +84,13 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 						{ "table text row 3", "row 3 col 1" } } });
 	}
 
-	public void testAssertTableEqualsExtraColumn() throws Throwable {
+    public void testAssertTableRowCountEquals() throws Throwable {
+        assertPassFail("assertTableRowCountEquals", new Object[] {
+                "tree", new Integer(3)}, new Object[] {
+                        "tree", new Integer(4)});
+    }
+
+    public void testAssertTableEqualsExtraColumn() throws Throwable {
 		assertFail("assertTableEquals", new Object[] {
 				"testTable",
 				new String[][] { { "table text", "extra column" },
