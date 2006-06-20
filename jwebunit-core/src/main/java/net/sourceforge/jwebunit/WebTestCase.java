@@ -209,6 +209,10 @@ public class WebTestCase extends TestCase {
                 expectedTable);
     }
 
+    public void assertTableRowCountEquals(String tableSummaryOrId, int expectedRowCount) {
+        getTester().assertTableRowCountEquals(tableSummaryOrId, expectedRowCount);
+    }
+
     public void assertTableRowsEqual(String tableSummaryOrId, int startRow,
             String[][] expectedCellValues) {
         getTester().assertTableRowsEqual(tableSummaryOrId, startRow,
@@ -725,6 +729,10 @@ public class WebTestCase extends TestCase {
         getTester().clickLinkWithExactText(linkText, index);
     }
 
+    /**
+     * 
+     * @deprecated
+     */
     protected void clickLinkWithTextAfterText(String linkText, String labelText) {
         getTester().clickLinkWithTextAfterText(linkText, labelText);
     }

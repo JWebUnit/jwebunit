@@ -517,6 +517,21 @@ public class WebTester {
     }
 
     /**
+     * Assert that the number of rows for a specific table equals expected value.
+     * 
+     * @param tableSummaryNameOrId
+     *            summary, name or id attribute value of table
+     * @param expectedRowCount
+     *            expected row count.
+     */
+    public void assertTableRowCountEquals(String tableSummaryNameOrId, int expectedRowCount) {
+        assertTablePresent(tableSummaryNameOrId);
+        int actualRowCount = getDialog().getTable(tableSummaryNameOrId).getRowCount();
+        Assert.assertTrue("Expected row count was "+expectedRowCount+" but actual row count is "+actualRowCount,
+                actualRowCount==expectedRowCount);
+    }
+
+    /**
      * Assert that a specific table matches an ExpectedTable.
      * 
      * @param tableSummaryOrId
