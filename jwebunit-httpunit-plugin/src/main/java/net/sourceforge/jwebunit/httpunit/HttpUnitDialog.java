@@ -186,7 +186,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Return the page title of the current response page, encoded as specified
+     * Return the page title of the current page, encoded as specified
      * by the current {@link net.sourceforge.jwebunit.TestContext}.
      */
     public String getPageTitle() {
@@ -1483,6 +1483,14 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         setMainWindow(getWindow(windowName));
     }
 
+    public void gotoWindow(int windowID) {
+        setMainWindow(wc.getOpenWindows()[windowID]);
+    }
+    
+    public int getWindowCount() {
+        return wc.getOpenWindows().length;
+    }
+
     /**
      * Goto first window with the given title.
      * 
@@ -1684,15 +1692,21 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         }
     }
 
-    public void closeBrowser() throws TestingEngineResponseException {
+    public void closeBrowser() {
         wc = null;
         resp = null;
         form = null;
     }
 
     public void closeWindow() {
-        // TODO Auto-generated method stub
-
+        wc.getMainWindow().close();
+        if (wc.getOpenWindows().length>0) {
+            wc.setMainWindow(wc.getOpenWindows()[0]);
+            resp=wc.getMainWindow().getCurrentPage();
+            form=null;
+        }            
+        else
+            closeBrowser();        
     }
 
     /*

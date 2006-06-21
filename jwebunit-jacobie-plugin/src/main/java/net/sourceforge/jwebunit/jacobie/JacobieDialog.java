@@ -1430,4 +1430,14 @@ public class JacobieDialog implements IJWebUnitDialog {
         return false;
     }
 
+    public int getWindowCount() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public void gotoWindow(int windowID) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

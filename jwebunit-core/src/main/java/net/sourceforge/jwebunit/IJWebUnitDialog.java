@@ -94,21 +94,33 @@ public interface IJWebUnitDialog {
     /**
      * Make the window with the given name active.
      * 
-     * @param windowName
+     * @param windowName Name of the window
      */
     void gotoWindow(String windowName);
 
     /**
      * Goto first window with the given title.
      * 
-     * @param windowName
+     * @param title Title of the window
      */
     void gotoWindowByTitle(String title);
+
+    /**
+     * Goto window with the given Javascript ID.
+     * 
+     * @param windowID Javascript ID of the window
+     */
+    void gotoWindow(int windowID);
 
     /**
      * Make the root window active.
      */
     void gotoRootWindow();
+
+    /**
+     * Get the number of openend Windows.
+     */
+    int getWindowCount();
 
     /**
      * Close the current window.

@@ -137,7 +137,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
     }
 
-    public void closeBrowser() throws TestingEngineResponseException {
+    public void closeBrowser() {
         wc = null;
     }
 
@@ -239,6 +239,14 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         setMainWindow(getWindow(windowName));
     }
 
+    public void gotoWindow(int windowID) {
+        setMainWindow((WebWindow)wc.getWebWindows().get(windowID));
+    }
+    
+    public int getWindowCount() {
+        return wc.getWebWindows().size();
+    }
+
     /**
      * Goto first window with the given title.
      * 
@@ -252,8 +260,15 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     public void closeWindow() {
-        // TODO Implement closeWindow in HtmlUnitDialog
-        throw new UnsupportedOperationException("closeWindow");
+        if (getWindowCount()==1) {
+            closeBrowser();
+        }
+        else {
+            wc.deregisterWebWindow(win);
+            win=wc.getCurrentWindow();
+            form=null;
+        }
+        
     }
 
     public boolean hasFrame(String frameName) {

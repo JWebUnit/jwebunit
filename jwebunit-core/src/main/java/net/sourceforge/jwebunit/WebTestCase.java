@@ -99,6 +99,10 @@ public class WebTestCase extends TestCase {
         getTester().closeBrowser();
     }
 
+    public void closeWindow() {
+        getTester().closeWindow();
+    }
+
     public String getMessage(String key) {
         return getTester().getMessage(key);
     }
@@ -553,8 +557,16 @@ public class WebTestCase extends TestCase {
         getTester().assertWindowPresent(windowName);
     }
 
+    public void assertWindowPresent(int windowID) {
+        getTester().assertWindowPresent(windowID);
+    }
+
     public void assertWindowPresentWithTitle(String title) {
         getTester().assertWindowPresentWithTitle(title);
+    }
+
+    public void assertWindowCountEquals(int windowCount) {
+        getTester().assertWindowCountEquals(windowCount);
     }
 
     public void assertFramePresent(String frameName) {
@@ -788,6 +800,10 @@ public class WebTestCase extends TestCase {
 
     public void gotoWindow(String windowName) {
         getTester().gotoWindow(windowName);
+    }
+
+    public void gotoWindow(int windowID) {
+        getTester().gotoWindow(windowID);
     }
 
     public void gotoFrame(String frameName) {

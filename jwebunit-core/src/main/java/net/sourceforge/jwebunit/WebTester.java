@@ -66,8 +66,8 @@ public class WebTester {
         String theTestingEngineKey = getTestingEngineKey();
         Class theClass;
         try {
-            theClass = TestingEngineRegistry.getTestingEngineClass(
-                    theTestingEngineKey);
+            theClass = TestingEngineRegistry
+                    .getTestingEngineClass(theTestingEngineKey);
         } catch (ClassNotFoundException e1) {
             throw new RuntimeException(e1);
         }
@@ -99,6 +99,13 @@ public class WebTester {
         } catch (TestingEngineResponseException aTestingEngineResponseException) {
             handleTestingEngineResponseException(aTestingEngineResponseException);
         }
+    }
+
+    /**
+     * Close the current window
+     */
+    public void closeWindow() {
+        getDialog().closeWindow();
     }
 
     public void setDialog(IJWebUnitDialog aIJWebUnitDialog) {
@@ -326,8 +333,8 @@ public class WebTester {
     public void assertTextInTable(String tableSummaryNameOrId, String text) {
         assertTablePresent(tableSummaryNameOrId);
         Assert.assertTrue("Could not find: [" + text + "]" + "in table ["
-                + tableSummaryNameOrId + "]", getDialog()
-                .getTable(tableSummaryNameOrId).hasText(text));
+                + tableSummaryNameOrId + "]", getDialog().getTable(
+                tableSummaryNameOrId).hasText(text));
     }
 
     /**
@@ -340,8 +347,8 @@ public class WebTester {
     public void assertMatchInTable(String tableSummaryNameOrId, String regexp) {
         assertTablePresent(tableSummaryNameOrId);
         Assert.assertTrue("Could not match: [" + regexp + "]" + "in table ["
-                + tableSummaryNameOrId + "]", getDialog()
-                .getTable(tableSummaryNameOrId).hasMatch(regexp));
+                + tableSummaryNameOrId + "]", getDialog().getTable(
+                tableSummaryNameOrId).hasMatch(regexp));
     }
 
     /**
@@ -410,8 +417,8 @@ public class WebTester {
     public void assertTextNotInTable(String tableSummaryNameOrId, String text) {
         assertTablePresent(tableSummaryNameOrId);
         Assert.assertTrue("Found text: [" + text + "] in table ["
-                + tableSummaryNameOrId + "]", !getDialog()
-                .getTable(tableSummaryNameOrId).hasText(text));
+                + tableSummaryNameOrId + "]", !getDialog().getTable(
+                tableSummaryNameOrId).hasText(text));
     }
 
     /**
@@ -438,8 +445,8 @@ public class WebTester {
     public void assertNoMatchInTable(String tableSummaryNameOrId, String regexp) {
         assertTablePresent(tableSummaryNameOrId);
         Assert.assertTrue("Found regexp: [" + regexp + "] in table ["
-                + tableSummaryNameOrId + "]", !getDialog()
-                .getTable(tableSummaryNameOrId).hasMatch(regexp));
+                + tableSummaryNameOrId + "]", !getDialog().getTable(
+                tableSummaryNameOrId).hasMatch(regexp));
     }
 
     /**
@@ -481,7 +488,8 @@ public class WebTester {
      */
     public void assertTableEquals(String tableSummaryNameOrId,
             String[][] expectedCellValues) {
-        getDialog().getTable(tableSummaryNameOrId).assertEquals(new Table(expectedCellValues));
+        getDialog().getTable(tableSummaryNameOrId).assertEquals(
+                new Table(expectedCellValues));
     }
 
     /**
@@ -497,7 +505,8 @@ public class WebTester {
      */
     public void assertTableRowsEqual(String tableSummaryNameOrId, int startRow,
             Table expectedTable) {
-        getDialog().getTable(tableSummaryNameOrId).assertSubTableEquals(startRow, expectedTable);
+        getDialog().getTable(tableSummaryNameOrId).assertSubTableEquals(
+                startRow, expectedTable);
     }
 
     /**
@@ -513,22 +522,27 @@ public class WebTester {
      */
     public void assertTableRowsEqual(String tableSummaryNameOrId, int startRow,
             String[][] expectedTable) {
-        getDialog().getTable(tableSummaryNameOrId).assertSubTableEquals(startRow, new Table(expectedTable));
+        getDialog().getTable(tableSummaryNameOrId).assertSubTableEquals(
+                startRow, new Table(expectedTable));
     }
 
     /**
-     * Assert that the number of rows for a specific table equals expected value.
+     * Assert that the number of rows for a specific table equals expected
+     * value.
      * 
      * @param tableSummaryNameOrId
      *            summary, name or id attribute value of table
      * @param expectedRowCount
      *            expected row count.
      */
-    public void assertTableRowCountEquals(String tableSummaryNameOrId, int expectedRowCount) {
+    public void assertTableRowCountEquals(String tableSummaryNameOrId,
+            int expectedRowCount) {
         assertTablePresent(tableSummaryNameOrId);
-        int actualRowCount = getDialog().getTable(tableSummaryNameOrId).getRowCount();
-        Assert.assertTrue("Expected row count was "+expectedRowCount+" but actual row count is "+actualRowCount,
-                actualRowCount==expectedRowCount);
+        int actualRowCount = getDialog().getTable(tableSummaryNameOrId)
+                .getRowCount();
+        Assert.assertTrue("Expected row count was " + expectedRowCount
+                + " but actual row count is " + actualRowCount,
+                actualRowCount == expectedRowCount);
     }
 
     /**
@@ -539,8 +553,7 @@ public class WebTester {
      * @param expectedTable
      *            represents expected regexps (colspan supported).
      */
-    public void assertTableMatch(String tableSummaryOrId,
-            Table expectedTable) {
+    public void assertTableMatch(String tableSummaryOrId, Table expectedTable) {
         getDialog().getTable(tableSummaryOrId).assertMatch(expectedTable);
     }
 
@@ -554,7 +567,8 @@ public class WebTester {
      */
     public void assertTableMatch(String tableSummaryOrId,
             String[][] expectedCellValues) {
-        getDialog().getTable(tableSummaryOrId).assertMatch(new Table(expectedCellValues));
+        getDialog().getTable(tableSummaryOrId).assertMatch(
+                new Table(expectedCellValues));
     }
 
     /**
@@ -570,7 +584,8 @@ public class WebTester {
      */
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
             Table expectedTable) {
-        getDialog().getTable(tableSummaryOrId).assertSubTableMatch(startRow, expectedTable);
+        getDialog().getTable(tableSummaryOrId).assertSubTableMatch(startRow,
+                expectedTable);
     }
 
     /**
@@ -582,11 +597,13 @@ public class WebTester {
      * @param startRow
      *            index of start row for comparison
      * @param expectedTable
-     *            represents expected regexps (colspan and rowspan not supported).
+     *            represents expected regexps (colspan and rowspan not
+     *            supported).
      */
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
             String[][] expectedTable) {
-        getDialog().getTable(tableSummaryOrId).assertSubTableMatch(startRow, new Table(expectedTable));
+        getDialog().getTable(tableSummaryOrId).assertSubTableMatch(startRow,
+                new Table(expectedTable));
     }
 
     /**
@@ -1057,8 +1074,8 @@ public class WebTester {
      */
     public void assertSubmitButtonPresent() {
         assertFormPresent();
-        Assert.assertTrue("no submit button found.",
-                getDialog().hasSubmitButton());
+        Assert.assertTrue("no submit button found.", getDialog()
+                .hasSubmitButton());
     }
 
     /**
@@ -1079,8 +1096,8 @@ public class WebTester {
      */
     public void assertSubmitButtonNotPresent() {
         assertFormPresent();
-        Assert.assertFalse("Submit Button found.",
-                getDialog().hasSubmitButton());
+        Assert.assertFalse("Submit Button found.", getDialog()
+                .hasSubmitButton());
     }
 
     /**
@@ -1113,8 +1130,8 @@ public class WebTester {
      */
     public void assertResetButtonPresent() {
         assertFormPresent();
-        Assert.assertTrue("no reset button found.",
-                getDialog().hasResetButton());
+        Assert.assertTrue("no reset button found.", getDialog()
+                .hasResetButton());
     }
 
     /**
@@ -1135,8 +1152,7 @@ public class WebTester {
      */
     public void assertResetButtonNotPresent() {
         assertFormPresent();
-        Assert.assertFalse("Reset Button found.",
-                getDialog().hasResetButton());
+        Assert.assertFalse("Reset Button found.", getDialog().hasResetButton());
     }
 
     /**
@@ -1373,8 +1389,8 @@ public class WebTester {
      *            element xpath to test for.
      */
     public void assertElementPresentByXPath(String xpath) {
-        Assert.assertTrue("Unable to locate element with xpath \"" + xpath + "\"",
-                getDialog().hasElementByXPath(xpath));
+        Assert.assertTrue("Unable to locate element with xpath \"" + xpath
+                + "\"", getDialog().hasElementByXPath(xpath));
     }
 
     /**
@@ -1457,6 +1473,17 @@ public class WebTester {
     }
 
     /**
+     * Assert that a window with the given ID is open.
+     * 
+     * @param windowID
+     *            Javascript window ID.
+     */
+    public void assertWindowPresent(int windowID) {
+        Assert.assertTrue("There is no window with index [" + windowID + "].",
+                getDialog().getWindowCount() > windowID);
+    }
+
+    /**
      * Assert that at least one window with the given title is open.
      * 
      * @param title
@@ -1465,6 +1492,18 @@ public class WebTester {
         Assert.assertTrue(
                 "Unable to locate window with title [" + title + "].",
                 getDialog().hasWindowByTitle(title));
+    }
+
+    /**
+     * Assert that the number of opened windows equals given value.
+     * 
+     * @param windowCount
+     *            Window count
+     */
+    public void assertWindowCountEquals(int windowCount) {
+        Assert.assertTrue("Window count is " + getDialog().getWindowCount()
+                + " but " + windowCount + " was expected.", getDialog()
+                .getWindowCount()==windowCount);
     }
 
     /**
@@ -1840,6 +1879,7 @@ public class WebTester {
     /**
      * Search for labelText in the document, then search forward until finding a
      * link called linkText. Click it.
+     * 
      * @deprecated
      */
     public void clickLinkWithTextAfterText(String linkText, String labelText) {
@@ -1903,7 +1943,7 @@ public class WebTester {
         assertRadioOptionPresent(radioGroup, radioOption);
         getDialog().clickRadioOption(radioGroup, radioOption);
     }
-    
+
     /**
      * Click element with given xpath.
      * 
@@ -1918,13 +1958,24 @@ public class WebTester {
     // Window and Frame Navigation Methods
 
     /**
-     * Make a given window active (current response will be window's contents).
+     * Make a given window active.
      * 
      * @param windowName
      */
     public void gotoWindow(String windowName) {
         assertWindowPresent(windowName);
         getDialog().gotoWindow(windowName);
+    }
+
+    /**
+     * Make a given window active.
+     * 
+     * @param windowID
+     *            Javascript ID of the window
+     */
+    public void gotoWindow(int windowID) {
+        assertWindowPresent(windowID);
+        getDialog().gotoWindow(windowID);
     }
 
     /**
@@ -2023,16 +2074,16 @@ public class WebTester {
      * @param stream
      */
     public void dumpTable(String tableNameOrId, PrintStream stream) {
-//        String[][] table = getDialog().getTable(tableNameOrId).getStrings();
-//        //TODO Print correctly cells with colspan
-//        stream.print("\n" + tableNameOrId + ":");
-//        for (int i = 0; i < table.length; i++) {
-//            String[] cell = table[i];
-//            stream.print("\n\t");
-//            for (int j = 0; j < cell.length; j++) {
-//                stream.print("[" + cell[j] + "]");
-//            }
-//        }
+        // String[][] table = getDialog().getTable(tableNameOrId).getStrings();
+        // //TODO Print correctly cells with colspan
+        // stream.print("\n" + tableNameOrId + ":");
+        // for (int i = 0; i < table.length; i++) {
+        // String[] cell = table[i];
+        // stream.print("\n\t");
+        // for (int j = 0; j < cell.length; j++) {
+        // stream.print("[" + cell[j] + "]");
+        // }
+        // }
 
     }
 
@@ -2095,18 +2146,18 @@ public class WebTester {
      * Exemple: <br/>
      * 
      * <pre>
-     *             &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-     *               &lt;P&gt;
-     *                 &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-     *                   &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-     *                   &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-     *                   &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-     *                   &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-     *                   &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-     *                 &lt;/SELECT&gt;
-     *                 &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-     *               &lt;/P&gt;
-     *             &lt;/FORM&gt;
+     *               &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+     *                 &lt;P&gt;
+     *                   &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+     *                     &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+     *                     &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+     *                     &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+     *                     &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+     *                     &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+     *                   &lt;/SELECT&gt;
+     *                   &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+     *                 &lt;/P&gt;
+     *               &lt;/FORM&gt;
      * </pre>
      * 
      * Should return [Component_1, Component_2, Component_3, Component_4,
@@ -2150,7 +2201,7 @@ public class WebTester {
                     returned[i]);
         }
     }
-    
+
     /**
      * Return a sparse array (rows or columns without displayable text are
      * removed) for a given table in the response.
@@ -2158,22 +2209,16 @@ public class WebTester {
      * @param tableSummaryNameOrId
      *            summary or id of the table.
      */
-//    private String[][] getSparseTable(String tableSummaryNameOrId) {
-//        
-//    }
-    
+    // private String[][] getSparseTable(String tableSummaryNameOrId) {
+    //        
+    // }
     /**
      * Return a array for a given table.
      * 
      * @param tableSummaryNameOrId
      *            summary or id of the table.
      */
-//    private String[][] getTable(String tableSummaryNameOrId) {
-//        
-//    }
-
-
-
-
-
+    // private String[][] getTable(String tableSummaryNameOrId) {
+    //        
+    // }
 }

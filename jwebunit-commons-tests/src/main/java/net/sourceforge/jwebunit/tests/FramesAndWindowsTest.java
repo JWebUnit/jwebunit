@@ -52,12 +52,17 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
     }   
 
     public void testGotoWindow() {
-        beginAt("RootPage.html");
         gotoRootAndOpenChild("ChildPage1");
         gotoWindow("ChildPage1");
         assertTextPresent("child 1");
     }
     
+    public void testGotoWindowByID() {
+        gotoRootAndOpenChild("ChildPage3");
+        gotoWindow(1);
+        assertTextPresent("child 3");
+    }
+
     public void testGotoWindowByTitle() {
         gotoRootAndOpenChild("ChildPage2");
         gotoWindowByTitle("Child Page 2");
@@ -74,6 +79,27 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         gotoWindow("ChildPage1");
         gotoRootWindow();
         assertTextPresent("This is the Root");
+    }
+
+    public void testCloseWindow() {
+        beginAt("RootPage.html");
+        assertTitleEquals("This is the Root");
+        clickLink("ChildPage1");
+        gotoWindow("ChildPage1");
+        assertTextPresent("child 1");
+        closeWindow();
+        assertWindowCountEquals(1);
+        assertTitleEquals("This is the Root");
+    }
+
+    public void testAssertWindowCountEquals() {
+        beginAt("RootPage.html");
+        assertWindowCountEquals(1);
+        clickLink("ChildPage1");
+        assertWindowCountEquals(2);
+        gotoWindow("ChildPage1");
+        closeWindow();
+        assertWindowCountEquals(1);
     }
 
     // ----------- frames test --------------

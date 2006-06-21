@@ -447,7 +447,15 @@ public class SeleniumDialog implements IJWebUnitDialog {
     protected String formSelector() {
         if (formIdent == null)
             return "";
-
         return "//form[" + formIdent + "]";
+    }
+
+    public int getWindowCount() {
+        //TODO implement getWindowCount in SeleniumDialog
+        throw new UnsupportedOperationException("getWindowCount");
+    }
+
+    public void gotoWindow(int windowID) {
+        selenium.selectWindow(""+windowID);
     }
 }
