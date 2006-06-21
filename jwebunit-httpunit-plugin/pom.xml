@@ -17,6 +17,12 @@
             <name>JWebUnit repository</name>
             <url>http://jwebunit.sourceforge.net/m2-repo</url>
         </repository>
+        <repository>
+            <releases />
+            <id>jwebunit-m2-repo-snapshots</id>
+            <name>JWebUnit snapshots repository</name>
+            <url>http://jwebunit.sourceforge.net/m2-repo-snapshots</url>
+        </repository>
     </repositories>
     <build>
         <plugins>
@@ -40,7 +46,7 @@
         <dependency>
             <groupId>net.sourceforge.httpunit</groupId>
             <artifactId>httpunit</artifactId>
-            <version>1.6.2</version>
+            <version>1.6.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
