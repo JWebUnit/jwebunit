@@ -40,10 +40,11 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 
 	public void testCheckBoxSelection() {
 		beginAt("/SingleNamedButtonForm.html");
-		checkCheckbox("checkBox");
+		checkCheckbox("checkBox"); //Fail with httpunit because of hidden field with same name
         setTextField("color", "blue");
 		submit();
-		assertTextPresent("Params are: color=blue checkBox=on");
+        //checkBox contains 2 parameters: one for the hidden input and one for the checkbox
+		assertTextPresent("Params are: color=blue checkBox=,on");
 	}
 
 	public void testCheckBoxSelectionWithSameFieldName() {
@@ -66,8 +67,8 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 
 	public void testCheckBoxDeselection() {
 		beginAt("/SingleNamedButtonForm.html");
-		checkCheckbox("checkBox");
-        assertFormElementEquals("checkBox", "on");
+		checkCheckbox("checkBox"); //Fail with httpunit because of hidden field with same name
+        assertCheckboxSelected("checkBox");
         setTextField("color", "blue");
 		uncheckCheckbox("checkBox");
 		submit();
@@ -143,8 +144,8 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		beginAt("/MultiFormPage.html");
         setTextField("param2", "anyvalue");
 		submit("button2b");
-		assertTextPresent(" param2=anyvalue ");
-        assertTextPresent(" button2b=b2b ");
+		assertTextPresent("param2=anyvalue ");
+        assertTextPresent(" button2b=b2b");
 	}
 
 	public void testSubmissionReset() {
@@ -152,8 +153,8 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setTextField("param2", "anyvalue");
         reset();
 		submit("button2b");
-        assertTextNotPresent(" param2=anyvalue ");
-        assertTextPresent(" button2b=b2b ");
+        assertTextNotPresent("param2=anyvalue ");
+        assertTextPresent(" button2b=b2b");
 	}
 
 	public void testSelectOption() {

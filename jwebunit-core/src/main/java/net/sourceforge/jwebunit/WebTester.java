@@ -239,7 +239,8 @@ public class WebTester {
      */
     public void assertTextPresent(String text) {
         if (!(getDialog().getPageText().indexOf(text) >= 0))
-            Assert.fail("Expected text not found in response: [" + text + "]");
+            Assert.fail("Expected text not found in current page: [" + text
+                    + "]\n Page content was: " + getDialog().getPageText());
     }
 
     /**
@@ -635,6 +636,32 @@ public class WebTester {
     }
 
     /**
+     * Assert that a form checkbox with a given name is present.
+     * 
+     * @param checkboxName
+     *            checkbox name.
+     */
+    public void assertCheckboxPresent(String checkboxName) {
+        assertFormPresent();
+        Assert.assertTrue("Did not find form checkbox with name ["
+                + checkboxName + "].", getDialog().hasElementByXPath(
+                "//input[@type='checkbox' and @name='" + checkboxName + "']"));
+    }
+
+    /**
+     * Assert that a form checkbox with a given name is not present.
+     * 
+     * @param checkboxName
+     *            checkbox name.
+     */
+    public void assertCheckboxNotPresent(String checkboxName) {
+        assertFormPresent();
+        Assert.assertFalse("Found form checkbox with name [" + checkboxName
+                + "] when not expected.", getDialog().hasElementByXPath(
+                "//input[@type='checkbox' and @name='" + checkboxName + "']"));
+    }
+
+    /**
      * Assert that a form input element with a given label is present.
      * 
      * @param formElementLabel
@@ -746,7 +773,7 @@ public class WebTester {
      * @param checkBoxName
      */
     public void assertCheckboxSelected(String checkBoxName) {
-        assertFormElementPresent(checkBoxName);
+        assertCheckboxPresent(checkBoxName);
         if (!getDialog().isCheckboxSelected(checkBoxName)) {
             Assert.fail("Checkbox with name [" + checkBoxName
                     + "] was not found selected.");
@@ -759,7 +786,7 @@ public class WebTester {
      * @param checkBoxName
      */
     public void assertCheckboxNotSelected(String checkBoxName) {
-        assertFormElementPresent(checkBoxName);
+        assertCheckboxPresent(checkBoxName);
         if (getDialog().isCheckboxSelected(checkBoxName)) {
             Assert.fail("Checkbox with name [" + checkBoxName
                     + "] was found selected.");
@@ -1167,7 +1194,7 @@ public class WebTester {
     }
 
     /**
-     * Assert that a button with a given id is present.
+     * Assert that a button with a given id is present in the current window.
      * 
      * @param buttonId
      */
@@ -1178,7 +1205,7 @@ public class WebTester {
     }
 
     /**
-     * Assert that a button with a given text is present.
+     * Assert that a button with a given text is present in the current window.
      * 
      * @param text
      */
@@ -1188,7 +1215,7 @@ public class WebTester {
     }
 
     /**
-     * Assert that a button with a given text is not present.
+     * Assert that a button with a given text is not present in the current window.
      * 
      * @param text
      */
@@ -1198,13 +1225,13 @@ public class WebTester {
     }
 
     /**
-     * Assert that a button with a given id is not present.
+     * Assert that a button with a given id is not present in the current window.
      * 
      * @param buttonId
      */
     public void assertButtonNotPresent(String buttonId) {
         assertFormPresent();
-        Assert.assertFalse("Button [" + buttonId + "] found.", getDialog()
+        Assert.assertFalse("Button [" + buttonId + "] found when not expected.", getDialog()
                 .hasButton(buttonId));
     }
 
@@ -1503,7 +1530,7 @@ public class WebTester {
     public void assertWindowCountEquals(int windowCount) {
         Assert.assertTrue("Window count is " + getDialog().getWindowCount()
                 + " but " + windowCount + " was expected.", getDialog()
-                .getWindowCount()==windowCount);
+                .getWindowCount() == windowCount);
     }
 
     /**
@@ -1642,7 +1669,7 @@ public class WebTester {
      *            name of checkbox to be selected.
      */
     public void checkCheckbox(String checkBoxName) {
-        assertFormElementPresent(checkBoxName);
+        assertCheckboxPresent(checkBoxName);
         getDialog().checkCheckbox(checkBoxName);
     }
 
@@ -1656,7 +1683,7 @@ public class WebTester {
      *            value of checkbox to be selected.
      */
     public void checkCheckbox(String checkBoxName, String value) {
-        assertFormElementPresent(checkBoxName);
+        assertCheckboxPresent(checkBoxName);
         getDialog().checkCheckbox(checkBoxName, value);
     }
 
@@ -2146,18 +2173,18 @@ public class WebTester {
      * Exemple: <br/>
      * 
      * <pre>
-     *               &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-     *                 &lt;P&gt;
-     *                   &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-     *                     &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-     *                     &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-     *                     &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-     *                     &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-     *                     &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-     *                   &lt;/SELECT&gt;
-     *                   &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-     *                 &lt;/P&gt;
-     *               &lt;/FORM&gt;
+     *                 &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+     *                   &lt;P&gt;
+     *                     &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+     *                       &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+     *                       &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+     *                       &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+     *                       &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+     *                       &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+     *                     &lt;/SELECT&gt;
+     *                     &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+     *                   &lt;/P&gt;
+     *                 &lt;/FORM&gt;
      * </pre>
      * 
      * Should return [Component_1, Component_2, Component_3, Component_4,

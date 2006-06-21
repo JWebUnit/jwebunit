@@ -11,7 +11,6 @@ import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -20,7 +19,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
@@ -240,9 +238,9 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     public void gotoWindow(int windowID) {
-        setMainWindow((WebWindow)wc.getWebWindows().get(windowID));
+        setMainWindow((WebWindow) wc.getWebWindows().get(windowID));
     }
-    
+
     public int getWindowCount() {
         return wc.getWebWindows().size();
     }
@@ -260,15 +258,14 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     public void closeWindow() {
-        if (getWindowCount()==1) {
+        if (getWindowCount() == 1) {
             closeBrowser();
-        }
-        else {
+        } else {
             wc.deregisterWebWindow(win);
-            win=wc.getCurrentWindow();
-            form=null;
+            win = wc.getCurrentWindow();
+            form = null;
         }
-        
+
     }
 
     public boolean hasFrame(String frameName) {
@@ -332,8 +329,9 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         if (rbtn != null)
             return rbtn.getValueAttribute();
         try {
-            //TODO What should I return when it is a multi-select
-            return ((HtmlOption)getForm().getSelectByName(paramName).getSelectedOptions().get(0)).getValueAttribute();
+            // TODO What should I return when it is a multi-select
+            return ((HtmlOption) getForm().getSelectByName(paramName)
+                    .getSelectedOptions().get(0)).getValueAttribute();
         } catch (ElementNotFoundException e) {
 
         }
@@ -358,22 +356,22 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         getForm().getInputByName(fieldName).setValueAttribute(paramValue);
     }
 
-//    /**
-//     * Return a string array of select box option labels.
-//     * 
-//     * @param selectName
-//     *            name of the select box.
-//     */
-//    public String[] getOptionsFor(String selectName) {
-//        HtmlSelect sel = getForm().getSelectByName(selectName);
-//        ArrayList result = new ArrayList();
-//        List opts = sel.getOptions();
-//        for (int i = 0; i < opts.size(); i++) {
-//            HtmlOption opt = (HtmlOption) opts.get(i);
-//            result.add(opt.asText());
-//        }
-//        return (String[]) result.toArray(new String[0]);
-//    }
+    // /**
+    // * Return a string array of select box option labels.
+    // *
+    // * @param selectName
+    // * name of the select box.
+    // */
+    // public String[] getOptionsFor(String selectName) {
+    // HtmlSelect sel = getForm().getSelectByName(selectName);
+    // ArrayList result = new ArrayList();
+    // List opts = sel.getOptions();
+    // for (int i = 0; i < opts.size(); i++) {
+    // HtmlOption opt = (HtmlOption) opts.get(i);
+    // result.add(opt.asText());
+    // }
+    // return (String[]) result.toArray(new String[0]);
+    // }
 
     /**
      * Return a string array of select box option values.
@@ -443,8 +441,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     private void initWebClient() {
-        wc = new WebClient(new BrowserVersion(BrowserVersion.INTERNET_EXPLORER, "4.0", testContext
-                .getUserAgent(), "1.2", 6));
+        wc = new WebClient(new BrowserVersion(BrowserVersion.INTERNET_EXPLORER,
+                "4.0", testContext.getUserAgent(), "1.2", 6));
         wc.setJavaScriptEnabled(jsEnabled);
         wc.setThrowExceptionOnScriptError(true);
         wc.addWebWindowListener(new WebWindowListener() {
@@ -469,8 +467,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 String newPageTitle = "non_html";
                 if (newPage instanceof HtmlPage)
                     newPageTitle = ((HtmlPage) newPage).getTitleText();
-                LOGGER.info("Window \"" + win + "\" changed : \"" + oldPageTitle
-                        + "\" became \"" + newPageTitle +"\"");
+                LOGGER.info("Window \"" + win + "\" changed : \""
+                        + oldPageTitle + "\" became \"" + newPageTitle + "\"");
             }
 
             public void webWindowOpened(WebWindowEvent event) {
@@ -504,10 +502,14 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     private HtmlElement getElementByXPath(String xpath) {
+        return getElementByXPath(getCurrentPage(), xpath);
+    }
+
+    private HtmlElement getElementByXPath(Object parent, String xpath) {
         List l = null;
         try {
             final HtmlUnitXPath xp = new HtmlUnitXPath(xpath);
-            l = xp.selectNodes(getCurrentPage());
+            l = xp.selectNodes(parent);
         } catch (JaxenException e) {
             return null;
         }
@@ -522,8 +524,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         for (int i = 0; i < webWindows.size(); i++) {
             WebWindow window = (WebWindow) webWindows.get(i);
             if (window.getEnclosedPage() instanceof HtmlPage
-                    && ((HtmlPage) window.getEnclosedPage())
-                                    .getTitleText().equals(title)) {
+                    && ((HtmlPage) window.getEnclosedPage()).getTitleText()
+                            .equals(title)) {
                 return window;
             }
         }
@@ -561,9 +563,17 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *         response.
      */
     private HtmlForm getForm() {
-        if (form == null && hasForm())
-            setWorkingForm(getForm(0));
-        return form;
+        if (form == null) {
+            if (hasForm()) {
+                setWorkingForm(getForm(0));
+                return getForm(0);
+            }
+            else {
+                throw new RuntimeException("No form in current page");
+            }
+        } else {
+            return form;
+        }
     }
 
     private HtmlForm getForm(int formIndex) {
@@ -777,7 +787,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     public boolean hasSubmitButton() {
         List l = null;
         try {
-            final HtmlUnitXPath xp = new HtmlUnitXPath("//input[@type=\"submit\"]");
+            final HtmlUnitXPath xp = new HtmlUnitXPath(
+                    "//input[@type=\"submit\"]");
             l = xp.selectNodes(getForm());
         } catch (JaxenException e) {
             throw new RuntimeException(e);
@@ -801,7 +812,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     public boolean hasResetButton() {
         List l = null;
         try {
-            final HtmlUnitXPath xp = new HtmlUnitXPath("//input[@type=\"reset\"]");
+            final HtmlUnitXPath xp = new HtmlUnitXPath(
+                    "//input[@type=\"reset\"]");
             l = xp.selectNodes(getForm());
         } catch (JaxenException e) {
             throw new RuntimeException(e);
@@ -818,18 +830,17 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * 
      * @param buttonId
      */
-    public ClickableElement getButton(String buttonId) {
+    private ClickableElement getButton(String buttonId) {
         HtmlElement btn = null;
         try {
             btn = getCurrentPage().getHtmlElementById(buttonId);
+            if (btn instanceof HtmlButton || btn instanceof HtmlButtonInput
+                    || btn instanceof HtmlSubmitInput
+                    || btn instanceof HtmlResetInput)
+                return (ClickableElement) btn;
         } catch (ElementNotFoundException e) {
-            // Non trouvé
             return null;
         }
-        if (btn instanceof HtmlButton || btn instanceof HtmlButtonInput
-                || btn instanceof HtmlSubmitInput
-                || btn instanceof HtmlResetInput)
-            return (ClickableElement) btn;
         return null;
     }
 
@@ -873,14 +884,12 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     public boolean isCheckboxSelected(String checkBoxName) {
-        HtmlCheckBoxInput cb = (HtmlCheckBoxInput) getForm().getInputByName(
-                checkBoxName);
+        HtmlCheckBoxInput cb = getCheckbox(checkBoxName);
         return cb.isChecked();
     }
 
     public boolean isCheckboxNotSelected(String checkBoxName) {
-        HtmlCheckBoxInput cb = (HtmlCheckBoxInput) getForm().getInputByName(
-                checkBoxName);
+        HtmlCheckBoxInput cb = getCheckbox(checkBoxName);
         return !cb.isChecked();
     }
 
@@ -915,13 +924,14 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     public Table getTable(String tableSummaryOrId) {
         HtmlTable table = getHtmlTable(tableSummaryOrId);
         Table result = new Table();
-        for (int i=0; i<table.getRowCount(); i++) {
+        for (int i = 0; i < table.getRowCount(); i++) {
             Row newRow = new Row();
             HtmlTableRow htmlRow = table.getRow(i);
             CellIterator cellIt = htmlRow.getCellIterator();
-            while(cellIt.hasNext()) {
+            while (cellIt.hasNext()) {
                 HtmlTableCell htmlCell = cellIt.nextCell();
-                newRow.appendCell(new Cell(htmlCell.asText(), htmlCell.getColumnSpan(), htmlCell.getRowSpan()));
+                newRow.appendCell(new Cell(htmlCell.asText(), htmlCell
+                        .getColumnSpan(), htmlCell.getRowSpan()));
             }
             result.appendRow(newRow);
         }
@@ -965,19 +975,20 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      */
     public void submit() {
         try {
-            Object[] inpt = getForm().getHtmlElementsByTagName("input").toArray();
-            for (int i=0; i<inpt.length; i++) {
+            Object[] inpt = getForm().getHtmlElementsByTagName("input")
+                    .toArray();
+            for (int i = 0; i < inpt.length; i++) {
                 if (inpt[i] instanceof HtmlSubmitInput) {
                     ((HtmlSubmitInput) inpt[i]).click();
                     return;
                 }
-            }            
-            for (int i=0; i<inpt.length; i++) {
+            }
+            for (int i = 0; i < inpt.length; i++) {
                 if (inpt[i] instanceof HtmlButtonInput) {
                     ((HtmlButtonInput) inpt[i]).click();
                     return;
                 }
-            }            
+            }
         } catch (IOException e) {
             throw new RuntimeException(
                     "HtmlUnit Error submitting form using default submit button, "
@@ -1136,6 +1147,28 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
     }
 
+    private HtmlCheckBoxInput getCheckbox(String checkBoxName) {
+        Object[] l = getForm().getInputsByName(checkBoxName).toArray();
+        for (int i = 0; i < l.length; i++) {
+            if (l[i] instanceof HtmlCheckBoxInput)
+                return (HtmlCheckBoxInput) l[i];
+        }
+        throw new RuntimeException("No checkbox with name [" + checkBoxName
+                + "] was found in current form.");
+    }
+
+    private HtmlCheckBoxInput getCheckbox(String checkBoxName, String value) {
+        Object[] l = getForm().getInputsByName(checkBoxName).toArray();
+        for (int i = 0; i < l.length; i++) {
+            if (l[i] instanceof HtmlCheckBoxInput)
+                if (((HtmlCheckBoxInput) l[i]).getValueAttribute()
+                        .equals(value))
+                    return (HtmlCheckBoxInput) l[i];
+        }
+        throw new RuntimeException("No checkbox with name [" + checkBoxName
+                + "] and value [" + value + "] was found in current form.");
+    }
+
     /**
      * Select a specified checkbox. If the checkbox is already checked then the
      * checkbox will stay checked.
@@ -1144,8 +1177,18 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *            name of checkbox to be deselected.
      */
     public void checkCheckbox(String checkBoxName) {
-        HtmlCheckBoxInput cb = (HtmlCheckBoxInput) getForm().getInputByName(
-                checkBoxName);
+        HtmlCheckBoxInput cb = getCheckbox(checkBoxName);
+        if (!cb.isChecked())
+            try {
+                cb.click();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("checkCheckbox failed :" + e);
+            }
+    }
+
+    public void checkCheckbox(String checkBoxName, String value) {
+        HtmlCheckBoxInput cb = getCheckbox(checkBoxName, value);
         if (!cb.isChecked())
             try {
                 cb.click();
@@ -1163,14 +1206,24 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *            name of checkbox to be deselected.
      */
     public void uncheckCheckbox(String checkBoxName) {
-        HtmlCheckBoxInput cb = (HtmlCheckBoxInput) getForm().getInputByName(
-                checkBoxName);
+        HtmlCheckBoxInput cb = getCheckbox(checkBoxName);
         if (cb.isChecked())
             try {
                 cb.click();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("checkCheckbox failed :" + e);
+            }
+    }
+
+    public void uncheckCheckbox(String checkBoxName, String value) {
+        HtmlCheckBoxInput cb = getCheckbox(checkBoxName, value);
+        if (cb.isChecked())
+            try {
+                cb.click();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("uncheckCheckbox failed :" + e);
             }
     }
 
@@ -1245,7 +1298,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             throw new RuntimeException("Click failed");
         }
     }
-    
+
     public boolean hasElement(String anID) {
         return getElement(anID) != null;
     }
@@ -1253,7 +1306,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     public boolean hasElementByXPath(String xpath) {
         return getElementByXPath(xpath) != null;
     }
-    
+
     public void clickElementByXPath(String xpath) {
         HtmlElement e = getElementByXPath(xpath);
         if (e == null)
@@ -1483,27 +1536,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return testContext;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#checkCheckbox(java.lang.String,
-     *      java.lang.String)
-     */
-    public void checkCheckbox(String checkBoxName, String value) {
-        List l = getForm().getInputsByName(checkBoxName);
-        for (int i = 0; i < l.size(); i++) {
-            HtmlCheckBoxInput cb = (HtmlCheckBoxInput) l.get(i);
-            if (cb.getValueAttribute().equals(value) && !cb.isChecked())
-                try {
-                    cb.click();
-                    return;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException("checkCheckbox failed :" + e);
-                }
-        }
-    }
-
     public void clickLinkWithTextAfterText(String linkText, String labelText) {
         throw new UnsupportedOperationException("clickLinkWithTextAfterText");
     }
@@ -1531,20 +1563,5 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 
     public void setFormParameter(String paramName, String paramValue) {
         setTextField(paramName, paramValue);
-    }
-
-    public void uncheckCheckbox(String checkBoxName, String value) {
-        List l = getForm().getInputsByName(checkBoxName);
-        for (int i = 0; i < l.size(); i++) {
-            HtmlCheckBoxInput cb = (HtmlCheckBoxInput) l.get(0);
-            if (cb.getValueAttribute().equals(value) && cb.isChecked())
-                try {
-                    cb.click();
-                    return;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException("uncheckCheckbox failed :" + e);
-                }
-        }
     }
 }

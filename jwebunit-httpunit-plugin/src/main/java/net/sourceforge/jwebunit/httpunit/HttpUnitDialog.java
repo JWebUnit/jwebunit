@@ -186,8 +186,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Return the page title of the current page, encoded as specified
-     * by the current {@link net.sourceforge.jwebunit.TestContext}.
+     * Return the page title of the current page, encoded as specified by the
+     * current {@link net.sourceforge.jwebunit.TestContext}.
      */
     public String getPageTitle() {
         try {
@@ -274,9 +274,16 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      *         the response.
      */
     public WebForm getForm() {
-        if (form == null && hasForm())
-            setWorkingForm(getForm(0));
-        return form;
+        if (form == null) {
+            if (hasForm()) {
+                setWorkingForm(getForm(0));
+                return getForm(0);
+            } else {
+                throw new RuntimeException("No form in current page");
+            }
+        } else {
+            return form;
+        }
     }
 
     private WebForm getForm(int formIndex) {
@@ -631,7 +638,8 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     public boolean hasResetButton(String buttonName) {
-        return hasElementByXPath("//input[@type='reset' and @name='"+buttonName+"']");
+        return hasElementByXPath("//input[@type='reset' and @name='"
+                + buttonName + "']");
     }
 
     /**
@@ -639,8 +647,18 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * 
      * @param buttonId
      */
-    public Button getButton(String buttonId) {
-        return getForm().getButtonWithID(buttonId);
+    private Button getButton(String buttonId) {
+        Button btn = null;
+            try {
+                WebForm[] forms = resp.getForms();
+                for (int i = 0; i < forms.length; i++) {
+                    if ((btn = forms[i].getButtonWithID(buttonId)) != null)
+                        break;
+                }
+            } catch (SAXException e) {
+                throw new RuntimeException(e);
+            }
+        return btn;
     }
 
     /**
@@ -676,11 +694,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * @return <code>true</code> when the button was found.
      */
     public boolean hasButton(String buttonId) {
-        try {
-            return getButton(buttonId) != null;
-        } catch (UnableToSetFormException e) {
-            return false;
-        }
+        return getButton(buttonId) != null;
     }
 
     /**
@@ -1075,11 +1089,27 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      *            name of checkbox to be deselected.
      */
     public void checkCheckbox(String checkBoxName) {
-        setFormParameter(checkBoxName, "on");
+        checkFormStateWithParameter(checkBoxName);
+        WebResponse oldPage = getWebClient().getCurrentPage();
+        getForm().setCheckbox(checkBoxName, true);
+        // if an onchange event caused our page to change, set response to new
+        // page - otherwise leave
+        // the response alone.
+        if (oldPage != getWebClient().getCurrentPage()) {
+            resp = getWebClient().getCurrentPage();
+        }
     }
 
     public void checkCheckbox(String checkBoxName, String value) {
-        updateFormParameter(checkBoxName, value);
+        checkFormStateWithParameter(checkBoxName);
+        WebResponse oldPage = getWebClient().getCurrentPage();
+        getForm().setCheckbox(checkBoxName, value, true);
+        // if an onchange event caused our page to change, set response to new
+        // page - otherwise leave
+        // the response alone.
+        if (oldPage != getWebClient().getCurrentPage()) {
+            resp = getWebClient().getCurrentPage();
+        }
     }
 
     /**
@@ -1090,11 +1120,27 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      *            name of checkbox to be deselected.
      */
     public void uncheckCheckbox(String checkBoxName) {
-        removeFormParameter(checkBoxName);
+        checkFormStateWithParameter(checkBoxName);
+        WebResponse oldPage = getWebClient().getCurrentPage();
+        getForm().setCheckbox(checkBoxName, false);
+        // if an onchange event caused our page to change, set response to new
+        // page - otherwise leave
+        // the response alone.
+        if (oldPage != getWebClient().getCurrentPage()) {
+            resp = getWebClient().getCurrentPage();
+        }
     }
 
     public void uncheckCheckbox(String checkBoxName, String value) {
-        removeFormParameterWithValue(checkBoxName, value);
+        checkFormStateWithParameter(checkBoxName);
+        WebResponse oldPage = getWebClient().getCurrentPage();
+        getForm().setCheckbox(checkBoxName, value, false);
+        // if an onchange event caused our page to change, set response to new
+        // page - otherwise leave
+        // the response alone.
+        if (oldPage != getWebClient().getCurrentPage()) {
+            resp = getWebClient().getCurrentPage();
+        }
     }
 
     /**
@@ -1235,11 +1281,18 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      * @param buttonId
      */
     public void clickButton(String buttonId) {
-        try {
-            getButton(buttonId).click();
-            resp = wc.getCurrentPage();
-        } catch (Exception e) {
-            throw new RuntimeException(ExceptionUtility.stackTraceToString(e));
+        Button btn = getButton(buttonId);
+        if (btn != null) {
+            try {
+                btn.click();
+                resp = wc.getCurrentPage();
+            } catch (Exception e) {
+                throw new RuntimeException(ExceptionUtility
+                        .stackTraceToString(e));
+            }
+        } else {
+            throw new RuntimeException("Button with id [" + buttonId
+                    + "] was not found");
         }
     }
 
@@ -1486,7 +1539,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     public void gotoWindow(int windowID) {
         setMainWindow(wc.getOpenWindows()[windowID]);
     }
-    
+
     public int getWindowCount() {
         return wc.getOpenWindows().length;
     }
@@ -1573,11 +1626,12 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         for (int i = 0; i < httpTable.getRowCount(); i++) {
             Row newRow = new Row();
             TableRow row = rows[i];
-            TableCell[] cells = row.getCells(); 
+            TableCell[] cells = row.getCells();
             for (int j = 0; j < cells.length; j++) {
                 TableCell httpCell = cells[j];
-                if (httpCell!=null) newRow.appendCell(new Cell(httpCell.getText(), httpCell
-                        .getColSpan(), httpCell.getRowSpan()));
+                if (httpCell != null)
+                    newRow.appendCell(new Cell(httpCell.getText(), httpCell
+                            .getColSpan(), httpCell.getRowSpan()));
             }
             result.appendRow(newRow);
         }
@@ -1585,17 +1639,17 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     public boolean hasElement(String anID) {
-        return hasElementByXPath("//*[@id='"+anID+"']");
+        return hasElementByXPath("//*[@id='" + anID + "']");
     }
 
     public boolean hasElementByXPath(String xpath) {
-        return getElementByXPath(xpath)!=null;
+        return getElementByXPath(xpath) != null;
     }
-    
+
     private XPath makeXpath(String xpathString) throws JaxenException {
         return new DOMXPath(xpathString);
     }
-    
+
     private Object getElementByXPath(String xpath) {
         try {
             Document rootNode = getResponse().getDOM();
@@ -1611,11 +1665,11 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     public void clickElementByXPath(String xpath) {
         Object o = getElementByXPath(xpath);
         if (o instanceof Node) {
-            //TODO fix clickElementByXPath in HttpUnitDialog
+            // TODO fix clickElementByXPath in HttpUnitDialog
             throw new UnsupportedOperationException("clickElementByXPath");
-        } 
-        else {
-            throw new RuntimeException("Don't know how to click on this element");
+        } else {
+            throw new RuntimeException(
+                    "Don't know how to click on this element");
         }
     }
 
@@ -1700,13 +1754,12 @@ public class HttpUnitDialog implements IJWebUnitDialog {
 
     public void closeWindow() {
         wc.getMainWindow().close();
-        if (wc.getOpenWindows().length>0) {
+        if (wc.getOpenWindows().length > 0) {
             wc.setMainWindow(wc.getOpenWindows()[0]);
-            resp=wc.getMainWindow().getCurrentPage();
-            form=null;
-        }            
-        else
-            closeBrowser();        
+            resp = wc.getMainWindow().getCurrentPage();
+            form = null;
+        } else
+            closeBrowser();
     }
 
     /*

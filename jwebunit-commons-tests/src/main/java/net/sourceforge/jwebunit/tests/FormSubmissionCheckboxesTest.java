@@ -56,7 +56,7 @@ public class FormSubmissionCheckboxesTest extends JWebUnitAPITestCase {
 	private void doTestRadioBefore(int value) {
 		beginAt("CheckboxFormWithLabels.html");
 		checkCheckboxBeforeLabel("Radio " + value);
-        assertFormElementEquals("radio", "" + value);
+        assertRadioOptionSelected("radio", "" + value);
 		submit();
 		assertTextPresent(" radio=" + value + " ");
 	}	

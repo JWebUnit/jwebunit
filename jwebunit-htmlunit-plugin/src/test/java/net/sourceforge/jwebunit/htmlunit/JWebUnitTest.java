@@ -45,6 +45,7 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(NavigationTest.class);
         suite.addTestSuite(XPathTest.class);
         suite.addTestSuite(CharsetTest.class);
+        suite.addTestSuite(ButtonAssertionsTest.class);
         //$JUnit-END$
         return new JettySetup(suite);
     }
