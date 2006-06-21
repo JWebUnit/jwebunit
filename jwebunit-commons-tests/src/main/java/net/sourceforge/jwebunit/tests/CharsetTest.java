@@ -26,7 +26,6 @@ public class CharsetTest extends JWebUnitAPITestCase {
 
         public void testEuro() {
                 assertFormElementEquals("eur", "\u20AC");
-                assertFormElementEquals("eur", "€");
         }
 
         public void testDollar() {
@@ -35,12 +34,9 @@ public class CharsetTest extends JWebUnitAPITestCase {
 
         public void testYen() {
                 assertFormElementEquals("yen", "\u00A5");
-                assertFormElementEquals("yen", "¥");
         }
 
         public void testPound() {
                 assertFormElementEquals("gbp", "\u00A3");
-                assertFormElementEquals("gbp", "£");
         }
-
 }

@@ -1565,9 +1565,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
         for (int i = 0; i < httpTable.getRowCount(); i++) {
             Row newRow = new Row();
             TableRow row = rows[i];
-            //TODO Wait until getCells become public in HttpUnit 
-            //TableCell[] cells = row.getCells(); 
-            TableCell[] cells = new TableCell[0];
+            TableCell[] cells = row.getCells(); 
             for (int j = 0; j < cells.length; j++) {
                 TableCell httpCell = cells[j];
                 if (httpCell!=null) newRow.appendCell(new Cell(httpCell.getText(), httpCell
@@ -1579,7 +1577,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
     }
 
     public boolean hasElement(String anID) {
-        return getElement(anID) != null;
+        return hasElementByXPath("//*[@id='"+anID+"']");
     }
 
     public boolean hasElementByXPath(String xpath) {

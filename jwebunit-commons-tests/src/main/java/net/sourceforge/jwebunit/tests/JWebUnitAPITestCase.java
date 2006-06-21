@@ -24,7 +24,6 @@ public abstract class JWebUnitAPITestCase extends WebTestCase {
 
 	public static final String HOST_PATH = "http://localhost:"+JETTY_PORT+JETTY_URL;
 	
-    private static String dialogKey = null;
 	/**
 	 * @param name
 	 */
@@ -42,7 +41,6 @@ public abstract class JWebUnitAPITestCase extends WebTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		getTestContext().setBaseUrl(HOST_PATH);
-        setTestingEngineKey(getDialogKey());
 	}
 
     public void assertPassFail(String methodName, Object passArg, Object failArgs) throws Throwable {
@@ -89,21 +87,5 @@ public abstract class JWebUnitAPITestCase extends WebTestCase {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-    /**
-     * @return Returns the testingEngineKey.
-     */
-    public static String getDialogKey() {
-        return dialogKey;
-    }
-
-    /**
-     * @param testingEngineKey The testingEngineKey to set.
-     */
-    public static void setDialogKey(String testingEngineKey) {
-        JWebUnitAPITestCase.dialogKey = testingEngineKey;
-    }
-	
-	
 
 }

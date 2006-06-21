@@ -30,15 +30,14 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
         beginAt("FormOnSubmit.html");
         submit();
         gotoWindow("child");
-        assertTextPresent(" on=submit ");
+        assertTextPresent("on=submit");
     }
 
     public void testFormOnReset() {
         beginAt("FormOnSubmit.html");
         reset();
-        // seems that onreset is not executed 
-        //gotoWindow("child");
-        //assertTextPresent(" on=reset ");
+        gotoWindow("child");
+        assertTextPresent("on=reset");
     }
 
     public void testButtonOnClick() {
@@ -46,7 +45,7 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
         assertButtonPresent("b1");
         clickButton("b1");
         gotoWindow("child");
-        assertTextPresent(" on=click ");
+        assertTextPresent("on=click");
     }
 
 
@@ -95,7 +94,7 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
 		assertTitleEquals("The Title");
 		selectOption("testSelect", "Value2");
 		assertTitleEquals("Submitted parameters");
-        assertTextPresent(" testSelect=V2 ");
+        assertTextPresent("testSelect=V2");
 	}
 
     public void testGreenLink() {

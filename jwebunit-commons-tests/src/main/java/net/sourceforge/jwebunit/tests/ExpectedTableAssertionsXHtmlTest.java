@@ -26,7 +26,7 @@ public class ExpectedTableAssertionsXHtmlTest extends JWebUnitAPITestCase {
         cells[0] = new Cell[3];
         cells[0][0]=new Cell("",1,2);
         cells[0][1]=new Cell("Average",2,1);
-        cells[0][2]=new Cell("Red eyes",1,2);
+        cells[0][2]=new Cell("Red\neyes",1,2);
         cells[1] = new Cell[2];
         cells[1][0]=new Cell("height",1,1);
         cells[1][1]=new Cell("weight",1,1);
@@ -49,7 +49,7 @@ public class ExpectedTableAssertionsXHtmlTest extends JWebUnitAPITestCase {
         cells[0] = new Cell[3];
         cells[0][0]=new Cell("",1,2);
         cells[0][1]=new Cell("Average",2,1);
-        cells[0][2]=new Cell("Red eyes",1,2);
+        cells[0][2]=new Cell("Red\neyes",1,2);
         cells[1] = new Cell[2];
         cells[1][0]=new Cell("height",1,1);
         cells[1][1]=new Cell("weight",1,1);
@@ -59,6 +59,7 @@ public class ExpectedTableAssertionsXHtmlTest extends JWebUnitAPITestCase {
         cells[2][2]=new Cell("0.003",1,1);
         cells[2][3]=new Cell("40%",1,1);
         Table table = new Table(cells);
+        assertPass("assertTableRowsEqual", new Object[]{"myTable", new Integer(0), table});
         assertFail("assertTableEquals", new Object[]{"myTable", table});
     }
 
