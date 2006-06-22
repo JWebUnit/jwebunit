@@ -9,7 +9,7 @@
 <p>
     The QuickStart contains sample code and guidance to get you started with jWebUnit.  To see all
     of the methods available, consult the a <a href="apidocs/index.html">Javadocs</a> - particularly
-    the WebTester class.
+    the WebTestCase class.
 </p>
 <subsection name="Creating a TestCase">
 <p>
@@ -54,10 +54,11 @@ public class ExampleWebTestCase extends WebTestCase {
         super(name);
         setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
         // or setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);
-        // or setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_JACOBIE);
     }
 }
 </source>
+	NB: If you have only one plugin in your classpath, you don't need to explicitly specify
+	to use it, jWebUnit will find and use it.
 </p>
 </subsection>
 <subsection name="Navigating Your Web Application">
@@ -155,10 +156,13 @@ or
         assertWindowPresent("popupWindow");
     }
 </source>
+
     In the above examples, we are working with submit buttons and form elements by their
     name.  For form elements, it is possible to work with them by label (string followed
     by colon before input element).  Before using this approach, consider that the display
     label may change, but the submission name of the element will probably remain static.
+    DEPRECATED: **WithLabel methods are only supported by httpunit plugin, and it's not a
+    good way to identify form elements, as label can easily be localized.
 <source>
     public void testFormSubmission() {
         beginAt("/form.html");
@@ -270,8 +274,8 @@ or
 <source>
     public void testAgeTable() {
         beginAt("/agePage");
-        ExpectedTable ageTable = new ExpectedTable(new Object[][] {
-            {new ExpectedCell("Age Table", 2},
+        ExpectedTable ageTable = new Table(new Object[][] {
+            {new Cell("Age Table", 2, 1)},
             {"Name", "Age"},
             {"Jim", "30ish"},
             {"Wilkes", "20ish"}

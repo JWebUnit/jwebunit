@@ -1,4 +1,0 @@
-Rhino (js.jar) is hosted at mozilla.org and is redistributed as part of jWebUnit (actually, httpUnit requires it
-for the javascript functionality to work.
-
-The applicable license is at http://www.mozilla.org/MPL/NPL-1.1.html

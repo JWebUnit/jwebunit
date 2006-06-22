@@ -10,16 +10,11 @@
 				Refactoring of Table assertions to handle perfectly colspan and rowspan.
 			</action>
 			<action type="add" dev="Julien Henry">
-				Added XPath methods to core API. Only HtmlUnit and Selenium implement it.
-			</action>
-			<action type="add" dev="Julien Henry">
-				Added Selenium plugin module. SeleniumDialog uses Selenium-RC project, that take control of
-				your web browser to execute the tests. Main advantage is perfect Javascript support. Drawbacks are:
-				tests are slow; you need a browser and an X server.
+				Added XPath methods to core API. HttpUnit doesn't support clickElementByXPath().
 			</action>
 			<action type="update" dev="Julien Henry">
 				Split jWebUnit in modules: one for the core (jWebUnit API), one for the tests (that all plugins should pass),
-				and one for each plugin (currently HtmlUnit, HttpUnit and Jacobie). This way, for example,  when you want to use
+				and one for each plugin (currently HtmlUnit and HttpUnit). This way, for example,  when you want to use
 				HtmlUnit plugin, you don't have to include all HttpUnit dependencies.
 			</action>
 			<action type="update" dev="Julien Henry">
@@ -30,9 +25,6 @@
 			</action>
 			<action type="add" dev="Julien Henry">
 				Added Maven 2 support. There are many reports available on the website.
-			</action>
-			<action type="add" dev="Nick Neuberger">
-				Added JacobieDialog.
 			</action>
 			<action type="add" dev="Jim Weaver" issue="1004243" due-to="Srinivasan Ranganthan">
 				Added HttpUnitDialog setter on WebTester in case someone using delegation wants to carry
