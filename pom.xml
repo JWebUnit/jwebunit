@@ -13,7 +13,7 @@
         tests. As the tests were being written, they were continuously
         refactored to remove duplication and other bad smells in the
         test code. jWebUnit is the result of these refactorings.
-        jWebUnit support multiple dialog as HtmlUnit or HttpUnit.
+        jWebUnit support multiple dialog as HtmlUnit or Selenium.
     </description>
     <url>http://jwebunit.sourceforge.net</url>
     <issueManagement>
@@ -295,7 +295,7 @@
             <id>jwebunit-website</id>
             <name>jWebUnit WebSite - Sourceforge</name>
             <url>
-              scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
+              scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/2.x
                 <!--file://c:\temp-jwebunit-->
             </url>
         </site>
