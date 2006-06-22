@@ -649,15 +649,15 @@ public class HttpUnitDialog implements IJWebUnitDialog {
      */
     private Button getButton(String buttonId) {
         Button btn = null;
-            try {
-                WebForm[] forms = resp.getForms();
-                for (int i = 0; i < forms.length; i++) {
-                    if ((btn = forms[i].getButtonWithID(buttonId)) != null)
-                        break;
-                }
-            } catch (SAXException e) {
-                throw new RuntimeException(e);
+        try {
+            WebForm[] forms = resp.getForms();
+            for (int i = 0; i < forms.length; i++) {
+                if ((btn = forms[i].getButtonWithID(buttonId)) != null)
+                    break;
             }
+        } catch (SAXException e) {
+            throw new RuntimeException(e);
+        }
         return btn;
     }
 
@@ -1242,12 +1242,14 @@ public class HttpUnitDialog implements IJWebUnitDialog {
                 Attr foundAttribute = (Attr) foundAttributes.item(i);
                 Attr givenAttribute = (Attr) givenAttributes
                         .getNamedItem(foundAttribute.getName());
+                if (givenAttribute == null) {
+                    return false;
+                }
                 if (!foundAttribute.getValue()
                         .equals(givenAttribute.getValue())) {
                     return false;
                 }
             }
-
             return true;
         }
     }
