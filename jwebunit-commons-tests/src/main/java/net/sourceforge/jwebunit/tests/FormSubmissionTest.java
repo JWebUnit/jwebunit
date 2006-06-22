@@ -25,7 +25,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		getTestContext().setBaseUrl(HOST_PATH + "/FormSubmissionTest");
 	}
 
-	public void testSetInputField() {
+	public void testSetTextField() {
 		beginAt("/SingleNamedButtonForm.html");
 		setTextField("color", "blue");
 		submit("button");
@@ -38,7 +38,15 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		assertTextPresent("Params are: color=red");
 	}
 
-	public void testCheckBoxSelection() {
+    public void testSetFileField() {
+        beginAt("/SingleNamedButtonForm.html");
+        setTextField("file", "c:\\test.txt");
+        submit("button");
+        assertTextPresent("Submitted parameters");
+        assertTextPresent("file=test.txt");
+    }
+
+    public void testCheckBoxSelection() {
 		beginAt("/SingleNamedButtonForm.html");
 		checkCheckbox("checkBox"); //Fail with httpunit because of hidden field with same name
         setTextField("color", "blue");
