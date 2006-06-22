@@ -12,7 +12,7 @@
   <repositories>
         <repository>
             <snapshots />
-            <id>jwebunit-m2-repo-snapshots</id>
+            <id>jwebunit-m2-repo-snapshots-web</id>
             <name>JWebUnit snapshots repository</name>
             <url>http://jwebunit.sourceforge.net/m2-repo-snapshots</url>
         </repository>

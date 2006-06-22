@@ -28,8 +28,6 @@
         <module>jwebunit-commons-tests</module>
         <module>jwebunit-httpunit-plugin</module>
         <module>jwebunit-htmlunit-plugin</module>
-        <module>jwebunit-jacobie-plugin</module>
-        <module>jwebunit-selenium-plugin</module>
     </modules>
     <mailingLists>
         <mailingList>
@@ -193,28 +191,6 @@
     <properties>
         <topDirectoryLocation>.</topDirectoryLocation>
     </properties>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>Maven CodeHaus Snapshots</id>
-            <url>http://snapshots.maven.codehaus.org/maven2</url>
-            <releases>
-	        <updatePolicy>daily</updatePolicy>
-            </releases>
-            <snapshots>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>Maven Snapshots</id>
-            <url>http://people.apache.org/maven-snapshot-repository/</url>
-            <releases>
-	        <updatePolicy>daily</updatePolicy>
-            </releases>
-            <snapshots>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
     <reporting>
         <plugins>
             <plugin>
@@ -310,14 +286,5 @@
                 jWebUnit Maven 2 Repository
             </name>
         </repository>
-        <snapshotRepository>
-            <id>jwebunit-m2-repo-snapshots</id>
-            <url>
-                scpexe://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/m2-repo-snapshots
-            </url>
-            <name>
-                jWebUnit Maven 2 Snapshots Repository
-            </name>
-        </snapshotRepository>
     </distributionManagement>
 </project>
