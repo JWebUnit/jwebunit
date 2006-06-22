@@ -3,10 +3,11 @@
  - Create branch 1.x with httpunit and htmlunit only
  - Develop trunk (2.x)with htmlunit and selenium only
  - Refactor Exception mechanism
+ - Redefine checkstyle rules and apply it
+ - Add Javadoc to WebTestCase
 
 ** HtmlUnitDialog **
  - Correct space problems with asText()
-  
  
 ** SeleniumDialog **
  - Find a way to automatically launch Selenium Server (conflit with Jetty version)
