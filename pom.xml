@@ -4,7 +4,7 @@
     <groupId>net.sourceforge.jwebunit</groupId>
     <artifactId>jwebunit</artifactId>
     <name>jWebUnit</name>
-    <version>1.3-SNAPSHOT</version>
+    <version>2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>
         jWebUnit is a Java framework that facilitates creation of
@@ -26,9 +26,7 @@
     <modules>
         <module>jwebunit-core</module>
         <module>jwebunit-commons-tests</module>
-        <module>jwebunit-httpunit-plugin</module>
         <module>jwebunit-htmlunit-plugin</module>
-        <module>jwebunit-jacobie-plugin</module>
         <module>jwebunit-selenium-plugin</module>
     </modules>
     <mailingLists>
