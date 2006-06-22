@@ -55,9 +55,10 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPass("assertFormNotPresent", new String[]{"noform"});
     }
 
-    public void testAssertFormParameterEquals() throws Throwable {
+    public void testAssertFormElementEquals() throws Throwable {
         beginAt("/testPage.html");
         assertPass("assertFormElementEquals", new Object[]{"testInputElement", "testValue"});
+        assertPass("assertFormElementEquals", new Object[]{"submitButton", "buttonLabel"});
         assertFail("assertFormElementEquals", new Object[]{"testInputElement", "noSuchValue"});
         assertFail("assertFormElementEquals", new Object[]{"noSuchElement", "testValue"});
     }

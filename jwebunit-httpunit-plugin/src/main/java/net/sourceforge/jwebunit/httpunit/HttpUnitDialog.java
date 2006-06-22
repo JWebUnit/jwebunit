@@ -106,7 +106,7 @@ public class HttpUnitDialog implements IJWebUnitDialog {
 
         } catch (Exception aException) {
             throw new RuntimeException(ExceptionUtility
-                    .stackTraceToString(aException));
+                    .stackTraceToString(aException), aException);
         }
     }
 

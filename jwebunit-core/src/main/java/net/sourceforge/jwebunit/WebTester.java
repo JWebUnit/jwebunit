@@ -726,6 +726,7 @@ public class WebTester {
 
     /**
      * Assert that a specific form element has an expected value.
+     * Can be used to check hidden input.
      * 
      * @param formElementName
      * @param expectedValue

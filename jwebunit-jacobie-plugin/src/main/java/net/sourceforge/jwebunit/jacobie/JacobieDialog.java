@@ -64,7 +64,7 @@ public class JacobieDialog implements IJWebUnitDialog {
 			naviateToPage(url);
 		} catch (Exception aException) {			
 			//cant find requested page.  most browsers will return a page with 404 in the body or title.
-            throw new TestingEngineResponseException(ExceptionUtility.stackTraceToString(aException));
+            throw new TestingEngineResponseException(ExceptionUtility.stackTraceToString(aException), aException);
 		}
 
 	}

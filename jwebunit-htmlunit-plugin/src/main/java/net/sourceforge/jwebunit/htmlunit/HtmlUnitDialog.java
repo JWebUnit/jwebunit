@@ -131,7 +131,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 
         } catch (IOException aException) {
             throw new RuntimeException(ExceptionUtility
-                    .stackTraceToString(aException));
+                    .stackTraceToString(aException), aException);
         }
     }
 

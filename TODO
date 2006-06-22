@@ -1,17 +1,14 @@
 ** Global **
  - Add log4j support and log each function
- - Find a way for each dialog to report its presence to the Dialog Registry
+ - Create branch 1.x with httpunit and htmlunit only
+ - Develop trunk (2.x)with htmlunit and selenium only
+ - Refactor Exception mechanism
 
 ** HtmlUnitDialog **
- - Add **ForLabel functions (I don't know how to do this)
- - Add **BeforeLabel functions (I don't know how to do this)
- - Correct some function that use CompressedTable
+ - Correct space problems with asText()
+  
  
-** JacobieDialog **
- - Implement all auto-generated classes
- - Find an easy way to cope with jacob.dll
- 
-** SeelniumDialog **
+** SeleniumDialog **
  - Find a way to automatically launch Selenium Server (conflit with Jetty version)
  
 ** Website **
