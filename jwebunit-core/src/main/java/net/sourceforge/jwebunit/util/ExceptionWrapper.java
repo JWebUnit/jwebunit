@@ -1,7 +1,7 @@
-/********************************************************************************
- * Copyright (c) 2001, ThoughtWorks, Inc.
- * Distributed open-source, see full license under licenses/jwebunit_license.txt
- **********************************/
+/******************************************************************************
+ * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * Distributed open-source, see full license under LICENCE.txt                *
+ ******************************************************************************/
 package net.sourceforge.jwebunit.util;
 
 import java.io.PrintStream;

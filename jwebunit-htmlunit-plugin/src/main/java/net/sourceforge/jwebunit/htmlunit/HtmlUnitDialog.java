@@ -1,9 +1,7 @@
-/**
- * HtmlUnitDialog
- * Dialogue entre jWebUnit (capWebUnit) et HtmlUnit. 
- * @author Julien HENRY
- * @version 1.0
- */
+/******************************************************************************
+ * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * Distributed open-source, see full license under LICENCE.txt                *
+ ******************************************************************************/
 package net.sourceforge.jwebunit.htmlunit;
 
 import org.apache.commons.httpclient.Cookie;
@@ -12,8 +10,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.net.ConnectException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,7 +32,6 @@ import net.sourceforge.jwebunit.TestContext;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.Page;
-import com.gargoylesoftware.htmlunit.TextPage;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebWindow;
@@ -63,7 +58,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
 import com.gargoylesoftware.htmlunit.html.xpath.HtmlUnitXPath;
-import com.gargoylesoftware.htmlunit.xml.XmlPage;
 
 /**
  * Acts as the wrapper for HtmlUnit access. A dialog is initialized with a given

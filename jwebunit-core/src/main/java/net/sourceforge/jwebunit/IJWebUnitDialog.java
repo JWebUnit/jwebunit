@@ -1,7 +1,7 @@
-/********************************************************************************
- * Copyright (c) 2001, ThoughtWorks, Inc.
- * Distributed open-source, see full license under licenses/jwebunit_license.txt
- **********************************/
+/******************************************************************************
+ * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * Distributed open-source, see full license under LICENCE.txt                *
+ ******************************************************************************/
 package net.sourceforge.jwebunit;
 
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
@@ -75,7 +75,8 @@ public interface IJWebUnitDialog {
      * 
      * @param cookieName
      *            name of the cookie.
-     * @return array with 2 columns. First is cookie names, second is cookie values.
+     * @return array with 2 columns. First is cookie names, second is cookie
+     *         values.
      */
     String[][] getCookies();
 
@@ -94,21 +95,24 @@ public interface IJWebUnitDialog {
     /**
      * Make the window with the given name active.
      * 
-     * @param windowName Name of the window
+     * @param windowName
+     *            Name of the window
      */
     void gotoWindow(String windowName);
 
     /**
      * Goto first window with the given title.
      * 
-     * @param title Title of the window
+     * @param title
+     *            Title of the window
      */
     void gotoWindowByTitle(String title);
 
     /**
      * Goto window with the given Javascript ID.
      * 
-     * @param windowID Javascript ID of the window
+     * @param windowID
+     *            Javascript ID of the window
      */
     void gotoWindow(int windowID);
 
@@ -164,10 +168,9 @@ public interface IJWebUnitDialog {
      *            name of id of the form to check for.
      */
     boolean hasForm(String nameOrID);
-    
+
     /**
-     * Return true if a form input element is present on the current
-     * form.
+     * Return true if a form input element is present on the current form.
      * 
      * @param paramName
      *            name of the input element to check for
@@ -198,18 +201,18 @@ public interface IJWebUnitDialog {
      * Exemple: <br/>
      * 
      * <pre>
-     *        &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-     *          &lt;P&gt;
-     *            &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-     *              &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-     *              &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-     *              &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-     *              &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-     *              &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-     *            &lt;/SELECT&gt;
-     *            &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-     *          &lt;/P&gt;
-     *        &lt;/FORM&gt;
+     *         &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+     *           &lt;P&gt;
+     *             &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+     *               &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+     *               &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+     *               &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+     *               &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+     *               &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+     *             &lt;/SELECT&gt;
+     *             &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+     *           &lt;/P&gt;
+     *         &lt;/FORM&gt;
      * </pre>
      * 
      * Should return [Component_1_a, Component_1_b, Component_3, Component_4,
@@ -457,7 +460,8 @@ public interface IJWebUnitDialog {
     /**
      * Click the indicated button (input type=button ou button type=button).
      * 
-     * @param buttonId the ID of the button.
+     * @param buttonId
+     *            the ID of the button.
      */
     void clickButton(String buttonId);
 
@@ -499,16 +503,16 @@ public interface IJWebUnitDialog {
      * @return true if table exists.
      */
     boolean hasTable(String tableSummaryNameOrId);
-    
+
     /**
-     * Each framework have it's own way to represent a Table. Dialogs
-     * are responsible for converting to the unified jWebUnit format.
-     * @param  tableSummaryNameOrId
+     * Each framework have it's own way to represent a Table. Dialogs are
+     * responsible for converting to the unified jWebUnit format.
+     * 
+     * @param tableSummaryNameOrId
      *            summary, name or id of the table to return.
      * @return unified jWebUnit representation of a table.
      */
     Table getTable(String tableSummaryNameOrId);
-
 
     /**
      * Return true if a link is present in the current response containing the
@@ -622,7 +626,7 @@ public interface IJWebUnitDialog {
      *            xpath of the element.
      */
     boolean hasElementByXPath(String xpath);
-    
+
     /**
      * Click element with given xpath.
      * 

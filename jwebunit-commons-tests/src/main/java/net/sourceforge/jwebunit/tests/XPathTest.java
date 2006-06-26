@@ -1,13 +1,17 @@
-/**
- * Test all methods that use XPath
- * @author Julien Henry
- */
+/******************************************************************************
+ * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * Distributed open-source, see full license under LICENCE.txt                *
+ ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+/**
+ * Test all methods that use XPath
+ * @author Julien Henry
+ */
 public class XPathTest extends JWebUnitAPITestCase {
 
     public static Test suite() {

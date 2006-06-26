@@ -1,6 +1,7 @@
-/*
- * Created on Jul 12, 2004
- */
+/******************************************************************************
+ * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * Distributed open-source, see full license under LICENCE.txt                *
+ ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
