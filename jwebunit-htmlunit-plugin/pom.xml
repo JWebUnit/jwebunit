@@ -23,7 +23,7 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
+                    <testFailureIgnore>false</testFailureIgnore>
                     <includes>
                         <include>**/*Test.java</include>
                         <include>**/*Tests.java</include>
