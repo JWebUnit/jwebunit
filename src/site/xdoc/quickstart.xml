@@ -52,8 +52,7 @@ import net.sourceforge.jwebunit.TestingEngineRegistry;
 public class ExampleWebTestCase extends WebTestCase {
     public ExampleWebTestCase(String name) {
         super(name);
-        setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
-        // or setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);
+        setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);
     }
 }
 </source>

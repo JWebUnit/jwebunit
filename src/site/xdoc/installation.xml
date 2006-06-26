@@ -50,10 +50,9 @@
 	</subsection>
 	<subsection name="Choose what plugin you want to use">
 		<p>
-			There are currently 2 available plugins:
+			There are currently 1 available plugin:
 			<ul>
-				<li>HttpUnit: Was the first supported plugin. Javascript support is very basic. Will not be supported in jWebUnit 2.x</li>
-				<li>HtmlUnit: A good choice if you want better Javascript support.</li>
+				<li>HtmlUnit: A good choice if you want rapidity and good Javascript support.</li>
 			</ul>
 		</p>
 	</subsection>
