@@ -18,13 +18,7 @@ import net.sourceforge.jwebunit.exception.TestingEngineRegistryException;
 public class TestingEngineRegistry {
 
     // TODO Move this to a JDK1.5 typesafe enum
-    public final static String TESTING_ENGINE_HTTPUNIT = "TestingEngineHttpUnit";
-
     public final static String TESTING_ENGINE_HTMLUNIT = "TestingEngineHtmlUnit";
-
-    public final static String TESTING_ENGINE_JACOBIE = "TestingEngineJacobie";
-
-    public final static String TESTING_ENGINE_SELENIUM = "TestingEngineSelenium";
 
     private static Hashtable testingEngineMap = null;
 
@@ -40,30 +34,9 @@ public class TestingEngineRegistry {
         if (testingEngineMap == null) {
             testingEngineMap = new Hashtable();
             try {
-                String cp = "net.sourceforge.jwebunit.httpunit.HttpUnitDialog";
-                Class.forName(cp);
-                testingEngineMap.put(TESTING_ENGINE_HTTPUNIT, cp);
-            } catch (ClassNotFoundException e) {
-                //Nothing to do
-            }
-            try {
                 String cp = "net.sourceforge.jwebunit.htmlunit.HtmlUnitDialog";
                 Class.forName(cp);
                 testingEngineMap.put(TESTING_ENGINE_HTMLUNIT, cp);
-            } catch (ClassNotFoundException e) {
-                //Nothing to do
-            }
-            try {
-                String cp = "net.sourceforge.jwebunit.jacobie.JacobieDialog";
-                Class.forName(cp);
-                testingEngineMap.put(TESTING_ENGINE_JACOBIE, cp);
-            } catch (ClassNotFoundException e) {
-                //Nothing to do
-            }
-            try {
-                String cp = "net.sourceforge.jwebunit.selenium.SeleniumDialog";
-                Class.forName(cp);
-                testingEngineMap.put(TESTING_ENGINE_SELENIUM, cp);
             } catch (ClassNotFoundException e) {
                 //Nothing to do
             }

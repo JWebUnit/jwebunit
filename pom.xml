@@ -26,7 +26,6 @@
     <modules>
         <module>jwebunit-core</module>
         <module>jwebunit-commons-tests</module>
-        <module>jwebunit-httpunit-plugin</module>
         <module>jwebunit-htmlunit-plugin</module>
     </modules>
     <mailingLists>

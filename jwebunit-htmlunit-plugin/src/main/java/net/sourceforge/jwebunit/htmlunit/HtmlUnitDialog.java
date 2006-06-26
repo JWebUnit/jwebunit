@@ -1471,7 +1471,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param text
      *            text to check for.
      */
-    public boolean isTextInElement(HtmlElement element, String text) {
+    private boolean isTextInElement(HtmlElement element, String text) {
         return element.asText().indexOf(text) >= 0;
     }
 
@@ -1487,7 +1487,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param regexp
      *            regexp to match.
      */
-    public boolean isMatchInElement(HtmlElement element, String regexp) {
+    private boolean isMatchInElement(HtmlElement element, String regexp) {
         RE re = getRE(regexp);
         return re.match(element.asText());
     }
@@ -1536,32 +1536,4 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return testContext;
     }
 
-    public void clickLinkWithTextAfterText(String linkText, String labelText) {
-        throw new UnsupportedOperationException("clickLinkWithTextAfterText");
-    }
-
-    public String getFormElementNameBeforeLabel(String formElementLabel) {
-        throw new UnsupportedOperationException("getFormElementNameBeforeLabel");
-    }
-
-    public String getFormElementNameForLabel(String formElementLabel) {
-        throw new UnsupportedOperationException("getFormElementNameForLabel");
-    }
-
-    public String getFormElementValueBeforeLabel(String formElementLabel) {
-        throw new UnsupportedOperationException(
-                "getFormElementValueBeforeLabel");
-    }
-
-    public String getFormElementValueForLabel(String formElementLabel) {
-        throw new UnsupportedOperationException("getFormElementValueForLabel");
-    }
-
-    public boolean hasFormParameterLabeled(String paramLabel) {
-        throw new UnsupportedOperationException("hasFormParameterLabeled");
-    }
-
-    public void setFormParameter(String paramName, String paramValue) {
-        setTextField(paramName, paramValue);
-    }
 }

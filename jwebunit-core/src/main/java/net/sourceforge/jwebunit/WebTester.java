@@ -44,13 +44,13 @@ public class WebTester {
      * functionality not yet wrappered required by test.
      * 
      * If the dialog is not explicitly set the jWebUnit framework will default
-     * to using the orignal testing engine, which is, httpunit.
+     * to using the orignal testing engine, which is, htmlunit.
      * 
-     * @return IJWebUnitDialog instance used to wrapper httpunit conversation.
+     * @return IJWebUnitDialog instance used to wrapper htmlunit conversation.
      */
     public IJWebUnitDialog getDialog() {
         if (dialog == null) {
-            // defaulting to the HttpUnitDialog implementation.
+            // defaulting to the HtmlUnitDialog implementation.
             dialog = initializeDialog();
         }
         return dialog;
@@ -91,7 +91,7 @@ public class WebTester {
     }
 
     /**
-     * Close the current Dialog
+     * Close the current conversation
      */
     public void closeBrowser() {
         try {
@@ -659,33 +659,6 @@ public class WebTester {
         Assert.assertFalse("Found form checkbox with name [" + checkboxName
                 + "] when not expected.", getDialog().hasElementByXPath(
                 "//input[@type='checkbox' and @name='" + checkboxName + "']"));
-    }
-
-    /**
-     * Assert that a form input element with a given label is present.
-     * 
-     * @param formElementLabel
-     *            label preceding form element.
-     * @see #setFormElementWithLabel(String,String)
-     * @deprecated
-     */
-    public void assertFormElementPresentWithLabel(String formElementLabel) {
-        Assert.assertTrue("Did not find form element with label ["
-                + formElementLabel + "].", getDialog().hasFormParameterLabeled(
-                formElementLabel));
-    }
-
-    /**
-     * Assert that a form input element with a given label is not present.
-     * 
-     * @param formElementLabel
-     *            label preceding form element.
-     * @see #setFormElementWithLabel(String,String)
-     * @deprecated
-     */
-    public void assertFormElementNotPresentWithLabel(String formElementLabel) {
-        Assert.assertFalse("Found form element with label [" + formElementLabel
-                + "].", getDialog().hasFormParameterLabeled(formElementLabel));
     }
 
     /**
@@ -1616,20 +1589,6 @@ public class WebTester {
     }
 
     /**
-     * Set the value of a form input element.
-     * 
-     * @param formElementName
-     *            name of form element.
-     * @param value
-     * @deprecated use setTextField or other methods
-     */
-    public void setFormElement(String formElementName, String value) {
-        assertFormPresent();
-        assertFormElementPresent(formElementName);
-        getDialog().setFormParameter(formElementName, value);
-    }
-
-    /**
      * Set the value of a text or password input field.
      * 
      * @param inputName
@@ -1641,25 +1600,6 @@ public class WebTester {
         assertFormPresent();
         assertFormElementPresent(inputName);
         getDialog().setTextField(inputName, value);
-    }
-
-    /**
-     * Set the value of a form input element. The element is identified by a
-     * preceding "label". For example, in "<code>Home Address : &lt;input
-     * type='text' name='home_addr' /&gt;</code>", "
-     * <code>Home Address</code>" could be used as a label. The label must
-     * appear within the associated <code>&lt;form&gt;</code> tag.
-     * 
-     * @param formElementLabel
-     *            label preceding form element.
-     * @param value
-     * @deprecated
-     */
-    public void setFormElementWithLabel(String formElementLabel, String value) {
-        String name = getDialog().getFormElementNameForLabel(formElementLabel);
-        Assert.assertNotNull("Did not find form element with label ["
-                + formElementLabel + "].", name);
-        getDialog().setFormParameter(name, value);
     }
 
     /**
@@ -1686,51 +1626,6 @@ public class WebTester {
     public void checkCheckbox(String checkBoxName, String value) {
         assertCheckboxPresent(checkBoxName);
         getDialog().checkCheckbox(checkBoxName, value);
-    }
-
-    /**
-     * Identifies and checks checkbox based on a label appearing before the
-     * input tag.
-     * 
-     * Checkboxes are identified by name+value. If both are known, use
-     * {@see #checkCheckbox(String, String)} or
-     * {@see #setFormElement(String, String)} to check the box. If name or value
-     * is unknown, use this method if there is a known text label appearing
-     * after the checkbox.
-     * 
-     * @param formElementLabel
-     *            The text label, appearing after the checkbox
-     * @deprecated
-     */
-    public void checkCheckboxBeforeLabel(String formElementLabel) {
-        assertTextPresent(formElementLabel);
-        String name = getDialog().getFormElementNameBeforeLabel(
-                formElementLabel);
-        String value = getDialog().getFormElementValueBeforeLabel(
-                formElementLabel);
-        checkCheckbox(name, value);
-    }
-
-    /**
-     * Identifies and checks checkbox based on a label appearing after the input
-     * tag.
-     * 
-     * Checkboxes are identified by name+value. If both are known, use
-     * {@see #checkCheckbox(String, String)} or
-     * {@see #setFormElement(String, String)} to check the box. If name or value
-     * is unknown, use this method if there is a known text label appearing
-     * before the checkbox.
-     * 
-     * @param formElementLabel
-     *            The text label, appearing after the checkbox
-     * @deprecated
-     */
-    public void checkCheckboxWithLabel(String formElementLabel) {
-        assertTextPresent(formElementLabel);
-        String name = getDialog().getFormElementNameForLabel(formElementLabel);
-        String value = getDialog()
-                .getFormElementValueForLabel(formElementLabel);
-        checkCheckbox(name, value);
     }
 
     /**
@@ -1902,16 +1797,6 @@ public class WebTester {
     public void clickLinkWithExactText(String linkText, int index) {
         assertLinkPresentWithExactText(linkText, index);
         getDialog().clickLinkWithExactText(linkText, index);
-    }
-
-    /**
-     * Search for labelText in the document, then search forward until finding a
-     * link called linkText. Click it.
-     * 
-     * @deprecated
-     */
-    public void clickLinkWithTextAfterText(String linkText, String labelText) {
-        getDialog().clickLinkWithTextAfterText(linkText, labelText);
     }
 
     /**
