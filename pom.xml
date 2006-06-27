@@ -1,238 +1,289 @@
-<?xml version="1.0" encoding="UTF-8"?><project>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>net.sourceforge.jwebunit</groupId>
-  <artifactId>jwebunit</artifactId>
-  <packaging>pom</packaging>
-  <name>jWebUnit</name>
-  <version>1.3-rc1</version>
-  <description>jWebUnit is a Java framework that facilitates creation of
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>net.sourceforge.jwebunit</groupId>
+    <artifactId>jwebunit</artifactId>
+    <name>jWebUnit</name>
+    <version>1.3-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <description>
+        jWebUnit is a Java framework that facilitates creation of
         acceptance tests for web applications. It evolved from a project
         where we were using HttpUnit and JUnit to create acceptance
         tests. As the tests were being written, they were continuously
         refactored to remove duplication and other bad smells in the
         test code. jWebUnit is the result of these refactorings.
-        jWebUnit support multiple dialog as HtmlUnit or HttpUnit.</description>
-  <url>http://jwebunit.sourceforge.net</url>
-  <issueManagement>
-    <system>sourceforge</system>
-    <url>http://sourceforge.net/tracker/?atid=497982&amp;group_id=61302</url>
-  </issueManagement>
-  <inceptionYear>2002</inceptionYear>
-  <mailingLists>
-    <mailingList>
-      <name>jWebUnit Development Mailing list</name>
-      <subscribe>http://lists.sourceforge.net/mailman/listinfo/jwebunit-development</subscribe>
-      <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/jwebunit-development</unsubscribe>
-      <post>jwebunit-development@lists.sourceforge.net</post>
-      <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=40831</archive>
-    </mailingList>
-    <mailingList>
-      <name>jWebUnit User Mailing list</name>
-      <subscribe>http://lists.sourceforge.net/mailman/listinfo/jwebunit-users</subscribe>
-      <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/jwebunit-users</unsubscribe>
-      <post>jwebunit-users@lists.sourceforge.net</post>
-      <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=40830</archive>
-    </mailingList>
-  </mailingLists>
-  <developers>
-    <developer>
-      <id>jimweaver</id>
-      <name>Jim Weaver</name>
-      <email>jimweaver at users.sourceforge.net</email>
-      <organization>Thoughtworks</organization>
-      <roles>
-        <role>All-Hands person</role>
-      </roles>
-      <timezone>-5</timezone>
-    </developer>
-    <developer>
-      <id>prospero2000us</id>
-      <name>Jim Weaver</name>
-      <email>prospero2000us at users.sourceforge.net</email>
-      <organization>Thoughtworks</organization>
-      <roles>
-        <role>All-Hands person</role>
-      </roles>
-      <timezone>-5</timezone>
-    </developer>
-    <developer>
-      <id>wilkesj</id>
-      <name>Wilkes Joiner</name>
-      <email>wilkesj at users.sourceforge.net</email>
-      <organization></organization>
-      <roles>
-        <role>All-Hands person</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>vivekv</id>
-      <name>Vivek Venugopalan</name>
-      <email>vivek at magic hypen cauldron dot com</email>
-      <url>http://www.magic-cauldron.com</url>
-      <organization></organization>
-      <roles>
-        <role>All-Hands person</role>
-      </roles>
-      <timezone>+5.5</timezone>
-    </developer>
-    <developer>
-      <id>dashorst</id>
-      <name>Martijn Dashorst</name>
-      <email>dashorst at users.sourceforge.net</email>
-      <url>http://www.dashorst.dds.nl</url>
-      <organization>Topicus B.V.</organization>
-      <roles>
-        <role>All-Hands person</role>
-      </roles>
-      <timezone>+1</timezone>
-    </developer>
-    <developer>
-      <id>nneuberger</id>
-      <name>Nicholas Neuberger</name>
-      <email>nneuberger at users.sourceforge.net</email>
-      <url></url>
-      <organization>Sunshine Solar</organization>
-      <roles>
-        <role>Developer</role>
-      </roles>
-      <timezone>-6</timezone>
-    </developer>
-    <developer>
-      <id>henryju</id>
-      <name>Julien Henry</name>
-      <email>henryju at users.sourceforge.net</email>
-      <url></url>
-      <organization>Capgemini</organization>
-      <organizationUrl>http://www.capgemini.com</organizationUrl>
-      <roles>
-        <role>Developer</role>
-      </roles>
-      <timezone>+2</timezone>
-    </developer>
-  </developers>
-  <contributors>
-    <contributor>
-      <name>Jon Frisby</name>
-      <email>jfrisby@mac.com</email>
-      <url></url>
-      <organization></organization>
-      <organizationUrl></organizationUrl>
-      <timezone></timezone>
-    </contributor>
-  </contributors>
-  <licenses>
-    <license>
-      <name>BSD License</name>
-      <url>${topDirectoryLocation}/LICENSE.txt</url>
-    </license>
-  </licenses>
-  <scm>
-    <connection>scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/tags/release-1.3-rc1</connection>
-    <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/tags/release-1.3-rc1</developerConnection>
-    <url>http://svn.sourceforge.net/viewcvs.cgi/jwebunit</url>
-  </scm>
-  <organization>
-    <name>SourceForge</name>
-    <url>http://sourceforge.net</url>
-  </organization>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
-  <modules>
-    <module>jwebunit-core</module>
-    <module>jwebunit-commons-tests</module>
-    <module>jwebunit-htmlunit-plugin</module>
-  </modules>
-  <reporting>
-    <plugins>
-      <plugin>
-        <artifactId>maven-changelog-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <configLocation>${basedir}/${topDirectoryLocation}/src/checkstyle/jwebunit-checkstyle.xml</configLocation>
-          <headerFile>${basedir}/${topDirectoryLocation}/src/checkstyle/header-checkstyle.txt</headerFile>
-          <xrefLocation>xref</xrefLocation>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <configuration>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>index</report>
-              <report>dependencies</report>
-              <report>project-team</report>
-              <report>mailing-list</report>
-              <report>license</report>
-              <report>issue-tracking</report>
-              <report>scm</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jdepend-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>taglist-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </reporting>
-  <distributionManagement>
-    <repository>
-      <id>jwebunit-m2-repo</id>
-      <name>jWebUnit Maven 2 Repository</name>
-      <url>scpexe://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/m2-repo</url>
-    </repository>
-    <site>
-      <id>jwebunit-website</id>
-      <name>jWebUnit WebSite - Sourceforge</name>
-      <url>scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs</url>
-    </site>
-  </distributionManagement>
-  <properties>
-    <topDirectoryLocation>.</topDirectoryLocation>
-  </properties>
+        jWebUnit support multiple dialog as HtmlUnit or HttpUnit.
+    </description>
+    <url>http://jwebunit.sourceforge.net</url>
+    <issueManagement>
+        <system>sourceforge</system>
+        <url>
+            http://sourceforge.net/tracker/?atid=497982&amp;group_id=61302
+        </url>
+    </issueManagement>
+    <inceptionYear>2002</inceptionYear>
+    <modules>
+        <module>jwebunit-core</module>
+        <module>jwebunit-commons-tests</module>
+        <module>jwebunit-htmlunit-plugin</module>
+    </modules>
+    <mailingLists>
+        <mailingList>
+            <name>jWebUnit Development Mailing list</name>
+            <subscribe>
+                http://lists.sourceforge.net/mailman/listinfo/jwebunit-development
+            </subscribe>
+            <unsubscribe>
+                http://lists.sourceforge.net/mailman/listinfo/jwebunit-development
+            </unsubscribe>
+            <archive>
+                http://sourceforge.net/mailarchive/forum.php?forum_id=40831
+            </archive>
+            <post>jwebunit-development@lists.sourceforge.net</post>
+        </mailingList>
+        <mailingList>
+            <name>jWebUnit User Mailing list</name>
+            <subscribe>
+                http://lists.sourceforge.net/mailman/listinfo/jwebunit-users
+            </subscribe>
+            <unsubscribe>
+                http://lists.sourceforge.net/mailman/listinfo/jwebunit-users
+            </unsubscribe>
+            <archive>
+                http://sourceforge.net/mailarchive/forum.php?forum_id=40830
+            </archive>
+            <post>jwebunit-users@lists.sourceforge.net</post>
+        </mailingList>
+    </mailingLists>
+    <developers>
+        <developer>
+            <id>jimweaver</id>
+            <name>Jim Weaver</name>
+            <email>jimweaver at users.sourceforge.net</email>
+            <organization>Thoughtworks</organization>
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+            <timezone>-5</timezone>
+        </developer>
+        <developer>
+            <id>prospero2000us</id>
+            <name>Jim Weaver</name>
+            <email>prospero2000us at users.sourceforge.net</email>
+            <organization>Thoughtworks</organization>
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+            <timezone>-5</timezone>
+        </developer>
+        <developer>
+            <id>wilkesj</id>
+            <name>Wilkes Joiner</name>
+            <email>wilkesj at users.sourceforge.net</email>
+            <organization></organization>
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>vivekv</id>
+            <name>Vivek Venugopalan</name>
+            <email>vivek at magic hypen cauldron dot com</email>
+            <url>http://www.magic-cauldron.com</url>
+            <organization></organization>
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+            <timezone>+5.5</timezone>
+        </developer>
+        <developer>
+            <id>dashorst</id>
+            <name>Martijn Dashorst</name>
+            <email>dashorst at users.sourceforge.net</email>
+            <url>http://www.dashorst.dds.nl</url>
+            <organization>Topicus B.V.</organization>
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>nneuberger</id>
+            <name>Nicholas Neuberger</name>
+            <email>nneuberger at users.sourceforge.net</email>
+            <url></url>
+            <organization>Sunshine Solar</organization>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>-6</timezone>
+        </developer>
+        <developer>
+            <id>henryju</id>
+            <name>Julien Henry</name>
+            <email>henryju at users.sourceforge.net</email>
+            <url></url>
+            <organization>Capgemini</organization>
+            <organizationUrl>http://www.capgemini.com</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+2</timezone>
+        </developer>
+    </developers>
+    <contributors>
+        <contributor>
+            <name>Jon Frisby</name>
+            <email>jfrisby@mac.com</email>
+            <url/>
+            <organization/>
+            <organizationUrl/>
+            <roles/>
+            <timezone/>
+            <properties/>
+        </contributor>
+    </contributors>
+    <licenses>
+        <license>
+            <name>BSD License</name>
+            <url>${topDirectoryLocation}/LICENSE.txt</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>
+            scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/trunk
+        </connection>
+        <developerConnection>
+            scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/trunk
+        </developerConnection>
+        <url>http://svn.sourceforge.net/viewcvs.cgi/jwebunit/</url>
+    </scm>
+    <organization>
+        <name>SourceForge</name>
+        <url>http://sourceforge.net</url>
+    </organization>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <!--                  <configuration>
+                    <descriptor>path/to/descriptor.xml</descriptor>
+                    <finalName>final_name</finalName>
+                    <outputDirectory>output/directory</outputDirectory>
+                    <workDirectory>target/assembly/work</workDirectory>
+                    </configuration> -->
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <topDirectoryLocation>.</topDirectoryLocation>
+    </properties>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <configLocation>
+                        ${basedir}/${topDirectoryLocation}/src/checkstyle/jwebunit-checkstyle.xml
+                    </configLocation>
+                    <headerFile>
+                        ${basedir}/${topDirectoryLocation}/src/checkstyle/header-checkstyle.txt
+                    </headerFile>
+                    <xrefLocation>xref</xrefLocation>
+                </configuration>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-surefire-report-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+                </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>changes-maven-plugin</artifactId>
+                <inherited>false</inherited>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>dependencies</report>
+                            <report>project-team</report>
+                            <report>mailing-list</report>
+                            <report>license</report>
+                            <report>issue-tracking</report>
+                            <report>scm</report>
+                       </reports>
+                   </reportSet>
+               </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+    <distributionManagement>
+        <site>
+            <id>jwebunit-website</id>
+            <name>jWebUnit WebSite - Sourceforge</name>
+            <url>
+              scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
+                <!--file://c:\temp-jwebunit-->
+            </url>
+        </site>
+        <repository>
+            <id>jwebunit-m2-repo</id>
+            <url>
+                scpexe://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/m2-repo
+            </url>
+            <name>
+                jWebUnit Maven 2 Repository
+            </name>
+        </repository>
+    </distributionManagement>
 </project>
