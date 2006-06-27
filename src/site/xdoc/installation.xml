@@ -11,7 +11,7 @@
 			If your project use Maven 2, it's very simple. Just add jwebunit maven repository to your pom,
 			and add the plugin you want as dependency:
 		</p>
-		<source>
+		<source><![CDATA[
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
     <modelVersion>4.0.0</modelVersion>
@@ -36,7 +36,7 @@
         </dependency>
     </dependencies>
 </project>
-		</source>
+		]]></source>
 	</subsection>
 	<subsection name="Download">
 		<p>
