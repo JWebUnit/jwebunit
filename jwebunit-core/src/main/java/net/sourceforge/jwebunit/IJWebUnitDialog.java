@@ -38,16 +38,6 @@ public interface IJWebUnitDialog {
     void gotoPage(String url) throws TestingEngineResponseException;
 
     /**
-     * Simulate user pressing "go back" button of the browser.
-     */
-    void goBack();
-
-    /**
-     * Simulate user pressing "refresh" button of the browser.
-     */
-    void refresh();
-
-    /**
      * Enable or disable Javascript support
      */
     void setScriptingEnabled(boolean value);

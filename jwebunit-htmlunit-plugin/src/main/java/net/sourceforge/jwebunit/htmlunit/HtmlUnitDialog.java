@@ -151,16 +151,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
     }
 
-    public void goBack() {
-        // TODO Implement goBack in HtmlUnitDialog
-        throw new UnsupportedOperationException("goBack");
-    }
-
-    public void refresh() {
-        // TODO Implement refresh in HtmlUnitDialog
-        throw new UnsupportedOperationException("refresh");
-    }
-
     /**
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#setScriptingEnabled(boolean)
      */
@@ -349,23 +339,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         checkFormStateWithInput(fieldName);
         getForm().getInputByName(fieldName).setValueAttribute(paramValue);
     }
-
-    // /**
-    // * Return a string array of select box option labels.
-    // *
-    // * @param selectName
-    // * name of the select box.
-    // */
-    // public String[] getOptionsFor(String selectName) {
-    // HtmlSelect sel = getForm().getSelectByName(selectName);
-    // ArrayList result = new ArrayList();
-    // List opts = sel.getOptions();
-    // for (int i = 0; i < opts.size(); i++) {
-    // HtmlOption opt = (HtmlOption) opts.get(i);
-    // result.add(opt.asText());
-    // }
-    // return (String[]) result.toArray(new String[0]);
-    // }
 
     /**
      * Return a string array of select box option values.
@@ -1050,25 +1023,16 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * 
      * @param linkText
      *            text to check for in links on the response.
-     */
-    public boolean hasLinkWithText(String linkText) {
-        return getLinkWithText(linkText) != null;
-    }
-
-    /**
-     * Return true if a link is present in the current response containing the
-     * specified text (note that HttpUnit uses contains rather than an exact
-     * match - if this is a problem consider using ids on the links to uniquely
-     * identify them).
-     * 
-     * @param linkText
-     *            text to check for in links on the response.
      * @param index
      *            The 0-based index, when more than one link with the same text
      *            is expected.
      */
     public boolean hasLinkWithText(String linkText, int index) {
         return getLinkWithText(linkText, index) != null;
+    }
+
+    public boolean hasLinkWithExactText(String linkText, int index) {
+        return getLinkWithExactText(linkText, index) != null;
     }
 
     public boolean hasLinkWithImage(String imageFileName, int index) {
@@ -1091,46 +1055,20 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return true;
     }
 
-    /*
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isLinkPresentWithText(java.lang.String,
-     *      int)
-     */
-    public boolean hasLinkWithExactText(String linkText, int index) {
-        throw new UnsupportedOperationException("isLinkPresentWithText");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithExactText(java.lang.String)
-     */
-    public void clickLinkWithExactText(String linkText) {
-        throw new UnsupportedOperationException("clickLinkWithExactText");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithExactText(java.lang.String,
-     *      int)
-     */
-    public void clickLinkWithExactText(String linkText, int index) {
-        throw new UnsupportedOperationException("clickLinkWithExactText");
-    }
-
-    /**
-     * Navigate by submitting a request based on a link containing the specified
-     * text. A RuntimeException is thrown if no such link can be found.
-     * 
-     * @param linkText
-     *            text which link to be navigated should contain.
-     */
-    public void clickLinkWithText(String linkText) {
-        clickLinkWithText(linkText, 0);
-    }
-
     public void clickLinkWithText(String linkText, int index) {
         HtmlAnchor link = getLinkWithText(linkText, index);
+        if (link == null)
+            throw new RuntimeException("No Link found for \"" + linkText
+                    + "\" with index " + index);
+        try {
+            link.click();
+        } catch (IOException e) {
+            throw new RuntimeException("Click failed");
+        }
+    }
+
+    public void clickLinkWithExactText(String linkText, int index) {
+        HtmlAnchor link = getLinkWithExactText(linkText, index);
         if (link == null)
             throw new RuntimeException("No Link found for \"" + linkText
                     + "\" with index " + index);
@@ -1252,10 +1190,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         clickElementByXPath("//a[@id=\"" + anID + "\"]");
     }
 
-    private HtmlAnchor getLinkWithText(String linkText) {
-        return getLinkWithText(linkText, 0);
-    }
-
     private HtmlAnchor getLinkWithImage(String filename, int index) {
         return (HtmlAnchor) getElementByXPath("(//a[img[contains(@src,\""
                 + filename + "\")]])[" + index + 1 + "]");
@@ -1267,6 +1201,17 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         for (int i = 0; i < lnks.size(); i++) {
             HtmlAnchor lnk = (HtmlAnchor) lnks.get(i);
             if ((lnk.asText().indexOf(linkText) >= 0) && (count++ == index))
+                return lnk;
+        }
+        return null;
+    }
+
+    private HtmlAnchor getLinkWithExactText(String linkText, int index) {
+        List lnks = ((HtmlPage) win.getEnclosedPage()).getAnchors();
+        int count = 0;
+        for (int i = 0; i < lnks.size(); i++) {
+            HtmlAnchor lnk = (HtmlAnchor) lnks.get(i);
+            if ((lnk.asText().equals(linkText)) && (count++ == index))
                 return lnk;
         }
         return null;
@@ -1438,19 +1383,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 throw new RuntimeException("Option " + options[j]
                         + " not found");
         }
-    }
-
-    /**
-     * Select an option of a select box by value.
-     * 
-     * @param selectName
-     *            name of the select box.
-     * @param option
-     *            value of the option to select.
-     */
-    public void selectOptionByValue(String selectName, String option) {
-        HtmlSelect sel = getForm().getSelectByName(selectName);
-        sel.setSelectedAttribute(option, true);
     }
 
     public boolean isTextInElement(String elementID, String text) {
