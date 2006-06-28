@@ -4,6 +4,8 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
+import java.net.URL;
+
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 import junit.framework.AssertionFailedError;
 import junit.framework.Test;
@@ -34,7 +36,6 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 		setTextField("color", "blue");
 		submit("button");
         assertTextPresent("Submitted parameters");
-        //dumpResponse(System.out);
 		assertTextPresent("Params are: color=blue");
 		clickLink("return");
         setTextField("color", "red");
@@ -43,16 +44,20 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 	}
 
     public void testSetFileField() {
-        beginAt("/SingleNamedButtonForm.html");
-        setTextField("file", "c:\\test.txt");
+        beginAt("/InputFileForm.html");
+        URL url = getClass().getResource("data.txt");
+        assertNotNull(url);
+        //FIXME HtmlUnit bug, need to remove file:/
+         String filename = url.toString().substring(6);
+        setTextField("file", filename);
         submit("button");
         assertTextPresent("Submitted parameters");
-        assertTextPresent("file=test.txt");
+        assertMatch("file=data\\.txt\\{This file.*\\}");
     }
 
     public void testCheckBoxSelection() {
 		beginAt("/SingleNamedButtonForm.html");
-		checkCheckbox("checkBox"); //Fail with httpunit because of hidden field with same name
+		checkCheckbox("checkBox");
         setTextField("color", "blue");
 		submit();
         //checkBox contains 2 parameters: one for the hidden input and one for the checkbox
