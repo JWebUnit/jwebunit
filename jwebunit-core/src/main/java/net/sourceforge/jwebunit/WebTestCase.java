@@ -21,27 +21,16 @@ import junit.framework.TestCase;
  */
 public class WebTestCase extends TestCase {
     private WebTester tester = null;
-
-    // BEGIN CONSTRUCTORS....
-
+    
     public WebTestCase(String name) {
         super(name);
     }
 
     public WebTestCase() {
+        super();
     }
-
-    // END CONSTRUCTORS....
 
     // BEGIN JUNIT SETUP / TEARDOWN / RUNBARE OVERRIDES....
-
-    public void setUp() throws Exception {
-        super.setUp();
-
-        // New implementation on choosing a testing engine (dialog).
-        // setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_JACOBIE);
-        // setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTTPUNIT);
-    }
 
     public void tearDown() throws Exception {
         closeBrowser();
@@ -194,11 +183,11 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertNoMatchInTable(String tableSummaryOrId, String regexp) {
-        tester.assertNoMatchInTable(tableSummaryOrId, regexp);
+        getTester().assertNoMatchInTable(tableSummaryOrId, regexp);
     }
 
     public void assertNoMatchInTable(String tableSummaryOrId, String[] regexp) {
-        tester.assertNoMatchInTable(tableSummaryOrId, regexp);
+        getTester().assertNoMatchInTable(tableSummaryOrId, regexp);
     }
 
     public void assertTableEquals(String tableSummaryOrId, Table expectedTable) {
@@ -234,17 +223,17 @@ public class WebTestCase extends TestCase {
 
     public void assertTableMatch(String tableSummaryOrId,
             String[][] expectedCellValues) {
-        tester.assertTableMatch(tableSummaryOrId, expectedCellValues);
+        getTester().assertTableMatch(tableSummaryOrId, expectedCellValues);
     }
 
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
             Table expectedTable) {
-        tester.assertTableRowsMatch(tableSummaryOrId, startRow, expectedTable);
+        getTester().assertTableRowsMatch(tableSummaryOrId, startRow, expectedTable);
     }
 
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
             String[][] expectedCellValues) {
-        tester.assertTableRowsMatch(tableSummaryOrId, startRow,
+        getTester().assertTableRowsMatch(tableSummaryOrId, startRow,
                 expectedCellValues);
     }
 
@@ -278,7 +267,7 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertFormElementMatch(String formElementName, String regexp) {
-        tester.assertFormElementMatch(formElementName, regexp);
+        getTester().assertFormElementMatch(formElementName, regexp);
     }
 
     public void assertFormElementEmpty(String formElementName) {
@@ -366,11 +355,11 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertSelectedOptionMatches(String selectName, String regexp) {
-        tester.assertSelectedOptionMatches(selectName, regexp);
+        getTester().assertSelectedOptionMatches(selectName, regexp);
     }
 
     public void assertSelectedOptionsMatch(String selectName, String[] regexps) {
-        tester.assertSelectedOptionsMatch(selectName, regexps);
+        getTester().assertSelectedOptionsMatch(selectName, regexps);
     }
 
     /**
@@ -543,11 +532,11 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertMatchInElement(String elID, String regexp) {
-        tester.assertMatchInElement(elID, regexp);
+        getTester().assertMatchInElement(elID, regexp);
     }
 
     public void assertNoMatchInElement(String elID, String regexp) {
-        tester.assertNoMatchInElement(elID, regexp);
+        getTester().assertNoMatchInElement(elID, regexp);
     }
 
     public void assertWindowPresent(String windowName) {
@@ -582,7 +571,7 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertCookieValueMatch(String cookieName, String regexp) {
-        tester.assertCookieValueMatch(cookieName, regexp);
+        getTester().assertCookieValueMatch(cookieName, regexp);
     }
 
     // Form interaction methods
