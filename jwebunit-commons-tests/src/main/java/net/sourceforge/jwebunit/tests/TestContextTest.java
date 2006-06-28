@@ -42,8 +42,8 @@ public class TestContextTest extends JWebUnitAPITestCase {
     }
 
     public void testResourceBundle() {
-        String name = "net.sourceforge.jwebunit.TestContextBundle";
-        context.setResourceBundleName("net.sourceforge.jwebunit.TestContextBundle");
+        String name = "/TestContextBundle";
+        context.setResourceBundleName("/TestContextBundle");
         assertEquals(name, context.getResourceBundleName());
     }
 
