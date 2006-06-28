@@ -53,94 +53,16 @@
 		<source>mvn package</source>
 		If you build jWebUnit for the first time and you configured Maven as described
 		earlier, you will see the following text:
-<source><![CDATA[
-[INFO] Scanning for projects...
-[INFO] ----------------------------------------------------------------------------
-[INFO] Building jWebUnit
-[INFO]    task-segment: [package]
-[INFO] ----------------------------------------------------------------------------
-[INFO] artifact org.apache.maven.plugins:maven-jar-plugin: checking for updates from Maven CodeHaus Snapshots
-[INFO] snapshot org.apache.maven.plugins:maven-jar-plugin:2.1-SNAPSHOT: checking for updates from Maven CodeHaus Snapshots
-[INFO] [resources:resources]
-[INFO] Using default encoding to copy filtered resources.
-Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/jacobie/jacobie/1.3/jacobie-1.3.pom
-612b downloaded
-[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/jacobie/jacobie/1.3/jacobie-1.3.pom - IGNORING
-Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/jacob-project/jacob/1.7/jacob-1.7.pom
-423b downloaded
-[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/jacob-project/jacob/1.7/jacob-1.7.pom - IGNORING
-Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/htmlunit/htmlunit/1.9-prerelease/htmlunit-1.9-prerelease.pom
-8K downloaded
-[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/htmlunit/htmlunit/1.9-prerelease/htmlunit-1.9-prerelease.pom - IGNORING
-[WARNING]
-        Artifact commons-logging:commons-logging:jar:1.0.4:test retains local scope 'test' overriding broader scope 'compile'
-        given by a dependency. If this is not intended, modify or remove the local scope.
-
-Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/httpunit/httpunit/1.6.1-20060101/httpunit-1.6.1-20060101.pom
-1K downloaded
-[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/httpunit/httpunit/1.6.1-20060101/httpunit-1.6.1-20060101.pom - IGNORING
-Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/httpunit/httpunit/1.6.1-20060101/httpunit-1.6.1-20060101.jar
-397K downloaded
-[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/httpunit/httpunit/1.6.1-20060101/httpunit-1.6.1-20060101.jar - IGNORING
-Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/jacobie/jacobie/1.3/jacobie-1.3.jar
-32K downloaded
-[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/jacobie/jacobie/1.3/jacobie-1.3.jar - IGNORING
-Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/htmlunit/htmlunit/1.9-prerelease/htmlunit-1.9-prerelease.jar
-356K downloaded
-[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/htmlunit/htmlunit/1.9-prerelease/htmlunit-1.9-prerelease.jar - IGNORING
-Downloading: file:D:\jhenry\jwebunit\jWebUnit/private-repository/net/sourceforge/jacob-project/jacob/1.7/jacob-1.7.jar
-16K downloaded
-[WARNING] *** CHECKSUM FAILED - Error retrieving checksum file for net/sourceforge/jacob-project/jacob/1.7/jacob-1.7.jar - IGNORING
-[INFO] [compiler:compile]
-Compiling 21 source files to D:\jhenry\jwebunit\jWebUnit\target\classes
-[INFO] [resources:testResources]
-[INFO] Using default encoding to copy filtered resources.
-[INFO] [compiler:testCompile]
-Compiling 25 source files to D:\jhenry\jwebunit\jWebUnit\target\test-classes
-[INFO] [surefire:test]
-[INFO] Setting reports dir: D:\jhenry\jwebunit\jWebUnit\target/surefire-reports
-
--------------------------------------------------------
- T E S T S
--------------------------------------------------------
-[surefire] Running net.sourceforge.jwebunit.AllTests
-log4j:WARN No appenders could be found for logger (org.mortbay.xml.XmlParser).
-log4j:WARN Please initialize the log4j system properly.
-[surefire] Tests run: 151, Failures: 2, Errors: 20, Time elapsed: 15,907 sec <<<<<<<< FAILURE !!
-[ERROR] There are test failures.
-[INFO] [jar:jar]
-[INFO] Building jar: D:\jhenry\jwebunit\jWebUnit\target\jwebunit-1.3-SNAPSHOT.jar
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESSFUL
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 27 seconds
-[INFO] Finished at: Mon Apr 24 14:14:52 CEST 2006
-[INFO] Final Memory: 7M/24M
-[INFO] ------------------------------------------------------------------------
-]]></source></p>
+<source><![CDATA[NEED UPDATE]]></source></p>
 	<p>
-		You now have successfully built the <tt>jwebunit-1.3-SNAPSHOT.jar</tt>.
-	</p>
-</subsection>
-<subsection name="Building the site">
-	<p>
-		Generating the jWebUnit website with Maven is also not difficult:
-		<source>mvn site</source>
-		is all there's to it.
-		After downloading lots and lots of jar files, Maven will build the website which 
-		contains junit results, checkstyle results, and the like, just like the website
-		you're now looking at. You can find the website in the 
-		<source>target/site</source> directory.
-	</p>
-	<p>
-		Just open the index.html in your browser.
+		You now have successfully built the <tt>jwebunit-1.3.jar</tt>.
 	</p>
 </subsection>
 <subsection name="Building an assembly">
-	<p>     An assembly is a package for final users.
+	<p>     An assembly is a package for final users, including eventually all dependencies.
 		Building an assembly with Maven consists of executing Maven like this:
 		<source>mvn assembly:assembly -DdescriptorId=XXX</source>
-		Where XXX is:
+		Where XXX is one of :
 		<ul>
 		  <li>bin : Package jwebunit-xx.jar in 3 formats (zip, tar.gz and tar.bz2)</li>
 		  <li>jar-with-dependencies : Create jwebunit-xx-with-dependencies.jar, a big jar with all

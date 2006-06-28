@@ -1,9 +1,7 @@
-/**
- * HtmlUnitDialog
- * Dialogue entre jWebUnit (capWebUnit) et HtmlUnit. 
- * @author Julien HENRY
- * @version 1.0
- */
+/******************************************************************************
+ * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * Distributed open-source, see full license under LICENCE.txt                *
+ ******************************************************************************/
 package net.sourceforge.jwebunit.htmlunit;
 
 import org.apache.commons.httpclient.Cookie;
@@ -12,8 +10,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.net.ConnectException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,7 +32,6 @@ import net.sourceforge.jwebunit.TestContext;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.Page;
-import com.gargoylesoftware.htmlunit.TextPage;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebWindow;
@@ -63,7 +58,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
 import com.gargoylesoftware.htmlunit.html.xpath.HtmlUnitXPath;
-import com.gargoylesoftware.htmlunit.xml.XmlPage;
 
 /**
  * Acts as the wrapper for HtmlUnit access. A dialog is initialized with a given
@@ -355,23 +349,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         checkFormStateWithInput(fieldName);
         getForm().getInputByName(fieldName).setValueAttribute(paramValue);
     }
-
-    // /**
-    // * Return a string array of select box option labels.
-    // *
-    // * @param selectName
-    // * name of the select box.
-    // */
-    // public String[] getOptionsFor(String selectName) {
-    // HtmlSelect sel = getForm().getSelectByName(selectName);
-    // ArrayList result = new ArrayList();
-    // List opts = sel.getOptions();
-    // for (int i = 0; i < opts.size(); i++) {
-    // HtmlOption opt = (HtmlOption) opts.get(i);
-    // result.add(opt.asText());
-    // }
-    // return (String[]) result.toArray(new String[0]);
-    // }
 
     /**
      * Return a string array of select box option values.
@@ -1056,25 +1033,16 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * 
      * @param linkText
      *            text to check for in links on the response.
-     */
-    public boolean hasLinkWithText(String linkText) {
-        return getLinkWithText(linkText) != null;
-    }
-
-    /**
-     * Return true if a link is present in the current response containing the
-     * specified text (note that HttpUnit uses contains rather than an exact
-     * match - if this is a problem consider using ids on the links to uniquely
-     * identify them).
-     * 
-     * @param linkText
-     *            text to check for in links on the response.
      * @param index
      *            The 0-based index, when more than one link with the same text
      *            is expected.
      */
     public boolean hasLinkWithText(String linkText, int index) {
         return getLinkWithText(linkText, index) != null;
+    }
+
+    public boolean hasLinkWithExactText(String linkText, int index) {
+        return getLinkWithExactText(linkText, index) != null;
     }
 
     public boolean hasLinkWithImage(String imageFileName, int index) {
@@ -1097,46 +1065,20 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return true;
     }
 
-    /*
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isLinkPresentWithText(java.lang.String,
-     *      int)
-     */
-    public boolean hasLinkWithExactText(String linkText, int index) {
-        throw new UnsupportedOperationException("isLinkPresentWithText");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithExactText(java.lang.String)
-     */
-    public void clickLinkWithExactText(String linkText) {
-        throw new UnsupportedOperationException("clickLinkWithExactText");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickLinkWithExactText(java.lang.String,
-     *      int)
-     */
-    public void clickLinkWithExactText(String linkText, int index) {
-        throw new UnsupportedOperationException("clickLinkWithExactText");
-    }
-
-    /**
-     * Navigate by submitting a request based on a link containing the specified
-     * text. A RuntimeException is thrown if no such link can be found.
-     * 
-     * @param linkText
-     *            text which link to be navigated should contain.
-     */
-    public void clickLinkWithText(String linkText) {
-        clickLinkWithText(linkText, 0);
-    }
-
     public void clickLinkWithText(String linkText, int index) {
         HtmlAnchor link = getLinkWithText(linkText, index);
+        if (link == null)
+            throw new RuntimeException("No Link found for \"" + linkText
+                    + "\" with index " + index);
+        try {
+            link.click();
+        } catch (IOException e) {
+            throw new RuntimeException("Click failed");
+        }
+    }
+
+    public void clickLinkWithExactText(String linkText, int index) {
+        HtmlAnchor link = getLinkWithExactText(linkText, index);
         if (link == null)
             throw new RuntimeException("No Link found for \"" + linkText
                     + "\" with index " + index);
@@ -1258,10 +1200,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         clickElementByXPath("//a[@id=\"" + anID + "\"]");
     }
 
-    private HtmlAnchor getLinkWithText(String linkText) {
-        return getLinkWithText(linkText, 0);
-    }
-
     private HtmlAnchor getLinkWithImage(String filename, int index) {
         return (HtmlAnchor) getElementByXPath("(//a[img[contains(@src,\""
                 + filename + "\")]])[" + index + 1 + "]");
@@ -1273,6 +1211,17 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         for (int i = 0; i < lnks.size(); i++) {
             HtmlAnchor lnk = (HtmlAnchor) lnks.get(i);
             if ((lnk.asText().indexOf(linkText) >= 0) && (count++ == index))
+                return lnk;
+        }
+        return null;
+    }
+
+    private HtmlAnchor getLinkWithExactText(String linkText, int index) {
+        List lnks = ((HtmlPage) win.getEnclosedPage()).getAnchors();
+        int count = 0;
+        for (int i = 0; i < lnks.size(); i++) {
+            HtmlAnchor lnk = (HtmlAnchor) lnks.get(i);
+            if ((lnk.asText().equals(linkText)) && (count++ == index))
                 return lnk;
         }
         return null;
@@ -1446,19 +1395,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
     }
 
-    /**
-     * Select an option of a select box by value.
-     * 
-     * @param selectName
-     *            name of the select box.
-     * @param option
-     *            value of the option to select.
-     */
-    public void selectOptionByValue(String selectName, String option) {
-        HtmlSelect sel = getForm().getSelectByName(selectName);
-        sel.setSelectedAttribute(option, true);
-    }
-
     public boolean isTextInElement(String elementID, String text) {
         return isTextInElement(getElement(elementID), text);
     }
@@ -1471,7 +1407,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param text
      *            text to check for.
      */
-    public boolean isTextInElement(HtmlElement element, String text) {
+    private boolean isTextInElement(HtmlElement element, String text) {
         return element.asText().indexOf(text) >= 0;
     }
 
@@ -1487,7 +1423,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param regexp
      *            regexp to match.
      */
-    public boolean isMatchInElement(HtmlElement element, String regexp) {
+    private boolean isMatchInElement(HtmlElement element, String regexp) {
         RE re = getRE(regexp);
         return re.match(element.asText());
     }
@@ -1536,32 +1472,4 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return testContext;
     }
 
-    public void clickLinkWithTextAfterText(String linkText, String labelText) {
-        throw new UnsupportedOperationException("clickLinkWithTextAfterText");
-    }
-
-    public String getFormElementNameBeforeLabel(String formElementLabel) {
-        throw new UnsupportedOperationException("getFormElementNameBeforeLabel");
-    }
-
-    public String getFormElementNameForLabel(String formElementLabel) {
-        throw new UnsupportedOperationException("getFormElementNameForLabel");
-    }
-
-    public String getFormElementValueBeforeLabel(String formElementLabel) {
-        throw new UnsupportedOperationException(
-                "getFormElementValueBeforeLabel");
-    }
-
-    public String getFormElementValueForLabel(String formElementLabel) {
-        throw new UnsupportedOperationException("getFormElementValueForLabel");
-    }
-
-    public boolean hasFormParameterLabeled(String paramLabel) {
-        throw new UnsupportedOperationException("hasFormParameterLabeled");
-    }
-
-    public void setFormParameter(String paramName, String paramValue) {
-        setTextField(paramName, paramValue);
-    }
 }

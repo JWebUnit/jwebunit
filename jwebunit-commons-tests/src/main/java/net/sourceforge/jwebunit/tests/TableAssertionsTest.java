@@ -1,6 +1,7 @@
-/*
- * User: djoiner Date: Sep 9, 2002 Time: 3:26:47 PM
- */
+/******************************************************************************
+ * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * Distributed open-source, see full license under LICENCE.txt                *
+ ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;

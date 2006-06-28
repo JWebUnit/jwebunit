@@ -1,3 +1,7 @@
+/******************************************************************************
+ * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * Distributed open-source, see full license under LICENCE.txt                *
+ ******************************************************************************/
 package net.sourceforge.jwebunit.html;
 
 import java.util.ArrayList;
@@ -16,7 +20,6 @@ public class Row {
     private ArrayList cells = new ArrayList();;
     
     public Row() {
-        
     }
 
     /**

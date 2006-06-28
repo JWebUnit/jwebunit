@@ -23,11 +23,8 @@
         <links>
             <item name="JUnit" href="http://www.junit.org" />
             <item name="Maven" href="http://maven.apache.org" />
-            <item name="HTTPUnit"
-                href="http://httpunit.sourceforge.net" />
             <item name="HTMLUnit"
                 href="http://htmlunit.sourceforge.net" />
-            <item name="Jacobie" href="http://jacobie.sourceforge.net" />
             <item name="Selenium" href="http://openqa.org/selenium-rc/" />
         </links>
         <menu name="jWebUnit">
@@ -56,27 +53,16 @@
             </item>
         </menu>
         <menu name="Building jWebUnit">
-            <item name="With Ant" href="/building-ant.html"
-                collapse="true">
-                <item name="Installing Ant"
-                    href="/building-ant.html#Installing_Ant" />
-                <item name="Building jWebUnit"
-                    href="/building-ant.html#Building_jWebUnit" />
-                <item name="Building a release"
-                    href="/building-ant.html#Building_a_release" />
-            </item>
             <item name="With Maven" href="/building-maven.html"
                 collapse="true">
                 <item name="Installing Maven"
-                    href="/building-maven.html#Installing_Maven" />
+                    href="#Installing Maven" />
                 <item name="Using Maven"
-                    href="/building-maven.html#Using_Maven" />
+                    href="#Using Maven" />
                 <item name="Building jWebUnit"
-                    href="/building-maven.html#Building_jWebUnit" />
-                <item name="Building the site"
-                    href="/building-maven.html#Building_the_site" />
-                <item name="Building a release"
-                    href="/building-maven.html#Building_a_release" />
+                    href="#Building jWebUnit" />
+                <item name="Building an assembly"
+                    href="#Building an assembly" />
             </item>
         </menu>
         <menu name="Sourceforge">

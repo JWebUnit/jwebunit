@@ -1,9 +1,12 @@
+/******************************************************************************
+ * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * Distributed open-source, see full license under LICENCE.txt                *
+ ******************************************************************************/
 package net.sourceforge.jwebunit.htmlunit;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.TestingEngineRegistry;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 import net.sourceforge.jwebunit.tests.*;
 
@@ -31,7 +34,6 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(FormSubmissionTest.class);
         suite.addTestSuite(WebAssertionsTest.class);
         suite.addTestSuite(FramesAndWindowsTest.class);
-        //suite.addTestSuite(FormSubmissionCheckboxesTest.class); (**Label fonctions are not supported by HtmlUnit)
         suite.addTestSuite(TableAssertionsTest.class);
         suite.addTestSuite(ExpectedTableAssertionsHtmlTest.class);
         suite.addTestSuite(ExpectedTableAssertionsXHtmlTest.class);

@@ -6,32 +6,67 @@
 	</properties>
 <body class="default">
 <section name="jWebUnit Installation">
+	<subsection name="Using Maven">
+		<p>
+			If your project use Maven 2, it's very simple. Just add jwebunit maven repository to your pom,
+			and add the plugin you want as dependency:
+		</p>
+		<source><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.compagny.myproject</groupId>
+    <artifactId>myproject</artifactId>
+    <version>0.0.1</version>
+    <description>A wonderful project using jWebUnit</description>
+    <repositories>
+        <repository>
+            <releases />
+            <id>jwebunit-m2-repo-web</id>
+            <name>jWebUnit private repository</name>
+            <url>http://jwebunit.sourceforge.net/m2-repo</url>
+        </repository>
+    </repositories>
+    <dependencies>
+        <dependency>
+            <groupId>net.sourceforge.jwebunit</groupId>
+            <artifactId>jwebunit-htmlunit-plugin</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
+		]]></source>
+	</subsection>
 	<subsection name="Download">
 		<p>
-			First download latest stable version of jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
+			If you don't want to use Maven, you can download files manually.
+			First download latest stable version of jWebUnit core and the plugin 
+			you want from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
 			and expand to a local directory.
-		</p>
-		<p>
-			NB : We are currently performing great improvements to jWebUnit. If you want to get the
-			latest, you can either get it from SVN, or download it from our 
-			<a href="http://jwebunit.sourceforge.net/m2-repo-snapshots/net/sourceforge/jwebunit/">private Maven 2 snapshots repository</a>.
+			You will also need all the dependencies of the plugin you choose. Please consult each
+			plugin page to know what are these dependencies.
 		</p>
 	</subsection>
 	<subsection name="Choose what plugin you want to use">
 		<p>
-			There are currently 4 available plugins (certain are still in development):
+			There are currently 1 available plugin:
 			<ul>
-				<li>HttpUnit: Was the first supported plugin. Javascript support is very basic.</li>
-				<li>HtmlUnit: A real solution if you want better Javascript support.</li>
-				<li>Jacobie: You can run your tests directly in Ms Internet Explorer (Windows Only).</li>
+				<li>HtmlUnit: A good choice if you want rapidity and good Javascript support.</li>
 				<li>Selenium: You can run your tests directly in your favorite browser.</li>
 			</ul>
 		</p>
 	</subsection>
 	<subsection name="Integrate with IDE">
 		<p>
-			The simplest way to manage dependencies is to use Maven 2. If you don't want to
-			migrate to Maven, make sure you add the jwebunit-XXX-plugin (where XXX is the plugin you choose) and jwebunit-core jar files to your classpath in your IDE.
+			The simplest way to manage dependencies is to use Maven 2. If your POM is well
+			configured, just run:
+			<source>mvn eclipse:eclipse</source>
+			This will create the .project and the .classpath for your eclipse project.
+		</p>
+		<p>			
+			If you don't want to migrate to Maven, 
+			make sure you add the jwebunit-XXX-plugin (where XXX is the plugin you choose) and jwebunit-core jar files to your classpath in your IDE.
 			You will also need numerous additionnal dependencies, depending on what plugin you choose.
 			Please refer to each plugin page to know the dependencies they need.
 		</p>

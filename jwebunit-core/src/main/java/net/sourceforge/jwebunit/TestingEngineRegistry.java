@@ -1,7 +1,7 @@
-/********************************************************************************
- * Copyright (c) 2001, ThoughtWorks, Inc.
- * Distributed open-source, see full license under licenses/jwebunit_license.txt
- **********************************/
+/******************************************************************************
+ * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * Distributed open-source, see full license under LICENCE.txt                *
+ ******************************************************************************/
 package net.sourceforge.jwebunit;
 
 import java.util.Hashtable;
@@ -18,14 +18,9 @@ import net.sourceforge.jwebunit.exception.TestingEngineRegistryException;
 public class TestingEngineRegistry {
 
     // TODO Move this to a JDK1.5 typesafe enum
-    public final static String TESTING_ENGINE_HTTPUNIT = "TestingEngineHttpUnit";
-
     public final static String TESTING_ENGINE_HTMLUNIT = "TestingEngineHtmlUnit";
 
-    public final static String TESTING_ENGINE_JACOBIE = "TestingEngineJacobie";
-
     public final static String TESTING_ENGINE_SELENIUM = "TestingEngineSelenium";
-
     private static Hashtable testingEngineMap = null;
 
     public TestingEngineRegistry() {
@@ -40,23 +35,9 @@ public class TestingEngineRegistry {
         if (testingEngineMap == null) {
             testingEngineMap = new Hashtable();
             try {
-                String cp = "net.sourceforge.jwebunit.httpunit.HttpUnitDialog";
-                Class.forName(cp);
-                testingEngineMap.put(TESTING_ENGINE_HTTPUNIT, cp);
-            } catch (ClassNotFoundException e) {
-                //Nothing to do
-            }
-            try {
                 String cp = "net.sourceforge.jwebunit.htmlunit.HtmlUnitDialog";
                 Class.forName(cp);
                 testingEngineMap.put(TESTING_ENGINE_HTMLUNIT, cp);
-            } catch (ClassNotFoundException e) {
-                //Nothing to do
-            }
-            try {
-                String cp = "net.sourceforge.jwebunit.jacobie.JacobieDialog";
-                Class.forName(cp);
-                testingEngineMap.put(TESTING_ENGINE_JACOBIE, cp);
             } catch (ClassNotFoundException e) {
                 //Nothing to do
             }

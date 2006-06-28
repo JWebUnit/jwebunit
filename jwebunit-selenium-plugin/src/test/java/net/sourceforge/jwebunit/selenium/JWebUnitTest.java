@@ -30,7 +30,6 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(FormSubmissionTest.class);
         suite.addTestSuite(WebAssertionsTest.class);
         suite.addTestSuite(FramesAndWindowsTest.class);
-        suite.addTestSuite(FormSubmissionCheckboxesTest.class);
         suite.addTestSuite(TableAssertionsTest.class);
         suite.addTestSuite(ExpectedTableAssertionsHtmlTest.class);
         suite.addTestSuite(ExpectedTableAssertionsXHtmlTest.class);

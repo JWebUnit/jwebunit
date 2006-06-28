@@ -223,7 +223,7 @@
                         ${basedir}/${topDirectoryLocation}/src/checkstyle/jwebunit-checkstyle.xml
                     </configLocation>
                     <headerFile>
-                        ${basedir}/${topDirectoryLocation}/src/checkstyle/license-checkstyle.txt
+                        ${basedir}/${topDirectoryLocation}/src/checkstyle/header-checkstyle.txt
                     </headerFile>
                     <xrefLocation>xref</xrefLocation>
                 </configuration>

@@ -1,3 +1,7 @@
+/******************************************************************************
+ * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * Distributed open-source, see full license under LICENCE.txt                *
+ ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
 import javax.servlet.http.Cookie;
@@ -38,8 +42,8 @@ public class TestContextTest extends JWebUnitAPITestCase {
     }
 
     public void testResourceBundle() {
-        String name = "net.sourceforge.jwebunit.TestContextBundle";
-        context.setResourceBundleName("net.sourceforge.jwebunit.TestContextBundle");
+        String name = "/TestContextBundle";
+        context.setResourceBundleName("/TestContextBundle");
         assertEquals(name, context.getResourceBundleName());
     }
 

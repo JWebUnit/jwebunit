@@ -5,22 +5,23 @@
 		<author email="dashorst at users.sourceforge.net">Martijn Dashorst</author>
 	</properties>
 	<body>
-		<release version="1.3" date="UNKNOWN" description="New features await us">
+		<release version="1.3" date="UNKNOWN" description="Last 1.x before great changes.">
+			<action type="add" dev="Julien Henry" due-to="Buhi Mume" >
+				Added ability to navigate to windows / assert presence by window id.
+			</action>
+			<action type="remove" dev="Julien Henry">
+				Remove HttpUnit testing engine.
+			</action>
 			<action type="update" dev="Julien Henry">
 				Refactoring of Table assertions to handle perfectly colspan and rowspan.
 			</action>
 			<action type="add" dev="Julien Henry">
-				Added XPath methods to core API. Only HtmlUnit and Selenium implement it.
-			</action>
-			<action type="add" dev="Julien Henry">
-				Added Selenium plugin module. SeleniumDialog uses Selenium-RC project, that take control of
-				your web browser to execute the tests. Main advantage is perfect Javascript support. Drawbacks are:
-				tests are slow; you need a browser and an X server.
+				Added XPath methods to core API.
 			</action>
 			<action type="update" dev="Julien Henry">
 				Split jWebUnit in modules: one for the core (jWebUnit API), one for the tests (that all plugins should pass),
-				and one for each plugin (currently HtmlUnit, HttpUnit and Jacobie). This way, for example,  when you want to use
-				HtmlUnit plugin, you don't have to include all HttpUnit dependencies.
+				and one for each plugin (currently HtmlUnit). This way, for example,  when you want to use
+				one plugin, you don't have to include all others dependencies.
 			</action>
 			<action type="update" dev="Julien Henry">
 				Updated to Jetty 6 for running tests. Need less dependencies and run faster.
@@ -31,29 +32,12 @@
 			<action type="add" dev="Julien Henry">
 				Added Maven 2 support. There are many reports available on the website.
 			</action>
-			<action type="add" dev="Nick Neuberger">
-				Added JacobieDialog.
-			</action>
-			<action type="add" dev="Jim Weaver" issue="1004243" due-to="Srinivasan Ranganthan">
-				Added HttpUnitDialog setter on WebTester in case someone using delegation wants to carry
-				state from one tester to another.  Also made some signatures on WebTester public that 
-				were mistakenly protected.
-			</action>
 			<action type="update" dev="Nicholas Neuberger" issue="1064807">
 					 Added new method to clickButtonWithText. I believe it is useful addition to existing functionality as we already have assertButtonPresentWithText().
-			</action>
-			<action type="add" dev="Jim Weaver" issue="1029306">
-				Added some explanation to exception when HttpUnit fails to submit using default submit button.
 			</action>
 			<action type="add" dev="Jim Weaver" due-to="Dragos Manolescu" issue="800660">
 				Integrated patch for multiple submit buttons with different values.  API change -
 				assertSubmitButtonValue(button, value) now assertSubmitButtonPresent(button, value).
-			</action>
-			<action type="add" dev="Jim Weaver" due-to="nottrz" issue="897022">
-				Added a setting on webtester/webtestcase to turn table compression off.
-			</action>
-			<action type="add" dev="Jim Weaver" due-to="Jacques Morel" issue="980105">
-				Made submitRequest(WebLink link) on HttpUnitDialog  protected.
 			</action>
 			<action type="add" dev="Martijn Dashorst" due-to="John Evans" issue="1005396">
 				Assert button (not) present with text added.

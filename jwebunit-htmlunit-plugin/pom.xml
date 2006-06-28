@@ -11,10 +11,10 @@
   <description>HtmlUnit plugin for jWebUnit.</description>
   <repositories>
         <repository>
-            <snapshots />
-            <id>jwebunit-m2-repo-snapshots-web</id>
-            <name>JWebUnit snapshots repository</name>
-            <url>http://jwebunit.sourceforge.net/m2-repo-snapshots</url>
+            <releases />
+            <id>jwebunit-m2-repo-web</id>
+            <name>JWebUnit repository</name>
+            <url>http://jwebunit.sourceforge.net/m2-repo</url>
         </repository>
   </repositories>
   <build>
