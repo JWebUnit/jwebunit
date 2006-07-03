@@ -592,6 +592,10 @@ public class WebTestCase extends TestCase {
         getTester().setWorkingForm(nameOrId);
     }
 
+    public void setWorkingForm(String nameOrId, int index) {
+        getTester().setWorkingForm(nameOrId, index);
+    }
+
     public void setTextField(String textFieldName, String value) {
         getTester().setTextField(textFieldName, value);
     }

@@ -14,6 +14,7 @@ import java.net.ConnectException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.regexp.RE;
@@ -273,8 +274,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param nameOrId
      *            name or id of the form to be worked with.
      */
-    public void setWorkingForm(String nameOrId) {
-        setWorkingForm(getForm(nameOrId));
+    public void setWorkingForm(String nameOrId, int index) {
+        setWorkingForm(getForm(nameOrId, index));
     }
 
     /**
@@ -324,7 +325,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         } catch (ElementNotFoundException e) {
 
         }
-        throw new RuntimeException("getFormParameterValue a échoué");
+        throw new RuntimeException("getFormParameterValue a ï¿½chouï¿½");
     }
 
     /**
@@ -561,6 +562,20 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 
         }
         return null;
+    }
+    
+    private HtmlForm getForm(String nameOrID, int index) {
+        HtmlForm form = null;
+        Iterator iter = getCurrentPage().getForms().iterator();
+        for (int pos = 0; pos <= index && iter.hasNext();) {
+            HtmlForm curr = (HtmlForm) iter.next();
+            if (nameOrID.equals(curr.getIdAttribute())
+                    || nameOrID.equals(curr.getNameAttribute())) {
+                pos++;
+                form = curr;
+            }
+        }
+        return form;
     }
 
     private HtmlForm getFormWithButton(String buttonName) {

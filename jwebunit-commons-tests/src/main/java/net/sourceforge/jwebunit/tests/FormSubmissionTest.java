@@ -155,6 +155,16 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setWorkingForm("form5");
     }
 
+    public void testSetWorkingFormWithSameName() {
+        beginAt("/MultiFormPage.html");
+        setWorkingForm("myForm", 0);
+        assertSubmitButtonPresent("myInput1");
+        assertSubmitButtonNotPresent("myInput2");
+        setWorkingForm("myForm", 1);
+        assertSubmitButtonNotPresent("myInput1");
+        assertSubmitButtonPresent("myInput2");
+    }
+
     public void testInvalidButton() {
         beginAt("/InvalidActionForm.html");
         try {

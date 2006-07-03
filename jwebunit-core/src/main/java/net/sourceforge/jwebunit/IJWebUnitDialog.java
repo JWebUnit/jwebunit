@@ -143,8 +143,11 @@ public interface IJWebUnitDialog {
      * 
      * @param nameOrId
      *            name or id of the form to be worked with.
+     * @param index
+     *            The 0-based index, when more than one form with the same name
+     *            is expected.
      */
-    void setWorkingForm(String nameOrId);
+    void setWorkingForm(String nameOrId, int index);
 
     /**
      * Return true if the current page contains a form.
