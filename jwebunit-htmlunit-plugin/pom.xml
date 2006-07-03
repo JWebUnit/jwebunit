@@ -43,9 +43,9 @@
             <version>3.8.1</version>
         </dependency>
         <dependency>
-            <groupId>net.sourceforge.htmlunit</groupId>
+            <groupId>htmlunit</groupId>
             <artifactId>htmlunit</artifactId>
-            <version>1.8</version>
+            <version>1.9</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
