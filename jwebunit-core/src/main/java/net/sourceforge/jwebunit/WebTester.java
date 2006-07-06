@@ -2136,24 +2136,19 @@ public class WebTester {
                     returned[i]);
         }
     }
+    
+    /**
+     * Set the value of a form input element.
+     * 
+     * @param formElementName
+     *            name of form element.
+     * @param value
+     * @deprecated use setTextField or other methods
+     */
+    public void setFormElement(String formElementName, String value) {
+        assertFormPresent();
+        assertFormElementPresent(formElementName);
+        getDialog().setTextField(formElementName, value);
+    }
 
-    /**
-     * Return a sparse array (rows or columns without displayable text are
-     * removed) for a given table in the response.
-     * 
-     * @param tableSummaryNameOrId
-     *            summary or id of the table.
-     */
-    // private String[][] getSparseTable(String tableSummaryNameOrId) {
-    //        
-    // }
-    /**
-     * Return a array for a given table.
-     * 
-     * @param tableSummaryNameOrId
-     *            summary or id of the table.
-     */
-    // private String[][] getTable(String tableSummaryNameOrId) {
-    //        
-    // }
 }

@@ -793,5 +793,12 @@ public class WebTestCase extends TestCase {
     protected void dumpTable(String tableNameOrId) {
         getTester().dumpTable(tableNameOrId);
     }
+    
+    /**
+     * @deprecated Use setTextField instead.
+     */
+    protected void setFormElement(String formElementName, String value) {
+        getTester().setFormElement(formElementName, value);
+    }
 
 }
