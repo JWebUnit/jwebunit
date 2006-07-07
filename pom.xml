@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.jwebunit</groupId>
     <artifactId>jwebunit</artifactId>
     <name>jWebUnit</name>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3-rc2</version>
     <packaging>pom</packaging>
     <description>
         jWebUnit is a Java framework that facilitates creation of
@@ -80,7 +79,7 @@
             <id>wilkesj</id>
             <name>Wilkes Joiner</name>
             <email>wilkesj at users.sourceforge.net</email>
-            <organization></organization>
+            <organization />
             <roles>
                 <role>All-Hands person</role>
             </roles>
@@ -90,7 +89,7 @@
             <name>Vivek Venugopalan</name>
             <email>vivek at magic hypen cauldron dot com</email>
             <url>http://www.magic-cauldron.com</url>
-            <organization></organization>
+            <organization />
             <roles>
                 <role>All-Hands person</role>
             </roles>
@@ -111,7 +110,7 @@
             <id>nneuberger</id>
             <name>Nicholas Neuberger</name>
             <email>nneuberger at users.sourceforge.net</email>
-            <url></url>
+            <url />
             <organization>Sunshine Solar</organization>
             <roles>
                 <role>Developer</role>
@@ -122,7 +121,7 @@
             <id>henryju</id>
             <name>Julien Henry</name>
             <email>henryju at users.sourceforge.net</email>
-            <url></url>
+            <url />
             <organization>Capgemini</organization>
             <organizationUrl>http://www.capgemini.com</organizationUrl>
             <roles>
@@ -135,12 +134,12 @@
         <contributor>
             <name>Jon Frisby</name>
             <email>jfrisby@mac.com</email>
-            <url/>
-            <organization/>
-            <organizationUrl/>
-            <roles/>
-            <timezone/>
-            <properties/>
+            <url />
+            <organization />
+            <organizationUrl />
+            <roles />
+            <timezone />
+            <properties />
         </contributor>
     </contributors>
     <licenses>
@@ -150,13 +149,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>
-            scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/trunk
-        </connection>
-        <developerConnection>
-            scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/trunk
-        </developerConnection>
-        <url>http://svn.sourceforge.net/viewcvs.cgi/jwebunit/</url>
+        <connection>scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/tags/release-1.3-rc2</connection>
+        <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/tags/release-1.3-rc2</developerConnection>
+        <url>http://svn.sourceforge.net/viewcvs.cgi/jwebunit/tags/release-1.3-rc2</url>
     </scm>
     <organization>
         <name>SourceForge</name>
