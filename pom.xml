@@ -3,7 +3,7 @@
     <groupId>net.sourceforge.jwebunit</groupId>
     <artifactId>jwebunit</artifactId>
     <name>jWebUnit</name>
-    <version>1.3-rc2</version>
+    <version>1.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>
         jWebUnit is a Java framework that facilitates creation of
@@ -149,9 +149,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/tags/release-1.3-rc2</connection>
-        <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/tags/release-1.3-rc2</developerConnection>
-        <url>http://svn.sourceforge.net/viewcvs.cgi/jwebunit/tags/release-1.3-rc2</url>
+        <connection>scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/trunk</connection>
+        <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/trunk</developerConnection>
+        <url>http://svn.sourceforge.net/viewcvs.cgi/jwebunit/</url>
     </scm>
     <organization>
         <name>SourceForge</name>
