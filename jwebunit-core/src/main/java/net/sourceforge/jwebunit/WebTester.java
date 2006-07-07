@@ -51,6 +51,7 @@ public class WebTester {
      * to using the orignal testing engine, which is, htmlunit.
      * 
      * @return IJWebUnitDialog instance used to wrapper htmlunit conversation.
+     * @deprecated You should not use plugin specific fonctionality
      */
     public IJWebUnitDialog getDialog() {
         if (dialog == null) {
@@ -290,6 +291,16 @@ public class WebTester {
         if (re.match(getDialog().getPageText()))
             Assert.fail("Regexp matched in response when not expected: ["
                     + regexp + "]");
+    }
+
+    /**
+     * 
+     * @param tableSummaryNameOrId
+     * @return Object that represent a html table in a way independent from
+     * plugin.
+     */
+    public Table getTable(String tableSummaryNameOrId) {
+        return getDialog().getTable(tableSummaryNameOrId);
     }
 
     /**
@@ -1576,7 +1587,7 @@ public class WebTester {
         assertFormElementPresent(formElementName);
         return getDialog().getFormParameterValue(formElementName);
     }
-
+    
     /**
      * Begin interaction with a specified form. If form interaction methods are
      * called without explicitly calling this method first, jWebUnit will

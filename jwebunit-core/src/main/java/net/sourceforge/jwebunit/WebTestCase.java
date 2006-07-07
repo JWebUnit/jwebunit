@@ -135,7 +135,11 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertNoMatch(String regexp) {
-        tester.assertNoMatch(regexp);
+        getTester().assertNoMatch(regexp);
+    }
+    
+    public void getTable(String tableSummaryNameOrId) {
+        getTester().getTable(tableSummaryNameOrId);
     }
 
     public void assertTablePresent(String tableSummaryOrId) {
