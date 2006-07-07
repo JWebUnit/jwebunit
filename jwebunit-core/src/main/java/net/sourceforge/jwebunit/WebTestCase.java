@@ -135,7 +135,11 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertNoMatch(String regexp) {
-        tester.assertNoMatch(regexp);
+        getTester().assertNoMatch(regexp);
+    }
+    
+    public void getTable(String tableSummaryNameOrId) {
+        getTester().getTable(tableSummaryNameOrId);
     }
 
     public void assertTablePresent(String tableSummaryOrId) {
@@ -792,6 +796,13 @@ public class WebTestCase extends TestCase {
 
     protected void dumpTable(String tableNameOrId) {
         getTester().dumpTable(tableNameOrId);
+    }
+    
+    /**
+     * @deprecated Use setTextField instead.
+     */
+    protected void setFormElement(String formElementName, String value) {
+        getTester().setFormElement(formElementName, value);
     }
 
 }
