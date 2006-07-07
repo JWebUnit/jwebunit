@@ -162,6 +162,28 @@
         <name>SourceForge</name>
         <url>http://sourceforge.net</url>
     </organization>
+    <pluginRepositories>
+	    <pluginRepository>
+		    <id>Maven CodeHaus Snapshots</id>
+		    <url>http://snapshots.maven.codehaus.org/maven2</url>
+		    <releases>
+			    <updatePolicy>daily</updatePolicy>
+		    </releases>
+		    <snapshots>
+			    <updatePolicy>daily</updatePolicy>
+		    </snapshots>
+	    </pluginRepository>
+	    <pluginRepository>
+		    <id>Maven Snapshots</id>
+		    <url>http://people.apache.org/maven-snapshot-repository/</url>
+		    <releases>
+			    <updatePolicy>daily</updatePolicy>
+		    </releases>
+		    <snapshots>
+			    <updatePolicy>daily</updatePolicy>
+		    </snapshots>
+	    </pluginRepository>
+    </pluginRepositories>
     <build>
         <plugins>
             <plugin>
@@ -177,18 +199,26 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <!--                  <configuration>
-                    <descriptor>path/to/descriptor.xml</descriptor>
-                    <finalName>final_name</finalName>
-                    <outputDirectory>output/directory</outputDirectory>
-                    <workDirectory>target/assembly/work</workDirectory>
-                    </configuration> -->
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assemble/bin.xml</descriptor>
+                    </descriptors>
+                </configuration>
             </plugin>
         </plugins>
     </build>
     <properties>
         <topDirectoryLocation>.</topDirectoryLocation>
     </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>3.8.2</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <reporting>
         <plugins>
             <plugin>
@@ -198,9 +228,9 @@
                     <configLocation>
                         ${basedir}/${topDirectoryLocation}/src/checkstyle/jwebunit-checkstyle.xml
                     </configLocation>
-                    <headerFile>
+                    <headerLocation>
                         ${basedir}/${topDirectoryLocation}/src/checkstyle/header-checkstyle.txt
-                    </headerFile>
+                    </headerLocation>
                     <xrefLocation>xref</xrefLocation>
                 </configuration>
             </plugin>
@@ -225,10 +255,10 @@
                 <artifactId>changes-maven-plugin</artifactId>
                 <inherited>false</inherited>
             </plugin>
-            <plugin>
+            <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-            </plugin>
+            </plugin-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-changelog-plugin</artifactId>
@@ -271,8 +301,8 @@
             <id>jwebunit-website</id>
             <name>jWebUnit WebSite - Sourceforge</name>
             <url>
-              scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
-                <!--file://c:\temp-jwebunit-->
+		    scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
+		    <!--file:///home/julien/site-jwebunit-->
             </url>
         </site>
         <repository>
