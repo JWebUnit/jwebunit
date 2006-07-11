@@ -426,16 +426,17 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             }
 
             public void webWindowContentChanged(WebWindowEvent event) {
-                String win = event.getWebWindow().getName();
+                form = null;
+                String winName = event.getWebWindow().getName();
                 Page oldPage = event.getOldPage();
                 Page newPage = event.getNewPage();
-                String oldPageTitle = "non_html";
+                String oldPageTitle = "no_html";
                 if (oldPage instanceof HtmlPage)
                     oldPageTitle = ((HtmlPage) oldPage).getTitleText();
-                String newPageTitle = "non_html";
+                String newPageTitle = "no_html";
                 if (newPage instanceof HtmlPage)
                     newPageTitle = ((HtmlPage) newPage).getTitleText();
-                LOGGER.info("Window \"" + win + "\" changed : \""
+                LOGGER.info("Window \"" + winName + "\" changed : \""
                         + oldPageTitle + "\" became \"" + newPageTitle + "\"");
             }
 
@@ -535,8 +536,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             if (hasForm()) {
                 setWorkingForm(getForm(0));
                 return getForm(0);
-            }
-            else {
+            } else {
                 throw new RuntimeException("No form in current page");
             }
         } else {
@@ -563,7 +563,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
         return null;
     }
-    
+
     private HtmlForm getForm(String nameOrID, int index) {
         HtmlForm form = null;
         Iterator iter = getCurrentPage().getForms().iterator();

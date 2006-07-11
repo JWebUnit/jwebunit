@@ -217,5 +217,14 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
     private void gotoMultiButtonPage() {
         beginAt("/MultiNamedButtonForm.html");
     }
+    
+    public void testCachedForm() {
+        beginAt("/Submit1.html");
+        assertTextPresent("Page 1");
+        submit();
+        assertTextPresent("Page 2");
+        submit();
+        assertTextPresent("Page 3");
+    }
 
 }
