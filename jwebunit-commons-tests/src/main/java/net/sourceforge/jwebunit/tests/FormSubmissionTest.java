@@ -47,6 +47,18 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("Params are: color=red");
     }
 
+    public void testSetTextArea() {
+        beginAt("/TextAreaForm.html");
+        setTextField("text", "sometext");
+        submit("button");
+        assertTextPresent("Submitted parameters");
+        assertTextPresent("Params are: text=sometext");
+        clickLink("return");
+        setTextField("text", "anothertext");
+        submit();
+        assertTextPresent("Params are: text=anothertext");
+    }
+
     public void testSetFileField() {
         beginAt("/InputFileForm.html");
         File temp = null;

@@ -32,6 +32,7 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPassFail("assertFormElementPresent", "testInputElement", "noSuchElement");
         assertPass("assertFormElementPresent", "checkboxselected");
         assertPass("assertFormElementEmpty", "testInputElement2");
+        assertPass("assertFormElementPresent", "text");
     }
 
     public void testAssertFormParameterNotPresent() throws Throwable {

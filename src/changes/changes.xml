@@ -6,6 +6,9 @@
 	</properties>
 	<body>
         <release version="1.3-SNAPSHOT" date="UNKNOW">
+            <action type="fix" dev="Julien Henry" due-to="Fred Burlet">
+                setTextField is now working with TextArea.
+            </action>
             <action type="fix" dev="Julien Henry" due-to="Mark Chaimungkalanont">
                 Current form was saved but not reseted when page content change.
             </action>

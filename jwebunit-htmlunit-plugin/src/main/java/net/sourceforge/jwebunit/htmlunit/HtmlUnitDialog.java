@@ -56,6 +56,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 import com.gargoylesoftware.htmlunit.html.ClickableElement;
 import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
 import com.gargoylesoftware.htmlunit.html.xpath.HtmlUnitXPath;
@@ -329,16 +330,26 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Set a form text or password element to the provided value.
+     * Set a form text, password input element or textarea to the provided value.
      * 
      * @param fieldName
-     *            name of the input element
+     *            name of the input element or textarea
      * @param paramValue
      *            parameter value to submit for the element.
      */
     public void setTextField(String fieldName, String paramValue) {
         checkFormStateWithInput(fieldName);
-        getForm().getInputByName(fieldName).setValueAttribute(paramValue);
+        List inputElements = getForm().getHtmlElementsByAttribute("input", "name", fieldName);
+        if (!inputElements.isEmpty()) {
+            HtmlInput input = (HtmlInput) inputElements.get(0);
+            input.setValueAttribute(paramValue);
+        } else {
+            inputElements = getForm().getTextAreasByName(fieldName);
+            if (!inputElements.isEmpty()) {
+                HtmlTextArea textArea = (HtmlTextArea) inputElements.get(0);
+                textArea.setText(paramValue);
+            }
+        }
     }
 
     /**
@@ -604,13 +615,13 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         if (hasForm()) {
             for (int i = 0; i < getForms().size(); i++) {
                 HtmlForm form = (HtmlForm) getForms().get(i);
-                try {
-                    if (form.getInputByName(inputName) != null) {
-                        setWorkingForm(form);
-                        return form;
-                    }
-                } catch (ElementNotFoundException e) {
-                    // Nothing
+                List inputElements = form.getHtmlElementsByAttribute("input", "name", inputName);
+                if (inputElements.isEmpty()) {
+                    inputElements = form.getTextAreasByName(inputName);
+                }
+                if (!inputElements.isEmpty()) {
+                    setWorkingForm(form);
+                    return form;
                 }
             }
         }
