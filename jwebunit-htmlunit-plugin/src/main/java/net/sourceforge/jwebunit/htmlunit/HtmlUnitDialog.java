@@ -326,7 +326,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         } catch (ElementNotFoundException e) {
 
         }
-        throw new RuntimeException("getFormParameterValue a �chou�");
+        throw new RuntimeException("getFormParameterValue failed");
     }
 
     /**
