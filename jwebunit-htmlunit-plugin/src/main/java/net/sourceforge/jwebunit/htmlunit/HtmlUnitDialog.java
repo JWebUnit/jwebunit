@@ -40,6 +40,7 @@ import com.gargoylesoftware.htmlunit.WebWindowEvent;
 import com.gargoylesoftware.htmlunit.WebWindowListener;
 import com.gargoylesoftware.htmlunit.WebWindowNotFoundException;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;
@@ -308,6 +309,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * 
      * @param paramName
      *            name of the input element.
+     * @deprecated
      */
     public String getFormParameterValue(String paramName) {
         checkFormStateWithInput(paramName);
@@ -327,6 +329,56 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 
         }
         throw new RuntimeException("getFormParameterValue failed");
+    }
+    
+    /**
+     * Return the current value of a text input element with name <code>paramName</code>.
+     * 
+     * @param paramName
+     *            name of the input element.
+     * TODO: Find a way to handle multiple text input element with same name.
+     */
+    public String getTextFieldValue(String paramName) {
+        checkFormStateWithInput(paramName);
+        List textFieldElements = getForm().getHtmlElementsByAttribute("input", "type", "text");
+        textFieldElements.addAll(getForm().getHtmlElementsByAttribute("input", "type", "password"));
+        Iterator it = textFieldElements.iterator();
+        while(it.hasNext()) {
+            HtmlInput input = (HtmlInput) it.next();
+            if (paramName.equals(input.getNameAttribute())) {
+                return input.getValueAttribute();
+            }
+        }
+        // If no text field with the name paramName then try with textareas.
+        textFieldElements = getForm().getTextAreasByName(paramName);
+        it = textFieldElements.iterator();
+        while(it.hasNext()) {
+            HtmlTextArea textInput = (HtmlTextArea) it.next();
+            if (paramName.equals(textInput.getNameAttribute())) {
+                return textInput.getText();
+            }
+        }
+        throw new RuntimeException("getTextFieldParameterValue failed, text field with name [" + paramName + "] does not exist.");
+    }
+
+    /**
+     * Return the current value of a hidden input element with name <code>paramName</code>.
+     * 
+     * @param paramName
+     *            name of the input element.
+     * TODO: Find a way to handle multiple hidden input element with same name.            
+     */
+    public String getHiddenFieldValue(String paramName) {
+        checkFormStateWithInput(paramName);
+        List textFieldElements = getForm().getHtmlElementsByAttribute("input", "type", "hidden");
+        Iterator it = textFieldElements.iterator();
+        while(it.hasNext()) {
+            HtmlHiddenInput textInput = (HtmlHiddenInput) it.next();
+            if (paramName.equals(textInput.getNameAttribute())) {
+                return textInput.getValueAttribute();
+            }
+        }
+        throw new RuntimeException("getHiddenFieldParameterValue failed, hidden field with name [" + paramName + "] does not exist.");
     }
 
     /**

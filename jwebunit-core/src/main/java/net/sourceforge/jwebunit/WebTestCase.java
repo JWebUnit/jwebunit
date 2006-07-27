@@ -265,6 +265,9 @@ public class WebTestCase extends TestCase {
         getTester().assertFormNotPresent(formName);
     }
 
+    /**
+     * @deprecated 
+     */
     public void assertFormElementEquals(String formElementName,
             String expectedValue) {
         getTester().assertFormElementEquals(formElementName, expectedValue);
@@ -276,6 +279,14 @@ public class WebTestCase extends TestCase {
 
     public void assertFormElementEmpty(String formElementName) {
         getTester().assertFormElementEmpty(formElementName);
+    }
+    
+    public void assertTextFieldEquals(String formElementName, String expectedValue) {
+        getTester().assertTextFieldEquals(formElementName, expectedValue);
+    }
+    
+    public void assertHiddenFieldPresent(String formElementName, String expectedValue) {
+        getTester().assertHiddenFieldPresent(formElementName, expectedValue);
     }
 
     public void assertCheckboxSelected(String checkBoxName) {
