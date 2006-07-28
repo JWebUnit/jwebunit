@@ -32,6 +32,7 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPassFail("assertFormElementPresent", "testInputElement", "noSuchElement");
         assertPass("assertFormElementPresent", "checkboxselected");
         assertPass("assertFormElementEmpty", "testInputElement2");
+        assertPass("assertFormElementPresent", "text");
     }
 
     public void testAssertFormParameterNotPresent() throws Throwable {
@@ -56,10 +57,17 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
 
     public void testAssertFormElementEquals() throws Throwable {
         beginAt("/testPage.html");
-        assertPass("assertFormElementEquals", new Object[]{"testInputElement", "testValue"});
-        assertPass("assertFormElementEquals", new Object[]{"submitButton", "buttonLabel"});
-        assertFail("assertFormElementEquals", new Object[]{"testInputElement", "noSuchValue"});
-        assertFail("assertFormElementEquals", new Object[]{"noSuchElement", "testValue"});
+        assertPass("assertTextFieldEquals", new Object[]{"testInputElement", "testValue"});
+        assertPass("assertSubmitButtonPresent", new Object[]{"submitButton", "buttonLabel"});
+        assertPass("assertTextFieldEquals", new Object[]{"textarea", "sometexthere"});
+        assertPass("assertRadioOptionSelected", new Object[]{"cool", "dog"});
+        assertPass("assertHiddenFieldPresent", new Object[]{"hiddenelement", "hiddenvalue"});
+        assertFail("assertTextFieldEquals", new Object[]{"testInputElement", "noSuchValue"});
+        assertFail("assertTextFieldEquals", new Object[]{"noSuchElement", "testValue"});
+        assertFail("assertHiddenFieldPresent", new Object[]{"noSuchElement", "testValue"});
+        assertFail("assertHiddenFieldPresent", new Object[]{"hiddenelement", "notThisValue"});
+        assertFail("assertTextFieldEquals", new Object[]{"passwordelement", "noSuchValue"});
+        assertPass("assertTextFieldEquals", new Object[]{"passwordelement", "password"});
     }
 
     public void testCheckboxSelected() throws Throwable {

@@ -175,8 +175,26 @@ public interface IJWebUnitDialog {
      * 
      * @param paramName
      *            name of the input element.
+     * @deprecated
      */
     String getFormParameterValue(String paramName);
+    
+    /**
+     * Return the current value of a text field with name <code>paramName</code>.
+     * Text fields are input text, input password and textarea
+     * 
+     * @param paramName
+     *            name of the text field element.
+     */
+    String getTextFieldValue(String paramName);
+    
+    /**
+     * Return the current value of a hidden input element with name <code>paramName</code>.
+     * 
+     * @param paramName
+     *            name of the hidden input element.
+     */
+    String getHiddenFieldValue(String paramName);
 
     /**
      * Fill a text, password or textarea field with the provided text.

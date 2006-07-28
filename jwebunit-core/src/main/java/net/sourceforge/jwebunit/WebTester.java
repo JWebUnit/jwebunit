@@ -718,6 +718,7 @@ public class WebTester {
      * 
      * @param formElementName
      * @param expectedValue
+     * @deprecated
      */
     public void assertFormElementEquals(String formElementName,
             String expectedValue) {
@@ -756,6 +757,34 @@ public class WebTester {
                 formElementName));
     }
 
+    /**
+     * Assert that an input text element with name <code>formElementName</code> has 
+     * the <code>expectedValue</code> value.
+     *  
+     * @param formElementName
+     *            the value of the name attribute of the element
+     * @param expectedValue
+     *            the expected value of the given input element
+     */
+    public void assertTextFieldEquals(String formElementName, String expectedValue) {
+        assertFormElementPresent(formElementName);
+        Assert.assertEquals(expectedValue, getDialog().getTextFieldValue(formElementName));
+    }
+    
+    /**
+     * Assert that an input hidden element with name <code>formElementName</code> has 
+     * the <code>expectedValue</code> value.
+     *  
+     * @param formElementName
+     *            the value of the name attribute of the element
+     * @param expectedValue
+     *            the expected value of the given input element
+     */
+    public void assertHiddenFieldPresent(String formElementName, String expectedValue) {
+        assertFormElementPresent(formElementName);
+        Assert.assertEquals(expectedValue, getDialog().getHiddenFieldValue(formElementName));
+    }
+        
     /**
      * Assert that a specific checkbox is selected.
      * 
@@ -2147,7 +2176,7 @@ public class WebTester {
                     returned[i]);
         }
     }
-    
+
     /**
      * Set the value of a form input element.
      * 

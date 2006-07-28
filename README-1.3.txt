@@ -1,4 +1,4 @@
-The jWebUnit team is pleased to announce the jWebUnit 1.3 release! 
+The jWebUnit team is pleased to announce the jWebUnit 1.3 release!
 
 http://jwebunit.sourceforge.net
 
@@ -24,7 +24,7 @@ o Added assert select option present / not present.
 
 
   Fixed bugs:
-o Javascript support better thanks to HtmlUnit
+o Javascript better support thanks to HtmlUnit
 
   Changes:
 o Remove HttpUnit testing engine.
