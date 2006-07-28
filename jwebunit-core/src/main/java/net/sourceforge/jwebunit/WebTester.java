@@ -51,6 +51,7 @@ public class WebTester {
      * to using the orignal testing engine, which is, htmlunit.
      * 
      * @return IJWebUnitDialog instance used to wrapper htmlunit conversation.
+     * @deprecated You should not use plugin specific fonctionality
      */
     public IJWebUnitDialog getDialog() {
         if (dialog == null) {
@@ -290,6 +291,16 @@ public class WebTester {
         if (re.match(getDialog().getPageText()))
             Assert.fail("Regexp matched in response when not expected: ["
                     + regexp + "]");
+    }
+
+    /**
+     * 
+     * @param tableSummaryNameOrId
+     * @return Object that represent a html table in a way independent from
+     * plugin.
+     */
+    public Table getTable(String tableSummaryNameOrId) {
+        return getDialog().getTable(tableSummaryNameOrId);
     }
 
     /**
@@ -707,6 +718,7 @@ public class WebTester {
      * 
      * @param formElementName
      * @param expectedValue
+     * @deprecated
      */
     public void assertFormElementEquals(String formElementName,
             String expectedValue) {
@@ -745,6 +757,34 @@ public class WebTester {
                 formElementName));
     }
 
+    /**
+     * Assert that an input text element with name <code>formElementName</code> has 
+     * the <code>expectedValue</code> value.
+     *  
+     * @param formElementName
+     *            the value of the name attribute of the element
+     * @param expectedValue
+     *            the expected value of the given input element
+     */
+    public void assertTextFieldEquals(String formElementName, String expectedValue) {
+        assertFormElementPresent(formElementName);
+        Assert.assertEquals(expectedValue, getDialog().getTextFieldValue(formElementName));
+    }
+    
+    /**
+     * Assert that an input hidden element with name <code>formElementName</code> has 
+     * the <code>expectedValue</code> value.
+     *  
+     * @param formElementName
+     *            the value of the name attribute of the element
+     * @param expectedValue
+     *            the expected value of the given input element
+     */
+    public void assertHiddenFieldPresent(String formElementName, String expectedValue) {
+        assertFormElementPresent(formElementName);
+        Assert.assertEquals(expectedValue, getDialog().getHiddenFieldValue(formElementName));
+    }
+        
     /**
      * Assert that a specific checkbox is selected.
      * 
@@ -1576,7 +1616,7 @@ public class WebTester {
         assertFormElementPresent(formElementName);
         return getDialog().getFormParameterValue(formElementName);
     }
-
+    
     /**
      * Begin interaction with a specified form. If form interaction methods are
      * called without explicitly calling this method first, jWebUnit will
@@ -1589,7 +1629,25 @@ public class WebTester {
      *            name or id of the form to work with.
      */
     public void setWorkingForm(String nameOrId) {
-        getDialog().setWorkingForm(nameOrId);
+        getDialog().setWorkingForm(nameOrId, 0);
+    }
+
+    /**
+     * Begin interaction with a specified form. If form interaction methods are
+     * called without explicitly calling this method first, jWebUnit will
+     * attempt to determine itself which form is being manipulated.
+     * 
+     * It is not necessary to call this method if their is only one form on the
+     * current page.
+     * 
+     * @param nameOrId
+     *            name or id of the form to work with.
+     * @param index
+     *            The 0-based index, when more than one form with the same name
+     *            is expected.
+     */
+    public void setWorkingForm(String nameOrId, int index) {
+        getDialog().setWorkingForm(nameOrId, index);
     }
 
     /**
@@ -2120,22 +2178,17 @@ public class WebTester {
     }
 
     /**
-     * Return a sparse array (rows or columns without displayable text are
-     * removed) for a given table in the response.
+     * Set the value of a form input element.
      * 
-     * @param tableSummaryNameOrId
-     *            summary or id of the table.
+     * @param formElementName
+     *            name of form element.
+     * @param value
+     * @deprecated use setTextField or other methods
      */
-    // private String[][] getSparseTable(String tableSummaryNameOrId) {
-    //        
-    // }
-    /**
-     * Return a array for a given table.
-     * 
-     * @param tableSummaryNameOrId
-     *            summary or id of the table.
-     */
-    // private String[][] getTable(String tableSummaryNameOrId) {
-    //        
-    // }
+    public void setFormElement(String formElementName, String value) {
+        assertFormPresent();
+        assertFormElementPresent(formElementName);
+        getDialog().setTextField(formElementName, value);
+    }
+
 }

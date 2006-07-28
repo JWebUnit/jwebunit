@@ -14,6 +14,7 @@ import java.net.ConnectException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.regexp.RE;
@@ -39,6 +40,7 @@ import com.gargoylesoftware.htmlunit.WebWindowEvent;
 import com.gargoylesoftware.htmlunit.WebWindowListener;
 import com.gargoylesoftware.htmlunit.WebWindowNotFoundException;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;
@@ -55,6 +57,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 import com.gargoylesoftware.htmlunit.html.ClickableElement;
 import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
 import com.gargoylesoftware.htmlunit.html.xpath.HtmlUnitXPath;
@@ -283,8 +286,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param nameOrId
      *            name or id of the form to be worked with.
      */
-    public void setWorkingForm(String nameOrId) {
-        setWorkingForm(getForm(nameOrId));
+    public void setWorkingForm(String nameOrId, int index) {
+        setWorkingForm(getForm(nameOrId, index));
     }
 
     /**
@@ -316,6 +319,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * 
      * @param paramName
      *            name of the input element.
+     * @deprecated
      */
     public String getFormParameterValue(String paramName) {
         checkFormStateWithInput(paramName);
@@ -334,20 +338,80 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         } catch (ElementNotFoundException e) {
 
         }
-        throw new RuntimeException("getFormParameterValue a échoué");
+        throw new RuntimeException("getFormParameterValue failed");
+    }
+    
+    /**
+     * Return the current value of a text input element with name <code>paramName</code>.
+     * 
+     * @param paramName
+     *            name of the input element.
+     * TODO: Find a way to handle multiple text input element with same name.
+     */
+    public String getTextFieldValue(String paramName) {
+        checkFormStateWithInput(paramName);
+        List textFieldElements = getForm().getHtmlElementsByAttribute("input", "type", "text");
+        textFieldElements.addAll(getForm().getHtmlElementsByAttribute("input", "type", "password"));
+        Iterator it = textFieldElements.iterator();
+        while(it.hasNext()) {
+            HtmlInput input = (HtmlInput) it.next();
+            if (paramName.equals(input.getNameAttribute())) {
+                return input.getValueAttribute();
+            }
+        }
+        // If no text field with the name paramName then try with textareas.
+        textFieldElements = getForm().getTextAreasByName(paramName);
+        it = textFieldElements.iterator();
+        while(it.hasNext()) {
+            HtmlTextArea textInput = (HtmlTextArea) it.next();
+            if (paramName.equals(textInput.getNameAttribute())) {
+                return textInput.getText();
+            }
+        }
+        throw new RuntimeException("getTextFieldParameterValue failed, text field with name [" + paramName + "] does not exist.");
     }
 
     /**
-     * Set a form text or password element to the provided value.
+     * Return the current value of a hidden input element with name <code>paramName</code>.
+     * 
+     * @param paramName
+     *            name of the input element.
+     * TODO: Find a way to handle multiple hidden input element with same name.            
+     */
+    public String getHiddenFieldValue(String paramName) {
+        checkFormStateWithInput(paramName);
+        List textFieldElements = getForm().getHtmlElementsByAttribute("input", "type", "hidden");
+        Iterator it = textFieldElements.iterator();
+        while(it.hasNext()) {
+            HtmlHiddenInput textInput = (HtmlHiddenInput) it.next();
+            if (paramName.equals(textInput.getNameAttribute())) {
+                return textInput.getValueAttribute();
+            }
+        }
+        throw new RuntimeException("getHiddenFieldParameterValue failed, hidden field with name [" + paramName + "] does not exist.");
+    }
+
+    /**
+     * Set a form text, password input element or textarea to the provided value.
      * 
      * @param fieldName
-     *            name of the input element
+     *            name of the input element or textarea
      * @param paramValue
      *            parameter value to submit for the element.
      */
     public void setTextField(String fieldName, String paramValue) {
         checkFormStateWithInput(fieldName);
-        getForm().getInputByName(fieldName).setValueAttribute(paramValue);
+        List inputElements = getForm().getHtmlElementsByAttribute("input", "name", fieldName);
+        if (!inputElements.isEmpty()) {
+            HtmlInput input = (HtmlInput) inputElements.get(0);
+            input.setValueAttribute(paramValue);
+        } else {
+            inputElements = getForm().getTextAreasByName(fieldName);
+            if (!inputElements.isEmpty()) {
+                HtmlTextArea textArea = (HtmlTextArea) inputElements.get(0);
+                textArea.setText(paramValue);
+            }
+        }
     }
 
     /**
@@ -435,16 +499,17 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             }
 
             public void webWindowContentChanged(WebWindowEvent event) {
-                String win = event.getWebWindow().getName();
+                form = null;
+                String winName = event.getWebWindow().getName();
                 Page oldPage = event.getOldPage();
                 Page newPage = event.getNewPage();
-                String oldPageTitle = "non_html";
+                String oldPageTitle = "no_html";
                 if (oldPage instanceof HtmlPage)
                     oldPageTitle = ((HtmlPage) oldPage).getTitleText();
-                String newPageTitle = "non_html";
+                String newPageTitle = "no_html";
                 if (newPage instanceof HtmlPage)
                     newPageTitle = ((HtmlPage) newPage).getTitleText();
-                LOGGER.info("Window \"" + win + "\" changed : \""
+                LOGGER.info("Window \"" + winName + "\" changed : \""
                         + oldPageTitle + "\" became \"" + newPageTitle + "\"");
             }
 
@@ -544,8 +609,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             if (hasForm()) {
                 setWorkingForm(getForm(0));
                 return getForm(0);
-            }
-            else {
+            } else {
                 throw new RuntimeException("No form in current page");
             }
         } else {
@@ -571,6 +635,20 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 
         }
         return null;
+    }
+
+    private HtmlForm getForm(String nameOrID, int index) {
+        HtmlForm form = null;
+        Iterator iter = getCurrentPage().getForms().iterator();
+        for (int pos = 0; pos <= index && iter.hasNext();) {
+            HtmlForm curr = (HtmlForm) iter.next();
+            if (nameOrID.equals(curr.getIdAttribute())
+                    || nameOrID.equals(curr.getNameAttribute())) {
+                pos++;
+                form = curr;
+            }
+        }
+        return form;
     }
 
     private HtmlForm getFormWithButton(String buttonName) {
@@ -599,13 +677,13 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         if (hasForm()) {
             for (int i = 0; i < getForms().size(); i++) {
                 HtmlForm form = (HtmlForm) getForms().get(i);
-                try {
-                    if (form.getInputByName(inputName) != null) {
-                        setWorkingForm(form);
-                        return form;
-                    }
-                } catch (ElementNotFoundException e) {
-                    // Nothing
+                List inputElements = form.getHtmlElementsByAttribute("input", "name", inputName);
+                if (inputElements.isEmpty()) {
+                    inputElements = form.getTextAreasByName(inputName);
+                }
+                if (!inputElements.isEmpty()) {
+                    setWorkingForm(form);
+                    return form;
                 }
             }
         }

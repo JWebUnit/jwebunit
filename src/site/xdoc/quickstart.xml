@@ -9,7 +9,7 @@
 <p>
     The QuickStart contains sample code and guidance to get you started with jWebUnit.  To see all
     of the methods available, consult the a <a href="apidocs/index.html">Javadocs</a> - particularly
-    the WebTestCase class.
+    the WebTester class for full documentation.
 </p>
 <subsection name="Creating a TestCase">
 <p>

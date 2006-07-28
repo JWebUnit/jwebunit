@@ -99,9 +99,9 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
 
     public void testGreenLink() {
         beginAt("index.html");
-        assertFormElementEquals("color", "blue");
+        assertTextFieldEquals("color", "blue");
         clickLink("SetColorGreen");
-        assertFormElementEquals("color", "green");
+        assertTextFieldEquals("color", "green");
     } 
     
     public void testFormOnSubmitSetTarget() {

@@ -51,24 +51,124 @@
 	<p>
 		Building jWebUnit merely consist of running Maven:
 		<source>mvn package</source>
-		If you build jWebUnit for the first time and you configured Maven as described
+		If you build jWebUnit and you configured Maven as described
 		earlier, you will see the following text:
-<source><![CDATA[NEED UPDATE]]></source></p>
+<source><![CDATA[
+$ mvn package
+[INFO] Scanning for projects...
+[INFO] Reactor build order:
+[INFO]   jWebUnit
+[INFO]   Core - API
+[INFO]   Commons Tests
+[INFO]   HtmlUnit Plugin
+[INFO] ----------------------------------------------------------------------------
+[INFO] Building jWebUnit
+[INFO]    task-segment: [package]
+[INFO] ----------------------------------------------------------------------------
+[INFO] [site:attach-descriptor]
+[INFO] ----------------------------------------------------------------------------
+[INFO] Building Core - API
+[INFO]    task-segment: [package]
+[INFO] ----------------------------------------------------------------------------
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:compile]
+Compiling 14 source files to /home/julien/jwebunit-1.x/jwebunit-core/target/classes
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+Compiling 1 source file to /home/julien/jwebunit-1.x/jwebunit-core/target/test-classes
+[INFO] [surefire:test]
+[INFO] Surefire report directory: /home/julien/jwebunit-1.x/jwebunit-core/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running net.sourceforge.jwebunit.TableTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.092 sec
+
+Results :
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] [jar:jar]
+[INFO] Building jar: /home/julien/jwebunit-1.x/jwebunit-core/target/jwebunit-core-1.3.jar
+[INFO] ----------------------------------------------------------------------------
+[INFO] Building Commons Tests
+[INFO]    task-segment: [package]
+[INFO] ----------------------------------------------------------------------------
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:compile]
+Compiling 23 source files to /home/julien/jwebunit-1.x/jwebunit-commons-tests/target/classes
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+Compiling 1 source file to /home/julien/jwebunit-1.x/jwebunit-commons-tests/target/test-classes
+[INFO] [surefire:test]
+[INFO] Surefire report directory: /home/julien/jwebunit-1.x/jwebunit-commons-tests/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running net.sourceforge.jwebunit.tests.util.reflect.MethodInvokerTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.077 sec
+
+Results :
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] [jar:jar]
+[INFO] Building jar: /home/julien/jwebunit-1.x/jwebunit-commons-tests/target/jwebunit-commons-tests-1.3.jar
+[INFO] ----------------------------------------------------------------------------
+[INFO] Building HtmlUnit Plugin
+[INFO]    task-segment: [package]
+[INFO] ----------------------------------------------------------------------------
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:compile]
+Compiling 1 source file to /home/julien/jwebunit-1.x/jwebunit-htmlunit-plugin/target/classes
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+Compiling 1 source file to /home/julien/jwebunit-1.x/jwebunit-htmlunit-plugin/target/test-classes
+[INFO] [surefire:test]
+[INFO] Surefire report directory: /home/julien/jwebunit-1.x/jwebunit-htmlunit-plugin/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running net.sourceforge.jwebunit.htmlunit.JWebUnitTest
+:INFO:  Logging to STDERR via org.mortbay.log.StdErrLog
+:INFO:  jetty 6.0.0beta16
+:INFO:  Extract jar:file:/home/julien/jwebunit-1.x/jwebunit-commons-tests/target/jwebunit-commons-tests-1.3.jar!/testcases/ to /tmp/Jetty__jwebunit/webapp
+:INFO:  NO JSP Support for /jwebunit, did not find org.apache.jasper.servlet.JspServlet
+:INFO:  Started SocketConnector @ 0.0.0.0:8082
+Tests run: 162, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.877 sec
+
+Results :
+Tests run: 162, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] [jar:jar]
+[INFO] Building jar: /home/julien/jwebunit-1.x/jwebunit-htmlunit-plugin/target/jwebunit-htmlunit-plugin-1.3.jar
+[INFO]
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] ------------------------------------------------------------------------
+[INFO] jWebUnit .............................................. SUCCESS [2.922s]
+[INFO] Core - API ............................................ SUCCESS [5.128s]
+[INFO] Commons Tests ......................................... SUCCESS [3.416s]
+[INFO] HtmlUnit Plugin ....................................... SUCCESS [12.735s]
+[INFO] ------------------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 24 seconds
+[INFO] Finished at: Fri Jul 28 20:28:48 CEST 2006
+[INFO] Final Memory: 8M/19M
+[INFO] ------------------------------------------------------------------------
+]]></source></p>
 	<p>
-		You now have successfully built the <tt>jwebunit-1.3.jar</tt>.
-	</p>
-</subsection>
-<subsection name="Building an assembly">
-	<p>     An assembly is a package for final users, including eventually all dependencies.
-		Building an assembly with Maven consists of executing Maven like this:
-		<source>mvn assembly:assembly -DdescriptorId=XXX</source>
-		Where XXX is one of :
-		<ul>
-		  <li>bin : Package jwebunit-xx.jar in 3 formats (zip, tar.gz and tar.bz2)</li>
-		  <li>jar-with-dependencies : Create jwebunit-xx-with-dependencies.jar, a big jar with all
-		  dependencies included</li>
-		  <li>src : Package sources of jWebUnit in 3 formats (zip, tar.gz and tar.bz2)</li>
-		</ul>
+		You now have successfully built jWebUnit 1.3. The files are in target/ folder.
 	</p>
 </subsection>
 </section>

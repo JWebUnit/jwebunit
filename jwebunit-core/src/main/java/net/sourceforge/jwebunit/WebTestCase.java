@@ -135,7 +135,11 @@ public class WebTestCase extends TestCase {
     }
 
     public void assertNoMatch(String regexp) {
-        tester.assertNoMatch(regexp);
+        getTester().assertNoMatch(regexp);
+    }
+    
+    public void getTable(String tableSummaryNameOrId) {
+        getTester().getTable(tableSummaryNameOrId);
     }
 
     public void assertTablePresent(String tableSummaryOrId) {
@@ -261,6 +265,9 @@ public class WebTestCase extends TestCase {
         getTester().assertFormNotPresent(formName);
     }
 
+    /**
+     * @deprecated 
+     */
     public void assertFormElementEquals(String formElementName,
             String expectedValue) {
         getTester().assertFormElementEquals(formElementName, expectedValue);
@@ -272,6 +279,14 @@ public class WebTestCase extends TestCase {
 
     public void assertFormElementEmpty(String formElementName) {
         getTester().assertFormElementEmpty(formElementName);
+    }
+    
+    public void assertTextFieldEquals(String formElementName, String expectedValue) {
+        getTester().assertTextFieldEquals(formElementName, expectedValue);
+    }
+    
+    public void assertHiddenFieldPresent(String formElementName, String expectedValue) {
+        getTester().assertHiddenFieldPresent(formElementName, expectedValue);
     }
 
     public void assertCheckboxSelected(String checkBoxName) {
@@ -592,6 +607,10 @@ public class WebTestCase extends TestCase {
         getTester().setWorkingForm(nameOrId);
     }
 
+    public void setWorkingForm(String nameOrId, int index) {
+        getTester().setWorkingForm(nameOrId, index);
+    }
+
     public void setTextField(String textFieldName, String value) {
         getTester().setTextField(textFieldName, value);
     }
@@ -788,6 +807,13 @@ public class WebTestCase extends TestCase {
 
     protected void dumpTable(String tableNameOrId) {
         getTester().dumpTable(tableNameOrId);
+    }
+    
+    /**
+     * @deprecated Use setTextField instead.
+     */
+    protected void setFormElement(String formElementName, String value) {
+        getTester().setFormElement(formElementName, value);
     }
 
 }

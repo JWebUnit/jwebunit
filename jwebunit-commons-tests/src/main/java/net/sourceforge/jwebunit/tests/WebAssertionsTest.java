@@ -148,9 +148,22 @@ public class WebAssertionsTest extends JWebUnitAPITestCase {
         assertMatchInElement("outer_id", "Inner.*Text");
     }
 
+    /** 
+     * @deprecated
+     */
     public void testAssertFormElementEquals() throws Throwable {
         assertFormElementEquals("testInputElement", "testValue");
         assertFail("assertFormElementEquals", new Object[] {"testInputElement", "AnotherValue"});
+    }
+    
+    public void testAssertTextFieldEquals() throws Throwable {
+        assertTextFieldEquals("testInputElement", "testValue");
+        assertFail("assertTextFieldEquals", new Object[] {"testInputElement", "AnotherValue"});
+    }
+    
+    public void testAssertHiddenFieldPresent() throws Throwable {
+        assertHiddenFieldPresent("hidden", "h");
+        assertFail("assertHiddenFieldPresent", new Object[] {"hidden", "AnotherValue"});
     }
 
     public void testAssertFormElementMatch() throws Throwable {

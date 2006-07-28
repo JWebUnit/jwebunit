@@ -47,6 +47,18 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("Params are: color=red");
     }
 
+    public void testSetTextArea() {
+        beginAt("/TextAreaForm.html");
+        setTextField("text", "sometext");
+        submit("button");
+        assertTextPresent("Submitted parameters");
+        assertTextPresent("Params are: text=sometext");
+        clickLink("return");
+        setTextField("text", "anothertext");
+        submit();
+        assertTextPresent("Params are: text=anothertext");
+    }
+
     public void testSetFileField() {
         beginAt("/InputFileForm.html");
         File temp = null;
@@ -155,6 +167,16 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setWorkingForm("form5");
     }
 
+    public void testSetWorkingFormWithSameName() {
+        beginAt("/MultiFormPage.html");
+        setWorkingForm("myForm", 0);
+        assertSubmitButtonPresent("myInput1");
+        assertSubmitButtonNotPresent("myInput2");
+        setWorkingForm("myForm", 1);
+        assertSubmitButtonNotPresent("myInput1");
+        assertSubmitButtonPresent("myInput2");
+    }
+
     public void testInvalidButton() {
         beginAt("/InvalidActionForm.html");
         try {
@@ -206,6 +228,15 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 
     private void gotoMultiButtonPage() {
         beginAt("/MultiNamedButtonForm.html");
+    }
+
+    public void testCachedForm() {
+        beginAt("/Submit1.html");
+        assertTextPresent("Page 1");
+        submit();
+        assertTextPresent("Page 2");
+        submit();
+        assertTextPresent("Page 3");
     }
 
 }

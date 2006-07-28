@@ -14,33 +14,33 @@ import net.sourceforge.jwebunit.tests.util.JettySetup;
  * @author <a href="mailto:jesse@swank.ca">Jesse Wilson</a>
  */
 public class CharsetTest extends JWebUnitAPITestCase {
-        public CharsetTest(String name) {
-                super(name);
-        }
+    public CharsetTest(String name) {
+        super(name);
+    }
 
-        public static Test suite() {
-                return new JettySetup(new TestSuite(CharsetTest.class));
-        }
+    public static Test suite() {
+        return new JettySetup(new TestSuite(CharsetTest.class));
+    }
 
-        public void setUp() throws Exception {
-                super.setUp();
-                getTestContext().setBaseUrl(HOST_PATH+"/CharsetTest");
-                beginAt("/charset.html_utf-8");
-        }
+    public void setUp() throws Exception {
+        super.setUp();
+        getTestContext().setBaseUrl(HOST_PATH+"/CharsetTest");
+        beginAt("/charset.html_utf-8");
+    }
 
-        public void testEuro() {
-                assertFormElementEquals("eur", "\u20AC");
-        }
+    public void testEuro() {
+        assertTextFieldEquals("eur", "\u20AC");
+    }
 
-        public void testDollar() {
-                assertFormElementEquals("usd", "$");
-        }
+    public void testDollar() {
+        assertTextFieldEquals("usd", "$");
+    }
 
-        public void testYen() {
-                assertFormElementEquals("yen", "\u00A5");
-        }
+    public void testYen() {
+        assertTextFieldEquals("yen", "\u00A5");
+    }
 
-        public void testPound() {
-                assertFormElementEquals("gbp", "\u00A3");
-        }
+    public void testPound() {
+        assertTextFieldEquals("gbp", "\u00A3");
+    }
 }
