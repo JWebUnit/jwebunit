@@ -320,7 +320,7 @@
             <id>jwebunit-website</id>
             <name>jWebUnit WebSite - Sourceforge</name>
             <url>
-		    scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
+		    scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/2.x
 		    <!--file:///home/julien/site-jwebunit-->
             </url>
         </site>
@@ -333,5 +333,14 @@
                 jWebUnit Maven 2 Repository
             </name>
         </repository>
+        <snapshotRepository>
+            <id>jwebunit-m2-repo-snapshots</id>
+            <url>
+                scpexe://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/m2-repo-snapshots
+            </url>
+            <name>
+                jWebUnit Maven 2 Snapshots Repository
+            </name>
+        </snapshotRepository>
     </distributionManagement>
 </project>

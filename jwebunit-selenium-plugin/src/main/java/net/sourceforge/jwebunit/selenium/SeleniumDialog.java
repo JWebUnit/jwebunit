@@ -393,9 +393,9 @@ public class SeleniumDialog implements IJWebUnitDialog {
         selenium.type("xpath=" + formSelector() + "//input[@name='"+inputName+"' and (@type=text or @type=password)]", text);
     }
 
-    public void setWorkingForm(String nameOrId) {
+    public void setWorkingForm(String nameOrId, int index) {
         if (nameOrId != null)
-            formIdent="@name='"+nameOrId+"' or @id='"+nameOrId+"'";
+            formIdent="(@name='"+nameOrId+"' or @id='"+nameOrId+"') and position()="+index;
         else
             formIdent=null;
     }
@@ -457,5 +457,15 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     public void gotoWindow(int windowID) {
         selenium.selectWindow(""+windowID);
+    }
+
+    public String getTextFieldValue(String paramName) {
+        //TODO implement getTextFieldValue in SeleniumDialog
+        throw new UnsupportedOperationException("getTextFieldValue");
+    }
+
+    public String getHiddenFieldValue(String paramName) {
+        //TODO implement getHiddenFieldValue in SeleniumDialog
+        throw new UnsupportedOperationException("getHiddenFieldValue");
     }
 }
