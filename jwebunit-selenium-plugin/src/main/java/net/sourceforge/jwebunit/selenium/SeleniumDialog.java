@@ -390,6 +390,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public void setTextField(String inputName, String text) {
+        //TODO Add textarea support
         selenium.type("xpath=" + formSelector() + "//input[@name='"+inputName+"' and (@type=text or @type=password)]", text);
     }
 
