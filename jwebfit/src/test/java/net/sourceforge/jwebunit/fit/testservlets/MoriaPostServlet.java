@@ -12,6 +12,7 @@ public class MoriaPostServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
+    	response.setContentType("text/html");
         if ((!request.getParameter("EnterButton").equals(""))
                 && (request.getParameter("password").toLowerCase().equals("friend"))) {
             response.getWriter().print(

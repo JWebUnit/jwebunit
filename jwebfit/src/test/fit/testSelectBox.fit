@@ -9,7 +9,7 @@ not yet supported by jWebUnit.
 |begin  | personalInfoForm  |||
 |enter  | fullName          | Jim                   || 
 |select | option            | state                 | Tennessee |
-|check  | option equals     | state                 | Tennessee |  
+|check  | selected option equals     | state                 | Tennessee |  
 |press  | submit            |||                     
 |check  | title equals      | Personal Info Results ||
 |check  | text present      | You live in Tennessee || 

@@ -12,7 +12,11 @@ public class PersonalInfoPostServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String citizenship = "not a citizen";
+    	response.setContentType("text/html");
+    	for (Object param : request.getParameterMap().keySet()) {
+    		System.out.println("param: " + param + " = " + request.getParameterMap().get(param));
+    	}
+    	String citizenship = "not a citizen";
         if (request.getParameter("citizenCheckbox") != null &&
             request.getParameterValues("citizenCheckbox")[0].equals("on")) {
             citizenship = "a citizen";
