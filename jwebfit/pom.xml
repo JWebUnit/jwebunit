@@ -23,8 +23,27 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/lib/fit.jar</systemPath>
 		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+	    <dependency>
+	      <groupId>org.mortbay.jetty</groupId>
+	      <artifactId>jetty</artifactId>
+	      <version>${jetty-version}</version>
+	      <scope>test</scope>
+	    </dependency>
+	    <!-- the engine used when running tests -->
+		<dependency>
+			<groupId>net.sourceforge.jwebunit</groupId>
+			<artifactId>jwebunit-htmlunit-plugin</artifactId>
+			<version>${pom.version}</version>
+			<scope>test</scope>
+		</dependency>	    
 	</dependencies>
     <properties>
         <topDirectoryLocation>..</topDirectoryLocation>
+        <jetty-version>4.2.9</jetty-version>
     </properties>
 </project>

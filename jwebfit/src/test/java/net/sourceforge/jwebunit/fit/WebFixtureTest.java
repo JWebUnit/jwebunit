@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 public class WebFixtureTest extends TestCase {
 
     public static final int MINIMUM_TESTS = 50;
-    public static final String PLUGIN_FOLDER = "fitplugin/";
+    public static final String SRC_FOLDER = "src/";
     public static final String TEST_HTML_FOLDER = "sampleHtml/";
     public static final int JETTY_PORT_DEFAULT = 8081;
     public static final String JETTY_PORT_PROPERTY = "jetty.port";
@@ -35,7 +35,7 @@ public class WebFixtureTest extends TestCase {
     public static final String JETTY_HOST = "localhost";
     
     private HttpServer server = null;
-    private String testRoot = "test/";
+    private String testRoot = "test/resources/";
     
     // translation between urls used in old .fit files and the urls in jetty context
     private static Map oldUrls = null;
@@ -117,7 +117,7 @@ public class WebFixtureTest extends TestCase {
         setUpPathToStaticContents(context);
         if (!context.getResource("readme.html").exists()) {
             // allow the test to run from parent project
-            testRoot = PLUGIN_FOLDER + testRoot;
+            testRoot = SRC_FOLDER + testRoot;
             setUpPathToStaticContents(context);
         }
         // check that the context root contains the web pages
