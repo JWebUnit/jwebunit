@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <title>Wiki: $title</title>
+  <link REL="stylesheet" HREF="wiki.css">
+</head>
+<body bgcolor="#FFFFFF">
+<table cellpadding="5" cellspacing="5" height="100%" width="100%">
+<tr valign="top" height="0%">
+    <td><h1><a href="wiki.rb?mode=search&search=$page">$title</a></h1></td>
+</tr>
+<tr valign="top">
+    <td align="left" class="menu" nowrap>
+        $action
+        <a href="wiki.rb?mode=search">Search</a>
+        <a href="wiki.rb?page=WelcomeVisitors">WelcomeVisitors</a>
+        <a href="wiki.rb?mode=changes">RecentChanges</a>
+        $login
+    </td>
+</tr>
+<tr valign="top" height="100%" width="100%">
+    <td>$body</td>
+</tr>
+<tr valign="bottom">
+    <td align="left" class="menu" nowrap>
+        $action
+        <a href="wiki.rb?mode=search">Search</a>
+        <a href="wiki.rb?page=WelcomeVisitors">WelcomeVisitors</a>
+        <a href="wiki.rb?mode=changes">RecentChanges</a>
+        $login
+    </td>
+</tr>
+<tr valign="bottom">
+    <td><small>$summary <a href="http://www.wiki.org/"><em>WikiOrg</em></a><small></td>
+</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,22 @@
+Test text input field entry, inspection of form field values, and simple form submission
+
+| net.sourceforge.jwebunit.fit.WebFixture ||||
+| baseUrl | http://localhost:8081 |||
+| begin   | menu         |||  
+| press   | link         | Choose your favorite color ||
+| check   | form element | color                      | red |
+| enter   | color        | pink                       ||
+| check   | form element | color                      | pink |
+| press   | submit       |||
+| check   | title        | Color Page                 ||
+| check   | text present | Your chosen color was pink ||
+
+|net.sourceforge.jwebunit.fit.WebFixture|
+| begin | enterMoria ||
+| enter | password   | friend |
+| press | submit     | EnterButton |
+| check | title      | Moria |
+| begin | enterMoria ||
+| enter | password   | enemy |
+| press | submit     | EnterButton |
+| check | title      | Moria Entry Failure |

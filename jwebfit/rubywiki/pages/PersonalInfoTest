@@ -1,0 +1,24 @@
+This is example that uses a subclass of WebFixture.
+
+http:personalInfoForm.jpg
+
+|net.sourceforge.jwebunit.fit.WebFixture||
+|baseUrl|http://localhost:8081|
+|begin  | personalInfo        |
+
+|jwebfit.sample.PersonalInfoFixture|||
+|begin |personalInfoForm||
+|enter |fullName |Jim |
+|select|checkbox |citizenCheckbox|
+|press |submit ||
+|check |title |Personal Info Results|
+|check |text present |Name given is Jim|
+|check |text present |You indicated that you are a citizen|
+|begin |personalInfoForm||
+|enter |fullName |Wilkes|
+|select| checkbox |citizenCheckbox|
+|deselect| checkbox |citizenCheckbox|
+|press |submit ||
+|check |title |Personal Info Results |
+|check |text present |Name given is Wilkes |
+|check |text present |You indicated that you are not a citizen|

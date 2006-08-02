@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>jWebFit Navigation Test</title>
+</head>
+  <body>
+<b>User Story: Searching the Fit Site<br>
+</b><br>
+The fit site's welcome page should contain a single field form that allows
+the viewer to search the site. &nbsp;The user enters text into the field,
+hits enter, and a search results page should then be presented containing
+a table of results. &nbsp;Any pages containing the entered text will be displayed
+as navigable links within this table. A message is to be displayed after
+the results giving the number of matching pages and the total number of pages
+searched. &nbsp;A link back to the welcom page should follow the search results.
+&nbsp;A search field / form should be present abvove the search results,
+so the user can make another search directly from the results page.<br>
+<br>
+The field should look like this:<br>
+<br>
+<strong>Search this site:</strong>  
+<form action="search.cgi"><input type="text" name="search" size="40"></form>
+ <b><br>
+</b>Search results should look like this:<br>
+<br>
+Search Results<br>
+<br>
+<a href="#">ResultPageOne</a><br>
+<a href="#">ResultPageTwo</a><b><br>
+<br>
+</b>2 pages found out of 95 pages searched.<br>
+Return to <a href="http://fit.c2.com/wiki.cgi?WelcomeVisitors">WelcomeVisitors</a><br>
+<b><br>
+<br>
+Testing the Story</b><br>
+<br>
+We will organize the testing of this story into three acceptance tests to
+make them easier to understand and allow the functionality to be incrementally
+developed. &nbsp;The tests we identify are initial form state on the welcome
+page, validation of static elements on the search results page (another search
+field, and the link back to the welcome page), and validation of the search
+results table. &nbsp;You might organize them differently, or see tests that
+we have missed.<br>
+<br>
+First we will test initial form state on the welcome page. &nbsp;To do this,
+we establish the application url we are testing, and assert that there is
+a form present on the home page with a text input field named "search." <br>
+   <br>
+        
+<table border="1" cellpadding="4">
+    <tbody>
+       <tr>
+         <td colspan="4">net.sourceforge.jwebunit.fit.WebFixture</td>
+       </tr>
+    <tr>
+         <td>baseUrl</td>
+         <td>http://fit.c2.com</td>
+         <td>&nbsp;</td>
+       </tr>
+    <tr>
+         <td>begin</td>
+         <td><br>
+      </td>
+         <td>&nbsp;</td>
+       </tr>
+            <tr>
+         <td>check<br>
+         </td>
+         <td>form element present</td>
+         <td>search<br>
+         </td>
+       </tr>
+                
+  </tbody>   
+</table>
+    <br>
+Next we will test that entering data into the search field takes us to the
+search results screen, and that the static content of the search results
+screen (welcome page link, search field) are present. &nbsp;This test will
+fail, because the fit site does not have a search field/form on ther search
+results page.<br>
+<br>
+<table border="1" cellpadding="4">
+    <tbody>
+       <tr>
+         <td colspan="3">net.sourceforge.jwebunit.fit.WebFixture</td>
+       </tr>
+        <tr>
+         <td>begin</td>
+         <td><br>
+ </td>
+         <td>&nbsp;</td>
+       </tr>
+            <tr>
+         <td>enter<br>
+         </td>
+         <td>search</td>
+         <td>test search string<br>
+         </td>
+       </tr>
+    <tr>
+      <td valign="top">submit<br>
+      </td>
+      <td valign="top"><br>
+      </td>
+      <td valign="top"><br>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top">check<br>
+      </td>
+      <td valign="top">title<br>
+      </td>
+      <td valign="top">Wiki: Search Results<br>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top">check<br>
+      </td>
+      <td valign="top">form element present<br>
+      </td>
+      <td valign="top">search<br>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top">check<br>
+      </td>
+      <td valign="top">link present with text<br>
+      </td>
+      <td valign="top">WelcomeVisitors<br>
+      </td>
+    </tr>
+                
+  </tbody>   
+</table>
+<br>
+Finally we test search results.<br>
+<br>
+<table border="1" cellpadding="4">
+     <tbody>
+       <tr>
+         <td colspan="3">net.sourceforge.jwebunit.fit.WebFixture</td>
+       </tr>
+        <tr>
+         <td>begin</td>
+         <td><br>
+ </td>
+         <td>&nbsp;</td>
+       </tr>
+            <tr>
+         <td>enter<br>
+         </td>
+         <td>search</td>
+         <td>MartinFowler<br>
+         </td>
+       </tr>
+    <tr>
+       <td valign="top">submit<br>
+       </td>
+       <td valign="top"><br>
+       </td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+     <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">title<br>
+       </td>
+       <td valign="top">Wiki: Search Results<br>
+       </td>
+     </tr>
+     <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">link present with text<br>
+       </td>
+       <td valign="top">MartinFowler<br>
+       </td>
+     </tr>
+     <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">text present<br>
+       </td>
+       <td valign="top">5 pages found<br>
+       </td>
+     </tr>
+                 
+  </tbody>   
+</table>
+<br>
+This last test is not how it would appear if we were testing against a static
+set of wiki pages under our control. &nbsp;In that case, we would probably
+have search results and the search summary in separate html tables, and we
+would validate the exact contents of those tables rather than just testing
+for the one link being present. &nbsp;As soon as Martin's name gets added
+somewhere, the above test will begin failing.<br>
+<br>
+<br>
+</body>
+</html>

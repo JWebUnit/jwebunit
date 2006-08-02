@@ -1,0 +1,28 @@
+jWebFit Form Manipulation Test
+
+[run]
+  
+Test text input field entry, inspection of form field values, and simple form submission.
+
+|net.sourceforge.jwebunit.fit.WebFixture||||
+|baseUrl|http://localhost:8081|||
+|begin|menu| ||
+|press|link|Choose your favorite color||
+|check|form element|color|red|
+|enter|color|pink||
+|check|form element|color|pink|
+|press|submit| ||
+|check|title|Color Page||
+|check|text present|Your chosen color was pink||
+
+Test submit of named button where multiple buttons exist.
+
+|net.sourceforge.jwebunit.fit.WebFixture|||
+|begin|enterMoria| |
+|enter|password|friend|
+|press|submit|EnterButton|
+|check|title|Moria|
+|begin|enterMoria| |
+|enter|password|friend|
+|press|submit|RunAwayButton|
+|check|title|Moria Entry Failure Blah|

@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>jWebFit Form Manipulation Test</title>
+</head>
+  <body>
+       Test text input field entry, inspection of form field values, and
+simple    form submission.<br>
+      <br>
+              
+<table border="1" cellpadding="4">
+       <tbody>
+          <tr>
+            <td colspan="4" valign="middle">net.sourceforge.jwebunit.fit.WebFixture</td>
+          </tr>
+       <tr>
+            <td>baseUrl</td>
+            <td>http://localhost:8081</td>
+            <td>&nbsp;</td>
+            <td valign="top"><br>
+            </td>
+          </tr>
+       <tr>
+            <td>begin</td>
+            <td>menu</td>
+            <td>&nbsp;</td>
+            <td valign="top"><br>
+            </td>
+          </tr>
+       <tr>
+            <td>press</td>
+            <td>link</td>
+            <td>Choose your favorite color</td>
+            <td valign="top"><br>
+            </td>
+          </tr>
+       <tr>
+            <td valign="top">check<br>
+            </td>
+            <td valign="top">form element<br>
+            </td>
+            <td valign="top">color<br>
+            </td>
+            <td valign="top">red<br>
+            </td>
+          </tr>
+          <tr>
+            <td>enter</td>
+            <td>color</td>
+            <td>pink<br>
+       </td>
+            <td valign="top"><br>
+            </td>
+          </tr>
+       <tr>
+            <td valign="top">check<br>
+            </td>
+            <td valign="top">form element<br>
+            </td>
+            <td valign="top">color<br>
+            </td>
+            <td valign="top">pink<br>
+            </td>
+          </tr>
+          <tr>
+            <td>press<br>
+            </td>
+            <td>submit</td>
+            <td><br>
+            </td>
+            <td valign="top"><br>
+            </td>
+          </tr>
+       <tr>
+            <td>check</td>
+            <td>title</td>
+            <td>Color Page<br>
+            </td>
+            <td valign="top"><br>
+            </td>
+          </tr>
+     <tr>
+       <td valign="top">check<br>
+       </td>
+       <td valign="top">text present<br>
+       </td>
+       <td valign="top">Your chosen color was pink<br>
+       </td>
+       <td valign="top"><br>
+       </td>
+     </tr>
+                           
+  </tbody>      
+</table>
+       <br>
+      <br>
+        Test submit of named button where multiple buttons exist.<br>
+      <br>
+              
+<table border="1" cellpadding="4">
+       <tbody>
+          <tr>
+            <td colspan="3">net.sourceforge.jwebunit.fit.WebFixture</td>
+          </tr>
+       <tr>
+            <td>begin</td>
+            <td>enterMoria</td>
+            <td>&nbsp;</td>
+          </tr>
+       <tr>
+            <td>enter</td>
+            <td>password</td>
+            <td>friend</td>
+          </tr>
+       <tr>
+            <td>press</td>
+            <td>submit</td>
+            <td>EnterButton</td>
+          </tr>
+       <tr>
+            <td>check</td>
+            <td>title</td>
+            <td>Moria</td>
+          </tr>
+         <tr>
+           <td valign="top">begin<br>
+           </td>
+           <td valign="top">enterMoria</td>
+       <td valign="top"><br>
+           </td>
+         </tr>
+         <tr>
+           <td valign="top">enter<br>
+           </td>
+           <td valign="top">password<br>
+           </td>
+           <td valign="top">friend<br>
+           </td>
+         </tr>
+         <tr>
+           <td valign="top">press<br>
+           </td>
+           <td valign="top">submit<br>
+           </td>
+           <td valign="top">RunAwayButton<br>
+           </td>
+         </tr>
+         <tr>
+           <td valign="top">check<br>
+           </td>
+           <td valign="top">title<br>
+           </td>
+           <td valign="top">Moria Entry Failure<br>
+           </td>
+         </tr>
+                         
+  </tbody>      
+</table>
+       <br>
+   <br>
+  <br>
+ <br>
+</body>
+</html>
