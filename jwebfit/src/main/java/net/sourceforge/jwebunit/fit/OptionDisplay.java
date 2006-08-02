@@ -22,8 +22,11 @@ public class OptionDisplay extends RowFixture {
     }
 
     public Object[] query() throws Exception  {
-        String[] labels = WebFixture.tester.getDialog().getOptionsFor(selectName);
-        String[] values = WebFixture.tester.getDialog().getOptionValuesFor(selectName);
+        String[] values = WebFixture.tester.getDialog().getSelectOptionValues(selectName);
+        String[] labels = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+        	labels[i] = WebFixture.tester.getDialog().getSelectOptionLabelForValue(selectName, values[i]);
+        }
         return Option.buildOptions(labels, values);
     }
 

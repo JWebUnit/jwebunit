@@ -7,9 +7,9 @@ import java.util.List;
 
 import junit.framework.AssertionFailedError;
 import net.sourceforge.jwebunit.WebTester;
-import net.sourceforge.jwebunit.util.reflect.MethodInvoker;
+import net.sourceforge.jwebunit.fit.reflect.MethodInvoker;
 
-import com.meterware.httpunit.cookies.CookieProperties;
+//import com.meterware.httpunit.cookies.CookieProperties;
 
 import fit.ActionFixture;
 import fit.Parse;
@@ -55,16 +55,19 @@ public class WebFixture extends ActionFixture {
     }
 
     public void setExceptionsThrownOnScriptError(boolean flag) {
-        com.meterware.httpunit.HttpUnitOptions.setExceptionsThrownOnScriptError(flag);
+    	throw new UnsupportedOperationException("This method had a HttpUnit-specific implementation");
+        //com.meterware.httpunit.HttpUnitOptions.setExceptionsThrownOnScriptError(flag);
     }
 
     public void setLoggingHttpHeaders(boolean flag) {
-        com.meterware.httpunit.HttpUnitOptions.setLoggingHttpHeaders(flag);
+    	throw new UnsupportedOperationException("This method had a HttpUnit-specific implementation");
+        //com.meterware.httpunit.HttpUnitOptions.setLoggingHttpHeaders(flag);
     }
 
     public void setCookieMatchingStrict(boolean flag) {
-    	CookieProperties.setDomainMatchingStrict(flag);
-    	CookieProperties.setPathMatchingStrict(flag);
+    	throw new UnsupportedOperationException("This method had a HttpUnit-specific implementation");
+    	//CookieProperties.setDomainMatchingStrict(flag);
+    	//CookieProperties.setPathMatchingStrict(flag);
     }
 
     // Actions
@@ -102,10 +105,10 @@ public class WebFixture extends ActionFixture {
 
     public void window() {
         String windowIdOrTitle = cells.more.text();
-        if (tester.getDialog().getWindow(windowIdOrTitle) != null) {
-            tester.gotoWindow(cells.more.text());            
+        if (tester.getDialog().hasWindowByTitle(windowIdOrTitle)) {
+        	tester.gotoWindowByTitle(cells.more.text());           
         } else {
-            tester.gotoWindowByTitle(cells.more.text());            
+        	tester.gotoWindow(cells.more.text()); 
         }
     }
 
@@ -136,6 +139,8 @@ public class WebFixture extends ActionFixture {
             tester.selectOption(
                     cells.more.more.text(),
                     cells.more.more.more.text());
+        /*
+         * This type of checkbox handling is not supported in jwebunit 1.3:
         } else if (cells.more.text().equals("checkbox after")) {
             // checkbox or radio button appearing after the text label given in next cell
             tester.checkCheckboxWithLabel(
@@ -144,6 +149,7 @@ public class WebFixture extends ActionFixture {
             // checkbox or radio button appearing before the text label given in next cell
             tester.checkCheckboxBeforeLabel(
                     cells.more.more.text());
+         */
         } else {
             exception(
                     cells.more,
@@ -286,7 +292,7 @@ public class WebFixture extends ActionFixture {
 
     public void dumpResponse() {
         System.err.println("***************begin page***********************");
-        tester.dumpResponse(System.err);
+        tester.dumpHtml(System.err);
         System.err.println("***************end page*************************");
     }
 
