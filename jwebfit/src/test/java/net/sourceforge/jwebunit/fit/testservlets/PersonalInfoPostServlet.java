@@ -13,9 +13,6 @@ public class PersonalInfoPostServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	response.setContentType("text/html");
-    	for (Object param : request.getParameterMap().keySet()) {
-    		System.out.println("param: " + param + " = " + request.getParameterMap().get(param));
-    	}
     	String citizenship = "not a citizen";
         if (request.getParameter("citizenCheckbox") != null &&
             request.getParameterValues("citizenCheckbox")[0].equals("on")) {

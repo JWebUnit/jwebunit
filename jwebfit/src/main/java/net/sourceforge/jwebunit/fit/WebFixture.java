@@ -121,7 +121,7 @@ public class WebFixture extends ActionFixture {
     }
 
     public void enter() throws Exception {
-        tester.setFormElement(cells.more.text(), cells.more.more.text());
+        tester.setTextField(cells.more.text(), cells.more.more.text());
     }
 
     public void select() {
