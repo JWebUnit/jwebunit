@@ -26,16 +26,24 @@ import junit.framework.TestCase;
 
 public class WebFixtureTest extends TestCase {
 
+	/**
+	 * The minimum number of FIT checks in an accepted test suite.
+	 * This is here so that the test won't pass in absence of FIT tables.
+	 */
     public static final int MINIMUM_TESTS = 50;
-    public static final String SRC_FOLDER = "src/";
-    public static final String TEST_HTML_FOLDER = "sampleHtml/";
+    
+    // file locations for running FIT
+    public static final String FIT_FOLDER = "src/test/fit/";
+    public static final String OUTPUT_FOLDER = "target/fit-reports/";
+    public static final String TEST_HTML_FOLDER = "src/test/resources/testSite/";
+    
+    // server options
     public static final int JETTY_PORT_DEFAULT = 8081;
     public static final String JETTY_PORT_PROPERTY = "jetty.port";
     public static final String JETTY_CONTEXT = "/";
     public static final String JETTY_HOST = "localhost";
     
     private HttpServer server = null;
-    private String testRoot = "test/resources/";
     
     // translation between urls used in old .fit files and the urls in jetty context
     private static Map oldUrls = null;
@@ -84,15 +92,14 @@ public class WebFixtureTest extends TestCase {
         // run the tests
         DirectoryRunner testRunner = 
             DirectoryRunner.parseArgs(new String[]
-                {testRoot + "testInput",
-                 testRoot + "testOutput"});
+                {FIT_FOLDER, OUTPUT_FOLDER});
         testRunner.run();
         testRunner.getResultWriter().write();
         // sanity check
         assertTrue("Should find at least " + MINIMUM_TESTS + " tests",
                 0 < testRunner.getResultWriter().getTotal());
         // report failures to JUnit
-        String resultsUrl = testRoot + "testOutput/index.html";
+        String resultsUrl = OUTPUT_FOLDER + "index.html";
         assertEquals("Failures detected. Check " + resultsUrl + ".", 0, 
             testRunner.getResultWriter().getCounts().wrong);
         assertEquals("Exceptions detected. Check " + resultsUrl + ".", 0, 
@@ -115,11 +122,11 @@ public class WebFixtureTest extends TestCase {
         // add the files in sampleHtml to context
         HttpContext context = server.addContext(JETTY_CONTEXT);
         setUpPathToStaticContents(context);
-        if (!context.getResource("readme.html").exists()) {
-            // allow the test to run from parent project
-            testRoot = SRC_FOLDER + testRoot;
-            setUpPathToStaticContents(context);
-        }
+//        if (!context.getResource("readme.html").exists()) {
+//            // allow the test to run from parent project
+//            testRoot = FIT_FOLDER + testRoot;
+//            setUpPathToStaticContents(context);
+//        }
         // check that the context root contains the web pages
         assertTrue("Should find readme.html in the configured jetty context: " + context.getResourceBase(),
                 context.getResource("readme.html").exists());
@@ -127,7 +134,7 @@ public class WebFixtureTest extends TestCase {
     }
 
     private void setUpPathToStaticContents(HttpContext context) {
-        context.setResourceBase(testRoot + TEST_HTML_FOLDER);
+        context.setResourceBase(TEST_HTML_FOLDER);
     }
 
     private void setUpContextHandlers(HttpContext context) {
