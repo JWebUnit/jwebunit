@@ -10,11 +10,13 @@ package net.sourceforge.jwebunit.exception;
  * appropriat key for a specific testing engine, etc.
  * @author Nick Neuberger
  */
-public class TestingEngineRegistryException extends RuntimeException {
-    public TestingEngineRegistryException() {
-    }
+public class TestingEngineRegistryException extends JWebUnitException {
 
     public TestingEngineRegistryException(String s) {
         super(s);
+    }
+
+    public TestingEngineRegistryException(String s, Exception e) {
+        super(s, e);
     }
 }

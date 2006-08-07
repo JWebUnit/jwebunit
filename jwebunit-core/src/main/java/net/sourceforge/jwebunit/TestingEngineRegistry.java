@@ -6,68 +6,126 @@ package net.sourceforge.jwebunit;
 
 import java.util.Hashtable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sourceforge.jwebunit.exception.TestingEngineRegistryException;
 
 /**
  * This will maintain a registry of known testing engines to be used by
- * jWebUnit.
+ * jWebUnit. TestingEngineRegistry try to load official plugins from classpath.
+ * You can also add you're own.
  * 
  * @author Nicholas Neuberger
  * @author Julien Henry
  */
 public class TestingEngineRegistry {
 
-    // TODO Move this to a JDK1.5 typesafe enum
+    private static final Log LOGGER = LogFactory
+            .getLog(TestingEngineRegistry.class);
+
+    /**
+     * String that identify HtmlUnit plugin.
+     */
     public final static String TESTING_ENGINE_HTMLUNIT = "TestingEngineHtmlUnit";
 
+    /**
+     * String that identify Selenium plugin.
+     */
     public final static String TESTING_ENGINE_SELENIUM = "TestingEngineSelenium";
-    private static Hashtable testingEngineMap = null;
+
+    private static Hashtable<String, Class<? extends IJWebUnitDialog>> testingEngineMap = new Hashtable<String, Class<? extends IJWebUnitDialog>>();
+
+    static {
+        try {
+            addTestingEngine(TESTING_ENGINE_HTMLUNIT,
+                    "net.sourceforge.jwebunit.htmlunit.HtmlUnitDialog");
+        } catch (Exception e) {
+            LOGGER
+                    .warn("HtmlUnitDialog can't be loaded. Check your classpath.");
+        }
+        try {
+            addTestingEngine(TESTING_ENGINE_SELENIUM,
+                    "net.sourceforge.jwebunit.selenium.SeleniumDialog");
+        } catch (Exception e) {
+            LOGGER
+                    .warn("SeleniumDialog can't be loaded. Check your classpath.");
+        }
+    }
+
+    /**
+     * Add a testing engine class to the registry.
+     * 
+     * @param name
+     *            Identifier of the plugin
+     * @param dialogClass
+     *            The class of the plugin
+     */
+    public static void addTestingEngine(String name,
+            Class<? extends IJWebUnitDialog> dialogClass) {
+        testingEngineMap.put(name, dialogClass);
+    }
+
+    /**
+     * Add a testing engine to the registry by loading it from classpath.
+     * 
+     * @param name
+     *            Identifier of the plugin
+     * @param classPath
+     *            Fully qualified name of the testing engine's class
+     * @throws ClassNotFoundException
+     *             If the class was not found
+     * @throws TestingEngineRegistryException
+     */
+    public static void addTestingEngine(String name, String classPath)
+            throws ClassNotFoundException, TestingEngineRegistryException {
+        // Class c = Class.forName(classPath, true, ClassLoader
+        // .getSystemClassLoader()); // DON'T WORK WITH MAVEN
+        Class c = Class.forName(classPath);
+        Object d = null;
+        try {
+            d = c.newInstance();
+        } catch (Exception e) {
+            throw new TestingEngineRegistryException(
+                    "Unable to create a new instance of " + c.getName(), e);
+        }
+        IJWebUnitDialog dial = null;
+        try {
+            dial = (IJWebUnitDialog) d;
+        } catch (ClassCastException e) {
+            throw new TestingEngineRegistryException(c.getName()
+                    + " doesn't implement IJWebUnitDialog", e);
+        }
+
+        addTestingEngine(name, dial.getClass());
+    }
 
     public TestingEngineRegistry() {
     }
 
     /**
-     * Gets the map of testing engines defined within jwebunit.
+     * Gets the class based on the name of the testing engine.
      * 
-     * @return
+     * @param name
+     *            Name of the testing engine
+     * @return A testing engine.
      */
-    public static Hashtable getTestingEngineMap() {
-        if (testingEngineMap == null) {
-            testingEngineMap = new Hashtable();
-            try {
-                String cp = "net.sourceforge.jwebunit.htmlunit.HtmlUnitDialog";
-                Class.forName(cp);
-                testingEngineMap.put(TESTING_ENGINE_HTMLUNIT, cp);
-            } catch (ClassNotFoundException e) {
-                //Nothing to do
-            }
-            try {
-                String cp = "net.sourceforge.jwebunit.selenium.SeleniumDialog";
-                Class.forName(cp);
-                testingEngineMap.put(TESTING_ENGINE_SELENIUM, cp);
-            } catch (ClassNotFoundException e) {
-                //Nothing to do
-            }
-        }
-        return testingEngineMap;
-    }
-
-    /**
-     * Gets the class based on the key of the class.
-     * 
-     * @param aKey
-     * @return
-     */
-    public static Class getTestingEngineClass(String aKey)
-            throws ClassNotFoundException {
-        Class theClass = Class
-                .forName((String) getTestingEngineMap().get(aKey));
-        if (theClass == null) {
+    public static Class<? extends IJWebUnitDialog> getTestingEngineClass(
+            String name) throws TestingEngineRegistryException {
+        if (!testingEngineMap.containsKey(name)) {
             throw new TestingEngineRegistryException(
-                    "Testing Engine with Key: [" + aKey
+                    "Testing Engine with Key: [" + name
                             + "] not defined for jWebUnit.");
         }
-        return theClass;
+        return testingEngineMap.get(name);
+    }
+
+    public static boolean isEmpty() {
+        return testingEngineMap.isEmpty();
+    }
+
+    public static String getFirstTestingEngineKey() {
+        return testingEngineMap.keys().nextElement();
     }
 
 }

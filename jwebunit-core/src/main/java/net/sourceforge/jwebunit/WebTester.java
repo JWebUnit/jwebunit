@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
+import net.sourceforge.jwebunit.exception.TestingEngineRegistryException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.html.Table;
@@ -73,7 +74,7 @@ public class WebTester {
         try {
             theClass = TestingEngineRegistry
                     .getTestingEngineClass(theTestingEngineKey);
-        } catch (ClassNotFoundException e1) {
+        } catch (TestingEngineRegistryException e1) {
             throw new RuntimeException(e1);
         }
         try {
@@ -2093,10 +2094,9 @@ public class WebTester {
     public String getTestingEngineKey() {
         if (testingEngineKey == null) {
             // use first available dialog
-            if (TestingEngineRegistry.getTestingEngineMap().keys()
-                    .hasMoreElements()) {
-                setTestingEngineKey((String) TestingEngineRegistry
-                        .getTestingEngineMap().keys().nextElement());
+            if (!TestingEngineRegistry.isEmpty()) {
+                setTestingEngineKey(TestingEngineRegistry
+                        .getFirstTestingEngineKey());
             } else {
                 throw new RuntimeException(
                         "TestingEngineRegistry contains no dialog. Check you put at least one plugin in the classpath.");

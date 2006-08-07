@@ -5,6 +5,12 @@
 		<author email="dashorst at users.sourceforge.net">Martijn Dashorst</author>
 	</properties>
 	<body>
+	<release version="2.0" date="unknow">
+		<action type="update" dev="Julien Henry">
+			Refactor TestingEngineRegistry: now fully static and use JDK 1.5.
+			It is now easier to add a custom plugin in registry.
+		</action>
+	</release>
         <release version="1.3" date="july 28, 2006">
             <action type="remove" dev="Julien Henry" due-to="Fred Burlet">
                 assertFormParameterValue is now deprecated. Please use more specific method, like
