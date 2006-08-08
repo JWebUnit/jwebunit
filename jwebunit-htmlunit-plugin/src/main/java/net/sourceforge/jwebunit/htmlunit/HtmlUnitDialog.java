@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.regexp.RE;
@@ -30,6 +31,7 @@ import net.sourceforge.jwebunit.util.ExceptionUtility;
 import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
 
+import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.Page;
@@ -100,6 +102,11 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * Is Javascript enabled.
      */
     private boolean jsEnabled = true;
+    
+    /**
+     * Javascript alerts
+     */
+    private LinkedList<String> javascriptAlerts = new LinkedList<String>();
 
     // Implementation of IJWebUnitDialog
 
@@ -522,6 +529,12 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 } else {
                     LOGGER.info("Window " + win + " openend");
                 }
+            }
+        });
+        //Add Javascript Alert Handler
+        wc.setAlertHandler(new AlertHandler() {
+            public void handleAlert(Page page, String msg) {
+                javascriptAlerts.add(msg);
             }
         });
     }
@@ -1525,6 +1538,15 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         wc.setCurrentWindow(win);
         this.win = win;
     }
+    
+
+    public String getJavascriptAlert() throws net.sourceforge.jwebunit.exception.ElementNotFoundException {
+        if (!javascriptAlerts.isEmpty()) {
+            return javascriptAlerts.removeFirst();
+        } else {
+            throw new net.sourceforge.jwebunit.exception.ElementNotFoundException("There is no pending alert.");
+        }
+    }
 
     /**
      * Return the response for the given frame in the current conversation.
@@ -1534,6 +1556,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     private WebWindow getFrame(String frameName) {
         return ((HtmlPage) win.getEnclosedPage()).getFrameByName(frameName);
     }
+    
 
     /**
      * @param testContext

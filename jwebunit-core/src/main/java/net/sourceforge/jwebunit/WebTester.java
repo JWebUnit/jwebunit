@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
+import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.exception.TestingEngineRegistryException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
@@ -1563,8 +1564,7 @@ public class WebTester {
     }
 
     /**
-     * Checks to see if a cookie is present in the response. Contributed by
-     * Vivek Venugopalan.
+     * Checks to see if a cookie is present in the response.
      * 
      * @param cookieName
      *            The cookie name
@@ -1591,6 +1591,17 @@ public class WebTester {
         Assert.assertTrue("Unable to match [" + regexp + "] in cookie \""
                 + cookieName + "\"", re.match(getDialog().getCookieValue(
                 cookieName)));
+    }
+    
+    public void assertJavascriptAlertPresent(String msg) {
+        String alert = null;
+        try {
+            alert = getDialog().getJavascriptAlert();
+        } catch (ElementNotFoundException e) {
+            Assert.fail(e.getMessage());
+        }
+        
+        Assert.assertTrue(alert.equals(msg));
     }
 
     // Form interaction methods

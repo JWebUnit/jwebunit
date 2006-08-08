@@ -1,7 +1,12 @@
+/******************************************************************************
+ * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * Distributed open-source, see full license under LICENCE.txt                *
+ ******************************************************************************/
 package net.sourceforge.jwebunit.selenium;
 
 import java.io.PrintStream;
 
+import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.html.Table;
@@ -468,5 +473,14 @@ public class SeleniumDialog implements IJWebUnitDialog {
     public String getHiddenFieldValue(String paramName) {
         //TODO implement getHiddenFieldValue in SeleniumDialog
         throw new UnsupportedOperationException("getHiddenFieldValue");
+    }
+    
+    public String getJavascriptAlert() throws ElementNotFoundException {
+        if (selenium.isAlertPresent()) {
+            return selenium.getAlert(); 
+        }
+        else {
+            throw new net.sourceforge.jwebunit.exception.ElementNotFoundException("There is no pending alert.");
+        }
     }
 }

@@ -4,6 +4,7 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit;
 
+import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.html.Table;
 
@@ -188,7 +189,7 @@ public interface IJWebUnitDialog {
      * @deprecated
      */
     String getFormParameterValue(String paramName);
-    
+
     /**
      * Return the current value of a text field with name <code>paramName</code>.
      * Text fields are input text, input password and textarea
@@ -197,9 +198,10 @@ public interface IJWebUnitDialog {
      *            name of the text field element.
      */
     String getTextFieldValue(String paramName);
-    
+
     /**
-     * Return the current value of a hidden input element with name <code>paramName</code>.
+     * Return the current value of a hidden input element with name
+     * <code>paramName</code>.
      * 
      * @param paramName
      *            name of the hidden input element.
@@ -222,18 +224,18 @@ public interface IJWebUnitDialog {
      * Exemple: <br/>
      * 
      * <pre>
-     *         &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-     *           &lt;P&gt;
-     *             &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-     *               &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-     *               &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-     *               &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-     *               &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-     *               &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-     *             &lt;/SELECT&gt;
-     *             &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-     *           &lt;/P&gt;
-     *         &lt;/FORM&gt;
+     *          &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+     *            &lt;P&gt;
+     *              &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+     *                &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+     *                &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+     *                &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+     *                &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+     *                &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+     *              &lt;/SELECT&gt;
+     *              &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+     *            &lt;/P&gt;
+     *          &lt;/FORM&gt;
      * </pre>
      * 
      * Should return [Component_1_a, Component_1_b, Component_3, Component_4,
@@ -675,4 +677,16 @@ public interface IJWebUnitDialog {
      *            regexp to match.
      */
     boolean isMatchInElement(String elementID, String regexp);
+
+    /**
+     * When you perform an action, the dialog keep an history of each Javascript
+     * alert thrown. This method get the first Javascript alert in the list
+     * and remove it.
+     * With Selenium, you HAVE TO check presence of alert. If not, an exception is thrown on the next action.
+     * With HtmlUnit, no exception is thrown, but the list will never be cleared if you don't check alert.
+     * 
+     * @return Text of the alert.
+     * @throws ElementNotFoundException If there is no alert in the list.
+     */
+    String getJavascriptAlert() throws ElementNotFoundException;
 }

@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 	<release version="2.0" date="unknow">
+		<action type="add" dev="Julien Henry">
+			Add assertJavascriptAlertPresent method to check presence of a Javascript alert.
+		</action>
 		<action type="update" dev="Julien Henry">
 			Refactor TestingEngineRegistry: now fully static and use JDK 1.5.
 			It is now easier to add a custom plugin in registry.

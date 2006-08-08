@@ -29,5 +29,21 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
         //FIXME Fails with HtmlUnit
         //assertTextPresent("Hello World");
     }
+    
+    public void testAlertOnPageLoad() {
+        beginAt("Alert.html");
+        assertJavascriptAlertPresent("Foo Bar");
+    }
+    
+    public void testInvalidAlertOnPageLoad() {
+        beginAt("Alert.html");
+        assertFail("assertJavascriptAlertPresent", "invalid");
+    }
+
+    public void testMultipleAlerts() {
+        beginAt("MultipleAlerts.html");
+        assertJavascriptAlertPresent("Alert 1");
+        assertJavascriptAlertPresent("Alert 2");
+    }
 
 }

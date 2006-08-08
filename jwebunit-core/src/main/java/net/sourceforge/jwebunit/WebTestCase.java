@@ -574,9 +574,6 @@ public class WebTestCase extends TestCase {
         getTester().assertFramePresent(frameName);
     }
 
-    /**
-     * Contributed by Vivek Venugopalan.
-     */
     public void assertCookiePresent(String cookieName) {
         getTester().assertCookiePresent(cookieName);
     }
@@ -587,6 +584,10 @@ public class WebTestCase extends TestCase {
 
     public void assertCookieValueMatch(String cookieName, String regexp) {
         getTester().assertCookieValueMatch(cookieName, regexp);
+    }
+    
+    public void assertJavascriptAlertPresent(String msg) {
+        getTester().assertJavascriptAlertPresent(msg);
     }
 
     // Form interaction methods
