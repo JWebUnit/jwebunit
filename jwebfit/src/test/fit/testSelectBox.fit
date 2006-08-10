@@ -2,7 +2,7 @@ Test manipulation of select boxes (drop lists).  Multiple-select boxes
 not yet supported by jWebUnit.
 
 | net.sourceforge.jwebunit.fit.WebFixture ||
-| baseUrl | http://localhost:8081 |
+| baseUrl | http://localhost:8082 |
 
 
 |net.sourceforge.jwebunit.fit.WebFixture||||

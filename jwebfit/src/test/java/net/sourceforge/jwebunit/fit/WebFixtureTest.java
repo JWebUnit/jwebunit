@@ -38,7 +38,7 @@ public class WebFixtureTest extends TestCase {
     public static final String TEST_HTML_FOLDER = "src/test/resources/testSite/";
     
     // server options
-    public static final int JETTY_PORT_DEFAULT = 8081;
+    public static final int JETTY_PORT_DEFAULT = 8082;
     public static final String JETTY_PORT_PROPERTY = "jetty.port";
     public static final String JETTY_CONTEXT = "/";
     public static final String JETTY_HOST = "localhost";
@@ -100,9 +100,9 @@ public class WebFixtureTest extends TestCase {
                 0 < testRunner.getResultWriter().getTotal());
         // report failures to JUnit
         String resultsUrl = OUTPUT_FOLDER + "index.html";
-        assertEquals("Failures detected. Check " + resultsUrl + ".", 0, 
+        assertEquals("Failures detected. Check " + resultsUrl + ".", 0,
             testRunner.getResultWriter().getCounts().wrong);
-        assertEquals("Exceptions detected. Check " + resultsUrl + ".", 0, 
+        assertEquals("Exceptions detected. Check " + resultsUrl + ".", 0,
             testRunner.getResultWriter().getCounts().exceptions);
     }    
     

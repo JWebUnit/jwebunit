@@ -9,7 +9,7 @@ We'll use baseUrl to establich the application root, navigate to the main menu, 
 Succesful run:
 
 |net.sourceforge.jwebunit.fit.WebFixture |
-|baseUrl | http://localhost:8081   ||
+|baseUrl | http://localhost:8082   ||
 |begin   | menu   ||
 |check   | title  | Menu Page |
 |press   | link   | Choose your favorite color |

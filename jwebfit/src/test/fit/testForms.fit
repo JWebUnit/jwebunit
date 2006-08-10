@@ -1,7 +1,7 @@
 Test text input field entry, inspection of form field values, and simple form submission
 
 | net.sourceforge.jwebunit.fit.WebFixture ||||
-| baseUrl | http://localhost:8081 |||
+| baseUrl | http://localhost:8082 |||
 | begin   | menu         |||  
 | press   | link         | Choose your favorite color ||
 | check   | form element | color                      | red |

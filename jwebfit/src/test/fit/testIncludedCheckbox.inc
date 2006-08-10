@@ -1,5 +1,5 @@
 |net.sourceforge.jwebunit.fit.WebFixture ||
-| baseUrl |http://localhost:8081 |
+| baseUrl |http://localhost:8082 |
 
 Test manipulation of checkbox input fields.  Note that jWebUnit 
 supports only single checkboxes with given name.  Support for
