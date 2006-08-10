@@ -1600,8 +1600,7 @@ public class WebTester {
         } catch (ElementNotFoundException e) {
             Assert.fail(e.getMessage());
         }
-        
-        Assert.assertTrue(alert.equals(msg));
+        Assert.assertEquals(msg, alert);
     }
 
     // Form interaction methods
