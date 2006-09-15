@@ -53,7 +53,7 @@ public class WebTester {
      * to using the orignal testing engine, which is, htmlunit.
      * 
      * @return IJWebUnitDialog instance used to wrapper htmlunit conversation.
-     * @deprecated You should not use plugin specific fonctionality
+     * @deprecated You should not use specific dialog fonctionality (will become protected).
      */
     public IJWebUnitDialog getDialog() {
         if (dialog == null) {
@@ -145,22 +145,30 @@ public class WebTester {
     }
 
     /**
-     * Begin conversation at a url relative to the application root.
+     * Begin conversation at a URL absolute or relative to base URL. Use
+     * {@link TestContext#setBaseUrl(String) getTestContext().setBaseUrl(String)}
+     * to define base URL. Absolute URL should start with "http://", "https://" or "www.".
      * 
-     * @param relativeURL
+     * @param url
+     *            absolute or relative URL (relative to base URL).
      */
-    public void beginAt(String aRelativeURL) {
+    public void beginAt(String url) {
         try {
-            getDialog().beginAt(createUrl(aRelativeURL), testContext);
+            getDialog().beginAt(createUrl(url), testContext);
         } catch (TestingEngineResponseException aTestingEngineResponseException) {
             handleTestingEngineResponseException(aTestingEngineResponseException);
         }
 
     }
 
-    private String createUrl(String aSuffix) {
-        aSuffix = aSuffix.startsWith("/") ? aSuffix.substring(1) : aSuffix;
-        return getTestContext().getBaseUrl() + aSuffix;
+    private String createUrl(String url) {
+        if (url.startsWith("http://") || url.startsWith("https://")
+                || url.startsWith("www.")) {
+            return url;
+        } else {
+            url = url.startsWith("/") ? url.substring(1) : url;
+            return getTestContext().getBaseUrl() + url;
+        }
     }
 
     /**
@@ -299,7 +307,7 @@ public class WebTester {
      * 
      * @param tableSummaryNameOrId
      * @return Object that represent a html table in a way independent from
-     * plugin.
+     *         plugin.
      */
     public Table getTable(String tableSummaryNameOrId) {
         return getDialog().getTable(tableSummaryNameOrId);
@@ -715,8 +723,8 @@ public class WebTester {
     }
 
     /**
-     * Assert that a specific form element has an expected value.
-     * Can be used to check hidden input.
+     * Assert that a specific form element has an expected value. Can be used to
+     * check hidden input.
      * 
      * @param formElementName
      * @param expectedValue
@@ -760,33 +768,38 @@ public class WebTester {
     }
 
     /**
-     * Assert that an input text element with name <code>formElementName</code> has 
-     * the <code>expectedValue</code> value.
-     *  
+     * Assert that an input text element with name <code>formElementName</code>
+     * has the <code>expectedValue</code> value.
+     * 
      * @param formElementName
      *            the value of the name attribute of the element
      * @param expectedValue
      *            the expected value of the given input element
      */
-    public void assertTextFieldEquals(String formElementName, String expectedValue) {
+    public void assertTextFieldEquals(String formElementName,
+            String expectedValue) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals(expectedValue, getDialog().getTextFieldValue(formElementName));
+        Assert.assertEquals(expectedValue, getDialog().getTextFieldValue(
+                formElementName));
     }
-    
+
     /**
-     * Assert that an input hidden element with name <code>formElementName</code> has 
-     * the <code>expectedValue</code> value.
-     *  
+     * Assert that an input hidden element with name
+     * <code>formElementName</code> has the <code>expectedValue</code>
+     * value.
+     * 
      * @param formElementName
      *            the value of the name attribute of the element
      * @param expectedValue
      *            the expected value of the given input element
      */
-    public void assertHiddenFieldPresent(String formElementName, String expectedValue) {
+    public void assertHiddenFieldPresent(String formElementName,
+            String expectedValue) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals(expectedValue, getDialog().getHiddenFieldValue(formElementName));
+        Assert.assertEquals(expectedValue, getDialog().getHiddenFieldValue(
+                formElementName));
     }
-        
+
     /**
      * Assert that a specific checkbox is selected.
      * 
@@ -897,7 +910,7 @@ public class WebTester {
      *            option label.
      */
     public void assertSelectOptionPresent(String selectName, String optionLabel) {
-        assertSelectOptionsPresent(selectName, new String[] { optionLabel });
+        assertSelectOptionsPresent(selectName, new String[] {optionLabel});
     }
 
     /**
@@ -928,8 +941,7 @@ public class WebTester {
      */
     public void assertSelectOptionValuePresent(String selectName,
             String optionValue) {
-        assertSelectOptionValuesPresent(selectName,
-                new String[] { optionValue });
+        assertSelectOptionValuesPresent(selectName, new String[] {optionValue});
     }
 
     public void assertSelectOptionValueNotPresent(String selectName,
@@ -1054,7 +1066,7 @@ public class WebTester {
     }
 
     public void assertSelectedOptionEquals(String selectName, String option) {
-        assertSelectedOptionsEqual(selectName, new String[] { option });
+        assertSelectedOptionsEqual(selectName, new String[] {option});
     }
 
     /**
@@ -1086,7 +1098,7 @@ public class WebTester {
      *            expected value of the selected option.
      */
     public void assertSelectedOptionValueEquals(String selectName, String value) {
-        assertSelectedOptionValuesEqual(selectName, new String[] { value });
+        assertSelectedOptionValuesEqual(selectName, new String[] {value});
     }
 
     /**
@@ -1112,7 +1124,7 @@ public class WebTester {
     }
 
     public void assertSelectedOptionMatches(String selectName, String regexp) {
-        assertSelectedOptionsMatch(selectName, new String[] { regexp });
+        assertSelectedOptionsMatch(selectName, new String[] {regexp});
     }
 
     /**
@@ -1235,7 +1247,8 @@ public class WebTester {
     }
 
     /**
-     * Assert that a button with a given text is not present in the current window.
+     * Assert that a button with a given text is not present in the current
+     * window.
      * 
      * @param text
      */
@@ -1245,14 +1258,16 @@ public class WebTester {
     }
 
     /**
-     * Assert that a button with a given id is not present in the current window.
+     * Assert that a button with a given id is not present in the current
+     * window.
      * 
      * @param buttonId
      */
     public void assertButtonNotPresent(String buttonId) {
         assertFormPresent();
-        Assert.assertFalse("Button [" + buttonId + "] found when not expected.", getDialog()
-                .hasButton(buttonId));
+        Assert.assertFalse(
+                "Button [" + buttonId + "] found when not expected.",
+                getDialog().hasButton(buttonId));
     }
 
     /**
@@ -1592,7 +1607,7 @@ public class WebTester {
                 + cookieName + "\"", re.match(getDialog().getCookieValue(
                 cookieName)));
     }
-    
+
     public void assertJavascriptAlertPresent(String msg) {
         String alert = null;
         try {
@@ -1627,7 +1642,7 @@ public class WebTester {
         assertFormElementPresent(formElementName);
         return getDialog().getFormParameterValue(formElementName);
     }
-    
+
     /**
      * Begin interaction with a specified form. If form interaction methods are
      * called without explicitly calling this method first, jWebUnit will
@@ -1749,7 +1764,7 @@ public class WebTester {
      *            label of option to be selected.
      */
     public void selectOption(String selectName, String label) {
-        selectOptions(selectName, new String[] { label });
+        selectOptions(selectName, new String[] {label});
     }
 
     /**
@@ -1774,7 +1789,7 @@ public class WebTester {
      *            values of options to be selected.
      */
     public void selectOptionByValue(String selectName, String value) {
-        selectOptionsByValues(selectName, new String[] { value });
+        selectOptionsByValues(selectName, new String[] {value});
     }
 
     // Form submission and link navigation methods
@@ -1991,7 +2006,13 @@ public class WebTester {
     }
 
     /**
-     * Patch sumbitted by Alex Chaffee.
+     * Go to the given page like if user has typed the URL manually in the
+     * browser. Use
+     * {@link TestContext#setBaseUrl(String) getTestContext().setBaseUrl(String)}
+     * to define base URL. Absolute URL should start with "http://", "https://" or "www.".
+     * 
+     * @param url
+     *            absolute or relative URL (relative to base URL).
      */
     public void gotoPage(String url) {
         try {
@@ -2131,18 +2152,18 @@ public class WebTester {
      * Exemple: <br/>
      * 
      * <pre>
-     *                 &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-     *                   &lt;P&gt;
-     *                     &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-     *                       &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-     *                       &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-     *                       &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-     *                       &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-     *                       &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-     *                     &lt;/SELECT&gt;
-     *                     &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-     *                   &lt;/P&gt;
-     *                 &lt;/FORM&gt;
+     *                   &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+     *                     &lt;P&gt;
+     *                       &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+     *                         &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+     *                         &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+     *                         &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+     *                         &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+     *                         &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+     *                       &lt;/SELECT&gt;
+     *                       &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+     *                     &lt;/P&gt;
+     *                   &lt;/FORM&gt;
      * </pre>
      * 
      * Should return [Component_1, Component_2, Component_3, Component_4,

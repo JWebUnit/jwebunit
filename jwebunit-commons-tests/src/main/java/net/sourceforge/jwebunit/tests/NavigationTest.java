@@ -28,9 +28,13 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		getTestContext().setBaseUrl(HOST_PATH + "/NavigationTest");
 	}
 
-	public void testBeginAt() {
+	public void testBeginAtRelative() {
 		beginAt("/blah.html");
 	}
+    
+    public void testBeginAtAbsolute() {
+        beginAt(HOST_PATH + "/NavigationTest/blah.html");
+    }
 
 	public void testForwardSlashConfusion() throws Exception {
 		beginAt("/blah.html");
@@ -77,16 +81,6 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		assertTitleEquals("pageWithLink");
 	}
 
-//	public void testClickLinkWithTextAfterText() {	
-//		beginAt("/pageWithLinkWithTextAfterText.html");
-//		clickLinkWithTextAfterText("link text", "First:");
-//		assertTitleEquals("targetPage");
-//
-//		beginAt("/pageWithLinkWithTextAfterText.html");
-//		clickLinkWithTextAfterText("link text", "Second:");
-//		assertTitleEquals("targetPage2");
-//	}
-
 	public void testClickLinkWithImage() {
 		beginAt("/pageWithLink.html");
 		assertTitleEquals("pageWithLink");
@@ -115,14 +109,21 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		fail("Expected exception");
 	}
 
-	public void testGotoPage() {
+	public void testGotoPageRelative() {
 		beginAt("/targetPage.html");
 		assertTitleEquals("targetPage");
 		gotoPage("/targetPage2.html");
 		assertTitleEquals("targetPage2");
 	}
 
-	//For bug 726143
+    public void testGotoPageAbsolute() {
+        beginAt("/targetPage.html");
+        assertTitleEquals("targetPage");
+        gotoPage(HOST_PATH + "/NavigationTest/targetPage2.html");
+        assertTitleEquals("targetPage2");
+    }
+
+    //For bug 726143
 	public void testLinkWithEscapedText() {
 		beginAt("/pageWithAmpersandInLink.html");
 		assertLinkPresentWithText("Map & Directions");
