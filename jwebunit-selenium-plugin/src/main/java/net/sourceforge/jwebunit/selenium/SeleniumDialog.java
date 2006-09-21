@@ -4,13 +4,13 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.selenium;
 
-import java.io.PrintStream;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
-import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.html.Table;
-import net.sourceforge.jwebunit.util.ExceptionUtility;
 import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
 
@@ -27,6 +27,10 @@ import com.thoughtworks.selenium.SeleniumException;
  * 
  */
 public class SeleniumDialog implements IJWebUnitDialog {
+    /**
+     * Logger for this class.
+     */
+    private static final Log LOGGER = LogFactory.getLog(SeleniumDialog.class);
 
     private Selenium selenium;
 
@@ -68,38 +72,38 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     public void clickButton(String buttonId) {
         selenium.click("id=buttonId");
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void clickButtonWithText(String buttonValueText) {
         selenium.click("xpath=" + formSelector() + "//button[contains(.,'" + buttonValueText + "')]");
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void clickElementByXPath(String xpath) {
         selenium.click("xpath=" + xpath);
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void clickLink(String anID) {
         selenium.click("xpath=//a[@id='" + anID + "']");
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void clickLinkWithExactText(String linkText, int index) {
         selenium.click("xpath=//a[.//*='" + linkText + "'][" + index + 1 + "]");
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void clickLinkWithImage(String imageFileName, int index) {
         selenium.click("xpath=//a[contains(img/@src,'" + imageFileName + "')]");
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void clickLinkWithText(String linkText, int index) {
         selenium.click("xpath=//a[contains(.,'" + linkText + "')][" + index + 1
                 + "]");
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void clickLinkWithTextAfterText(String linkText, String labelText) {
@@ -120,7 +124,9 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public String[][] getCookies() {
-        // TODO Implement getCookies in SeleniumDialog
+        //TODO
+        //FIXME
+        //selenium.getCookie();
         throw new UnsupportedOperationException("getCookies");
     }
 
@@ -196,7 +202,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     public void goBack() {
         selenium.goBack();
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void gotoFrame(String frameName) {
@@ -324,9 +330,11 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public boolean hasSubmitButton(String nameOrID) {
+        String xpath = "xpath=" + formSelector() + "//input[@type='submit' and (@id='"
+        + nameOrID + "' or @name='" + nameOrID + "')]";
+        LOGGER.debug("Execute isElementPresent("+xpath+")");
         return selenium
-                .isElementPresent("xpath=" + formSelector() + "//input[@type='submit' and (@id='"
-                        + nameOrID + "' or @name='" + nameOrID + "')]");
+                .isElementPresent(xpath);
     }
 
     public boolean hasResetButton() {
@@ -371,12 +379,12 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     public void refresh() {
         selenium.refresh();
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void reset() {
         selenium.click("xpath=" + formSelector() + "//input[@type='reset']");
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void selectOptions(String selectName, String[] optionsValue) {
@@ -395,8 +403,16 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public void setTextField(String inputName, String text) {
-        //TODO Add textarea support
-        selenium.type("xpath=" + formSelector() + "//input[@name='"+inputName+"' and (@type=text or @type=password)]", text);
+        //TODO Add textarea support and file support
+        try {
+            selenium.type("xpath=" + formSelector() + "//input[@name='"+inputName+"' and (@type='text' or @type='password' or @type='file')]", text);
+        } catch (SeleniumException e) {
+            try {
+            selenium.type("xpath=" + formSelector() + "//textarea[@name='"+inputName+"']", text);
+            } catch(SeleniumException e2) {
+                throw e;
+            }
+        }
     }
 
     public void setWorkingForm(String nameOrId, int index) {
@@ -408,17 +424,17 @@ public class SeleniumDialog implements IJWebUnitDialog {
 
     public void submit() {
         selenium.click("xpath=" + formSelector() + "//input[@type='submit']");
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void submit(String buttonName, String buttonValue) {
         selenium.click("xpath=" + formSelector() + "//input[@type='submit' and @name='"+buttonName+"' and @value='"+buttonValue+"']");
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void submit(String buttonName) {
         selenium.click("xpath=" + formSelector() + "//input[@type='submit' and @name='"+buttonName+"']");
-        selenium.waitForPageToLoad(timeout);
+        //selenium.waitForPageToLoad(timeout);
     }
 
     public void uncheckCheckbox(String checkBoxName, String value) {
@@ -457,8 +473,7 @@ public class SeleniumDialog implements IJWebUnitDialog {
     }
 
     public int getWindowCount() {
-        //TODO implement getWindowCount in SeleniumDialog
-        throw new UnsupportedOperationException("getWindowCount");
+        return selenium.getAllWindowTitles().length;
     }
 
     public void gotoWindow(int windowID) {

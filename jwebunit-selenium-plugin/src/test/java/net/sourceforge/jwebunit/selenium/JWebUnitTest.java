@@ -28,22 +28,22 @@ public class JWebUnitTest extends TestCase {
         TestSuite suite = new TestSuite("Test for net.sourceforge.jwebunit.selenium");
         //$JUnit-BEGIN$
         suite.addTestSuite(FormSubmissionTest.class);
-        suite.addTestSuite(WebAssertionsTest.class);
-        suite.addTestSuite(FramesAndWindowsTest.class);
-        suite.addTestSuite(TableAssertionsTest.class);
-        suite.addTestSuite(ExpectedTableAssertionsHtmlTest.class);
-        suite.addTestSuite(ExpectedTableAssertionsXHtmlTest.class);
-        suite.addTestSuite(JavaScriptEventsTest.class);
-        suite.addTestSuite(JavaScriptTest.class);
-        suite.addTestSuite(HelloWorldTest.class);
-        suite.addTestSuite(HtmlParsingTest.class);
-        suite.addTestSuite(WebCookieTest.class);
-        suite.addTestSuite(TestContextTest.class);
-        suite.addTestSuite(FormAssertionsTest.class);
-        suite.addTestSuite(NavigationTest.class);
-        suite.addTestSuite(XPathTest.class);
-        suite.addTestSuite(CharsetTest.class);
-        suite.addTestSuite(ButtonAssertionsTest.class);
+//        suite.addTestSuite(WebAssertionsTest.class);
+//        suite.addTestSuite(FramesAndWindowsTest.class);
+//        suite.addTestSuite(TableAssertionsTest.class);
+//        suite.addTestSuite(ExpectedTableAssertionsHtmlTest.class);
+//        suite.addTestSuite(ExpectedTableAssertionsXHtmlTest.class);
+//        suite.addTestSuite(JavaScriptEventsTest.class);
+//        suite.addTestSuite(JavaScriptTest.class);
+//        suite.addTestSuite(HelloWorldTest.class);
+//        suite.addTestSuite(HtmlParsingTest.class);
+//        suite.addTestSuite(WebCookieTest.class);
+//        suite.addTestSuite(TestContextTest.class);
+//        suite.addTestSuite(FormAssertionsTest.class);
+//        suite.addTestSuite(NavigationTest.class);
+//        suite.addTestSuite(XPathTest.class);
+//        suite.addTestSuite(CharsetTest.class);
+//        suite.addTestSuite(ButtonAssertionsTest.class);
         //$JUnit-END$
         return new JettySetup(suite);
     }
