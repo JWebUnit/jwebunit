@@ -11,8 +11,11 @@ import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.MimeTypes;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
+import org.mortbay.jetty.security.SecurityHandler;
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.mortbay.xml.XmlConfiguration;
+
+import sun.net.www.protocol.http.NTLMAuthSequence;
 
 import junit.extensions.TestSetup;
 import junit.framework.Test;
@@ -63,7 +66,10 @@ public class JettySetup extends TestSetup {
             wah.setContextPath(JWebUnitAPITestCase.JETTY_URL);
             URL url = this.getClass().getResource("/testcases/");
             wah.setWar(url.toString());
+//            SecurityHandler security = new SecurityHandler();
+//            wah.setSecurityHandler(security);
             jettyServer.addHandler(wah);
+            
             jettyServer.start();
         } catch (Exception e) {
             e.printStackTrace();

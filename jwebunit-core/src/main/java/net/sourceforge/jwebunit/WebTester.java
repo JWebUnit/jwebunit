@@ -162,10 +162,13 @@ public class WebTester {
     }
 
     private String createUrl(String url) {
-        if (url.startsWith("http://") || url.startsWith("https://")
-                || url.startsWith("www.")) {
+        if (url.startsWith("http://") || url.startsWith("https://")) {
             return url;
-        } else {
+        } 
+        else if (url.startsWith("www.")) {
+            return "http://" + url;
+        }
+        else {
             url = url.startsWith("/") ? url.substring(1) : url;
             return getTestContext().getBaseUrl() + url;
         }

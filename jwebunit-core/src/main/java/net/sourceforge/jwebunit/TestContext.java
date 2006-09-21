@@ -6,7 +6,6 @@ package net.sourceforge.jwebunit;
 
 import javax.servlet.http.Cookie;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -17,14 +16,17 @@ import java.util.Locale;
  * the {@link net.sourceforge.jwebunit.WebTestCase}or
  * {@link net.sourceforge.jwebunit.WebTester}.
  * 
+ * @author Julien Henry
  * @author Wilkes Joiner
  * @author Jim Weaver
  */
 public class TestContext {
 	private String user;
 	private String passwd;
-	private List cookies;
-	private boolean hasAuth;
+    private String domain;
+	private List<Cookie> cookies;
+	private boolean hasBasicAuth = false;
+    private boolean hasNTLMAuth = false;
 	private Locale locale = Locale.getDefault();
 	private String resourceBundleName;
 	private String baseUrl = "http://localhost:8080";
@@ -36,13 +38,11 @@ public class TestContext {
 	 * Construct a test client context.
 	 */
 	public TestContext() {
-		cookies = new ArrayList();
+		cookies = new ArrayList<Cookie>();
 	}
 
 	/**
-	 * Set authentication information for the test context. This information is
-	 * used by {@link HttpUnitDialog}to set authorization on the
-	 * WebConversation when the dialog is begun.
+	 * Set basic authentication information for the test context.
 	 * 
 	 * @param user
 	 *            user name
@@ -52,10 +52,25 @@ public class TestContext {
 	public void setAuthorization(String user, String passwd) {
 		this.user = user;
 		this.passwd = passwd;
-		hasAuth = true;
+		hasBasicAuth = true;
 	}
 
-	/**
+    /**
+     * Set NTLM authentication information for the test context.
+     * 
+     * @param user
+     *            user name
+     * @param passwd
+     *            password
+     */
+    public void setNTLMAuthorization(String user, String passwd, String domain) {
+        this.user = user;
+        this.passwd = passwd;
+        this.domain = domain;
+        hasNTLMAuth = true;
+    }
+
+    /**
 	 * Add a cookie to the test context. These cookies are set on the
 	 * WebConversation when an {@link HttpUnitDialog}is begun.
 	 * 
@@ -69,14 +84,22 @@ public class TestContext {
 	}
 
 	/**
-	 * Return true if a user / password has been set on the context via
+	 * Return true if a basic authentication has been set on the context via
 	 * {@link #setAuthorization}.
 	 */
 	public boolean hasAuthorization() {
-		return hasAuth;
+		return hasBasicAuth;
 	}
 
-	/**
+    /**
+     * Return true if a NTLM authentication has been set on the context via
+     * {@link #setNTLMAuthorization}.
+     */
+    public boolean hasNTLMAuthorization() {
+        return hasNTLMAuth;
+    }
+
+    /**
 	 * Return true if one or more cookies have been added to the test context.
 	 */
 	public boolean hasCookies() {
@@ -96,6 +119,13 @@ public class TestContext {
 	public String getPassword() {
 		return passwd;
 	}
+    
+    /**
+     * Return the user domain.
+     */
+    public String getDomain() {
+        return domain;
+    }
 
 	/**
 	 * Return the cookies which have been added to the test context.
