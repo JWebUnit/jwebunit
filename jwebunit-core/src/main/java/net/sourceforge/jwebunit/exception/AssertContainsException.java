@@ -4,24 +4,32 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.exception;
 
-
 /**
- * Global ancestor for all exception used by jWebUnit.
+ * Custom exception for assertContains failure. Could be use to get expected contain
+ * and actual text.
+ * 
  * @author Julien Henry (henryju@yahoo.fr)
- *
+ * 
  */
 @SuppressWarnings("serial")
-public class JWebUnitException extends Exception {
-    
-    public JWebUnitException() {
+public class AssertContainsException extends JWebUnitException {
+
+    private Object contain;
+
+    private Object text;
+
+    public AssertContainsException(Object contain, Object text) {
         super();
+        this.contain = contain;
+        this.text = text;
     }
 
-    public JWebUnitException(String msg) {
-        super(msg);
+    public Object getContain() {
+        return contain;
     }
 
-    public JWebUnitException(String msg, Exception cause) {
-        super(msg, cause);
+    public Object getText() {
+        return text;
     }
+
 }

@@ -12,6 +12,7 @@ import junit.framework.AssertionFailedError;
  *
  * @author Wilkes Joiner
  */
+@SuppressWarnings("serial")
 public class UnableToSetFormException extends AssertionFailedError {
     public UnableToSetFormException() {
     }

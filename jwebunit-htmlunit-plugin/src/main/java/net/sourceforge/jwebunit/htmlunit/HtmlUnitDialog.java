@@ -11,7 +11,9 @@ import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -26,13 +28,23 @@ import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.html.Cell;
 import net.sourceforge.jwebunit.html.Row;
+import net.sourceforge.jwebunit.html.SelectOption;
 import net.sourceforge.jwebunit.html.Table;
+import net.sourceforge.jwebunit.locator.FormLocator;
+import net.sourceforge.jwebunit.locator.FrameLocator;
+import net.sourceforge.jwebunit.locator.HtmlCheckboxLocator;
+import net.sourceforge.jwebunit.locator.HtmlElementLocator;
+import net.sourceforge.jwebunit.locator.HtmlOptionLocator;
+import net.sourceforge.jwebunit.locator.HtmlSelectLocator;
+import net.sourceforge.jwebunit.locator.HtmlTableLocator;
+import net.sourceforge.jwebunit.locator.WindowLocator;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
 
 import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
@@ -111,20 +123,13 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     // Implementation of IJWebUnitDialog
 
     /**
-     * Begin a dialog with an initial URL and test client context.
-     * 
-     * @param initialURL
-     *            absolute url at which to begin dialog.
-     * @param context
-     *            contains context information for the test client.
-     * @throws TestingEngineResponseException
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#beginAt(java.net.URL, net.sourceforge.jwebunit.TestContext)
      */
-    public void beginAt(String initialURL, TestContext context)
-            throws TestingEngineResponseException {
+    public void beginAt(URL url, TestContext context) throws TestingEngineResponseException {
         this.setTestContext(context);
         initWebClient();
         try {
-            wc.getPage(new URL(initialURL));
+            wc.getPage(url);
             win = wc.getCurrentWindow();
             form = null;
         } catch (FailingHttpStatusCodeException aException) {
@@ -136,7 +141,164 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         } catch (IOException aException) {
             throw new RuntimeException(ExceptionUtility
                     .stackTraceToString(aException), aException);
-        }
+        }    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#clickElement(net.sourceforge.jwebunit.locator.HtmlElementLocator)
+     */
+    public void clickElement(HtmlElementLocator htmlElement) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getAttributeValue(net.sourceforge.jwebunit.locator.HtmlElementLocator, java.lang.String)
+     */
+    public String getAttributeValue(HtmlElementLocator htmlElement, String attribut) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSelectedOptions(net.sourceforge.jwebunit.locator.HtmlSelectLocator)
+     */
+    public SelectOption[] getSelectedOptions(HtmlSelectLocator htmlSelect) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getSelectOption(net.sourceforge.jwebunit.locator.HtmlSelectLocator)
+     */
+    public SelectOption[] getSelectOption(HtmlSelectLocator htmlSelect) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#getTable(net.sourceforge.jwebunit.locator.HtmlTableLocator)
+     */
+    public Table getTable(HtmlTableLocator table) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#gotoFrame(net.sourceforge.jwebunit.locator.FrameLocator)
+     */
+    public void gotoFrame(FrameLocator frame) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#gotoPage(java.net.URL)
+     */
+    public void gotoPage(URL url) throws TestingEngineResponseException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#gotoWindow(net.sourceforge.jwebunit.locator.WindowLocator)
+     */
+    public void gotoWindow(WindowLocator window) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasElement(net.sourceforge.jwebunit.locator.HtmlElementLocator)
+     */
+    public boolean hasElement(HtmlElementLocator htmlElement) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasFrame(net.sourceforge.jwebunit.locator.FrameLocator)
+     */
+    public boolean hasFrame(FrameLocator frame) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasWindow(net.sourceforge.jwebunit.locator.WindowLocator)
+     */
+    public boolean hasWindow(WindowLocator window) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isCheckboxSelected(net.sourceforge.jwebunit.locator.HtmlCheckboxLocator)
+     */
+    public boolean isCheckboxSelected(HtmlCheckboxLocator checkbox) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isMatchInElement(net.sourceforge.jwebunit.locator.HtmlElementLocator, java.lang.String)
+     */
+    public boolean isMatchInElement(HtmlElementLocator htmlElement, String regexp) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#isTextInElement(net.sourceforge.jwebunit.locator.HtmlElementLocator, java.lang.String)
+     */
+    public boolean isTextInElement(HtmlElementLocator htmlElement, String text) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#selectOptions(net.sourceforge.jwebunit.locator.HtmlSelectLocator, net.sourceforge.jwebunit.locator.HtmlOptionLocator[])
+     */
+    public void selectOptions(HtmlSelectLocator htmlSelect, HtmlOptionLocator[] options) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#setTextField(net.sourceforge.jwebunit.locator.HtmlElementLocator, java.lang.String)
+     */
+    public void setTextField(HtmlElementLocator htmlElement, String text) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#setWorkingForm(net.sourceforge.jwebunit.locator.FormLocator)
+     */
+    public void setWorkingForm(FormLocator form) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see net.sourceforge.jwebunit.IJWebUnitDialog#unselectOptions(net.sourceforge.jwebunit.locator.HtmlSelectLocator, net.sourceforge.jwebunit.locator.HtmlOptionLocator[])
+     */
+    public void unselectOptions(HtmlSelectLocator htmlSelect, HtmlOptionLocator[] options) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * Begin a dialog with an initial URL and test client context.
+     * 
+     * @param initialURL
+     *            absolute url at which to begin dialog.
+     * @param context
+     *            contains context information for the test client.
+     * @throws TestingEngineResponseException
+     */
+    public void beginAt(String initialURL, TestContext context)
+            throws TestingEngineResponseException {
+        //TODO
     }
 
     public void closeBrowser() {
@@ -493,6 +655,21 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 "4.0", testContext.getUserAgent(), "1.2", 6));
         wc.setJavaScriptEnabled(jsEnabled);
         wc.setThrowExceptionOnScriptError(true);
+        DefaultCredentialsProvider creds = new DefaultCredentialsProvider();
+        if (getTestContext().hasAuthorization()) {
+            creds.addCredentials(getTestContext().getUser(), getTestContext().getPassword());
+        }
+        if (getTestContext().hasNTLMAuthorization()) {
+            InetAddress netAddress;
+            String address;
+            try {
+                netAddress = InetAddress.getLocalHost();
+                address = netAddress.getHostName();
+            } catch (UnknownHostException e) {
+                address = "";
+            }            
+            creds.addNTLMCredentials(getTestContext().getUser(), getTestContext().getPassword(), "", -1, address, getTestContext().getDomain());
+        }
         wc.addWebWindowListener(new WebWindowListener() {
             public void webWindowClosed(WebWindowEvent event) {
                 if (event.getOldPage().equals(win.getEnclosedPage())) {

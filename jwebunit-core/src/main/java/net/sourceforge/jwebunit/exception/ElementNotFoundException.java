@@ -9,6 +9,7 @@ package net.sourceforge.jwebunit.exception;
  * @author Julien Henry (henryju@yahoo.fr)
  * 
  */
+@SuppressWarnings("serial")
 public class ElementNotFoundException extends JWebUnitException {
    
     //TODO Perhaps add some informations about missing element (tag, name, ...).

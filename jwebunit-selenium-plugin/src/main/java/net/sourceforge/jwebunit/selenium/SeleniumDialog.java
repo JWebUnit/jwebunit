@@ -230,8 +230,8 @@ public class SeleniumDialog implements IJWebUnitDialog {
     public boolean hasButton(String buttonId) {
         // Not bothering with formSelector here because we're using an ID
         // to identify the element.  Is this the right thing to do?
-        return selenium.isElementPresent("xpath=//button[@id='" + buttonId
-                + "']");
+        return selenium.isElementPresent("xpath=//button[@id=\'" + buttonId
+                + "\']");
     }
 
     public boolean hasButtonWithText(String text) {
@@ -405,10 +405,10 @@ public class SeleniumDialog implements IJWebUnitDialog {
     public void setTextField(String inputName, String text) {
         //TODO Add textarea support and file support
         try {
-            selenium.type("xpath=" + formSelector() + "//input[@name='"+inputName+"' and (@type='text' or @type='password' or @type='file')]", text);
+            selenium.type("xpath=" + formSelector() + "//input[@name=\'"+inputName+"\' and (@type=\'text\' or @type=\'password\' or @type=\'file\')]", text);
         } catch (SeleniumException e) {
             try {
-            selenium.type("xpath=" + formSelector() + "//textarea[@name='"+inputName+"']", text);
+            selenium.type("xpath=" + formSelector() + "//textarea[@name=\'"+inputName+"\']", text);
             } catch(SeleniumException e2) {
                 throw e;
             }

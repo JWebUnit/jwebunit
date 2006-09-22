@@ -10,6 +10,7 @@ package net.sourceforge.jwebunit.exception;
  * appropriat key for a specific testing engine, etc.
  * @author Nick Neuberger
  */
+@SuppressWarnings("serial")
 public class TestingEngineRegistryException extends JWebUnitException {
 
     public TestingEngineRegistryException(String s) {

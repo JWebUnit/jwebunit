@@ -6,22 +6,28 @@ package net.sourceforge.jwebunit.exception;
 
 
 /**
- * Global ancestor for all exception used by jWebUnit.
+ * Custom exception for RE.match failure. Could be use to get expected regexp and actual value.
  * @author Julien Henry (henryju@yahoo.fr)
  *
  */
 @SuppressWarnings("serial")
-public class JWebUnitException extends Exception {
+public class AssertMatchException extends JWebUnitException {
     
-    public JWebUnitException() {
+    private String expectedRe;
+    private String actual;
+    
+    public AssertMatchException(String expectedRe, String actual) {
         super();
+        this.expectedRe=expectedRe;
+        this.actual=actual;
     }
 
-    public JWebUnitException(String msg) {
-        super(msg);
+    public String getExpected() {
+        return expectedRe;
     }
 
-    public JWebUnitException(String msg, Exception cause) {
-        super(msg, cause);
+    public String getActual() {
+        return actual;
     }
+
 }

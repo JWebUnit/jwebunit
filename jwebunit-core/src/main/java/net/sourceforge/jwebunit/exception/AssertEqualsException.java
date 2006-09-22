@@ -6,22 +6,28 @@ package net.sourceforge.jwebunit.exception;
 
 
 /**
- * Global ancestor for all exception used by jWebUnit.
+ * Custom exception for assertEquals failure. Could be use to get expected and actual value.
  * @author Julien Henry (henryju@yahoo.fr)
  *
  */
 @SuppressWarnings("serial")
-public class JWebUnitException extends Exception {
+public class AssertEqualsException extends JWebUnitException {
     
-    public JWebUnitException() {
+    private Object expected;
+    private Object actual;
+    
+    public AssertEqualsException(Object expected, Object actual) {
         super();
+        this.expected=expected;
+        this.actual=actual;
     }
 
-    public JWebUnitException(String msg) {
-        super(msg);
+    public Object getExpected() {
+        return expected;
     }
 
-    public JWebUnitException(String msg, Exception cause) {
-        super(msg, cause);
+    public Object getActual() {
+        return actual;
     }
+
 }

@@ -29,7 +29,7 @@ public class JWebUnitTest extends TestCase {
 	 *         jWebUnit ready to run utilizing Jetty as testserver.
 	 */
     public static Test suite() {
-        TestSuite suite = new TestSuite("Test for net.sourceforge.jwebunit");
+        TestSuite suite = new TestSuite("Test for net.sourceforge.jwebunit.htmlunit");
         //$JUnit-BEGIN$
         suite.addTestSuite(FormSubmissionTest.class);
         suite.addTestSuite(WebAssertionsTest.class);

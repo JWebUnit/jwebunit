@@ -16,6 +16,7 @@ package net.sourceforge.jwebunit.exception;
  * 
  * @author Nicholas Neuberger
  */
+@SuppressWarnings("serial")
 public class TestingEngineResponseException extends Exception {
 
 	/**
