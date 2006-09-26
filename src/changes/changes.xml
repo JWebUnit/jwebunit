@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 	<release version="2.0" date="unknow">
+            <action type="update" dev="Julien Henry">
+                Update to Jetty 6.0.1.
+            </action>
              <action type="fix" dev="Julien Henry" due-to="Joe Athman" issue="1554148">
                 beginAt and gotoPage now accept absolute URL beginning with "http://", "https://" or "www."
             </action>
