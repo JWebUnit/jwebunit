@@ -5,19 +5,18 @@
 package net.sourceforge.jwebunit.locator;
 
 /**
- * A Html table locator is a way to locate one &lt;table&gt;
- * in an HTML page.
+ * This is the type for all clickable html elements.
  * 
  * @author Julien Henry
  */
-public class HtmlTableLocator extends HtmlElementLocator {
-
-    public HtmlTableLocator() {
-        super("table");
+public abstract class ClickableHtmlElementLocator extends HtmlElementLocator {
+    
+    public ClickableHtmlElementLocator(String tag) {
+        super(tag);
     }
     
-    public HtmlTableLocator(String id) {
-        super("table", id);
+    public ClickableHtmlElementLocator(String tag, String id) {
+        super(tag, id);
     }
 
 }

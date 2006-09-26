@@ -6,7 +6,8 @@ package net.sourceforge.jwebunit.html;
 
 import java.util.ArrayList;
 
-import junit.framework.Assert;
+import net.sourceforge.jwebunit.exception.AssertEqualsException;
+import net.sourceforge.jwebunit.exception.AssertMatchException;
 
 
 /**
@@ -17,7 +18,7 @@ import junit.framework.Assert;
  */
 public class Row {
 
-    private ArrayList cells = new ArrayList();;
+    private ArrayList<Cell> cells = new ArrayList<Cell>();;
     
     public Row() {
     }
@@ -54,7 +55,7 @@ public class Row {
         cells.add(new Cell(cellText));
     }
 
-    public ArrayList getCells() {
+    public ArrayList<Cell> getCells() {
         return cells;
     }
     
@@ -81,15 +82,19 @@ public class Row {
     }
 
 
-    public void assertEquals(Row r) {
-        Assert.assertTrue("Cell count are not equal", this.getCells().size()==r.getCells().size());
+    public void assertEquals(Row r) throws AssertEqualsException {
+        if (this.getCells().size()!=r.getCells().size()) {
+           throw new AssertEqualsException(r.toString(), this.toString()); 
+        }
         for (int i=0; i<this.getCells().size(); i++) {
             ((Cell) this.getCells().get(i)).assertEquals((Cell)r.getCells().get(i));
         }
     }
 
-    public void assertMatch(Row r) {
-        Assert.assertTrue("Cell count are not equal", this.getCells().size()==r.getCells().size());
+    public void assertMatch(Row r) throws AssertMatchException {
+        if (this.getCells().size()!=r.getCells().size()) {
+            throw new AssertMatchException(r.toString(), this.toString()); 
+         }
         for (int i=0; i<this.getCells().size(); i++) {
             ((Cell) this.getCells().get(i)).assertMatch((Cell)r.getCells().get(i));
         }

@@ -5,23 +5,18 @@
 package net.sourceforge.jwebunit.html;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
-import junit.framework.Assert;
-
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
+import net.sourceforge.jwebunit.exception.AssertEqualsException;
+import net.sourceforge.jwebunit.exception.AssertMatchException;
 
 /**
  * Represents an expected table for comparison with an actual html table.
  * 
- * @author Jim Weaver
  * @author Julien Henry
  */
 public class Table {
 
-    private ArrayList rows = new ArrayList();
+    private ArrayList<Row> rows = new ArrayList<Row>();
 
     /**
      * Construct a table without providing any contents; they can be appended
@@ -82,7 +77,7 @@ public class Table {
         return getRows().size();
     }
 
-    ArrayList getRows() {
+    ArrayList<Row> getRows() {
         return rows;
     }
 
@@ -104,55 +99,43 @@ public class Table {
         return false;
     }
 
-    public void assertEquals(Table t) {
-        Assert.assertTrue("Row count are not equal", this.getRows().size() == t
-                .getRows().size());
+    public void assertEquals(Table t) throws AssertEqualsException {
+        if(this.getRows().size() != t.getRows().size()) {
+            throw new AssertEqualsException(t.toString(), this.toString());
+        }
         for (int i = 0; i < this.getRows().size(); i++) {
             ((Row) this.getRows().get(i))
                     .assertEquals((Row) t.getRows().get(i));
         }
     }
 
-    public void assertSubTableEquals(int startRow, Table t) {
+    public void assertSubTableEquals(int startRow, Table t) throws AssertEqualsException {
         Table sub = new Table();
         if (startRow + t.getRowCount() > this.getRowCount())
-            Assert.fail("Expected rows [" + t.getRowCount()
-                    + "] larger than actual rows in range being compared"
-                    + " [" + (this.getRowCount() - startRow) + "].");
+            throw new AssertEqualsException(t.toString(), this.toString());
         for (int i = startRow; i < startRow + t.getRowCount(); i++) {
             sub.appendRow((Row) this.getRows().get(i));
         }
         sub.assertEquals(t);
     }
 
-    public void assertMatch(Table t) {
-        Assert.assertTrue("Row count are not equal", this.getRows().size() == t
-                .getRows().size());
+    public void assertMatch(Table t) throws AssertMatchException {
+        if(this.getRows().size() != t.getRows().size()) {
+            throw new AssertMatchException(t.toString(), this.toString());
+        }
         for (int i = 0; i < this.getRows().size(); i++) {
             ((Row) this.getRows().get(i)).assertMatch((Row) t.getRows().get(i));
         }
     }
 
-    public void assertSubTableMatch(int startRow, Table t) {
+    public void assertSubTableMatch(int startRow, Table t) throws AssertMatchException {
         Table sub = new Table();
         if (startRow + t.getRowCount() > this.getRowCount())
-            Assert.fail("Expected rows [" + t.getRowCount()
-                    + "] larger than actual rows in range being compared"
-                    + " [" + (this.getRowCount() - startRow) + "].");
+            throw new AssertMatchException(t.toString(), this.toString());
         for (int i = startRow; i < startRow + t.getRowCount(); i++) {
             sub.appendRow((Row) this.getRows().get(i));
         }
         sub.assertMatch(t);
-    }
-
-    private RE getRE(String regexp) {
-        RE re = null;
-        try {
-            re = new RE(regexp, RE.MATCH_SINGLELINE);
-        } catch (RESyntaxException e) {
-            Assert.fail(e.toString());
-        }
-        return re;
     }
 
 }

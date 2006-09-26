@@ -4,7 +4,8 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.html;
 
-import junit.framework.Assert;
+import net.sourceforge.jwebunit.exception.AssertEqualsException;
+import net.sourceforge.jwebunit.exception.AssertMatchException;
 
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
@@ -78,15 +79,16 @@ public class Cell {
      * @param c
      *            given cell
      */
-    public void assertEquals(Cell c) {
-        Assert.assertTrue(c.getValue() + " do not equal " + this.getValue(),
-                this.getValue().equals(c.getValue()));
-        Assert.assertTrue("Expected colspan was " + c.getColspan()
-                + " but was " + this.getColspan(), this.getColspan() == c
-                .getColspan());
-        Assert.assertTrue("Expected rowspan was " + c.getRowspan()
-                + " but was " + this.getRowspan(), this.getRowspan() == c
-                .getRowspan());
+    public void assertEquals(Cell c) throws AssertEqualsException {
+        if (!this.getValue().equals(c.getValue())) {
+            throw new AssertEqualsException(c.toString(), this.toString());
+        }
+        if (this.getColspan() != c.getColspan()) {
+            throw new AssertEqualsException(c.toString(), this.toString());
+        }
+        if (this.getRowspan() != c.getRowspan()) {
+            throw new AssertEqualsException(c.toString(), this.toString());
+        }
     }
 
     /**
@@ -96,21 +98,24 @@ public class Cell {
      * @param c
      *            given cell
      */
-    public void assertMatch(Cell c) {
+    public void assertMatch(Cell c) throws AssertMatchException, RESyntaxException {
         RE re = getRE(c.getValue());
-        Assert.assertTrue(c.getValue() + " do not match " + this.getValue(), re
-                .match(this.getValue()));
-        Assert.assertTrue("Expected colspan was " + c.getColspan()
-                + " but was " + this.getColspan(), this.getColspan() == c
-                .getColspan());
-        Assert.assertTrue("Expected rowspan was " + c.getRowspan()
-                + " but was " + this.getRowspan(), this.getRowspan() == c
-                .getRowspan());
+        if (!re.match(this.getValue())) {
+            throw new AssertMatchException(c.getValue(), this.toString());
+        }
+        if (this.getColspan() != c.getColspan()) {
+            throw new AssertMatchException(c.toString(), this.toString());
+        }
+        if (this.getRowspan() != c.getRowspan()) {
+            throw new AssertMatchException(c.toString(), this.toString());
+        }
     }
 
     /**
      * Check if the current cell contains given text.
-     * @param text given text.
+     * 
+     * @param text
+     *            given text.
      * @return true if the current cell contains given text.
      */
     public boolean equals(String text) {
@@ -119,7 +124,9 @@ public class Cell {
 
     /**
      * Check if the current cell matches given text.
-     * @param regexp given regexp.
+     * 
+     * @param regexp
+     *            given regexp.
      * @return true if the current cell matches given text.
      */
     public boolean match(String regexp) {
@@ -129,16 +136,12 @@ public class Cell {
 
     /**
      * Create a regexp.
-     * @param regexp regexp pattern
+     * 
+     * @param regexp
+     *            regexp pattern
      * @return regexp object
      */
-    private RE getRE(String regexp) {
-        RE re = null;
-        try {
-            re = new RE(regexp, RE.MATCH_SINGLELINE);
-        } catch (RESyntaxException e) {
-            Assert.fail(e.toString());
-        }
-        return re;
+    private RE getRE(String regexp) throws RESyntaxException {
+        return new RE(regexp, RE.MATCH_SINGLELINE);
     }
 }

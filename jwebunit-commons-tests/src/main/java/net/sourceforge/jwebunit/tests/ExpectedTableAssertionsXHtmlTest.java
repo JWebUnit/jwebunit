@@ -8,6 +8,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import net.sourceforge.jwebunit.html.Cell;
 import net.sourceforge.jwebunit.html.Table;
+import net.sourceforge.jwebunit.locator.HtmlTableLocatorByName;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
@@ -45,7 +46,7 @@ public class ExpectedTableAssertionsXHtmlTest extends JWebUnitAPITestCase {
         cells[3][2]=new Cell("0.002",1,1);
         cells[3][3]=new Cell("43%",1,1);
         Table table = new Table(cells);
-        assertPass("assertTableEquals", new Object[]{"myTable", table});
+        assertPass("assertTableEquals", new Object[]{new HtmlTableLocatorByName("myTable"), table});
     }
 
     public void testAssertTableEqualsMissingRows() throws Throwable {
@@ -63,8 +64,8 @@ public class ExpectedTableAssertionsXHtmlTest extends JWebUnitAPITestCase {
         cells[2][2]=new Cell("0.003",1,1);
         cells[2][3]=new Cell("40%",1,1);
         Table table = new Table(cells);
-        assertPass("assertTableRowsEqual", new Object[]{"myTable", new Integer(0), table});
-        assertFail("assertTableEquals", new Object[]{"myTable", table});
+        assertPass("assertTableRowsEqual", new Object[]{new HtmlTableLocatorByName("myTable"), new Integer(0), table});
+        assertFail("assertTableEquals", new Object[]{new HtmlTableLocatorByName("myTable"), table});
     }
 
 }

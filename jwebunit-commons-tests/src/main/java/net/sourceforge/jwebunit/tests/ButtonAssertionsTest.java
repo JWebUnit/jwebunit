@@ -4,6 +4,10 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
+import net.sourceforge.jwebunit.locator.HtmlButtonLocator;
+import net.sourceforge.jwebunit.locator.HtmlFormLocator;
+import net.sourceforge.jwebunit.locator.HtmlFormLocatorByName;
+
 public class ButtonAssertionsTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
@@ -13,31 +17,31 @@ public class ButtonAssertionsTest extends JWebUnitAPITestCase {
 
     public void testAssertButtonwithOneFormfound() {
         beginAt("/pageWithOneForm.html");
-        assertButtonPresent("button1");
-        assertButtonPresent("buttonOutside");
-        setWorkingForm("form1");
-        assertButtonPresent("button1");
-        assertButtonPresent("buttonOutside");
-        assertButtonPresent("button1");
-        assertButtonPresent("buttonOutside");
+        assertElementPresent(new HtmlButtonLocator("button1"));
+        assertElementPresent(new HtmlButtonLocator("buttonOutside"));
+        setWorkingForm(new HtmlFormLocatorByName("form1"));
+        assertElementPresent(new HtmlButtonLocator("button1"));
+        assertElementPresent(new HtmlButtonLocator("buttonOutside"));
+        assertElementPresent(new HtmlButtonLocator("button1"));
+        assertElementPresent(new HtmlButtonLocator("buttonOutside"));
     }
 
     public void testAssertButtonwithTowFormsfound() {
         beginAt("/pageWithTwoForms.html");
-        assertButtonPresent("button1");
-        assertButtonPresent("button2");
-        assertButtonPresent("buttonOutside");
-        setWorkingForm("form1");
-        assertButtonPresent("button1");
-        assertButtonPresent("button2");
-        assertButtonPresent("buttonOutside");
-        setWorkingForm("form2");
-        assertButtonPresent("button1");
-        assertButtonPresent("button2");
-        assertButtonPresent("buttonOutside");
-        assertButtonPresent("button1");
-        assertButtonPresent("button2");
-        assertButtonPresent("buttonOutside");
+        assertElementPresent(new HtmlButtonLocator("button1"));
+        assertElementPresent(new HtmlButtonLocator("button2"));
+        assertElementPresent(new HtmlButtonLocator("buttonOutside"));
+        setWorkingForm(new HtmlFormLocatorByName("form1"));
+        assertElementPresent(new HtmlButtonLocator("button1"));
+        assertElementPresent(new HtmlButtonLocator("button2"));
+        assertElementPresent(new HtmlButtonLocator("buttonOutside"));
+        setWorkingForm(new HtmlFormLocatorByName("form2"));
+        assertElementPresent(new HtmlButtonLocator("button1"));
+        assertElementPresent(new HtmlButtonLocator("button2"));
+        assertElementPresent(new HtmlButtonLocator("buttonOutside"));
+        assertElementPresent(new HtmlButtonLocator("button1"));
+        assertElementPresent(new HtmlButtonLocator("button2"));
+        assertElementPresent(new HtmlButtonLocator("buttonOutside"));
     }
 
 }

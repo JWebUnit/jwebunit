@@ -5,26 +5,26 @@
 package net.sourceforge.jwebunit.exception;
 
 /**
- * Custom exception for assertContains failure. Could be use to get expected content
+ * Custom exception for assertNotContains failure. Could be use to get not expected content
  * and actual text.
  * 
  * @author Julien Henry (henryju@yahoo.fr)
  * 
  */
 @SuppressWarnings("serial")
-public class AssertContainsException extends JWebUnitException {
+public class AssertNotContainsException extends JWebUnitException {
 
     private Object content;
 
     private Object text;
 
-    public AssertContainsException(Object content, Object text) {
+    public AssertNotContainsException(Object content, Object text) {
         super();
         this.content = content;
         this.text = text;
     }
 
-    public Object getExpectedContent() {
+    public Object getNotExpectedContent() {
         return content;
     }
 

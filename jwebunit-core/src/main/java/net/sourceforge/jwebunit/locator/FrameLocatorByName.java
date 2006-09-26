@@ -5,19 +5,20 @@
 package net.sourceforge.jwebunit.locator;
 
 /**
- * A Html table locator is a way to locate one &lt;table&gt;
- * in an HTML page.
+ * This is the interface for all FrameLocators.
+ * A frame locator is a way to locate a frame in a browser.
  * 
  * @author Julien Henry
  */
-public class HtmlTableLocator extends HtmlElementLocator {
+public class FrameLocatorByName implements FrameLocator {
 
-    public HtmlTableLocator() {
-        super("table");
+    private String name;
+    
+    public FrameLocatorByName(String name) {
+        this.name = name;
     }
     
-    public HtmlTableLocator(String id) {
-        super("table", id);
+    public String getName() {
+        return name;
     }
-
 }

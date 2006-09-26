@@ -9,7 +9,7 @@ package net.sourceforge.jwebunit.locator;
  * 
  * @author Julien Henry
  */
-public class XPathLocator implements HtmlElementLocator {
+public class XPathLocator implements Locator {
     
     private String xpath;
     

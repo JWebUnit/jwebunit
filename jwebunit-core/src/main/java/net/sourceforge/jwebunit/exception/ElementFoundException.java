@@ -7,35 +7,33 @@ package net.sourceforge.jwebunit.exception;
 import net.sourceforge.jwebunit.locator.Locator;
 
 /**
- * This exception should be used when an expected element is not found.
+ * This exception should be used when an unexpected element is found.
  * @author Julien Henry (henryju@yahoo.fr)
  * 
  */
 @SuppressWarnings("serial")
-public class ElementNotFoundException extends JWebUnitException {
+public class ElementFoundException extends JWebUnitException {
     
-    private Locator elementNotFound;
+    private Locator elementFound;
    
-    //TODO Perhaps add some informations about missing element (tag, name, ...).
-    
     /**
      * @return Returns the elementNotFound.
      */
-    public Locator getElementNotFound() {
-        return elementNotFound;
+    public Locator getElementFound() {
+        return elementFound;
     }
 
-    public ElementNotFoundException(String msg) {
+    public ElementFoundException(String msg) {
         super(msg);
     }
 
-    public ElementNotFoundException(String msg, Exception cause) {
+    public ElementFoundException(String msg, Exception cause) {
         super(msg, cause);
     }
     
-    public ElementNotFoundException(Locator elementNotFound) {
+    public ElementFoundException(Locator elementFound) {
         super();
-        this.elementNotFound=elementNotFound;        
+        this.elementFound=elementFound;        
     }
 
 }

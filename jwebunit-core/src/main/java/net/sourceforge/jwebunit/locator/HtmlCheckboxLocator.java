@@ -11,6 +11,11 @@ package net.sourceforge.jwebunit.locator;
  * 
  * @author Julien Henry
  */
-public interface HtmlCheckboxLocator extends HtmlElementLocator {
+public class HtmlCheckboxLocator extends ClickableHtmlElementLocator {
+    
+    public HtmlCheckboxLocator() {
+        super("input");
+        addAttribut("type", "checkbox");
+    }
 
 }

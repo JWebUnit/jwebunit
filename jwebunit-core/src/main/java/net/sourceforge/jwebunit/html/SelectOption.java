@@ -4,32 +4,32 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.html;
 
-import net.sourceforge.jwebunit.locator.HtmlSelectLocator;
+import net.sourceforge.jwebunit.locator.HtmlOptionLocator;
 
 /**
- * Represents an option of a select.
+ * Represents one option of a select.
  * 
  * @author Julien Henry
  */
 public class SelectOption {
 
     private String value;
-    private String text;
-    private HtmlSelectLocator locator;
+    private String label;
+    private HtmlOptionLocator locator;
     
-    public SelectOption(HtmlSelectLocator locator, String value, String text) {
+    public SelectOption(HtmlOptionLocator locator, String value, String label) {
         this.locator=locator;
         this.value=value;
-        this.text=text;
+        this.label=label;
     }
     
-    public String getText() {
-        return text;
+    public String getLabel() {
+        return label;
     }
     public String getValue() {
         return value;
     }
-    public HtmlSelectLocator getLocator() {
+    public HtmlOptionLocator getLocator() {
         return locator;
     }
 }

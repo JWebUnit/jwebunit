@@ -10,14 +10,10 @@ package net.sourceforge.jwebunit.locator;
  * 
  * @author Julien Henry
  */
-public class HtmlTableLocator extends HtmlElementLocator {
+public class HtmlTableLocatorBySummary extends HtmlTableLocator {
 
-    public HtmlTableLocator() {
-        super("table");
-    }
-    
-    public HtmlTableLocator(String id) {
-        super("table", id);
+    public HtmlTableLocatorBySummary(String summary) {
+        addAttribut("summary", summary);
     }
 
 }

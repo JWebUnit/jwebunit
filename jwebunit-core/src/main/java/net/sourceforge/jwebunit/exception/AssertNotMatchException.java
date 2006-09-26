@@ -4,26 +4,28 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.exception;
 
-
 /**
- * Custom exception for RE.match failure. Could be use to get expected regexp and actual value.
+ * Custom exception for RE.match success when not expected. Could be use to get
+ * expected regexp and actual value.
+ * 
  * @author Julien Henry (henryju@yahoo.fr)
- *
+ * 
  */
 @SuppressWarnings("serial")
-public class AssertMatchException extends JWebUnitException {
-    
-    private String expectedRe;
+public class AssertNotMatchException extends JWebUnitException {
+
+    private String notExpectedRe;
+
     private String actual;
-    
-    public AssertMatchException(String expectedRe, String actual) {
+
+    public AssertNotMatchException(String notExpectedRe, String actual) {
         super();
-        this.expectedRe=expectedRe;
-        this.actual=actual;
+        this.notExpectedRe = notExpectedRe;
+        this.actual = actual;
     }
 
-    public String getExpectedRE() {
-        return expectedRe;
+    public String getNotExpectedRE() {
+        return notExpectedRe;
     }
 
     public String getActualText() {

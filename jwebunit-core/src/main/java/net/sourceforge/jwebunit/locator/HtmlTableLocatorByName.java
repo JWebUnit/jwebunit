@@ -5,11 +5,15 @@
 package net.sourceforge.jwebunit.locator;
 
 /**
- * This is the interface for all FormLocators.
- * A form locator is a way to locate a &lt;form&gt; element in a page.
+ * A Html table locator is a way to locate one &lt;table&gt;
+ * in an HTML page.
  * 
  * @author Julien Henry
  */
-public interface FormLocator extends HtmlElementLocator {
+public class HtmlTableLocatorByName extends HtmlTableLocator {
+
+    public HtmlTableLocatorByName(String name) {
+        addAttribut("name", name);
+    }
 
 }

@@ -10,7 +10,8 @@ import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.html.SelectOption;
 import net.sourceforge.jwebunit.html.Table;
-import net.sourceforge.jwebunit.locator.FormLocator;
+import net.sourceforge.jwebunit.locator.ClickableHtmlElementLocator;
+import net.sourceforge.jwebunit.locator.HtmlFormLocator;
 import net.sourceforge.jwebunit.locator.FrameLocator;
 import net.sourceforge.jwebunit.locator.HtmlCheckboxLocator;
 import net.sourceforge.jwebunit.locator.HtmlElementLocator;
@@ -231,7 +232,7 @@ public interface IJWebUnitDialog {
      * @param form
      *            a form locator.
      */
-    void setWorkingForm(FormLocator form);
+    void setWorkingForm(HtmlFormLocator form) throws ElementNotFoundException;
 
     /**
      * Return true if the current page contains at least a form.
@@ -282,7 +283,21 @@ public interface IJWebUnitDialog {
      * @param attribut name of the attribut (e.g. value, alt, width)
      * @return current value of a html element's attribut.
      */
-    String getAttributeValue(HtmlElementLocator htmlElement, String attribut);
+    String getAttributeValue(HtmlElementLocator htmlElement, String attribut) throws ElementNotFoundException;
+
+    /**
+     * Gets the text of an element. This works for any element that contains text.
+     * @param htmlElement a locator.
+     * @return current text content of an element.
+     */
+    String getText(HtmlElementLocator htmlElement) throws ElementNotFoundException;
+
+    /**
+     * Count how many elements match the given locator.
+     * @param htmlElement a locator.
+     * @return element count.
+     */
+    int getCount(HtmlElementLocator htmlElement) throws ElementNotFoundException;
 
     /**
      * Return the current value of a hidden input element with name
@@ -301,6 +316,7 @@ public interface IJWebUnitDialog {
      *            name of the text, password or textarea element
      * @param text
      *            value to type in the field.
+     * @deprecated use {@link setTextField(HtmlElementLocator, String)}
      */
     void setTextField(String inputName, String text);
 
@@ -369,7 +385,7 @@ public interface IJWebUnitDialog {
      * @param selectName
      *            name of the select box.
      */
-    SelectOption[] getSelectOption(HtmlSelectLocator htmlSelect);
+    SelectOption[] getSelectOptions(HtmlSelectLocator htmlSelect) throws net.sourceforge.jwebunit.exception.ElementNotFoundException;
 
     /**
      * Return the values of the currently selected items in a select box.
@@ -386,7 +402,7 @@ public interface IJWebUnitDialog {
      * @param selectName
      *            name of the select box.
      */
-    SelectOption[] getSelectedOptions(HtmlSelectLocator htmlSelect);
+    SelectOption[] getSelectedOptions(HtmlSelectLocator htmlSelect) throws net.sourceforge.jwebunit.exception.ElementNotFoundException;
 
     /**
      * Get the label for a given option of a select box.
@@ -735,7 +751,7 @@ public interface IJWebUnitDialog {
      *            table locator.
      * @return unified jWebUnit representation of a table.
      */
-    Table getTable(HtmlTableLocator table);
+    Table getTable(HtmlTableLocator table) throws net.sourceforge.jwebunit.exception.ElementNotFoundException;
 
     /**
      * Return true if a link is present in the current response containing the
@@ -883,7 +899,7 @@ public interface IJWebUnitDialog {
      * @param htmlElement
      *            html element locator.
      */
-    void clickElement(HtmlElementLocator htmlElement);
+    void clickElement(ClickableHtmlElementLocator htmlElement) throws ElementNotFoundException;
 
     /**
      * Return true if a given string is contained within the specified element.

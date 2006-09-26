@@ -11,6 +11,9 @@ package net.sourceforge.jwebunit.locator;
  * 
  * @author Julien Henry
  */
-public interface HtmlSelectLocator extends HtmlElementLocator {
+public class HtmlSelectLocator extends HtmlElementLocator {
 
+    public HtmlSelectLocator() {
+        super("select");
+    }
 }
