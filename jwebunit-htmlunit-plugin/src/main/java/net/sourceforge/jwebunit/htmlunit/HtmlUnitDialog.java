@@ -330,20 +330,23 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
         throw new RuntimeException("getFormParameterValue failed");
     }
-    
+
     /**
-     * Return the current value of a text input element with name <code>paramName</code>.
+     * Return the current value of a text input element with name
+     * <code>paramName</code>.
      * 
      * @param paramName
-     *            name of the input element.
-     * TODO: Find a way to handle multiple text input element with same name.
+     *            name of the input element. TODO: Find a way to handle multiple
+     *            text input element with same name.
      */
     public String getTextFieldValue(String paramName) {
         checkFormStateWithInput(paramName);
-        List textFieldElements = getForm().getHtmlElementsByAttribute("input", "type", "text");
-        textFieldElements.addAll(getForm().getHtmlElementsByAttribute("input", "type", "password"));
+        List textFieldElements = getForm().getHtmlElementsByAttribute("input",
+                "type", "text");
+        textFieldElements.addAll(getForm().getHtmlElementsByAttribute("input",
+                "type", "password"));
         Iterator it = textFieldElements.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             HtmlInput input = (HtmlInput) it.next();
             if (paramName.equals(input.getNameAttribute())) {
                 return input.getValueAttribute();
@@ -352,37 +355,44 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         // If no text field with the name paramName then try with textareas.
         textFieldElements = getForm().getTextAreasByName(paramName);
         it = textFieldElements.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             HtmlTextArea textInput = (HtmlTextArea) it.next();
             if (paramName.equals(textInput.getNameAttribute())) {
                 return textInput.getText();
             }
         }
-        throw new RuntimeException("getTextFieldParameterValue failed, text field with name [" + paramName + "] does not exist.");
+        throw new RuntimeException(
+                "getTextFieldParameterValue failed, text field with name ["
+                        + paramName + "] does not exist.");
     }
 
     /**
-     * Return the current value of a hidden input element with name <code>paramName</code>.
+     * Return the current value of a hidden input element with name
+     * <code>paramName</code>.
      * 
      * @param paramName
-     *            name of the input element.
-     * TODO: Find a way to handle multiple hidden input element with same name.            
+     *            name of the input element. TODO: Find a way to handle multiple
+     *            hidden input element with same name.
      */
     public String getHiddenFieldValue(String paramName) {
         checkFormStateWithInput(paramName);
-        List textFieldElements = getForm().getHtmlElementsByAttribute("input", "type", "hidden");
+        List textFieldElements = getForm().getHtmlElementsByAttribute("input",
+                "type", "hidden");
         Iterator it = textFieldElements.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             HtmlHiddenInput textInput = (HtmlHiddenInput) it.next();
             if (paramName.equals(textInput.getNameAttribute())) {
                 return textInput.getValueAttribute();
             }
         }
-        throw new RuntimeException("getHiddenFieldParameterValue failed, hidden field with name [" + paramName + "] does not exist.");
+        throw new RuntimeException(
+                "getHiddenFieldParameterValue failed, hidden field with name ["
+                        + paramName + "] does not exist.");
     }
 
     /**
-     * Set a form text, password input element or textarea to the provided value.
+     * Set a form text, password input element or textarea to the provided
+     * value.
      * 
      * @param fieldName
      *            name of the input element or textarea
@@ -391,7 +401,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      */
     public void setTextField(String fieldName, String paramValue) {
         checkFormStateWithInput(fieldName);
-        List inputElements = getForm().getHtmlElementsByAttribute("input", "name", fieldName);
+        List inputElements = getForm().getHtmlElementsByAttribute("input",
+                "name", fieldName);
         if (!inputElements.isEmpty()) {
             HtmlInput input = (HtmlInput) inputElements.get(0);
             input.setValueAttribute(paramValue);
@@ -667,7 +678,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         if (hasForm()) {
             for (int i = 0; i < getForms().size(); i++) {
                 HtmlForm form = (HtmlForm) getForms().get(i);
-                List inputElements = form.getHtmlElementsByAttribute("input", "name", inputName);
+                List inputElements = form.getHtmlElementsByAttribute("input",
+                        "name", inputName);
                 if (inputElements.isEmpty()) {
                     inputElements = form.getTextAreasByName(inputName);
                 }
@@ -681,16 +693,27 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     private HtmlForm getFormWithSelect(String selectName) {
-        if (hasForm()) {
-            for (int i = 0; i < getForms().size(); i++) {
-                HtmlForm form = (HtmlForm) getForms().get(i);
-                try {
-                    if (form.getSelectByName(selectName) != null) {
-                        setWorkingForm(form);
-                        return form;
+        // Search in Working form if available
+        if (form != null) {
+            try {
+                if (form.getSelectByName(selectName) != null) {
+                    return form;
+                }
+            } catch (ElementNotFoundException e) {
+                // Nothing
+            }
+        } else {
+            if (hasForm()) {
+                for (int i = 0; i < getForms().size(); i++) {
+                    HtmlForm form = (HtmlForm) getForms().get(i);
+                    try {
+                        if (form.getSelectByName(selectName) != null) {
+                            setWorkingForm(form);
+                            return form;
+                        }
+                    } catch (ElementNotFoundException e) {
+                        // Nothing
                     }
-                } catch (ElementNotFoundException e) {
-                    // Nothing
                 }
             }
         }
@@ -904,7 +927,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     public HtmlButton getButtonWithText(String buttonValueText) {
         List l = ((HtmlPage) win.getEnclosedPage()).getDocumentElement()
                 .getHtmlElementsByTagNames(
-                        Arrays.asList(new String[] { "button" }));
+                        Arrays.asList(new String[] {"button"}));
         for (int i = 0; i < l.size(); i++) {
             HtmlElement e = (HtmlElement) l.get(i);
             if (((HtmlButton) e).getValueAttribute().equals(buttonValueText))

@@ -5,6 +5,11 @@
 		<author email="dashorst at users.sourceforge.net">Martijn Dashorst</author>
 	</properties>
 	<body>
+        <release version="1.4" date="UNKNOW">
+            <action type="fix" dev="Julien Henry" due-to="Veenay Dodia" issue="1565634">
+                selectOption() reset previous setWorkingForm() action. Problematic with 2 selects with same name in 2 different forms.
+            </action>
+         </release>
         <release version="1.3" date="july 28, 2006">
             <action type="remove" dev="Julien Henry" due-to="Fred Burlet">
                 assertFormParameterValue is now deprecated. Please use more specific method, like
