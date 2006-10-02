@@ -916,7 +916,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * Checks if a button with <code>text</code> is present.
      * 
      * @param text
-     *            the text of the button (contents of the value attribute).
+     *            the text of the button (between &lt;button&gt;&lt;/button&gt;).
      * @return <code>true</code> when the button with text could be found.
      */
     public boolean hasButtonWithText(String text) {
@@ -930,7 +930,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                         Arrays.asList(new String[] {"button"}));
         for (int i = 0; i < l.size(); i++) {
             HtmlElement e = (HtmlElement) l.get(i);
-            if (((HtmlButton) e).getValueAttribute().equals(buttonValueText))
+            if (((HtmlButton) e).asText().equals(buttonValueText))
                 return (HtmlButton) e;
         }
         return null;

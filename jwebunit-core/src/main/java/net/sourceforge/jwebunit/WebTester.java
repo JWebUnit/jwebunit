@@ -1225,7 +1225,7 @@ public class WebTester {
     /**
      * Assert that a button with a given text is present in the current window.
      * 
-     * @param text
+     * @param text Text representation of button content.
      */
     public void assertButtonPresentWithText(String text) {
         Assert.assertTrue("Did not find button with text [" + text + "].",
@@ -1235,7 +1235,7 @@ public class WebTester {
     /**
      * Assert that a button with a given text is not present in the current window.
      * 
-     * @param text
+     * @param text Text representation of button content.
      */
     public void assertButtonNotPresentWithText(String text) {
         Assert.assertFalse("Found button with text [" + text + "].",
