@@ -22,9 +22,9 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
 
     public void testAssertButtonWithTextPresent() {
         beginAt("/assertButtonWithText.html");
-        assertButtonPresentWithText("buttonValue1");
-        assertButtonPresentWithText("buttonValue2");
-        assertButtonNotPresentWithText("buttonValue3");
+        assertButtonPresentWithText("foo");
+        assertButtonPresentWithText("bar");
+        assertButtonNotPresentWithText("foobar");
     }
     
     public void testAssertFormParameterPresent() throws Throwable {
