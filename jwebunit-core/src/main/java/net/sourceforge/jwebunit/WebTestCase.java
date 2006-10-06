@@ -38,7 +38,7 @@ import junit.framework.TestCase;
  */
 public class WebTestCase extends TestCase {
     private JWebUnitTester tester = null;
-    
+
     public WebTestCase(String name) {
         super(name);
     }
@@ -135,7 +135,7 @@ public class WebTestCase extends TestCase {
         try {
             getTester().assertTitleMatch(regexp);
         } catch (RESyntaxException e) {
-            //TODO add link to the apache regexp site
+            // TODO add link to the apache regexp site
             fail("Invalid regexp " + regexp);
         } catch (AssertMatchException e) {
             fail(regexp + " do not match actual title: " + e.getActualText());
@@ -154,7 +154,8 @@ public class WebTestCase extends TestCase {
         try {
             getTester().assertKeyPresent(key);
         } catch (AssertContainsException e) {
-            failNotSame("Unable to find the given text", e.getExpectedContent(), e.getActualText());
+            failNotSame("Unable to find the given text",
+                    e.getExpectedContent(), e.getActualText());
         }
     }
 
@@ -162,7 +163,8 @@ public class WebTestCase extends TestCase {
         try {
             getTester().assertTextPresent(text);
         } catch (AssertContainsException e) {
-            failNotSame("Unable to find the given text", e.getExpectedContent(), e.getActualText());
+            failNotSame("Unable to find the given text",
+                    e.getExpectedContent(), e.getActualText());
         }
     }
 
@@ -170,7 +172,8 @@ public class WebTestCase extends TestCase {
         try {
             getTester().assertMatch(regexp);
         } catch (AssertMatchException e) {
-            failNotSame("Unable to find a match for the given regexp", e.getExpectedRE(), e.getActualText());
+            failNotSame("Unable to find a match for the given regexp", e
+                    .getExpectedRE(), e.getActualText());
         }
     }
 
@@ -200,20 +203,20 @@ public class WebTestCase extends TestCase {
             e.printStackTrace();
         }
     }
-    
+
     public void assertElementPresent(HtmlElementLocator element) {
         try {
             getTester().assertElementPresent(element);
         } catch (ElementNotFoundException e) {
-            fail("Element not found: "+element.toString());
+            fail("Element not found: " + element.toString());
         }
     }
-    
+
     public void assertElementNotPresent(HtmlElementLocator element) {
         try {
             getTester().assertElementNotPresent(element);
         } catch (ElementFoundException e) {
-            fail("Element found when not expected: "+element.toString());
+            fail("Element found when not expected: " + element.toString());
         }
     }
 
@@ -239,10 +242,12 @@ public class WebTestCase extends TestCase {
      */
     public void assertKeyInTable(String tableSummaryOrId, String key) {
         try {
-            getTester().assertKeyInTable(new HtmlTableLocatorByName(tableSummaryOrId), key);
+            getTester().assertKeyInTable(
+                    new HtmlTableLocatorByName(tableSummaryOrId), key);
         } catch (ElementNotFoundException e) {
             try {
-                getTester().assertKeyInTable(new HtmlTableLocatorBySummary(tableSummaryOrId), key);
+                getTester().assertKeyInTable(
+                        new HtmlTableLocatorBySummary(tableSummaryOrId), key);
             } catch (ElementNotFoundException e1) {
                 fail("Unable to find given table");
             } catch (AssertContainsException e1) {
@@ -277,10 +282,12 @@ public class WebTestCase extends TestCase {
      */
     public void assertTextInTable(String tableSummaryOrId, String text) {
         try {
-            getTester().assertTextInTable(new HtmlTableLocatorByName(tableSummaryOrId), text);
+            getTester().assertTextInTable(
+                    new HtmlTableLocatorByName(tableSummaryOrId), text);
         } catch (ElementNotFoundException e) {
             try {
-                getTester().assertTextInTable(new HtmlTableLocatorBySummary(tableSummaryOrId), text);
+                getTester().assertTextInTable(
+                        new HtmlTableLocatorBySummary(tableSummaryOrId), text);
             } catch (ElementNotFoundException e1) {
                 fail("Unable to find given table");
             } catch (AssertContainsException e1) {
@@ -294,7 +301,7 @@ public class WebTestCase extends TestCase {
             fail("Given table do not contains text");
         }
     }
-    
+
     public void assertTextInTable(HtmlTableLocator tableLocator, String text) {
         try {
             getTester().assertTextInTable(tableLocator, text);
@@ -313,11 +320,88 @@ public class WebTestCase extends TestCase {
      * @deprecated
      */
     public void assertMatchInTable(String tableSummaryOrId, String regexp) {
-        tester.assertMatchInTable(tableSummaryOrId, regexp);
+        try {
+            try {
+                getTester().assertMatchInTable(
+                        new HtmlTableLocator(tableSummaryOrId), regexp);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertMatchInTable(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            regexp);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertMatchInTable(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), regexp);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertMatchException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    public void assertMatchInTable(HtmlTableLocator tableLocator, String regexp) {
+        try {
+            getTester().assertMatchInTable(tableLocator, regexp);
+        } catch (ElementNotFoundException e) {
+            //TODO
+            e.printStackTrace();
+            fail();
+        } catch (AssertMatchException e) {
+            //TODO
+            e.printStackTrace();
+            fail();
+        }
     }
 
     public void assertKeysInTable(String tableSummaryOrId, String[] keys) {
-        getTester().assertKeysInTable(tableSummaryOrId, keys);
+        try {
+            try {
+                getTester().assertKeysInTable(
+                        new HtmlTableLocator(tableSummaryOrId), keys);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertKeysInTable(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            keys);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertKeysInTable(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), keys);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertContainsException e) {
+            //FIXME
+            e.printStackTrace();
+            fail();
+        }
+    }
+    
+    public void assertKeysInTable(HtmlTableLocator tableLocator, String[] keys) {
+        try {
+            getTester().assertKeysInTable(tableLocator, keys);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertContainsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
     }
 
     public void assertTextInTable(String tableSummaryOrId, String[] text) {
@@ -386,7 +470,8 @@ public class WebTestCase extends TestCase {
 
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
             Table expectedTable) {
-        getTester().assertTableRowsMatch(tableSummaryOrId, startRow, expectedTable);
+        getTester().assertTableRowsMatch(tableSummaryOrId, startRow,
+                expectedTable);
     }
 
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
@@ -420,7 +505,7 @@ public class WebTestCase extends TestCase {
     }
 
     /**
-     * @deprecated 
+     * @deprecated
      */
     public void assertFormElementEquals(String formElementName,
             String expectedValue) {
@@ -434,12 +519,14 @@ public class WebTestCase extends TestCase {
     public void assertFormElementEmpty(String formElementName) {
         getTester().assertFormElementEmpty(formElementName);
     }
-    
-    public void assertTextFieldEquals(String formElementName, String expectedValue) {
+
+    public void assertTextFieldEquals(String formElementName,
+            String expectedValue) {
         getTester().assertTextFieldEquals(formElementName, expectedValue);
     }
-    
-    public void assertHiddenFieldPresent(String formElementName, String expectedValue) {
+
+    public void assertHiddenFieldPresent(String formElementName,
+            String expectedValue) {
         getTester().assertHiddenFieldPresent(formElementName, expectedValue);
     }
 
@@ -607,7 +694,7 @@ public class WebTestCase extends TestCase {
         try {
             getTester().assertButtonPresentWithText(text);
         } catch (ElementNotFoundException e) {
-            fail("Button not found with text "+text);
+            fail("Button not found with text " + text);
         }
     }
 
@@ -750,7 +837,7 @@ public class WebTestCase extends TestCase {
     public void assertCookieValueMatch(String cookieName, String regexp) {
         getTester().assertCookieValueMatch(cookieName, regexp);
     }
-    
+
     public void assertJavascriptAlertPresent(String msg) {
         getTester().assertJavascriptAlertPresent(msg);
     }
@@ -773,7 +860,7 @@ public class WebTestCase extends TestCase {
         try {
             getTester().setWorkingForm(formLocator);
         } catch (ElementNotFoundException e) {
-            fail("Form not found "+ e.getElementNotFound().toString());
+            fail("Form not found " + e.getElementNotFound().toString());
         }
     }
 
@@ -787,7 +874,7 @@ public class WebTestCase extends TestCase {
             try {
                 getTester().setWorkingForm(new HtmlFormLocatorByName(nameOrId));
             } catch (ElementNotFoundException e2) {
-                fail("Unable to find a form whose name or id is "+nameOrId);
+                fail("Unable to find a form whose name or id is " + nameOrId);
             }
         }
     }
@@ -797,12 +884,16 @@ public class WebTestCase extends TestCase {
      */
     public void setWorkingForm(String nameOrId, int index) {
         try {
-            getTester().setWorkingForm(new HtmlFormLocator(nameOrId)); //Id should be unique
+            getTester().setWorkingForm(new HtmlFormLocator(nameOrId)); // Id
+            // should
+            // be
+            // unique
         } catch (ElementNotFoundException e) {
             try {
-                getTester().setWorkingForm(new HtmlFormLocatorByName(nameOrId, index));
+                getTester().setWorkingForm(
+                        new HtmlFormLocatorByName(nameOrId, index));
             } catch (ElementNotFoundException e2) {
-                fail("Unable to find a form whose name or id is "+nameOrId);
+                fail("Unable to find a form whose name or id is " + nameOrId);
             }
         }
     }
@@ -1004,7 +1095,7 @@ public class WebTestCase extends TestCase {
     protected void dumpTable(String tableNameOrId) {
         getTester().dumpTable(tableNameOrId);
     }
-    
+
     /**
      * @deprecated Use setTextField instead.
      */

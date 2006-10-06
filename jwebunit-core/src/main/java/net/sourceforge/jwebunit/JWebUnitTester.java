@@ -364,7 +364,6 @@ public class JWebUnitTester {
      */
     public void assertTextInTable(HtmlTableLocator tableLocator, String text)
             throws ElementNotFoundException, AssertContainsException {
-        assertElementPresent(tableLocator);
         if (!getDialog().getTable(tableLocator).hasText(text)) {
             throw new AssertContainsException(text, getDialog().getTable(
                     tableLocator).toString());
@@ -378,7 +377,6 @@ public class JWebUnitTester {
      */
     public void assertMatchInTable(HtmlTableLocator tableLocator, String regexp)
             throws ElementNotFoundException, AssertMatchException {
-        assertElementPresent(tableLocator);
         Table table = getDialog().getTable(tableLocator);
         if (!table.hasMatch(regexp)) {
             throw new AssertMatchException(regexp, table.toString());

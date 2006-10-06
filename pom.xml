@@ -260,10 +260,22 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>taglist-maven-plugin</artifactId>
+                <configuration>
+                    <tags>
+                        <tag>TODO</tag>
+                        <tag>@todo</tag>
+                        <tag>FIXME</tag>
+                        <tag>@deprecated</tag>
+                    </tags>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -295,6 +307,22 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <aggregate>true</aggregate>
+                    <links>
+                        <link>http://java.sun.com/j2ee/1.4/docs/api</link>
+                        <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+                        <link>http://jakarta.apache.org/commons/collections/apidocs-COLLECTIONS_3_0/</link>
+                        <link>http://jakarta.apache.org/commons/dbcp/apidocs/</link>
+                        <link>http://jakarta.apache.org/commons/fileupload/apidocs/</link>
+                        <link>http://jakarta.apache.org/commons/httpclient/apidocs/</link>
+                        <link>http://jakarta.apache.org/commons/logging/apidocs/</link>
+                        <link>http://jakarta.apache.org/commons/pool/apidocs/</link>
+                        <link>http://www.junit.org/junit/javadoc/</link>
+                        <link>http://logging.apache.org/log4j/docs/api/</link>
+                        <link>http://jakarta.apache.org/regexp/apidocs/</link>
+                        <link>http://jakarta.apache.org/velocity/api/</link>
+                        <link>http://htmlunit.sourceforge.net/apidocs/</link>
+                        <link>http://release.openqa.org/selenium-remote-control/nightly/doc/java/</link>
+                    </links>
                 </configuration>
             </plugin>
             <plugin>
@@ -312,12 +340,14 @@
                         <reports>
                             <report>index</report>
                             <report>dependencies</report>
+                            <report>dependency-convergence</report>
                             <report>project-team</report>
                             <report>mailing-list</report>
                             <report>license</report>
                             <report>issue-tracking</report>
                             <report>scm</report>
                             <report>summary</report>
+                            <!--<report>cim</report>-->
                        </reports>
                    </reportSet>
                </reportSets>

@@ -41,6 +41,7 @@ import net.sourceforge.jwebunit.locator.HtmlOptionLocator;
 import net.sourceforge.jwebunit.locator.HtmlSelectLocator;
 import net.sourceforge.jwebunit.locator.HtmlTableLocator;
 import net.sourceforge.jwebunit.locator.WindowLocator;
+import net.sourceforge.jwebunit.locator.WindowLocatorByName;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
@@ -309,7 +310,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         if (frame instanceof FrameLocatorByName) {
             win = getFrame(((FrameLocatorByName)frame).getName());
         } else {
-            throw new RuntimeException("Unknow FrameLocator. This method should be updated.");
+            throw new UnsupportedOperationException("Unknow FrameLocator. gotoFrame should be updated.");
         }
     }
 
@@ -337,8 +338,12 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @see net.sourceforge.jwebunit.IJWebUnitDialog#gotoWindow(net.sourceforge.jwebunit.locator.WindowLocator)
      */
     public void gotoWindow(WindowLocator window) {
-        // TODO Auto-generated method stub
-
+        if (window instanceof WindowLocatorByName) {
+            setMainWindow(getWindow(((WindowLocatorByName)window).getName()));
+        }
+        else {
+            throw new UnsupportedOperationException("Unknow WindowLocator. gotoWindow should be updated.");
+        }
     }
 
     /**

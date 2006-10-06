@@ -5,18 +5,21 @@
 package net.sourceforge.jwebunit.locator;
 
 /**
- * This is the type for all clickable html elements.
+ * This is the interface for all Windowlocators.
+ * A window locator is a way to locate a window in a browser.
  * 
  * @author Julien Henry
  */
-public abstract class ClickableHtmlElementLocator extends HtmlElementLocator {
+public class WindowLocatorByName implements WindowLocator {
     
-    public ClickableHtmlElementLocator(String tag) {
-        super(tag);
+    private String name;
+    
+    public WindowLocatorByName(String name) {
+        this.name=name;
     }
     
-    public ClickableHtmlElementLocator(String tag, String id) {
-        super(tag, id);
+    public String getName() {
+        return this.name;
     }
-    
+
 }
