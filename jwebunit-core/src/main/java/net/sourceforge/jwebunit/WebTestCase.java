@@ -14,6 +14,8 @@ import org.apache.regexp.RESyntaxException;
 import net.sourceforge.jwebunit.exception.AssertContainsException;
 import net.sourceforge.jwebunit.exception.AssertEqualsException;
 import net.sourceforge.jwebunit.exception.AssertMatchException;
+import net.sourceforge.jwebunit.exception.AssertNotContainsException;
+import net.sourceforge.jwebunit.exception.AssertNotMatchException;
 import net.sourceforge.jwebunit.exception.ElementFoundException;
 import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.html.Table;
@@ -351,11 +353,11 @@ public class WebTestCase extends TestCase {
         try {
             getTester().assertMatchInTable(tableLocator, regexp);
         } catch (ElementNotFoundException e) {
-            //TODO
+            // TODO
             e.printStackTrace();
             fail();
         } catch (AssertMatchException e) {
-            //TODO
+            // TODO
             e.printStackTrace();
             fail();
         }
@@ -369,8 +371,7 @@ public class WebTestCase extends TestCase {
             } catch (ElementNotFoundException e) {
                 try {
                     getTester().assertKeysInTable(
-                            new HtmlTableLocatorByName(tableSummaryOrId),
-                            keys);
+                            new HtmlTableLocatorByName(tableSummaryOrId), keys);
                 } catch (ElementNotFoundException e1) {
                     try {
                         getTester()
@@ -384,12 +385,12 @@ public class WebTestCase extends TestCase {
                 }
             }
         } catch (AssertContainsException e) {
-            //FIXME
+            // FIXME
             e.printStackTrace();
             fail();
         }
     }
-    
+
     public void assertKeysInTable(HtmlTableLocator tableLocator, String[] keys) {
         try {
             getTester().assertKeysInTable(tableLocator, keys);
@@ -404,104 +405,883 @@ public class WebTestCase extends TestCase {
         }
     }
 
+    /**
+     * @deprecated
+     */
     public void assertTextInTable(String tableSummaryOrId, String[] text) {
-        getTester().assertTextInTable(tableSummaryOrId, text);
+        try {
+            try {
+                getTester().assertTextInTable(
+                        new HtmlTableLocator(tableSummaryOrId), text);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertTextInTable(
+                            new HtmlTableLocatorByName(tableSummaryOrId), text);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertTextInTable(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), text);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertContainsException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertTextInTable(HtmlTableLocator tableLocator, String[] text) {
+        try {
+            getTester().assertTextInTable(tableLocator, text);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertContainsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param regexp
+     */
     public void assertMatchInTable(String tableSummaryOrId, String[] regexp) {
-        tester.assertMatchInTable(tableSummaryOrId, regexp);
+        try {
+            try {
+                getTester().assertMatchInTable(
+                        new HtmlTableLocator(tableSummaryOrId), regexp);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertMatchInTable(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            regexp);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertMatchInTable(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), regexp);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertMatchException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertMatchInTable(HtmlTableLocator tableLocator,
+            String[] regexp) {
+        try {
+            getTester().assertMatchInTable(tableLocator, regexp);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertMatchException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param key
+     */
     public void assertKeyNotInTable(String tableSummaryOrId, String key) {
-        getTester().assertKeyNotInTable(tableSummaryOrId, key);
+        try {
+            try {
+                getTester().assertKeyNotInTable(
+                        new HtmlTableLocator(tableSummaryOrId), key);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertKeyNotInTable(
+                            new HtmlTableLocatorByName(tableSummaryOrId), key);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertKeyNotInTable(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), key);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertNotContainsException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertKeyNotInTable(HtmlTableLocator tableLocator, String key) {
+        try {
+            getTester().assertKeyNotInTable(tableLocator, key);
+        } catch (AssertNotContainsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param text
+     */
     public void assertTextNotInTable(String tableSummaryOrId, String text) {
-        getTester().assertTextNotInTable(tableSummaryOrId, text);
+        try {
+            try {
+                getTester().assertTextNotInTable(
+                        new HtmlTableLocator(tableSummaryOrId), text);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertTextNotInTable(
+                            new HtmlTableLocatorByName(tableSummaryOrId), text);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertTextNotInTable(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), text);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertNotContainsException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertTextNotInTable(HtmlTableLocator tableLocator, String text) {
+        try {
+            getTester().assertTextNotInTable(tableLocator, text);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertNotContainsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param text
+     */
     public void assertTextNotInTable(String tableSummaryOrId, String[] text) {
-        getTester().assertTextNotInTable(tableSummaryOrId, text);
+        try {
+            try {
+                getTester().assertTextNotInTable(
+                        new HtmlTableLocator(tableSummaryOrId), text);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertTextNotInTable(
+                            new HtmlTableLocatorByName(tableSummaryOrId), text);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertTextNotInTable(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), text);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertNotContainsException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertTextNotInTable(HtmlTableLocator tableLocator,
+            String[] text) {
+        try {
+            getTester().assertTextNotInTable(tableLocator, text);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertNotContainsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param regexp
+     */
     public void assertNoMatchInTable(String tableSummaryOrId, String regexp) {
-        getTester().assertNoMatchInTable(tableSummaryOrId, regexp);
+        try {
+            try {
+                getTester().assertNoMatchInTable(
+                        new HtmlTableLocator(tableSummaryOrId), regexp);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertNoMatchInTable(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            regexp);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertNoMatchInTable(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), regexp);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertNotMatchException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertNoMatchInTable(HtmlTableLocator tableLocator,
+            String regexp) {
+        try {
+            getTester().assertNoMatchInTable(tableLocator, regexp);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertNotMatchException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param regexp
+     */
     public void assertNoMatchInTable(String tableSummaryOrId, String[] regexp) {
-        getTester().assertNoMatchInTable(tableSummaryOrId, regexp);
+        try {
+            try {
+                getTester().assertNoMatchInTable(
+                        new HtmlTableLocator(tableSummaryOrId), regexp);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertNoMatchInTable(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            regexp);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertNoMatchInTable(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), regexp);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertNotMatchException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertNoMatchInTable(HtmlTableLocator tableLocator,
+            String[] regexp) {
+        try {
+            getTester().assertNoMatchInTable(tableLocator, regexp);
+        } catch (AssertNotMatchException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param expectedTable
+     */
     public void assertTableEquals(String tableSummaryOrId, Table expectedTable) {
-        getTester().assertTableEquals(tableSummaryOrId, expectedTable);
+        try {
+            try {
+                getTester().assertTableEquals(
+                        new HtmlTableLocator(tableSummaryOrId), expectedTable);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertTableEquals(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            expectedTable);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertTableEquals(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId),
+                                        expectedTable);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertEqualsException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertTableEquals(HtmlTableLocator tableLocator,
+            Table expectedTable) {
+        try {
+            getTester().assertTableEquals(tableLocator, expectedTable);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertEqualsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param expectedCellValues
+     */
     public void assertTableEquals(String tableSummaryOrId,
             String[][] expectedCellValues) {
-        getTester().assertTableEquals(tableSummaryOrId, expectedCellValues);
+        try {
+            try {
+                getTester().assertTableEquals(
+                        new HtmlTableLocator(tableSummaryOrId),
+                        expectedCellValues);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertTableEquals(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            expectedCellValues);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertTableEquals(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId),
+                                        expectedCellValues);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertEqualsException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertTableEquals(HtmlTableLocator tableLocator,
+            String[][] expectedCellValues) {
+        try {
+            getTester().assertTableEquals(tableLocator, expectedCellValues);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertEqualsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param startRow
+     * @param expectedTable
+     */
     public void assertTableRowsEqual(String tableSummaryOrId, int startRow,
             Table expectedTable) {
-        getTester().assertTableRowsEqual(tableSummaryOrId, startRow,
-                expectedTable);
+        try {
+            try {
+                getTester().assertTableRowsEqual(
+                        new HtmlTableLocator(tableSummaryOrId), startRow,
+                        expectedTable);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertTableRowsEqual(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            startRow, expectedTable);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertTableRowsEqual(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), startRow,
+                                        expectedTable);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertEqualsException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertTableRowsEqual(HtmlTableLocator tableLocator,
+            int startRow, Table expectedTable) {
+        try {
+            getTester().assertTableRowsEqual(tableLocator, startRow,
+                    expectedTable);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertEqualsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param expectedRowCount
+     */
     public void assertTableRowCountEquals(String tableSummaryOrId,
             int expectedRowCount) {
-        getTester().assertTableRowCountEquals(tableSummaryOrId,
-                expectedRowCount);
+        try {
+            try {
+                getTester().assertTableRowCountEquals(
+                        new HtmlTableLocator(tableSummaryOrId),
+                        expectedRowCount);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertTableRowCountEquals(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            expectedRowCount);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertTableRowCountEquals(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId),
+                                        expectedRowCount);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertEqualsException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertTableRowCountEquals(HtmlTableLocator tableLocator,
+            int expectedRowCount) {
+        try {
+            getTester().assertTableRowCountEquals(tableLocator,
+                    expectedRowCount);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertEqualsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param startRow
+     * @param expectedCellValues
+     */
     public void assertTableRowsEqual(String tableSummaryOrId, int startRow,
             String[][] expectedCellValues) {
-        getTester().assertTableRowsEqual(tableSummaryOrId, startRow,
-                expectedCellValues);
+        try {
+            try {
+                getTester().assertTableRowsEqual(
+                        new HtmlTableLocator(tableSummaryOrId), startRow,
+                        expectedCellValues);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertTableRowsEqual(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            startRow, expectedCellValues);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertTableRowsEqual(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), startRow,
+                                        expectedCellValues);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertEqualsException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertTableRowsEqual(HtmlTableLocator tableLocator,
+            int startRow, String[][] expectedCellValues) {
+        try {
+            getTester().assertTableRowsEqual(tableLocator, startRow,
+                    expectedCellValues);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertEqualsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param expectedTable
+     */
     public void assertTableMatch(String tableSummaryOrId, Table expectedTable) {
-        getTester().assertTableMatch(tableSummaryOrId, expectedTable);
+        try {
+            try {
+                getTester().assertTableMatch(
+                        new HtmlTableLocator(tableSummaryOrId), expectedTable);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertTableMatch(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            expectedTable);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertTableMatch(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId),
+                                        expectedTable);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertMatchException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertTableMatch(HtmlTableLocator tableLocator,
+            Table expectedTable) {
+        try {
+            getTester().assertTableMatch(tableLocator, expectedTable);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertMatchException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param expectedCellValues
+     */
     public void assertTableMatch(String tableSummaryOrId,
             String[][] expectedCellValues) {
-        getTester().assertTableMatch(tableSummaryOrId, expectedCellValues);
+        try {
+            try {
+                getTester().assertTableMatch(
+                        new HtmlTableLocator(tableSummaryOrId),
+                        expectedCellValues);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertTableMatch(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            expectedCellValues);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertTableMatch(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId),
+                                        expectedCellValues);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertMatchException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertTableMatch(HtmlTableLocator tableLocator,
+            String[][] expectedCellValues) {
+        try {
+            getTester().assertTableMatch(tableLocator, expectedCellValues);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertMatchException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param startRow
+     * @param expectedTable
+     */
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
             Table expectedTable) {
-        getTester().assertTableRowsMatch(tableSummaryOrId, startRow,
-                expectedTable);
+        try {
+            try {
+                getTester().assertTableRowsMatch(
+                        new HtmlTableLocator(tableSummaryOrId), startRow,
+                        expectedTable);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertTableRowsMatch(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            startRow, expectedTable);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertTableRowsMatch(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), startRow,
+                                        expectedTable);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertMatchException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertTableRowsMatch(HtmlTableLocator tableLocator,
+            int startRow, Table expectedTable) {
+        try {
+            getTester().assertTableRowsMatch(tableLocator, startRow,
+                    expectedTable);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertMatchException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param tableSummaryOrId
+     * @param startRow
+     * @param expectedCellValues
+     */
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
             String[][] expectedCellValues) {
-        getTester().assertTableRowsMatch(tableSummaryOrId, startRow,
-                expectedCellValues);
+        try {
+            try {
+                getTester().assertTableRowsMatch(
+                        new HtmlTableLocator(tableSummaryOrId), startRow,
+                        expectedCellValues);
+            } catch (ElementNotFoundException e) {
+                try {
+                    getTester().assertTableRowsMatch(
+                            new HtmlTableLocatorByName(tableSummaryOrId),
+                            startRow, expectedCellValues);
+                } catch (ElementNotFoundException e1) {
+                    try {
+                        getTester()
+                                .assertTableRowsMatch(
+                                        new HtmlTableLocatorBySummary(
+                                                tableSummaryOrId), startRow,
+                                        expectedCellValues);
+                    } catch (ElementNotFoundException e2) {
+                        e.printStackTrace();
+                        fail();
+                    }
+                }
+            }
+        } catch (AssertMatchException e) {
+            // FIXME
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    public void assertTableRowsMatch(HtmlTableLocator tableLocator,
+            int startRow, String[][] expectedCellValues) {
+        try {
+            getTester().assertTableRowsMatch(tableLocator, startRow,
+                    expectedCellValues);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertMatchException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param formElementName
+     */
     public void assertFormElementPresent(String formElementName) {
-        getTester().assertFormElementPresent(formElementName);
+        // TODO
     }
 
+    /**
+     * @deprecated
+     * @param formElementName
+     */
     public void assertFormElementNotPresent(String formElementName) {
-        getTester().assertFormElementNotPresent(formElementName);
+        // TODO
     }
 
+    /**
+     * @deprecated
+     * 
+     */
     public void assertFormPresent() {
-        getTester().assertFormPresent();
+        try {
+            getTester().assertElementPresent(new HtmlFormLocator());
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    /**
+     * @deprecated
+     * 
+     */
     public void assertFormPresent(String formName) {
-        getTester().assertFormPresent(formName);
+        try {
+            getTester().assertElementPresent(
+                    new HtmlFormLocatorByName(formName));
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    /**
+     * @deprecated
+     * 
+     */
     public void assertFormNotPresent() {
-        getTester().assertFormNotPresent();
+        try {
+            getTester().assertElementNotPresent(new HtmlFormLocator());
+        } catch (ElementFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
     }
 
+    /**
+     * @deprecated
+     * 
+     */
     public void assertFormNotPresent(String formName) {
-        getTester().assertFormNotPresent(formName);
+        try {
+            getTester().assertElementNotPresent(
+                    new HtmlFormLocatorByName(formName));
+        } catch (ElementFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
     }
 
     /**
@@ -509,15 +1289,16 @@ public class WebTestCase extends TestCase {
      */
     public void assertFormElementEquals(String formElementName,
             String expectedValue) {
-        getTester().assertFormElementEquals(formElementName, expectedValue);
+        //getTester().assertFormElementEquals(formElementName, expectedValue);
+        //FIXME
     }
 
     public void assertFormElementMatch(String formElementName, String regexp) {
-        getTester().assertFormElementMatch(formElementName, regexp);
+        //FIXME
     }
 
     public void assertFormElementEmpty(String formElementName) {
-        getTester().assertFormElementEmpty(formElementName);
+        //FIXME
     }
 
     public void assertTextFieldEquals(String formElementName,
@@ -527,7 +1308,10 @@ public class WebTestCase extends TestCase {
 
     public void assertHiddenFieldPresent(String formElementName,
             String expectedValue) {
-        getTester().assertHiddenFieldPresent(formElementName, expectedValue);
+        HtmlHiddenInputLocator l = new HtmlHiddenInputLocator();
+        l.adAttribut("name", formElementName);
+        l.adAttribut("value", expectedValue);
+        getTester().assertElementPresent(l);
     }
 
     public void assertCheckboxSelected(String checkBoxName) {
