@@ -76,6 +76,9 @@ public class WebTestCase extends TestCase {
         this.tester = aWebTester;
     }
 
+    /**
+     * @deprecated You should not use specific fonctionalities of a dialog.
+     */
     public IJWebUnitDialog getDialog() {
         return getTester().getDialog();
     }
