@@ -956,9 +956,9 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return cb.isChecked();
     }
 
-    public boolean isCheckboxNotSelected(String checkBoxName) {
-        HtmlCheckBoxInput cb = getCheckbox(checkBoxName);
-        return !cb.isChecked();
+    public boolean isCheckboxSelected(String checkBoxName, String checkBoxValue) {
+        HtmlCheckBoxInput cb = getCheckbox(checkBoxName, checkBoxValue);
+        return cb.isChecked();
     }
 
     /**

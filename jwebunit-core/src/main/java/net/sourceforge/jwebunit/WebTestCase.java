@@ -296,8 +296,16 @@ public class WebTestCase extends TestCase {
         getTester().assertCheckboxSelected(checkBoxName);
     }
 
+    public void assertCheckboxSelected(String checkBoxName, String checkBoxValue) {
+        getTester().assertCheckboxSelected(checkBoxName, checkBoxValue);
+    }
+
     public void assertCheckboxNotSelected(String checkBoxName) {
         getTester().assertCheckboxNotSelected(checkBoxName);
+    }
+
+    public void assertCheckboxNotSelected(String checkBoxName, String checkBoxValue) {
+        getTester().assertCheckboxNotSelected(checkBoxName, checkBoxValue);
     }
 
     public void assertRadioOptionPresent(String radioGroup, String radioOption) {

@@ -8,6 +8,11 @@
     </properties>
     <body>
         <release version="1.4" date="UNKNOW">
+            <action type="add" dev="Julien Henry" due-to="Lasse Koskela"
+                issue="1575956">
+                Add new methods: assertCheckBox[Not]Selected(String name, String value)
+                to deal with multiple checkboxes with the same name.
+            </action>
             <action type="fix" dev="Julien Henry" due-to="Jack"
                 issue="1567947">
                 assertButtonPresentWithText(String) was checking on

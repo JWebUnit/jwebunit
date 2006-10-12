@@ -664,6 +664,21 @@ public class WebTester {
     }
 
     /**
+     * Assert that a given checkbox is present.
+     * 
+     * @param checkboxName
+     *            checkbox name attribut.
+     * @param checkboxValue
+     *            checkbox value attribut.
+     */
+    public void assertCheckboxPresent(String checkboxName, String checkboxValue) {
+        assertFormPresent();
+        Assert.assertTrue("Did not find form checkbox with name ["
+                + checkboxName + "] and value [" + checkboxValue + "].", getDialog().hasElementByXPath(
+                "//input[@type='checkbox' and @name='" + checkboxName + "' and @value='" + checkboxValue + "']"));
+    }
+
+    /**
      * Assert that a form checkbox with a given name is not present.
      * 
      * @param checkboxName
@@ -674,6 +689,21 @@ public class WebTester {
         Assert.assertFalse("Found form checkbox with name [" + checkboxName
                 + "] when not expected.", getDialog().hasElementByXPath(
                 "//input[@type='checkbox' and @name='" + checkboxName + "']"));
+    }
+
+    /**
+     * Assert that a given checkbox is not present.
+     * 
+     * @param checkboxName
+     *            checkbox name.
+     * @param checkboxValue
+     *            checkbox value attribut.
+     */
+    public void assertCheckboxNotPresent(String checkboxName, String checkboxValue) {
+        assertFormPresent();
+        Assert.assertFalse("Found form checkbox with name [" + checkboxName
+                + "] and value [" + checkboxValue + "] when not expected.", getDialog().hasElementByXPath(
+                "//input[@type='checkbox' and @name='" + checkboxName + "' and @value='" + checkboxValue + "']"));
     }
 
     /**
@@ -799,6 +829,20 @@ public class WebTester {
     }
 
     /**
+     * Assert that a specific checkbox is selected.
+     * 
+     * @param checkBoxName
+     * @param checkBoxValue
+     */
+    public void assertCheckboxSelected(String checkBoxName, String checkBoxValue) {
+        assertCheckboxPresent(checkBoxName, checkBoxValue);
+        if (!getDialog().isCheckboxSelected(checkBoxName, checkBoxValue)) {
+            Assert.fail("Checkbox with name [" + checkBoxName
+                    + "] and value [" + checkBoxValue + "] was not found selected.");
+        }
+    }
+
+    /**
      * Assert that a specific checkbox is not selected.
      * 
      * @param checkBoxName
@@ -808,6 +852,20 @@ public class WebTester {
         if (getDialog().isCheckboxSelected(checkBoxName)) {
             Assert.fail("Checkbox with name [" + checkBoxName
                     + "] was found selected.");
+        }
+    }
+
+    /**
+     * Assert that a specific checkbox is not selected.
+     * 
+     * @param checkBoxName
+     * @param checkBoxValue
+     */
+    public void assertCheckboxNotSelected(String checkBoxName, String checkBoxValue) {
+        assertCheckboxPresent(checkBoxName, checkBoxValue);
+        if (getDialog().isCheckboxSelected(checkBoxName, checkBoxValue)) {
+            Assert.fail("Checkbox with name [" + checkBoxName
+                    + "] and value [" + checkBoxValue + "] was found selected.");
         }
     }
 

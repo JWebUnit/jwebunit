@@ -306,12 +306,23 @@ public interface IJWebUnitDialog {
 
     /**
      * Determines if the checkbox is selected.
-     * 
+     *
      * @param checkBoxName
      *            name of the checkbox.
-     * @return true if the checkbox is selected.
+     * @return true if the first checkbox with given name is selected.
      */
     boolean isCheckboxSelected(String checkBoxName);
+
+    /**
+     * Determines if the checkbox is selected.
+     *
+     * @param checkBoxName
+     *            name attribut of the checkbox.
+     * @param checkBoxValue
+     *            value attribut of the checkbox.
+     * @return true if the first checkbox with given name and value is selected.
+     */
+    boolean isCheckboxSelected(String checkBoxName, String checkBoxValue);
 
     /**
      * Select a specified checkbox. If the checkbox is already checked then the
@@ -328,11 +339,11 @@ public interface IJWebUnitDialog {
      * 
      * @param checkBoxName
      *            name of checkbox to be selected.
-     * @param value
+     * @param checkBoxValue
      *            value of the checkbox (to differenciate checkboxes with the
      *            same name).
      */
-    void checkCheckbox(String checkBoxName, String value);
+    void checkCheckbox(String checkBoxName, String checkBoxValue);
 
     /**
      * Deselect a specified checkbox. If the checkbox is already unchecked then

@@ -76,10 +76,24 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertFail("assertCheckboxSelected", "nosuchbox");
     }
 
+    public void testCheckboxSelectedByName() throws Throwable {
+        beginAt("/testPage.html");
+        assertPassFail("assertCheckboxSelected", new Object[]{"checkboxnotselected", "actuallyselected"},
+                                                 new Object[]{"checkboxselected", "actuallynotselected"});
+        assertFail("assertCheckboxSelected", new Object[]{"checkboxselected", "nosuchvalue"});
+    }
+
     public void testCheckboxNotSelected() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertCheckboxNotSelected", "checkboxnotselected", "checkboxselected");
         assertFail("assertCheckboxNotSelected", "nosuchbox");
+    }
+
+    public void testCheckboxNotSelectedByName() throws Throwable {
+        beginAt("/testPage.html");
+        assertPassFail("assertCheckboxNotSelected", new Object[]{"checkboxselected", "actuallynotselected"},
+                                                 new Object[]{"checkboxnotselected", "actuallyselected"});
+        assertFail("assertCheckboxNotSelected", new Object[]{"checkboxnotselected", "nosuchvalue"});
     }
 
     public void testAssertSubmitButtonPresent() throws Throwable {
