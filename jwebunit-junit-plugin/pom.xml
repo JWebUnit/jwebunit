@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <parent>
+        <artifactId>jwebunit</artifactId>
+        <groupId>net.sourceforge.jwebunit</groupId>
+        <version>2.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>jwebunit-junit-plugin</artifactId>
+    <name>JUnit - Plugin</name>
+    <description>JUnit frontend for JWebUnit. Wrap JWebUnit API in JUnit like assertions.</description>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.jwebunit</groupId>
+            <artifactId>jwebunit-core</artifactId>
+            <version>2.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    <properties>
+        <topDirectoryLocation>..</topDirectoryLocation>
+    </properties>
+</project>
