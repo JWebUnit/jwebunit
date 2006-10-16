@@ -23,9 +23,11 @@ import net.sourceforge.jwebunit.locator.HtmlButtonLocator;
 import net.sourceforge.jwebunit.locator.HtmlElementLocator;
 import net.sourceforge.jwebunit.locator.HtmlFormLocator;
 import net.sourceforge.jwebunit.locator.HtmlFormLocatorByName;
+import net.sourceforge.jwebunit.locator.HtmlHiddenInputLocator;
 import net.sourceforge.jwebunit.locator.HtmlTableLocator;
 import net.sourceforge.jwebunit.locator.HtmlTableLocatorByName;
 import net.sourceforge.jwebunit.locator.HtmlTableLocatorBySummary;
+import net.sourceforge.jwebunit.locator.HtmlTextInputLocatorByName;
 
 import junit.framework.TestCase;
 
@@ -1301,9 +1303,22 @@ public class WebTestCase extends TestCase {
         //FIXME
     }
 
+    /**
+     * @deprecated
+     */
     public void assertTextFieldEquals(String formElementName,
             String expectedValue) {
-        getTester().assertTextFieldEquals(formElementName, expectedValue);
+        //input text
+        try {
+            getTester().assertAttributEquals(new HtmlTextInputLocatorByName(formElementName), "value", expectedValue);
+        } catch (ElementNotFoundException e) {
+            //password input
+            //FIXME
+        } catch (AssertEqualsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
     }
 
     public void assertHiddenFieldPresent(String formElementName,
