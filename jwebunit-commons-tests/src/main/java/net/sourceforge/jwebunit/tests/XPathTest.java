@@ -4,6 +4,7 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
+import net.sourceforge.jwebunit.locator.ClickableHtmlElementLocator;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -37,10 +38,20 @@ public class XPathTest extends JWebUnitAPITestCase {
         assertPassFail("assertElementNotPresentByXPath", "//InvalidXPath",
                 "//tr[contains(.//a/@href,\"next\") and contains(string(),\"test link\")]");
     }
+    
+    private class myLink extends ClickableHtmlElementLocator {
+        public myLink() {
+            super("a");
+        }
+        
+        public String getXPath() {
+            return "//tr//a[contains(@href,\"next\") and contains(string(),\"test link\")]";
+        }
+    }
 
     public void testClickElementByXPath() throws Throwable {
         beginAt("/testPage.html");
-        clickElementByXPath("//tr//a[contains(@href,\"next\") and contains(string(),\"test link\")]");
+        click(new myLink());
         assertTitleEquals("Next");
     }
 }

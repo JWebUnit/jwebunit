@@ -6,6 +6,7 @@ package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.locator.HtmlElementLocator;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
@@ -99,7 +100,7 @@ public class WebAssertionsTest extends JWebUnitAPITestCase {
 	}
 
 	public void testAssertElementPresent() throws Throwable {
-		assertElementPresent("row1");
+		assertElementPresent(new HtmlElementLocator("row1"));
 		assertPassFail("assertElementPresent", "span_id", "no_id");
 	}
 

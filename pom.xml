@@ -23,6 +23,7 @@
     <inceptionYear>2002</inceptionYear>
     <modules>
         <module>jwebunit-core</module>
+        <module>jwebunit-junit-plugin</module>
         <module>jwebunit-commons-tests</module>
         <module>jwebunit-htmlunit-plugin</module>
 	<module>jwebunit-selenium-plugin</module>

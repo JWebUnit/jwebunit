@@ -6,6 +6,7 @@ package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.locator.HtmlTextInputLocatorByName;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**

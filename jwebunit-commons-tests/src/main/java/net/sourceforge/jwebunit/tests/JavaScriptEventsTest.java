@@ -6,6 +6,9 @@ package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.locator.HtmlResetInputLocator;
+import net.sourceforge.jwebunit.locator.HtmlSubmitInputLocator;
+import net.sourceforge.jwebunit.locator.HtmlSubmitInputLocatorByName;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
@@ -28,14 +31,14 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
     
     public void testFormOnSubmit() {
         beginAt("FormOnSubmit.html");
-        submit();
+        click(new HtmlSubmitInputLocator());
         gotoWindow("child");
         assertTextPresent("on=submit");
     }
 
     public void testFormOnReset() {
         beginAt("FormOnSubmit.html");
-        reset();
+        click(new HtmlResetInputLocator());
         gotoWindow("child");
         assertTextPresent("on=reset");
     }
@@ -57,7 +60,7 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
         
         beginAt("index.html");
         assertTitleEquals("Startpage");
-        submit();
+        click(new HtmlSubmitInputLocator());
         assertTextPresent("Here is the text we expect");
     }
  
@@ -107,6 +110,6 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
     public void testFormOnSubmitSetTarget() {
         beginAt("FormOnSubmitSetTarget.html");
         setWorkingForm("formID");
-        submit("go");
+        click(new HtmlSubmitInputLocatorByName("go"));
     }
 }

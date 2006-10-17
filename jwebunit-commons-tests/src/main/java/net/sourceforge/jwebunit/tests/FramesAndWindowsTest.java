@@ -6,6 +6,9 @@ package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.locator.HtmlAnchorLocator;
+import net.sourceforge.jwebunit.locator.HtmlAnchorLocatorByText;
+import net.sourceforge.jwebunit.locator.WindowLocatorByName;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
@@ -29,7 +32,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
     public void testHttpUnitWithRhinoForWindowOpen() throws Throwable {
         try {
             beginAt("RootPage.html");
-            clickLink("ChildPage1"); // does javascript:window.open(...)
+            click(new HtmlAnchorLocator("ChildPage1")); // does javascript:window.open(...)
         } catch (NoSuchFieldError e) {
             fail("HttpUnit 1.6 does not support the current version of Rhino");
         }
@@ -41,7 +44,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
      */
     private void gotoRootAndOpenChild(String childName) {
         beginAt("RootPage.html");
-        clickLink(childName);
+        click(new HtmlAnchorLocator(childName));
     }
     
     // ------------ windows test ------------    
@@ -53,7 +56,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
 
     public void testGotoWindow() {
         gotoRootAndOpenChild("ChildPage1");
-        gotoWindow("ChildPage1");
+        gotoWindow(new WindowLocatorByName("ChildPage1"));
         assertTextPresent("child 1");
     }
     
