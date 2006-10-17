@@ -13,6 +13,7 @@ import java.io.PrintWriter;
  * Time: 2:05:07 PM
  */
 
+@SuppressWarnings("serial")
 public class ExceptionWrapper extends RuntimeException {
     private Throwable thrown;
 

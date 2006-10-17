@@ -29,4 +29,8 @@ public class HtmlOptionLocator extends ClickableHtmlElementLocator {
         this.parentSelect=parentSelect;
         setIndex(index);
     }
+    
+    public HtmlSelectLocator getSelect() {
+        return parentSelect;
+    }
 }
