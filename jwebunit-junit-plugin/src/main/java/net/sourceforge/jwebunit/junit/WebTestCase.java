@@ -2,32 +2,38 @@
  * jWebUnit project (http://jwebunit.sourceforge.net)                         *
  * Distributed open-source, see full license under LICENCE.txt                *
  ******************************************************************************/
-package net.sourceforge.jwebunit;
+package net.sourceforge.jwebunit.junit;
 
-import java.io.PrintStream;
 import java.net.MalformedURLException;
 
-import javax.security.auth.login.FailedLoginException;
 
 import org.apache.regexp.RESyntaxException;
 
+import net.sourceforge.jwebunit.JWebUnitTester;
+import net.sourceforge.jwebunit.TestContext;
 import net.sourceforge.jwebunit.exception.AssertContainsException;
 import net.sourceforge.jwebunit.exception.AssertEqualsException;
 import net.sourceforge.jwebunit.exception.AssertMatchException;
 import net.sourceforge.jwebunit.exception.AssertNotContainsException;
 import net.sourceforge.jwebunit.exception.AssertNotMatchException;
+import net.sourceforge.jwebunit.exception.AssertNotSelectedException;
+import net.sourceforge.jwebunit.exception.AssertSelectedException;
 import net.sourceforge.jwebunit.exception.ElementFoundException;
 import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.html.Table;
+import net.sourceforge.jwebunit.locator.ClickableHtmlElementLocator;
 import net.sourceforge.jwebunit.locator.HtmlButtonLocator;
+import net.sourceforge.jwebunit.locator.HtmlCheckboxInputLocator;
 import net.sourceforge.jwebunit.locator.HtmlElementLocator;
 import net.sourceforge.jwebunit.locator.HtmlFormLocator;
 import net.sourceforge.jwebunit.locator.HtmlFormLocatorByName;
 import net.sourceforge.jwebunit.locator.HtmlHiddenInputLocator;
+import net.sourceforge.jwebunit.locator.HtmlHiddenInputLocatorByName;
 import net.sourceforge.jwebunit.locator.HtmlTableLocator;
 import net.sourceforge.jwebunit.locator.HtmlTableLocatorByName;
 import net.sourceforge.jwebunit.locator.HtmlTableLocatorBySummary;
 import net.sourceforge.jwebunit.locator.HtmlTextInputLocatorByName;
+import net.sourceforge.jwebunit.locator.TextFieldHtmlElementLocator;
 
 import junit.framework.TestCase;
 
@@ -95,10 +101,6 @@ public class WebTestCase extends TestCase {
 
     public void setTester(JWebUnitTester aWebTester) {
         this.tester = aWebTester;
-    }
-
-    public IJWebUnitDialog getDialog() {
-        return getTester().getDialog();
     }
 
     public TestContext getTestContext() {
@@ -1302,10 +1304,27 @@ public class WebTestCase extends TestCase {
     public void assertFormElementEmpty(String formElementName) {
         //FIXME
     }
-
+    
     /**
-     * @deprecated
+     * 
+     * @param locator
+     * @param attributName
+     * @param expectedValue
      */
+    public void assertAttributEquals(HtmlElementLocator locator, String attributName, String expectedValue) {
+        try {
+            getTester().assertAttributEquals(locator, "value", expectedValue);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertEqualsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+
     public void assertTextFieldEquals(String formElementName,
             String expectedValue) {
         //input text
@@ -1323,165 +1342,229 @@ public class WebTestCase extends TestCase {
 
     public void assertHiddenFieldPresent(String formElementName,
             String expectedValue) {
-        HtmlHiddenInputLocator l = new HtmlHiddenInputLocator();
-        l.adAttribut("name", formElementName);
-        l.adAttribut("value", expectedValue);
-        getTester().assertElementPresent(l);
+        HtmlHiddenInputLocator l = new HtmlHiddenInputLocatorByName(formElementName);
+        l.addAttribut("value", expectedValue);
+        try {
+            getTester().assertElementPresent(l);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+    
+    public void click(ClickableHtmlElementLocator clickableElement) {
+        try {
+            getTester().click(clickableElement);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
     }
 
     public void assertCheckboxSelected(String checkBoxName) {
-        getTester().assertCheckboxSelected(checkBoxName);
+        try {
+            getTester().assertCheckboxSelected(checkBoxName);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertSelectedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+    }
+    
+    public void assertCheckboxSelected(HtmlCheckboxInputLocator checkBox) {
+        try {
+            getTester().assertCheckboxSelected(checkBox);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertSelectedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
     }
 
     public void assertCheckboxNotSelected(String checkBoxName) {
-        getTester().assertCheckboxNotSelected(checkBoxName);
+        try {
+            getTester().assertCheckboxNotSelected(checkBoxName);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertNotSelectedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
     }
 
-    public void assertRadioOptionPresent(String radioGroup, String radioOption) {
-        getTester().assertRadioOptionPresent(radioGroup, radioOption);
+    public void assertCheckboxNotSelected(HtmlCheckboxInputLocator checkBox) {
+        try {
+            getTester().assertCheckboxNotSelected(checkBox);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        } catch (AssertNotSelectedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
     }
 
-    public void assertRadioOptionNotPresent(String radioGroup,
-            String radioOption) {
-        getTester().assertRadioOptionNotPresent(radioGroup, radioOption);
-    }
-
-    public void assertRadioOptionSelected(String radioGroup, String radioOption) {
-        getTester().assertRadioOptionSelected(radioGroup, radioOption);
-    }
-
-    public void assertRadioOptionNotSelected(String radioGroup,
-            String radioOption) {
-        getTester().assertRadioOptionNotSelected(radioGroup, radioOption);
-    }
-
-    public void assertSelectOptionPresent(String selectName, String optionLabel) {
-        getTester().assertSelectOptionPresent(selectName, optionLabel);
-    }
-
-    public void assertSelectOptionNotPresent(String selectName,
-            String optionLabel) {
-        getTester().assertSelectOptionNotPresent(selectName, optionLabel);
-    }
-
-    public void assertSelectOptionValuePresent(String selectName,
-            String optionValue) {
-        getTester().assertSelectOptionValuePresent(selectName, optionValue);
-    }
-
-    public void assertSelectOptionValueNotPresent(String selectName,
-            String optionValue) {
-        getTester().assertSelectOptionValueNotPresent(selectName, optionValue);
-    }
-
-    public void assertSelectOptionsEqual(String selectName, String[] options) {
-        getTester().assertSelectOptionsEqual(selectName, options);
-    }
-
-    public void assertSelectOptionsNotEqual(String selectName, String[] options) {
-        getTester().assertSelectOptionsNotEqual(selectName, options);
-    }
-
-    public void assertSelectOptionValuesEqual(String selectName,
-            String[] options) {
-        getTester().assertSelectOptionValuesEqual(selectName, options);
-    }
-
-    public void assertSelectOptionValuesNotEqual(String selectName,
-            String[] options) {
-        getTester().assertSelectOptionValuesNotEqual(selectName, options);
-    }
-
-    public void assertSelectedOptionEquals(String selectName, String label) {
-        getTester().assertSelectedOptionEquals(selectName, label);
-    }
-
-    public void assertSelectedOptionsEqual(String selectName, String[] labels) {
-        getTester().assertSelectedOptionsEqual(selectName, labels);
-    }
-
-    public void assertSelectedOptionValueEquals(String selectName, String value) {
-        getTester().assertSelectedOptionValueEquals(selectName, value);
-    }
-
-    public void assertSelectedOptionValuesEqual(String selectName,
-            String[] values) {
-        getTester().assertSelectedOptionValuesEqual(selectName, values);
-    }
-
-    public void assertSelectedOptionMatches(String selectName, String regexp) {
-        getTester().assertSelectedOptionMatches(selectName, regexp);
-    }
-
-    public void assertSelectedOptionsMatch(String selectName, String[] regexps) {
-        getTester().assertSelectedOptionsMatch(selectName, regexps);
-    }
-
-    /**
-     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonPresent()
-     */
-    public void assertSubmitButtonPresent() {
-        getTester().assertSubmitButtonPresent();
-    }
-
-    /**
-     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonPresent(String)
-     */
-    public void assertSubmitButtonPresent(String buttonName) {
-        getTester().assertSubmitButtonPresent(buttonName);
-    }
-
-    /**
-     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonNotPresent()
-     */
-    public void assertSubmitButtonNotPresent() {
-        getTester().assertSubmitButtonNotPresent();
-    }
-
-    /**
-     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonNotPresent(String)
-     */
-    public void assertSubmitButtonNotPresent(String buttonName) {
-        getTester().assertSubmitButtonNotPresent(buttonName);
-    }
-
-    /**
-     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonPresent(String,
-     *      String)
-     */
-    public void assertSubmitButtonPresent(String buttonName,
-            String expectedValue) {
-        getTester().assertSubmitButtonPresent(buttonName, expectedValue);
-    }
-
-    /**
-     * @see net.sourceforge.jwebunit.WebTester#assertResetButtonPresent()
-     */
-    public void assertResetButtonPresent() {
-        getTester().assertResetButtonPresent();
-    }
-
-    /**
-     * @see net.sourceforge.jwebunit.WebTester#assertResetButtonPresent(String)
-     */
-    public void assertResetButtonPresent(String buttonName) {
-        getTester().assertResetButtonPresent(buttonName);
-    }
-
-    /**
-     * @see net.sourceforge.jwebunit.WebTester#assertResetButtonNotPresent()
-     */
-    public void assertResetButtonNotPresent() {
-        getTester().assertResetButtonNotPresent();
-    }
-
-    /**
-     * @see net.sourceforge.jwebunit.WebTester#assertResetButtonNotPresent(String)
-     */
-    public void assertResetButtonNotPresent(String buttonName) {
-        getTester().assertResetButtonNotPresent(buttonName);
-    }
-
+    //
+//    public void assertRadioOptionPresent(String radioGroup, String radioOption) {
+//        getTester().assertRadioOptionPresent(radioGroup, radioOption);
+//    }
+//
+//    public void assertRadioOptionNotPresent(String radioGroup,
+//            String radioOption) {
+//        getTester().assertRadioOptionNotPresent(radioGroup, radioOption);
+//    }
+//
+//    public void assertRadioOptionSelected(String radioGroup, String radioOption) {
+//        getTester().assertRadioOptionSelected(radioGroup, radioOption);
+//    }
+//
+//    public void assertRadioOptionNotSelected(String radioGroup,
+//            String radioOption) {
+//        getTester().assertRadioOptionNotSelected(radioGroup, radioOption);
+//    }
+//
+//    public void assertSelectOptionPresent(String selectName, String optionLabel) {
+//        getTester().assertSelectOptionPresent(selectName, optionLabel);
+//    }
+//
+//    public void assertSelectOptionNotPresent(String selectName,
+//            String optionLabel) {
+//        getTester().assertSelectOptionNotPresent(selectName, optionLabel);
+//    }
+//
+//    public void assertSelectOptionValuePresent(String selectName,
+//            String optionValue) {
+//        getTester().assertSelectOptionValuePresent(selectName, optionValue);
+//    }
+//
+//    public void assertSelectOptionValueNotPresent(String selectName,
+//            String optionValue) {
+//        getTester().assertSelectOptionValueNotPresent(selectName, optionValue);
+//    }
+//
+//    public void assertSelectOptionsEqual(String selectName, String[] options) {
+//        getTester().assertSelectOptionsEqual(selectName, options);
+//    }
+//
+//    public void assertSelectOptionsNotEqual(String selectName, String[] options) {
+//        getTester().assertSelectOptionsNotEqual(selectName, options);
+//    }
+//
+//    public void assertSelectOptionValuesEqual(String selectName,
+//            String[] options) {
+//        getTester().assertSelectOptionValuesEqual(selectName, options);
+//    }
+//
+//    public void assertSelectOptionValuesNotEqual(String selectName,
+//            String[] options) {
+//        getTester().assertSelectOptionValuesNotEqual(selectName, options);
+//    }
+//
+//    public void assertSelectedOptionEquals(String selectName, String label) {
+//        getTester().assertSelectedOptionEquals(selectName, label);
+//    }
+//
+//    public void assertSelectedOptionsEqual(String selectName, String[] labels) {
+//        getTester().assertSelectedOptionsEqual(selectName, labels);
+//    }
+//
+//    public void assertSelectedOptionValueEquals(String selectName, String value) {
+//        getTester().assertSelectedOptionValueEquals(selectName, value);
+//    }
+//
+//    public void assertSelectedOptionValuesEqual(String selectName,
+//            String[] values) {
+//        getTester().assertSelectedOptionValuesEqual(selectName, values);
+//    }
+//
+//    public void assertSelectedOptionMatches(String selectName, String regexp) {
+//        getTester().assertSelectedOptionMatches(selectName, regexp);
+//    }
+//
+//    public void assertSelectedOptionsMatch(String selectName, String[] regexps) {
+//        getTester().assertSelectedOptionsMatch(selectName, regexps);
+//    }
+//
+//    /**
+//     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonPresent()
+//     */
+//    public void assertSubmitButtonPresent() {
+//        getTester().assertSubmitButtonPresent();
+//    }
+//
+//    /**
+//     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonPresent(String)
+//     */
+//    public void assertSubmitButtonPresent(String buttonName) {
+//        getTester().assertSubmitButtonPresent(buttonName);
+//    }
+//
+//    /**
+//     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonNotPresent()
+//     */
+//    public void assertSubmitButtonNotPresent() {
+//        getTester().assertSubmitButtonNotPresent();
+//    }
+//
+//    /**
+//     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonNotPresent(String)
+//     */
+//    public void assertSubmitButtonNotPresent(String buttonName) {
+//        getTester().assertSubmitButtonNotPresent(buttonName);
+//    }
+//
+//    /**
+//     * @see net.sourceforge.jwebunit.WebTester#assertSubmitButtonPresent(String,
+//     *      String)
+//     */
+//    public void assertSubmitButtonPresent(String buttonName,
+//            String expectedValue) {
+//        getTester().assertSubmitButtonPresent(buttonName, expectedValue);
+//    }
+//
+//    /**
+//     * @see net.sourceforge.jwebunit.WebTester#assertResetButtonPresent()
+//     */
+//    public void assertResetButtonPresent() {
+//        getTester().assertResetButtonPresent();
+//    }
+//
+//    /**
+//     * @see net.sourceforge.jwebunit.WebTester#assertResetButtonPresent(String)
+//     */
+//    public void assertResetButtonPresent(String buttonName) {
+//        getTester().assertResetButtonPresent(buttonName);
+//    }
+//
+//    /**
+//     * @see net.sourceforge.jwebunit.WebTester#assertResetButtonNotPresent()
+//     */
+//    public void assertResetButtonNotPresent() {
+//        getTester().assertResetButtonNotPresent();
+//    }
+//
+//    /**
+//     * @see net.sourceforge.jwebunit.WebTester#assertResetButtonNotPresent(String)
+//     */
+//    public void assertResetButtonNotPresent(String buttonName) {
+//        getTester().assertResetButtonNotPresent(buttonName);
+//    }
+//
     /**
      * @deprecated use assertElementPresent(new HtmlButtonLocator(buttonID));
      */
@@ -1504,157 +1587,157 @@ public class WebTestCase extends TestCase {
             fail("Button found");
         }
     }
-
-    public void assertButtonNotPresent(String buttonID) {
-        getTester().assertButtonNotPresent(buttonID);
-    }
-
-    public void assertLinkPresent(String linkId) {
-        getTester().assertLinkPresent(linkId);
-    }
-
-    public void assertLinkNotPresent(String linkId) {
-        getTester().assertLinkNotPresent(linkId);
-    }
-
-    public void assertLinkPresentWithText(String linkText) {
-        getTester().assertLinkPresentWithText(linkText);
-    }
-
-    public void assertLinkNotPresentWithText(String linkText) {
-        getTester().assertLinkNotPresentWithText(linkText);
-    }
-
-    public void assertLinkPresentWithText(String linkText, int index) {
-        getTester().assertLinkPresentWithText(linkText, index);
-    }
-
-    public void assertLinkNotPresentWithText(String linkText, int index) {
-        getTester().assertLinkNotPresentWithText(linkText, index);
-    }
-
-    // SF.NET RFE: 996031
-    public void assertLinkPresentWithExactText(String linkText) {
-        getTester().assertLinkPresentWithExactText(linkText);
-    }
-
-    // SF.NET RFE: 996031
-    public void assertLinkNotPresentWithExactText(String linkText) {
-        getTester().assertLinkNotPresentWithExactText(linkText);
-    }
-
-    // SF.NET RFE: 996031
-    public void assertLinkPresentWithExactText(String linkText, int index) {
-        getTester().assertLinkPresentWithExactText(linkText, index);
-    }
-
-    // SF.NET RFE: 996031
-    public void assertLinkNotPresentWithExactText(String linkText, int index) {
-        getTester().assertLinkNotPresentWithExactText(linkText, index);
-    }
-
-    public void assertLinkPresentWithImage(String imageFileName) {
-        getTester().assertLinkPresentWithImage(imageFileName);
-    }
-
-    public void assertLinkNotPresentWithImage(String imageFileName) {
-        getTester().assertLinkNotPresentWithImage(imageFileName);
-    }
-
-    public void assertElementPresent(String anID) {
-        getTester().assertElementPresent(anID);
-    }
-
-    public void assertElementNotPresent(String anID) {
-        getTester().assertElementNotPresent(anID);
-    }
-
-    /**
-     * Assert that an element with a given xpath is present.
-     * 
-     * @param xpath
-     *            element xpath to test for.
-     */
-    public void assertElementPresentByXPath(String xpath) {
-        getTester().assertElementPresentByXPath(xpath);
-    }
-
-    /**
-     * Assert that an element with a given xpath is not present.
-     * 
-     * @param xpath
-     *            element xpath to test for.
-     */
-    public void assertElementNotPresentByXPath(String xpath) {
-        getTester().assertElementNotPresentByXPath(xpath);
-    }
-
-    public void assertTextInElement(String elID, String text) {
-        getTester().assertTextInElement(elID, text);
-    }
-
-    public void assertTextNotInElement(String elID, String text) {
-        getTester().assertTextNotInElement(elID, text);
-    }
-
-    public void assertMatchInElement(String elID, String regexp) {
-        getTester().assertMatchInElement(elID, regexp);
-    }
-
-    public void assertNoMatchInElement(String elID, String regexp) {
-        getTester().assertNoMatchInElement(elID, regexp);
-    }
-
-    public void assertWindowPresent(String windowName) {
-        getTester().assertWindowPresent(windowName);
-    }
-
-    public void assertWindowPresent(int windowID) {
-        getTester().assertWindowPresent(windowID);
-    }
-
-    public void assertWindowPresentWithTitle(String title) {
-        getTester().assertWindowPresentWithTitle(title);
-    }
-
-    public void assertWindowCountEquals(int windowCount) {
-        getTester().assertWindowCountEquals(windowCount);
-    }
-
-    public void assertFramePresent(String frameName) {
-        getTester().assertFramePresent(frameName);
-    }
-
-    public void assertCookiePresent(String cookieName) {
-        getTester().assertCookiePresent(cookieName);
-    }
-
-    public void assertCookieValueEquals(String cookieName, String expectedValue) {
-        getTester().assertCookieValueEquals(cookieName, expectedValue);
-    }
-
-    public void assertCookieValueMatch(String cookieName, String regexp) {
-        getTester().assertCookieValueMatch(cookieName, regexp);
-    }
-
-    public void assertJavascriptAlertPresent(String msg) {
-        getTester().assertJavascriptAlertPresent(msg);
-    }
-
-    // Form interaction methods
-
-    /**
-     * Gets the value of a form input element. Allows getting information from a
-     * form element. Also, checks assertions as well.
-     * 
-     * @param formElementName
-     *            name of form element.
-     * @param value
-     */
-    public String getFormElementValue(String formElementName) {
-        return getTester().getFormElementValue(formElementName);
-    }
-
+//
+//    public void assertButtonNotPresent(String buttonID) {
+//        getTester().assertButtonNotPresent(buttonID);
+//    }
+//
+//    public void assertLinkPresent(String linkId) {
+//        getTester().assertLinkPresent(linkId);
+//    }
+//
+//    public void assertLinkNotPresent(String linkId) {
+//        getTester().assertLinkNotPresent(linkId);
+//    }
+//
+//    public void assertLinkPresentWithText(String linkText) {
+//        getTester().assertLinkPresentWithText(linkText);
+//    }
+//
+//    public void assertLinkNotPresentWithText(String linkText) {
+//        getTester().assertLinkNotPresentWithText(linkText);
+//    }
+//
+//    public void assertLinkPresentWithText(String linkText, int index) {
+//        getTester().assertLinkPresentWithText(linkText, index);
+//    }
+//
+//    public void assertLinkNotPresentWithText(String linkText, int index) {
+//        getTester().assertLinkNotPresentWithText(linkText, index);
+//    }
+//
+//    // SF.NET RFE: 996031
+//    public void assertLinkPresentWithExactText(String linkText) {
+//        getTester().assertLinkPresentWithExactText(linkText);
+//    }
+//
+//    // SF.NET RFE: 996031
+//    public void assertLinkNotPresentWithExactText(String linkText) {
+//        getTester().assertLinkNotPresentWithExactText(linkText);
+//    }
+//
+//    // SF.NET RFE: 996031
+//    public void assertLinkPresentWithExactText(String linkText, int index) {
+//        getTester().assertLinkPresentWithExactText(linkText, index);
+//    }
+//
+//    // SF.NET RFE: 996031
+//    public void assertLinkNotPresentWithExactText(String linkText, int index) {
+//        getTester().assertLinkNotPresentWithExactText(linkText, index);
+//    }
+//
+//    public void assertLinkPresentWithImage(String imageFileName) {
+//        getTester().assertLinkPresentWithImage(imageFileName);
+//    }
+//
+//    public void assertLinkNotPresentWithImage(String imageFileName) {
+//        getTester().assertLinkNotPresentWithImage(imageFileName);
+//    }
+//
+//    public void assertElementPresent(String anID) {
+//        getTester().assertElementPresent(anID);
+//    }
+//
+//    public void assertElementNotPresent(String anID) {
+//        getTester().assertElementNotPresent(anID);
+//    }
+//
+//    /**
+//     * Assert that an element with a given xpath is present.
+//     * 
+//     * @param xpath
+//     *            element xpath to test for.
+//     */
+//    public void assertElementPresentByXPath(String xpath) {
+//        getTester().assertElementPresentByXPath(xpath);
+//    }
+//
+//    /**
+//     * Assert that an element with a given xpath is not present.
+//     * 
+//     * @param xpath
+//     *            element xpath to test for.
+//     */
+//    public void assertElementNotPresentByXPath(String xpath) {
+//        getTester().assertElementNotPresentByXPath(xpath);
+//    }
+//
+//    public void assertTextInElement(String elID, String text) {
+//        getTester().assertTextInElement(elID, text);
+//    }
+//
+//    public void assertTextNotInElement(String elID, String text) {
+//        getTester().assertTextNotInElement(elID, text);
+//    }
+//
+//    public void assertMatchInElement(String elID, String regexp) {
+//        getTester().assertMatchInElement(elID, regexp);
+//    }
+//
+//    public void assertNoMatchInElement(String elID, String regexp) {
+//        getTester().assertNoMatchInElement(elID, regexp);
+//    }
+//
+//    public void assertWindowPresent(String windowName) {
+//        getTester().assertWindowPresent(windowName);
+//    }
+//
+//    public void assertWindowPresent(int windowID) {
+//        getTester().assertWindowPresent(windowID);
+//    }
+//
+//    public void assertWindowPresentWithTitle(String title) {
+//        getTester().assertWindowPresentWithTitle(title);
+//    }
+//
+//    public void assertWindowCountEquals(int windowCount) {
+//        getTester().assertWindowCountEquals(windowCount);
+//    }
+//
+//    public void assertFramePresent(String frameName) {
+//        getTester().assertFramePresent(frameName);
+//    }
+//
+//    public void assertCookiePresent(String cookieName) {
+//        getTester().assertCookiePresent(cookieName);
+//    }
+//
+//    public void assertCookieValueEquals(String cookieName, String expectedValue) {
+//        getTester().assertCookieValueEquals(cookieName, expectedValue);
+//    }
+//
+//    public void assertCookieValueMatch(String cookieName, String regexp) {
+//        getTester().assertCookieValueMatch(cookieName, regexp);
+//    }
+//
+//    public void assertJavascriptAlertPresent(String msg) {
+//        getTester().assertJavascriptAlertPresent(msg);
+//    }
+//
+//    // Form interaction methods
+//
+//    /**
+//     * Gets the value of a form input element. Allows getting information from a
+//     * form element. Also, checks assertions as well.
+//     * 
+//     * @param formElementName
+//     *            name of form element.
+//     * @param value
+//     */
+//    public String getFormElementValue(String formElementName) {
+//        return getTester().getFormElementValue(formElementName);
+//    }
+//
     public void setWorkingForm(HtmlFormLocator formLocator) {
         try {
             getTester().setWorkingForm(formLocator);
@@ -1662,244 +1745,264 @@ public class WebTestCase extends TestCase {
             fail("Form not found " + e.getElementNotFound().toString());
         }
     }
-
+//
+//    /**
+//     * @deprecated use setWorkingForm(HtmlFormLocator)
+//     */
+//    public void setWorkingForm(String nameOrId) {
+//        try {
+//            getTester().setWorkingForm(new HtmlFormLocator(nameOrId));
+//        } catch (ElementNotFoundException e) {
+//            try {
+//                getTester().setWorkingForm(new HtmlFormLocatorByName(nameOrId));
+//            } catch (ElementNotFoundException e2) {
+//                fail("Unable to find a form whose name or id is " + nameOrId);
+//            }
+//        }
+//    }
+//
+//    /**
+//     * @deprecated use setWorkingForm(HtmlFormLocator)
+//     */
+//    public void setWorkingForm(String nameOrId, int index) {
+//        try {
+//            getTester().setWorkingForm(new HtmlFormLocator(nameOrId)); // Id
+//            // should
+//            // be
+//            // unique
+//        } catch (ElementNotFoundException e) {
+//            try {
+//                getTester().setWorkingForm(
+//                        new HtmlFormLocatorByName(nameOrId, index));
+//            } catch (ElementNotFoundException e2) {
+//                fail("Unable to find a form whose name or id is " + nameOrId);
+//            }
+//        }
+//    }
+//
     /**
-     * @deprecated use setWorkingForm(HtmlFormLocator)
+     * @deprecated
      */
-    public void setWorkingForm(String nameOrId) {
-        try {
-            getTester().setWorkingForm(new HtmlFormLocator(nameOrId));
-        } catch (ElementNotFoundException e) {
-            try {
-                getTester().setWorkingForm(new HtmlFormLocatorByName(nameOrId));
-            } catch (ElementNotFoundException e2) {
-                fail("Unable to find a form whose name or id is " + nameOrId);
-            }
-        }
-    }
-
-    /**
-     * @deprecated use setWorkingForm(HtmlFormLocator)
-     */
-    public void setWorkingForm(String nameOrId, int index) {
-        try {
-            getTester().setWorkingForm(new HtmlFormLocator(nameOrId)); // Id
-            // should
-            // be
-            // unique
-        } catch (ElementNotFoundException e) {
-            try {
-                getTester().setWorkingForm(
-                        new HtmlFormLocatorByName(nameOrId, index));
-            } catch (ElementNotFoundException e2) {
-                fail("Unable to find a form whose name or id is " + nameOrId);
-            }
-        }
-    }
-
     public void setTextField(String textFieldName, String value) {
-        getTester().setTextField(textFieldName, value);
+        try {
+            getTester().setTextField(textFieldName, value);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
     }
 
-    /**
-     * Select a specified checkbox. If the checkbox is already checked then the
-     * checkbox will stay checked.
-     * 
-     * @param checkBoxName
-     *            name of checkbox to be selected.
-     */
-    public void checkCheckbox(String checkBoxName) {
-        getTester().checkCheckbox(checkBoxName);
+    public void setTextField(TextFieldHtmlElementLocator textField, String value) {
+        try {
+            getTester().setTextField(textField, value);
+        } catch (ElementNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
     }
 
-    /**
-     * Select a specified checkbox. If the checkbox is already checked then the
-     * checkbox will stay checked.
-     * 
-     * @param checkBoxName
-     *            name of checkbox to be selected.
-     * @param value
-     *            value of checkbox to be selected.
-     */
-    public void checkCheckbox(String checkBoxName, String value) {
-        getTester().checkCheckbox(checkBoxName, value);
-    }
-
-    /**
-     * Deselect a specified checkbox. If the checkbox is already unchecked then
-     * the checkbox will stay unchecked.
-     * 
-     * @param checkBoxName
-     *            name of checkbox to be deselected.
-     */
-    public void uncheckCheckbox(String checkBoxName) {
-        getTester().uncheckCheckbox(checkBoxName);
-    }
-
-    /**
-     * Deselect a specified checkbox. If the checkbox is already unchecked then
-     * the checkbox will stay unchecked.
-     * 
-     * @param checkBoxName
-     *            name of checkbox to be deselected.
-     * @param value
-     *            value of checkbox to be deselected.
-     */
-    public void uncheckCheckbox(String checkBoxName, String value) {
-        getTester().uncheckCheckbox(checkBoxName, value);
-    }
-
-    /**
-     * Select an option with a given display label in a select element.
-     * 
-     * @param selectName
-     *            name of select element.
-     * @param label
-     *            label of option to be selected.
-     */
-    public void selectOption(String selectName, String label) {
-        getTester().selectOption(selectName, label);
-    }
-
-    public void selectOptions(String selectName, String[] labels) {
-        getTester().selectOptions(selectName, labels);
-    }
-
-    public void selectOptionByValue(String selectName, String value) {
-        getTester().selectOptionByValue(selectName, value);
-    }
-
-    public void selectOptionsByValues(String selectName, String[] values) {
-        getTester().selectOptionsByValues(selectName, values);
-    }
-
-    // Form submission and link navigation methods
-
-    public void submit() {
-        getTester().submit();
-    }
-
-    public void submit(String buttonName) {
-        getTester().submit(buttonName);
-    }
-
-    public void submit(String buttonName, String buttonValue) {
-        getTester().submit(buttonName, buttonValue);
-    }
-
-    /**
-     * Reset the current form. See {@link #getForm}for an explanation of how
-     * the current form is established.
-     */
-    public void reset() {
-        getTester().reset();
-    }
-
-    public void clickLinkWithText(String linkText) {
-        getTester().clickLinkWithText(linkText);
-    }
-
-    public void clickLinkWithText(String linkText, int index) {
-        getTester().clickLinkWithText(linkText, index);
-    }
-
-    protected void clickLinkWithExactText(String linkText) {
-        getTester().clickLinkWithExactText(linkText);
-    }
-
-    protected void clickLinkWithExactText(String linkText, int index) {
-        getTester().clickLinkWithExactText(linkText, index);
-    }
-
-    /**
-     * Navigate by selection of a link with a given image.
-     * 
-     * @param imageFileName
-     *            A suffix of the image's filename; for example, to match
-     *            <tt>"images/my_icon.png"</tt>, you could just pass in
-     *            <tt>"my_icon.png"</tt>.
-     */
-    public void clickLinkWithImage(String imageFileName) {
-        getTester().clickLinkWithImage(imageFileName);
-    }
-
-    public void clickLink(String linkId) {
-        getTester().clickLink(linkId);
-    }
-
-    public void clickButton(String buttonId) {
-        getTester().clickButton(buttonId);
-    }
-
-    public void clickButtonWithText(String buttonValueText) {
-        getTester().clickButtonWithText(buttonValueText);
-    }
-
-    protected void clickRadioOption(String radioGroup, String radioOption) {
-        getTester().clickRadioOption(radioGroup, radioOption);
-    }
-
-    /**
-     * Click element with given xpath.
-     * 
-     * @param xpath
-     *            xpath of the element.
-     */
-    protected void clickElementByXPath(String xpath) {
-        getTester().clickElementByXPath(xpath);
-    }
-
-    public void gotoRootWindow() {
-        getTester().gotoRootWindow();
-    }
-
-    public void gotoWindowByTitle(String title) {
-        getTester().gotoWindowByTitle(title);
-    }
-
-    public void gotoWindow(String windowName) {
-        getTester().gotoWindow(windowName);
-    }
-
-    public void gotoWindow(int windowID) {
-        getTester().gotoWindow(windowID);
-    }
-
-    public void gotoFrame(String frameName) {
-        getTester().gotoFrame(frameName);
-    }
-
-    protected void dumpCookies() {
-        getTester().dumpCookies();
-    }
-
-    protected void gotoPage(String page) {
-        getTester().gotoPage(page);
-    }
-
-    // Debug methods
-
-    protected void dumpHtml() {
-        getTester().dumpHtml();
-    }
-
-    protected void dumpHtml(PrintStream stream) {
-        getTester().dumpHtml(stream);
-    }
-
-    protected void dumpTable(String tableNameOrId, PrintStream stream) {
-        getTester().dumpTable(tableNameOrId, stream);
-    }
-
-    protected void dumpTable(String tableNameOrId) {
-        getTester().dumpTable(tableNameOrId);
-    }
-
-    /**
-     * @deprecated Use setTextField instead.
-     */
-    protected void setFormElement(String formElementName, String value) {
-        getTester().setFormElement(formElementName, value);
-    }
+//
+//    /**
+//     * Select a specified checkbox. If the checkbox is already checked then the
+//     * checkbox will stay checked.
+//     * 
+//     * @param checkBoxName
+//     *            name of checkbox to be selected.
+//     */
+//    public void checkCheckbox(String checkBoxName) {
+//        getTester().checkCheckbox(checkBoxName);
+//    }
+//
+//    /**
+//     * Select a specified checkbox. If the checkbox is already checked then the
+//     * checkbox will stay checked.
+//     * 
+//     * @param checkBoxName
+//     *            name of checkbox to be selected.
+//     * @param value
+//     *            value of checkbox to be selected.
+//     */
+//    public void checkCheckbox(String checkBoxName, String value) {
+//        getTester().checkCheckbox(checkBoxName, value);
+//    }
+//
+//    /**
+//     * Deselect a specified checkbox. If the checkbox is already unchecked then
+//     * the checkbox will stay unchecked.
+//     * 
+//     * @param checkBoxName
+//     *            name of checkbox to be deselected.
+//     */
+//    public void uncheckCheckbox(String checkBoxName) {
+//        getTester().uncheckCheckbox(checkBoxName);
+//    }
+//
+//    /**
+//     * Deselect a specified checkbox. If the checkbox is already unchecked then
+//     * the checkbox will stay unchecked.
+//     * 
+//     * @param checkBoxName
+//     *            name of checkbox to be deselected.
+//     * @param value
+//     *            value of checkbox to be deselected.
+//     */
+//    public void uncheckCheckbox(String checkBoxName, String value) {
+//        getTester().uncheckCheckbox(checkBoxName, value);
+//    }
+//
+//    /**
+//     * Select an option with a given display label in a select element.
+//     * 
+//     * @param selectName
+//     *            name of select element.
+//     * @param label
+//     *            label of option to be selected.
+//     */
+//    public void selectOption(String selectName, String label) {
+//        getTester().selectOption(selectName, label);
+//    }
+//
+//    public void selectOptions(String selectName, String[] labels) {
+//        getTester().selectOptions(selectName, labels);
+//    }
+//
+//    public void selectOptionByValue(String selectName, String value) {
+//        getTester().selectOptionByValue(selectName, value);
+//    }
+//
+//    public void selectOptionsByValues(String selectName, String[] values) {
+//        getTester().selectOptionsByValues(selectName, values);
+//    }
+//
+//    // Form submission and link navigation methods
+//
+//    public void submit() {
+//        getTester().submit();
+//    }
+//
+//    public void submit(String buttonName) {
+//        getTester().submit(buttonName);
+//    }
+//
+//    public void submit(String buttonName, String buttonValue) {
+//        getTester().submit(buttonName, buttonValue);
+//    }
+//
+//    /**
+//     * Reset the current form. See {@link #getForm}for an explanation of how
+//     * the current form is established.
+//     */
+//    public void reset() {
+//        getTester().reset();
+//    }
+//
+//    public void clickLinkWithText(String linkText) {
+//        getTester().clickLinkWithText(linkText);
+//    }
+//
+//    public void clickLinkWithText(String linkText, int index) {
+//        getTester().clickLinkWithText(linkText, index);
+//    }
+//
+//    protected void clickLinkWithExactText(String linkText) {
+//        getTester().clickLinkWithExactText(linkText);
+//    }
+//
+//    protected void clickLinkWithExactText(String linkText, int index) {
+//        getTester().clickLinkWithExactText(linkText, index);
+//    }
+//
+//    /**
+//     * Navigate by selection of a link with a given image.
+//     * 
+//     * @param imageFileName
+//     *            A suffix of the image's filename; for example, to match
+//     *            <tt>"images/my_icon.png"</tt>, you could just pass in
+//     *            <tt>"my_icon.png"</tt>.
+//     */
+//    public void clickLinkWithImage(String imageFileName) {
+//        getTester().clickLinkWithImage(imageFileName);
+//    }
+//
+//    public void clickLink(String linkId) {
+//        getTester().clickLink(linkId);
+//    }
+//
+//    public void clickButton(String buttonId) {
+//        getTester().clickButton(buttonId);
+//    }
+//
+//    public void clickButtonWithText(String buttonValueText) {
+//        getTester().clickButtonWithText(buttonValueText);
+//    }
+//
+//    protected void clickRadioOption(String radioGroup, String radioOption) {
+//        getTester().clickRadioOption(radioGroup, radioOption);
+//    }
+//
+//    /**
+//     * Click element with given xpath.
+//     * 
+//     * @param xpath
+//     *            xpath of the element.
+//     */
+//    protected void clickElementByXPath(String xpath) {
+//        getTester().clickElementByXPath(xpath);
+//    }
+//
+//    public void gotoRootWindow() {
+//        getTester().gotoRootWindow();
+//    }
+//
+//    public void gotoWindowByTitle(String title) {
+//        getTester().gotoWindowByTitle(title);
+//    }
+//
+//    public void gotoWindow(String windowName) {
+//        getTester().gotoWindow(windowName);
+//    }
+//
+//    public void gotoWindow(int windowID) {
+//        getTester().gotoWindow(windowID);
+//    }
+//
+//    public void gotoFrame(String frameName) {
+//        getTester().gotoFrame(frameName);
+//    }
+//
+//    protected void dumpCookies() {
+//        getTester().dumpCookies();
+//    }
+//
+//    protected void gotoPage(String page) {
+//        getTester().gotoPage(page);
+//    }
+//
+//    // Debug methods
+//
+//    protected void dumpHtml() {
+//        getTester().dumpHtml();
+//    }
+//
+//    protected void dumpHtml(PrintStream stream) {
+//        getTester().dumpHtml(stream);
+//    }
+//
+//    protected void dumpTable(String tableNameOrId, PrintStream stream) {
+//        getTester().dumpTable(tableNameOrId, stream);
+//    }
+//
+//    protected void dumpTable(String tableNameOrId) {
+//        getTester().dumpTable(tableNameOrId);
+//    }
+//
+//    /**
+//     * @deprecated Use setTextField instead.
+//     */
+//    protected void setFormElement(String formElementName, String value) {
+//        getTester().setFormElement(formElementName, value);
+//    }
 
 }
