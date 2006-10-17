@@ -4,7 +4,6 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit;
 
-import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
@@ -15,17 +14,26 @@ import net.sourceforge.jwebunit.exception.AssertEqualsException;
 import net.sourceforge.jwebunit.exception.AssertMatchException;
 import net.sourceforge.jwebunit.exception.AssertNotContainsException;
 import net.sourceforge.jwebunit.exception.AssertNotMatchException;
+import net.sourceforge.jwebunit.exception.AssertNotSelectedException;
+import net.sourceforge.jwebunit.exception.AssertSelectedException;
 import net.sourceforge.jwebunit.exception.ElementFoundException;
 import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.exception.TestingEngineRegistryException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
-import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.html.Table;
+import net.sourceforge.jwebunit.locator.ClickableHtmlElementLocator;
 import net.sourceforge.jwebunit.locator.HtmlButtonLocator;
+import net.sourceforge.jwebunit.locator.HtmlCheckboxInputLocator;
+import net.sourceforge.jwebunit.locator.HtmlCheckboxInputLocatorByName;
 import net.sourceforge.jwebunit.locator.HtmlElementLocator;
+import net.sourceforge.jwebunit.locator.HtmlFileInputLocatorByName;
 import net.sourceforge.jwebunit.locator.HtmlFormLocator;
-import net.sourceforge.jwebunit.locator.HtmlFormLocatorByName;
+import net.sourceforge.jwebunit.locator.HtmlPasswordInputLocatorByName;
 import net.sourceforge.jwebunit.locator.HtmlTableLocator;
+import net.sourceforge.jwebunit.locator.HtmlTextAreaLocator;
+import net.sourceforge.jwebunit.locator.HtmlTextAreaLocatorByName;
+import net.sourceforge.jwebunit.locator.HtmlTextInputLocatorByName;
+import net.sourceforge.jwebunit.locator.TextFieldHtmlElementLocator;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 
 import org.apache.regexp.RE;
@@ -321,7 +329,8 @@ public class JWebUnitTester {
      * @return Object that represent a html table in a way independent from
      *         plugin.
      */
-    public Table getTable(HtmlTableLocator tableLocator) throws ElementNotFoundException {
+    public Table getTable(HtmlTableLocator tableLocator)
+            throws ElementNotFoundException {
         return getDialog().getTable(tableLocator);
     }
 
@@ -331,7 +340,7 @@ public class JWebUnitTester {
      */
     public void assertElementPresent(HtmlElementLocator locator)
             throws ElementNotFoundException {
-        if (!getDialog().hasElement(locator))
+        if (getDialog().getCount(locator) == 0)
             throw new ElementNotFoundException(locator);
     }
 
@@ -341,7 +350,7 @@ public class JWebUnitTester {
      */
     public void assertElementNotPresent(HtmlElementLocator locator)
             throws ElementFoundException {
-        if (getDialog().hasElement(locator))
+        if (getDialog().getCount(locator) != 0)
             throw new ElementFoundException(locator);
     }
 
@@ -509,7 +518,8 @@ public class JWebUnitTester {
      *            represents expected values (colspan supported).
      */
     public void assertTableEquals(HtmlTableLocator tableLocator,
-            Table expectedTable) throws ElementNotFoundException, AssertEqualsException {
+            Table expectedTable) throws ElementNotFoundException,
+            AssertEqualsException {
         getDialog().getTable(tableLocator).assertEquals(expectedTable);
     }
 
@@ -520,7 +530,8 @@ public class JWebUnitTester {
      *            double dimensional array of expected values
      */
     public void assertTableEquals(HtmlTableLocator tableLocator,
-            String[][] expectedCellValues) throws ElementNotFoundException, AssertEqualsException {
+            String[][] expectedCellValues) throws ElementNotFoundException,
+            AssertEqualsException {
         getDialog().getTable(tableLocator).assertEquals(
                 new Table(expectedCellValues));
     }
@@ -535,7 +546,8 @@ public class JWebUnitTester {
      *            represents expected values (colspan and rowspan supported).
      */
     public void assertTableRowsEqual(HtmlTableLocator tableLocator,
-            int startRow, Table expectedTable) throws ElementNotFoundException, AssertEqualsException {
+            int startRow, Table expectedTable) throws ElementNotFoundException,
+            AssertEqualsException {
         getDialog().getTable(tableLocator).assertSubTableEquals(startRow,
                 expectedTable);
     }
@@ -582,7 +594,8 @@ public class JWebUnitTester {
      *            represents expected regexps (colspan/rowspan supported).
      */
     public void assertTableMatch(HtmlTableLocator tableLocator,
-            Table expectedTable) throws ElementNotFoundException, AssertMatchException {
+            Table expectedTable) throws ElementNotFoundException,
+            AssertMatchException {
         getDialog().getTable(tableLocator).assertMatch(expectedTable);
     }
 
@@ -593,7 +606,8 @@ public class JWebUnitTester {
      *            double dimensional array of expected regexps
      */
     public void assertTableMatch(HtmlTableLocator tableLocator,
-            String[][] expectedCellValues) throws ElementNotFoundException, AssertMatchException {
+            String[][] expectedCellValues) throws ElementNotFoundException,
+            AssertMatchException {
         getDialog().getTable(tableLocator).assertMatch(
                 new Table(expectedCellValues));
     }
@@ -608,7 +622,8 @@ public class JWebUnitTester {
      *            represents expected regexps (colspan and rowspan supported).
      */
     public void assertTableRowsMatch(HtmlTableLocator tableLocator,
-            int startRow, Table expectedTable) throws ElementNotFoundException, AssertMatchException {
+            int startRow, Table expectedTable) throws ElementNotFoundException,
+            AssertMatchException {
         getDialog().getTable(tableLocator).assertSubTableMatch(startRow,
                 expectedTable);
     }
@@ -626,7 +641,8 @@ public class JWebUnitTester {
      *            supported).
      */
     public void assertTableRowsMatch(HtmlTableLocator tableLocator,
-            int startRow, String[][] expectedTable) throws ElementNotFoundException, AssertMatchException {
+            int startRow, String[][] expectedTable)
+            throws ElementNotFoundException, AssertMatchException {
         getDialog().getTable(tableLocator).assertSubTableMatch(startRow,
                 new Table(expectedTable));
     }
@@ -699,31 +715,51 @@ public class JWebUnitTester {
     // formElementName));
     // }
     //
-    // /**
-    // * Assert that a specific checkbox is selected.
-    // *
-    // * @param checkBoxName
-    // */
-    // public void assertCheckboxSelected(String checkBoxName) {
-    // assertCheckboxPresent(checkBoxName);
-    // if (!getDialog().isCheckboxSelected(checkBoxName)) {
-    // Assert.fail("Checkbox with name [" + checkBoxName
-    // + "] was not found selected.");
-    // }
-    // }
-    //
-    // /**
-    // * Assert that a specific checkbox is not selected.
-    // *
-    // * @param checkBoxName
-    // */
-    // public void assertCheckboxNotSelected(String checkBoxName) {
-    // assertCheckboxPresent(checkBoxName);
-    // if (getDialog().isCheckboxSelected(checkBoxName)) {
-    // Assert.fail("Checkbox with name [" + checkBoxName
-    // + "] was found selected.");
-    // }
-    // }
+    /**
+     * Assert that a specific checkbox is selected.
+     * 
+     * @param checkBoxName
+     */
+    public void assertCheckboxSelected(String checkBoxName)
+            throws ElementNotFoundException, AssertSelectedException {
+        assertCheckboxSelected(new HtmlCheckboxInputLocatorByName(checkBoxName));
+    }
+
+    /**
+     * Assert that a specific checkbox is selected.
+     * 
+     * @param checkBoxName
+     */
+    public void assertCheckboxSelected(HtmlCheckboxInputLocator checkBox)
+            throws ElementNotFoundException, AssertSelectedException {
+        if (!getDialog().getAttributeValue(checkBox, "checked").equals("true")) {
+            throw new AssertSelectedException(checkBox);
+        }
+    }
+
+    /**
+     * Assert that a specific checkbox is not selected.
+     * 
+     * @param checkBoxName
+     */
+    public void assertCheckboxNotSelected(String checkBoxName)
+            throws ElementNotFoundException, AssertNotSelectedException {
+        assertCheckboxNotSelected(new HtmlCheckboxInputLocatorByName(
+                checkBoxName));
+    }
+
+    /**
+     * Assert that a specific checkbox is not selected.
+     * 
+     * @param checkBox
+     */
+    public void assertCheckboxNotSelected(HtmlCheckboxInputLocator checkBox)
+            throws ElementNotFoundException, AssertNotSelectedException {
+        if (!getDialog().getAttributeValue(checkBox, "checked").equals("true")) {
+            throw new AssertNotSelectedException(checkBox);
+        }
+    }
+
     //
     // /**
     // * Assert that a specific option is present in a radio group.
@@ -1179,12 +1215,7 @@ public class JWebUnitTester {
     public void assertButtonNotPresentWithText(String text)
             throws ElementFoundException {
         HtmlElementLocator l = new HtmlButtonLocator();
-        int count;
-        try {
-            count = getDialog().getCount(l);
-        } catch (ElementNotFoundException e1) {
-            return;
-        }
+        int count = getDialog().getCount(l);
         for (int i = 0; i < count; i++) {
             HtmlElementLocator li = new HtmlButtonLocator(count);
             try {
@@ -1602,80 +1633,67 @@ public class JWebUnitTester {
      */
     public void setWorkingForm(HtmlFormLocator formLocator)
             throws ElementNotFoundException {
-        getDialog().setWorkingForm(formLocator);
+        // getDialog().setWorkingForm(formLocator);
     }
 
-    //
-    // /**
-    // * Set the value of a text or password input field.
-    // *
-    // * @param inputName
-    // * name of form element.
-    // * @param value
-    // * value to set.
-    // */
-    // public void setTextField(String inputName, String value) {
-    // assertFormPresent();
-    // assertFormElementPresent(inputName);
-    // getDialog().setTextField(inputName, value);
-    // }
-    //
-    // /**
-    // * Select a specified checkbox. If the checkbox is already checked then
-    // the
-    // * checkbox will stay checked.
-    // *
-    // * @param checkBoxName
-    // * name of checkbox to be selected.
-    // */
-    // public void checkCheckbox(String checkBoxName) {
-    // assertCheckboxPresent(checkBoxName);
-    // getDialog().checkCheckbox(checkBoxName);
-    // }
-    //
-    // /**
-    // * Select a specified checkbox. If the checkbox is already checked then
-    // the
-    // * checkbox will stay checked.
-    // *
-    // * @param checkBoxName
-    // * name of checkbox to be selected.
-    // * @param value
-    // * value of checkbox to be selected.
-    // */
-    // public void checkCheckbox(String checkBoxName, String value) {
-    // assertCheckboxPresent(checkBoxName);
-    // getDialog().checkCheckbox(checkBoxName, value);
-    // }
-    //
-    // /**
-    // * Deselect a specified checkbox. If the checkbox is already unchecked
-    // then
-    // * the checkbox will stay unchecked.
-    // *
-    // * @param checkBoxName
-    // * name of checkbox to be deselected.
-    // */
-    // public void uncheckCheckbox(String checkBoxName) {
-    // assertFormElementPresent(checkBoxName);
-    // getDialog().uncheckCheckbox(checkBoxName);
-    // }
-    //
-    // /**
-    // * Deselect a specified checkbox. If the checkbox is already unchecked
-    // then
-    // * the checkbox will stay unchecked.
-    // *
-    // * @param checkBoxName
-    // * name of checkbox to be deselected.
-    // * @param value
-    // * value of checkbox to be deselected.
-    // */
-    // public void uncheckCheckbox(String checkBoxName, String value) {
-    // assertFormElementPresent(checkBoxName);
-    // getDialog().uncheckCheckbox(checkBoxName, value);
-    // }
-    //
+    /**
+     * Set the value of a text or password input field.
+     * 
+     * @param inputName
+     *            name of form element.
+     * @param value
+     *            value to set.
+     * @deprecated
+     */
+    public void setTextField(String inputName, String value)
+            throws ElementNotFoundException {
+        try {
+            setTextField(new HtmlTextAreaLocatorByName(inputName), value);
+        } catch (ElementNotFoundException ex) {
+            try {
+                setTextField(new HtmlTextInputLocatorByName(inputName), value);
+            } catch (ElementNotFoundException ex2) {
+                try {
+                    setTextField(new HtmlPasswordInputLocatorByName(inputName),
+                            value);
+                } catch (ElementNotFoundException ex3) {
+                    try {
+                        setTextField(new HtmlFileInputLocatorByName(inputName),
+                                value);
+                    } catch (ElementNotFoundException ex4) {
+                        throw new ElementNotFoundException(
+                                "Could not find a text field with name ["
+                                        + inputName + "]");
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Type text in a text field. Text fields are
+     * <ul>
+     * <li>&lt;input type="text" ...&gt;</li>
+     * <li>&lt;input type="password" ...&gt;</li>
+     * <li>&lt;input type="file" ...&gt;</li>
+     * <li>&lt;textarea ...&gt;</li>
+     * </ul>
+     * 
+     * @param textField
+     *            text filed locator.
+     * @param value
+     *            value to set.
+     */
+    public void setTextField(TextFieldHtmlElementLocator textField, String value)
+            throws ElementNotFoundException {
+        textField.setTextField(getDialog(), value);
+    }
+
+    public void click(ClickableHtmlElementLocator clickableElement)
+            throws ElementNotFoundException {
+        getDialog().clickElement(clickableElement);
+    }
+
     // /**
     // * Select options with given display labels in a select element.
     // *

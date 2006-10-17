@@ -5,19 +5,19 @@
 package net.sourceforge.jwebunit;
 
 import java.net.URL;
+import java.util.List;
 
 import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.html.SelectOption;
 import net.sourceforge.jwebunit.html.Table;
 import net.sourceforge.jwebunit.locator.ClickableHtmlElementLocator;
-import net.sourceforge.jwebunit.locator.HtmlFormLocator;
 import net.sourceforge.jwebunit.locator.FrameLocator;
-import net.sourceforge.jwebunit.locator.HtmlCheckboxLocator;
 import net.sourceforge.jwebunit.locator.HtmlElementLocator;
 import net.sourceforge.jwebunit.locator.HtmlOptionLocator;
 import net.sourceforge.jwebunit.locator.HtmlSelectLocator;
 import net.sourceforge.jwebunit.locator.HtmlTableLocator;
+import net.sourceforge.jwebunit.locator.HtmlTextAreaLocator;
 import net.sourceforge.jwebunit.locator.WindowLocator;
 
 /**
@@ -125,56 +125,79 @@ public interface IJWebUnitDialog {
     /**
      * Test if the given frame is present.
      * 
-     * @param frame a frame locator.
+     * @param frame
+     *            a frame locator.
      */
     boolean hasFrame(FrameLocator frame);
 
     /**
      * Make the frame with the given name active in the current conversation.
      * 
-     * @param frame a frame locator.
+     * @param frame
+     *            a frame locator.
      */
     void gotoFrame(FrameLocator frame);
 
     /**
-     * Set the form on the current page that the client wishes to work with.
+     * Count number of frame in current context.
      * 
-     * @param form
-     *            a form locator.
      */
-    void setWorkingForm(HtmlFormLocator form) throws ElementNotFoundException;
+    int getFrameCount();
 
     /**
      * Get the current value of a html element's attribut.
-     * @param htmlElement a locator.
-     * @param attribut name of the attribut (e.g. value, alt, width)
+     * 
+     * @param htmlElement
+     *            a locator.
+     * @param attribut
+     *            name of the attribut (e.g. value, alt, width)
      * @return current value of a html element's attribut.
      */
-    String getAttributeValue(HtmlElementLocator htmlElement, String attribut) throws ElementNotFoundException;
+    String getAttributeValue(HtmlElementLocator htmlElement, String attribut)
+            throws ElementNotFoundException;
 
     /**
-     * Gets the text of an element. This works for any element that contains text.
-     * @param htmlElement a locator.
+     * Set the value of a html element's attribut.
+     * 
+     * @param htmlElement
+     *            a locator.
+     * @param attribut
+     *            name of the attribut (e.g. value, alt, width)
+     * @param value
+     *            value of the html element's attribut.
+     */
+    void setAttributeValue(HtmlElementLocator htmlElement, String attribut,
+            String value) throws ElementNotFoundException;
+
+    /**
+     * Get the text representation of element childs.
+     * 
+     * @param htmlElement
+     *            a locator.
      * @return current text content of an element.
      */
-    String getText(HtmlElementLocator htmlElement) throws ElementNotFoundException;
+    String getText(HtmlElementLocator htmlElement)
+            throws ElementNotFoundException;
+
+    /**
+     * Set the text content of a textarea.
+     * 
+     * @param textArea
+     *            a textarea locator.
+     * @param value
+     *            the value to set
+     */
+    void setTextArea(HtmlTextAreaLocator textArea, String value)
+            throws ElementNotFoundException;
 
     /**
      * Count how many elements match the given locator.
-     * @param htmlElement a locator.
-     * @return element count.
-     */
-    int getCount(HtmlElementLocator htmlElement) throws ElementNotFoundException;
-
-    /**
-     * Fill a text, password or textarea field with the provided text.
      * 
      * @param htmlElement
-     *            locator of the text, password, file or textarea element
-     * @param text
-     *            value to type in the field.
+     *            a locator.
+     * @return element count.
      */
-    void setTextField(HtmlElementLocator htmlElement, String text);
+    int getCount(HtmlElementLocator htmlElement);
 
     /**
      * Return a string array of select box option values.
@@ -182,18 +205,18 @@ public interface IJWebUnitDialog {
      * Exemple: <br/>
      * 
      * <pre>
-     *           &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-     *             &lt;P&gt;
-     *               &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-     *                 &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-     *                 &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-     *                 &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-     *                 &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-     *                 &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-     *               &lt;/SELECT&gt;
-     *               &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-     *             &lt;/P&gt;
-     *           &lt;/FORM&gt;
+     *              &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+     *                &lt;P&gt;
+     *                  &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+     *                    &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+     *                    &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+     *                    &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+     *                    &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+     *                    &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+     *                  &lt;/SELECT&gt;
+     *                  &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+     *                &lt;/P&gt;
+     *              &lt;/FORM&gt;
      * </pre>
      * 
      * Should return [Component_1_a, Component_1_b, Component_3, Component_4,
@@ -202,7 +225,8 @@ public interface IJWebUnitDialog {
      * @param selectName
      *            name of the select box.
      */
-    SelectOption[] getSelectOptions(HtmlSelectLocator htmlSelect) throws net.sourceforge.jwebunit.exception.ElementNotFoundException;
+    SelectOption[] getSelectOptions(HtmlSelectLocator htmlSelect)
+            throws ElementNotFoundException;
 
     /**
      * Return the values of the currently selected items in a select box.
@@ -210,52 +234,28 @@ public interface IJWebUnitDialog {
      * @param selectName
      *            name of the select box.
      */
-    SelectOption[] getSelectedOptions(HtmlSelectLocator htmlSelect) throws net.sourceforge.jwebunit.exception.ElementNotFoundException;
+    SelectOption[] getSelectedOptions(HtmlSelectLocator htmlSelect)
+            throws ElementNotFoundException;
 
     /**
-     * Select option(s) of a select box. If multi-select is enabled,
-     * you can specify more than one option. Options are selected in the given order.
+     * Select option(s) of a select box. If multi-select is enabled, you can
+     * specify more than one option. Options are selected in the given order.
      * 
-     * @param selectName
-     *            name of the select box.
-     * @param optionsValue
-     *            values of the options to select.
+     * @param options
+     *            option(s) to select.
      */
-    void selectOptions(HtmlSelectLocator htmlSelect, HtmlOptionLocator[] options);
+    void selectOptions(List<HtmlOptionLocator> options)
+            throws ElementNotFoundException;
 
     /**
-     * Unselect option(s) of a select box by display label.
+     * Unselect option(s) of a select box. If multi-select is enabled, you can
+     * specify more than one option. Options are unselected in the given order.
      * 
-     * @param selectName
-     *            name of the select box.
-     * @param optionsValue
-     *            vaules of the options to unselect.
+     * @param options
+     *            option(s) to unselect.
      */
-    void unselectOptions(HtmlSelectLocator htmlSelect, HtmlOptionLocator[] options);
-
-    /**
-     * Determines if the checkbox is selected.
-     * 
-     * @param checkBoxName
-     *            name of the checkbox.
-     * @return true if the checkbox is selected.
-     * 
-     */
-    boolean isCheckboxSelected(HtmlCheckboxLocator checkbox);
-
-    /**
-     * Submit the current form with the default submit button. See
-     * {@link #getForm}for an explanation of how the current form is
-     * established.
-     */
-    void submit();
-
-    /**
-     * Reset the current form with the default reset button. See
-     * {@link #getForm}for an explanation of how the current form is
-     * established.
-     */
-    void reset();
+    void unselectOptions(List<HtmlOptionLocator> options)
+            throws ElementNotFoundException;
 
     /**
      * Return the string representation of the current page, encoded as
@@ -287,15 +287,8 @@ public interface IJWebUnitDialog {
      *            table locator.
      * @return unified jWebUnit representation of a table.
      */
-    Table getTable(HtmlTableLocator table) throws net.sourceforge.jwebunit.exception.ElementNotFoundException;
-
-    /**
-     * Test if Html element exists.
-     * 
-     * @param htmlElement
-     *            a locator for the element.
-     */
-    boolean hasElement(HtmlElementLocator htmlElement);
+    Table getTable(HtmlTableLocator table)
+            throws net.sourceforge.jwebunit.exception.ElementNotFoundException;
 
     /**
      * Click html element.
@@ -303,27 +296,8 @@ public interface IJWebUnitDialog {
      * @param htmlElement
      *            html element locator.
      */
-    void clickElement(ClickableHtmlElementLocator htmlElement) throws ElementNotFoundException;
-
-    /**
-     * Return true if a given string is contained within the specified element.
-     * 
-     * @param htmlElement
-     *            a locator of html element to inspect.
-     * @param text
-     *            text to check for.
-     */
-    boolean isTextInElement(HtmlElementLocator htmlElement, String text);
-
-    /**
-     * Return true if a given regexp is contained within the specified element.
-     * 
-     * @param htmlElement
-     *            a locator of html element to inspect.
-     * @param regexp
-     *            regexp to match.
-     */
-    boolean isMatchInElement(HtmlElementLocator htmlElement, String regexp);
+    void clickElement(ClickableHtmlElementLocator htmlElement)
+            throws ElementNotFoundException;
 
     /**
      * When you perform an action, the dialog keep an history of each Javascript

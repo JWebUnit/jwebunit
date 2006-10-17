@@ -9,11 +9,12 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jwebunit-core</artifactId>
     <name>Core - API</name>
-    <description>The core API of jWebUnit. Define how tests should be written.</description>
+    <description>The core API of JWebUnit. Contains all "intelligent" methods and interfaces.</description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>regexp</groupId>

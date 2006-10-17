@@ -53,7 +53,7 @@ public class TableTest extends TestCase {
      * Test method assertSubTableEquals.
      * 
      */
-    public final void testAssertSubTableEquals() {
+    public final void testAssertSubTableEquals() throws Exception {
         String[] r1 = {"Males", "1.9", "0.003", "40%"};
         String[] r2 = {"Females", "1.7", "0.002", "43%"};
         Table sub = new Table();
@@ -66,7 +66,7 @@ public class TableTest extends TestCase {
      * Test method assertSubTableMatch.
      *
      */
-    public final void testAssertSubTableMatch() {
+    public final void testAssertSubTableMatch() throws Exception {
         String[] r1 = {"Mal(e|r)s", "1\\.?", "0\\.003", "40\\%"};
         String[] r2 = {"Fem(.)les", "1\\.?", "0[:punct:]002", "43\\%"};
         Table sub = new Table();
