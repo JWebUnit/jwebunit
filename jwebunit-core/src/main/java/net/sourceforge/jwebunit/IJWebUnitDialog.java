@@ -4,6 +4,7 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit;
 
+import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.html.Table;
 
@@ -676,4 +677,17 @@ public interface IJWebUnitDialog {
      *            regexp to match.
      */
     boolean isMatchInElement(String elementID, String regexp);
+    
+    /**
+     * When you perform an action, the dialog keep an history of each Javascript
+     * alert thrown. This method get the first Javascript alert in the list and
+     * remove it. With Selenium, you HAVE TO check presence of alert. If not, an
+     * exception is thrown on the next action. With HtmlUnit, no exception is
+     * thrown, but the list will never be cleared if you don't check alert.
+     * 
+     * @return Text of the alert.
+     * @throws ElementNotFoundException
+     *             If there is no alert in the list.
+     */
+    String getJavascriptAlert() throws ElementNotFoundException;
 }

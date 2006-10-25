@@ -801,6 +801,10 @@ public class WebTestCase extends TestCase {
     protected void gotoPage(String page) {
         getTester().gotoPage(page);
     }
+    
+    public void assertJavascriptAlertPresent(String msg) {
+    	getTester().assertJavascriptAlertPresent(msg);
+    }
 
     // Debug methods
 
