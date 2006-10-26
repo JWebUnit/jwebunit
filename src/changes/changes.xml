@@ -8,6 +8,9 @@
     </properties>
     <body>
         <release version="1.4" date="UNKNOW">
+            <action type="add" dev="Julien Henry">
+                Add assertJavascriptAlertPresent method to check presence of a Javascript alert.
+            </action>
             <action type="add" dev="Julien Henry" due-to="Lasse Koskela"
                 issue="1575956">
                 Add new methods: assertCheckBox[Not]Selected(String name, String value)
