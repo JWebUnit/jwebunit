@@ -144,10 +144,13 @@ public class WebTester {
 	}
 
 	/**
-	 * Begin conversation at a url relative to the application root.
-	 * 
-	 * @param relativeURL
-	 */
+         * Begin conversation at a URL absolute or relative to base URL. Use
+         * {@link TestContext#setBaseUrl(String) getTestContext().setBaseUrl(String)}
+         * to define base URL. Absolute URL should start with "http://", "https://" or "www.".
+         *
+         * @param url
+         *            absolute or relative URL (relative to base URL).
+         */
 	public void beginAt(String aRelativeURL) {
 		try {
 			getDialog().beginAt(createUrl(aRelativeURL), testContext);
@@ -157,10 +160,18 @@ public class WebTester {
 
 	}
 
-	private String createUrl(String aSuffix) {
-		aSuffix = aSuffix.startsWith("/") ? aSuffix.substring(1) : aSuffix;
-		return getTestContext().getBaseUrl() + aSuffix;
-	}
+	private String createUrl(String url) {
+            if (url.startsWith("http://") || url.startsWith("https://")) {
+                return url;
+            }
+            else if (url.startsWith("www.")) {
+                return "http://" + url;
+            }
+            else {
+                url = url.startsWith("/") ? url.substring(1) : url;
+                return getTestContext().getBaseUrl() + url;
+            }
+        }
 
 	/**
 	 * Return the value of a web resource based on its key. This translates to a
@@ -2055,8 +2066,14 @@ public class WebTester {
 	}
 
 	/**
-	 * Patch sumbitted by Alex Chaffee.
-	 */
+         * Go to the given page like if user has typed the URL manually in the
+         * browser. Use
+         * {@link TestContext#setBaseUrl(String) getTestContext().setBaseUrl(String)}
+         * to define base URL. Absolute URL should start with "http://", "https://" or "www.".
+         *
+         * @param url
+         *            absolute or relative URL (relative to base URL).
+         */
 	public void gotoPage(String url) {
 		try {
 			getDialog().gotoPage(createUrl(url));

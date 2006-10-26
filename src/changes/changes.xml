@@ -8,6 +8,9 @@
     </properties>
     <body>
         <release version="1.4" date="UNKNOW">
+             <action type="fix" dev="Julien Henry" due-to="Joe Athman" issue="1554148">
+                beginAt and gotoPage now accept absolute URL beginning with "http://", "https://" or "www."
+            </action>
             <action type="add" dev="Julien Henry">
                 Add assertJavascriptAlertPresent method to check presence of a Javascript alert.
             </action>
