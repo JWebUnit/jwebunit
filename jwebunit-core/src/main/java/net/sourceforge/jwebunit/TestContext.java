@@ -6,7 +6,6 @@ package net.sourceforge.jwebunit;
 
 import javax.servlet.http.Cookie;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -19,18 +18,24 @@ import java.util.Locale;
  * 
  * @author Wilkes Joiner
  * @author Jim Weaver
+ * @author Julien Henry
  */
 public class TestContext {
 	private String user;
 	private String passwd;
+	private String domain;
 	private List cookies;
-	private boolean hasAuth;
+	private boolean hasAuth = false;
+    private boolean hasNTLMAuth = false;
 	private Locale locale = Locale.getDefault();
 	private String resourceBundleName;
 	private String baseUrl = "http://localhost:8080";
 	private String userAgent;
-	private String proxyName;
-	private int proxyPort = 80;
+	private String proxyUser;
+	private String proxyPasswd;
+	private String proxyHost;
+	private int proxyPort;
+	private boolean hasProxyAuth = false;
 
 	/**
 	 * Construct a test client context.
@@ -40,9 +45,7 @@ public class TestContext {
 	}
 
 	/**
-	 * Set authentication information for the test context. This information is
-	 * used by {@link HttpUnitDialog}to set authorization on the
-	 * WebConversation when the dialog is begun.
+	 * Set basic authentication information for the test context.
 	 * 
 	 * @param user
 	 *            user name
@@ -54,6 +57,39 @@ public class TestContext {
 		this.passwd = passwd;
 		hasAuth = true;
 	}
+
+    /**
+     * Set NTLM authentication information for the test context.
+     * 
+     * @param user
+     *            user name
+     * @param passwd
+     *            password
+     */
+    public void setNTLMAuthorization(String user, String passwd, String domain) {
+        this.user = user;
+        this.passwd = passwd;
+        this.domain = domain;
+        hasNTLMAuth = true;
+    }
+    
+    /**
+     * Set proxy authentication information for the test context.
+     * 
+     * @param user
+     *            user name
+     * @param passwd
+     *            password
+     * @param host proxy host name (null if applicable to any host).
+     * @param port proxy port (negative if applicable to any port).
+     */
+    public void setProxyAuthorization(String user, String passwd, String host, int port) {
+        this.proxyUser = user;
+        this.proxyPasswd = passwd;
+        this.proxyHost = host;
+        this.proxyPort = port;
+        hasProxyAuth = true;
+    }
 
 	/**
 	 * Add a cookie to the test context. These cookies are set on the
@@ -69,14 +105,30 @@ public class TestContext {
 	}
 
 	/**
-	 * Return true if a user / password has been set on the context via
+	 * Return true if a basic authentication has been set on the context via
 	 * {@link #setAuthorization}.
 	 */
 	public boolean hasAuthorization() {
 		return hasAuth;
 	}
 
-	/**
+    /**
+     * Return true if a NTLM authentication has been set on the context via
+     * {@link #setNTLMAuthorization}.
+     */
+    public boolean hasNTLMAuthorization() {
+        return hasNTLMAuth;
+    }
+
+    /**
+     * Return true if a proxy authentication has been set on the context via
+     * {@link #setProxyAuthorization}.
+     */
+    public boolean hasProxyAuthorization() {
+        return hasProxyAuth;
+    }
+
+    /**
 	 * Return true if one or more cookies have been added to the test context.
 	 */
 	public boolean hasCookies() {
@@ -96,6 +148,13 @@ public class TestContext {
 	public String getPassword() {
 		return passwd;
 	}
+    
+	/**
+     * Return the user domain.
+     */
+    public String getDomain() {
+        return domain;
+    }
 
 	/**
 	 * Return the cookies which have been added to the test context.
@@ -150,39 +209,31 @@ public class TestContext {
 	}
 
 	/**
-	 * Return the proxy server name Contributed by Jack Chen
+	 * Return the proxy server name
 	 */
-	public String getProxyName() {
-		return proxyName;
+	public String getProxyHost() {
+		return proxyHost;
 	}
 
 	/**
-	 * Set the proxy server name for the test context. Contributed by Jack Chen
-	 */
-	public void setProxyName(String proxyName) {
-		this.proxyName = proxyName;
-	}
-
-	/**
-	 * Return the proxy server port Contributed by Jack Chen
+	 * Return the proxy server port
 	 */
 	public int getProxyPort() {
 		return proxyPort;
 	}
 
 	/**
-	 * Set the proxy server port for the test context. Contributed by Jack Chen
+	 * Return the proxy user name
 	 */
-	public void setProxyPort(int proxyPort) {
-		this.proxyPort = proxyPort;
+	public String getProxyUser() {
+		return proxyUser;
 	}
 
 	/**
-	 * Return true if a proxy name is set {@link #setProxyName}. Contributed
-	 * by Jack Chen
+	 * Return the proxy password
 	 */
-	public boolean hasProxy() {
-		return proxyName != null && proxyName.trim().length() > 0;
+	public String getProxyPasswd() {
+		return proxyPasswd;
 	}
 
 	/**

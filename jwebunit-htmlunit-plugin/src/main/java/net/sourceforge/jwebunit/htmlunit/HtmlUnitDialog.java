@@ -11,7 +11,9 @@ import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -33,6 +35,7 @@ import net.sourceforge.jwebunit.TestContext;
 
 import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
@@ -494,6 +497,30 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 				"4.0", testContext.getUserAgent(), "1.2", 6));
 		wc.setJavaScriptEnabled(jsEnabled);
 		wc.setThrowExceptionOnScriptError(true);
+		DefaultCredentialsProvider creds = new DefaultCredentialsProvider();
+		if (getTestContext().hasAuthorization()) {
+			creds.addCredentials(getTestContext().getUser(), getTestContext()
+					.getPassword());
+		}
+		if (getTestContext().hasNTLMAuthorization()) {
+			InetAddress netAddress;
+			String address;
+			try {
+				netAddress = InetAddress.getLocalHost();
+				address = netAddress.getHostName();
+			} catch (UnknownHostException e) {
+				address = "";
+			}
+			creds.addNTLMCredentials(getTestContext().getUser(),
+					getTestContext().getPassword(), "", -1, address,
+					getTestContext().getDomain());
+		}
+		if (getTestContext().hasProxyAuthorization()) {
+			creds.addProxyCredentials(getTestContext().getProxyUser(),
+					getTestContext().getPassword(), getTestContext()
+							.getProxyHost(), getTestContext().getProxyPort());
+		}
+		wc.setCredentialsProvider(creds);
 		wc.addWebWindowListener(new WebWindowListener() {
 			public void webWindowClosed(WebWindowEvent event) {
 				if (event.getOldPage().equals(win.getEnclosedPage())) {

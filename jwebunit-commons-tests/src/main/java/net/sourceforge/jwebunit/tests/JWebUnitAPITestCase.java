@@ -45,6 +45,7 @@ public abstract class JWebUnitAPITestCase extends WebTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		getTestContext().setBaseUrl(HOST_PATH);
+        getTestContext().setAuthorization("admin", "admin");
 	}
 
     public void assertPassFail(String methodName, Object passArg, Object failArgs) throws Throwable {
