@@ -24,20 +24,31 @@ import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.jaxen.JaxenException;
 
+import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
+import net.sourceforge.jwebunit.exception.ExpectedJavascriptConfirmException;
+import net.sourceforge.jwebunit.exception.ExpectedJavascriptPromptException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
+import net.sourceforge.jwebunit.exception.UnexpectedJavascriptAlertException;
+import net.sourceforge.jwebunit.exception.UnexpectedJavascriptConfirmException;
+import net.sourceforge.jwebunit.exception.UnexpectedJavascriptPromptException;
 import net.sourceforge.jwebunit.html.Cell;
 import net.sourceforge.jwebunit.html.Row;
 import net.sourceforge.jwebunit.html.Table;
+import net.sourceforge.jwebunit.javascript.JavascriptAlert;
+import net.sourceforge.jwebunit.javascript.JavascriptConfirm;
+import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
 
 import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.ConfirmHandler;
 import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.Page;
+import com.gargoylesoftware.htmlunit.PromptHandler;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebWindow;
@@ -109,7 +120,17 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 	/**
 	 * Javascript alerts
 	 */
-	private LinkedList javascriptAlerts = new LinkedList();
+	private LinkedList expectedJavascriptAlerts = new LinkedList();
+
+	/**
+	 * Javascript alerts
+	 */
+	private LinkedList expectedJavascriptConfirms = new LinkedList();
+
+	/**
+	 * Javascript alerts
+	 */
+	private LinkedList expectedJavascriptPrompts = new LinkedList();
 
 	// Implementation of IJWebUnitDialog
 
@@ -142,8 +163,26 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 		}
 	}
 
-	public void closeBrowser() {
+	public void closeBrowser() throws ExpectedJavascriptAlertException, ExpectedJavascriptConfirmException, ExpectedJavascriptPromptException {
 		wc = null;
+		if (this.expectedJavascriptAlerts.size() > 0) {
+			throw new ExpectedJavascriptAlertException(
+					((JavascriptAlert) (expectedJavascriptAlerts.get(0)))
+							.getMessage());
+		}
+		if (this.expectedJavascriptConfirms.size() > 0) {
+			throw new ExpectedJavascriptConfirmException(
+					((JavascriptConfirm) (expectedJavascriptConfirms.get(0)))
+							.getMessage());
+		}
+		if (this.expectedJavascriptPrompts.size() > 0) {
+			throw new ExpectedJavascriptPromptException(
+					((JavascriptPrompt) (expectedJavascriptPrompts.get(0)))
+							.getMessage());
+		}
+
+
+
 	}
 
 	public void gotoPage(String initialURL)
@@ -255,9 +294,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 	}
 
 	public void closeWindow() {
-		if (getWindowCount() == 1) {
-			closeBrowser();
-		} else {
+		if (win != null) {
 			wc.deregisterWebWindow(win);
 			win = wc.getCurrentWindow();
 			form = null;
@@ -562,7 +599,47 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 		// Add Javascript Alert Handler
 		wc.setAlertHandler(new AlertHandler() {
 			public void handleAlert(Page page, String msg) {
-				javascriptAlerts.add(msg);
+				if (expectedJavascriptAlerts.size() < 1) {
+					throw new UnexpectedJavascriptAlertException(msg);
+				} else {
+					JavascriptAlert expected = (JavascriptAlert) expectedJavascriptAlerts
+							.removeFirst();
+					if (!msg.equals(expected.getMessage())) {
+						throw new UnexpectedJavascriptAlertException(msg);
+					}
+				}
+			}
+		});
+		// Add Javascript Confirm Handler
+		wc.setConfirmHandler(new ConfirmHandler() {
+			public boolean handleConfirm(Page page, String msg) {
+				if (expectedJavascriptConfirms.size() < 1) {
+					throw new UnexpectedJavascriptConfirmException(msg);
+				} else {
+					JavascriptConfirm expected = (JavascriptConfirm) expectedJavascriptConfirms
+							.removeFirst();
+					if (!msg.equals(expected.getMessage())) {
+						throw new UnexpectedJavascriptConfirmException(msg);
+					} else {
+						return expected.getAction();
+					}
+				}
+			}
+		});
+		// Add Javascript Prompt Handler
+		wc.setPromptHandler(new PromptHandler() {
+			public String handlePrompt(Page page, String msg) {
+				if (expectedJavascriptPrompts.size() < 1) {
+					throw new UnexpectedJavascriptPromptException(msg);
+				} else {
+					JavascriptPrompt expected = (JavascriptPrompt) expectedJavascriptPrompts
+							.removeFirst();
+					if (!msg.equals(expected.getMessage())) {
+						throw new UnexpectedJavascriptPromptException(msg);
+					} else {
+						return expected.getInput();
+					}
+				}
 			}
 		});
 	}
@@ -1604,13 +1681,39 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 		return testContext;
 	}
 
-	public String getJavascriptAlert()
-			throws net.sourceforge.jwebunit.exception.ElementNotFoundException {
-		if (!javascriptAlerts.isEmpty()) {
-			return (String) javascriptAlerts.removeFirst();
-		} else {
-			throw new net.sourceforge.jwebunit.exception.ElementNotFoundException(
-					"There is no pending alert.");
+	public void setExpectedJavaScriptAlert(JavascriptAlert[] alerts)
+			throws ExpectedJavascriptAlertException {
+		if (this.expectedJavascriptAlerts.size() > 0) {
+			throw new ExpectedJavascriptAlertException(
+					((JavascriptAlert) (expectedJavascriptAlerts.get(0)))
+							.getMessage());
+		}
+		for (int i = 0; i < alerts.length; i++) {
+			expectedJavascriptAlerts.add(alerts[i]);
+		}
+	}
+
+	public void setExpectedJavaScriptConfirm(JavascriptConfirm[] confirms)
+			throws ExpectedJavascriptConfirmException {
+		if (this.expectedJavascriptConfirms.size() > 0) {
+			throw new ExpectedJavascriptConfirmException(
+					((JavascriptConfirm) (expectedJavascriptConfirms.get(0)))
+							.getMessage());
+		}
+		for (int i = confirms.length - 1; i >= 0; i--) {
+			expectedJavascriptConfirms.add(confirms[i]);
+		}
+	}
+
+	public void setExpectedJavaScriptPrompt(JavascriptPrompt[] prompts)
+			throws ExpectedJavascriptPromptException {
+		if (this.expectedJavascriptPrompts.size() > 0) {
+			throw new ExpectedJavascriptPromptException(
+					((JavascriptPrompt) (expectedJavascriptPrompts.get(0)))
+							.getMessage());
+		}
+		for (int i = prompts.length - 1; i >= 0; i--) {
+			expectedJavascriptPrompts.add(prompts[i]);
 		}
 	}
 

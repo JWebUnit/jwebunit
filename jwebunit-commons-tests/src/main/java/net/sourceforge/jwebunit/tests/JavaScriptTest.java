@@ -6,6 +6,7 @@ package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.exception.UnexpectedJavascriptAlertException;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
@@ -30,20 +31,30 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
         //assertTextPresent("Hello World");
     }
     
-    public void testAlertOnPageLoad() {
+    public void testAlert() {
+    	setExpectedJavaScriptAlert("Foo Bar");
         beginAt("Alert.html");
-        assertJavascriptAlertPresent("Foo Bar");
     }
     
     public void testInvalidAlertOnPageLoad() {
-        beginAt("Alert.html");
-        assertFail("assertJavascriptAlertPresent", "invalid");
+    	setExpectedJavaScriptAlert("invalid");
+    	try {
+    		beginAt("Alert.html");
+    		fail();
+    	} catch (RuntimeException e) {
+    		//OK
+    	}        
     }
 
     public void testMultipleAlerts() {
+    	setExpectedJavaScriptAlert(new String[] {"Alert 1", "Alert 2"});
         beginAt("MultipleAlerts.html");
-        assertJavascriptAlertPresent("Alert 1");
-        assertJavascriptAlertPresent("Alert 2");
     }
 
+    public void testConfirm() {
+    	setExpectedJavaScriptConfirm("Foo Bar", true);
+        beginAt("Confirm.html");
+        assertTextPresent("Toto");
+        assertTextNotPresent("Titi");
+    }
 }

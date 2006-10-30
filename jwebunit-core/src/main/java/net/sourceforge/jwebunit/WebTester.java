@@ -11,9 +11,15 @@ import java.util.ResourceBundle;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 import net.sourceforge.jwebunit.exception.ElementNotFoundException;
+import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
+import net.sourceforge.jwebunit.exception.ExpectedJavascriptConfirmException;
+import net.sourceforge.jwebunit.exception.ExpectedJavascriptPromptException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.exception.UnableToSetFormException;
 import net.sourceforge.jwebunit.html.Table;
+import net.sourceforge.jwebunit.javascript.JavascriptAlert;
+import net.sourceforge.jwebunit.javascript.JavascriptConfirm;
+import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
 import net.sourceforge.jwebunit.util.ExceptionUtility;
 
 import org.apache.regexp.RE;
@@ -102,8 +108,18 @@ public class WebTester {
 	public void closeBrowser() {
 		try {
 			getDialog().closeBrowser();
-		} catch (TestingEngineResponseException aTestingEngineResponseException) {
-			handleTestingEngineResponseException(aTestingEngineResponseException);
+		} catch (ExpectedJavascriptAlertException e) {
+			Assert.fail("You previously tell that alert with message ["
+					+ e.getAlertMessage()
+					+ "] was expected, but nothing appeared.");
+		} catch (ExpectedJavascriptConfirmException e) {
+			Assert.fail("You previously tell that confirm with message ["
+					+ e.getConfirmMessage()
+					+ "] was expected, but nothing appeared.");
+		} catch (ExpectedJavascriptPromptException e) {
+			Assert.fail("You previously tell that prompt with message ["
+					+ e.getPromptMessage()
+					+ "] was expected, but nothing appeared.");
 		}
 	}
 
@@ -144,13 +160,14 @@ public class WebTester {
 	}
 
 	/**
-         * Begin conversation at a URL absolute or relative to base URL. Use
-         * {@link TestContext#setBaseUrl(String) getTestContext().setBaseUrl(String)}
-         * to define base URL. Absolute URL should start with "http://", "https://" or "www.".
-         *
-         * @param url
-         *            absolute or relative URL (relative to base URL).
-         */
+	 * Begin conversation at a URL absolute or relative to base URL. Use
+	 * {@link TestContext#setBaseUrl(String) getTestContext().setBaseUrl(String)}
+	 * to define base URL. Absolute URL should start with "http://", "https://"
+	 * or "www.".
+	 * 
+	 * @param url
+	 *            absolute or relative URL (relative to base URL).
+	 */
 	public void beginAt(String aRelativeURL) {
 		try {
 			getDialog().beginAt(createUrl(aRelativeURL), testContext);
@@ -161,17 +178,15 @@ public class WebTester {
 	}
 
 	private String createUrl(String url) {
-            if (url.startsWith("http://") || url.startsWith("https://")) {
-                return url;
-            }
-            else if (url.startsWith("www.")) {
-                return "http://" + url;
-            }
-            else {
-                url = url.startsWith("/") ? url.substring(1) : url;
-                return getTestContext().getBaseUrl() + url;
-            }
-        }
+		if (url.startsWith("http://") || url.startsWith("https://")) {
+			return url;
+		} else if (url.startsWith("www.")) {
+			return "http://" + url;
+		} else {
+			url = url.startsWith("/") ? url.substring(1) : url;
+			return getTestContext().getBaseUrl() + url;
+		}
+	}
 
 	/**
 	 * Return the value of a web resource based on its key. This translates to a
@@ -2066,14 +2081,15 @@ public class WebTester {
 	}
 
 	/**
-         * Go to the given page like if user has typed the URL manually in the
-         * browser. Use
-         * {@link TestContext#setBaseUrl(String) getTestContext().setBaseUrl(String)}
-         * to define base URL. Absolute URL should start with "http://", "https://" or "www.".
-         *
-         * @param url
-         *            absolute or relative URL (relative to base URL).
-         */
+	 * Go to the given page like if user has typed the URL manually in the
+	 * browser. Use
+	 * {@link TestContext#setBaseUrl(String) getTestContext().setBaseUrl(String)}
+	 * to define base URL. Absolute URL should start with "http://", "https://"
+	 * or "www.".
+	 * 
+	 * @param url
+	 *            absolute or relative URL (relative to base URL).
+	 */
 	public void gotoPage(String url) {
 		try {
 			getDialog().gotoPage(createUrl(url));
@@ -2213,18 +2229,18 @@ public class WebTester {
 	 * Exemple: <br/>
 	 * 
 	 * <pre>
-	 *                  &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-	 *                    &lt;P&gt;
-	 *                      &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-	 *                        &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-	 *                        &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-	 *                        &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-	 *                        &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-	 *                        &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-	 *                      &lt;/SELECT&gt;
-	 *                      &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-	 *                    &lt;/P&gt;
-	 *                  &lt;/FORM&gt;
+	 *                        &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+	 *                          &lt;P&gt;
+	 *                            &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+	 *                              &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+	 *                              &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+	 *                              &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+	 *                              &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+	 *                              &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+	 *                            &lt;/SELECT&gt;
+	 *                            &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+	 *                          &lt;/P&gt;
+	 *                        &lt;/FORM&gt;
 	 * </pre>
 	 * 
 	 * Should return [Component_1, Component_2, Component_3, Component_4,
@@ -2284,17 +2300,131 @@ public class WebTester {
 	}
 
 	/**
-	 * Check if a Javascript alert was raised.
-	 * @param msg Text in the Javascript alert box.
+	 * Tell that the given alert boxe is expected.
+	 * 
+	 * @param message
+	 *            Message in the alert.
 	 */
-	public void assertJavascriptAlertPresent(String msg) {
-		String alert = null;
+	public void setExpectedJavaScriptAlert(String message) {
 		try {
-			alert = getDialog().getJavascriptAlert();
-		} catch (ElementNotFoundException e) {
-			Assert.fail(e.getMessage());
+			getDialog().setExpectedJavaScriptAlert(
+					new JavascriptAlert[] { new JavascriptAlert(message) });
+		} catch (ExpectedJavascriptAlertException e) {
+			Assert.fail("You previously tell that alert with message ["
+					+ e.getAlertMessage()
+					+ "] was expected, but nothing appeared.");
 		}
-		Assert.assertEquals(msg, alert);
+	}
+
+	/**
+	 * Tell that the given alert boxes are expected in the given order.
+	 * 
+	 * @param messages
+	 *            Messages in the alerts.
+	 */
+	public void setExpectedJavaScriptAlert(String[] messages) {
+		JavascriptAlert[] alerts = new JavascriptAlert[messages.length];
+		for (int i = 0; i < messages.length; i++) {
+			alerts[i] = new JavascriptAlert(messages[i]);
+		}
+		try {
+			getDialog().setExpectedJavaScriptAlert(alerts);
+		} catch (ExpectedJavascriptAlertException e) {
+			Assert.fail("You previously tell that alert with message ["
+					+ e.getAlertMessage()
+					+ "] was expected, but nothing appeared.");
+		}
+	}
+
+	/**
+	 * Tell that the given confirm boxe is expected.
+	 * 
+	 * @param message
+	 *            Message in the confirm.
+	 * @param action
+	 *            Whether we should click on "OK" (true) or "Cancel" (false)
+	 */
+	public void setExpectedJavaScriptConfirm(String message, boolean action) {
+		try {
+			getDialog().setExpectedJavaScriptConfirm(
+					new JavascriptConfirm[] { new JavascriptConfirm(message,
+							action) });
+		} catch (ExpectedJavascriptConfirmException e) {
+			Assert.fail("You previously tell that confirm with message ["
+					+ e.getConfirmMessage()
+					+ "] was expected, but nothing appeared.");
+		}
+	}
+
+	/**
+	 * Tell that the given confirm boxes are expected in the given order.
+	 * 
+	 * @param messages
+	 *            Messages in the confirms.
+	 * @param actions
+	 *            Whether we should click on "OK" (true) or "Cancel" (false)
+	 */
+	public void setExpectedJavaScriptConfirm(String[] messages,
+			boolean[] actions) {
+		Assert.assertEquals(
+				"You should give the same number of messages and actions",
+				messages.length, actions.length);
+		JavascriptConfirm[] confirms = new JavascriptConfirm[messages.length];
+		for (int i = 0; i < messages.length; i++) {
+			confirms[i] = new JavascriptConfirm(messages[i], actions[i]);
+		}
+		try {
+			getDialog().setExpectedJavaScriptConfirm(confirms);
+		} catch (ExpectedJavascriptConfirmException e) {
+			Assert.fail("You previously tell that confirm with message ["
+					+ e.getConfirmMessage()
+					+ "] was expected, but nothing appeared.");
+		}
+	}
+
+	/**
+	 * Tell that the given prompt boxe is expected.
+	 * 
+	 * @param message
+	 *            Message in the prompt.
+	 * @param input
+	 *            What we should put in the prompt (null if user press Cancel)
+	 */
+	public void setExpectedJavaScriptPrompt(String message, String input) {
+		try {
+			getDialog().setExpectedJavaScriptPrompt(
+					new JavascriptPrompt[] { new JavascriptPrompt(message,
+							input) });
+		} catch (ExpectedJavascriptPromptException e) {
+			Assert.fail("You previously tell that prompt with message ["
+					+ e.getPromptMessage()
+					+ "] was expected, but nothing appeared.");
+		}
+	}
+
+	/**
+	 * Tell that the given prompt boxes are expected in the given order.
+	 * 
+	 * @param messages
+	 *            Messages in the prompts.
+	 * @param inputs
+	 *            What we should put in the prompt (null if user press Cancel)
+	 */
+	public void setExpectedJavaScriptPrompt(String[] messages, String[] inputs) {
+		Assert.assertEquals(
+				"You should give the same number of messages and inputs",
+				messages.length, inputs.length);
+		JavascriptPrompt[] prompts = new JavascriptPrompt[messages.length];
+		for (int i = 0; i < messages.length; i++) {
+			prompts[i] = new JavascriptPrompt(messages[i], inputs[i]);
+		}
+		try {
+			getDialog().setExpectedJavaScriptPrompt(prompts);
+		} catch (ExpectedJavascriptPromptException e) {
+			Assert.fail("You previously tell that prompt with message ["
+					+ e.getPromptMessage()
+					+ "] was expected, but nothing appeared.");
+		}
 	}
 
 }
