@@ -54,7 +54,7 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
     public void testConfirm() {
     	setExpectedJavaScriptConfirm("Foo Bar", true);
         beginAt("Confirm.html");
-        assertTextPresent("Toto");
-        assertTextNotPresent("Titi");
+        assertLinkPresent("Toto");
+        assertLinkNotPresent("Titi");
     }
 }
