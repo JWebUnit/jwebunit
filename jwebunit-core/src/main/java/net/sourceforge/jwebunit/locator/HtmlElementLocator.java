@@ -138,7 +138,7 @@ public class HtmlElementLocator implements Locator {
             else {
                 first = false;
             }
-            result.append(a.name).append("=\"").append(a.value).append("\"");
+            result.append("@").append(a.name).append("=\"").append(a.value).append("\"");
         }
         if (getAttributs().size()>0) {
             result.append("]");

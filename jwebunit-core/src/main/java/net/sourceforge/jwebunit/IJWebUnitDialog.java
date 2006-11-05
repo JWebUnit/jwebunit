@@ -7,6 +7,8 @@ package net.sourceforge.jwebunit;
 import java.net.URL;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+
 import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.html.SelectOption;
@@ -66,32 +68,10 @@ public interface IJWebUnitDialog {
     void setScriptingEnabled(boolean value);
 
     /**
-     * Test if a cookie is present with given name.
+     * Get all cookies in current session.
      * 
-     * @param cookieName
-     *            name of the cookie.
-     * @return true if the cookie is present.
      */
-    boolean hasCookie(String cookieName);
-
-    /**
-     * Get cookie value.
-     * 
-     * @param cookieName
-     *            name of the cookie.
-     * @return value of the cookie.
-     */
-    String getCookieValue(String cookieName);
-
-    /**
-     * Get all cookies name and value.
-     * 
-     * @param cookieName
-     *            name of the cookie.
-     * @return array with 2 columns. First is cookie names, second is cookie
-     *         values.
-     */
-    String[][] getCookies();
+    List<Cookie> getCookies();
 
     /**
      * Test if a window is present.
@@ -100,6 +80,7 @@ public interface IJWebUnitDialog {
 
     /**
      * Make the given window active.
+     * Reset the current frame.
      * 
      * @param window
      *            Locator of the window
@@ -108,6 +89,7 @@ public interface IJWebUnitDialog {
 
     /**
      * Make the root window active.
+     * Reset the current frame.
      */
     void gotoRootWindow();
 
@@ -131,7 +113,7 @@ public interface IJWebUnitDialog {
     boolean hasFrame(FrameLocator frame);
 
     /**
-     * Make the frame with the given name active in the current conversation.
+     * Make the frame with the given name active in the current window.
      * 
      * @param frame
      *            a frame locator.
@@ -170,7 +152,7 @@ public interface IJWebUnitDialog {
             String value) throws ElementNotFoundException;
 
     /**
-     * Get the text representation of element childs.
+     * Get the textual representation of element childs.
      * 
      * @param htmlElement
      *            a locator.
@@ -275,7 +257,7 @@ public interface IJWebUnitDialog {
     String getPageTitle();
 
     /**
-     * Return the response of the server.
+     * Return the response from the server (usually header and html source).
      */
     String getServerResponse();
 
@@ -299,16 +281,4 @@ public interface IJWebUnitDialog {
     void clickElement(ClickableHtmlElementLocator htmlElement)
             throws ElementNotFoundException;
 
-    /**
-     * When you perform an action, the dialog keep an history of each Javascript
-     * alert thrown. This method get the first Javascript alert in the list and
-     * remove it. With Selenium, you HAVE TO check presence of alert. If not, an
-     * exception is thrown on the next action. With HtmlUnit, no exception is
-     * thrown, but the list will never be cleared if you don't check alert.
-     * 
-     * @return Text of the alert.
-     * @throws ElementNotFoundException
-     *             If there is no alert in the list.
-     */
-    String getJavascriptAlert() throws ElementNotFoundException;
 }

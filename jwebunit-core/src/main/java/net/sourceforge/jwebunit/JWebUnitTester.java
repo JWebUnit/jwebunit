@@ -49,6 +49,7 @@ import org.apache.regexp.RESyntaxException;
  * @author Wilkes Joiner
  */
 public class JWebUnitTester {
+	
     private IJWebUnitDialog dialog = null;
 
     private TestContext testContext = null;
@@ -68,11 +69,11 @@ public class JWebUnitTester {
      * functionality not yet wrappered required by test.
      * 
      * If the dialog is not explicitly set the jWebUnit framework will default
-     * to using the orignal testing engine, which is, htmlunit.
+     * to using the first testing engine available in classpath.
      * 
      * @return IJWebUnitDialog instance used to wrapper htmlunit conversation.
      */
-    protected IJWebUnitDialog getDialog() {
+    public IJWebUnitDialog getDialog() {
         if (dialog == null) {
             // defaulting to the HtmlUnitDialog implementation.
             dialog = initializeDialog();
