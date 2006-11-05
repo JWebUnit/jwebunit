@@ -30,20 +30,20 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
         //assertTextPresent("Hello World");
     }
     
-    public void testAlertOnPageLoad() {
-        beginAt("Alert.html");
-        assertJavascriptAlertPresent("Foo Bar");
-    }
-    
-    public void testInvalidAlertOnPageLoad() {
-        beginAt("Alert.html");
-        assertFail("assertJavascriptAlertPresent", "invalid");
-    }
-
-    public void testMultipleAlerts() {
-        beginAt("MultipleAlerts.html");
-        assertJavascriptAlertPresent("Alert 1");
-        assertJavascriptAlertPresent("Alert 2");
-    }
+//    public void testAlertOnPageLoad() {
+//        beginAt("Alert.html");
+//        assertJavascriptAlertPresent("Foo Bar");
+//    }
+//    
+//    public void testInvalidAlertOnPageLoad() {
+//        beginAt("Alert.html");
+//        assertFail("assertJavascriptAlertPresent", "invalid");
+//    }
+//
+//    public void testMultipleAlerts() {
+//        beginAt("MultipleAlerts.html");
+//        assertJavascriptAlertPresent("Alert 1");
+//        assertJavascriptAlertPresent("Alert 2");
+//    }
 
 }

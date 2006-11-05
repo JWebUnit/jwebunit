@@ -5,12 +5,26 @@
 package net.sourceforge.jwebunit.selenium;
 
 
+import java.net.URL;
+import java.util.List;
+
+import javax.servlet.http.Cookie;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
+import net.sourceforge.jwebunit.html.SelectOption;
 import net.sourceforge.jwebunit.html.Table;
+import net.sourceforge.jwebunit.locator.ClickableHtmlElementLocator;
+import net.sourceforge.jwebunit.locator.FrameLocator;
+import net.sourceforge.jwebunit.locator.HtmlElementLocator;
+import net.sourceforge.jwebunit.locator.HtmlOptionLocator;
+import net.sourceforge.jwebunit.locator.HtmlSelectLocator;
+import net.sourceforge.jwebunit.locator.HtmlTableLocator;
+import net.sourceforge.jwebunit.locator.HtmlTextAreaLocator;
+import net.sourceforge.jwebunit.locator.WindowLocator;
 import net.sourceforge.jwebunit.IJWebUnitDialog;
 import net.sourceforge.jwebunit.TestContext;
 
@@ -48,7 +62,97 @@ public class SeleniumDialog implements IJWebUnitDialog {
     // ie : /html/frameset/frame[@name='myFrame']
     private String currentFrame;
 
-    public SeleniumDialog() {
+    public void beginAt(URL url, TestContext aTestContext) throws TestingEngineResponseException {
+		// TODO Raccord de méthode auto-généré
+		
+	}
+
+	public void clickElement(ClickableHtmlElementLocator htmlElement) throws ElementNotFoundException {
+		// TODO Raccord de méthode auto-généré
+		
+	}
+
+	public String getAttributeValue(HtmlElementLocator htmlElement, String attribut) throws ElementNotFoundException {
+		// TODO Raccord de méthode auto-généré
+		return null;
+	}
+
+	public int getCount(HtmlElementLocator htmlElement) {
+		// TODO Raccord de méthode auto-généré
+		return 0;
+	}
+
+	public int getFrameCount() {
+		// TODO Raccord de méthode auto-généré
+		return 0;
+	}
+
+	public SelectOption[] getSelectedOptions(HtmlSelectLocator htmlSelect) throws ElementNotFoundException {
+		// TODO Raccord de méthode auto-généré
+		return null;
+	}
+
+	public SelectOption[] getSelectOptions(HtmlSelectLocator htmlSelect) throws ElementNotFoundException {
+		// TODO Raccord de méthode auto-généré
+		return null;
+	}
+
+	public Table getTable(HtmlTableLocator table) throws ElementNotFoundException {
+		// TODO Raccord de méthode auto-généré
+		return null;
+	}
+
+	public String getText(HtmlElementLocator htmlElement) throws ElementNotFoundException {
+		// TODO Raccord de méthode auto-généré
+		return null;
+	}
+
+	public void gotoFrame(FrameLocator frame) {
+		// TODO Raccord de méthode auto-généré
+		
+	}
+
+	public void gotoPage(URL url) throws TestingEngineResponseException {
+		// TODO Raccord de méthode auto-généré
+		
+	}
+
+	public void gotoWindow(WindowLocator window) {
+		// TODO Raccord de méthode auto-généré
+		
+	}
+
+	public boolean hasFrame(FrameLocator frame) {
+		// TODO Raccord de méthode auto-généré
+		return false;
+	}
+
+	public boolean hasWindow(WindowLocator window) {
+		// TODO Raccord de méthode auto-généré
+		return false;
+	}
+
+	public void selectOptions(List<HtmlOptionLocator> options) throws ElementNotFoundException {
+		// TODO Raccord de méthode auto-généré
+		
+	}
+
+	public void setAttributeValue(HtmlElementLocator htmlElement, String attribut, String value) throws ElementNotFoundException {
+		// TODO Raccord de méthode auto-généré
+		
+	}
+
+	public void setTextArea(HtmlTextAreaLocator textArea, String value) throws ElementNotFoundException {
+		// TODO Raccord de méthode auto-généré
+		
+	}
+
+	public void unselectOptions(List<HtmlOptionLocator> options) throws ElementNotFoundException {
+		// TODO Raccord de méthode auto-généré
+		
+	}
+
+	public SeleniumDialog() {
     }
 
     public void beginAt(String aInitialURL, TestContext aTestContext)
@@ -123,14 +227,12 @@ public class SeleniumDialog implements IJWebUnitDialog {
         selenium.close();
     }
 
-    public String[][] getCookies() {
-        //TODO
-        //FIXME
-        //selenium.getCookie();
-        throw new UnsupportedOperationException("getCookies");
-    }
+    public List<Cookie> getCookies() {
+		// TODO Raccord de méthode auto-généré
+		return null;
+	}
 
-    public String getCookieValue(String cookieName) {
+	public String getCookieValue(String cookieName) {
         // TODO Implement getCookieValue in SeleniumDialog
         throw new UnsupportedOperationException("getCookieValue");
     }

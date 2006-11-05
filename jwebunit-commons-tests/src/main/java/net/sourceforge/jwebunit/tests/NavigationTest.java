@@ -51,83 +51,83 @@ public class NavigationTest extends JWebUnitAPITestCase {
 
 	}
 
-	public void testClickLinkWithText() {
-		beginAt("/pageWithLink.html");
-		assertTitleEquals("pageWithLink");
-
-		clickLinkWithText("an active link");
-		assertTitleEquals("targetPage");
-	}
-
-	public void testClickLinkWithTextN() {
-		beginAt("/pageWithLink.html");
-		assertTitleEquals("pageWithLink");
-
-		clickLinkWithText("an active link", 0);
-		assertTitleEquals("targetPage");
-
-		beginAt("/pageWithLink.html");
-		clickLinkWithText("an active link", 1);
-
-		assertTitleEquals("targetPage2");
-		beginAt("/pageWithLink.html");
-		try {
-			clickLinkWithText("an active link", 2);
-			fail();
-		} catch (AssertionFailedError expected) {
-			assertEquals("Link with text [an active link] and index [2] "
-					+ "not found in response.", expected.getMessage());
-		}
-		assertTitleEquals("pageWithLink");
-	}
-
-	public void testClickLinkWithImage() {
-		beginAt("/pageWithLink.html");
-		assertTitleEquals("pageWithLink");
-
-		clickLinkWithImage("graphic.jpg");
-		assertTitleEquals("targetPage2");
-	}
-
-	public void testClickLinkByID() {
-		beginAt("/pageWithLink.html");
-		assertTitleEquals("pageWithLink");
-
-		clickLink("activeID");
-		assertTitleEquals("targetPage");
-	}
-
-	public void testInvalidClickLink() {
-		beginAt("/pageWithLink.html");
-		assertTitleEquals("pageWithLink");
-
-		try {
-			clickLinkWithText("no such link");
-		} catch (Throwable t) {
-			return;
-		}
-		fail("Expected exception");
-	}
-
-	public void testGotoPageRelative() {
-		beginAt("/targetPage.html");
-		assertTitleEquals("targetPage");
-		gotoPage("/targetPage2.html");
-		assertTitleEquals("targetPage2");
-	}
-
-    public void testGotoPageAbsolute() {
-        beginAt("/targetPage.html");
-        assertTitleEquals("targetPage");
-        gotoPage(HOST_PATH + "/NavigationTest/targetPage2.html");
-        assertTitleEquals("targetPage2");
-    }
-
-    //For bug 726143
-	public void testLinkWithEscapedText() {
-		beginAt("/pageWithAmpersandInLink.html");
-		assertLinkPresentWithText("Map & Directions");
-		clickLinkWithText("Map & Directions");
-		assertTitleEquals("targetPage");
-	}
+//	public void testClickLinkWithText() {
+//		beginAt("/pageWithLink.html");
+//		assertTitleEquals("pageWithLink");
+//
+//		clickLinkWithText("an active link");
+//		assertTitleEquals("targetPage");
+//	}
+//
+//	public void testClickLinkWithTextN() {
+//		beginAt("/pageWithLink.html");
+//		assertTitleEquals("pageWithLink");
+//
+//		clickLinkWithText("an active link", 0);
+//		assertTitleEquals("targetPage");
+//
+//		beginAt("/pageWithLink.html");
+//		clickLinkWithText("an active link", 1);
+//
+//		assertTitleEquals("targetPage2");
+//		beginAt("/pageWithLink.html");
+//		try {
+//			clickLinkWithText("an active link", 2);
+//			fail();
+//		} catch (AssertionFailedError expected) {
+//			assertEquals("Link with text [an active link] and index [2] "
+//					+ "not found in response.", expected.getMessage());
+//		}
+//		assertTitleEquals("pageWithLink");
+//	}
+//
+//	public void testClickLinkWithImage() {
+//		beginAt("/pageWithLink.html");
+//		assertTitleEquals("pageWithLink");
+//
+//		clickLinkWithImage("graphic.jpg");
+//		assertTitleEquals("targetPage2");
+//	}
+//
+//	public void testClickLinkByID() {
+//		beginAt("/pageWithLink.html");
+//		assertTitleEquals("pageWithLink");
+//
+//		clickLink("activeID");
+//		assertTitleEquals("targetPage");
+//	}
+//
+//	public void testInvalidClickLink() {
+//		beginAt("/pageWithLink.html");
+//		assertTitleEquals("pageWithLink");
+//
+//		try {
+//			clickLinkWithText("no such link");
+//		} catch (Throwable t) {
+//			return;
+//		}
+//		fail("Expected exception");
+//	}
+//
+//	public void testGotoPageRelative() {
+//		beginAt("/targetPage.html");
+//		assertTitleEquals("targetPage");
+//		gotoPage("/targetPage2.html");
+//		assertTitleEquals("targetPage2");
+//	}
+//
+//    public void testGotoPageAbsolute() {
+//        beginAt("/targetPage.html");
+//        assertTitleEquals("targetPage");
+//        gotoPage(HOST_PATH + "/NavigationTest/targetPage2.html");
+//        assertTitleEquals("targetPage2");
+//    }
+//
+//    //For bug 726143
+//	public void testLinkWithEscapedText() {
+//		beginAt("/pageWithAmpersandInLink.html");
+//		assertLinkPresentWithText("Map & Directions");
+//		clickLinkWithText("Map & Directions");
+//		assertTitleEquals("targetPage");
+//	}
 }
