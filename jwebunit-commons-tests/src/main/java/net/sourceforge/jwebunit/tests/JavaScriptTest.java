@@ -6,7 +6,6 @@ package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.exception.UnexpectedJavascriptAlertException;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
@@ -56,5 +55,17 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
         beginAt("Confirm.html");
         assertLinkPresent("Toto");
         assertLinkNotPresent("Titi");
+    }
+
+    public void testPrompt() {
+    	setExpectedJavaScriptPrompt("Foo Bar", "toto");
+        beginAt("Prompt.html");
+        assertTextPresent("Toto");
+    }
+
+    public void testPromptCanceled() {
+    	setExpectedJavaScriptPrompt("Foo Bar", null);
+        beginAt("Prompt.html");
+        assertTextPresent("Cancel");
     }
 }
