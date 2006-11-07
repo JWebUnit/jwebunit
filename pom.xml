@@ -154,7 +154,7 @@
     </contributors>
     <licenses>
         <license>
-            <name>BSD License</name>
+            <name>GPL License</name>
             <url>${topDirectoryLocation}/LICENSE.txt</url>
         </license>
     </licenses>
@@ -285,6 +285,10 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <aggregate>true</aggregate>
+                    <excludePackageNames>net.sourceforge.jwebunit.test.*</excludePackageNames>
+                    <links>
+                        <link>http://java.sun.com/j2se/1.4.2/docs/api</link>
+                    </links>
                 </configuration>
             </plugin>
             <plugin>
@@ -293,6 +297,10 @@
                 <configuration>
                     <aggregate>true</aggregate>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
