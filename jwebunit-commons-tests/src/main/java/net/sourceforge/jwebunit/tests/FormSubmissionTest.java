@@ -8,7 +8,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 import junit.framework.AssertionFailedError;
