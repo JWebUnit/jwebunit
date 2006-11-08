@@ -2151,9 +2151,10 @@ public class WebTester {
 		List cookies = getDialog().getCookies();
 		for (Iterator i = cookies.iterator(); i.hasNext();) {
 			Cookie c = (Cookie) i.next();
-			System.out.println("Name="+c.getName() + "; Value=" + c.getValue() + "; Domain="
-					+ c.getDomain() + "; Comment=" + c.getComment() + "; MaxAge="
-					+ c.getMaxAge() + "; Path=" + c.getPath() + "; Version=" + c.getVersion());
+			System.out.println("Name=" + c.getName() + "; Value="
+					+ c.getValue() + "; Domain=" + c.getDomain() + "; Comment="
+					+ c.getComment() + "; MaxAge=" + c.getMaxAge() + "; Path="
+					+ c.getPath() + "; Version=" + c.getVersion());
 		}
 	}
 
@@ -2235,17 +2236,16 @@ public class WebTester {
 
 	/**
 	 * Gets the Testing Engine Key that is used to find the proper testing
-	 * engine class (HttpUnitDialog / JacobieDialog) for the tests.
+	 * engine class (HtmlUnitDialog / SeleniumDialog) for the tests.
 	 * 
 	 * @return Returns the testingEngineKey.
 	 */
 	public String getTestingEngineKey() {
 		if (testingEngineKey == null) {
 			// use first available dialog
-			if (TestingEngineRegistry.getTestingEngineMap().keys()
-					.hasMoreElements()) {
-				setTestingEngineKey((String) TestingEngineRegistry
-						.getTestingEngineMap().keys().nextElement());
+			String key = TestingEngineRegistry.getFirstAvailable();
+			if (key != null) {
+				setTestingEngineKey(key);
 			} else {
 				throw new RuntimeException(
 						"TestingEngineRegistry contains no dialog. Check you put at least one plugin in the classpath.");
@@ -2270,18 +2270,18 @@ public class WebTester {
 	 * Exemple: <br/>
 	 * 
 	 * <pre>
-	 *                            &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-	 *                              &lt;P&gt;
-	 *                                &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-	 *                                  &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-	 *                                  &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-	 *                                  &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-	 *                                  &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-	 *                                  &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-	 *                                &lt;/SELECT&gt;
-	 *                                &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-	 *                              &lt;/P&gt;
-	 *                            &lt;/FORM&gt;
+	 *                             &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+	 *                               &lt;P&gt;
+	 *                                 &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+	 *                                   &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+	 *                                   &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+	 *                                   &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+	 *                                   &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+	 *                                   &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+	 *                                 &lt;/SELECT&gt;
+	 *                                 &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+	 *                               &lt;/P&gt;
+	 *                             &lt;/FORM&gt;
 	 * </pre>
 	 * 
 	 * Should return [Component_1, Component_2, Component_3, Component_4,
