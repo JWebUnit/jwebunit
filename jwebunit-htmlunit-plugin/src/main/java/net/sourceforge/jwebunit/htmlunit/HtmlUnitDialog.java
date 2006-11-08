@@ -230,8 +230,9 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 				c.setMaxAge(-1);
 			} else {
 				Date now = Calendar.getInstance().getTime();
-				//Convert milli-second to second
-				Long second = new Long((expire.getTime()-now.getTime())/1000);
+				// Convert milli-second to second
+				Long second = new Long(
+						(expire.getTime() - now.getTime()) / 1000);
 				c.setMaxAge(second.intValue());
 			}
 			c.setPath(cookies[i].getPath());
@@ -636,10 +637,11 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 		// Deal with cookies
 		for (Iterator i = getTestContext().getCookies().iterator(); i.hasNext();) {
 			javax.servlet.http.Cookie c = (javax.servlet.http.Cookie) i.next();
+			//If Path==null, cookie is not send to the server.
 			wc.getWebConnection().getState().addCookie(
 					new Cookie(c.getDomain() != null ? c.getDomain() : "", c
-							.getName(), c.getValue(), c.getPath(), c
-							.getMaxAge(), c.getSecure()));
+							.getName(), c.getValue(), c.getPath() != null ? c
+							.getPath() : "", c.getMaxAge(), c.getSecure()));
 		}
 	}
 

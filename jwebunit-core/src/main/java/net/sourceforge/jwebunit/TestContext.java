@@ -105,7 +105,6 @@ public class TestContext {
 	public void addCookie(String name, String value, String domain) {
 		Cookie c = new Cookie(name, value);
 		c.setDomain(domain);
-		c.setPath(""); //If we don't do this, cookie is not send to the server.
 		cookies.add(c);
 	}
 
