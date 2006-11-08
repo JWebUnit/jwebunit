@@ -22,7 +22,7 @@ public class TestContextTest extends JWebUnitAPITestCase {
         super.setUp();
         context = new TestContext();
         context.setAuthorization("user", "pwd");
-        context.addCookie("key", "val");
+        context.addCookie("key", "val", "www.foo.bar");
         context.setLocale(Locale.CANADA_FRENCH);
     }
 
@@ -36,6 +36,7 @@ public class TestContextTest extends JWebUnitAPITestCase {
         Cookie c = (Cookie)cookies.get(0);
         assertEquals(c.getName(), "key");
         assertEquals(c.getValue(), "val");
+        assertEquals(c.getDomain(), "www.foo.bar");
         assertEquals(Locale.CANADA_FRENCH, context.getLocale());
         assertEquals("http://localhost:8080", context.getBaseUrl());
         assertNull(context.getResourceBundleName());

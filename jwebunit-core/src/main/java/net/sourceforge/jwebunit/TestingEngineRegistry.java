@@ -27,19 +27,22 @@ public class TestingEngineRegistry {
 
     /**
      * Gets the map of testing engines defined within jwebunit.
-     * 
+     * Need to be synchronized for concurrent testing.
      * @return
      */
-    public static Hashtable getTestingEngineMap() {
+    public static synchronized Hashtable getTestingEngineMap() {
         if (testingEngineMap == null) {
             testingEngineMap = new Hashtable();
+            String cp = "net.sourceforge.jwebunit.htmlunit.HtmlUnitDialog";
+            //Try to load HtmlUnitDialog to check if it is present.
             try {
-                String cp = "net.sourceforge.jwebunit.htmlunit.HtmlUnitDialog";
                 Class.forName(cp);
-                testingEngineMap.put(TESTING_ENGINE_HTMLUNIT, cp);
             } catch (ClassNotFoundException e) {
-                //Nothing to do
+                // HtmlUnitDialog is not present in the classpath. Return an empty map.
+                return testingEngineMap;
             }
+            // HtmlUnitDialog was found. Add it to the map.
+            testingEngineMap.put(TESTING_ENGINE_HTMLUNIT, cp);
         }
         return testingEngineMap;
     }

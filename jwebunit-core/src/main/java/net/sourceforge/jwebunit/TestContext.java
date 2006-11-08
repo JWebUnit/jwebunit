@@ -93,15 +93,31 @@ public class TestContext {
 
 	/**
 	 * Add a cookie to the test context. These cookies are set on the
-	 * WebConversation when an {@link HttpUnitDialog}is begun.
+	 * conversation when you use a {WebTester#beginAt}.
 	 * 
 	 * @param name
 	 *            cookie name.
 	 * @param value
 	 *            cookie value.
+	 * @param domain
+	 *            cookie domain (ie localhost or www.foo.bar).
 	 */
-	public void addCookie(String name, String value) {
-		cookies.add(new Cookie(name, value));
+	public void addCookie(String name, String value, String domain) {
+		Cookie c = new Cookie(name, value);
+		c.setDomain(domain);
+		c.setPath(""); //If we don't do this, cookie is not send to the server.
+		cookies.add(c);
+	}
+
+	/**
+	 * Add a cookie to the test context. These cookies are set on the
+	 * conversation when you use a {WebTester#beginAt}.
+	 * 
+	 * @param cookie
+	 *            a cookie.
+	 */
+	public void addCookie(Cookie cookie) {
+		cookies.add(cookie);
 	}
 
 	/**

@@ -4,7 +4,8 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit;
 
-import net.sourceforge.jwebunit.exception.ElementNotFoundException;
+import java.util.List;
+
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptConfirmException;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptPromptException;
@@ -50,32 +51,11 @@ public interface IJWebUnitDialog {
 	void setScriptingEnabled(boolean value);
 
 	/**
-	 * Test if a cookie is present with given name.
+	 * Get all cookies.
 	 * 
-	 * @param cookieName
-	 *            name of the cookie.
-	 * @return true if the cookie is present.
+	 * @return List of javax.servlet.http.Cookie.
 	 */
-	boolean hasCookie(String cookieName);
-
-	/**
-	 * Get cookie value.
-	 * 
-	 * @param cookieName
-	 *            name of the cookie.
-	 * @return value of the cookie.
-	 */
-	String getCookieValue(String cookieName);
-
-	/**
-	 * Get all cookies name and value.
-	 * 
-	 * @param cookieName
-	 *            name of the cookie.
-	 * @return array with 2 columns. First is cookie names, second is cookie
-	 *         values.
-	 */
-	String[][] getCookies();
+	List getCookies();
 
 	/**
 	 * Test if the window with the given name is present.

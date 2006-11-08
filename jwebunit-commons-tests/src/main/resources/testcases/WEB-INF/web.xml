@@ -8,9 +8,17 @@
     <servlet-name>ParamsServlet</servlet-name>
     <servlet-class>net.sourceforge.jwebunit.tests.util.ParamsServlet</servlet-class>
 </servlet>
+<servlet>
+    <servlet-name>CookiesServlet</servlet-name>
+    <servlet-class>net.sourceforge.jwebunit.tests.util.CookiesServlet</servlet-class>
+</servlet>
 <servlet-mapping>
     <servlet-name>ParamsServlet</servlet-name>
     <url-pattern>/params.jsp</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>CookiesServlet</servlet-name>
+    <url-pattern>/cookies.jsp</url-pattern>
 </servlet-mapping>
 
 <security-constraint>

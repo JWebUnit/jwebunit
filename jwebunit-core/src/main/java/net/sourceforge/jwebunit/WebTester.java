@@ -5,8 +5,12 @@
 package net.sourceforge.jwebunit;
 
 import java.io.PrintStream;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import javax.servlet.http.Cookie;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
@@ -1663,23 +1667,50 @@ public class WebTester {
 	}
 
 	/**
-	 * Checks to see if a cookie is present in the response. Contributed by
-	 * Vivek Venugopalan.
+	 * Checks to see if a cookie is present in the response.
 	 * 
 	 * @param cookieName
 	 *            The cookie name
 	 */
 	public void assertCookiePresent(String cookieName) {
-		Assert.assertTrue("Could not find Cookie : [" + cookieName + "]",
-				getDialog().hasCookie(cookieName));
+		List cookies = getDialog().getCookies();
+		for (Iterator i = cookies.iterator(); i.hasNext();) {
+			if (((Cookie) i.next()).getName().equals(cookieName)) {
+				return;
+			}
+		}
+		Assert.fail("Could not find Cookie with name [" + cookieName + "]");
 	}
 
+	/**
+	 * Check to see if a cookie has the given value.
+	 * 
+	 * @param cookieName
+	 *            The cookie name
+	 * @param expectedValue
+	 *            The cookie value
+	 */
 	public void assertCookieValueEquals(String cookieName, String expectedValue) {
 		assertCookiePresent(cookieName);
-		Assert.assertEquals(expectedValue, getDialog().getCookieValue(
-				cookieName));
+		List cookies = getDialog().getCookies();
+		for (Iterator i = cookies.iterator(); i.hasNext();) {
+			Cookie c = (Cookie) i.next();
+			if (c.getName().equals(cookieName)) {
+				Assert.assertEquals(expectedValue, c.getValue());
+				return;
+			}
+		}
+		Assert.fail("Should not be reached");
 	}
 
+	/**
+	 * Check to see if a cookie value match the given regexp.
+	 * 
+	 * @param cookieName
+	 *            The cookie name
+	 * @param regexp
+	 *            The regexp
+	 */
 	public void assertCookieValueMatch(String cookieName, String regexp) {
 		assertCookiePresent(cookieName);
 		RE re = null;
@@ -1688,9 +1719,17 @@ public class WebTester {
 		} catch (RESyntaxException e) {
 			Assert.fail(e.toString());
 		}
-		Assert.assertTrue("Unable to match [" + regexp + "] in cookie \""
-				+ cookieName + "\"", re.match(getDialog().getCookieValue(
-				cookieName)));
+		List cookies = getDialog().getCookies();
+		for (Iterator i = cookies.iterator(); i.hasNext();) {
+			Cookie c = (Cookie) i.next();
+			if (c.getName().equals(cookieName)) {
+				Assert.assertTrue("Unable to match [" + regexp
+						+ "] in cookie \"" + cookieName + "\"", re.match(c
+						.getValue()));
+				return;
+			}
+		}
+		Assert.fail("Should not be reached");
 	}
 
 	// Form interaction methods
@@ -2109,11 +2148,13 @@ public class WebTester {
 	}
 
 	public void dumpCookies() {
-		String[][] cookies = getDialog().getCookies();
-		for (int i = 0; i < cookies.length; i++) {
-			System.out.println(cookies[i][0] + "=" + cookies[i][1]);
+		List cookies = getDialog().getCookies();
+		for (Iterator i = cookies.iterator(); i.hasNext();) {
+			Cookie c = (Cookie) i.next();
+			System.out.println("Name="+c.getName() + "; Value=" + c.getValue() + "; Domain="
+					+ c.getDomain() + "; Comment=" + c.getComment() + "; MaxAge="
+					+ c.getMaxAge() + "; Path=" + c.getPath() + "; Version=" + c.getVersion());
 		}
-
 	}
 
 	// Debug methods
@@ -2229,18 +2270,18 @@ public class WebTester {
 	 * Exemple: <br/>
 	 * 
 	 * <pre>
-	 *                        &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-	 *                          &lt;P&gt;
-	 *                            &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-	 *                              &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-	 *                              &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-	 *                              &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-	 *                              &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-	 *                              &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-	 *                            &lt;/SELECT&gt;
-	 *                            &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-	 *                          &lt;/P&gt;
-	 *                        &lt;/FORM&gt;
+	 *                            &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+	 *                              &lt;P&gt;
+	 *                                &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+	 *                                  &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+	 *                                  &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+	 *                                  &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+	 *                                  &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+	 *                                  &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+	 *                                &lt;/SELECT&gt;
+	 *                                &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+	 *                              &lt;/P&gt;
+	 *                            &lt;/FORM&gt;
 	 * </pre>
 	 * 
 	 * Should return [Component_1, Component_2, Component_3, Component_4,

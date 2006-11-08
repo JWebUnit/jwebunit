@@ -16,6 +16,8 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -163,7 +165,9 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 		}
 	}
 
-	public void closeBrowser() throws ExpectedJavascriptAlertException, ExpectedJavascriptConfirmException, ExpectedJavascriptPromptException {
+	public void closeBrowser() throws ExpectedJavascriptAlertException,
+			ExpectedJavascriptConfirmException,
+			ExpectedJavascriptPromptException {
 		wc = null;
 		if (this.expectedJavascriptAlerts.size() > 0) {
 			throw new ExpectedJavascriptAlertException(
@@ -180,8 +184,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 					((JavascriptPrompt) (expectedJavascriptPrompts.get(0)))
 							.getMessage());
 		}
-
-
 
 	}
 
@@ -214,39 +216,28 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 		}
 	}
 
-	/**
-	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#hasCookie(java.lang.String)
-	 */
-	public boolean hasCookie(String cookieName) {
+	public List getCookies() {
+		List result = new LinkedList();
 		final HttpState stateForUrl = wc.getWebConnection().getState();
 		Cookie[] cookies = stateForUrl.getCookies();
 		for (int i = 0; i < cookies.length; i++) {
-			if (cookies[i].getName().equals(cookieName))
-				return true;
-		}
-		return false;
-	}
-
-	/**
-	 * @see net.sourceforge.jwebunit.IJWebUnitDialog#getCookieValue(java.lang.String)
-	 */
-	public String getCookieValue(String cookieName) {
-		final HttpState stateForUrl = wc.getWebConnection().getState();
-		Cookie[] cookies = stateForUrl.getCookies();
-		for (int i = 0; i < cookies.length; i++) {
-			if (cookies[i].getName().equals(cookieName))
-				return cookies[i].getValue();
-		}
-		throw new RuntimeException("Cookie " + cookieName + " not found");
-	}
-
-	public String[][] getCookies() {
-		final HttpState stateForUrl = wc.getWebConnection().getState();
-		Cookie[] cookies = stateForUrl.getCookies();
-		String[][] result = new String[cookies.length][2];
-		for (int i = 0; i < cookies.length; i++) {
-			result[i][0] = cookies[i].getName();
-			result[i][1] = cookies[i].getValue();
+			javax.servlet.http.Cookie c = new javax.servlet.http.Cookie(
+					cookies[i].getName(), cookies[i].getValue());
+			c.setComment(cookies[i].getComment());
+			c.setDomain(cookies[i].getDomain());
+			Date expire = cookies[i].getExpiryDate();
+			if (expire == null) {
+				c.setMaxAge(-1);
+			} else {
+				Date now = Calendar.getInstance().getTime();
+				//Convert milli-second to second
+				Long second = new Long((expire.getTime()-now.getTime())/1000);
+				c.setMaxAge(second.intValue());
+			}
+			c.setPath(cookies[i].getPath());
+			c.setSecure(cookies[i].getSecure());
+			c.setVersion(cookies[i].getVersion());
+			result.add(c);
 		}
 		return result;
 	}
@@ -642,6 +633,14 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 				}
 			}
 		});
+		// Deal with cookies
+		for (Iterator i = getTestContext().getCookies().iterator(); i.hasNext();) {
+			javax.servlet.http.Cookie c = (javax.servlet.http.Cookie) i.next();
+			wc.getWebConnection().getState().addCookie(
+					new Cookie(c.getDomain() != null ? c.getDomain() : "", c
+							.getName(), c.getValue(), c.getPath(), c
+							.getMaxAge(), c.getSecure()));
+		}
 	}
 
 	/**
