@@ -8,6 +8,9 @@
     </properties>
     <body>
         <release version="1.4" date="UNKNOW">
+            <action type="update" dev="Julien Henry">
+                Update to HtmlUnit 1.10.
+            </action>
             <action type="fix" dev="Julien Henry">
                 Fix cookie support. You can now properly manually add cookie to the conversation by
                 using TestContext.addCookie() before calling beginAt().
