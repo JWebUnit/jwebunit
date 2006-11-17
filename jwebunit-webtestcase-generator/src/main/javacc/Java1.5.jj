@@ -139,8 +139,8 @@ public class WebTestCaseGenerator
     File outputFile;
     FileOutputStream output;
     if (args.length == 2) {
-      webTesterPath = args[0] + File.separator + "net" + File.separator + "sourceforge" + File.separator + "jwebunit" + File.separator + "WebTester.java";
-      webTestCasePath = args[1] + File.separator + "net" + File.separator + "sourceforge" + File.separator + "jwebunit" + File.separator + "WebTestCase.java";
+      webTesterPath = args[0] + File.separator + "net" + File.separator + "sourceforge" + File.separator + "jwebunit" + File.separator + "junit" + File.separator + "WebTester.java";
+      webTestCasePath = args[1] + File.separator + "net" + File.separator + "sourceforge" + File.separator + "jwebunit" + File.separator + "junit" + File.separator + "WebTestCase.java";
       inputFile = new File(webTesterPath);
       if (inputFile.exists()) {
         System.out.println("WebTestCaseGenerator:  Reading from file " + webTesterPath + " . . .");
@@ -486,15 +486,17 @@ void CompilationUnit(StringBuffer sb):
   {sb.append(getToken(1).specialToken.image).append("\n");}
   [ PackageDeclaration(sb) ]
 
-  {sb.append("import java.io.PrintStream;\n");
+  {sb.append("import java.io.PrintStream;\n\n");
+  sb.append("import net.sourceforge.jwebunit.api.IJWebUnitDialog;\n");
   sb.append("import net.sourceforge.jwebunit.html.Table;\n");
+  sb.append("import net.sourceforge.jwebunit.util.TestContext;\n\n");
   sb.append("import junit.framework.TestCase;\n\n");}
 
   ( ImportDeclaration(sb) )*
 
   {sb.append("/**\n");
   sb.append(" * Superclass for Junit TestCases which provides web application navigation and \n");
-  sb.append(" * JUnit assertions. This class uses and is generated from {@link net.sourceforge.jwebunit.WebTester}.\n");
+  sb.append(" * JUnit assertions. This class uses and is generated from {@link net.sourceforge.jwebunit.junit.WebTester}.\n");
   sb.append(" * \n");
   sb.append(" * @author JavaCC\n");
   sb.append(" */\n");}

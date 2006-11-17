@@ -5,15 +5,15 @@
 package net.sourceforge.jwebunit.javascript;
 
 public class JavascriptAlert {
-	
-	private String message;
-	
-	public JavascriptAlert(String message) {
-		this.message=message;
-	}
-	
-	public String getMessage() {
-		return message;
-	}
+
+    private String message;
+
+    public JavascriptAlert(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 
 }

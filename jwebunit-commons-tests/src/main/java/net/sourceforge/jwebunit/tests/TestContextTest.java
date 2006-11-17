@@ -6,7 +6,7 @@ package net.sourceforge.jwebunit.tests;
 
 import javax.servlet.http.Cookie;
 
-import net.sourceforge.jwebunit.TestContext;
+import net.sourceforge.jwebunit.util.TestContext;
 
 import java.util.List;
 import java.util.Locale;
