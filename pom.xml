@@ -22,6 +22,7 @@
     </issueManagement>
     <inceptionYear>2002</inceptionYear>
     <modules>
+        <module>jwebunit-webtestcase-generator</module>
         <module>jwebunit-core</module>
         <module>jwebunit-commons-tests</module>
         <module>jwebunit-htmlunit-plugin</module>
