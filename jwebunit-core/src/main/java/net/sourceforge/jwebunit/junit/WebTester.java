@@ -169,8 +169,7 @@ public class WebTester {
         try {
             getDialog().beginAt(createUrl(aRelativeURL), testContext);
         } catch (TestingEngineResponseException e) {
-            e.printStackTrace();
-            Assert.fail();
+            Assert.fail("The server returns the code " + e.getHttpStatusCode());
         }
 
     }
@@ -713,8 +712,9 @@ public class WebTester {
     public void assertFormElementEquals(String formElementName,
             String expectedValue) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals(expectedValue, getDialog().getFormParameterValue(
-                formElementName));
+        Assert.assertEquals(expectedValue, getDialog()
+                .getElementAttributByXPath(
+                        "//input[@name='" + formElementName + "']", "value"));
     }
 
     /**
@@ -734,7 +734,8 @@ public class WebTester {
         }
         Assert.assertTrue("Unable to match [" + regexp + "] in form element \""
                 + formElementName + "\"", re.match(getDialog()
-                .getFormParameterValue(formElementName)));
+                .getElementAttributByXPath(
+                        "//input[@name='" + formElementName + "']", "value")));
     }
 
     /**
@@ -745,8 +746,8 @@ public class WebTester {
      */
     public void assertFormElementEmpty(String formElementName) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals("", getDialog().getFormParameterValue(
-                formElementName));
+        Assert.assertEquals("", getDialog().getElementAttributByXPath(
+                "//input[@name='" + formElementName + "']", "value"));
     }
 
     /**
@@ -866,8 +867,9 @@ public class WebTester {
      * @param radioOption option to test for selection.
      */
     public void assertRadioOptionSelected(String name, String radioOption) {
-        assertFormElementPresent(name);
-        assertFormElementEquals(name, radioOption);
+        assertRadioOptionPresent(name, radioOption);
+        Assert.assertEquals(radioOption, getDialog().getElementAttributByXPath(
+                "//input[@type='radio' and @name='" + name + "']", "value"));
     }
 
     /**
@@ -877,9 +879,11 @@ public class WebTester {
      * @param radioOption option to test for selection.
      */
     public void assertRadioOptionNotSelected(String name, String radioOption) {
-        assertFormElementPresent(name);
-        Assert.assertTrue("Radio option " + radioOption + " is not selected",
-                !radioOption.equals(getDialog().getFormParameterValue(name)));
+        assertRadioOptionPresent(name, radioOption);
+        Assert.assertFalse("Radio option [" + radioOption + "] is selected.",
+                radioOption.equals(getDialog().getElementAttributByXPath(
+                        "//input[@type='radio' and @name='" + name + "']",
+                        "value")));
     }
 
     /**
@@ -1093,7 +1097,12 @@ public class WebTester {
     }
 
     /**
-     * Assert that a submit button is present.
+     * Assert that a submit button is present. <br/> A submit button can be the following HTML elements:
+     * <ul>
+     * <li>submit input
+     * <li>image input
+     * <li>submit button
+     * </ul>
      * 
      */
     public void assertSubmitButtonPresent() {
@@ -1103,7 +1112,13 @@ public class WebTester {
     }
 
     /**
-     * Assert that a submit button with a given name is present.
+     * Assert that a submit button with a given name is present. <br/> A submit button can be the following HTML
+     * elements:
+     * <ul>
+     * <li>submit input
+     * <li>image input
+     * <li>submit button
+     * </ul>
      * 
      * @param buttonName
      */
@@ -1114,7 +1129,13 @@ public class WebTester {
     }
 
     /**
-     * Assert that no submit button is present in the current form.
+     * Assert that no submit button is present in the current form. <br/> A submit button can be the following HTML
+     * elements:
+     * <ul>
+     * <li>submit input
+     * <li>image input
+     * <li>submit button
+     * </ul>
      * 
      * @param buttonName
      */
@@ -1125,7 +1146,13 @@ public class WebTester {
     }
 
     /**
-     * Assert that a submit button with a given name is not present.
+     * Assert that a submit button with a given name is not present. <br/> A submit button can be the following HTML
+     * elements:
+     * <ul>
+     * <li>submit input
+     * <li>image input
+     * <li>submit button
+     * </ul>
      * 
      * @param buttonName
      */
@@ -1136,7 +1163,13 @@ public class WebTester {
     }
 
     /**
-     * Assert that a submit button with a given name and value is present.
+     * Assert that a submit button with a given name and value is present. <br/> A submit button can be the following
+     * HTML elements:
+     * <ul>
+     * <li>submit input
+     * <li>image input
+     * <li>submit button
+     * </ul>
      * 
      * @param buttonName
      * @param buttonValue
@@ -1149,7 +1182,11 @@ public class WebTester {
     }
 
     /**
-     * Assert that a reset button is present.
+     * Assert that a reset button is present. <br/> A reset button can be the following HTML elements:
+     * <ul>
+     * <li>reset input
+     * <li>reset button
+     * </ul>
      * 
      */
     public void assertResetButtonPresent() {
@@ -1159,7 +1196,11 @@ public class WebTester {
     }
 
     /**
-     * Assert that a reset button with a given name is present.
+     * Assert that a reset button with a given name is present.<br/> A reset button can be the following HTML elements:
+     * <ul>
+     * <li>reset input
+     * <li>reset button
+     * </ul>
      * 
      * @param buttonName
      */
@@ -1170,7 +1211,12 @@ public class WebTester {
     }
 
     /**
-     * Assert that no reset button is present in the current form.
+     * Assert that no reset button is present in the current form.<br/> A reset button can be the following HTML
+     * elements:
+     * <ul>
+     * <li>reset input
+     * <li>reset button
+     * </ul>
      * 
      * @param buttonName
      */
@@ -1180,7 +1226,12 @@ public class WebTester {
     }
 
     /**
-     * Assert that a reset button with a given name is not present.
+     * Assert that a reset button with a given name is not present.<br/> A reset button can be the following HTML
+     * elements:
+     * <ul>
+     * <li>reset input
+     * <li>reset button
+     * </ul>
      * 
      * @param buttonName
      */
@@ -1191,7 +1242,12 @@ public class WebTester {
     }
 
     /**
-     * Assert that a button with a given id is present in the current window.
+     * Assert that a button with a given id is present in the current window.<br/> A button can be the following HTML
+     * elements:
+     * <ul>
+     * <li>button input
+     * <li>button button
+     * </ul>
      * 
      * @param buttonId
      */
@@ -1586,7 +1642,8 @@ public class WebTester {
     public String getFormElementValue(String formElementName) {
         assertFormPresent();
         assertFormElementPresent(formElementName);
-        return getDialog().getFormParameterValue(formElementName);
+        return getDialog().getElementAttributByXPath(
+                "//input[@name='" + formElementName + "']", "value");
     }
 
     /**
@@ -1717,7 +1774,7 @@ public class WebTester {
      * the form.
      */
     public void submit() {
-        assertFormPresent();
+        assertSubmitButtonPresent();
         getDialog().submit();
     }
 
@@ -1860,6 +1917,19 @@ public class WebTester {
         getDialog().clickElementByXPath(xpath);
     }
 
+    /**
+     * Get the attribut value of the gicen element. For example, if you have img src="bla.gif" alt="toto",
+     * getElementAttributByXPath("//img[@src='bla.gif']", "alt") returns "toto"
+     * 
+     * @param xpath XPath of the element.
+     * @param attribut Name of the attribut.
+     * @return The value of the attribut.
+     */
+    public String getElementAttributByXPath(String xpath, String attribut) {
+        assertElementPresentByXPath(xpath);
+        return getDialog().getElementAttributByXPath(xpath, attribut);
+    }
+
     // Window and Frame Navigation Methods
 
     /**
@@ -1919,7 +1989,7 @@ public class WebTester {
         try {
             getDialog().gotoPage(createUrl(url));
         } catch (TestingEngineResponseException e) {
-            throw new RuntimeException(e);
+            Assert.fail("The server returns the code " + e.getHttpStatusCode());
         }
     }
 
@@ -2041,18 +2111,18 @@ public class WebTester {
      * Exemple: <br/>
      * 
      * <pre>
-     *                                  &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-     *                                    &lt;P&gt;
-     *                                      &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-     *                                        &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-     *                                        &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-     *                                        &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-     *                                        &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-     *                                        &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-     *                                      &lt;/SELECT&gt;
-     *                                      &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-     *                                    &lt;/P&gt;
-     *                                  &lt;/FORM&gt;
+     *                                     &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+     *                                       &lt;P&gt;
+     *                                         &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+     *                                           &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+     *                                           &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+     *                                           &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+     *                                           &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+     *                                           &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+     *                                         &lt;/SELECT&gt;
+     *                                         &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+     *                                       &lt;/P&gt;
+     *                                     &lt;/FORM&gt;
      * </pre>
      * 
      * Should return [Component_1, Component_2, Component_3, Component_4, Component_5]

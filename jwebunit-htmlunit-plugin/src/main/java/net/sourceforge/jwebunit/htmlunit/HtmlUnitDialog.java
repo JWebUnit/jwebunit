@@ -56,12 +56,15 @@ import com.gargoylesoftware.htmlunit.WebWindow;
 import com.gargoylesoftware.htmlunit.WebWindowEvent;
 import com.gargoylesoftware.htmlunit.WebWindowListener;
 import com.gargoylesoftware.htmlunit.WebWindowNotFoundException;
+import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
+import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
+import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlResetInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
@@ -75,6 +78,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 import com.gargoylesoftware.htmlunit.html.ClickableElement;
 import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
+import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
 import com.gargoylesoftware.htmlunit.html.xpath.HtmlUnitXPath;
@@ -327,57 +331,56 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Return the current value of a form input element. A special attention is given to checkboxes, as we want value of
-     * checked element
-     * 
-     * @param paramName name of the input element.
-     * @deprecated
-     */
-    public String getFormParameterValue(String paramName) {
-        checkFormStateWithInput(paramName);
-        HtmlRadioButtonInput rbtn = getForm().getCheckedRadioButton(paramName);
-        if (rbtn != null)
-            return rbtn.getValueAttribute();
-        try {
-            // TODO What should I return when it is a multi-select
-            return ((HtmlOption) getForm().getSelectByName(paramName)
-                    .getSelectedOptions().get(0)).getValueAttribute();
-        } catch (ElementNotFoundException e) {
-
-        }
-        try {
-            return getForm().getInputByName(paramName).getValueAttribute();
-        } catch (ElementNotFoundException e) {
-
-        }
-        throw new RuntimeException("getFormParameterValue failed");
-    }
-
-    /**
      * Return the current value of a text input element with name <code>paramName</code>.
      * 
      * @param paramName name of the input element. TODO: Find a way to handle multiple text input element with same
      *            name.
      */
     public String getTextFieldValue(String paramName) {
-        checkFormStateWithInput(paramName);
-        List textFieldElements = getForm().getHtmlElementsByAttribute("input",
-                "type", "text");
-        textFieldElements.addAll(getForm().getHtmlElementsByAttribute("input",
-                "type", "password"));
+        List textFieldElements = new LinkedList();
+        if (form != null) {
+            textFieldElements.addAll(getForm().getHtmlElementsByAttribute(
+                    "input", "type", "text"));
+            textFieldElements.addAll(getForm().getHtmlElementsByAttribute(
+                    "input", "type", "password"));
+        } else {
+            for (Iterator i = getCurrentPage().getForms().iterator(); i
+                    .hasNext();) {
+                HtmlForm f = (HtmlForm) i.next();
+                textFieldElements.addAll(f.getHtmlElementsByAttribute("input",
+                        "type", "text"));
+                textFieldElements.addAll(f.getHtmlElementsByAttribute("input",
+                        "type", "password"));
+            }
+        }
         Iterator it = textFieldElements.iterator();
         while (it.hasNext()) {
             HtmlInput input = (HtmlInput) it.next();
             if (paramName.equals(input.getNameAttribute())) {
+                if (form == null) {
+                    form = input.getEnclosingFormOrDie();
+                }
                 return input.getValueAttribute();
             }
         }
         // If no text field with the name paramName then try with textareas.
-        textFieldElements = getForm().getTextAreasByName(paramName);
+        textFieldElements.clear();
+        if (form != null) {
+            textFieldElements.addAll(getForm().getTextAreasByName(paramName));
+        } else {
+            for (Iterator i = getCurrentPage().getForms().iterator(); i
+                    .hasNext();) {
+                HtmlForm f = (HtmlForm) i.next();
+                textFieldElements.addAll(f.getTextAreasByName(paramName));
+            }
+        }
         it = textFieldElements.iterator();
         while (it.hasNext()) {
             HtmlTextArea textInput = (HtmlTextArea) it.next();
             if (paramName.equals(textInput.getNameAttribute())) {
+                if (form == null) {
+                    form = textInput.getEnclosingFormOrDie();
+                }
                 return textInput.getText();
             }
         }
@@ -393,14 +396,26 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      *            name.
      */
     public String getHiddenFieldValue(String paramName) {
-        checkFormStateWithInput(paramName);
-        List textFieldElements = getForm().getHtmlElementsByAttribute("input",
-                "type", "hidden");
-        Iterator it = textFieldElements.iterator();
+        List hiddenFieldElements = new LinkedList();
+        if (form != null) {
+            hiddenFieldElements.addAll(getForm().getHtmlElementsByAttribute(
+                    "input", "type", "hidden"));
+        } else {
+            for (Iterator i = getCurrentPage().getForms().iterator(); i
+                    .hasNext();) {
+                HtmlForm f = (HtmlForm) i.next();
+                hiddenFieldElements.addAll(f.getHtmlElementsByAttribute(
+                        "input", "type", "hidden"));
+            }
+        }
+        Iterator it = hiddenFieldElements.iterator();
         while (it.hasNext()) {
-            HtmlHiddenInput textInput = (HtmlHiddenInput) it.next();
-            if (paramName.equals(textInput.getNameAttribute())) {
-                return textInput.getValueAttribute();
+            HtmlHiddenInput hiddenInput = (HtmlHiddenInput) it.next();
+            if (paramName.equals(hiddenInput.getNameAttribute())) {
+                if (form == null) {
+                    form = hiddenInput.getEnclosingFormOrDie();
+                }
+                return hiddenInput.getValueAttribute();
             }
         }
         throw new RuntimeException(
@@ -414,20 +429,54 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param fieldName name of the input element or textarea
      * @param paramValue parameter value to submit for the element.
      */
-    public void setTextField(String fieldName, String paramValue) {
-        checkFormStateWithInput(fieldName);
-        List inputElements = getForm().getHtmlElementsByAttribute("input",
-                "name", fieldName);
-        if (!inputElements.isEmpty()) {
-            HtmlInput input = (HtmlInput) inputElements.get(0);
-            input.setValueAttribute(paramValue);
+    public void setTextField(String fieldName, String text) {
+        List textFieldElements = new LinkedList();
+        if (form != null) {
+            textFieldElements.addAll(getForm().getHtmlElementsByAttribute(
+                    "input", "name", fieldName));
+            textFieldElements.addAll(getForm().getTextAreasByName(fieldName));
         } else {
-            inputElements = getForm().getTextAreasByName(fieldName);
-            if (!inputElements.isEmpty()) {
-                HtmlTextArea textArea = (HtmlTextArea) inputElements.get(0);
-                textArea.setText(paramValue);
+            for (Iterator i = getCurrentPage().getForms().iterator(); i
+                    .hasNext();) {
+                HtmlForm f = (HtmlForm) i.next();
+                textFieldElements.addAll(f.getHtmlElementsByAttribute("input",
+                        "name", fieldName));
+                textFieldElements.addAll(f.getTextAreasByName(fieldName));
             }
         }
+        for (Iterator i = textFieldElements.iterator(); i.hasNext();) {
+            HtmlElement e = (HtmlElement) i.next();
+            if (e instanceof HtmlTextInput) {
+                ((HtmlTextInput) e).setValueAttribute(text);
+                if (form == null) {
+                    form = e.getEnclosingFormOrDie();
+                }
+                return;
+            }
+            if (e instanceof HtmlPasswordInput) {
+                ((HtmlPasswordInput) e).setValueAttribute(text);
+                if (form == null) {
+                    form = e.getEnclosingFormOrDie();
+                }
+                return;
+            }
+            if (e instanceof HtmlFileInput) {
+                ((HtmlFileInput) e).setValueAttribute(text);
+                if (form == null) {
+                    form = e.getEnclosingFormOrDie();
+                }
+                return;
+            }
+            if (e instanceof HtmlTextArea) {
+                ((HtmlTextArea) e).setText(text);
+                if (form == null) {
+                    form = e.getEnclosingFormOrDie();
+                }
+                return;
+            }
+        }
+        throw new RuntimeException("No text field with name [" + fieldName
+                + "] was found.");
     }
 
     /**
@@ -824,24 +873,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return (HtmlPage) page;
     }
 
-    private void checkFormStateWithInput(String paramName) {
-        if (form == null) {
-            try {
-                setWorkingForm(getFormWithInput(paramName));
-            } catch (UnableToSetFormException e) {
-                throw new UnableToSetFormException(
-                        "Unable to set form based on parameter [" + paramName
-                                + "].");
-            }
-        }
-    }
-
-    private void checkFormStateWithButton(String buttonName) {
-        if (form == null) {
-            setWorkingForm(getFormWithButton(buttonName));
-        }
-    }
-
     private void setWorkingForm(HtmlForm newForm) {
         if (newForm == null)
             throw new UnableToSetFormException("Attempted to set form to null.");
@@ -867,91 +898,132 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Return true if a form button is present on the current response.
-     * 
-     * @param buttonName name of the button element to check for
-     */
-    public boolean hasFormButtonNamed(String buttonName) {
-        return (getFormWithButton(buttonName) != null);
-    }
-
-    /**
-     * Return the HttpUnit SubmitButton with a given name.
+     * Return the HtmlUnit submit button with a given name.
      * 
      * @param buttonName name of button.
+     * @return the button
      */
-    public HtmlSubmitInput getSubmitButton(String buttonName) {
-        try {
-            checkFormStateWithButton(buttonName);
-        } catch (UnableToSetFormException e) {
-            return null;
+    public ClickableElement getSubmitButton(String buttonName) {
+        List btns = new LinkedList();
+        if (form != null) {
+            btns.addAll(getForm().getInputsByName(buttonName));
+        } else {
+            for (Iterator i = getCurrentPage().getForms().iterator(); i
+                    .hasNext();) {
+                HtmlForm f = (HtmlForm) i.next();
+                btns.addAll(f.getInputsByName(buttonName));
+            }
         }
-        List btns = null;
-        try {
-            btns = getForm().getInputsByName(buttonName);
-        } catch (ClassCastException e) {
-            return null;
-        }
-        for (int i = 0; i < btns.size(); i++) {
-            Object o = btns.get(i);
+        for (Iterator i = btns.iterator(); i.hasNext();) {
+            Object o = i.next();
             if (o instanceof HtmlSubmitInput) {
                 HtmlSubmitInput btn = (HtmlSubmitInput) o;
+                if (form == null) {
+                    form = btn.getEnclosingFormOrDie();
+                }
                 return btn;
+            }
+            if (o instanceof HtmlImageInput) {
+                HtmlImageInput btn = (HtmlImageInput) o;
+                if (form == null) {
+                    form = btn.getEnclosingFormOrDie();
+                }
+                return btn;
+            }
+            if (o instanceof HtmlButton) {
+                HtmlButton btn = (HtmlButton) o;
+                if (btn.getTypeAttribute().equals("submit")) {
+                    if (form == null) {
+                        form = btn.getEnclosingFormOrDie();
+                    }
+                    return btn;
+                }
             }
         }
         return null;
     }
 
     public HtmlResetInput getResetButton(String buttonName) {
-        try {
-            checkFormStateWithButton(buttonName);
-        } catch (UnableToSetFormException e) {
-            return null;
+        List btns = new LinkedList();
+        if (form != null) {
+            btns.addAll(getForm().getInputsByName(buttonName));
+        } else {
+            for (Iterator i = getCurrentPage().getForms().iterator(); i
+                    .hasNext();) {
+                HtmlForm f = (HtmlForm) i.next();
+                btns.addAll(f.getInputsByName(buttonName));
+            }
         }
-        List btns = null;
-        try {
-            btns = getForm().getInputsByName(buttonName);
-        } catch (ClassCastException e) {
-            return null;
-        }
-        for (int i = 0; i < btns.size(); i++) {
-            Object o = btns.get(i);
+        for (Iterator i = btns.iterator(); i.hasNext();) {
+            Object o = i.next();
             if (o instanceof HtmlResetInput) {
                 HtmlResetInput btn = (HtmlResetInput) o;
+                if (form == null) {
+                    form = btn.getEnclosingFormOrDie();
+                }
                 return btn;
+            }
+            if (o instanceof HtmlButton) {
+                HtmlResetInput btn = (HtmlResetInput) o;
+                if (btn.getTypeAttribute().equals("reset")) {
+                    if (form == null) {
+                        form = btn.getEnclosingFormOrDie();
+                    }
+                    return btn;
+                }
             }
         }
         return null;
     }
 
-    public String getSubmitButtonValue(String buttonName) {
-        return getSubmitButton(buttonName).getValueAttribute().trim();
-    }
-
     /**
-     * Return the HttpUnit SubmitButton with a given name and value.
+     * Return the HtmlUnit submit button with a given name and value.
      * 
-     * @param buttonName
-     * @pararm buttonValue
+     * @param buttonName button name.
+     * @param buttonValue button value.
+     * @return HtmlSubmitInput, HtmlImageInput or HtmlButton
      */
-    public HtmlSubmitInput getSubmitButton(String buttonName, String buttonValue) {
-        try {
-            checkFormStateWithButton(buttonName);
-        } catch (UnableToSetFormException e) {
-            return null;
+    public ClickableElement getSubmitButton(String buttonName,
+            String buttonValue) {
+        List btns = new LinkedList();
+        if (form != null) {
+            btns.addAll(getForm().getInputsByName(buttonName));
+        } else {
+            for (Iterator i = getCurrentPage().getForms().iterator(); i
+                    .hasNext();) {
+                HtmlForm f = (HtmlForm) i.next();
+                btns.addAll(f.getInputsByName(buttonName));
+            }
         }
-        List btns = null;
-        try {
-            btns = getForm().getInputsByName(buttonName);
-        } catch (ClassCastException e) {
-            return null;
-        }
-        for (int i = 0; i < btns.size(); i++) {
-            Object o = btns.get(i);
+        for (Iterator i = btns.iterator(); i.hasNext();) {
+            Object o = i.next();
             if (o instanceof HtmlSubmitInput) {
                 HtmlSubmitInput btn = (HtmlSubmitInput) o;
-                if (btn.getValueAttribute().equals(buttonValue))
+                if (btn.getValueAttribute().equals(buttonValue)) {
+                    if (form == null) {
+                        form = btn.getEnclosingFormOrDie();
+                    }
                     return btn;
+                }
+            }
+            if (o instanceof HtmlImageInput) {
+                HtmlImageInput btn = (HtmlImageInput) o;
+                if (btn.getValueAttribute().equals(buttonValue)) {
+                    if (form == null) {
+                        form = btn.getEnclosingFormOrDie();
+                    }
+                    return btn;
+                }
+            }
+            if (o instanceof HtmlButton) {
+                HtmlButton btn = (HtmlButton) o;
+                if (btn.getValueAttribute().equals(buttonValue)
+                        && btn.getTypeAttribute().equals("submit")) {
+                    if (form == null) {
+                        form = btn.getEnclosingFormOrDie();
+                    }
+                    return btn;
+                }
             }
         }
         return null;
@@ -964,18 +1036,32 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         List l = null;
         try {
             final HtmlUnitXPath xp = new HtmlUnitXPath(
-                    "//input[@type=\"submit\"]");
+                    "//input[@type='submit' or @type='image']");
             l = xp.selectNodes(getForm());
         } catch (JaxenException e) {
             throw new RuntimeException(e);
         }
-        return (l.size() > 0);
+        List l2 = null;
+        try {
+            final HtmlUnitXPath xp = new HtmlUnitXPath(
+                    "//button[@type='submit']");
+            l2 = xp.selectNodes(getForm());
+        } catch (JaxenException e) {
+            throw new RuntimeException(e);
+        }
+        return (l.size() > 0 || l2.size() > 0);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean hasSubmitButton(String buttonName) {
         return getSubmitButton(buttonName) != null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean hasSubmitButton(String buttonName, String buttonValue) {
         try {
             return getSubmitButton(buttonName, buttonValue) != null;
@@ -989,12 +1075,20 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         List l = null;
         try {
             final HtmlUnitXPath xp = new HtmlUnitXPath(
-                    "//input[@type=\"reset\"]");
+                    "//input[@type='reset']");
             l = xp.selectNodes(getForm());
         } catch (JaxenException e) {
             throw new RuntimeException(e);
         }
-        return (l.size() > 0);
+        List l2 = null;
+        try {
+            final HtmlUnitXPath xp = new HtmlUnitXPath(
+                    "//button[@type='reset']");
+            l2 = xp.selectNodes(getForm());
+        } catch (JaxenException e) {
+            throw new RuntimeException(e);
+        }
+        return (l.size() > 0 || l2.size() > 0);
     }
 
     public boolean hasResetButton(String buttonName) {
@@ -1150,10 +1244,14 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                     ((HtmlSubmitInput) inpt[i]).click();
                     return;
                 }
-            }
-            for (int i = 0; i < inpt.length; i++) {
-                if (inpt[i] instanceof HtmlButtonInput) {
-                    ((HtmlButtonInput) inpt[i]).click();
+                if (inpt[i] instanceof HtmlImageInput) {
+                    ((HtmlImageInput) inpt[i]).click();
+                    return;
+                }
+                if (inpt[i] instanceof HtmlButton
+                        && ((HtmlButton) inpt[i]).getTypeAttribute().equals(
+                                "submit")) {
+                    ((HtmlButton) inpt[i]).click();
                     return;
                 }
             }
@@ -1174,44 +1272,79 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      */
     public void submit(String buttonName) {
         List l = getForm().getInputsByName(buttonName);
-        for (int i = 0; i < l.size(); i++) {
-            Object o = l.get(i);
-            if (o instanceof HtmlSubmitInput) {
-                HtmlSubmitInput inpt = (HtmlSubmitInput) o;
-                try {
+        try {
+            for (int i = 0; i < l.size(); i++) {
+                Object o = l.get(i);
+                if (o instanceof HtmlSubmitInput) {
+                    HtmlSubmitInput inpt = (HtmlSubmitInput) o;
                     inpt.click();
                     return;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                }
+                if (o instanceof HtmlImageInput) {
+                    HtmlImageInput inpt = (HtmlImageInput) o;
+                    inpt.click();
+                    return;
+                }
+                if (o instanceof HtmlButton) {
+                    HtmlButton inpt = (HtmlButton) o;
+                    if (inpt.getTypeAttribute().equals("submit")) {
+                        inpt.click();
+                        return;
+                    }
                 }
             }
+        } catch (IOException e) {
+            throw new RuntimeException(
+                    "HtmlUnit Error submitting form using default submit button: \n"
+                            + e);
         }
+        throw new RuntimeException("No submit button found in current form.");
     }
 
     /**
      * Submit the current form with the specifed submit button (by name and value). See {@link #getForm}for an
      * explanation of how the current form is established.
      * 
-     * @author Dragos Manolescu
      * @param buttonName name of the button to use for submission.
      * @param buttonValue value/label of the button to use for submission
      */
     public void submit(String buttonName, String buttonValue) {
         List l = getForm().getInputsByName(buttonName);
-        for (int i = 0; i < l.size(); i++) {
-            Object o = l.get(i);
-            if (o instanceof HtmlSubmitInput) {
-                HtmlSubmitInput inpt = (HtmlSubmitInput) o;
-                try {
+        try {
+            for (int i = 0; i < l.size(); i++) {
+                Object o = l.get(i);
+                if (o instanceof HtmlSubmitInput) {
+                    HtmlSubmitInput inpt = (HtmlSubmitInput) o;
                     if (inpt.getValueAttribute().equals(buttonValue)) {
                         inpt.click();
                         return;
                     }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                }
+                if (o instanceof HtmlImageInput) {
+                    HtmlImageInput inpt = (HtmlImageInput) o;
+                    if (inpt.getValueAttribute().equals(buttonValue)) {
+                        inpt.click();
+                        return;
+                    }
+                }
+                if (o instanceof HtmlButton) {
+                    HtmlButton inpt = (HtmlButton) o;
+                    if (inpt.getTypeAttribute().equals("submit")
+                            && inpt.getValueAttribute().equals(buttonValue)) {
+                        inpt.click();
+                        return;
+                    }
                 }
             }
+        } catch (IOException e) {
+            throw new RuntimeException(
+                    "HtmlUnit Error submitting form using submit button with name ["
+                            + buttonName + "] and value [" + buttonValue
+                            + "]: \n" + e);
         }
+        throw new RuntimeException(
+                "No submit button found in current form with name ["
+                        + buttonName + "] and value [" + buttonValue + "].");
     }
 
     /**
@@ -1452,6 +1585,13 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         } catch (IOException exp) {
             throw new RuntimeException("Click failed");
         }
+    }
+
+    public String getElementAttributByXPath(String xpath, String attribut) {
+        HtmlElement e = getElementByXPath(xpath);
+        if (e==null)
+            return null;
+        return e.getAttributeValue(attribut);
     }
 
     /**

@@ -54,11 +54,6 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
         assertTitleEquals("Startpage");
         clickButton("next");
         assertTextPresent("Here is the text we expect");
-        
-        beginAt("index.html");
-        assertTitleEquals("Startpage");
-        submit();
-        assertTextPresent("Here is the text we expect");
     }
  
     public void testLinkAssertsWorkJavascriptDisabled() {

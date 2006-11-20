@@ -173,15 +173,6 @@ public interface IJWebUnitDialog {
     boolean hasFormParameterNamed(String paramName);
 
     /**
-     * Return the current value of a form input element.
-     * 
-     * @param paramName name of the input element.
-     * @return parameter value.
-     * @deprecated
-     */
-    String getFormParameterValue(String paramName);
-
-    /**
      * Return the current value of a text field with name <code>paramName</code>. Text fields are input text, input
      * password and textarea
      * 
@@ -361,14 +352,26 @@ public interface IJWebUnitDialog {
     boolean hasSubmitButton();
 
     /**
-     * Checks if the current form contains a specific submit button.
+     * Checks if the current form contains a specific submit button.<br/> A submit button can be the following HTML
+     * elements:
+     * <ul>
+     * <li>input type=submit
+     * <li>input type=image
+     * <li>button type=submit
+     * </ul>
      * 
      * @param nameOrID name or id of the button to check for.
      */
     boolean hasSubmitButton(String nameOrID);
 
     /**
-     * Checks if the current form contains a specific submit button.
+     * Checks if the current form contains a specific submit button.<br/> A submit button can be the following HTML
+     * elements:
+     * <ul>
+     * <li>input type=submit
+     * <li>input type=image
+     * <li>button type=submit
+     * </ul>
      * 
      * @param nameOrID name of id of the button to check for.
      * @param value value of the button
@@ -377,13 +380,23 @@ public interface IJWebUnitDialog {
 
     /**
      * Submit the current form with the default submit button. See {@link #getForm}for an explanation of how the
-     * current form is established.
+     * current form is established.<br/> A submit button can be the following HTML elements:
+     * <ul>
+     * <li>input type=submit
+     * <li>input type=image
+     * <li>button type=submit
+     * </ul>
      */
     void submit();
 
     /**
      * Submit the current form with the specifed submit button. See {@link #getForm}for an explanation of how the
-     * current form is established.
+     * current form is established.<br/> A submit button can be the following HTML elements:
+     * <ul>
+     * <li>input type=submit
+     * <li>input type=image
+     * <li>button type=submit
+     * </ul>
      * 
      * @param buttonName name of the button to use for submission.
      */
@@ -391,7 +404,12 @@ public interface IJWebUnitDialog {
 
     /**
      * Submit the current form with the specifed submit button (by name and value). See {@link #getForm}for an
-     * explanation of how the current form is established.
+     * explanation of how the current form is established.<br/> A submit button can be the following HTML elements:
+     * <ul>
+     * <li>input type=submit
+     * <li>input type=image
+     * <li>button type=submit
+     * </ul>
      * 
      * @author Dragos Manolescu
      * @param buttonName name of the button to use for submission.
@@ -400,13 +418,22 @@ public interface IJWebUnitDialog {
     void submit(String buttonName, String buttonValue);
 
     /**
-     * Checks if the current form contains a reset button.
+     * Checks if the current form contains a reset button.<br/> A reset button can be the following HTML elements:
+     * <ul>
+     * <li>input type=reset
+     * <li>button type=reset
+     * </ul>
      * 
      */
     boolean hasResetButton();
 
     /**
-     * Checks if the current form contains a specific reset button.
+     * Checks if the current form contains a specific reset button.<br/> A reset button can be the following HTML
+     * elements:
+     * <ul>
+     * <li>input type=reset
+     * <li>button type=reset
+     * </ul>
      * 
      * @param nameOrID name or id of the button to check for.
      */
@@ -414,12 +441,20 @@ public interface IJWebUnitDialog {
 
     /**
      * Reset the current form with the default reset button. See {@link #getForm}for an explanation of how the current
-     * form is established.
+     * form is established.<br/> A reset button can be the following HTML elements:
+     * <ul>
+     * <li>input type=reset
+     * <li>button type=reset
+     * </ul>
      */
     void reset();
 
     /**
-     * Checks if a button with <code>text</code> is present.
+     * Checks if a button with <code>text</code> is present.<br/> A button can be the following HTML elements:
+     * <ul>
+     * <li>input type=button
+     * <li>button type=button
+     * </ul>
      * 
      * @param text the text of the button (contents of the value attribute).
      * @return <code>true</code> when the button with text could be found.
@@ -427,7 +462,11 @@ public interface IJWebUnitDialog {
     boolean hasButtonWithText(String text);
 
     /**
-     * Checks if a button with <code>id</code> is present.
+     * Checks if a button with <code>id</code> is present.<br/> A button can be the following HTML elements:
+     * <ul>
+     * <li>input type=button
+     * <li>button type=button
+     * </ul>
      * 
      * @param buttonId the ID of the button.
      * @return <code>true</code> when the button with text could be found.
@@ -435,14 +474,23 @@ public interface IJWebUnitDialog {
     boolean hasButton(String buttonId);
 
     /**
-     * Click the indicated button (input type=button ou button type=button).
+     * Click the indicated button. <br/> A button can be the following HTML elements:
+     * <ul>
+     * <li>input type=button
+     * <li>button type=button
+     * </ul>
      * 
      * @param buttonId the ID of the button.
      */
     void clickButton(String buttonId);
 
     /**
-     * Clicks a button with <code>text</code> of the value attribute.
+     * Clicks a button with <code>text</code> of the value attribute. <br/> A button can be the following HTML
+     * elements:
+     * <ul>
+     * <li>input type=button
+     * <li>button type=button
+     * </ul>
      * 
      * @param text the text of the button (contents of the value attribute).
      */
@@ -583,6 +631,16 @@ public interface IJWebUnitDialog {
      * @param xpath xpath of the element.
      */
     void clickElementByXPath(String xpath);
+
+    /**
+     * Get attribut value of the given element. For example, if
+     * you have img src="bla.gif" alt="toto", getElementAttributByXPath("//img[@src='bla.gif']", "alt") returns "toto"
+     * 
+     * @param xpath xpath of the element.
+     * @param attribut name of the attribut.
+     * @return Attribut value or null if the element is not found.
+     */
+    String getElementAttributByXPath(String xpath, String attribut);
 
     /**
      * Return true if a given string is contained within the specified element.

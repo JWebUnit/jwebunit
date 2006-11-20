@@ -118,6 +118,7 @@ public class WebAssertionsTest extends JWebUnitAPITestCase {
 		assertTextInElement("span_id", "Span");
 		assertTextInElement("span_id", "Text");
 		assertTextInElement("span_id", "Span Text");
+        assertTextInElement("span_empty", "");
 		assertFail("assertTextInElement",
 				new Object[] { "span_id", "Not Text" });
 	}
