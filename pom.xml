@@ -3,7 +3,7 @@
     <groupId>net.sourceforge.jwebunit</groupId>
     <artifactId>jwebunit</artifactId>
     <name>jWebUnit</name>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.4-rc1</version>
     <packaging>pom</packaging>
     <description>
         jWebUnit is a Java framework that facilitates creation of
@@ -160,9 +160,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/branches/1.x</connection>
-        <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/branches/1.x</developerConnection>
-        <url>http://svn.sourceforge.net/viewcvs.cgi/jwebunit/branches/1.x</url>
+        <connection>scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/tags/jwebunit-1.4-rc1</connection>
+        <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/jwebunit/tags/jwebunit-1.4-rc1</developerConnection>
+        <url>http://svn.sourceforge.net/viewcvs.cgi/jwebunit/tags/jwebunit-1.4-rc1</url>
     </scm>
     <organization>
         <name>SourceForge</name>
