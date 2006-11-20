@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <document>
 	<properties>
-		<author></author>
+		<author>Julien HENRY</author>
 		<title>Quick Start</title>
 	</properties>
 <body class="default">
 <section name="jWebUnit Quickstart">
 <p>
-    The QuickStart contains sample code and guidance to get you started with jWebUnit.  To see all
+    The QuickStart contains sample code and guidance to get you started with JWebUnit.  To see all
     of the methods available, consult the a <a href="apidocs/index.html">Javadocs</a> - particularly
     the WebTester class for full documentation.
 </p>
 <subsection name="Creating a TestCase">
 <p>
-    jWebUnit uses two approaches for creating test cases: inheritance and delegation. The simplest is
+    JWebUnit uses two approaches for creating test cases: inheritance and delegation. The simplest is
     to inherit from WebTestCase rather than junit.framework.TestCase.
 <source>
 import net.sourceforge.jwebunit.WebTestCase;
@@ -57,7 +57,7 @@ public class ExampleWebTestCase extends WebTestCase {
 }
 </source>
 	NB: If you have only one plugin in your classpath, you don't need to explicitly specify
-	to use it, jWebUnit will find and use it.
+	to use it, JWebUnit will find and use it.
 </p>
 </subsection>
 <subsection name="Navigating Your Web Application">

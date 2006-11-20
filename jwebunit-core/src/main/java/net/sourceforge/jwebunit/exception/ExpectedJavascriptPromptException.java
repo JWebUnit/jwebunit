@@ -12,20 +12,20 @@ import junit.framework.AssertionFailedError;
  * @author Julien Henry
  */
 public class ExpectedJavascriptPromptException extends Exception {
-	/**
-	 * Expected message in the prompt
-	 */
-	private String message;
+    /**
+     * Expected message in the prompt
+     */
+    private String message;
 
-	public ExpectedJavascriptPromptException(String message) {
-		super("A prompt was expected with message [" + message + "]");
-		this.message = message;
-	}
+    public ExpectedJavascriptPromptException(String message) {
+        super("A prompt was expected with message [" + message + "]");
+        this.message = message;
+    }
 
-	/**
-	 * Return the expected message in the prompt
-	 */
-	public String getPromptMessage() {
-		return message;
-	}
+    /**
+     * Return the expected message in the prompt
+     */
+    public String getPromptMessage() {
+        return message;
+    }
 }

@@ -1,13 +1,19 @@
 <?xml version="1.0"?>
 <document>
     <properties>
-        <title>jWebUnit changes</title>
+        <title>JWebUnit changes</title>
         <author email="henryju at users.sourceforge.net">
             Julien Henry
         </author>
     </properties>
     <body>
         <release version="1.4" date="UNKNOW">
+            <action type="fix" dev="Julien Henry">
+                submit([...]) methods now detect image input elements.
+            </action>
+            <action type="add" dev="Julien Henry">
+                Add setWorkingForm(int index) method to select the current form by its index.
+            </action>
             <action type="update" dev="Julien Henry">
                 Update to HtmlUnit 1.10.
             </action>
@@ -16,7 +22,7 @@
                 using TestContext.addCookie() before calling beginAt().
             </action>
             <action type="add" dev="Julien Henry">
-                Add setExpectedJavascript[Alert/Confirm/Prompt] methods to check presence of 
+                Add setExpectedJavascript[Alert/Confirm/Prompt] methods to check presence of
                 Javascript message boxes.
             </action>
             <action type="add" dev="Julien Henry">

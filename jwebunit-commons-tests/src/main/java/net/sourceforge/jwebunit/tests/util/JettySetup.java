@@ -27,8 +27,8 @@ import org.mortbay.xml.XmlConfiguration;
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 
-import net.sourceforge.jwebunit.TestingEngineRegistry;
 import net.sourceforge.jwebunit.tests.JWebUnitAPITestCase;
+import net.sourceforge.jwebunit.util.TestingEngineRegistry;
 
 /**
  * Sets up and tears down the Jetty servlet engine before and after the tests in

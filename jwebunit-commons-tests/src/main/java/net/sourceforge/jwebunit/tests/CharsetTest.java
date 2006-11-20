@@ -24,7 +24,7 @@ public class CharsetTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH+"/CharsetTest");
+        getTestContext().setBaseUrl(HOST_PATH + "/CharsetTest");
         beginAt("/charset.html_utf-8");
     }
 

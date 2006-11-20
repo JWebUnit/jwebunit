@@ -8,25 +8,25 @@ import junit.framework.AssertionFailedError;
 
 /**
  * A Javascript alert was expected but was not thrown.
- *
+ * 
  * @author Julien Henry
  */
 public class ExpectedJavascriptAlertException extends Exception {
-	
-	/**
-	 * Expected message in the alert
-	 */
-	private String message;
+
+    /**
+     * Expected message in the alert
+     */
+    private String message;
 
     public ExpectedJavascriptAlertException(String message) {
-    	super("An alert was expected with message ["+message+"]");
-        this.message=message;
+        super("An alert was expected with message [" + message + "]");
+        this.message = message;
     }
-    
-	/**
-	 * Return the expected message in the alert
-	 */
+
+    /**
+     * Return the expected message in the alert
+     */
     public String getAlertMessage() {
-    	return message;
+        return message;
     }
 }
