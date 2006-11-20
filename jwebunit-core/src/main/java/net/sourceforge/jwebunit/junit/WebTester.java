@@ -175,7 +175,7 @@ public class WebTester {
     }
 
     private String createUrl(String url) {
-        if (url.startsWith("http://") || url.startsWith("https://")) {
+        if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("file://")) {
             return url;
         } else if (url.startsWith("www.")) {
             return "http://" + url;
