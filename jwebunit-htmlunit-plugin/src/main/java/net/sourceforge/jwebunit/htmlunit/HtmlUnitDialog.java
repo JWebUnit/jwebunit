@@ -290,19 +290,22 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Make the frame with the given name active in the current conversation.
-     * 
-     * @param frameName
+     * {@inheritDoc}
      */
     public void gotoFrame(String frameName) {
         win = getFrame(frameName);
     }
 
+    
     /**
-     * Set the form on the current response that the client wishes to work with explicitly by either the form name or id
-     * (match by id is attempted first).
-     * 
-     * @param nameOrId name or id of the form to be worked with.
+     * {@inheritDoc}
+     */
+    public void setWorkingForm(int index) {
+        setWorkingForm(getForm(index));
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public void setWorkingForm(String nameOrId, int index) {
         setWorkingForm(getForm(nameOrId, index));

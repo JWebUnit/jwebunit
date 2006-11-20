@@ -1652,6 +1652,17 @@ public class WebTester {
      * 
      * It is not necessary to call this method if their is only one form on the current page.
      * 
+     * @param index 0-based index of the form to work with.
+     */
+    public void setWorkingForm(int index) {
+        getDialog().setWorkingForm(index);
+    }
+    /**
+     * Begin interaction with a specified form. If form interaction methods are called without explicitly calling this
+     * method first, jWebUnit will attempt to determine itself which form is being manipulated.
+     * 
+     * It is not necessary to call this method if their is only one form on the current page.
+     * 
      * @param nameOrId name or id of the form to work with.
      */
     public void setWorkingForm(String nameOrId) {

@@ -141,6 +141,13 @@ public interface IJWebUnitDialog {
     void gotoFrame(String frameName);
 
     /**
+     * Set the form on the current page that the client wishes to work with explicitly by index in the page.
+     * 
+     * @param index The 0-based index, when more than one form with the same name is expected.
+     */
+    void setWorkingForm(int index);
+
+    /**
      * Set the form on the current page that the client wishes to work with explicitly by either the form name or id
      * (match by id is attempted first).
      * 
