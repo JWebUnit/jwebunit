@@ -56,6 +56,16 @@ public class TestContext {
     public TestContext() {
         cookies = new ArrayList();
     }
+    
+    /**
+     * Clear all authorizations (basic, digest, ntlm, proxy).
+     *
+     */
+    public void clearAuthorizations() {
+        hasAuth = false;
+        hasNTLMAuth = false;
+        hasProxyAuth = false;
+    }
 
     /**
      * Set basic authentication information for the test context.
