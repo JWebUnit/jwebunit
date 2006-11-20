@@ -150,9 +150,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             win = wc.getCurrentWindow();
             form = null;
         } catch (FailingHttpStatusCodeException aException) {
-            // cant find requested page. most browsers will return a page with
-            // 404 in the body or title.
-            throw new TestingEngineResponseException(aException);
+            throw new TestingEngineResponseException(aException.getStatusCode());
 
         } catch (IOException aException) {
             throw new RuntimeException(aException);
@@ -187,11 +185,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             wc.getPage(new URL(initialURL));
             win = wc.getCurrentWindow();
             form = null;
-        } catch (ConnectException aException) {
-            // cant find requested page. most browsers will return a page with
-            // 404 in the body or title.
-            throw new TestingEngineResponseException(aException);
-
+        } catch (FailingHttpStatusCodeException aException) {
+            throw new TestingEngineResponseException(aException.getStatusCode());
         } catch (IOException aException) {
             throw new RuntimeException(aException);
         }
@@ -891,13 +886,20 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         } catch (UnableToSetFormException e) {
             return null;
         }
+        List btns = null;
         try {
-            return (HtmlSubmitInput) getForm().getInputByName(buttonName);
-        } catch (ElementNotFoundException e) {
-            return null;
+            btns = getForm().getInputsByName(buttonName);
         } catch (ClassCastException e) {
             return null;
         }
+        for (int i = 0; i < btns.size(); i++) {
+            Object o = btns.get(i);
+            if (o instanceof HtmlSubmitInput) {
+                HtmlSubmitInput btn = (HtmlSubmitInput) o;
+                return btn;
+            }
+        }
+        return null;
     }
 
     public HtmlResetInput getResetButton(String buttonName) {
@@ -906,13 +908,20 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         } catch (UnableToSetFormException e) {
             return null;
         }
+        List btns = null;
         try {
-            return (HtmlResetInput) getForm().getInputByName(buttonName);
-        } catch (ElementNotFoundException e) {
-            return null;
+            btns = getForm().getInputsByName(buttonName);
         } catch (ClassCastException e) {
             return null;
         }
+        for (int i = 0; i < btns.size(); i++) {
+            Object o = btns.get(i);
+            if (o instanceof HtmlResetInput) {
+                HtmlResetInput btn = (HtmlResetInput) o;
+                return btn;
+            }
+        }
+        return null;
     }
 
     public String getSubmitButtonValue(String buttonName) {
@@ -926,7 +935,11 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @pararm buttonValue
      */
     public HtmlSubmitInput getSubmitButton(String buttonName, String buttonValue) {
-        checkFormStateWithButton(buttonName);
+        try {
+            checkFormStateWithButton(buttonName);
+        } catch (UnableToSetFormException e) {
+            return null;
+        }
         List btns = null;
         try {
             btns = getForm().getInputsByName(buttonName);
@@ -934,9 +947,12 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             return null;
         }
         for (int i = 0; i < btns.size(); i++) {
-            HtmlSubmitInput btn = (HtmlSubmitInput) btns.get(i);
-            if (btn.getValueAttribute().equals(buttonValue))
-                return btn;
+            Object o = btns.get(i);
+            if (o instanceof HtmlSubmitInput) {
+                HtmlSubmitInput btn = (HtmlSubmitInput) o;
+                if (btn.getValueAttribute().equals(buttonValue))
+                    return btn;
+            }
         }
         return null;
     }
@@ -1157,10 +1173,18 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param buttonName name of the button to use for submission.
      */
     public void submit(String buttonName) {
-        try {
-            getForm().getInputByName(buttonName).click();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        List l = getForm().getInputsByName(buttonName);
+        for (int i = 0; i < l.size(); i++) {
+            Object o = l.get(i);
+            if (o instanceof HtmlSubmitInput) {
+                HtmlSubmitInput inpt = (HtmlSubmitInput) o;
+                try {
+                    inpt.click();
+                    return;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
@@ -1175,14 +1199,17 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     public void submit(String buttonName, String buttonValue) {
         List l = getForm().getInputsByName(buttonName);
         for (int i = 0; i < l.size(); i++) {
-            HtmlSubmitInput inpt = (HtmlSubmitInput) l.get(i);
-            try {
-                if (inpt.getValueAttribute().equals(buttonValue)) {
-                    inpt.click();
-                    return;
+            Object o = l.get(i);
+            if (o instanceof HtmlSubmitInput) {
+                HtmlSubmitInput inpt = (HtmlSubmitInput) o;
+                try {
+                    if (inpt.getValueAttribute().equals(buttonValue)) {
+                        inpt.click();
+                        return;
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
         }
     }
