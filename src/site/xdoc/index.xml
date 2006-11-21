@@ -2,7 +2,7 @@
 <document>
     <properties>
         <author email="dashorst.at.users.sourceforge.net">Martijn Dashorst</author>
-        <title>jWebUnit 1.x</title>
+        <title>JWebUnit 1.x</title>
     </properties>
     <meta name="keyword" content="jwebunit, java, junit, htmlunit, jacobie, httpunit, integration, test, automated, html, webtest"/>
 	<head>
@@ -11,22 +11,22 @@
 <body>
 <section name="Welcome">
     <p>
-        You are on the jWebUnit 1.x website. Current version is 1.3. This is
-        the "stable" version of jWebUnit. You can also consult <a href="2.x/index.html">jWebUnit 2.x website</a>.
+        You are on the JWebUnit 1.x website. Current version is 1.4-RC1. This is
+        the "stable" version of JWebUnit. You can also consult <a href="2.x/index.html">JWebUnit 2.x website</a>.
     </p>
 </section>
-<section name="What is jWebUnit?">
+<section name="What is JWebUnit?">
     <p>
-        jWebUnit is a Java framework that facilitates creation of acceptance tests for web applications. It 
+        JWebUnit is a Java framework that facilitates creation of acceptance tests for web applications. It 
         evolved from a project where we were using <a href="http://www.junit.org">JUnit</a> to create acceptance tests. 
-        Also, we can have different testing engines. Currently, only <a href="jwebunit-htmlunit-plugin/index.html">HtmlUnit plugin</a> is ready. 
+        Also, we can have different testing engines. Currently, only <a href="JWebUnit-htmlunit-plugin/index.html">HtmlUnit plugin</a> is ready. 
         As the tests were being written, they were continuously refactored to remove duplication and other bad smells in the test 
-        code. jWebUnit is the result of these refactorings.
+        code. JWebUnit is the result of these refactorings.
     </p>
 </section>
-<section name="What does jWebUnit provide?">
+<section name="What does JWebUnit provide?">
     <p>
-        jWebUnit provides a high-level API for navigating a web application combined with a set
+        JWebUnit provides a high-level API for navigating a web application combined with a set
         of assertions to verify the application's correctness. This includes navigation
         via links, form entry and submission, validation of table contents, and other
         typical business web application features. This code try to stay independent of the libraries behind
@@ -34,7 +34,7 @@
         more rapid test creation than using only JUnit and HtmlUnit. And if you want to switch
         from HtmlUnit to the other soon available plugins, no need to rewrite your tests.
     </p>
-    <img src="images/jwebunit-architecture.png" alt="JWebUnit architecture"/>
+    <img src="images/JWebUnit-architecture.png" alt="JWebUnit architecture"/>
 </section>
 </body>    
 </document>

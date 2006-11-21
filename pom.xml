@@ -2,16 +2,16 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.jwebunit</groupId>
     <artifactId>jwebunit</artifactId>
-    <name>jWebUnit</name>
+    <name>JWebUnit</name>
     <version>1.4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>
-        jWebUnit is a Java framework that facilitates creation of
+        JWebUnit is a Java framework that facilitates creation of
         acceptance tests for web applications. It evolved from a project
         where we were using HttpUnit and JUnit to create acceptance
         tests. As the tests were being written, they were continuously
         refactored to remove duplication and other bad smells in the
-        test code. jWebUnit is the result of these refactorings.
+        test code. JWebUnit is the result of these refactorings.
     </description>
     <url>http://jwebunit.sourceforge.net</url>
     <issueManagement>
@@ -29,7 +29,7 @@
     </modules>
     <mailingLists>
         <mailingList>
-            <name>jWebUnit Development Mailing list</name>
+            <name>JWebUnit Development Mailing list</name>
             <subscribe>
                 http://lists.sourceforge.net/mailman/listinfo/jwebunit-development
             </subscribe>
@@ -42,7 +42,7 @@
             <post>jwebunit-development@lists.sourceforge.net</post>
         </mailingList>
         <mailingList>
-            <name>jWebUnit User Mailing list</name>
+            <name>JWebUnit User Mailing list</name>
             <subscribe>
                 http://lists.sourceforge.net/mailman/listinfo/jwebunit-users
             </subscribe>
@@ -316,6 +316,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.0.1</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -336,7 +337,7 @@
     <distributionManagement>
         <site>
             <id>jwebunit-website</id>
-            <name>jWebUnit WebSite - Sourceforge</name>
+            <name>JWebUnit WebSite - Sourceforge</name>
             <url>
 		    scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
 		    <!--file:///home/julien/site-jwebunit-->
@@ -348,7 +349,7 @@
                 scpexe://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/m2-repo
             </url>
             <name>
-                jWebUnit Maven 2 Repository
+                JWebUnit Maven 2 Repository
             </name>
         </repository>
         <snapshotRepository>
@@ -357,7 +358,7 @@
                 scpexe://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs/m2-repo-snapshots
             </url>
             <name>
-                jWebUnit Maven 2 Snapshots Repository
+                JWebUnit Maven 2 Snapshots Repository
             </name>
         </snapshotRepository>
     </distributionManagement>

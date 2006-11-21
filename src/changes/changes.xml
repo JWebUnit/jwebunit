@@ -7,7 +7,7 @@
         </author>
     </properties>
     <body>
-        <release version="1.4" date="UNKNOW">
+        <release version="1.4-RC1" date="november 20, 2006">
             <action type="fix" dev="Julien Henry">
                 submit([...]) methods now detect image input elements.
             </action>
