@@ -28,6 +28,7 @@ options {
 }
 
 PARSER_BEGIN(WebTestCaseGenerator)
+package net.sourceforge.jwebunit.javacc;
 
 import java.io.*;
 import java.util.*;

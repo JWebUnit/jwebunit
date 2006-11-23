@@ -22,6 +22,9 @@
                         <goals>
                             <goal>javacc</goal>
                         </goals>
+                        <configuration>
+                            <packageName>net.sourceforge.jwebunit.javacc</packageName>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

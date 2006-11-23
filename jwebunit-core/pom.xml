@@ -67,7 +67,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>WebTestCaseGenerator</mainClass>
+					<mainClass>net.sourceforge.jwebunit.javacc.WebTestCaseGenerator</mainClass>
 					<arguments>
 						<argument>${basedir}/src/main/java</argument>
 						<argument>${project.build.directory}/generated-sources/main/java</argument>
