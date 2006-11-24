@@ -7,6 +7,15 @@
         </author>
     </properties>
     <body>
+        <release version="1.4-RC2" date="UNKNOW">
+            <action type="add" dev="Julien Henry">
+                Add saveAs(File f) and assertDownloadedFileEquals(File expected) methods
+                to check downloaded response as a binary File.
+            </action>
+            <action type="add" dev="Julien Henry">
+                Add getServeurResponse() method to debug HTTP response.
+            </action>
+        </release>
         <release version="1.4-RC1" date="november 20, 2006">
             <action type="fix" dev="Julien Henry">
                 submit([...]) methods now detect image input elements.

@@ -6,9 +6,14 @@ package net.sourceforge.jwebunit.htmlunit;
 
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.HttpState;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.InetAddress;
@@ -48,10 +53,13 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.ConfirmHandler;
 import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import com.gargoylesoftware.htmlunit.JavaScriptPage;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.PromptHandler;
+import com.gargoylesoftware.htmlunit.TextPage;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebResponse;
 import com.gargoylesoftware.htmlunit.WebWindow;
 import com.gargoylesoftware.htmlunit.WebWindowEvent;
 import com.gargoylesoftware.htmlunit.WebWindowListener;
@@ -82,6 +90,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
 import com.gargoylesoftware.htmlunit.html.xpath.HtmlUnitXPath;
+import com.gargoylesoftware.htmlunit.xml.XmlPage;
 
 /**
  * Acts as the wrapper for HtmlUnit access. A dialog is initialized with a given URL, and maintains conversational state
@@ -296,7 +305,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         win = getFrame(frameName);
     }
 
-    
     /**
      * {@inheritDoc}
      */
@@ -532,7 +540,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     public String getPageSource() {
-        return getCurrentPage().getWebResponse().getContentAsString();
+        return wc.getCurrentWindow().getEnclosedPage().getWebResponse().getContentAsString();
     }
 
     public String getPageTitle() {
@@ -540,12 +548,44 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     public String getPageText() {
-        return ((HtmlPage) getCurrentPage()).asText();
+        Page page = win.getEnclosedPage();
+        if (page instanceof HtmlPage)
+            return ((HtmlPage) page).asText();
+        if (page instanceof TextPage)
+            return ((TextPage) page).getContent();
+        if (page instanceof JavaScriptPage)
+            return ((JavaScriptPage) page).getContent();
+        if (page instanceof XmlPage)
+            return ((XmlPage) page).getContent();
+        if (page instanceof UnexpectedPage)
+            return ((UnexpectedPage) page).getWebResponse().getContentAsString();
+        throw new RuntimeException("Unexpected error in getPageText(). This method need to be updated.");
     }
 
     public String getServerResponse() {
-        return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
-                .getContentAsString();
+        StringBuffer result = new StringBuffer();
+        WebResponse wr = wc.getCurrentWindow().getEnclosedPage().getWebResponse();
+        result.append(wr.getStatusCode()).append(" ").append(wr.getStatusMessage()).append("\n");
+        result.append("Location: ").append(wr.getUrl()).append("\n");
+        List headers = wr.getResponseHeaders();
+        for (Iterator i=headers.iterator(); i.hasNext();) {
+            NameValuePair h = (NameValuePair)i.next();
+            result.append(h.getName()).append(": ").append(h.getValue()).append("\n");
+        }
+        result.append("\n");
+        result.append(wr.getContentAsString());
+        return result.toString();
+    }
+    
+    public void saveAs(File f) {
+        try {
+            f.createNewFile();
+            FileOutputStream out = new FileOutputStream(f);
+            out.write(wc.getCurrentWindow().getEnclosedPage().getWebResponse().getResponseBody());
+            out.close();
+        } catch (IOException e) {
+            throw new RuntimeException("Error when writing to file",e);
+        }
     }
 
     private void initWebClient() {
@@ -871,9 +911,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         Page page = win.getEnclosedPage();
         if (page instanceof HtmlPage)
             return (HtmlPage) page;
-        if (page instanceof UnexpectedPage)
-            throw new RuntimeException("Unexpected content");
-        return (HtmlPage) page;
+        throw new RuntimeException("Non HTML content");
     }
 
     private void setWorkingForm(HtmlForm newForm) {
@@ -1077,8 +1115,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     public boolean hasResetButton() {
         List l = null;
         try {
-            final HtmlUnitXPath xp = new HtmlUnitXPath(
-                    "//input[@type='reset']");
+            final HtmlUnitXPath xp = new HtmlUnitXPath("//input[@type='reset']");
             l = xp.selectNodes(getForm());
         } catch (JaxenException e) {
             throw new RuntimeException(e);
@@ -1592,7 +1629,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 
     public String getElementAttributByXPath(String xpath, String attribut) {
         HtmlElement e = getElementByXPath(xpath);
-        if (e==null)
+        if (e == null)
             return null;
         return e.getAttributeValue(attribut);
     }

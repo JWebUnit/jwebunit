@@ -69,6 +69,8 @@ public class JettySetup extends TestSetup {
 			// Handle files encoded in UTF-8
 			MimeTypes mimeTypes = new MimeTypes();
 			mimeTypes.addMimeMapping("html_utf-8", "text/html; charset=UTF-8");
+            mimeTypes.addMimeMapping("txt", "text/plain");
+            mimeTypes.addMimeMapping("bin", "application/octet-stream");
 			wah.setMimeTypes(mimeTypes);
 			
 			

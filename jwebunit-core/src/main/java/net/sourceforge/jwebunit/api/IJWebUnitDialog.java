@@ -4,6 +4,7 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.api;
 
+import java.io.File;
 import java.util.List;
 
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
@@ -499,31 +500,41 @@ public interface IJWebUnitDialog {
      * <li>button type=button
      * </ul>
      * 
-     * @param text the text of the button (contents of the value attribute).
+     * @param buttonValueText the text of the button (contents of the value attribute).
      */
     void clickButtonWithText(String buttonValueText);
 
     /**
      * Return the string representation of the current page, encoded as specified by the current
      * {@link net.sourceforge.jwebunit.util.TestContext}.
+     * @return Visible text in the page.
      */
     String getPageText();
 
     /**
      * Return the source of the current page (like in a browser).
+     * @return Source of the page (or HTTP Body as String)
      */
     String getPageSource();
 
     /**
      * Return the page title of the current response page, encoded as specified by the current
      * {@link net.sourceforge.jwebunit.util.TestContext}.
+     * @return Title of the page.
      */
     String getPageTitle();
 
     /**
-     * Return the response of the server.
+     * Return the response of the server for the current page.
+     * @return HTTP header & body
      */
     String getServerResponse();
+    
+    /**
+     * Save the last server response as file to the disk.
+     * @param f The file name.
+     */
+    void saveAs(File f);
 
     /**
      * Check if the Table object representing a specified table exists.

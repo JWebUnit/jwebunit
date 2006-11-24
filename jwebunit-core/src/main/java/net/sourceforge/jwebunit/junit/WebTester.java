@@ -4,6 +4,10 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.junit;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.List;
@@ -175,7 +179,8 @@ public class WebTester {
     }
 
     private String createUrl(String url) {
-        if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("file://")) {
+        if (url.startsWith("http://") || url.startsWith("https://")
+                || url.startsWith("file://")) {
             return url;
         } else if (url.startsWith("www.")) {
             return "http://" + url;
@@ -260,7 +265,8 @@ public class WebTester {
     public void assertTextPresent(String text) {
         if (!(getDialog().getPageText().indexOf(text) >= 0))
             Assert.fail("Expected text not found in current page: [" + text
-                    + "]\n Page content was: " + getDialog().getPageText());
+                    + "]\n Page content was: [" + getDialog().getPageText()
+                    + "]");
     }
 
     /**
@@ -1657,6 +1663,7 @@ public class WebTester {
     public void setWorkingForm(int index) {
         getDialog().setWorkingForm(index);
     }
+
     /**
      * Begin interaction with a specified form. If form interaction methods are called without explicitly calling this
      * method first, jWebUnit will attempt to determine itself which form is being manipulated.
@@ -2015,12 +2022,53 @@ public class WebTester {
         }
     }
 
+    /**
+     * Get the source of the HTML page (like in a real browser), or HTTP body for a non HTML content.
+     * 
+     * @return The HTML content.
+     */
+    public String getPageSource() {
+        return getDialog().getPageSource();
+    }
+
+    /**
+     * Get the last data sent by the server.
+     * 
+     * @return HTTP server response.
+     */
+    public String getServeurResponse() {
+        return getDialog().getServerResponse();
+    }
+
+    /**
+     * Save the last downloaded page (or file) to the disk.
+     * 
+     * @param f The file name.
+     */
+    public void saveAs(File f) {
+        getDialog().saveAs(f);
+    }
+
+    public void assertDownloadedFileEquals(File expected) {
+        try {
+            File tmp = File.createTempFile("jwebunit", null);
+            tmp.deleteOnExit();
+            saveAs(tmp);
+            Assert.assertTrue("Files are not binary equals.", areFilesEqual(
+                    expected, tmp));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Assert.fail(e.toString());
+        }
+    }
+
     // Debug methods
 
     /**
      * Dump html of current response to System.out - for debugging purposes.
      * 
      * @param stream
+     * @deprecated Use {@link WebTester#getPageSource()}
      */
     public void dumpHtml() {
         dumpHtml(System.out);
@@ -2030,6 +2078,7 @@ public class WebTester {
      * Dump html of current response to a specified stream - for debugging purposes.
      * 
      * @param stream
+     * @deprecated Use {@link WebTester#getPageSource()}
      */
     public void dumpHtml(PrintStream stream) {
         stream.println(getDialog().getPageSource());
@@ -2122,18 +2171,18 @@ public class WebTester {
      * Exemple: <br/>
      * 
      * <pre>
-     *                                     &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-     *                                       &lt;P&gt;
-     *                                         &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-     *                                           &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-     *                                           &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-     *                                           &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-     *                                           &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-     *                                           &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-     *                                         &lt;/SELECT&gt;
-     *                                         &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-     *                                       &lt;/P&gt;
-     *                                     &lt;/FORM&gt;
+     *                                        &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+     *                                          &lt;P&gt;
+     *                                            &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+     *                                              &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+     *                                              &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+     *                                              &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+     *                                              &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+     *                                              &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+     *                                            &lt;/SELECT&gt;
+     *                                            &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+     *                                          &lt;/P&gt;
+     *                                        &lt;/FORM&gt;
      * </pre>
      * 
      * Should return [Component_1, Component_2, Component_3, Component_4, Component_5]
@@ -2303,6 +2352,25 @@ public class WebTester {
                     + e.getPromptMessage()
                     + "] was expected, but nothing appeared.");
         }
+    }
+
+    protected boolean areFilesEqual(File f1, File f2) throws IOException {
+        // compare file sizes
+        if (f1.length() != f2.length())
+            return false;
+
+        // read and compare bytes pair-wise
+        InputStream i1 = new FileInputStream(f1);
+        InputStream i2 = new FileInputStream(f2);
+        int b1, b2;
+        do {
+            b1 = i1.read();
+            b2 = i2.read();
+        } while (b1 == b2 && b1 != -1);
+        i1.close();
+        i2.close();
+        // true only if end of file is reached
+        return b1 == -1;
     }
 
 }
