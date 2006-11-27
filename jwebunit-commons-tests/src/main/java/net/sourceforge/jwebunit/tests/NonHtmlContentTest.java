@@ -4,7 +4,11 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import junit.framework.Test;
@@ -39,12 +43,9 @@ public class NonHtmlContentTest extends JWebUnitAPITestCase {
         assertTextPresent("Hello\r\nWorld");
     }
 
-    public void testImageContent() {
+    public void testImageContent() throws IOException {
         beginAt("/image.png");
         saveAs(new File("C:\\test.png"));
-        URL url = this.getClass().getResource(
-                "/testcases/NonHtmlContentTest/image.png");
-        File img = new File(url.getPath());
-        assertDownloadedFileEquals(img);
+        assertDownloadedFileEquals(this.getClass().getResource("/testcases/NonHtmlContentTest/image.png"));
     }
 }

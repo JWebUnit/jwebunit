@@ -40,12 +40,12 @@
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-core</artifactId>
-            <version>1.4-rc1</version>
+            <version>${pom.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-commons-tests</artifactId>
-            <version>1.4-rc1</version>
+            <version>${pom.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

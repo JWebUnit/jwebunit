@@ -8,7 +8,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.PrintStream;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -1575,8 +1577,8 @@ public class WebTester {
      * @param frameNameOrId Name or ID of the frame. ID is checked first.
      */
     public void assertFramePresent(String frameNameOrId) {
-        Assert.assertTrue("Unable to locate frame with name or ID [" + frameNameOrId + "].",
-                getDialog().hasFrame(frameNameOrId));
+        Assert.assertTrue("Unable to locate frame with name or ID ["
+                + frameNameOrId + "].", getDialog().hasFrame(frameNameOrId));
     }
 
     /**
@@ -2049,13 +2051,18 @@ public class WebTester {
         getDialog().saveAs(f);
     }
 
-    public void assertDownloadedFileEquals(File expected) {
+    /**
+     * Download the current page (or file) and compare it with the given file.
+     * 
+     * @param expected Expected file URL.
+     */
+    public void assertDownloadedFileEquals(URL expected) {
         try {
             File tmp = File.createTempFile("jwebunit", null);
             tmp.deleteOnExit();
             saveAs(tmp);
             Assert.assertTrue("Files are not binary equals.", areFilesEqual(
-                    expected, tmp));
+                    expected, tmp.toURL()));
         } catch (IOException e) {
             e.printStackTrace();
             Assert.fail(e.toString());
@@ -2171,18 +2178,18 @@ public class WebTester {
      * Exemple: <br/>
      * 
      * <pre>
-     *                                        &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-     *                                          &lt;P&gt;
-     *                                            &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-     *                                              &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-     *                                              &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-     *                                              &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-     *                                              &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-     *                                              &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-     *                                            &lt;/SELECT&gt;
-     *                                            &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-     *                                          &lt;/P&gt;
-     *                                        &lt;/FORM&gt;
+     *                                           &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+     *                                             &lt;P&gt;
+     *                                               &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+     *                                                 &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+     *                                                 &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+     *                                                 &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+     *                                                 &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+     *                                                 &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+     *                                               &lt;/SELECT&gt;
+     *                                               &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+     *                                             &lt;/P&gt;
+     *                                           &lt;/FORM&gt;
      * </pre>
      * 
      * Should return [Component_1, Component_2, Component_3, Component_4, Component_5]
@@ -2354,23 +2361,25 @@ public class WebTester {
         }
     }
 
-    protected boolean areFilesEqual(File f1, File f2) throws IOException {
-        // compare file sizes
-        if (f1.length() != f2.length())
-            return false;
-
+    protected boolean areFilesEqual(URL f1, URL f2) throws IOException {
         // read and compare bytes pair-wise
-        InputStream i1 = new FileInputStream(f1);
-        InputStream i2 = new FileInputStream(f2);
+        InputStream i1 = f1.openStream();
+        InputStream i2 = f2.openStream();
+        if (f1 == null) {
+            throw new IOException(f1.toString() + " can't be opened.");
+        }
+        if (f2 == null) {
+            throw new IOException(f2.toString() + " can't be opened.");
+        }
         int b1, b2;
         do {
             b1 = i1.read();
             b2 = i2.read();
-        } while (b1 == b2 && b1 != -1);
+        } while (b1 == b2 && b1 != -1 && b2 != -1);
         i1.close();
         i2.close();
-        // true only if end of file is reached
-        return b1 == -1;
+        // true only if end of file is reached for both
+        return (b1 == -1) && (b2 == -1);
     }
 
 }

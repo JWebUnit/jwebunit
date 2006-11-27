@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<artifactId>jwebunit</artifactId>
 		<groupId>net.sourceforge.jwebunit</groupId>
@@ -41,7 +43,7 @@
 							<tasks>
 
 								<!--
-								Do nothing as we only want to create a new source folder.
+									Do nothing as we only want to create a new source folder.
 								-->
 
 							</tasks>
@@ -67,18 +69,28 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>net.sourceforge.jwebunit.javacc.WebTestCaseGenerator</mainClass>
+					<mainClass>
+						net.sourceforge.jwebunit.javacc.WebTestCaseGenerator
+					</mainClass>
 					<arguments>
 						<argument>${basedir}/src/main/java</argument>
-						<argument>${project.build.directory}/generated-sources/main/java</argument>
+						<argument>
+							${project.build.directory}/generated-sources/main/java
+						</argument>
 					</arguments>
-					<includePluginDependencies>true</includePluginDependencies>
-					<includeProjectDependencies>false</includeProjectDependencies>
+					<includePluginDependencies>
+						true
+					</includePluginDependencies>
+					<includeProjectDependencies>
+						false
+					</includeProjectDependencies>
 				</configuration>
 				<dependencies>
-                                	<dependency>
+					<dependency>
 						<groupId>net.sourceforge.jwebunit</groupId>
-						<artifactId>jwebunit-webtestcase-generator</artifactId>
+						<artifactId>
+							jwebunit-webtestcase-generator
+						</artifactId>
 						<version>1.4-SNAPSHOT</version>
 					</dependency>
 				</dependencies>

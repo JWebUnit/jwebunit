@@ -22,7 +22,7 @@
     <dependency>
       <groupId>net.sourceforge.jwebunit</groupId>
       <artifactId>jwebunit-core</artifactId>
-      <version>1.4-rc1</version>
+      <version>${pom.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-fileupload</groupId>
