@@ -1570,13 +1570,13 @@ public class WebTester {
     }
 
     /**
-     * Assert that a frame with the given name is present.
+     * Assert that a frame with the given name or ID is present.
      * 
-     * @param frameName
+     * @param frameNameOrId Name or ID of the frame. ID is checked first.
      */
-    public void assertFramePresent(String frameName) {
-        Assert.assertTrue("Unable to locate frame [" + frameName + "].",
-                getDialog().hasFrame(frameName));
+    public void assertFramePresent(String frameNameOrId) {
+        Assert.assertTrue("Unable to locate frame with name or ID [" + frameNameOrId + "].",
+                getDialog().hasFrame(frameNameOrId));
     }
 
     /**
@@ -1988,12 +1988,12 @@ public class WebTester {
     }
 
     /**
-     * Make the named frame active (current response will be frame's contents).
+     * Make the given frame active.
      * 
-     * @param frameName
+     * @param frameNameOrId Name or ID of the frame. ID is checked first.
      */
-    public void gotoFrame(String frameName) {
-        getDialog().gotoFrame(frameName);
+    public void gotoFrame(String frameNameOrId) {
+        getDialog().gotoFrame(frameNameOrId);
     }
 
     /**

@@ -9,6 +9,9 @@
     <body>
         <release version="1.4-RC2" date="UNKNOW">
             <action type="add" dev="Julien Henry">
+                Add the possibility to manipulate frame (and iframe) by ID in addition to their name.
+            </action>
+            <action type="add" dev="Julien Henry">
                 Add saveAs(File f) and assertDownloadedFileEquals(File expected) methods
                 to check downloaded response as a binary File.
             </action>

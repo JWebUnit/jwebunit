@@ -119,7 +119,22 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertTextPresent("ContentFrame");
     }
 
-	public void testGotoInlineFrame() {
+    public void testGotoFrameById() {
+        beginAt("Frames.html");
+        assertFramePresent("frame1");
+        gotoFrame("frame1");
+        assertTextPresent("TopFrame");
+        gotoRootWindow();
+        assertFramePresent("frame3");
+        gotoFrame("frame3");
+        assertTextPresent("BottomFrame");
+        gotoRootWindow();
+        assertFramePresent("frame2");
+        gotoFrame("frame2");
+        assertTextPresent("ContentFrame");
+    }
+
+    public void testGotoInlineFrame() {
 		beginAt("InlineFrame.html");
 		assertTextPresent("TopFrame");
         // Is this how it should work? see also the test below

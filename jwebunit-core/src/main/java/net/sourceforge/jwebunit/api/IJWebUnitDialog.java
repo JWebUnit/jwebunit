@@ -129,17 +129,17 @@ public interface IJWebUnitDialog {
     /**
      * Test if the given frame is present.
      * 
-     * @param frameName Frame's name.
+     * @param frameNameOrId Name or ID of the frame. ID is checked first.
      * @return true if the frame exists.
      */
-    boolean hasFrame(String frameName);
+    boolean hasFrame(String frameNameOrId);
 
     /**
-     * Make the frame with the given name active in the current conversation.
+     * Make the frame with the given name or ID active in the current conversation.
      * 
-     * @param frameName Frame's name.
+     * @param frameNameOrId Name or ID of the frame. ID is checked first.
      */
-    void gotoFrame(String frameName);
+    void gotoFrame(String frameNameOrId);
 
     /**
      * Set the form on the current page that the client wishes to work with explicitly by index in the page.
@@ -507,12 +507,14 @@ public interface IJWebUnitDialog {
     /**
      * Return the string representation of the current page, encoded as specified by the current
      * {@link net.sourceforge.jwebunit.util.TestContext}.
+     * 
      * @return Visible text in the page.
      */
     String getPageText();
 
     /**
      * Return the source of the current page (like in a browser).
+     * 
      * @return Source of the page (or HTTP Body as String)
      */
     String getPageSource();
@@ -520,18 +522,21 @@ public interface IJWebUnitDialog {
     /**
      * Return the page title of the current response page, encoded as specified by the current
      * {@link net.sourceforge.jwebunit.util.TestContext}.
+     * 
      * @return Title of the page.
      */
     String getPageTitle();
 
     /**
      * Return the response of the server for the current page.
+     * 
      * @return HTTP header & body
      */
     String getServerResponse();
-    
+
     /**
      * Save the last server response as file to the disk.
+     * 
      * @param f The file name.
      */
     void saveAs(File f);
@@ -651,8 +656,8 @@ public interface IJWebUnitDialog {
     void clickElementByXPath(String xpath);
 
     /**
-     * Get attribut value of the given element. For example, if
-     * you have img src="bla.gif" alt="toto", getElementAttributByXPath("//img[@src='bla.gif']", "alt") returns "toto"
+     * Get attribut value of the given element. For example, if you have img src="bla.gif" alt="toto",
+     * getElementAttributByXPath("//img[@src='bla.gif']", "alt") returns "toto"
      * 
      * @param xpath xpath of the element.
      * @param attribut name of the attribut.

@@ -64,6 +64,7 @@ import com.gargoylesoftware.htmlunit.WebWindow;
 import com.gargoylesoftware.htmlunit.WebWindowEvent;
 import com.gargoylesoftware.htmlunit.WebWindowListener;
 import com.gargoylesoftware.htmlunit.WebWindowNotFoundException;
+import com.gargoylesoftware.htmlunit.html.FrameWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
@@ -294,15 +295,18 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 
     }
 
-    public boolean hasFrame(String frameName) {
-        return getFrame(frameName) != null;
+    /**
+     * {@inheritDoc}
+     */
+    public boolean hasFrame(String frameNameOrId) {
+        return getFrame(frameNameOrId) != null;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void gotoFrame(String frameName) {
-        win = getFrame(frameName);
+    public void gotoFrame(String frameNameOrId) {
+        win = getFrame(frameNameOrId);
     }
 
     /**
@@ -1801,12 +1805,29 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     /**
-     * Return the response for the given frame in the current conversation.
+     * Return the given frame in the current conversation.
      * 
-     * @param frameName
+     * @param frameNameOrId Frame name or ID.
+     * @return The frame found or null.
      */
-    private WebWindow getFrame(String frameName) {
-        return ((HtmlPage) win.getEnclosedPage()).getFrameByName(frameName);
+    private WebWindow getFrame(String frameNameOrId) {
+        final List frames = getCurrentPage().getFrames();
+        //First try ID
+        for (final Iterator iter = frames.iterator(); iter.hasNext();) {
+            final FrameWindow frame = (FrameWindow) iter.next();
+            if (frameNameOrId.equals(frame.getFrameElement().getId())) {
+                return frame;
+            }
+        }
+        //Now try with Name
+        for (final Iterator iter = frames.iterator(); iter.hasNext();) {
+            final FrameWindow frame = (FrameWindow) iter.next();
+            if (frameNameOrId.equals(frame.getName())) {
+                return frame;
+            }
+        }
+        //Nothing was found.
+        return null;
     }
 
     /**
