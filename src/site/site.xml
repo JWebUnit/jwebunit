@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="jWebUnit">
+<project name="JWebUnit">
     <skin>
         <groupId>org.apache.maven.skins</groupId>
         <artifactId>maven-stylus-skin</artifactId>
@@ -15,7 +15,7 @@
     </bannerLeft>
 
     <bannerRight>
-        <name>jWebUnit</name>
+        <name>JWebUnit</name>
         <src>./images/jwebunit-logo.png</src>
         <href>http://jwebunit.sourceforge.net</href>
     </bannerRight>
@@ -27,7 +27,7 @@
                 href="http://htmlunit.sourceforge.net" />
             <item name="Selenium" href="http://openqa.org/selenium-rc/" />
         </links>
-        <menu name="jWebUnit">
+        <menu name="JWebUnit">
             <item name="Home" href="/index.html" />
             <item name="Installation" href="/installation.html"
                 collapse="true">
@@ -52,7 +52,7 @@
                     href="#Using Property Files to Validate Content" />
             </item>
         </menu>
-        <menu name="Building jWebUnit">
+        <menu name="Building JWebUnit">
             <item name="With Maven" href="/building-maven.html"
                 collapse="true">
                 <item name="Installing Maven"
