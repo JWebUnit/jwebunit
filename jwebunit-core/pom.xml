@@ -11,7 +11,7 @@
 	<artifactId>jwebunit-core</artifactId>
 	<name>Core - API</name>
 	<description>
-		The core API of jWebUnit. Define how tests should be written.
+		The core API of JWebUnit. Define how tests should be written and interface for testing engines.
 	</description>
 	<dependencies>
 		<dependency>
