@@ -3,7 +3,7 @@
 	<groupId>net.sourceforge.jwebunit</groupId>
 	<artifactId>jwebunit</artifactId>
 	<name>JWebUnit</name>
-	<version>1.4-rc2</version>
+	<version>1.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<description>
 		JWebUnit is a Java framework that facilitates creation of
