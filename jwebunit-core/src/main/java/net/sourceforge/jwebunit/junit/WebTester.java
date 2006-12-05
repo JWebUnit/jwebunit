@@ -181,7 +181,7 @@ public class WebTester {
         try {
             getTestingEngine().beginAt(createUrl(aRelativeURL), testContext);
         } catch (TestingEngineResponseException e) {
-            Assert.fail("The server returns the code " + e.getHttpStatusCode());
+            Assert.fail("The server returns the code " + e.getHttpStatusCode() + "\n" +  e.getCause().getMessage());
         }
 
     }

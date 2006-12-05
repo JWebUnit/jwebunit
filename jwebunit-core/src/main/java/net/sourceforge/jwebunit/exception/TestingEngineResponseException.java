@@ -16,7 +16,7 @@ package net.sourceforge.jwebunit.exception;
 public class TestingEngineResponseException extends Exception {
 
     private int httpStatusCode;
-    
+
     /**
      * 
      */
@@ -26,7 +26,17 @@ public class TestingEngineResponseException extends Exception {
 
     public TestingEngineResponseException(int httpStatusCode) {
         super();
-        this.httpStatusCode=httpStatusCode;
+        this.httpStatusCode = httpStatusCode;
+    }
+
+    public TestingEngineResponseException(int httpStatusCode, String msg) {
+        super(msg);
+        this.httpStatusCode = httpStatusCode;
+    }
+
+    public TestingEngineResponseException(int httpStatusCode, Exception e) {
+        super(e);
+        this.httpStatusCode = httpStatusCode;
     }
 
     /**

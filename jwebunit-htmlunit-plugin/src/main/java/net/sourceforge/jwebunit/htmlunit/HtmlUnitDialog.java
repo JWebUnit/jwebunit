@@ -4,18 +4,55 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.htmlunit;
 
-import org.apache.commons.httpclient.Cookie;
-import org.apache.commons.httpclient.HttpState;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.gargoylesoftware.htmlunit.AlertHandler;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.ConfirmHandler;
+import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import com.gargoylesoftware.htmlunit.JavaScriptPage;
+import com.gargoylesoftware.htmlunit.Page;
+import com.gargoylesoftware.htmlunit.PromptHandler;
+import com.gargoylesoftware.htmlunit.TextPage;
+import com.gargoylesoftware.htmlunit.ThreadedRefreshHandler;
+import com.gargoylesoftware.htmlunit.UnexpectedPage;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebResponse;
+import com.gargoylesoftware.htmlunit.WebWindow;
+import com.gargoylesoftware.htmlunit.WebWindowEvent;
+import com.gargoylesoftware.htmlunit.WebWindowListener;
+import com.gargoylesoftware.htmlunit.WebWindowNotFoundException;
+import com.gargoylesoftware.htmlunit.html.ClickableElement;
+import com.gargoylesoftware.htmlunit.html.FrameWindow;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlButton;
+import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;
+import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
+import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlOption;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
+import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
+import com.gargoylesoftware.htmlunit.html.HtmlResetInput;
+import com.gargoylesoftware.htmlunit.html.HtmlSelect;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
+import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
+import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
+import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
+import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
+import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+import com.gargoylesoftware.htmlunit.html.xpath.HtmlUnitXPath;
+import com.gargoylesoftware.htmlunit.xml.XmlPage;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -26,10 +63,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
-import org.jaxen.JaxenException;
 
 import net.sourceforge.jwebunit.api.IJWebUnitDialog;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
@@ -48,50 +81,15 @@ import net.sourceforge.jwebunit.javascript.JavascriptConfirm;
 import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
 import net.sourceforge.jwebunit.util.TestContext;
 
-import com.gargoylesoftware.htmlunit.AlertHandler;
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.ConfirmHandler;
-import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
-import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
-import com.gargoylesoftware.htmlunit.JavaScriptPage;
-import com.gargoylesoftware.htmlunit.Page;
-import com.gargoylesoftware.htmlunit.PromptHandler;
-import com.gargoylesoftware.htmlunit.TextPage;
-import com.gargoylesoftware.htmlunit.UnexpectedPage;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebResponse;
-import com.gargoylesoftware.htmlunit.WebWindow;
-import com.gargoylesoftware.htmlunit.WebWindowEvent;
-import com.gargoylesoftware.htmlunit.WebWindowListener;
-import com.gargoylesoftware.htmlunit.WebWindowNotFoundException;
-import com.gargoylesoftware.htmlunit.html.FrameWindow;
-import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
-import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;
-import com.gargoylesoftware.htmlunit.html.HtmlButton;
-import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
-import com.gargoylesoftware.htmlunit.html.HtmlResetInput;
-import com.gargoylesoftware.htmlunit.html.HtmlTable;
-import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlSelect;
-import com.gargoylesoftware.htmlunit.html.HtmlOption;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
-import com.gargoylesoftware.htmlunit.html.ClickableElement;
-import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
-import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
-import com.gargoylesoftware.htmlunit.ElementNotFoundException;
-import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
-import com.gargoylesoftware.htmlunit.html.xpath.HtmlUnitXPath;
-import com.gargoylesoftware.htmlunit.xml.XmlPage;
+import org.apache.commons.httpclient.Cookie;
+import org.apache.commons.httpclient.HttpState;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import org.apache.regexp.RE;
+import org.apache.regexp.RESyntaxException;
+import org.jaxen.JaxenException;
 
 /**
  * Acts as the wrapper for HtmlUnit access. A dialog is initialized with a given URL, and maintains conversational state
@@ -132,17 +130,17 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     private boolean jsEnabled = true;
 
     /**
-     * Javascript alerts
+     * Javascript alerts.
      */
     private LinkedList expectedJavascriptAlerts = new LinkedList();
 
     /**
-     * Javascript alerts
+     * Javascript confirms.
      */
     private LinkedList expectedJavascriptConfirms = new LinkedList();
 
     /**
-     * Javascript alerts
+     * Javascript prompts.
      */
     private LinkedList expectedJavascriptPrompts = new LinkedList();
 
@@ -164,7 +162,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             win = wc.getCurrentWindow();
             form = null;
         } catch (FailingHttpStatusCodeException aException) {
-            throw new TestingEngineResponseException(aException.getStatusCode());
+            throw new TestingEngineResponseException(aException.getStatusCode(), aException);
 
         } catch (IOException aException) {
             throw new RuntimeException(aException);
@@ -597,6 +595,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 "4.0", testContext.getUserAgent(), "1.2", 6));
         wc.setJavaScriptEnabled(jsEnabled);
         wc.setThrowExceptionOnScriptError(true);
+        wc.setRedirectEnabled(true);
+        //wc.setRefreshHandler(new ThreadedRefreshHandler());
         DefaultCredentialsProvider creds = new DefaultCredentialsProvider();
         if (getTestContext().hasAuthorization()) {
             creds.addCredentials(getTestContext().getUser(), getTestContext()
