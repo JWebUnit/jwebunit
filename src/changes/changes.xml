@@ -7,7 +7,10 @@
         </author>
     </properties>
     <body>
-        <release version="1.4-RC2" date="UNKNOW">
+        <release version="1.4-RC2" date="december 5, 2006">
+            <action type="fix" dev="Julien Henry">
+                Reset() function now check for the presence of a reset button.
+            </action>
             <action type="add" dev="Julien Henry">
                 Add the possibility to manipulate frame (and iframe) by ID in addition to their name.
             </action>
