@@ -149,13 +149,19 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertFormPresent();
         setTextField("color", "red");
         submit("submit");
-        // TODO should it be necessary to select frame again?
-        gotoRootWindow();
-        gotoFrame("ContentFrame");
-        assertTextPresent(" color=red ");
+        assertTextPresent("color=red ");
     }
 
-	//TODO this just posts to a new frameset inside the frame, is the test needed?
+    public void testFormInputInInlineFrame() {
+        beginAt("InlineFrame.html");
+        gotoFrame("ContentFrame");
+        assertFormPresent();
+        setTextField("color", "red");
+        submit("submit");
+        assertTextPresent("color=red ");
+    }
+
+    //TODO this just posts to a new frameset inside the frame, is the test needed?
     public void testFormInputInFrameToFrame() {
 		beginAt("Frames.html");
 		gotoFrame("ContentFrame");
