@@ -83,7 +83,17 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
     public void testSubmitImageInput() {
         beginAt("/InputImageForm.html");
         setTextField("color", "toto");
-        clickElementByXPath("//input[@type='image' and @name='image']");
+        assertSubmitButtonPresent();
+        submit();
+        assertTextPresent("Submitted parameters");
+        assertTextPresent("color=toto");
+    }
+
+    public void testSubmitImageInputByName() {
+        beginAt("/InputImageForm.html");
+        setTextField("color", "toto");
+        assertSubmitButtonPresent("image");
+        submit("image");
         assertTextPresent("Submitted parameters");
         assertTextPresent("color=toto");
     }
