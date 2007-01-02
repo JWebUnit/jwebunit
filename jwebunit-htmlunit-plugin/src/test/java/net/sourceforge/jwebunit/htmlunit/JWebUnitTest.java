@@ -49,6 +49,7 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(ButtonAssertionsTest.class);
         suite.addTestSuite(NonHtmlContentTest.class);
         suite.addTestSuite(RedirectionTest.class);
+        suite.addTestSuite(ImageTest.class);
         // $JUnit-END$
         return new JettySetup(suite);
     }

@@ -5,6 +5,8 @@
 package net.sourceforge.jwebunit.api;
 
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
@@ -32,7 +34,7 @@ public interface IJWebUnitDialog {
      * @param aTestContext Test context
      * @throws TestingEngineResponseException If something bad happend (404)
      */
-    void beginAt(String aInitialURL, TestContext aTestContext)
+    void beginAt(URL aInitialURL, TestContext aTestContext)
             throws TestingEngineResponseException;
 
     /**
@@ -55,8 +57,8 @@ public interface IJWebUnitDialog {
      * @param url Full URL of the page.
      * @throws TestingEngineResponseException If something bad happend (404)
      */
-    void gotoPage(String url) throws TestingEngineResponseException;
-
+    void gotoPage(URL url) throws TestingEngineResponseException;
+    
     /**
      * Enable or disable Javascript support.
      * 
@@ -505,6 +507,12 @@ public interface IJWebUnitDialog {
     void clickButtonWithText(String buttonValueText);
 
     /**
+     * Get the location of the current page.
+     * @return an URL.
+     */
+    URL getPageURL();
+    
+    /**
      * Return the string representation of the current page, encoded as specified by the current
      * {@link net.sourceforge.jwebunit.util.TestContext}.
      * 
@@ -535,11 +543,19 @@ public interface IJWebUnitDialog {
     String getServerResponse();
 
     /**
-     * Save the last server response as file to the disk.
+     * Gets the last server response as input stream.
      * 
-     * @param f The file name.
      */
-    void saveAs(File f);
+    InputStream getInputStream();
+
+    /**
+     * Gets the input stream for a given URL - can be used to test images or other resources without changing the current
+     * navigation context.
+     * 
+     * @param url the url to the resource
+     */
+    InputStream getInputStream(URL url)
+            throws TestingEngineResponseException;
 
     /**
      * Check if the Table object representing a specified table exists.

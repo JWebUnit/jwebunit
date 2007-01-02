@@ -8,6 +8,11 @@
     </properties>
     <body>
         <release version="1.4-RC3" date="unknow">
+            <action type="add" dev="Julien Henry" due-to="Grégory Joseph" issue="1531873">
+                Add methods to test images in a web page: assertImagePresent(String imageSrc, String imageAlt), 
+                assertImageValid(String imageSrc, String imageAlt),
+                assertImageValidAndStore(String imageSrc, String imageAlt, File out)
+            </action>
             <action type="add" dev="Julien Henry" due-to="Jeff Grimshaw" issue="1563168">
                 Add methods in TestContext to specify custom request headers.
             </action>

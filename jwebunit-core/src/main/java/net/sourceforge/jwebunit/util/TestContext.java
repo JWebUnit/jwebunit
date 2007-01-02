@@ -6,6 +6,8 @@ package net.sourceforge.jwebunit.util;
 
 import javax.servlet.http.Cookie;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +40,7 @@ public class TestContext {
 
     private String resourceBundleName;
 
-    private String baseUrl = "http://localhost:8080";
+    private URL baseUrl;
 
     private String userAgent;
 
@@ -59,6 +61,12 @@ public class TestContext {
      */
     public TestContext() {
         cookies = new ArrayList();
+        try {
+            baseUrl = new URL("http://localhost:8080");
+        } catch (MalformedURLException e) {
+            // Should not be invalid
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -265,7 +273,7 @@ public class TestContext {
     /**
      * Return the base URL for the test context. The default base URL is port 8080 on localhost.
      */
-    public String getBaseUrl() {
+    public URL getBaseUrl() {
         return baseUrl;
     }
 
@@ -275,7 +283,20 @@ public class TestContext {
      * @param url Base url value - A trailing "/" is appended if not provided.
      */
     public void setBaseUrl(String url) {
-        baseUrl = url.endsWith("/") ? url : url + "/";
+        try {
+            baseUrl = new URL(url.endsWith("/") ? url : url + "/");
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Set the base url for the test context.
+     * 
+     * @param url Base url value. Anything after trailing "/" will be skipped.
+     */
+    public void setBaseUrl(URL url) {
+        baseUrl = url;
     }
 
     /**

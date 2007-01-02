@@ -487,7 +487,8 @@ void CompilationUnit(StringBuffer sb):
   {sb.append(getToken(1).specialToken.image).append("\n");}
   [ PackageDeclaration(sb) ]
 
-  {sb.append("import java.io.File;\n");
+  {sb.append("import java.awt.Image;\n");
+  sb.append("import java.io.File;\n");
   sb.append("import java.io.PrintStream;\n");
   sb.append("import java.net.URL;\n\n");
   sb.append("import net.sourceforge.jwebunit.api.IJWebUnitDialog;\n");

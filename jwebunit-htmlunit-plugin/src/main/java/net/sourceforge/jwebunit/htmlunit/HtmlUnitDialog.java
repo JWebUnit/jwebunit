@@ -50,9 +50,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import com.gargoylesoftware.htmlunit.html.xpath.HtmlUnitXPath;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -155,12 +157,12 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param context contains context information for the test client.
      * @throws TestingEngineResponseException
      */
-    public void beginAt(String initialURL, TestContext context)
+    public void beginAt(URL initialURL, TestContext context)
             throws TestingEngineResponseException {
         this.setTestContext(context);
         initWebClient();
         try {
-            wc.getPage(new URL(initialURL));
+            wc.getPage(initialURL);
             win = wc.getCurrentWindow();
             form = null;
         } catch (FailingHttpStatusCodeException aException) {
@@ -194,10 +196,9 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 
     }
 
-    public void gotoPage(String initialURL)
-            throws TestingEngineResponseException {
+    public void gotoPage(URL initialURL) throws TestingEngineResponseException {
         try {
-            wc.getPage(new URL(initialURL));
+            wc.getPage(initialURL);
             win = wc.getCurrentWindow();
             form = null;
         } catch (FailingHttpStatusCodeException aException) {
@@ -544,6 +545,10 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 + selectName);
     }
 
+    public URL getPageURL() {
+        return win.getEnclosedPage().getWebResponse().getUrl();
+    }
+    
     public String getPageSource() {
         return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
                 .getContentAsString();
@@ -588,15 +593,34 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return result.toString();
     }
 
-    public void saveAs(File f) {
+    public InputStream getInputStream() {
         try {
-            f.createNewFile();
-            FileOutputStream out = new FileOutputStream(f);
-            out.write(wc.getCurrentWindow().getEnclosedPage().getWebResponse()
-                    .getResponseBody());
-            out.close();
+            return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
+                    .getContentAsStream();
         } catch (IOException e) {
-            throw new RuntimeException("Error when writing to file", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public InputStream getInputStream(URL resourceUrl)
+            throws TestingEngineResponseException {
+        WebWindow imageWindow = null;
+        try {
+            // as far as I can tell, there is no such thing as an iframe/object kind of "window" in htmlunit, so I'm
+            // opening a fake new window here
+            imageWindow = wc.openWindow(resourceUrl, "for_stream");
+            Page page = imageWindow.getEnclosedPage();
+            return page.getWebResponse().getContentAsStream();
+        } catch (FailingHttpStatusCodeException aException) {
+            throw new TestingEngineResponseException(
+                    aException.getStatusCode(), aException);
+
+        } catch (IOException aException) {
+            throw new RuntimeException(aException);
+        } finally {
+            if (imageWindow != null) {
+                wc.deregisterWebWindow(imageWindow);
+            }
         }
     }
 
@@ -639,8 +663,11 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 }
                 String win = event.getWebWindow().getName();
                 Page oldPage = event.getOldPage();
-                LOGGER.info("Window " + win + " closed : "
-                        + ((HtmlPage) oldPage).getTitleText());
+                String oldPageTitle = "no_html";
+                if (oldPage instanceof HtmlPage) {
+                    oldPageTitle = ((HtmlPage) oldPage).getTitleText();
+                }
+                LOGGER.info("Window " + win + " closed : " + oldPageTitle);
             }
 
             public void webWindowContentChanged(WebWindowEvent event) {
@@ -661,7 +688,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             public void webWindowOpened(WebWindowEvent event) {
                 String win = event.getWebWindow().getName();
                 Page newPage = event.getNewPage();
-                if (newPage != null) {
+                if (newPage != null && newPage instanceof HtmlPage) {
                     LOGGER.info("Window " + win + " openend : "
                             + ((HtmlPage) newPage).getTitleText());
                 } else {
