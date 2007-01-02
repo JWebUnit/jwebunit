@@ -7,8 +7,10 @@ package net.sourceforge.jwebunit.util;
 import javax.servlet.http.Cookie;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Establish context for tests (things such as locale, base url for the application, cookies, authorization). The
@@ -40,6 +42,8 @@ public class TestContext {
 
     private String userAgent;
 
+    private Map requestHeaders = new HashMap();
+
     private String proxyUser;
 
     private String proxyPasswd;
@@ -56,10 +60,10 @@ public class TestContext {
     public TestContext() {
         cookies = new ArrayList();
     }
-    
+
     /**
      * Clear all authorizations (basic, digest, ntlm, proxy).
-     *
+     * 
      */
     public void clearAuthorizations() {
         hasAuth = false;
@@ -272,6 +276,40 @@ public class TestContext {
      */
     public void setBaseUrl(String url) {
         baseUrl = url.endsWith("/") ? url : url + "/";
+    }
+
+    /**
+     * Add a custom request header.
+     * @param name header name.
+     * @param value header value.
+     */
+    public void addRequestHeader(final String name, final String value) {
+        requestHeaders.put(name, value);
+    }
+
+    /**
+     * Remove a custom request header.
+     * @param name header name.
+     */
+    public void removeRequestHeader(final String name) {
+        requestHeaders.remove(name);
+    }
+
+    /**
+     * Get custom request headers.
+     * @param name header name.
+     * @param value header value.
+     */
+    public Map getRequestHeaders() {
+        return requestHeaders;
+    }
+
+    /**
+     * Clear custom request headers.
+     *
+     */
+    public void clearRequestHeaders() {
+        requestHeaders = new HashMap();
     }
 
 }

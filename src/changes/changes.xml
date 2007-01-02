@@ -7,6 +7,11 @@
         </author>
     </properties>
     <body>
+        <release version="1.4-RC3" date="unknow">
+            <action type="add" dev="Julien Henry" due-to="Jeff Grimshaw" issue="1563168">
+                Add methods in TestContext to specify custom request headers.
+            </action>
+        </release>
         <release version="1.4-RC2" date="december 5, 2006">
             <action type="fix" dev="Julien Henry">
                 Reset() function now check for the presence of a reset button.

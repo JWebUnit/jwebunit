@@ -63,6 +63,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.jwebunit.api.IJWebUnitDialog;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
@@ -162,7 +164,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             win = wc.getCurrentWindow();
             form = null;
         } catch (FailingHttpStatusCodeException aException) {
-            throw new TestingEngineResponseException(aException.getStatusCode(), aException);
+            throw new TestingEngineResponseException(
+                    aException.getStatusCode(), aException);
 
         } catch (IOException aException) {
             throw new RuntimeException(aException);
@@ -542,7 +545,8 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     public String getPageSource() {
-        return wc.getCurrentWindow().getEnclosedPage().getWebResponse().getContentAsString();
+        return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
+                .getContentAsString();
     }
 
     public String getPageTitle() {
@@ -560,33 +564,39 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         if (page instanceof XmlPage)
             return ((XmlPage) page).getContent();
         if (page instanceof UnexpectedPage)
-            return ((UnexpectedPage) page).getWebResponse().getContentAsString();
-        throw new RuntimeException("Unexpected error in getPageText(). This method need to be updated.");
+            return ((UnexpectedPage) page).getWebResponse()
+                    .getContentAsString();
+        throw new RuntimeException(
+                "Unexpected error in getPageText(). This method need to be updated.");
     }
 
     public String getServerResponse() {
         StringBuffer result = new StringBuffer();
-        WebResponse wr = wc.getCurrentWindow().getEnclosedPage().getWebResponse();
-        result.append(wr.getStatusCode()).append(" ").append(wr.getStatusMessage()).append("\n");
+        WebResponse wr = wc.getCurrentWindow().getEnclosedPage()
+                .getWebResponse();
+        result.append(wr.getStatusCode()).append(" ").append(
+                wr.getStatusMessage()).append("\n");
         result.append("Location: ").append(wr.getUrl()).append("\n");
         List headers = wr.getResponseHeaders();
-        for (Iterator i=headers.iterator(); i.hasNext();) {
-            NameValuePair h = (NameValuePair)i.next();
-            result.append(h.getName()).append(": ").append(h.getValue()).append("\n");
+        for (Iterator i = headers.iterator(); i.hasNext();) {
+            NameValuePair h = (NameValuePair) i.next();
+            result.append(h.getName()).append(": ").append(h.getValue())
+                    .append("\n");
         }
         result.append("\n");
         result.append(wr.getContentAsString());
         return result.toString();
     }
-    
+
     public void saveAs(File f) {
         try {
             f.createNewFile();
             FileOutputStream out = new FileOutputStream(f);
-            out.write(wc.getCurrentWindow().getEnclosedPage().getWebResponse().getResponseBody());
+            out.write(wc.getCurrentWindow().getEnclosedPage().getWebResponse()
+                    .getResponseBody());
             out.close();
         } catch (IOException e) {
-            throw new RuntimeException("Error when writing to file",e);
+            throw new RuntimeException("Error when writing to file", e);
         }
     }
 
@@ -596,7 +606,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         wc.setJavaScriptEnabled(jsEnabled);
         wc.setThrowExceptionOnScriptError(true);
         wc.setRedirectEnabled(true);
-        //wc.setRefreshHandler(new ThreadedRefreshHandler());
+        // wc.setRefreshHandler(new ThreadedRefreshHandler());
         DefaultCredentialsProvider creds = new DefaultCredentialsProvider();
         if (getTestContext().hasAuthorization()) {
             creds.addCredentials(getTestContext().getUser(), getTestContext()
@@ -713,6 +723,19 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                     new Cookie(c.getDomain() != null ? c.getDomain() : "", c
                             .getName(), c.getValue(), c.getPath() != null ? c
                             .getPath() : "", c.getMaxAge(), c.getSecure()));
+        }
+        // Deal with custom request header
+        Map requestHeaders = getTestContext().getRequestHeaders();
+
+        Set keys = requestHeaders.keySet();
+        Iterator it = keys.iterator();
+
+        while (it.hasNext()) {
+            String nextRequestHeaderName = (String) it.next();
+            String nextRequestHeaderValue = (String) requestHeaders
+                    .get(nextRequestHeaderName);
+
+            wc.addRequestHeader(nextRequestHeaderName, nextRequestHeaderValue);
         }
     }
 
@@ -1812,21 +1835,21 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      */
     private WebWindow getFrame(String frameNameOrId) {
         final List frames = getCurrentPage().getFrames();
-        //First try ID
+        // First try ID
         for (final Iterator iter = frames.iterator(); iter.hasNext();) {
             final FrameWindow frame = (FrameWindow) iter.next();
             if (frameNameOrId.equals(frame.getFrameElement().getId())) {
                 return frame;
             }
         }
-        //Now try with Name
+        // Now try with Name
         for (final Iterator iter = frames.iterator(); iter.hasNext();) {
             final FrameWindow frame = (FrameWindow) iter.next();
             if (frameNameOrId.equals(frame.getName())) {
                 return frame;
             }
         }
-        //Nothing was found.
+        // Nothing was found.
         return null;
     }
 
