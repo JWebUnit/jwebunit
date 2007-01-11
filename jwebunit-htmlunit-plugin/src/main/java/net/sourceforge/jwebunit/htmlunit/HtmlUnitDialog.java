@@ -14,7 +14,6 @@ import com.gargoylesoftware.htmlunit.JavaScriptPage;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.PromptHandler;
 import com.gargoylesoftware.htmlunit.TextPage;
-import com.gargoylesoftware.htmlunit.ThreadedRefreshHandler;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebResponse;
@@ -50,9 +49,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import com.gargoylesoftware.htmlunit.html.xpath.HtmlUnitXPath;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -63,6 +64,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.jwebunit.api.IJWebUnitDialog;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
@@ -153,16 +156,17 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * @param context contains context information for the test client.
      * @throws TestingEngineResponseException
      */
-    public void beginAt(String initialURL, TestContext context)
+    public void beginAt(URL initialURL, TestContext context)
             throws TestingEngineResponseException {
         this.setTestContext(context);
         initWebClient();
         try {
-            wc.getPage(new URL(initialURL));
+            wc.getPage(initialURL);
             win = wc.getCurrentWindow();
             form = null;
         } catch (FailingHttpStatusCodeException aException) {
-            throw new TestingEngineResponseException(aException.getStatusCode(), aException);
+            throw new TestingEngineResponseException(
+                    aException.getStatusCode(), aException);
 
         } catch (IOException aException) {
             throw new RuntimeException(aException);
@@ -191,10 +195,9 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
 
     }
 
-    public void gotoPage(String initialURL)
-            throws TestingEngineResponseException {
+    public void gotoPage(URL initialURL) throws TestingEngineResponseException {
         try {
-            wc.getPage(new URL(initialURL));
+            wc.getPage(initialURL);
             win = wc.getCurrentWindow();
             form = null;
         } catch (FailingHttpStatusCodeException aException) {
@@ -541,8 +544,13 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 + selectName);
     }
 
+    public URL getPageURL() {
+        return win.getEnclosedPage().getWebResponse().getUrl();
+    }
+    
     public String getPageSource() {
-        return wc.getCurrentWindow().getEnclosedPage().getWebResponse().getContentAsString();
+        return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
+                .getContentAsString();
     }
 
     public String getPageTitle() {
@@ -560,43 +568,76 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         if (page instanceof XmlPage)
             return ((XmlPage) page).getContent();
         if (page instanceof UnexpectedPage)
-            return ((UnexpectedPage) page).getWebResponse().getContentAsString();
-        throw new RuntimeException("Unexpected error in getPageText(). This method need to be updated.");
+            return ((UnexpectedPage) page).getWebResponse()
+                    .getContentAsString();
+        throw new RuntimeException(
+                "Unexpected error in getPageText(). This method need to be updated.");
     }
 
     public String getServerResponse() {
         StringBuffer result = new StringBuffer();
-        WebResponse wr = wc.getCurrentWindow().getEnclosedPage().getWebResponse();
-        result.append(wr.getStatusCode()).append(" ").append(wr.getStatusMessage()).append("\n");
+        WebResponse wr = wc.getCurrentWindow().getEnclosedPage()
+                .getWebResponse();
+        result.append(wr.getStatusCode()).append(" ").append(
+                wr.getStatusMessage()).append("\n");
         result.append("Location: ").append(wr.getUrl()).append("\n");
         List headers = wr.getResponseHeaders();
-        for (Iterator i=headers.iterator(); i.hasNext();) {
-            NameValuePair h = (NameValuePair)i.next();
-            result.append(h.getName()).append(": ").append(h.getValue()).append("\n");
+        for (Iterator i = headers.iterator(); i.hasNext();) {
+            NameValuePair h = (NameValuePair) i.next();
+            result.append(h.getName()).append(": ").append(h.getValue())
+                    .append("\n");
         }
         result.append("\n");
         result.append(wr.getContentAsString());
         return result.toString();
     }
-    
-    public void saveAs(File f) {
+
+    public InputStream getInputStream() {
         try {
-            f.createNewFile();
-            FileOutputStream out = new FileOutputStream(f);
-            out.write(wc.getCurrentWindow().getEnclosedPage().getWebResponse().getResponseBody());
-            out.close();
+            return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
+                    .getContentAsStream();
         } catch (IOException e) {
-            throw new RuntimeException("Error when writing to file",e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public InputStream getInputStream(URL resourceUrl)
+            throws TestingEngineResponseException {
+        WebWindow imageWindow = null;
+        try {
+            // as far as I can tell, there is no such thing as an iframe/object kind of "window" in htmlunit, so I'm
+            // opening a fake new window here
+            imageWindow = wc.openWindow(resourceUrl, "for_stream");
+            Page page = imageWindow.getEnclosedPage();
+            return page.getWebResponse().getContentAsStream();
+        } catch (FailingHttpStatusCodeException aException) {
+            throw new TestingEngineResponseException(
+                    aException.getStatusCode(), aException);
+
+        } catch (IOException aException) {
+            throw new RuntimeException(aException);
+        } finally {
+            if (imageWindow != null) {
+                wc.deregisterWebWindow(imageWindow);
+            }
         }
     }
 
     private void initWebClient() {
-        wc = new WebClient(new BrowserVersion(BrowserVersion.INTERNET_EXPLORER,
-                "4.0", testContext.getUserAgent(), "1.2", 6));
+        
+        BrowserVersion bv = new BrowserVersion(BrowserVersion.INTERNET_EXPLORER,
+                "4.0", testContext.getUserAgent(), "1.2", 6);
+        if (getTestContext().getProxyHost()!=null && getTestContext().getProxyPort()>0) {
+            //Proxy
+            wc = new WebClient(bv, getTestContext().getProxyHost(), getTestContext().getProxyPort());
+        }
+        else {
+            wc = new WebClient(bv);
+        }
         wc.setJavaScriptEnabled(jsEnabled);
         wc.setThrowExceptionOnScriptError(true);
         wc.setRedirectEnabled(true);
-        //wc.setRefreshHandler(new ThreadedRefreshHandler());
+        wc.setRefreshHandler(new ImmediateRefreshHandler());
         DefaultCredentialsProvider creds = new DefaultCredentialsProvider();
         if (getTestContext().hasAuthorization()) {
             creds.addCredentials(getTestContext().getUser(), getTestContext()
@@ -629,8 +670,11 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 }
                 String win = event.getWebWindow().getName();
                 Page oldPage = event.getOldPage();
-                LOGGER.info("Window " + win + " closed : "
-                        + ((HtmlPage) oldPage).getTitleText());
+                String oldPageTitle = "no_html";
+                if (oldPage instanceof HtmlPage) {
+                    oldPageTitle = ((HtmlPage) oldPage).getTitleText();
+                }
+                LOGGER.info("Window " + win + " closed : " + oldPageTitle);
             }
 
             public void webWindowContentChanged(WebWindowEvent event) {
@@ -651,7 +695,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             public void webWindowOpened(WebWindowEvent event) {
                 String win = event.getWebWindow().getName();
                 Page newPage = event.getNewPage();
-                if (newPage != null) {
+                if (newPage != null && newPage instanceof HtmlPage) {
                     LOGGER.info("Window " + win + " openend : "
                             + ((HtmlPage) newPage).getTitleText());
                 } else {
@@ -713,6 +757,19 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                     new Cookie(c.getDomain() != null ? c.getDomain() : "", c
                             .getName(), c.getValue(), c.getPath() != null ? c
                             .getPath() : "", c.getMaxAge(), c.getSecure()));
+        }
+        // Deal with custom request header
+        Map requestHeaders = getTestContext().getRequestHeaders();
+
+        Set keys = requestHeaders.keySet();
+        Iterator it = keys.iterator();
+
+        while (it.hasNext()) {
+            String nextRequestHeaderName = (String) it.next();
+            String nextRequestHeaderValue = (String) requestHeaders
+                    .get(nextRequestHeaderName);
+
+            wc.addRequestHeader(nextRequestHeaderName, nextRequestHeaderValue);
         }
     }
 
@@ -1812,21 +1869,21 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      */
     private WebWindow getFrame(String frameNameOrId) {
         final List frames = getCurrentPage().getFrames();
-        //First try ID
+        // First try ID
         for (final Iterator iter = frames.iterator(); iter.hasNext();) {
             final FrameWindow frame = (FrameWindow) iter.next();
             if (frameNameOrId.equals(frame.getFrameElement().getId())) {
                 return frame;
             }
         }
-        //Now try with Name
+        // Now try with Name
         for (final Iterator iter = frames.iterator(); iter.hasNext();) {
             final FrameWindow frame = (FrameWindow) iter.next();
             if (frameNameOrId.equals(frame.getName())) {
                 return frame;
             }
         }
-        //Nothing was found.
+        // Nothing was found.
         return null;
     }
 

@@ -4,16 +4,21 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.junit;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
 
 import junit.framework.Assert;
@@ -54,8 +59,7 @@ public class WebTester {
     private String testingEngineKey = null;
 
     /**
-     * Provides access to the testing engine for subclasses - in case functionality not yet wrappered required
-     * by test.
+     * Provides access to the testing engine for subclasses - in case functionality not yet wrappered required by test.
      * 
      * If the dialog is not explicitly set the jWebUnit framework will default to using the orignal testing engine,
      * which is, htmlunit.
@@ -66,9 +70,10 @@ public class WebTester {
     public IJWebUnitDialog getDialog() {
         return getTestingEngine();
     }
-    
+
     /**
      * Protected version of deprecated getDialog(). Not deprecated for internal use.
+     * 
      * @return IJWebUnitDialog instance.
      */
     protected IJWebUnitDialog getTestingEngine() {
@@ -139,6 +144,7 @@ public class WebTester {
 
     /**
      * Set the testing engine.
+     * 
      * @param aIJWebUnitDialog Testing engine.
      */
     public void setDialog(IJWebUnitDialog aIJWebUnitDialog) {
@@ -179,22 +185,25 @@ public class WebTester {
      */
     public void beginAt(String aRelativeURL) {
         try {
-            getTestingEngine().beginAt(createUrl(aRelativeURL), testContext);
+            getTestingEngine().beginAt(createUrl(aRelativeURL, getTestContext().getBaseUrl()), testContext);
         } catch (TestingEngineResponseException e) {
-            Assert.fail("The server returns the code " + e.getHttpStatusCode() + "\n" +  e.getCause().getMessage());
+            Assert.fail("The server returns the code " + e.getHttpStatusCode()
+                    + "\n" + e.getCause().getMessage());
+        } catch (MalformedURLException e) {
+            Assert.fail(e.getLocalizedMessage());
         }
 
     }
 
-    private String createUrl(String url) {
+    private URL createUrl(String url, URL baseURL) throws MalformedURLException {
         if (url.startsWith("http://") || url.startsWith("https://")
                 || url.startsWith("file://")) {
-            return url;
+            return new URL(url);
         } else if (url.startsWith("www.")) {
-            return "http://" + url;
+            return new URL("http://" + url);
         } else {
             url = url.startsWith("/") ? url.substring(1) : url;
-            return getTestContext().getBaseUrl() + url;
+            return new URL(baseURL, url);
         }
     }
 
@@ -253,7 +262,8 @@ public class WebTester {
      * @param titleKey web resource key for title
      */
     public void assertTitleEqualsKey(String titleKey) {
-        Assert.assertEquals(getMessage(titleKey), getTestingEngine().getPageTitle());
+        Assert.assertEquals(getMessage(titleKey), getTestingEngine()
+                .getPageTitle());
     }
 
     /**
@@ -273,8 +283,8 @@ public class WebTester {
     public void assertTextPresent(String text) {
         if (!(getTestingEngine().getPageText().indexOf(text) >= 0))
             Assert.fail("Expected text not found in current page: [" + text
-                    + "]\n Page content was: [" + getTestingEngine().getPageText()
-                    + "]");
+                    + "]\n Page content was: ["
+                    + getTestingEngine().getPageText() + "]");
     }
 
     /**
@@ -492,7 +502,8 @@ public class WebTester {
      */
     public void assertTableEquals(String tableSummaryNameOrId,
             Table expectedTable) {
-        getTestingEngine().getTable(tableSummaryNameOrId).assertEquals(expectedTable);
+        getTestingEngine().getTable(tableSummaryNameOrId).assertEquals(
+                expectedTable);
     }
 
     /**
@@ -556,7 +567,8 @@ public class WebTester {
      * @param expectedTable represents expected regexps (colspan supported).
      */
     public void assertTableMatch(String tableSummaryOrId, Table expectedTable) {
-        getTestingEngine().getTable(tableSummaryOrId).assertMatch(expectedTable);
+        getTestingEngine().getTable(tableSummaryOrId)
+                .assertMatch(expectedTable);
     }
 
     /**
@@ -580,8 +592,8 @@ public class WebTester {
      */
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
             Table expectedTable) {
-        getTestingEngine().getTable(tableSummaryOrId).assertSubTableMatch(startRow,
-                expectedTable);
+        getTestingEngine().getTable(tableSummaryOrId).assertSubTableMatch(
+                startRow, expectedTable);
     }
 
     /**
@@ -593,8 +605,8 @@ public class WebTester {
      */
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
             String[][] expectedTable) {
-        getTestingEngine().getTable(tableSummaryOrId).assertSubTableMatch(startRow,
-                new Table(expectedTable));
+        getTestingEngine().getTable(tableSummaryOrId).assertSubTableMatch(
+                startRow, new Table(expectedTable));
     }
 
     /**
@@ -605,8 +617,8 @@ public class WebTester {
     public void assertFormElementPresent(String formElementName) {
         assertFormPresent();
         Assert.assertTrue("Did not find form element with name ["
-                + formElementName + "].", getTestingEngine().hasFormParameterNamed(
-                formElementName));
+                + formElementName + "].", getTestingEngine()
+                .hasFormParameterNamed(formElementName));
     }
 
     /**
@@ -774,8 +786,8 @@ public class WebTester {
     public void assertTextFieldEquals(String formElementName,
             String expectedValue) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals(expectedValue, getTestingEngine().getTextFieldValue(
-                formElementName));
+        Assert.assertEquals(expectedValue, getTestingEngine()
+                .getTextFieldValue(formElementName));
     }
 
     /**
@@ -788,8 +800,8 @@ public class WebTester {
     public void assertHiddenFieldPresent(String formElementName,
             String expectedValue) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals(expectedValue, getTestingEngine().getHiddenFieldValue(
-                formElementName));
+        Assert.assertEquals(expectedValue, getTestingEngine()
+                .getHiddenFieldValue(formElementName));
     }
 
     /**
@@ -882,8 +894,10 @@ public class WebTester {
      */
     public void assertRadioOptionSelected(String name, String radioOption) {
         assertRadioOptionPresent(name, radioOption);
-        Assert.assertEquals(radioOption, getTestingEngine().getElementAttributByXPath(
-                "//input[@type='radio' and @name='" + name + "']", "value"));
+        Assert.assertEquals(radioOption, getTestingEngine()
+                .getElementAttributByXPath(
+                        "//input[@type='radio' and @name='" + name + "']",
+                        "value"));
     }
 
     /**
@@ -895,9 +909,10 @@ public class WebTester {
     public void assertRadioOptionNotSelected(String name, String radioOption) {
         assertRadioOptionPresent(name, radioOption);
         Assert.assertFalse("Radio option [" + radioOption + "] is selected.",
-                radioOption.equals(getTestingEngine().getElementAttributByXPath(
-                        "//input[@type='radio' and @name='" + name + "']",
-                        "value")));
+                radioOption.equals(getTestingEngine()
+                        .getElementAttributByXPath(
+                                "//input[@type='radio' and @name='" + name
+                                        + "']", "value")));
     }
 
     /**
@@ -912,7 +927,8 @@ public class WebTester {
         for (int i = 0; i < optionLabels.length; i++)
             Assert.assertTrue("Option [" + optionLabels[i]
                     + "] not found in select element " + selectName,
-                    getTestingEngine().hasSelectOption(selectName, optionLabels[i]));
+                    getTestingEngine().hasSelectOption(selectName,
+                            optionLabels[i]));
     }
 
     /**
@@ -1019,8 +1035,8 @@ public class WebTester {
     public void assertSelectOptionValuesEqual(String selectName,
             String[] expectedValues) {
         assertFormElementPresent(selectName);
-        assertArraysEqual(expectedValues, getTestingEngine().getSelectOptionValues(
-                selectName));
+        assertArraysEqual(expectedValues, getTestingEngine()
+                .getSelectOptionValues(selectName));
 
     }
 
@@ -1049,12 +1065,15 @@ public class WebTester {
      */
     public void assertSelectedOptionsEqual(String selectName, String[] labels) {
         assertFormElementPresent(selectName);
-        Assert.assertEquals(labels.length, getTestingEngine().getSelectedOptions(
-                selectName).length);
+        Assert.assertEquals(labels.length, getTestingEngine()
+                .getSelectedOptions(selectName).length);
         for (int i = 0; i < labels.length; i++)
-            Assert.assertEquals(labels[i], getDialog()
-                    .getSelectOptionLabelForValue(selectName,
-                            getTestingEngine().getSelectedOptions(selectName)[i]));
+            Assert.assertEquals(labels[i],
+                    getDialog()
+                            .getSelectOptionLabelForValue(
+                                    selectName,
+                                    getTestingEngine().getSelectedOptions(
+                                            selectName)[i]));
     }
 
     public void assertSelectedOptionEquals(String selectName, String option) {
@@ -1070,11 +1089,11 @@ public class WebTester {
     public void assertSelectedOptionValuesEqual(String selectName,
             String[] values) {
         assertFormElementPresent(selectName);
-        Assert.assertEquals(values.length, getTestingEngine().getSelectedOptions(
-                selectName).length);
+        Assert.assertEquals(values.length, getTestingEngine()
+                .getSelectedOptions(selectName).length);
         for (int i = 0; i < values.length; i++)
-            Assert.assertEquals(values[i], getTestingEngine().getSelectedOptions(
-                    selectName)[i]);
+            Assert.assertEquals(values[i], getTestingEngine()
+                    .getSelectedOptions(selectName)[i]);
     }
 
     /**
@@ -1095,14 +1114,15 @@ public class WebTester {
      */
     public void assertSelectedOptionsMatch(String selectName, String[] regexps) {
         assertFormElementPresent(selectName);
-        Assert.assertEquals(regexps.length, getTestingEngine().getSelectedOptions(
-                selectName).length);
+        Assert.assertEquals(regexps.length, getTestingEngine()
+                .getSelectedOptions(selectName).length);
         for (int i = 0; i < regexps.length; i++) {
             RE re = getRE(regexps[i]);
             Assert.assertTrue("Unable to match [" + regexps[i]
                     + "] in option \""
-                    + getTestingEngine().getSelectedOptions(selectName)[i] + "\"", re
-                    .match(getTestingEngine().getSelectedOptions(selectName)[i]));
+                    + getTestingEngine().getSelectedOptions(selectName)[i]
+                    + "\"", re.match(getTestingEngine().getSelectedOptions(
+                    selectName)[i]));
         }
     }
 
@@ -1191,8 +1211,8 @@ public class WebTester {
     public void assertSubmitButtonPresent(String buttonName, String buttonValue) {
         assertFormPresent();
         Assert.assertTrue("Submit Button [" + buttonName + "] with value ["
-                + buttonValue + "] not found.", getTestingEngine().hasSubmitButton(
-                buttonName, buttonValue));
+                + buttonValue + "] not found.", getTestingEngine()
+                .hasSubmitButton(buttonName, buttonValue));
     }
 
     /**
@@ -1236,7 +1256,8 @@ public class WebTester {
      */
     public void assertResetButtonNotPresent() {
         assertFormPresent();
-        Assert.assertFalse("Reset Button found.", getTestingEngine().hasResetButton());
+        Assert.assertFalse("Reset Button found.", getTestingEngine()
+                .hasResetButton());
     }
 
     /**
@@ -1330,8 +1351,8 @@ public class WebTester {
      */
     public void assertLinkPresentWithText(String linkText) {
         Assert.assertTrue("Link with text [" + linkText
-                + "] not found in response.", getTestingEngine().hasLinkWithText(
-                linkText, 0));
+                + "] not found in response.", getTestingEngine()
+                .hasLinkWithText(linkText, 0));
     }
 
     /**
@@ -1365,8 +1386,8 @@ public class WebTester {
      */
     public void assertLinkNotPresentWithText(String linkText, int index) {
         Assert.assertTrue("Link with text [" + linkText + "] and index "
-                + index + " found in response.", !getTestingEngine().hasLinkWithText(
-                linkText, index));
+                + index + " found in response.", !getTestingEngine()
+                .hasLinkWithText(linkText, index));
     }
 
     // BEGIN RFE 996031...
@@ -1378,8 +1399,8 @@ public class WebTester {
      */
     public void assertLinkPresentWithExactText(String linkText) {
         Assert.assertTrue("Link with Exact text [" + linkText
-                + "] not found in response.", getTestingEngine().hasLinkWithExactText(
-                linkText, 0));
+                + "] not found in response.", getTestingEngine()
+                .hasLinkWithExactText(linkText, 0));
     }
 
     /**
@@ -1389,8 +1410,8 @@ public class WebTester {
      */
     public void assertLinkNotPresentWithExactText(String linkText) {
         Assert.assertTrue("Link with Exact text [" + linkText
-                + "] found in response.", !getTestingEngine().hasLinkWithExactText(
-                linkText, 0));
+                + "] found in response.", !getTestingEngine()
+                .hasLinkWithExactText(linkText, 0));
     }
 
     /**
@@ -1427,8 +1448,8 @@ public class WebTester {
      */
     public void assertLinkPresentWithImage(String imageFileName) {
         Assert.assertTrue("Link with image file [" + imageFileName
-                + "] not found in response.", getTestingEngine().hasLinkWithImage(
-                imageFileName, 0));
+                + "] not found in response.", getTestingEngine()
+                .hasLinkWithImage(imageFileName, 0));
     }
 
     /**
@@ -1502,8 +1523,8 @@ public class WebTester {
         Assert.assertTrue("Unable to locate element with id \"" + elementID
                 + "\"", getTestingEngine().hasElement(elementID));
         Assert.assertFalse("Text [" + text + "] found in element [" + elementID
-                + "] when not expected", getTestingEngine().isTextInElement(elementID,
-                text));
+                + "] when not expected", getTestingEngine().isTextInElement(
+                elementID, text));
     }
 
     /**
@@ -1516,8 +1537,8 @@ public class WebTester {
         Assert.assertTrue("Unable to locate element with id \"" + elementID
                 + "\"", getTestingEngine().hasElement(elementID));
         Assert.assertTrue("Unable to match [" + regexp + "] in element \""
-                + elementID + "\"", getTestingEngine().isMatchInElement(elementID,
-                regexp));
+                + elementID + "\"", getTestingEngine().isMatchInElement(
+                elementID, regexp));
     }
 
     /**
@@ -1572,9 +1593,11 @@ public class WebTester {
      * @param windowCount Window count
      */
     public void assertWindowCountEquals(int windowCount) {
-        Assert.assertTrue("Window count is " + getTestingEngine().getWindowCount()
-                + " but " + windowCount + " was expected.", getDialog()
-                .getWindowCount() == windowCount);
+        Assert
+                .assertTrue("Window count is "
+                        + getTestingEngine().getWindowCount() + " but "
+                        + windowCount + " was expected.", getDialog()
+                        .getWindowCount() == windowCount);
     }
 
     /**
@@ -1584,7 +1607,8 @@ public class WebTester {
      */
     public void assertFramePresent(String frameNameOrId) {
         Assert.assertTrue("Unable to locate frame with name or ID ["
-                + frameNameOrId + "].", getTestingEngine().hasFrame(frameNameOrId));
+                + frameNameOrId + "].", getTestingEngine().hasFrame(
+                frameNameOrId));
     }
 
     /**
@@ -2009,9 +2033,11 @@ public class WebTester {
      */
     public void gotoPage(String url) {
         try {
-            getTestingEngine().gotoPage(createUrl(url));
+            getTestingEngine().gotoPage(createUrl(url, getTestContext().getBaseUrl()));
         } catch (TestingEngineResponseException e) {
             Assert.fail("The server returns the code " + e.getHttpStatusCode());
+        } catch (MalformedURLException e) {
+            Assert.fail(e.getLocalizedMessage());
         }
     }
 
@@ -2054,7 +2080,18 @@ public class WebTester {
      * @param f The file name.
      */
     public void saveAs(File f) {
-        getTestingEngine().saveAs(f);
+        InputStream in = getTestingEngine().getInputStream();
+        int c=0;
+        try {
+            f.createNewFile();
+            FileOutputStream out = new FileOutputStream(f);
+            while ((c=in.read()) != -1) out.write(c);
+            in.close();
+            out.close();
+        } catch (IOException e) {
+            throw new RuntimeException("Error when writing to file", e);
+        }
+
     }
 
     /**
@@ -2184,18 +2221,18 @@ public class WebTester {
      * Exemple: <br/>
      * 
      * <pre>
-     * &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
-     *   &lt;P&gt;
-     *     &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
-     *       &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
-     *       &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
-     *       &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
-     *       &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
-     *       &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
-     *     &lt;/SELECT&gt;
-     *     &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
-     *   &lt;/P&gt;
-     * &lt;/FORM&gt;
+     *  &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
+     *    &lt;P&gt;
+     *      &lt;SELECT multiple size=&quot;4&quot; name=&quot;component-select&quot;&gt;
+     *        &lt;OPTION selected value=&quot;Component_1_a&quot;&gt;Component_1&lt;/OPTION&gt;
+     *        &lt;OPTION selected value=&quot;Component_1_b&quot;&gt;Component_2&lt;/OPTION&gt;
+     *        &lt;OPTION&gt;Component_3&lt;/OPTION&gt;
+     *        &lt;OPTION&gt;Component_4&lt;/OPTION&gt;
+     *        &lt;OPTION&gt;Component_5&lt;/OPTION&gt;
+     *      &lt;/SELECT&gt;
+     *      &lt;INPUT type=&quot;submit&quot; value=&quot;Send&quot;&gt;&lt;INPUT type=&quot;reset&quot;&gt;
+     *    &lt;/P&gt;
+     *  &lt;/FORM&gt;
      * </pre>
      * 
      * Should return [Component_1, Component_2, Component_3, Component_4, Component_5]
@@ -2207,8 +2244,8 @@ public class WebTester {
         String[] values = getTestingEngine().getSelectOptionValues(selectName);
         String[] result = new String[values.length];
         for (int i = 0; i < values.length; i++) {
-            result[i] = getTestingEngine().getSelectOptionLabelForValue(selectName,
-                    values[i]);
+            result[i] = getTestingEngine().getSelectOptionLabelForValue(
+                    selectName, values[i]);
         }
         return result;
     }
@@ -2222,8 +2259,8 @@ public class WebTester {
     private void selectOptionsByLabel(String selectName, String[] labels) {
         String[] values = new String[labels.length];
         for (int i = 0; i < values.length; i++) {
-            values[i] = getTestingEngine().getSelectOptionValueForLabel(selectName,
-                    labels[i]);
+            values[i] = getTestingEngine().getSelectOptionValueForLabel(
+                    selectName, labels[i]);
         }
         getTestingEngine().selectOptions(selectName, values);
     }
@@ -2258,7 +2295,7 @@ public class WebTester {
     public void setExpectedJavaScriptAlert(String message) {
         try {
             getTestingEngine().setExpectedJavaScriptAlert(
-                    new JavascriptAlert[] {new JavascriptAlert(message)});
+                    new JavascriptAlert[] { new JavascriptAlert(message) });
         } catch (ExpectedJavascriptAlertException e) {
             Assert.fail("You previously tell that alert with message ["
                     + e.getAlertMessage()
@@ -2366,6 +2403,66 @@ public class WebTester {
                     + e.getPromptMessage()
                     + "] was expected, but nothing appeared.");
         }
+    }
+
+    public void assertImagePresent(String imageSrc, String imageAlt) {
+        String xpath = "//img[@src=\"" + imageSrc + "\"";
+        if (imageAlt!= null) {
+            xpath += " and @alt=\"" + imageAlt + "\"";
+        }
+        xpath += "]";
+        assertElementPresentByXPath(xpath);
+    }
+
+    /**
+     * @see #assertImageValidAndStore(String, String, java.io.File)
+     */
+    public void assertImageValid(String imageSrc, String imageAlt) {
+        validateImage(imageSrc, imageAlt, null);
+    }
+
+    /**
+     * Asserts that the image with the given src and alt attribute values exist in the page and is an actual reachable
+     * image, then saves it as png with the given file name.
+     * 
+     * @param imageSrc as it appears in the html page, i.e. relative to the current page.
+     */
+    public void assertImageValidAndStore(String imageSrc, String imageAlt,
+            File out) {
+        validateImage(imageSrc, imageAlt, out);
+    }
+
+    /**
+     * @see #assertImageValidAndStore(String, String, java.io.File)
+     */
+    public Image getImage(String imageSrc, String imageAlt) {
+        return validateImage(imageSrc, imageAlt, null);
+    }
+
+    private Image validateImage(String imageSrc, String imageAlt, File out) {
+        assertImagePresent(imageSrc, imageAlt);
+        URL imageUrl = null;
+        try {
+            imageUrl = createUrl(imageSrc, getTestingEngine().getPageURL());
+        } catch (MalformedURLException e1) {
+            Assert.fail(e1.getLocalizedMessage());
+        }
+        try {
+            final InputStream imgStream = getTestingEngine().getInputStream(imageUrl);
+            final BufferedImage img = ImageIO.read(imgStream);
+            if (img == null) {
+                Assert.fail("Could not load image from " + imageUrl);
+            }
+            if (out != null) {
+                ImageIO.write(img, "png", out);
+            }
+            return img;
+        } catch (IOException e) {
+            Assert.fail("Could not load or save image from " + imageUrl);
+        } catch (TestingEngineResponseException e) {
+            Assert.fail("The server returns the code " + e.getHttpStatusCode());
+        }
+        throw new IllegalStateException();
     }
 
     protected boolean areFilesEqual(URL f1, URL f2) throws IOException {

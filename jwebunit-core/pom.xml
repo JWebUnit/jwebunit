@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>jwebunit</artifactId>
 		<groupId>net.sourceforge.jwebunit</groupId>
-		<version>1.4-SNAPSHOT</version>
+		<version>1.4-rc3</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -33,29 +33,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<configuration>
-							<tasks>
-
-								<!--
-									Do nothing as we only want to create a new source folder.
-								-->
-
-							</tasks>
-							<sourceRoot>
-								${project.build.directory}/generated-sources/main/java
-							</sourceRoot>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
@@ -64,6 +41,11 @@
 						<goals>
 							<goal>java</goal>
 						</goals>
+						<configuration>
+							<sourceRoot>
+								${project.build.directory}/generated-sources/main/java
+							</sourceRoot>
+						</configuration>
 					</execution>
 				</executions>
 				<configuration>

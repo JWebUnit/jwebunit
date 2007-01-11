@@ -6,9 +6,13 @@ package net.sourceforge.jwebunit.util;
 
 import javax.servlet.http.Cookie;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Establish context for tests (things such as locale, base url for the application, cookies, authorization). The
@@ -36,17 +40,19 @@ public class TestContext {
 
     private String resourceBundleName;
 
-    private String baseUrl = "http://localhost:8080";
+    private URL baseUrl;
 
     private String userAgent;
 
-    private String proxyUser;
+    private Map requestHeaders = new HashMap();
 
-    private String proxyPasswd;
+    private String proxyUser = null;
 
-    private String proxyHost;
+    private String proxyPasswd = null;
 
-    private int proxyPort;
+    private String proxyHost = null;
+
+    private int proxyPort = -1;
 
     private boolean hasProxyAuth = false;
 
@@ -55,11 +61,17 @@ public class TestContext {
      */
     public TestContext() {
         cookies = new ArrayList();
+        try {
+            baseUrl = new URL("http://localhost:8080");
+        } catch (MalformedURLException e) {
+            // Should not be invalid
+            e.printStackTrace();
+        }
     }
-    
+
     /**
      * Clear all authorizations (basic, digest, ntlm, proxy).
-     *
+     * 
      */
     public void clearAuthorizations() {
         hasAuth = false;
@@ -95,8 +107,8 @@ public class TestContext {
     /**
      * Set proxy authentication information for the test context.
      * 
-     * @param user user name
-     * @param passwd password
+     * @param user user name (null if none)
+     * @param passwd password (null if none)
      * @param host proxy host name (null if applicable to any host).
      * @param port proxy port (negative if applicable to any port).
      */
@@ -261,7 +273,7 @@ public class TestContext {
     /**
      * Return the base URL for the test context. The default base URL is port 8080 on localhost.
      */
-    public String getBaseUrl() {
+    public URL getBaseUrl() {
         return baseUrl;
     }
 
@@ -271,7 +283,54 @@ public class TestContext {
      * @param url Base url value - A trailing "/" is appended if not provided.
      */
     public void setBaseUrl(String url) {
-        baseUrl = url.endsWith("/") ? url : url + "/";
+        try {
+            baseUrl = new URL(url.endsWith("/") ? url : url + "/");
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Set the base url for the test context.
+     * 
+     * @param url Base url value. Anything after trailing "/" will be skipped.
+     */
+    public void setBaseUrl(URL url) {
+        baseUrl = url;
+    }
+
+    /**
+     * Add a custom request header.
+     * @param name header name.
+     * @param value header value.
+     */
+    public void addRequestHeader(final String name, final String value) {
+        requestHeaders.put(name, value);
+    }
+
+    /**
+     * Remove a custom request header.
+     * @param name header name.
+     */
+    public void removeRequestHeader(final String name) {
+        requestHeaders.remove(name);
+    }
+
+    /**
+     * Get custom request headers.
+     * @param name header name.
+     * @param value header value.
+     */
+    public Map getRequestHeaders() {
+        return requestHeaders;
+    }
+
+    /**
+     * Clear custom request headers.
+     *
+     */
+    public void clearRequestHeaders() {
+        requestHeaders = new HashMap();
     }
 
 }

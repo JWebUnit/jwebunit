@@ -38,7 +38,7 @@ public class TestContextTest extends JWebUnitAPITestCase {
         assertEquals(c.getValue(), "val");
         assertEquals(c.getDomain(), "www.foo.bar");
         assertEquals(Locale.CANADA_FRENCH, context.getLocale());
-        assertEquals("http://localhost:8080", context.getBaseUrl());
+        assertEquals("http://localhost:8080", context.getBaseUrl().toString());
         assertNull(context.getResourceBundleName());
     }
 
