@@ -671,7 +671,7 @@ void TypeBound():
 void ClassOrInterfaceBody(boolean isInterface, StringBuffer sb):
 {}
 { {sb.append("{\n");
-  sb.append("    private WebTester tester = null;\n\n");
+  sb.append("    protected WebTester tester = null;\n\n");
   sb.append("    public WebTestCase(String name) {\n");
   sb.append("        super(name);\n");
   sb.append("    }\n\n");
