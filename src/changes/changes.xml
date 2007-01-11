@@ -7,9 +7,12 @@
         </author>
     </properties>
     <body>
-        <release version="1.4-RC3" date="unknow">
+        <release version="1.4-RC3" date="january 11, 2007">
+            <action type="fix" dev="Julien Henry">
+                Fix exception when trying to access a page with a loop redirection.
+            </action>
             <action type="add" dev="Julien Henry" due-to="Grégory Joseph" issue="1531873">
-                Add methods to test images in a web page: assertImagePresent(String imageSrc, String imageAlt), 
+                Add methods to test images in a web page: assertImagePresent(String imageSrc, String imageAlt),
                 assertImageValid(String imageSrc, String imageAlt),
                 assertImageValidAndStore(String imageSrc, String imageAlt, File out)
             </action>
