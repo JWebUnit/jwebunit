@@ -17,7 +17,7 @@ public class RedirectServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("/jwebunit/RedirectionTest/redirect.html");
+        response.sendRedirect("/jwebunit/RedirectionTest/redirected.html");
     }
 
 }

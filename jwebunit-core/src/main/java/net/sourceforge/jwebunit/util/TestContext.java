@@ -46,13 +46,13 @@ public class TestContext {
 
     private Map requestHeaders = new HashMap();
 
-    private String proxyUser;
+    private String proxyUser = null;
 
-    private String proxyPasswd;
+    private String proxyPasswd = null;
 
-    private String proxyHost;
+    private String proxyHost = null;
 
-    private int proxyPort;
+    private int proxyPort = -1;
 
     private boolean hasProxyAuth = false;
 
@@ -107,8 +107,8 @@ public class TestContext {
     /**
      * Set proxy authentication information for the test context.
      * 
-     * @param user user name
-     * @param passwd password
+     * @param user user name (null if none)
+     * @param passwd password (null if none)
      * @param host proxy host name (null if applicable to any host).
      * @param port proxy port (negative if applicable to any port).
      */

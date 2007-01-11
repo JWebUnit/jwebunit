@@ -14,7 +14,6 @@ import com.gargoylesoftware.htmlunit.JavaScriptPage;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.PromptHandler;
 import com.gargoylesoftware.htmlunit.TextPage;
-import com.gargoylesoftware.htmlunit.ThreadedRefreshHandler;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebResponse;
@@ -625,12 +624,20 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
 
     private void initWebClient() {
-        wc = new WebClient(new BrowserVersion(BrowserVersion.INTERNET_EXPLORER,
-                "4.0", testContext.getUserAgent(), "1.2", 6));
+        
+        BrowserVersion bv = new BrowserVersion(BrowserVersion.INTERNET_EXPLORER,
+                "4.0", testContext.getUserAgent(), "1.2", 6);
+        if (getTestContext().getProxyHost()!=null && getTestContext().getProxyPort()>0) {
+            //Proxy
+            wc = new WebClient(bv, getTestContext().getProxyHost(), getTestContext().getProxyPort());
+        }
+        else {
+            wc = new WebClient(bv);
+        }
         wc.setJavaScriptEnabled(jsEnabled);
         wc.setThrowExceptionOnScriptError(true);
         wc.setRedirectEnabled(true);
-        // wc.setRefreshHandler(new ThreadedRefreshHandler());
+        wc.setRefreshHandler(new ImmediateRefreshHandler());
         DefaultCredentialsProvider creds = new DefaultCredentialsProvider();
         if (getTestContext().hasAuthorization()) {
             creds.addCredentials(getTestContext().getUser(), getTestContext()
