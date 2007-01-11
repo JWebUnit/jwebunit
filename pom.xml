@@ -252,16 +252,16 @@
 				</plugin>
 			-->
 			<plugin>
+			        <groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clover-plugin</artifactId>
+				<version>2.3</version>
 				<configuration>
 					<flushPolicy>threaded</flushPolicy>
 					<flushInterval>100</flushInterval>
 					<targetPercentage>0%</targetPercentage>
-					<configuration>
-						<licenseLocation>
-							${basedir}/${topDirectoryLocation}/src/test/clover/clover.license
-						</licenseLocation>
-					</configuration>
+					<licenseLocation>
+						${basedir}/${topDirectoryLocation}/src/test/clover/clover.license
+					</licenseLocation>
 				</configuration>
 				<executions>
 					<execution>
@@ -349,6 +349,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jdepend-maven-plugin</artifactId>
+				<version>2.0-SNAPSHOT</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -458,7 +459,7 @@
 			<name>JWebUnit WebSite - Sourceforge</name>
 			<url>
 				scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
-				<!--file:///home/julien/site-jwebunit-->
+				<!--file://c:/temp/site-jwebunit-->
 			</url>
 		</site>
 		<repository>
