@@ -600,7 +600,7 @@ void ClassOrInterfaceDeclaration(int modifiers, StringBuffer sb):
   [ TypeParameters() ]
   [ ExtendsList(isInterface) ]
   [ ImplementsList(isInterface) ]
-  {sb.append("public class WebTestCase extends TestCase ");}
+  {sb.append("public abstract class WebTestCase extends TestCase ");}
   ClassOrInterfaceBody(isInterface, sb)
 }
 
