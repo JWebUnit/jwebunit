@@ -137,6 +137,23 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         submit();
         assertTextPresent("color=blue ");
     }
+    
+    public void testRadioSelection() {
+    	beginAt("/RadioForm.html");
+    	clickRadioOption("radio", "1");
+    	assertRadioOptionSelected("radio", "1");
+    	submit();
+    	assertTextPresent("radio=1 ");
+    	clickLink("return");
+    	System.out.println(getPageSource());
+    	clickRadioOption("radio", "2");
+    	clickRadioOption("radio", "3");
+    	assertRadioOptionNotSelected("radio", "1");
+    	assertRadioOptionNotSelected("radio", "2");
+    	assertRadioOptionSelected("radio", "3");
+    	submit();
+    	assertTextPresent("radio=3 ");
+    }
 
     public void testSingleFormSingleUnnamedButtonSubmission() {
         beginAt("/SingleUnnamedButtonForm.html");

@@ -1738,6 +1738,17 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         }
         return false;
     }
+    
+    public String getSelectedRadio(String radioGroup) {
+        List radios = getForm().getRadioButtonsByName(radioGroup);
+        for (Iterator i = radios.iterator(); i.hasNext();) {
+        	HtmlRadioButtonInput radio = (HtmlRadioButtonInput) i.next();
+        	if (radio.isChecked()) {
+        		return radio.getValueAttribute();
+        	}
+        }
+        throw new RuntimeException("Unexpected Exception: no radio button was selected in radio group ["+radioGroup+"].");
+    }
 
     /**
      * Return true if a select box contains the indicated option.

@@ -893,9 +893,7 @@ public class WebTester {
     public void assertRadioOptionSelected(String name, String radioOption) {
         assertRadioOptionPresent(name, radioOption);
         Assert.assertEquals(radioOption, getTestingEngine()
-                .getElementAttributByXPath(
-                        "//input[@type='radio' and @name='" + name + "']",
-                        "value"));
+        		.getSelectedRadio(name));
     }
 
     /**
@@ -908,9 +906,7 @@ public class WebTester {
         assertRadioOptionPresent(name, radioOption);
         Assert.assertFalse("Radio option [" + radioOption + "] is selected.",
                 radioOption.equals(getTestingEngine()
-                        .getElementAttributByXPath(
-                                "//input[@type='radio' and @name='" + name
-                                        + "']", "value")));
+                        .getSelectedRadio(name)));
     }
 
     /**

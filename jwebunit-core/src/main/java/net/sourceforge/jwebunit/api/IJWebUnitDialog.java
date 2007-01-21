@@ -354,6 +354,13 @@ public interface IJWebUnitDialog {
      * @param radioOptionValue value of the option to check for.
      */
     boolean hasRadioOption(String radioGroup, String radioOptionValue);
+    
+    /**
+     * Return the currently selected radio button.
+     * @param radioGroup name of the radio group.
+     * @return value of the selected radio.
+     */
+    String getSelectedRadio(String radioGroup);
 
     /**
      * Checks if the current form contains a submit button.
