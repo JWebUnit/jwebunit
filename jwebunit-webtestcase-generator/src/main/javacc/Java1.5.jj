@@ -679,9 +679,16 @@ void ClassOrInterfaceBody(boolean isInterface, StringBuffer sb):
   sb.append("        super();\n");
   sb.append("    }\n\n");
 
-  sb.append("    public void tearDown() throws Exception {\n");
+  sb.append("    protected void tearDown() throws Exception {\n");
   sb.append("        closeBrowser();\n");
   sb.append("        super.tearDown();\n");
+  sb.append("    }\n\n");
+
+  sb.append("    /**\n");
+  sb.append("     * Get internal WebTester.\n");
+  sb.append("     */\n");
+  sb.append("    public WebTester getTester() {\n");
+  sb.append("        return this.tester;\n");
   sb.append("    }\n\n");
 
   sb.append("    /**\n");
