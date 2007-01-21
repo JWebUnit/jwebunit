@@ -13,9 +13,9 @@ package net.sourceforge.jwebunit.exception;
  * 
  * @author Nicholas Neuberger
  */
-public class TestingEngineResponseException extends Exception {
+public class TestingEngineResponseException extends RuntimeException {
 
-    private int httpStatusCode;
+    private int httpStatusCode = -1;
 
     /**
      * 
@@ -34,8 +34,13 @@ public class TestingEngineResponseException extends Exception {
         this.httpStatusCode = httpStatusCode;
     }
 
+    public TestingEngineResponseException(int httpStatusCode, String msg, Throwable ex) {
+        super(msg, ex);
+        this.httpStatusCode = httpStatusCode;
+    }
+
     public TestingEngineResponseException(int httpStatusCode, Exception e) {
-        super(e);
+        super("The server return "+httpStatusCode+" HTTP code.", e);
         this.httpStatusCode = httpStatusCode;
     }
 
@@ -61,6 +66,11 @@ public class TestingEngineResponseException extends Exception {
         super(ex);
     }
 
+    /**
+     * Return the HTTP status code that throw this Exception or -1 if this exception
+     * was not thrown because of HTTP status code.
+     * @return
+     */
     public int getHttpStatusCode() {
         return httpStatusCode;
     }

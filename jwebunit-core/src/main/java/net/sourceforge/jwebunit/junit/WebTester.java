@@ -182,13 +182,11 @@ public class WebTester {
      * should start with "http://", "https://" or "www.".
      * 
      * @param url absolute or relative URL (relative to base URL).
+     * @throws TestingEngineResponseException If something bad happend (404)
      */
-    public void beginAt(String aRelativeURL) {
+    public void beginAt(String aRelativeURL) throws TestingEngineResponseException {
         try {
             getTestingEngine().beginAt(createUrl(aRelativeURL, getTestContext().getBaseUrl()), testContext);
-        } catch (TestingEngineResponseException e) {
-            Assert.fail("The server returns the code " + e.getHttpStatusCode()
-                    + "\n" + e.getCause().getMessage());
         } catch (MalformedURLException e) {
             Assert.fail(e.getLocalizedMessage());
         }
@@ -2030,12 +2028,11 @@ public class WebTester {
      * should start with "http://", "https://" or "www.".
      * 
      * @param url absolute or relative URL (relative to base URL).
+     * @throws TestingEngineResponseException If something bad happend (404)
      */
-    public void gotoPage(String url) {
+    public void gotoPage(String url) throws TestingEngineResponseException {
         try {
             getTestingEngine().gotoPage(createUrl(url, getTestContext().getBaseUrl()));
-        } catch (TestingEngineResponseException e) {
-            Assert.fail("The server returns the code " + e.getHttpStatusCode());
         } catch (MalformedURLException e) {
             Assert.fail(e.getLocalizedMessage());
         }

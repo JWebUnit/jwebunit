@@ -4,6 +4,7 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
+import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 import junit.framework.AssertionFailedError;
 import junit.framework.Test;
@@ -47,7 +48,7 @@ public class NavigationTest extends JWebUnitAPITestCase {
 	public void testInvalidBeginAt() {
 
 		//the testing engines should throw an exception if a 404 Error is found.
-        assertFail("beginAt", "/nosuchresource.html");
+        assertException(TestingEngineResponseException.class, "beginAt", new Object[] {"/nosuchresource.html"});
 
 	}
 

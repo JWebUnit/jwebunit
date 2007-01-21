@@ -492,6 +492,7 @@ void CompilationUnit(StringBuffer sb):
   sb.append("import java.io.PrintStream;\n");
   sb.append("import java.net.URL;\n\n");
   sb.append("import net.sourceforge.jwebunit.api.IJWebUnitDialog;\n");
+  sb.append("import net.sourceforge.jwebunit.exception.TestingEngineResponseException;\n");
   sb.append("import net.sourceforge.jwebunit.html.Table;\n");
   sb.append("import net.sourceforge.jwebunit.util.TestContext;\n\n");
   sb.append("import junit.framework.TestCase;\n\n");}
