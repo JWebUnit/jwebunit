@@ -7,6 +7,22 @@
         </author>
     </properties>
     <body>
+        <release version="1.4-RC4" date="UNKNOW">
+            <action type="fix" dev="Julien Henry" issue="735092">
+                Make WebTestCase abstract.
+            </action>
+            <action type="fix" dev="Julien Henry">
+                Fix assertRadioButton[Not]Selected.
+            </action>
+            <action type="fix" dev="Julien Henry">
+                beginAt and gotoPage throw a TestingEngineResponseException on bad Http status code.
+            </action>
+            <action type="fix" dev="Julien Henry">
+                Make WebTestCase.tearDown() protected.
+                Make WebTestCase.tester protected.
+                Add WebTestCase.getTester() method.
+            </action>
+        </release>
         <release version="1.4-RC3" date="january 11, 2007">
             <action type="fix" dev="Julien Henry" issue="1628076">
                 Fix exception when trying to access a page with a loop redirection.
