@@ -5,7 +5,7 @@
 		<title>Installation</title>
 	</properties>
 <body class="default">
-<section name="jWebUnit Installation">
+<section name="JWebUnit Installation">
 	<subsection name="Using Maven">
 		<p>
 			If your project use Maven 2, it's very simple. Just add the plugin you want as dependency:
@@ -17,12 +17,12 @@
     <groupId>com.compagny.myproject</groupId>
     <artifactId>myproject</artifactId>
     <version>0.0.1</version>
-    <description>A wonderful project using jWebUnit</description>
+    <description>A wonderful project using JWebUnit</description>
     <dependencies>
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-htmlunit-plugin</artifactId>
-            <version>1.3</version>
+            <version>1.4-rc3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -32,7 +32,7 @@
 	<subsection name="Download">
 		<p>
 			If you don't want to use Maven, you can download files manually.
-			First download latest stable version of jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
+			First download latest stable version of JWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
 			and expand to a local directory.
 		</p>
 	</subsection>
@@ -54,7 +54,7 @@
 		<p>			
 			If you don't want to migrate to Maven, 
 			make sure you add the jwebunit-htmlunit-plugin-1.3.jar, jwebunit-core-1.3.jar and all HtmlUnit dependencies
-(these files are in lib/ folder of the jWebUnit package) to your classpath in your IDE.
+(these files are in lib/ folder of the JWebUnit package) to your classpath in your IDE.
 		</p>
 	</subsection>
 </section>

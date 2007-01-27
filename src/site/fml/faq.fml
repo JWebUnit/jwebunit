@@ -1,42 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faqs title="Frequently Asked Questions">
 
-  <part id="general">
-    <title>General</title>
+  <part id="JavaScript">
+    <title>JavaScript</title>
    
-    <faq id="whats-foo">
+    <faq id="javascript-support">
       <question>
-        What is Foo?
+        What about JWebUnit support of JavaScript?
       </question>
       <answer>
-        <p>some markup goes here</p>
-        
-        <source>some source code</source>
-        
-        <p>some markup goes here</p>
+        <p>JWebUnit uses a testing engine to manipulate DOM and JavaScript. That's why
+JavaScript support depend on the testing engine. In the past, JWebUnit was based on HttpUnit.
+JavaScript support of HttpUnit is very poor.<br/>
+Now, JWebUnit main testing engine is HtmlUnit. HtmlUnit understanding of JavaScript is quite good.</p>
       </answer>
     </faq>
 
-    <faq id="whats-bar">
+    <faq id="javascript-errors">
       <question>
-        What is Bar?
+        What can I do when JavaScript errors are thrown with JWebUnit (and HtmlUnit testing engine), but not in my browser?
       </question>
       <answer>
-        <p>some markup goes here</p>
+        <p>First, check if your JavaScript is not browser specific. When possible, try to write a minimal test case that reproduce your error, and submit it to the HtmlUnit team to help them to improve HtmlUnit.<br/>
+Finally, you can temporary disable JavaScript in your test:</p>
+	<source>public void testFoo() {
+  beginAt("blabla");
+  ...
+  setScriptingEnabled(false);
+  ...//Problematic code
+  setScriptingEnabled(true);
+  ...
+}</source>
       </answer>
     </faq>
   </part>
   
-  <part id="install">
-    <title>Installation</title>
-   
-    <faq id="how-install">
-      <question>
-        How do I install Foo?
-      </question>
-      <answer>
-        <p>some markup goes here</p>
-      </answer>
-    </faq>
-  </part>  
 </faqs>

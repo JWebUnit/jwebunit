@@ -29,6 +29,8 @@
         </links>
         <menu name="JWebUnit">
             <item name="Home" href="/index.html" />
+        </menu>
+        <menu name="User documentation">
             <item name="Installation" href="/installation.html"
                 collapse="true">
             </item>
@@ -51,18 +53,23 @@
                 <item name="Using Property Files"
                     href="#Using Property Files to Validate Content" />
             </item>
+            <item name="Articles" href="/articles.html" />
+            <item name="FAQ" href="/faq.html" />
         </menu>
-        <menu name="Building JWebUnit">
-            <item name="With Maven" href="/building-maven.html"
-                collapse="true">
-                <item name="Installing Maven"
-                    href="#Installing Maven" />
-                <item name="Using Maven"
-                    href="#Using Maven" />
-                <item name="Building jWebUnit"
-                    href="#Building jWebUnit" />
-                <item name="Building an assembly"
-                    href="#Building an assembly" />
+        <menu name="Developper documentation">
+            <item name="Building JWebUnit with Maven 2"
+                href="/building-maven.html" collapse="true">
+                <item name="Installing Maven" href="#Installing Maven" />
+                <item name="Using Maven" href="#Using Maven" />
+                <item name="Installing not released or snapshot plugins"
+                    href="#Installing not released or snapshot plugins" />
+                <item name="Building JWebUnit"
+                    href="#Building JWebUnit" />
+                <item name="Building Sourceforge upload bundle"
+                    href="#Building Sourceforge upload bundle" />
+                <item name="Building JWebUnit Web site and reports"
+                    href="#Building JWebUnit Web site and reports" />
+
             </item>
         </menu>
         <menu name="Sourceforge">
