@@ -40,8 +40,8 @@ import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
 /**
- * Provides a high-level API for basic web application navigation and validation by wrapping HttpUnit and providing
- * Junit assertions. It supports use of a property file for web resources (a la Struts), though a resource file for the
+ * Provides a high-level API for basic web application navigation and validation by providing
+ * JUnit assertions. It supports use of a property file for web resources (a la Struts), though a resource file for the
  * app is not required.
  * 
  * @author Julien Henry
