@@ -304,7 +304,11 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
      * {@inheritDoc}
      */
     public void gotoFrame(String frameNameOrId) {
-        win = getFrame(frameNameOrId);
+    	WebWindow frame = getFrame(frameNameOrId);
+    	if (frame == null) {
+    		throw new RuntimeException("No frame found in current page with name or id [" + frameNameOrId + "]");
+    	}
+        win = frame;
     }
 
     /**

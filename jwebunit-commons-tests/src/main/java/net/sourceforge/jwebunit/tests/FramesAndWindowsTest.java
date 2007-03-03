@@ -26,15 +26,6 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         getTestContext().setBaseUrl(HOST_PATH + "/FramesAndWindowsTest");
     }
     
-    public void testHttpUnitWithRhinoForWindowOpen() throws Throwable {
-        try {
-            beginAt("RootPage.html");
-            clickLink("ChildPage1"); // does javascript:window.open(...)
-        } catch (NoSuchFieldError e) {
-            fail("HttpUnit 1.6 does not support the current version of Rhino");
-        }
-    }   
-    
     /**
      * helper function
      * @param childName
@@ -117,9 +108,11 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
 		assertFramePresent("ContentFrame");
         gotoFrame("ContentFrame");
         assertTextPresent("ContentFrame");
-    }
+        assertException(RuntimeException.class, "gotoFrame",
+				new Object[] { "BottomFrame" });
+	}
 
-    public void testGotoFrameById() {
+	public void testGotoFrameById() {
         beginAt("Frames.html");
         assertFramePresent("frame1");
         gotoFrame("frame1");
@@ -132,16 +125,17 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertFramePresent("frame2");
         gotoFrame("frame2");
         assertTextPresent("ContentFrame");
+        assertException(RuntimeException.class, "gotoFrame", new Object[] { "TopFrame" });
     }
 
     public void testGotoInlineFrame() {
-		beginAt("InlineFrame.html");
-		assertTextPresent("TopFrame");
+        beginAt("InlineFrame.html");
+        assertTextPresent("TopFrame");
         // Is this how it should work? see also the test below
         assertTextNotPresent("ContentFrame");
-		gotoFrame("ContentFrame");
-		assertTextPresent("ContentFrame"); // only 'ContentFrame' matches frameset tag too
-	}
+        gotoFrame("ContentFrame");
+        assertTextPresent("ContentFrame"); // only 'ContentFrame' matches frameset tag too
+    }
 
     public void testFormInputInFrame() {
         beginAt("Frames.html");
