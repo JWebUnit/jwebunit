@@ -8,6 +8,9 @@
     </properties>
     <body>
         <release version="1.4-RC4" date="UNKNOW">
+            <action type="fix" dev="Julien Henry" issue="1633967" due-to="Dirk Jerusalem">
+                Table.getRows is now public.
+            </action>
             <action type="fix" dev="Julien Henry" issue="1638720">
                 gotoFrame should throw an Exception when no frame is found.
             </action>

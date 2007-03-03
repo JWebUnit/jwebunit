@@ -4,7 +4,6 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.api;
 
-import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
