@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -226,13 +227,36 @@ public class WebTester {
         }
         return message;
     }
+    
+    /**
+     * Return the value of a web resource based on its key, using MessageFormat
+     * to perform parametric substitution with formatting.
+     * 
+     * @see MessageFormat
+     * @param key
+     *            name of the web resource.
+     * @param args
+     *            array of arguments to be formatted into message
+     * @return value of the web resource after formatting
+     */
+    public String getMessage(String key, Object[] args) {
+        String message = getMessage(key);
+
+        // TODO: Struts escapes single quotes... maybe this should too
+
+        MessageFormat format = new MessageFormat(message, getTestContext().getLocale());
+
+        return format.format(args);
+    }
 
     // Assertions
 
     /**
-     * Assert title of current html page in conversation matches an expected value.
+     * Assert title of current html page in conversation matches an expected
+     * value.
      * 
-     * @param title expected title value
+     * @param title
+     *            expected title value
      */
     public void assertTitleEquals(String title) {
         Assert.assertEquals(title, getTestingEngine().getPageTitle());
@@ -255,22 +279,44 @@ public class WebTester {
     }
 
     /**
-     * Assert title of current html page matches the value of a specified web resource.
+     * Assert title of current html page matches the value of a specified web
+     * resource.
      * 
-     * @param titleKey web resource key for title
+     * @param titleKey
+     *            web resource key for title
      */
     public void assertTitleEqualsKey(String titleKey) {
-        Assert.assertEquals(getMessage(titleKey), getTestingEngine()
-                .getPageTitle());
+        Assert.assertEquals(getMessage(titleKey), getTestingEngine().getPageTitle());
+    }
+    
+    /**
+     * Assert title of current page matches formatted message resource
+     * 
+     * @param titleKey
+     * @param args
+     */
+    public void assertTitleEqualsKey(String titleKey, Object[] args) {
+        Assert.assertEquals(getMessage(titleKey, args), getTestingEngine().getPageTitle());
     }
 
     /**
      * Assert that a web resource's value is present.
      * 
-     * @param key web resource name
+     * @param key
+     *            web resource name
      */
     public void assertKeyPresent(String key) {
         assertTextPresent(getMessage(key));
+    }
+    
+    /**
+     * Assert that a web resource's value (with formatting) is present
+     * 
+     * @param key
+     * @param args
+     */
+    public void assertKeyPresent(String key, Object[] args) {
+        assertTextPresent(getMessage(key, args));
     }
 
     /**
@@ -304,6 +350,16 @@ public class WebTester {
      */
     public void assertKeyNotPresent(String key) {
         assertTextNotPresent(getMessage(key));
+    }
+    
+    /**
+     * Assert that a web resource's formatted value is not present.
+     * 
+     * @param key
+     *            web resource name
+     */
+    public void assertKeyNotPresent(String key, Object[] args) {
+        assertTextNotPresent(getMessage(key, args));
     }
 
     /**
@@ -368,11 +424,25 @@ public class WebTester {
     public void assertKeyInTable(String tableSummaryOrId, String key) {
         assertTextInTable(tableSummaryOrId, getMessage(key));
     }
+    
+    /**
+     * Assert that the value of a given web resource is present in a specific
+     * table.
+     * 
+     * @param tableSummaryOrId
+     *            summary or id attribute value of table
+     * @param key
+     *            web resource name
+     */
+    public void assertKeyInTable(String tableSummaryOrId, String key, Object[] args) {
+        assertTextInTable(tableSummaryOrId, getMessage(key, args));
+    }
 
     /**
      * Assert that supplied text is present in a specific table.
      * 
-     * @param tableSummaryNameOrId summary, name or id attribute value of table
+     * @param tableSummaryNameOrId
+     *            summary, name or id attribute value of table
      * @param text
      */
     public void assertTextInTable(String tableSummaryNameOrId, String text) {
@@ -406,12 +476,29 @@ public class WebTester {
             assertKeyInTable(tableSummaryOrId, keys[i]);
         }
     }
+    
+    /**
+     * Assert that the values of a set of web resources are all present in a
+     * specific table.
+     * 
+     * @param tableSummaryOrId
+     *            summary or id attribute value of table
+     * @param keys
+     *            Array of web resource names.
+     */
+    public void assertKeysInTable(String tableSummaryOrId, String[] keys, Object[][] args) {
+        for (int i = 0; i < keys.length; i++) {
+            assertKeyInTable(tableSummaryOrId, keys[i], args[i]);
+        }
+    }
 
     /**
      * Assert that a set of text values are all present in a specific table.
      * 
-     * @param tableSummaryOrId summary, name or id attribute value of table
-     * @param text Array of expected text values.
+     * @param tableSummaryOrId
+     *            summary, name or id attribute value of table
+     * @param text
+     *            Array of expected text values.
      */
     public void assertTextInTable(String tableSummaryOrId, String[] text) {
         for (int i = 0; i < text.length; i++) {
