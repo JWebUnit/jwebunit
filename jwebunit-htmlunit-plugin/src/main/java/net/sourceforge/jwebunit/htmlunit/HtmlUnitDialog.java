@@ -892,28 +892,6 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return form;
     }
 
-    private HtmlForm getFormWithButton(String buttonName) {
-        if (hasForm()) {
-            for (int i = 0; i < getForms().size(); i++) {
-                HtmlForm form = (HtmlForm) getForms().get(i);
-                if (form.getButtonsByName(buttonName).size() > 0)
-                    return form;
-                try {
-                    HtmlInput inp = form.getInputByName(buttonName);
-                    if (inp instanceof HtmlButtonInput)
-                        return form;
-                    if (inp instanceof HtmlSubmitInput)
-                        return form;
-                    if (inp instanceof HtmlResetInput)
-                        return form;
-                } catch (ElementNotFoundException e) {
-
-                }
-            }
-        }
-        return null;
-    }
-
     private HtmlForm getFormWithInput(String inputName) {
         if (hasForm()) {
             for (int i = 0; i < getForms().size(); i++) {
@@ -1393,8 +1371,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             }
         } catch (IOException e) {
             throw new RuntimeException(
-                    "HtmlUnit Error submitting form using default submit button: \n"
-                            + e);
+                    "HtmlUnit Error submitting form using default submit button", e);
         }
         throw new RuntimeException("No submit button found in current form.");
     }
@@ -1438,7 +1415,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             throw new RuntimeException(
                     "HtmlUnit Error submitting form using submit button with name ["
                             + buttonName + "] and value [" + buttonValue
-                            + "]: \n" + e);
+                            + "]", e);
         }
         throw new RuntimeException(
                 "No submit button found in current form with name ["
@@ -1494,7 +1471,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         try {
             link.click();
         } catch (IOException e) {
-            throw new RuntimeException("Click failed");
+            throw new RuntimeException("Click failed", e);
         }
     }
 
@@ -1506,7 +1483,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         try {
             link.click();
         } catch (IOException e) {
-            throw new RuntimeException("Click failed");
+            throw new RuntimeException("Click failed", e);
         }
     }
 
@@ -1543,8 +1520,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             try {
                 cb.click();
             } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException("checkCheckbox failed :" + e);
+                throw new RuntimeException("checkCheckbox failed", e);
             }
     }
 
@@ -1555,7 +1531,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 cb.click();
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException("checkCheckbox failed :" + e);
+                throw new RuntimeException("checkCheckbox failed", e);
             }
     }
 
@@ -1571,7 +1547,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 cb.click();
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException("checkCheckbox failed :" + e);
+                throw new RuntimeException("checkCheckbox failed", e);
             }
     }
 
@@ -1582,7 +1558,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 cb.click();
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException("uncheckCheckbox failed :" + e);
+                throw new RuntimeException("uncheckCheckbox failed", e);
             }
     }
 
@@ -1600,7 +1576,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 rb.click();
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException("checkCheckbox failed :" + e);
+                throw new RuntimeException("checkCheckbox failed", e);
             }
     }
 
@@ -1657,7 +1633,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         try {
             link.click();
         } catch (IOException e) {
-            throw new RuntimeException("Click failed");
+            throw new RuntimeException("Click failed", e);
         }
     }
 
@@ -1679,9 +1655,9 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
             c.click();
         } catch (ClassCastException exp) {
             throw new RuntimeException("Element with xpath \"" + xpath
-                    + "\" is not clickable");
+                    + "\" is not clickable", exp);
         } catch (IOException exp) {
-            throw new RuntimeException("Click failed");
+            throw new RuntimeException("Click failed", exp);
         }
     }
 
@@ -1744,7 +1720,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         		return radio.getValueAttribute();
         	}
         }
-        throw new RuntimeException("Unexpected Exception: no radio button was selected in radio group ["+radioGroup+"].");
+        throw new RuntimeException("Unexpected state: no radio button was selected in radio group ["+radioGroup+"]. Is it possible in a real browser?");
     }
 
     /**
