@@ -55,8 +55,8 @@ public class SearchExample extends TestCase {
 </td>
 <td valign="top" nowrap="nowrap">
 <source>
-import net.sourceforge.jwebunit.TestingEngineRegistry;
-import net.sourceforge.jwebunit.WebTestCase;
+import net.sourceforge.jwebunit.util.TestingEngineRegistry;
+import net.sourceforge.jwebunit.junit.WebTestCase;
 
 public class SearchExample extends WebTestCase {
     
