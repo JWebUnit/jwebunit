@@ -22,7 +22,7 @@
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-htmlunit-plugin</artifactId>
-            <version>1.4-rc3</version>
+            <version>1.4-rc4</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

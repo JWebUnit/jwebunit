@@ -7,7 +7,7 @@
         </author>
     </properties>
     <body>
-        <release version="1.4-RC4" date="UNKNOW">
+        <release version="1.4-RC4" date="march 04, 2007">
             <action type="add" dev="Julien Henry" issue="993058" due-to="Chris Eldredge">
                 Add new ResourceBundle related methods allowing formatting of resources.
             </action>
