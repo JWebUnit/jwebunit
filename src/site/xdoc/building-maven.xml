@@ -23,15 +23,15 @@
                     First you need to download the latest Maven 2, which
                     currently is
                     <a href="http://maven.apache.org">
-                        <tt>Maven-2.0.4</tt>
+                        <tt>Maven-2.0.5</tt>
                     </a>
                     , make sure you download the binary archive
-                    (maven-2.0.4-bin.zip).
+                    (maven-2.0.5-bin.zip).
                 </p>
                 <p>
                     Installing Maven should be easy: unzip the file to
                     any directory you like, let's say:
-                    <source>C:\maven-2.0.4</source>
+                    <source>C:\maven-2.0.5</source>
                 </p>
                 <p>
                     Next you need to do 2 things:
@@ -39,7 +39,7 @@
                         <li>
                             add an environment variable MAVEN_HOME which
                             points to the install directory of Maven,
-                            i.e. C:\maven-2.0.4
+                            i.e. C:\maven-2.0.5
                         </li>
                         <li>
                             add
@@ -126,10 +126,10 @@
                     You need at least jdk1.5 !!!
                 </p>
                 <source>
-$ svn co
-https://svn.codehaus.org/mojo/trunk/mojo/javacc-maven-plugin/
-$ cd javacc-maven-plugin $ patch -p0 &lt; maven-javacc.patch patching file
-src/main/java/org/codehaus/mojo/javacc/JavaCCMojo.java
+$ svn co https://svn.codehaus.org/mojo/trunk/mojo/javacc-maven-plugin/
+$ cd javacc-maven-plugin
+$ patch -p0 &lt; maven-javacc.patch
+patching file src/main/java/org/codehaus/mojo/javacc/JavaCCMojo.java
 $ mvn clean install
                 </source>
                 <p>
@@ -142,9 +142,9 @@ $ mvn clean install
                     manually the required SNAPSHOT.
                 </p>
                 <source>
-$ svn co
-https://svn.codehaus.org/mojo/trunk/mojo/exec-maven-plugin/
-$ cd exec-maven-plugin $ mvn clean install
+$ svn co https://svn.codehaus.org/mojo/trunk/mojo/exec-maven-plugin/
+$ cd exec-maven-plugin 
+$ mvn clean install
                 </source>
                 <p>
                     Installation of maven-assembly-plugin-2.2-SNAPSHOT

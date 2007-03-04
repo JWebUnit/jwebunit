@@ -50,6 +50,7 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(NonHtmlContentTest.class);
         suite.addTestSuite(RedirectionTest.class);
         suite.addTestSuite(ImageTest.class);
+        suite.addTestSuite(ResourceBundleAssertionsTest.class);
         // $JUnit-END$
         return new JettySetup(suite);
     }

@@ -55,8 +55,8 @@ public class SearchExample extends TestCase {
 </td>
 <td valign="top" nowrap="nowrap">
 <source>
-import net.sourceforge.jwebunit.TestingEngineRegistry;
-import net.sourceforge.jwebunit.WebTestCase;
+import net.sourceforge.jwebunit.util.TestingEngineRegistry;
+import net.sourceforge.jwebunit.junit.WebTestCase;
 
 public class SearchExample extends WebTestCase {
     
@@ -90,7 +90,7 @@ public class SearchExample extends WebTestCase {
     &lt;dependency&gt;
         &lt;groupId&gt;net.sourceforge.jwebunit&lt;/groupId&gt;
         &lt;artifactId&gt;jwebunit-htmlunit-plugin&lt;/artifactId&gt;
-        &lt;version&gt;1.4-rc3&lt;/version&gt;
+        &lt;version&gt;1.4-rc4&lt;/version&gt;
     &lt;/dependency&gt;
     ...
 &lt;/dependencies&gt;

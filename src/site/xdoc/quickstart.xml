@@ -16,7 +16,7 @@
     JWebUnit uses two approaches for creating test cases: inheritance and delegation. The simplest is
     to inherit from WebTestCase rather than junit.framework.TestCase.
 <source>
-import net.sourceforge.jwebunit.WebTestCase;
+import net.sourceforge.jwebunit.junit.WebTestCase;
 
 public class ExampleWebTestCase extends WebTestCase {
     public ExampleWebTestCase(String name) {
@@ -28,7 +28,7 @@ public class ExampleWebTestCase extends WebTestCase {
     and assertions to it.  This is provided in case you need or prefer delegation.
 <source>
 import junit.framework.TestCase;
-import net.sourceforge.jwebunit.WebTester;
+import net.sourceforge.jwebunit.junit.WebTester;
 
 public class ExampleWebTestCase extends TestCase {
     private WebTester tester;
@@ -46,8 +46,8 @@ For the rest of the examples, we will use inheritance.
 <p>
     JWebUnit can use different plugins to execute the tests you write. Only one line makes the difference:
 <source>
-import net.sourceforge.jwebunit.WebTestCase;
-import net.sourceforge.jwebunit.TestingEngineRegistry;
+import net.sourceforge.jwebunit.junit.WebTestCase;
+import net.sourceforge.jwebunit.util.TestingEngineRegistry;
 
 public class ExampleWebTestCase extends WebTestCase {
     public ExampleWebTestCase(String name) {
@@ -133,7 +133,7 @@ or
         assertFormPresent("expectedFormName");
         assertSubmitButtonPresent("Add");
         assertSubmitButtonPresent("Modify");
-        setTextFieldElement("field1", "value1");
+        setTextField("field1", "value1");
         submit("Modify");
     }
 </source>
@@ -156,20 +156,6 @@ or
     }
 </source>
 
-    In the above examples, we are working with submit buttons and form elements by their
-    name.  For form elements, it is possible to work with them by label (string followed
-    by colon before input element).  Before using this approach, consider that the display
-    label may change, but the submission name of the element will probably remain static.
-    DEPRECATED: **WithLabel methods are only supported by httpunit plugin, and it's not a
-    good way to identify form elements, as label can easily be localized.
-<source>
-    public void testFormSubmission() {
-        beginAt("/form.html");
-        assertFormElementPresentWithLabel("Credit Card Number");
-        setFormElementWithLabel("Credit Card Number", "myNumber");
-        submit();
-    }
-</source>
 </p>
 </subsection>
 
@@ -216,7 +202,7 @@ or
         assertTitleEquals("Main Page");
         assertLinkPresentWithText("Add Widget");
         clickLinkWithText("Add Widget");
-        setFormElement("widgetName", "My Widget");
+        setTextField("widgetName", "My Widget");
         submit();
         assertTextPresent("Widget successfully added."):
     }

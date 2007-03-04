@@ -5,13 +5,8 @@
 package net.sourceforge.jwebunit.html;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 import junit.framework.Assert;
-
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 
 /**
  * Represents an expected table for comparison with an actual html table.
@@ -75,7 +70,7 @@ public class Table {
         return getRows().size();
     }
 
-    ArrayList getRows() {
+    public ArrayList getRows() {
         return rows;
     }
 
@@ -136,16 +131,6 @@ public class Table {
             sub.appendRow((Row) this.getRows().get(i));
         }
         sub.assertMatch(t);
-    }
-
-    private RE getRE(String regexp) {
-        RE re = null;
-        try {
-            re = new RE(regexp, RE.MATCH_SINGLELINE);
-        } catch (RESyntaxException e) {
-            Assert.fail(e.toString());
-        }
-        return re;
     }
 
 }
