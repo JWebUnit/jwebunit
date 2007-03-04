@@ -1,11 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.jwebunit</groupId>
     <artifactId>jwebunit</artifactId>
     <name>JWebUnit</name>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.4-rc4</version>
     <packaging>pom</packaging>
     <description>
         JWebUnit is a Java framework that facilitates creation of acceptance tests for web
@@ -151,13 +149,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>
-            scm:svn:https://jwebunit.svn.sourceforge.net/svnroot/jwebunit/branches/1.x
-        </connection>
-        <developerConnection>
-            scm:svn:https://jwebunit.svn.sourceforge.net/svnroot/jwebunit/branches/1.x
-        </developerConnection>
-        <url>http://svn.sourceforge.net/viewcvs.cgi/jwebunit/branches/1.x</url>
+        <connection>scm:svn:https://jwebunit.svn.sourceforge.net/svnroot/jwebunit/tags/jwebunit-1.4-rc4</connection>
+        <developerConnection>scm:svn:https://jwebunit.svn.sourceforge.net/svnroot/jwebunit/tags/jwebunit-1.4-rc4</developerConnection>
+        <url>http://svn.sourceforge.net/viewcvs.cgi/jwebunit/tags/jwebunit-1.4-rc4</url>
     </scm>
     <organization>
         <name>SourceForge</name>
