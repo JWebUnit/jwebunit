@@ -18,19 +18,18 @@ import net.sourceforge.jwebunit.tests.*;
  */
 public class JWebUnitTest extends TestCase {
 
-	/**
-	 * Runs all the tests for jWebUnit. Add each new TestCase by using the
-	 * <code>addTestSuite(Class)</code> method, so that the TestCase's
-	 * <code>suite</code> method <strong>isn't called </strong>. This prevents
-	 * <code>JettySetup</code> from starting the Jetty server twice and
-	 * consequently the error 'port 80xx is already in use'.
-	 * 
-	 * @return the <code>TestSuite</code> containing all the tests for
-	 *         jWebUnit ready to run utilizing Jetty as testserver.
-	 */
+    /**
+     * Runs all the tests for jWebUnit. Add each new TestCase by using the <code>addTestSuite(Class)</code> method, so
+     * that the TestCase's <code>suite</code> method <strong>isn't called </strong>. This prevents
+     * <code>JettySetup</code> from starting the Jetty server twice and consequently the error 'port 80xx is already
+     * in use'.
+     * 
+     * @return the <code>TestSuite</code> containing all the tests for jWebUnit ready to run utilizing Jetty as
+     *         testserver.
+     */
     public static Test suite() {
-        TestSuite suite = new TestSuite("Test for net.sourceforge.jwebunit.htmlunit");
-        //$JUnit-BEGIN$
+        TestSuite suite = new TestSuite("Test for net.sourceforge.jwebunit");
+        // $JUnit-BEGIN$
         suite.addTestSuite(FormSubmissionTest.class);
         suite.addTestSuite(WebAssertionsTest.class);
         suite.addTestSuite(FramesAndWindowsTest.class);
@@ -48,7 +47,11 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(XPathTest.class);
         suite.addTestSuite(CharsetTest.class);
         suite.addTestSuite(ButtonAssertionsTest.class);
-        //$JUnit-END$
+        suite.addTestSuite(NonHtmlContentTest.class);
+        suite.addTestSuite(RedirectionTest.class);
+        suite.addTestSuite(ImageTest.class);
+        suite.addTestSuite(ResourceBundleAssertionsTest.class);
+        // $JUnit-END$
         return new JettySetup(suite);
     }
 

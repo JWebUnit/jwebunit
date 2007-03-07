@@ -4,20 +4,16 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.exception;
 
-
 /**
- * Exception thrown when the testing engine registry can't find the
- * appropriat key for a specific testing engine, etc.
+ * Exception thrown when the testing engine registry can't find the appropriat key for a specific testing engine, etc.
+ * 
  * @author Nick Neuberger
  */
-@SuppressWarnings("serial")
-public class TestingEngineRegistryException extends JWebUnitException {
+public class TestingEngineRegistryException extends RuntimeException {
+    public TestingEngineRegistryException() {
+    }
 
     public TestingEngineRegistryException(String s) {
         super(s);
-    }
-
-    public TestingEngineRegistryException(String s, Exception e) {
-        super(s, e);
     }
 }

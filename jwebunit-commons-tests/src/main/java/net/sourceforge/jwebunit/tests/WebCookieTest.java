@@ -9,10 +9,9 @@ import junit.framework.TestSuite;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
- * Test the Cookies provided by WebTestCase using the PseudoServer test package
- * provided by Russell Gold in httpunit.
+ * Test the Cookies methods provided by WebTestCase.
  * 
- * @author Vivek Venugopalan
+ * @author Julien HENRY
  */
 public class WebCookieTest extends JWebUnitAPITestCase {
 
@@ -23,12 +22,34 @@ public class WebCookieTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-		getTestContext().addCookie("cookie1", "Cookievalue1");
-		getTestContext().setBaseUrl(HOST_PATH + "/ExpectedTableAssertionsTest");
-		beginAt("/TableAssertionsTestPageHtml.html");
+		getTestContext().addCookie("cookie1", "Cookievalue1", "localhost");
+		getTestContext().setBaseUrl(HOST_PATH);
     }
     
-	public void testAssertCookieDump() throws Throwable {
-		//dumpCookies();
+    public void testAddCookie() {
+    	beginAt("/cookies.jsp");
+    	assertTextPresent("cookie1=Cookievalue1");
+    }
+    
+    public void testAddAnotherCookie() {
+    	getTestContext().addCookie("cookie2", "Cookievalue2", "localhost");
+    	beginAt("/cookies.jsp");
+    	assertTextPresent("cookie1=Cookievalue1");
+    	assertTextPresent("cookie2=Cookievalue2");
+    }
+
+    public void testAssertCookiePresent() throws Throwable {
+    	beginAt("/cookies.jsp");
+    	assertCookiePresent("serveurCookie");
+	}
+
+    public void testAssertCookieValue() throws Throwable {
+    	beginAt("/cookies.jsp");
+    	assertCookieValueEquals("serveurCookie", "foo");
+	}
+
+    public void testAssertCookieMatch() throws Throwable {
+    	beginAt("/cookies.jsp");
+    	assertCookieValueMatch("serveurCookie", "fo*");
 	}
 }

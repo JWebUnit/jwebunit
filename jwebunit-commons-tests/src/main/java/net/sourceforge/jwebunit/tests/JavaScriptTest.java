@@ -30,20 +30,42 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
         //assertTextPresent("Hello World");
     }
     
-//    public void testAlertOnPageLoad() {
-//        beginAt("Alert.html");
-//        assertJavascriptAlertPresent("Foo Bar");
-//    }
-//    
-//    public void testInvalidAlertOnPageLoad() {
-//        beginAt("Alert.html");
-//        assertFail("assertJavascriptAlertPresent", "invalid");
-//    }
-//
-//    public void testMultipleAlerts() {
-//        beginAt("MultipleAlerts.html");
-//        assertJavascriptAlertPresent("Alert 1");
-//        assertJavascriptAlertPresent("Alert 2");
-//    }
+    public void testAlert() {
+    	setExpectedJavaScriptAlert("Foo Bar");
+        beginAt("Alert.html");
+    }
+    
+    public void testInvalidAlertOnPageLoad() {
+    	setExpectedJavaScriptAlert("invalid");
+    	try {
+    		beginAt("Alert.html");
+    		fail();
+    	} catch (RuntimeException e) {
+    		//OK
+    	}        
+    }
 
+    public void testMultipleAlerts() {
+    	setExpectedJavaScriptAlert(new String[] {"Alert 1", "Alert 2"});
+        beginAt("MultipleAlerts.html");
+    }
+
+    public void testConfirm() {
+    	setExpectedJavaScriptConfirm("Foo Bar", true);
+        beginAt("Confirm.html");
+        assertLinkPresent("Toto");
+        assertLinkNotPresent("Titi");
+    }
+
+    public void testPrompt() {
+    	setExpectedJavaScriptPrompt("Foo Bar", "toto");
+        beginAt("Prompt.html");
+        assertTextPresent("Toto");
+    }
+
+    public void testPromptCanceled() {
+    	setExpectedJavaScriptPrompt("Foo Bar", null);
+        beginAt("Prompt.html");
+        assertTextPresent("Cancel");
+    }
 }

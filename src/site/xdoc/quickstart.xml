@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
 <document>
 	<properties>
-		<author></author>
+		<author>Julien HENRY</author>
 		<title>Quick Start</title>
 	</properties>
 <body class="default">
-<section name="jWebUnit Quickstart">
+<section name="JWebUnit Quickstart">
 <p>
-    The QuickStart contains sample code and guidance to get you started with jWebUnit.  To see all
+    The QuickStart contains sample code and guidance to get you started with JWebUnit.  To see all
     of the methods available, consult the a <a href="apidocs/index.html">Javadocs</a> - particularly
-    the WebTester class for full documentation.
+    the WebTestCase class for full documentation.
 </p>
 <subsection name="Creating a TestCase">
 <p>
-    jWebUnit uses two approaches for creating test cases: inheritance and delegation. The simplest is
+    JWebUnit uses two approaches for creating test cases: inheritance and delegation. The simplest is
     to inherit from WebTestCase rather than junit.framework.TestCase.
 <source>
-import net.sourceforge.jwebunit.WebTestCase;
+import net.sourceforge.jwebunit.junit.WebTestCase;
 
 public class ExampleWebTestCase extends WebTestCase {
     public ExampleWebTestCase(String name) {
@@ -28,7 +28,7 @@ public class ExampleWebTestCase extends WebTestCase {
     and assertions to it.  This is provided in case you need or prefer delegation.
 <source>
 import junit.framework.TestCase;
-import net.sourceforge.jwebunit.WebTester;
+import net.sourceforge.jwebunit.junit.WebTester;
 
 public class ExampleWebTestCase extends TestCase {
     private WebTester tester;
@@ -44,21 +44,20 @@ For the rest of the examples, we will use inheritance.
 </subsection>
 <subsection name="Selecting the plugin you want to use">
 <p>
-    jWebUnit can use different plugins to execute the tests you write. Only one line makes the difference:
+    JWebUnit can use different plugins to execute the tests you write. Only one line makes the difference:
 <source>
-import net.sourceforge.jwebunit.WebTestCase;
-import net.sourceforge.jwebunit.TestingEngineRegistry;
+import net.sourceforge.jwebunit.junit.WebTestCase;
+import net.sourceforge.jwebunit.util.TestingEngineRegistry;
 
 public class ExampleWebTestCase extends WebTestCase {
     public ExampleWebTestCase(String name) {
         super(name);
         setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);
-        // or setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_SELENIUM);
     }
 }
 </source>
 	NB: If you have only one plugin in your classpath, you don't need to explicitly specify
-	to use it, jWebUnit will find and use it.
+	to use it, JWebUnit will find and use it.
 </p>
 </subsection>
 <subsection name="Navigating Your Web Application">
@@ -122,8 +121,8 @@ or
         assertFormPresent("expectedFormName");
         assertFormElementPresent("field1");
         assertFormElementEquals("field2", "field2_defaultValue");
-        setFormElement("field1", "value1");
-        setFormElement("fieldn", "valuen");
+        setTextField("field1", "value1");
+        setTextField("fieldn", "valuen");
         submit();
     }
 </source>
@@ -134,11 +133,11 @@ or
         assertFormPresent("expectedFormName");
         assertSubmitButtonPresent("Add");
         assertSubmitButtonPresent("Modify");
-        setFormElement("field1", "value1");
+        setTextField("field1", "value1");
         submit("Modify");
     }
 </source>
-    For pages with more than one form, jWebUnit will establish which form is being worked with implicitly
+    For pages with more than one form, JWebUnit will establish which form is being worked with implicitly
     from the form elements checked or set.  You can also set the form explicitly by form id or name:
 <source>
     public void testBottomFormSubmission() {
@@ -194,7 +193,7 @@ or
 
 <subsection name="Validating Page Content">
 <p>
-    Once you have navigated to the page you wish to test, you can call the assertions provided by jWebUnit to 
+    Once you have navigated to the page you wish to test, you can call the assertions provided by JWebUnit to 
     verify it's correctness.
 </p>
 <pre>
@@ -203,7 +202,7 @@ or
         assertTitleEquals("Main Page");
         assertLinkPresentWithText("Add Widget");
         clickLinkWithText("Add Widget");
-        setFormElement("widgetName", "My Widget");
+        setTextField("widgetName", "My Widget");
         submit();
         assertTextPresent("Widget successfully added."):
     }
@@ -213,7 +212,7 @@ or
 
 <subsection name="Validating Table Content">
 <p>
-    A number of assertions are provided by jWebUnit to validate the contents of tables on a page.
+    A number of assertions are provided by JWebUnit to validate the contents of tables on a page.
     You can simply check for the presence of text within a table, or check layout of all or a portion
     of the table.  HttpUnit is used to purge empty rows and columns from the actual table before comparison,
     so you may leave spacer cells and rows out of your check.
@@ -274,7 +273,7 @@ or
 
 <subsection name="Using Element IDs to Validate Content">
 <p>
-	jWebUnit allows you to check for the presence of any html element by its id, or for text in an element.
+	JWebUnit allows you to check for the presence of any html element by its id, or for text in an element.
 	This can be a useful trick to check for the presence of some logical part of the page.
 	Even in the case of free floating text, a span element can be used to surround the text
 	and give it a logical id:
@@ -300,7 +299,7 @@ or
 		Another useful testing trick is to use property files for your expected values rather than hard-coded strings.
 		This is especially useful if your application uses property files as a source for static text and
 		messages.  The same files can be used to provide the expected values for the tests.<p>
-		For convenience, most of the jWebUnit assertions that take strings for the expected have an equivalent assertion that will
+		For convenience, most of the JWebUnit assertions that take strings for the expected have an equivalent assertion that will
 		take a property file key.  You can use the TestContext to set the bundle to be used as well as the
 		Locale (default is Locale.getDefault()).
 	</p>
