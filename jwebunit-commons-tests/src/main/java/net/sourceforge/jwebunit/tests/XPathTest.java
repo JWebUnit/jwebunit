@@ -43,4 +43,9 @@ public class XPathTest extends JWebUnitAPITestCase {
         clickElementByXPath("//tr//a[contains(@href,\"next\") and contains(string(),\"test link\")]");
         assertTitleEquals("Next");
     }
+    
+    public void testGetElementTextByXPath() throws Throwable {
+        beginAt("/testPage.html");        
+        assertEquals("test link", getElementTextByXPath("//tr//a[contains(@href,\"next\")]"));
+    }
 }
