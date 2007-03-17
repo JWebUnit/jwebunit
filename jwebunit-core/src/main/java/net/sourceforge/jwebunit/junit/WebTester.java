@@ -2057,6 +2057,19 @@ public class WebTester {
         return getTestingEngine().getElementAttributByXPath(xpath, attribut);
     }
 
+    /**
+     * Get text of the given element.
+     * 
+     * @param xpath xpath of the element.
+     */
+    public String getElementTextByXPath(String xpath){
+        assertElementPresentByXPath(xpath);
+    	return getTestingEngine().getElementTextByXPath(xpath);
+    }
+    
+    
+    
+    
     // Window and Frame Navigation Methods
 
     /**

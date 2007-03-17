@@ -688,6 +688,14 @@ public interface IJWebUnitDialog {
     String getElementAttributByXPath(String xpath, String attribut);
 
     /**
+     * Get text of the given element.
+     * 
+     * @param xpath xpath of the element.
+     */
+    String getElementTextByXPath(String xpath);
+    
+    
+    /**
      * Return true if a given string is contained within the specified element.
      * 
      * @param elementID ID of element to inspect.

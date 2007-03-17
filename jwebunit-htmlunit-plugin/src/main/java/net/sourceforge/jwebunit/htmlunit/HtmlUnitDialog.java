@@ -1672,6 +1672,16 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
         return e.getAttributeValue(attribut);
     }
 
+
+    public String getElementTextByXPath(String xpath) {
+        HtmlElement e = getElementByXPath(xpath);
+        if (e == null)
+            return null;
+        return e.asText();
+    }
+    
+    
+    
     /**
      * Click the indicated button (input type=button).
      * 
