@@ -36,7 +36,7 @@
         <dependency>
             <groupId>htmlunit</groupId>
             <artifactId>htmlunit</artifactId>
-            <version>1.10</version>
+            <version>1.11</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>

@@ -8,6 +8,9 @@
     </properties>
     <body>
     	<release version="1.4" date="march 17, 2007">
+    		<action type="update" dev="Julien Henry">
+                Update to HtmlUnit 1.11.
+            </action>
     		<action type="add" dev="Julien Henry" issue="1677214" due-to="Dragan Pazin">
                 Add a new method: getElementTextByXPath.
             </action>
