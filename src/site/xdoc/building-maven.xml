@@ -78,13 +78,6 @@
                 </p>
                 <ul>
                     <li>
-                        exec-maven-plugin-1.1-SNAPSHOT from
-                        <a
-                            href="http://snapshots.repository.codehaus.org/">
-                            Codehaus Snapshot Repository
-                        </a>
-                    </li>
-                    <li>
                         javacc-maven-plugin build from SVN + patch for
                         this
                         <a
@@ -93,17 +86,7 @@
                         </a>
                     </li>
                     <li>
-                        [cosmetic] maven-javadoc-plugin from SVN + 2
-                        patches.
-                        <a
-                            href="http://jira.codehaus.org/browse/MJAVADOC-105">
-                            issue 1
-                        </a>
-                        ,
-                        <a
-                            href="http://jira.codehaus.org/browse/MJAVADOC-104">
-                            issue 2
-                        </a>
+                        [cosmetic] maven-javadoc-plugin 2.3-SNAPSHOT.
                     </li>
                     <li>
                         [only required to build SF packages]

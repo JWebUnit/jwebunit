@@ -41,7 +41,6 @@ public class NonHtmlContentTest extends JWebUnitAPITestCase {
 
     public void testImageContent() throws IOException {
         beginAt("/image.png");
-        saveAs(new File("C:\\test.png"));
         assertDownloadedFileEquals(this.getClass().getResource("/testcases/NonHtmlContentTest/image.png"));
     }
 }

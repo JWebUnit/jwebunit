@@ -2,7 +2,7 @@
     <parent>
         <artifactId>jwebunit</artifactId>
         <groupId>net.sourceforge.jwebunit</groupId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.5-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -36,7 +36,6 @@
         <dependency>
             <groupId>htmlunit</groupId>
             <artifactId>htmlunit</artifactId>
-            <version>1.11</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
@@ -52,34 +51,10 @@
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.1</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>junit</artifactId>
-                    <groupId>junit</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>logkit</artifactId>
-                    <groupId>logkit</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>avalon-framework</artifactId>
-                    <groupId>avalon-framework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>servlet-api</artifactId>
-                    <groupId>javax.servlet</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.4</version>
         </dependency>
     </dependencies>
     <properties>

@@ -13,22 +13,14 @@ import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
 import org.mortbay.jetty.handler.DefaultHandler;
 import org.mortbay.jetty.handler.HandlerCollection;
-import org.mortbay.jetty.security.Authenticator;
-import org.mortbay.jetty.security.BasicAuthenticator;
-import org.mortbay.jetty.security.Constraint;
-import org.mortbay.jetty.security.ConstraintMapping;
 import org.mortbay.jetty.security.HashUserRealm;
-import org.mortbay.jetty.security.Password;
-import org.mortbay.jetty.security.SecurityHandler;
 import org.mortbay.jetty.security.UserRealm;
 import org.mortbay.jetty.webapp.WebAppContext;
-import org.mortbay.xml.XmlConfiguration;
 
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 
 import net.sourceforge.jwebunit.tests.JWebUnitAPITestCase;
-import net.sourceforge.jwebunit.util.TestingEngineRegistry;
 
 /**
  * Sets up and tears down the Jetty servlet engine before and after the tests in
