@@ -259,7 +259,12 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>3.8.2</version>
-            </dependency>            
+            </dependency>          
+            <dependency>
+                <groupId>junitperf</groupId>
+                <artifactId>junitperf</artifactId>
+                <version>1.8</version>
+            </dependency>  
             <dependency>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty</artifactId>
@@ -286,31 +291,15 @@
                 <version>2.4</version>
             </dependency>
             <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>1.1</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>junit</artifactId>
-                        <groupId>junit</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>log4j</artifactId>
-                        <groupId>log4j</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>logkit</artifactId>
-                        <groupId>logkit</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>avalon-framework</artifactId>
-                        <groupId>avalon-framework</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>servlet-api</artifactId>
-                        <groupId>javax.servlet</groupId>
-                    </exclusion>
-                </exclusions>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.3.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.3.0</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

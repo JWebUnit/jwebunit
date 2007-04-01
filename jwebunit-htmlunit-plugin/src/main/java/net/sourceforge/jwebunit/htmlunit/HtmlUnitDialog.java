@@ -84,12 +84,13 @@ import net.sourceforge.jwebunit.util.TestContext;
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.jaxen.JaxenException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Acts as the wrapper for HtmlUnit access. A dialog is initialized with a given URL, and maintains conversational state
@@ -102,7 +103,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     /**
      * Logger for this class.
      */
-    private static final Log LOGGER = LogFactory.getLog(HtmlUnitDialog.class);
+    private final Logger logger = LoggerFactory.getLogger(HtmlUnitDialog.class);
 
     /**
      * Encapsulate browser abilities.
@@ -675,7 +676,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 if (oldPage instanceof HtmlPage) {
                     oldPageTitle = ((HtmlPage) oldPage).getTitleText();
                 }
-                LOGGER.info("Window " + win + " closed : " + oldPageTitle);
+                logger.debug("Window {} closed : {}", win, oldPageTitle);
             }
 
             public void webWindowContentChanged(WebWindowEvent event) {
@@ -689,18 +690,16 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
                 String newPageTitle = "no_html";
                 if (newPage instanceof HtmlPage)
                     newPageTitle = ((HtmlPage) newPage).getTitleText();
-                LOGGER.info("Window \"" + winName + "\" changed : \""
-                        + oldPageTitle + "\" became \"" + newPageTitle + "\"");
+                logger.debug("Window \"{}\" changed : \"{}\" became \"{}", new Object[] {winName, oldPageTitle, newPageTitle});
             }
 
             public void webWindowOpened(WebWindowEvent event) {
                 String win = event.getWebWindow().getName();
                 Page newPage = event.getNewPage();
                 if (newPage != null && newPage instanceof HtmlPage) {
-                    LOGGER.info("Window " + win + " openend : "
-                            + ((HtmlPage) newPage).getTitleText());
+                    logger.debug("Window {} opened : {}", win, ((HtmlPage) newPage).getTitleText());
                 } else {
-                    LOGGER.info("Window " + win + " openend");
+                    logger.info("Window {} opened", win);
                 }
             }
         });
