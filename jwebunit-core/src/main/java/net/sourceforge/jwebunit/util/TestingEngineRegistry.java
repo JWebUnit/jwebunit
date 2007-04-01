@@ -6,7 +6,7 @@ package net.sourceforge.jwebunit.util;
 
 import java.util.Hashtable;
 
-import net.sourceforge.jwebunit.api.IJWebUnitDialog;
+import net.sourceforge.jwebunit.api.IJWebUnitTestingEngine;
 import net.sourceforge.jwebunit.exception.TestingEngineRegistryException;
 
 /**
@@ -55,7 +55,7 @@ public class TestingEngineRegistry {
     public static void addTestingEngine(String key, String classpath)
             throws ClassNotFoundException {
         Class c = Class.forName(classpath);
-        if (IJWebUnitDialog.class.isAssignableFrom(c)) {
+        if (IJWebUnitTestingEngine.class.isAssignableFrom(c)) {
             testingEngineMap.put(key, c);
         } else {
             throw new TestingEngineRegistryException(classpath
