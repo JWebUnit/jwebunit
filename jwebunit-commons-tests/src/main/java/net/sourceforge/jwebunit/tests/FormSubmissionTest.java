@@ -145,7 +145,6 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
     	submit();
     	assertTextPresent("radio=1 ");
     	clickLink("return");
-    	System.out.println(getPageSource());
     	clickRadioOption("radio", "2");
     	clickRadioOption("radio", "3");
     	assertRadioOptionNotSelected("radio", "1");
