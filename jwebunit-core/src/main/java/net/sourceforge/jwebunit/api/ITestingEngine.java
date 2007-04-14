@@ -24,7 +24,7 @@ import net.sourceforge.jwebunit.util.TestContext;
  * @author Julien Henry
  * @author Nick Neuberger
  */
-public interface IJWebUnitTestingEngine {
+public interface ITestingEngine {
 
     /**
      * Open the browser at an initial URL.
@@ -40,11 +40,11 @@ public interface IJWebUnitTestingEngine {
      * Close the browser and check if there is no pending Javascript alert, confirm or prompt.
      * 
      * @throws ExpectedJavascriptAlertException If there is pending Javascript alert
-     *             {@link IJWebUnitTestingEngine#setExpectedJavaScriptAlert(JavascriptAlert[])}
+     *             {@link ITestingEngine#setExpectedJavaScriptAlert(JavascriptAlert[])}
      * @throws ExpectedJavascriptConfirmException If there is pending Javascript confirm
-     *             {@link IJWebUnitTestingEngine#setExpectedJavaScriptConfirm(JavascriptConfirm[])}
+     *             {@link ITestingEngine#setExpectedJavaScriptConfirm(JavascriptConfirm[])}
      * @throws ExpectedJavascriptPromptException If there is pending Javascript prompt
-     *             {@link IJWebUnitTestingEngine#setExpectedJavaScriptPrompt(JavascriptPrompt[])}
+     *             {@link ITestingEngine#setExpectedJavaScriptPrompt(JavascriptPrompt[])}
      */
     void closeBrowser() throws ExpectedJavascriptAlertException,
             ExpectedJavascriptConfirmException,

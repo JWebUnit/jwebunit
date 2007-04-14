@@ -64,7 +64,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sourceforge.jwebunit.api.IJWebUnitDialog;
+import net.sourceforge.jwebunit.api.ITestingEngine;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptConfirmException;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptPromptException;
@@ -99,7 +99,7 @@ import org.slf4j.LoggerFactory;
  * @author Julien Henry
  * 
  */
-public class HtmlUnitDialog implements IJWebUnitDialog {
+public class HtmlUnitDialog implements ITestingEngine {
     /**
      * Logger for this class.
      */

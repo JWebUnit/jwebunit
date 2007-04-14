@@ -30,16 +30,16 @@ public class NavigationTest extends JWebUnitAPITestCase {
 	}
 
 	public void testBeginAtRelative() {
-		beginAt("/blah.html");
+	    beginAt("/blah.html");
 	}
 
-        public void testBeginAtAbsolute() {
-            beginAt(HOST_PATH + "/NavigationTest/blah.html");
-        }
+	public void testBeginAtAbsolute() {
+	    beginAt(HOST_PATH + "/NavigationTest/blah.html");
+	}
 
 	public void testForwardSlashConfusion() throws Exception {
-		beginAt("/blah.html");
-		beginAt("blah.html");
+	    beginAt("/blah.html");
+	    beginAt("blah.html");
 		getTestContext().setBaseUrl(HOST_PATH + "/NavigationTest/");
 		beginAt("/blah.html");
 		beginAt("blah.html");

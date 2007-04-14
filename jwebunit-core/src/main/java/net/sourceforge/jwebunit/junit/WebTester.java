@@ -24,7 +24,7 @@ import javax.servlet.http.Cookie;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
-import net.sourceforge.jwebunit.api.IJWebUnitTestingEngine;
+import net.sourceforge.jwebunit.api.ITestingEngine;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptConfirmException;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptPromptException;
@@ -50,7 +50,7 @@ import org.apache.regexp.RESyntaxException;
  * @author Wilkes Joiner
  */
 public class WebTester {
-    private IJWebUnitTestingEngine dialog = null;
+    private ITestingEngine dialog = null;
 
     private TestContext testContext = null;
 
@@ -68,7 +68,7 @@ public class WebTester {
      * @return IJWebUnitDialog instance used to wrapper htmlunit conversation.
      * @deprecated You should not use plugin specific fonctionality. Please ask for a new core feature instead.
      */
-    public IJWebUnitTestingEngine getDialog() {
+    public ITestingEngine getDialog() {
         return getTestingEngine();
     }
 
@@ -77,7 +77,7 @@ public class WebTester {
      * 
      * @return IJWebUnitDialog instance.
      */
-    protected IJWebUnitTestingEngine getTestingEngine() {
+    protected ITestingEngine getTestingEngine() {
         if (dialog == null) {
             // defaulting to the HtmlUnitDialog implementation.
             dialog = initializeDialog();
@@ -89,8 +89,8 @@ public class WebTester {
      * Initializes the IJWebUnitDialog when the dialog is null. This will construct a new instance of the dialog based
      * on the specified testing engine key.
      */
-    protected IJWebUnitTestingEngine initializeDialog() {
-        IJWebUnitTestingEngine theIJWebUnitDialog = null;
+    protected ITestingEngine initializeDialog() {
+        ITestingEngine theIJWebUnitDialog = null;
         String theTestingEngineKey = getTestingEngineKey();
         Class theClass;
         try {
@@ -100,7 +100,7 @@ public class WebTester {
             throw new RuntimeException(e1);
         }
         try {
-            theIJWebUnitDialog = (IJWebUnitTestingEngine) theClass.newInstance();
+            theIJWebUnitDialog = (ITestingEngine) theClass.newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
             throw new RuntimeException(
@@ -148,7 +148,7 @@ public class WebTester {
      * 
      * @param aIJWebUnitDialog Testing engine.
      */
-    public void setDialog(IJWebUnitTestingEngine aIJWebUnitDialog) {
+    public void setDialog(ITestingEngine aIJWebUnitDialog) {
         dialog = aIJWebUnitDialog;
     }
 
