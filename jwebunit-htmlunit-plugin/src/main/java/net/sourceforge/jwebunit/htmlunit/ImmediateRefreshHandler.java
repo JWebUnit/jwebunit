@@ -1,5 +1,5 @@
 /******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * JWebUnit project (http://jwebunit.sourceforge.net)                         *
  * Distributed open-source, see full license under LICENCE.txt                *
  ******************************************************************************/
 package net.sourceforge.jwebunit.htmlunit;

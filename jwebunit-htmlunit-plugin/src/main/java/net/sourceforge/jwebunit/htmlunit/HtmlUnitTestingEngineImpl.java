@@ -1,5 +1,5 @@
 /******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * JWebUnit project (http://jwebunit.sourceforge.net)                         *
  * Distributed open-source, see full license under LICENCE.txt                *
  ******************************************************************************/
 package net.sourceforge.jwebunit.htmlunit;
@@ -93,17 +93,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Acts as the wrapper for HtmlUnit access. A dialog is initialized with a given URL, and maintains conversational state
+ * Acts as the wrapper for HtmlUnit access. A testing engine is initialized with a given URL, and maintains conversational state
  * as the dialog progresses through link navigation, form submission, etc.
  * 
  * @author Julien Henry
  * 
  */
-public class HtmlUnitDialog implements ITestingEngine {
+public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     /**
      * Logger for this class.
      */
-    private final Logger logger = LoggerFactory.getLogger(HtmlUnitDialog.class);
+    private final Logger logger = LoggerFactory.getLogger(HtmlUnitTestingEngineImpl.class);
 
     /**
      * Encapsulate browser abilities.

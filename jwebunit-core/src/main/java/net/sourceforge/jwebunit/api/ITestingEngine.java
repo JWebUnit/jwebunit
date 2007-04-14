@@ -1,5 +1,5 @@
 /******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * JWebUnit project (http://jwebunit.sourceforge.net)                         *
  * Distributed open-source, see full license under LICENCE.txt                *
  ******************************************************************************/
 package net.sourceforge.jwebunit.api;
@@ -19,7 +19,7 @@ import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
 import net.sourceforge.jwebunit.util.TestContext;
 
 /**
- * This is the interface for all communications between jWebUnit and the specific running test engine or dialog.
+ * This is the interface for all communications between JWebUnit and the specific running test engine.
  * 
  * @author Julien Henry
  * @author Nick Neuberger
@@ -572,11 +572,11 @@ public interface ITestingEngine {
     boolean hasTable(String tableSummaryNameOrId);
 
     /**
-     * Each framework have it's own way to represent a Table. Dialogs are responsible for converting to the unified
-     * jWebUnit format.
+     * Each framework have it's own way to represent a Table. Testing engines are responsible for converting to the unified
+     * JWebUnit format.
      * 
      * @param tableSummaryNameOrId summary, name or id of the table to return.
-     * @return unified jWebUnit representation of a table.
+     * @return unified JWebUnit representation of a table.
      */
     Table getTable(String tableSummaryNameOrId);
 
@@ -714,7 +714,7 @@ public interface ITestingEngine {
     boolean isMatchInElement(String elementID, String regexp);
 
     /**
-     * Tell the dialog that the given alert boxes are expected in the given order.
+     * Tell the testing engine that the given alert boxes are expected in the given order.
      * 
      * @param alerts Expected alerts.
      * @throws ExpectedJavascriptAlertException If there are still unconsummed alert since a previous call of this
@@ -724,7 +724,7 @@ public interface ITestingEngine {
             throws ExpectedJavascriptAlertException;
 
     /**
-     * Tell the dialog that the given confirm boxes are expected in the given order.
+     * Tell the testing engine that the given confirm boxes are expected in the given order.
      * 
      * @param confirms Expected confirms.
      * @throws ExpectedJavascriptConfirmException If there are still unconsummed confirm since a previous call of this
@@ -734,7 +734,7 @@ public interface ITestingEngine {
             throws ExpectedJavascriptConfirmException;
 
     /**
-     * Tell the dialog that the given prompt boxes are expected in the given order.
+     * Tell the testing engine that the given prompt boxes are expected in the given order.
      * 
      * @param prompts Expected prompts.
      * @throws ExpectedJavascriptPromptException If there are still unconsummed prompt since a previous call of this

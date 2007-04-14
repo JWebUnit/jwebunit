@@ -23,15 +23,15 @@
                     First you need to download the latest Maven 2, which
                     currently is
                     <a href="http://maven.apache.org">
-                        <tt>Maven-2.0.5</tt>
+                        <tt>Maven-2.0.6</tt>
                     </a>
                     , make sure you download the binary archive
-                    (maven-2.0.5-bin.zip).
+                    (maven-2.0.6-bin.zip).
                 </p>
                 <p>
                     Installing Maven should be easy: unzip the file to
                     any directory you like, let's say:
-                    <source>C:\maven-2.0.5</source>
+                    <source>C:\maven-2.0.6</source>
                 </p>
                 <p>
                     Next you need to do 2 things:
@@ -39,7 +39,7 @@
                         <li>
                             add an environment variable MAVEN_HOME which
                             points to the install directory of Maven,
-                            i.e. C:\maven-2.0.5
+                            i.e. C:\maven-2.0.6
                         </li>
                         <li>
                             add
@@ -78,8 +78,7 @@
                 </p>
                 <ul>
                     <li>
-                        javacc-maven-plugin build from SVN + patch for
-                        this
+                        javacc-maven-plugin 2.2-SNAPSHOT because of this
                         <a
                             href="http://jira.codehaus.org/browse/MJAVACC-20">
                             issue
@@ -88,51 +87,17 @@
                     <li>
                         [cosmetic] maven-javadoc-plugin 2.3-SNAPSHOT.
                     </li>
-                    <li>
-                        [only required to build SF packages]
-                        maven-assembly-plugin-2.2-SNAPSHOT from
-                        <a
-                            href="http://people.apache.org/maven-snapshot-repository//">
-                            Maven Snapshot Repository
-                        </a>
-                    </li>
                 </ul>
                 <p>
                     I'm affraid as long these patchs are not applied and
                     plugins are not released, JWebUnit builds are not
                     reproductible. You can vote for these issues or spam
                     the Maven mailing list to help. ;)
-                </p>
+                </p>               
                 <p>
-                    Installation of javacc-maven-plugin:
+                    Installation of javacc-maven-plugin-2.2-SNAPSHOT
                     <br />
-                    You need at least jdk1.5 !!!
-                </p>
-                <source>
-$ svn co https://svn.codehaus.org/mojo/trunk/mojo/javacc-maven-plugin/
-$ cd javacc-maven-plugin
-$ patch -p0 &lt; maven-javacc.patch
-patching file src/main/java/org/codehaus/mojo/javacc/JavaCCMojo.java
-$ mvn clean install
-                </source>
-                <p>
-                    Installation of exec-maven-plugin-1.1-SNAPSHOT
-                    <br />
-                    Alternativly, you can add Codehaus Snapshot
-                    Repository to your settings.xml, but it may mess
-                    your repository by downloading and using not
-                    intended SNAPSHOTS. That's why I suggest you install
-                    manually the required SNAPSHOT.
-                </p>
-                <source>
-$ svn co https://svn.codehaus.org/mojo/trunk/mojo/exec-maven-plugin/
-$ cd exec-maven-plugin 
-$ mvn clean install
-                </source>
-                <p>
-                    Installation of maven-assembly-plugin-2.2-SNAPSHOT
-                    <br />
-                    You have to add Maven Snapshot Repository to your
+                    You have to add Codehaus Snapshot Repository to your
                     settings.xml, but it could mess your repository by
                     downloading and using not intended SNAPSHOTS.
                 </p>

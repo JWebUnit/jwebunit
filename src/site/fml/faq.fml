@@ -35,4 +35,20 @@ Finally, you can temporary disable JavaScript in your test:</p>
     </faq>
   </part>
   
+    <part id="JUnitPerf">
+    <title>JUnitPerf</title>
+   
+    <faq id="junitperf-support">
+      <question>
+        Can I use JWebUnit coupled with JUnitPerf to do load testing?
+      </question>
+      <answer>
+        <p>Yes, but you have to take care when writing your JUnitPerf test. You need to use a TestFactory:</p>
+	<source>int users = 10;
+Test factory = new TestFactory(MyJWebUnitTest.class);
+Test loadTest = new LoadTest(factory, users);</source>
+      </answer>
+    </faq>
+  </part>
+  
 </faqs>

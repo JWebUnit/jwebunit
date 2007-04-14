@@ -1,5 +1,5 @@
 /******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * JWebUnit project (http://jwebunit.sourceforge.net)                         *
  * Distributed open-source, see full license under LICENCE.txt                *
  ******************************************************************************/
 package net.sourceforge.jwebunit.htmlunit;
@@ -11,7 +11,7 @@ import net.sourceforge.jwebunit.tests.util.JettySetup;
 import net.sourceforge.jwebunit.tests.*;
 
 /**
- * Test Suite for jWebUnit.
+ * Test Suite for JWebUnit.
  * 
  * @author Julien Henry
  * @author Wilkes Joiner
@@ -19,12 +19,12 @@ import net.sourceforge.jwebunit.tests.*;
 public class JWebUnitTest extends TestCase {
 
     /**
-     * Runs all the tests for jWebUnit. Add each new TestCase by using the <code>addTestSuite(Class)</code> method, so
+     * Runs all the tests for JWebUnit. Add each new TestCase by using the <code>addTestSuite(Class)</code> method, so
      * that the TestCase's <code>suite</code> method <strong>isn't called </strong>. This prevents
      * <code>JettySetup</code> from starting the Jetty server twice and consequently the error 'port 80xx is already
      * in use'.
      * 
-     * @return the <code>TestSuite</code> containing all the tests for jWebUnit ready to run utilizing Jetty as
+     * @return the <code>TestSuite</code> containing all the tests for JWebUnit ready to run utilizing Jetty as
      *         testserver.
      */
     public static Test suite() {

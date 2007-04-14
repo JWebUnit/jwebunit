@@ -1,5 +1,5 @@
 /******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * JWebUnit project (http://jwebunit.sourceforge.net)                         *
  * Distributed open-source, see full license under LICENCE.txt                *
  ******************************************************************************/
 package net.sourceforge.jwebunit.junit;
@@ -50,7 +50,7 @@ import org.apache.regexp.RESyntaxException;
  * @author Wilkes Joiner
  */
 public class WebTester {
-    private ITestingEngine dialog = null;
+    private ITestingEngine testingEngine = null;
 
     private TestContext testContext = null;
 
@@ -62,7 +62,7 @@ public class WebTester {
     /**
      * Provides access to the testing engine for subclasses - in case functionality not yet wrappered required by test.
      * 
-     * If the dialog is not explicitly set the jWebUnit framework will default to using the orignal testing engine,
+     * If the testing engine is not explicitly set the JWebUnit framework will default to using the orignal testing engine,
      * which is, htmlunit.
      * 
      * @return IJWebUnitDialog instance used to wrapper htmlunit conversation.
@@ -78,15 +78,15 @@ public class WebTester {
      * @return IJWebUnitDialog instance.
      */
     protected ITestingEngine getTestingEngine() {
-        if (dialog == null) {
+        if (testingEngine == null) {
             // defaulting to the HtmlUnitDialog implementation.
-            dialog = initializeDialog();
+            testingEngine = initializeDialog();
         }
-        return dialog;
+        return testingEngine;
     }
 
     /**
-     * Initializes the IJWebUnitDialog when the dialog is null. This will construct a new instance of the dialog based
+     * Initializes the IJWebUnitDialog when the testing engine is null. This will construct a new instance of the testing engine based
      * on the specified testing engine key.
      */
     protected ITestingEngine initializeDialog() {
@@ -149,7 +149,7 @@ public class WebTester {
      * @param aIJWebUnitDialog Testing engine.
      */
     public void setDialog(ITestingEngine aIJWebUnitDialog) {
-        dialog = aIJWebUnitDialog;
+        testingEngine = aIJWebUnitDialog;
     }
 
     /**
@@ -1767,7 +1767,7 @@ public class WebTester {
 
     /**
      * Begin interaction with a specified form. If form interaction methods are called without explicitly calling this
-     * method first, jWebUnit will attempt to determine itself which form is being manipulated.
+     * method first, JWebUnit will attempt to determine itself which form is being manipulated.
      * 
      * It is not necessary to call this method if their is only one form on the current page.
      * 
@@ -1779,7 +1779,7 @@ public class WebTester {
 
     /**
      * Begin interaction with a specified form. If form interaction methods are called without explicitly calling this
-     * method first, jWebUnit will attempt to determine itself which form is being manipulated.
+     * method first, JWebUnit will attempt to determine itself which form is being manipulated.
      * 
      * It is not necessary to call this method if their is only one form on the current page.
      * 
@@ -1791,7 +1791,7 @@ public class WebTester {
 
     /**
      * Begin interaction with a specified form. If form interaction methods are called without explicitly calling this
-     * method first, jWebUnit will attempt to determine itself which form is being manipulated.
+     * method first, JWebUnit will attempt to determine itself which form is being manipulated.
      * 
      * It is not necessary to call this method if their is only one form on the current page.
      * 
@@ -2275,7 +2275,7 @@ public class WebTester {
      */
     public void setTestingEngineKey(String testingEngineKey) {
         this.testingEngineKey = testingEngineKey;
-        dialog = null;
+        testingEngine = null;
     }
 
     /**
@@ -2286,13 +2286,13 @@ public class WebTester {
      */
     public String getTestingEngineKey() {
         if (testingEngineKey == null) {
-            // use first available dialog
+            // use first available testing engine
             String key = TestingEngineRegistry.getFirstAvailable();
             if (key != null) {
                 setTestingEngineKey(key);
             } else {
                 throw new RuntimeException(
-                        "TestingEngineRegistry contains no dialog. Check you put at least one plugin in the classpath.");
+                        "TestingEngineRegistry contains no testing engine. Check you put at least one plugin in the classpath.");
             }
         }
         return testingEngineKey;

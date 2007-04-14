@@ -1,5 +1,5 @@
 /******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * JWebUnit project (http://jwebunit.sourceforge.net)                         *
  * Distributed open-source, see full license under LICENCE.txt                *
  ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
@@ -13,8 +13,6 @@ import net.sourceforge.jwebunit.tests.util.JettySetup;
  */
 public class HtmlParsingTest extends JWebUnitAPITestCase {
 
-    // URL: getDialog().getWebClient().getCurrentPage().getText()
-    
     public static Test suite() {
         Test suite = new TestSuite(HtmlParsingTest.class);
         return new JettySetup(suite);

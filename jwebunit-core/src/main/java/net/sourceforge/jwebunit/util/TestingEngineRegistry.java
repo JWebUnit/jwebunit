@@ -1,5 +1,5 @@
 /******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
+ * JWebUnit project (http://jwebunit.sourceforge.net)                         *
  * Distributed open-source, see full license under LICENCE.txt                *
  ******************************************************************************/
 package net.sourceforge.jwebunit.util;
@@ -10,7 +10,7 @@ import net.sourceforge.jwebunit.api.ITestingEngine;
 import net.sourceforge.jwebunit.exception.TestingEngineRegistryException;
 
 /**
- * This will maintain a registry of known testing engines to be used by jWebUnit.
+ * This will maintain a registry of known testing engines to be used by JWebUnit.
  * 
  * @author Julien Henry
  */
@@ -24,12 +24,12 @@ public class TestingEngineRegistry {
     private static Hashtable testingEngineMap = new Hashtable();
 
     static {
-        String cp = "net.sourceforge.jwebunit.htmlunit.HtmlUnitDialog";
-        // Try to load HtmlUnitDialog to check if it is present.
+        String cp = "net.sourceforge.jwebunit.htmlunit.HtmlUnitTestingEngineImpl";
+        // Try to load HtmlUnit Testing Engine to check if it is present.
         try {
             addTestingEngine(TESTING_ENGINE_HTMLUNIT, cp);
         } catch (ClassNotFoundException e) {
-            // HtmlUnitDialog is not present in the classpath. Nothing to do.
+            // HtmlUnit Testing Engine is not present in the classpath. Nothing to do.
         }
     }
 
