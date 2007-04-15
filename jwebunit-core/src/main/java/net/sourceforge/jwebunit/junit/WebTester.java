@@ -715,7 +715,7 @@ public class WebTester {
         assertFormPresent();
         try {
             Assert.assertTrue("Found form element with name ["
-                    + formElementName + "] when not expected.", !getDialog()
+                    + formElementName + "] when not expected.", !getTestingEngine()
                     .hasFormParameterNamed(formElementName));
         } catch (UnableToSetFormException e) {
             // assertFormControlNotPresent
@@ -823,7 +823,7 @@ public class WebTester {
     public void assertFormElementEquals(String formElementName,
             String expectedValue) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals(expectedValue, getDialog()
+        Assert.assertEquals(expectedValue, getTestingEngine()
                 .getElementAttributByXPath(
                         "//input[@name='" + formElementName + "']", "value"));
     }
@@ -844,7 +844,7 @@ public class WebTester {
             Assert.fail(e.toString());
         }
         Assert.assertTrue("Unable to match [" + regexp + "] in form element \""
-                + formElementName + "\"", re.match(getDialog()
+                + formElementName + "\"", re.match(getTestingEngine()
                 .getElementAttributByXPath(
                         "//input[@name='" + formElementName + "']", "value")));
     }
@@ -1150,7 +1150,7 @@ public class WebTester {
                 .getSelectedOptions(selectName).length);
         for (int i = 0; i < labels.length; i++)
             Assert.assertEquals(labels[i],
-                    getDialog()
+                    getTestingEngine()
                             .getSelectOptionLabelForValue(
                                     selectName,
                                     getTestingEngine().getSelectedOptions(
@@ -1222,7 +1222,7 @@ public class WebTester {
      */
     public void assertSubmitButtonPresent() {
         assertFormPresent();
-        Assert.assertTrue("no submit button found.", getDialog()
+        Assert.assertTrue("no submit button found.", getTestingEngine()
                 .hasSubmitButton());
     }
 
@@ -1256,7 +1256,7 @@ public class WebTester {
      */
     public void assertSubmitButtonNotPresent() {
         assertFormPresent();
-        Assert.assertFalse("Submit Button found.", getDialog()
+        Assert.assertFalse("Submit Button found.", getTestingEngine()
                 .hasSubmitButton());
     }
 
@@ -1306,7 +1306,7 @@ public class WebTester {
      */
     public void assertResetButtonPresent() {
         assertFormPresent();
-        Assert.assertTrue("no reset button found.", getDialog()
+        Assert.assertTrue("no reset button found.", getTestingEngine()
                 .hasResetButton());
     }
 
@@ -1369,7 +1369,7 @@ public class WebTester {
      */
     public void assertButtonPresent(String buttonId) {
         assertFormPresent();
-        Assert.assertTrue("Button [" + buttonId + "] not found.", getDialog()
+        Assert.assertTrue("Button [" + buttonId + "] not found.", getTestingEngine()
                 .hasButton(buttonId));
     }
 
@@ -1455,7 +1455,7 @@ public class WebTester {
      */
     public void assertLinkPresentWithText(String linkText, int index) {
         Assert.assertTrue("Link with text [" + linkText + "] and index ["
-                + index + "] not found in response.", getDialog()
+                + index + "] not found in response.", getTestingEngine()
                 .hasLinkWithText(linkText, index));
     }
 
@@ -1503,7 +1503,7 @@ public class WebTester {
      */
     public void assertLinkPresentWithExactText(String linkText, int index) {
         Assert.assertTrue("Link with Exact text [" + linkText + "] and index ["
-                + index + "] not found in response.", getDialog()
+                + index + "] not found in response.", getTestingEngine()
                 .hasLinkWithExactText(linkText, index));
     }
 
@@ -1515,7 +1515,7 @@ public class WebTester {
      */
     public void assertLinkNotPresentWithExactText(String linkText, int index) {
         Assert.assertTrue("Link with Exact text [" + linkText + "] and index "
-                + index + " found in response.", !getDialog()
+                + index + " found in response.", !getTestingEngine()
                 .hasLinkWithExactText(linkText, index));
     }
 
@@ -1595,7 +1595,7 @@ public class WebTester {
         Assert.assertTrue("Unable to locate element with id \"" + elementID
                 + "\"", getTestingEngine().hasElement(elementID));
         Assert.assertTrue("Unable to locate [" + text + "] in element \""
-                + elementID + "\"", getDialog()
+                + elementID + "\"", getTestingEngine()
                 .isTextInElement(elementID, text));
     }
 
@@ -1633,7 +1633,7 @@ public class WebTester {
         Assert.assertTrue("Unable to locate element with id \"" + elementID
                 + "\"", getTestingEngine().hasElement(elementID));
         Assert.assertFalse("Regexp [" + regexp + "] matched in element ["
-                + elementID + "] when not expected", getDialog()
+                + elementID + "] when not expected", getTestingEngine()
                 .isMatchInElement(elementID, regexp));
     }
 
@@ -1677,7 +1677,7 @@ public class WebTester {
         Assert
                 .assertTrue("Window count is "
                         + getTestingEngine().getWindowCount() + " but "
-                        + windowCount + " was expected.", getDialog()
+                        + windowCount + " was expected.", getTestingEngine()
                         .getWindowCount() == windowCount);
     }
 

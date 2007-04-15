@@ -21,6 +21,11 @@ public class TestingEngineRegistry {
      */
     public final static String TESTING_ENGINE_HTMLUNIT = "TestingEngineHtmlUnit";
 
+    /**
+     * Key of HtmlUnit testing engine.
+     */
+    public final static String TESTING_ENGINE_SELENIUM = "TestingEngineSelenium";
+
     private static Hashtable testingEngineMap = new Hashtable();
 
     static {
@@ -30,6 +35,13 @@ public class TestingEngineRegistry {
             addTestingEngine(TESTING_ENGINE_HTMLUNIT, cp);
         } catch (ClassNotFoundException e) {
             // HtmlUnit Testing Engine is not present in the classpath. Nothing to do.
+        }
+        cp = "net.sourceforge.jwebunit.selenium.SeleniumTestingEngineImpl";
+        // Try to load Selenium Testing Engine to check if it is present.
+        try {
+            addTestingEngine(TESTING_ENGINE_SELENIUM, cp);
+        } catch (ClassNotFoundException e) {
+            // Selenium Testing Engine is not present in the classpath. Nothing to do.
         }
     }
 
