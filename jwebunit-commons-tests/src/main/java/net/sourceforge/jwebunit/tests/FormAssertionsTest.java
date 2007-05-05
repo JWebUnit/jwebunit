@@ -57,17 +57,19 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
 
     public void testAssertFormElementEquals() throws Throwable {
         beginAt("/testPage.html");
-        assertPass("assertTextFieldEquals", new Object[]{"testInputElement", "testValue"});
+        assertPassFail("assertTextFieldEquals", new Object[]{"testInputElement", "testValue"}, new Object[]{"testInputElement", "noSuchValue"});
         assertPass("assertSubmitButtonPresent", new Object[]{"submitButton", "buttonLabel"});
+        setWorkingForm("form5");
         assertPass("assertTextFieldEquals", new Object[]{"textarea", "sometexthere"});
+        setWorkingForm("form3");
         assertPass("assertRadioOptionSelected", new Object[]{"cool", "dog"});
-        assertPass("assertHiddenFieldPresent", new Object[]{"hiddenelement", "hiddenvalue"});
-        assertFail("assertTextFieldEquals", new Object[]{"testInputElement", "noSuchValue"});
+        setWorkingForm("form5");
+        assertPassFail("assertHiddenFieldPresent", new Object[]{"hiddenelement", "hiddenvalue"}, new Object[]{"hiddenelement", "notThisValue"});
+        setWorkingForm("form1");
         assertFail("assertTextFieldEquals", new Object[]{"noSuchElement", "testValue"});
         assertFail("assertHiddenFieldPresent", new Object[]{"noSuchElement", "testValue"});
-        assertFail("assertHiddenFieldPresent", new Object[]{"hiddenelement", "notThisValue"});
-        assertFail("assertTextFieldEquals", new Object[]{"passwordelement", "noSuchValue"});
-        assertPass("assertTextFieldEquals", new Object[]{"passwordelement", "password"});
+        setWorkingForm("form5");        
+        assertPassFail("assertTextFieldEquals", new Object[]{"passwordelement", "password"}, new Object[]{"passwordelement", "noSuchValue"});
     }
 
     public void testCheckboxSelected() throws Throwable {

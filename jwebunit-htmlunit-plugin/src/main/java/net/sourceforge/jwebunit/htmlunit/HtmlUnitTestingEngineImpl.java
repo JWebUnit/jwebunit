@@ -896,17 +896,28 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     private HtmlForm getFormWithInput(String inputName) {
-        if (hasForm()) {
-            for (int i = 0; i < getForms().size(); i++) {
-                HtmlForm form = (HtmlForm) getForms().get(i);
-                List inputElements = form.getHtmlElementsByAttribute("input",
-                        "name", inputName);
-                if (inputElements.isEmpty()) {
-                    inputElements = form.getTextAreasByName(inputName);
-                }
-                if (!inputElements.isEmpty()) {
-                    setWorkingForm(form);
-                    return form;
+        // Search in Working form if available
+        if (form != null) {
+            if (!form.getHtmlElementsByAttribute("input",
+                    "name", inputName).isEmpty()) {
+                return form;
+            }
+            if (!form.getTextAreasByName(inputName).isEmpty()) {
+                return form;
+            }
+        } else {
+            if (hasForm()) {
+                for (int i = 0; i < getForms().size(); i++) {
+                    HtmlForm form = (HtmlForm) getForms().get(i);
+                    List inputElements = form.getHtmlElementsByAttribute("input",
+                            "name", inputName);
+                    if (inputElements.isEmpty()) {
+                        inputElements = form.getTextAreasByName(inputName);
+                    }
+                    if (!inputElements.isEmpty()) {
+                        setWorkingForm(form);
+                        return form;
+                    }
                 }
             }
         }

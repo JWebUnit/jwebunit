@@ -8,8 +8,18 @@
     </properties>
     <body>
     	<release version="1.5" date="UNKNOW">
+            <action type="add" dev="Julien Henry">
+                Add basic Selenium support.
+            </action>
             <action type="update" dev="Julien Henry">
                 Rename IJWebUnitDialog in ITestingEngine.
+            </action>
+    	</release>
+    	<release version="1.4.1" date="may 5, 2007">
+    		<action type="fix" dev="Julien Henry" issue="1708229,1710809,1712633" due-to="Jon,Joe Fisher">
+                setTextField now doesn't change the current working form if already set.
+                clickRadioOption now doesn't change the current working form if already set.
+                assertFormElementPresent now only searches the current working form if already set.
             </action>
     	</release>
     	<release version="1.4" date="march 17, 2007">
