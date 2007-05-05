@@ -550,7 +550,7 @@ public class HtmlUnitDialog implements IJWebUnitDialog {
     }
     
     public String getPageSource() {
-        return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
+        return win.getEnclosedPage().getWebResponse()
                 .getContentAsString();
     }
 
