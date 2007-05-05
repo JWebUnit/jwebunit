@@ -19,6 +19,8 @@
         <src>./images/jwebunit-logo.png</src>
         <href>http://jwebunit.sourceforge.net</href>
     </bannerRight>
+    <publishDate format="dd MMM yyyy" position="left" />
+  	<version position="left" />
     <body>
         <links>
             <item name="JUnit" href="http://www.junit.org" />
