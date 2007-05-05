@@ -16,6 +16,9 @@
             </action>
     	</release>
     	<release version="1.4.1" date="may 5, 2007">
+    		<action type="fix" dev="Julien Henry" issue="1706395" due-to="meilon">
+                getPageSource() now returns source of the current frame or window.
+            </action>
     		<action type="fix" dev="Julien Henry" issue="1708229,1710809,1712633" due-to="Jon,Joe Fisher">
                 setTextField now doesn't change the current working form if already set.
                 clickRadioOption now doesn't change the current working form if already set.

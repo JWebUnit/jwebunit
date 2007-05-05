@@ -551,7 +551,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
     
     public String getPageSource() {
-        return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
+        return win.getEnclosedPage().getWebResponse()
                 .getContentAsString();
     }
 

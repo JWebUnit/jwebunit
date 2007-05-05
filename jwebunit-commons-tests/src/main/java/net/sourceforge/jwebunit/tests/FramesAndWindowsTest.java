@@ -111,6 +111,14 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertException(RuntimeException.class, "gotoFrame",
 				new Object[] { "BottomFrame" });
 	}
+    
+    public void testGetFrameSource() {
+        beginAt("Frames.html");
+        assertTrue(getPageSource().indexOf("<frameset rows=\"33%, 33%, 33%\">")>=0);
+        gotoFrame("TopFrame");
+        assertEquals("<html><body>TopFrame</body></html>", getPageSource());
+        assertTextPresent("TopFrame");
+	}
 
 	public void testGotoFrameById() {
         beginAt("Frames.html");
