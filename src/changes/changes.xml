@@ -7,6 +7,13 @@
         </author>
     </properties>
     <body>
+    	<release version="1.4.1" date="UNKNOW">
+    		<action type="fix" dev="Julien Henry" issue="1708229,1710809,1712633" due-to="Jon,Joe Fisher">
+                setTextField now doesn't change the current working form if already set.
+                clickRadioOption now doesn't change the current working form if already set.
+                assertFormElementPresent now only searches the current working form if already set.
+            </action>
+    	</release>
     	<release version="1.4" date="march 17, 2007">
     		<action type="update" dev="Julien Henry">
                 Update to HtmlUnit 1.11.

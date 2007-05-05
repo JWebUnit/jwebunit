@@ -197,6 +197,24 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("param2=anyvalue");
     }
 
+    public void testTextFieldSetOnMultiFormWithSameName() {
+        beginAt("/MultiFormPage.html");
+        setWorkingForm("form2");
+        setTextField("param2", "foo");
+        setTextField("email", "anyvalue");
+        submit();
+        assertTextPresent("email=anyvalue");
+        assertTextPresent("param2=foo");
+        closeBrowser();
+        beginAt("/MultiFormPage.html");
+        setWorkingForm("form3");
+        setTextField("param3", "foo");
+        setTextField("email", "anyvalue");
+        submit();
+        assertTextPresent("param3=foo");
+        assertTextPresent("email=anyvalue");
+    }
+
     public void testSetWorkingFormById() {
         beginAt("/MultiFormPage.html");
         setWorkingForm("form5");
