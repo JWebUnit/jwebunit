@@ -29,4 +29,51 @@
 	<properties>
 		<topDirectoryLocation>..</topDirectoryLocation>
 	</properties>	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<sourceRoot>
+								${project.build.directory}/generated-sources/main/java
+							</sourceRoot>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>
+						net.sourceforge.jwebunit.javacc.WebTestCaseGenerator
+					</mainClass>
+					<arguments>
+						<argument>${basedir}/src/main/java</argument>
+						<argument>
+							${project.build.directory}/generated-sources/main/java
+						</argument>
+					</arguments>
+					<includePluginDependencies>
+						true
+					</includePluginDependencies>
+					<includeProjectDependencies>
+						false
+					</includeProjectDependencies>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>net.sourceforge.jwebunit</groupId>
+						<artifactId>
+							jwebunit-webtestcase-generator
+						</artifactId>
+						<version>${pom.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
 </project>
