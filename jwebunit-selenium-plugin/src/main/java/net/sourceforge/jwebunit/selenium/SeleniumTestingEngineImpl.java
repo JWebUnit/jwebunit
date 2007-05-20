@@ -107,7 +107,7 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
     }
 
     public void clickLinkWithImage(String imageFileName, int index) {
-        selenium.click("xpath=//a[contains(img/@src,'" + imageFileName + "')]");
+        selenium.click("xpath=//a[contains(img/@src,'" + imageFileName + "')][" + index + 1 + "]");
         selenium.waitForPageToLoad(timeout);
     }
 
@@ -118,7 +118,7 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
     }
 
     public void clickRadioOption(String radioGroup, String radioOptionValue) {
-        selenium.click("xpath=" + formSelector() + "//input[@name='" + radioGroup + "' and @value='"
+        selenium.click("xpath=" + formSelector() + "//input[@type='radio' and @name='" + radioGroup + "' and @value='"
                 + radioOptionValue + "']");
     }
 
@@ -260,7 +260,7 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 
     public boolean hasLinkWithImage(String imageFileName, int index) {
         return selenium.isElementPresent("xpath=//a[contains(img/@src,'"
-                + imageFileName + "')]");
+                + imageFileName + "')][" + index + 1 + "]");
     }
 
     public boolean hasLinkWithText(String linkText, int index) {
@@ -292,26 +292,32 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
     }
     
     public boolean hasSubmitButton() {
+        String xpath1 = formSelector() + "//input[@type='submit' or @type='image']";
+        String xpath2 = formSelector() + "//button[@type='submit']";
         return selenium
-        .isElementPresent("xpath=" + formSelector() + "(//input[@type='submit' or @type='image']|//button[@type='submit'])");
+        .isElementPresent("xpath=" + xpath1 + "|" + xpath2);
     }
 
     public boolean hasSubmitButton(String nameOrID, String value) {
+        String xpath1 = formSelector() + "//input[(@type='submit' or @type='image') and (@id='"
+        + nameOrID + "' or @name='" + nameOrID
+        + "') and @value='" + value + "']";
+        String xpath2 = formSelector() + "//button[@type='submit' and (@id='"
+        + nameOrID + "' or @name='" + nameOrID
+        + "') and @value='" + value + "']";
         return selenium
-                .isElementPresent("xpath=" + formSelector() + "(//input[(@type='submit' or @type='image') and (@id='"
-                        + nameOrID + "' or @name='" + nameOrID
-                        + "') and @value='" + value + "']|//button[@type='submit' and (@id='"
-                        + nameOrID + "' or @name='" + nameOrID
-                        + "') and @value='" + value + "'])");
+                .isElementPresent("xpath=" + xpath1 + "|" + xpath2);
     }
 
     public boolean hasSubmitButton(String nameOrID) {
+        String xpath1 = formSelector() + "//input[(@type='submit' or @type='image') and (@id='"
+        + nameOrID + "' or @name='" + nameOrID
+        + "')]";
+        String xpath2 = formSelector() + "//button[@type='submit' and (@id='"
+        + nameOrID + "' or @name='" + nameOrID
+        + "')]";
         return selenium
-        .isElementPresent("xpath=" + formSelector() + "(//input[(@type='submit' or @type='image') and (@id='"
-                + nameOrID + "' or @name='" + nameOrID
-                + "')]|//button[@type='submit' and (@id='"
-                + nameOrID + "' or @name='" + nameOrID
-                + "')])");
+                .isElementPresent("xpath=" + xpath1 + "|" + xpath2);
     }
 
     public boolean hasResetButton() {
@@ -385,36 +391,44 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
     }
 
     public void setTextField(String inputName, String text) {
-        selenium.type("xpath=" + formSelector() + "(//input[@name='"+inputName+"' and (@type='text' or @type='password' or @type='file')]|//textarea[@name='"+inputName+"'])", text);
+        String xpath1 = formSelector() + "//input[@name='"+inputName+"' and (@type='text' or @type='password' or @type='file')]";
+        String xpath2 = formSelector() + "//textarea[@name='"+inputName+"']";
+        selenium.type("xpath=" + xpath1 + "|" + xpath2, text);
     }
 
     public void setWorkingForm(String nameOrId, int index) {
         if (nameOrId != null)
-            formIdent="(@name='"+nameOrId+"' or @id='"+nameOrId+"') and position()="+index;
+            formIdent="(@name='"+nameOrId+"' or @id='"+nameOrId+"')][ position()="+(index+1);
         else
             formIdent=null;
     }
 
     public void submit() {
-        selenium.click("xpath=" + formSelector() + "(//input[@type='submit' or @type='image']|//button[@type='submit'])");
+        String xpath1 = formSelector() + "//input[@type='submit' or @type='image']";
+        String xpath2 = formSelector() + "//button[@type='submit']";
+        selenium.click("xpath=" + xpath1 + "|" + xpath2);
         selenium.waitForPageToLoad(timeout);
     }
 
-    public void submit(String buttonName, String buttonValue) {
-        selenium.click("xpath=" + formSelector() + "(//input[(@type='submit' or @type='image') and (@id='"
-                        + buttonName + "' or @name='" + buttonName
-                        + "') and @value='" + buttonValue + "']|//button[@type='submit' and (@id='"
-                        + buttonName + "' or @name='" + buttonName
-                        + "') and @value='" + buttonValue + "'])");
+    public void submit(String nameOrID, String value) {
+        String xpath1 = formSelector() + "//input[(@type='submit' or @type='image') and (@id='"
+        + nameOrID + "' or @name='" + nameOrID
+        + "') and @value='" + value + "']";
+        String xpath2 = formSelector() + "//button[@type='submit' and (@id='"
+        + nameOrID + "' or @name='" + nameOrID
+        + "') and @value='" + value + "']";
+        selenium.click("xpath=" + xpath1 + "|" + xpath2);
         selenium.waitForPageToLoad(timeout);
     }
 
-    public void submit(String buttonName) {
-        selenium.click("xpath=" + formSelector() + "(//input[(@type='submit' or @type='image') and (@id='"
-                        + buttonName + "' or @name='" + buttonName
-                        + "')]|//button[@type='submit' and (@id='"
-                        + buttonName + "' or @name='" + buttonName
-                        + "')])");
+    public void submit(String nameOrID) {
+        String xpath1 = formSelector() + "//input[(@type='submit' or @type='image') and (@id='"
+        + nameOrID + "' or @name='" + nameOrID
+        + "')]";
+        String xpath2 = formSelector() + "//button[@type='submit' and (@id='"
+        + nameOrID + "' or @name='" + nameOrID
+        + "')]";
+        selenium.click("xpath=" + xpath1 + "|" + xpath2);
         selenium.waitForPageToLoad(timeout);
     }
 
@@ -525,7 +539,22 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
      * @see net.sourceforge.jwebunit.api.ITestingEngine#getSelectedRadio(java.lang.String)
      */
     public String getSelectedRadio(String radioGroup) {
-        throw new UnsupportedOperationException("getSelectedRadio");
+        int count = 0;
+        while (selenium.isElementPresent("xpath=" + formSelector() + "//input[@type='radio' and @name='"+radioGroup+"']["+(count+1)+"]")) {
+            if ("on".equals(selenium.getValue("xpath=" + formSelector() + "//input[@type='radio' and @name='"+radioGroup+"']["+(count+1)+"]"))) {
+                return selenium.getAttribute("xpath=" + formSelector() + "//input[@type='radio' and @name='"+radioGroup+"']["+(count+1)+"]@value");
+            }
+            count++;
+        }
+        return null;
+    }
+    
+    protected int getRadioCount(String radioGroup) {
+        int count = 0;
+        while (selenium.isElementPresent("xpath=" + formSelector() + "//input[@type='radio' and @name='"+radioGroup+"']["+(count+1)+"]")) {
+            count++;
+        }
+        return count;
     }
 
     /* (non-Javadoc)
@@ -558,8 +587,7 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
      * @see net.sourceforge.jwebunit.api.ITestingEngine#setWorkingForm(int)
      */
     public void setWorkingForm(int index) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("setWorkingForm");
+            formIdent="position()="+(index+1);
     }
 
 }

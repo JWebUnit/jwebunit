@@ -162,7 +162,7 @@
         <repository>
             <id>Codehaus</id>
             <name>Mojo Codehaus Repository</name>
-            <url>http://repository.codehaus.org/org/codehaus/mojo/</url>
+            <url>http://repository.codehaus.org/</url>
         </repository>
     </repositories>
     <build>
@@ -269,7 +269,7 @@
             <dependency>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty</artifactId>
-                <version>6.1.2rc2</version>
+                <version>6.1.3</version>
             </dependency>
             <dependency>
                 <groupId>commons-fileupload</groupId>
@@ -282,9 +282,9 @@
                 <version>1.3.1</version>
             </dependency>
             <dependency>
-                <groupId>htmlunit</groupId>
+                <groupId>net.sourceforge.htmlunit</groupId>
                 <artifactId>htmlunit</artifactId>
-                <version>1.11</version>
+                <version>1.12-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>regexp</groupId>
@@ -305,7 +305,7 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>1.3.0</version>
-                <scope>test</scope>
+                <scope>optional</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -447,7 +447,7 @@
         <site>
             <id>jwebunit-website</id>
             <name>JWebUnit WebSite - Sourceforge</name>
-            <url>scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs</url>
+            <url>file:///home/julien/site-jwebunit</url>
         </site>
         <repository>
             <id>jwebunit-m2-repo</id>

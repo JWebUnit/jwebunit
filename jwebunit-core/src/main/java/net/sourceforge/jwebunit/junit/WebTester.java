@@ -1786,6 +1786,7 @@ public class WebTester {
      * @param nameOrId name or id of the form to work with.
      */
     public void setWorkingForm(String nameOrId) {
+        assertFormPresent(nameOrId);
         getTestingEngine().setWorkingForm(nameOrId, 0);
     }
 
