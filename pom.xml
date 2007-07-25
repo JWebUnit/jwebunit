@@ -47,68 +47,6 @@
     </mailingLists>
     <developers>
         <developer>
-            <id>jimweaver</id>
-            <name>Jim Weaver</name>
-            <email>jimweaver at users.sourceforge.net</email>
-            <organization>Thoughtworks</organization>
-            <roles>
-                <role>All-Hands person</role>
-            </roles>
-            <timezone>-5</timezone>
-        </developer>
-        <developer>
-            <id>prospero2000us</id>
-            <name>Jim Weaver</name>
-            <email>prospero2000us at users.sourceforge.net</email>
-            <organization>Thoughtworks</organization>
-            <roles>
-                <role>All-Hands person</role>
-            </roles>
-            <timezone>-5</timezone>
-        </developer>
-        <developer>
-            <id>wilkesj</id>
-            <name>Wilkes Joiner</name>
-            <email>wilkesj at users.sourceforge.net</email>
-            <organization />
-            <roles>
-                <role>All-Hands person</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>vivekv</id>
-            <name>Vivek Venugopalan</name>
-            <email>vivek at magic hypen cauldron dot com</email>
-            <url>http://www.magic-cauldron.com</url>
-            <organization />
-            <roles>
-                <role>All-Hands person</role>
-            </roles>
-            <timezone>+5.5</timezone>
-        </developer>
-        <developer>
-            <id>dashorst</id>
-            <name>Martijn Dashorst</name>
-            <email>dashorst at users.sourceforge.net</email>
-            <url>http://www.dashorst.dds.nl</url>
-            <organization>Topicus B.V.</organization>
-            <roles>
-                <role>All-Hands person</role>
-            </roles>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <id>nneuberger</id>
-            <name>Nicholas Neuberger</name>
-            <email>nneuberger at users.sourceforge.net</email>
-            <url />
-            <organization>Sunshine Solar</organization>
-            <roles>
-                <role>Developer</role>
-            </roles>
-            <timezone>-6</timezone>
-        </developer>
-        <developer>
             <id>henryju</id>
             <name>Julien Henry</name>
             <email>henryju at users.sourceforge.net</email>
@@ -122,6 +60,53 @@
         </developer>
     </developers>
     <contributors>
+        <contributor>
+            <name>Jim Weaver</name>
+            <email>jimweaver at users.sourceforge.net</email>
+            <organization>Thoughtworks</organization>
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+            <timezone>-5</timezone>
+        </contributor>
+        <contributor>
+            <name>Wilkes Joiner</name>
+            <email>wilkesj at users.sourceforge.net</email>
+            <organization />
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Vivek Venugopalan</name>
+            <email>vivek at magic hypen cauldron dot com</email>
+            <url>http://www.magic-cauldron.com</url>
+            <organization />
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+            <timezone>+5.5</timezone>
+        </contributor>
+        <contributor>
+            <name>Martijn Dashorst</name>
+            <email>dashorst at users.sourceforge.net</email>
+            <url>http://www.dashorst.dds.nl</url>
+            <organization>Topicus B.V.</organization>
+            <roles>
+                <role>All-Hands person</role>
+            </roles>
+            <timezone>+1</timezone>
+        </contributor>
+        <contributor>
+            <name>Nicholas Neuberger</name>
+            <email>nneuberger at users.sourceforge.net</email>
+            <url />
+            <organization>Sunshine Solar</organization>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>-6</timezone>
+        </contributor>
         <contributor>
             <name>Jon Frisby</name>
             <email>jfrisby@mac.com</email>
@@ -168,9 +153,40 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clover-plugin</artifactId>
-            </plugin>
+                <configuration>
+                    <flushPolicy>threaded</flushPolicy>
+                    <flushInterval>100</flushInterval>
+                    <targetPercentage>0%</targetPercentage>
+                    <licenseLocation>
+                            ${basedir}/${topDirectoryLocation}/src/test/clover/clover.license
+                    </licenseLocation>
+                </configuration>
+                <executions>
+                  <execution>
+                    <id>main</id>
+                    <phase>verify</phase>
+                    <goals>
+                      <goal>instrument</goal>
+                      <goal>aggregate</goal>
+                      <goal>check</goal>
+                      <goal>log</goal>
+                    </goals>
+                  </execution>
+                  <execution>
+                    <id>site</id>
+                    <phase>pre-site</phase>
+                    <goals>
+                      <goal>instrument</goal>
+                      <goal>aggregate</goal>
+
+                      <!-- We save a history point in order to have data to generate a historical report -->
+                      <goal>save-history</goal>
+
+                    </goals>
+                  </execution>
+                </executions>
+              </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -209,45 +225,8 @@
                     <inherited>true</inherited>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.3-SNAPSHOT</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-clover-plugin</artifactId>
                     <version>2.3</version>
-                    <configuration>
-                        <flushPolicy>threaded</flushPolicy>
-                        <flushInterval>100</flushInterval>
-                        <targetPercentage>0%</targetPercentage>
-                        <licenseLocation>
-                            ${basedir}/${topDirectoryLocation}/src/test/clover/clover.license
-                        </licenseLocation>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>main</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>instrument</goal>
-                                <goal>aggregate</goal>
-                                <goal>check</goal>
-                                <goal>log</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>site</id>
-                            <phase>pre-site</phase>
-                            <goals>
-                                <goal>instrument</goal>
-                                <goal>aggregate</goal>
-
-                                <!-- We save a history point in order to have data to generate a historical report -->
-                                <goal>save-history</goal>
-
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+                </plugin>                
             </plugins>
         </pluginManagement>
     </build>
@@ -282,7 +261,7 @@
                 <version>1.3.1</version>
             </dependency>
             <dependency>
-                <groupId>net.sourceforge.htmlunit</groupId>
+                <groupId>htmlunit</groupId>
                 <artifactId>htmlunit</artifactId>
                 <version>1.11</version>
             </dependency>
@@ -374,7 +353,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.3-SNAPSHOT</version>
                 <configuration>
                     <aggregate>true</aggregate>
                     <excludePackageNames>
@@ -447,7 +425,7 @@
         <site>
             <id>jwebunit-website</id>
             <name>JWebUnit WebSite - Sourceforge</name>
-            <url>file:///home/julien/site-jwebunit</url>
+            <url>file://d:/temp/site-jwebunit</url>
         </site>
         <repository>
             <id>jwebunit-m2-repo</id>

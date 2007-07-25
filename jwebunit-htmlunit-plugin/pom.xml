@@ -34,7 +34,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>net.sourceforge.htmlunit</groupId>
+            <groupId>htmlunit</groupId>
             <artifactId>htmlunit</artifactId>
         </dependency>
         <dependency>
