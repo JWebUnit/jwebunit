@@ -24,6 +24,7 @@
                         </goals>
                         <configuration>
                             <packageName>net.sourceforge.jwebunit.javacc</packageName>
+			    <outputDirectory>target/generated-sources/javacc</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

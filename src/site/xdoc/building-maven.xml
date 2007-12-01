@@ -23,15 +23,15 @@
                     First you need to download the latest Maven 2, which
                     currently is
                     <a href="http://maven.apache.org">
-                        <tt>Maven-2.0.6</tt>
+                        <tt>Maven-2.0.8</tt>
                     </a>
                     , make sure you download the binary archive
-                    (maven-2.0.6-bin.zip).
+                    (e.g. apache-maven-2.0.8-bin.tar.bz2).
                 </p>
                 <p>
                     Installing Maven should be easy: unzip the file to
                     any directory you like, let's say:
-                    <source>C:\maven-2.0.6</source>
+                    <source>/opt/apache-maven-2.0.8</source>
                 </p>
                 <p>
                     Next you need to do 2 things:
@@ -39,11 +39,11 @@
                         <li>
                             add an environment variable MAVEN_HOME which
                             points to the install directory of Maven,
-                            i.e. C:\maven-2.0.6
+                            i.e. /opt/apache-maven-2.0.8
                         </li>
                         <li>
                             add
-                            <tt>%MAVEN_HOME%\bin</tt>
+                            <tt>$MAVEN_HOME/bin</tt>
                             to your path (using the variable you can
                             switch more easily when a new version
                             arrives)
@@ -73,34 +73,25 @@
             <subsection
                 name="Installing not released or snapshot plugins">
                 <p>
-                    JWebUnit needs some bleeding edge Maven plugins to
-                    build properly.
+                    JWebUnit needs some tweak to
+                    build properly under Microsoft Windows.
                 </p>
                 <ul>
                     <li>
-                        javacc-maven-plugin 2.2-SNAPSHOT because of this
+                        javacc-maven-plugin 2.3-SNAPSHOT because of this
                         <a
-                            href="http://jira.codehaus.org/browse/MJAVACC-20">
+                            href="http://jira.codehaus.org/browse/MJAVACC-29">
                             issue
                         </a>
                     </li>
-                    <li>
-                        [cosmetic] maven-javadoc-plugin 2.3-SNAPSHOT.
-                    </li>
                 </ul>
                 <p>
-                    I'm affraid as long these patchs are not applied and
-                    plugins are not released, JWebUnit builds are not
-                    reproductible. You can vote for these issues or spam
+                    Windows users will have to checkout sources of javacc-maven-plugin then
+                    apply patch proposed in MJAVACC-29 then build the plugin (should be 2.3-SNAPSHOT)
+                    then alter JWebUnit pom.xml to use your local version.
+                    You can vote for these issues or spam
                     the Maven mailing list to help. ;)
                 </p>               
-                <p>
-                    Installation of javacc-maven-plugin-2.2-SNAPSHOT
-                    <br />
-                    You have to add Codehaus Snapshot Repository to your
-                    settings.xml, but it could mess your repository by
-                    downloading and using not intended SNAPSHOTS.
-                </p>
             </subsection>
             <subsection name="Building JWebUnit">
                 <p>

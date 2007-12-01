@@ -9,15 +9,6 @@
     <artifactId>jwebunit-selenium-plugin</artifactId>
     <name>Selenium Plugin</name>
     <description>Selenium plugin for JWebUnit.</description>
-    <repositories>
-        <repository>
-            <releases />
-            <snapshots />
-            <id>selenium</id>
-            <name>Selenium repository</name>
-            <url>http://maven.openqa.org/</url>
-        </repository>
-    </repositories>
     <build>
         <plugins>
             <plugin>
@@ -46,7 +37,6 @@
         <dependency>
             <groupId>org.openqa.selenium.client-drivers</groupId>
             <artifactId>selenium-java-client-driver</artifactId>
-            <version>0.9.2-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.openqa.selenium.server</groupId>
