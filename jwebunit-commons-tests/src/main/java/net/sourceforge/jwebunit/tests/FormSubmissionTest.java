@@ -298,5 +298,17 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         submit();
         assertTextPresent("Page 3");
     }
+    
+    /**
+     * Submit input
+     */
+    public void testClickButtonWithText1() {
+        beginAt("/SingleNamedButtonForm.html");
+        setTextField("color", "blue");
+        clickButtonWithText("click me");
+        assertTextPresent("Submitted parameters");
+        assertTextPresent("color=blue");
+    }
+
 
 }

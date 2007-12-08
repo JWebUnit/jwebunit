@@ -8,6 +8,10 @@
     </properties>
     <body>
         <release version="1.5" date="UNKNOW">
+            <action type="fix" dev="Julien Henry" issue="1845893" due-to="mtc3b">
+                assertButtonPresentWithText and clickButtonWithText now work for input button
+                (submit, reset, button) matching the value attribute.
+            </action>
             <action type="update" dev="Julien Henry">
                 Update to HtmlUnit 1.13.
             </action>

@@ -39,5 +39,26 @@ public class ButtonAssertionsTest extends JWebUnitAPITestCase {
         assertButtonPresent("button2");
         assertButtonPresent("buttonOutside");
     }
+    
+    public void testAssertButtonWithText() {
+        beginAt("/pageWithTwoForms.html");
+        assertButtonPresentWithText("Testbutton");
+        assertButtonPresentWithText("Testbutton2");
+        assertButtonPresentWithText("Outside");
+        setWorkingForm("form1");
+        assertButtonPresentWithText("Testbutton");
+        assertButtonPresentWithText("Testbutton2");
+        assertButtonPresentWithText("Outside");
+        assertButtonPresentWithText("the submit btn");
+        assertButtonPresentWithText("the reset btn");
+        assertButtonPresentWithText("the btn btn");
+        setWorkingForm("form2");
+        assertButtonPresentWithText("Testbutton");
+        assertButtonPresentWithText("Testbutton2");
+        assertButtonPresentWithText("Outside");
+        assertButtonPresentWithText("Testbutton");
+        assertButtonPresentWithText("Testbutton2");
+        assertButtonPresentWithText("Outside");
+    }
 
 }

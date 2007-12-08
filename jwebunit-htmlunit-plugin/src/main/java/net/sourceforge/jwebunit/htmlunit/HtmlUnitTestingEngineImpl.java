@@ -1204,25 +1204,48 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         return null;
     }
 
+
     /**
-     * Checks if a button with <code>text</code> is present.
-     * 
-     * @param text the text of the button (between &lt;button&gt;&lt;/button&gt;).
+     * Checks whether a button containing the specified text as its label exists.
+     * For HTML input tags of type submit, reset, or button, this checks the
+     * value attribute.  For HTML button tags, this checks the element's
+     * content by converting it to text.  
+     * @param text the text of the button (between &lt;button&gt;&lt;/button&gt;)
+     * or the value of the "value" attribute.
      * @return <code>true</code> when the button with text could be found.
      */
     public boolean hasButtonWithText(String text) {
-        boolean bReturn = getButtonWithText(text) != null ? true : false;
-        return bReturn;
+        return getButtonWithText(text) != null ? true : false;
     }
 
-    public HtmlButton getButtonWithText(String buttonValueText) {
-        List l = ((HtmlPage) win.getEnclosedPage()).getDocumentElement()
+    /**
+     * Returns the first button that contains the specified text as its label.
+     * For HTML input tags of type submit, reset, or button, this checks the
+     * value attribute.  For HTML button tags, this checks the element's
+     * content by converting it to text.  
+     * @param buttonValueText the text of the button (between &lt;button&gt;&lt;/button&gt;)
+     * or the value of the "value" attribute.
+     * @return the ClickableElement with the specified text or null if 
+     * no such button is found. 
+     */
+    public ClickableElement getButtonWithText(String buttonValueText) {
+        List l = ((HtmlPage) win.getEnclosedPage()).getDocumentHtmlElement()
                 .getHtmlElementsByTagNames(
-                        Arrays.asList(new String[] { "button" }));
+                        Arrays.asList(new String[] { "button", "input" }));
         for (int i = 0; i < l.size(); i++) {
             HtmlElement e = (HtmlElement) l.get(i);
-            if (((HtmlButton) e).asText().equals(buttonValueText))
-                return (HtmlButton) e;
+            if ( e instanceof HtmlButton )
+            {
+            	if (((HtmlButton) e).asText().equals(buttonValueText))
+            		return (ClickableElement) e;
+            }
+            else if ( e instanceof HtmlButtonInput ||
+            		  e instanceof HtmlSubmitInput ||
+            		  e instanceof HtmlResetInput )
+            {
+            	if ( buttonValueText.equals(e.getAttributeValue("value")) )
+            		return (ClickableElement)e;
+            }
         }
         return null;
     }
@@ -1706,14 +1729,24 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         }
     }
 
+ 	/**
+     * Clicks the first button that contains the specified text as its label.
+     * For HTML input tags of type submit, reset, or button, this checks the
+     * value attribute.  For HTML button tags, this checks the element's
+     * content by converting it to text.  or an HTML &lt;button&gt; tag.
+     */
     public void clickButtonWithText(String buttonValueText) {
-        try {
-            if (hasButtonWithText(buttonValueText)) {
-                getButtonWithText(buttonValueText).click();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    	ClickableElement b = getButtonWithText(buttonValueText);
+    	if (b != null) {
+    		try {
+    			b.click();
+    		} catch (Exception e) {
+    			throw new RuntimeException(e);
+    		}
+    	}
+    	else {
+    		throw new RuntimeException("No button found with text: " + buttonValueText);
+    	}
     }
 
     /**
