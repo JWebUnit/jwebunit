@@ -152,7 +152,6 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
         return l;
     }
 
-
     public String[] getSelectedOptions(String selectName) {
         return selenium.getSelectedValues("xpath=" + formSelector()
                 + "//select[@name='" + selectName + "']");
@@ -180,6 +179,25 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
         return values;
     }
 
+    public String[] getSelectedOptions(String selectName, int index) {
+        throw new UnsupportedOperationException("getSelectedOptions(String selectName, int index)");
+    }
+
+    public String getSelectOptionLabelForValue(String selectName,
+            int index, String optionValue) {
+    	throw new UnsupportedOperationException("getSelectOptionLabelForValue(String selectName, int index, String optionValue)");
+    }
+
+    public String getSelectOptionValueForLabel(String selectName,
+            int index, String optionLabel) {
+    	throw new UnsupportedOperationException("getSelectOptionValueForLabel(String selectName, int index, String optionLabel)");   
+   	}
+
+    public String[] getSelectOptionValues(String selectName, int index) {
+    	throw new UnsupportedOperationException("getSelectOptionValues(String selectName, int index)");
+    }
+
+    
     public String getServerResponse() {
         throw new UnsupportedOperationException("getServerResponse");
     }
@@ -290,6 +308,16 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
             return false;
         }
     }
+
+    public boolean hasSelectOption(String selectName, int index, String optionLabel) {
+        return false;
+    }
+
+    public boolean hasSelectOptionValue(String selectName, int index, String optionValue) {
+    	return false;
+    }
+
+    
     
     public boolean hasSubmitButton() {
         String xpath1 = formSelector() + "//input[@type='submit' or @type='image']";
@@ -385,6 +413,10 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
         }
     }
 
+    public void selectOptions(String selectName, int index, String[] optionsValue) {
+    }
+
+    
     public void setScriptingEnabled(boolean value) {
         if (value==false)
             throw new UnsupportedOperationException("setScriptingEnabled");
@@ -447,6 +479,11 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
             selenium.removeSelection("xpath=" + formSelector() + "//select[@name='"+selectName+"']","value="+options[i]);
         }
     }
+    
+    public void unselectOptions(String selectName, int index, String[] options) {
+    	throw new UnsupportedOperationException("unselectOptions(String selectName, int index, String[] options");
+    }
+
 
     public TestContext getTestContext() {
         return testContext;

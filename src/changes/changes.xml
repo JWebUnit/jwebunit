@@ -8,128 +8,131 @@
     </properties>
     <body>
         <release version="1.5" date="UNKNOW">
-            <action type="fix" dev="Julien Henry" issue="1845893" due-to="mtc3b">
+            <action type="add" dev="henryju" issue="1874212" due-to="Mike C">
+                Support multiple selects with same name.
+            </action>
+            <action type="fix" dev="henryju" issue="1845893" due-to="Mike">
                 assertButtonPresentWithText and clickButtonWithText now work for input button
                 (submit, reset, button) matching the value attribute.
             </action>
-            <action type="update" dev="Julien Henry">
+            <action type="update" dev="henryju">
                 Update to HtmlUnit 1.13.
             </action>
-            <action type="add" dev="Julien Henry">
+            <action type="add" dev="henryju">
                 Add basic Selenium support.
             </action>
-            <action type="update" dev="Julien Henry">
+            <action type="update" dev="henryju">
                 Rename IJWebUnitDialog in ITestingEngine.
             </action>
         </release>
     	<release version="1.4.1" date="may 5, 2007">
-    		<action type="fix" dev="Julien Henry" issue="1706395" due-to="meilon">
+    		<action type="fix" dev="henryju" issue="1706395" due-to="meilon">
                 getPageSource() now returns source of the current frame or window.
             </action>
-    		<action type="fix" dev="Julien Henry" issue="1708229,1710809,1712633" due-to="Jon,Joe Fisher">
+    		<action type="fix" dev="henryju" issue="1708229,1710809,1712633" due-to="Jon,Joe Fisher">
                 setTextField now doesn't change the current working form if already set.
                 clickRadioOption now doesn't change the current working form if already set.
                 assertFormElementPresent now only searches the current working form if already set.
             </action>
     	</release>
     	<release version="1.4" date="march 17, 2007">
-    		<action type="update" dev="Julien Henry">
+    		<action type="update" dev="henryju">
                 Update to HtmlUnit 1.11.
             </action>
-    		<action type="add" dev="Julien Henry" issue="1677214" due-to="Dragan Pazin">
+    		<action type="add" dev="henryju" issue="1677214" due-to="Dragan Pazin">
                 Add a new method: getElementTextByXPath.
             </action>
     	</release>
         <release version="1.4-RC4" date="march 04, 2007">
-            <action type="add" dev="Julien Henry" issue="993058" due-to="Chris Eldredge">
+            <action type="add" dev="henryju" issue="993058" due-to="Chris Eldredge">
                 Add new ResourceBundle related methods allowing formatting of resources.
             </action>
-            <action type="fix" dev="Julien Henry" issue="1633967" due-to="Dirk Jerusalem">
+            <action type="fix" dev="henryju" issue="1633967" due-to="Dirk Jerusalem">
                 Table.getRows is now public.
             </action>
-            <action type="fix" dev="Julien Henry" issue="1638720">
+            <action type="fix" dev="henryju" issue="1638720">
                 gotoFrame should throw an Exception when no frame is found.
             </action>
-            <action type="fix" dev="Julien Henry" issue="735092">
+            <action type="fix" dev="henryju" issue="735092">
                 Make WebTestCase abstract.
             </action>
-            <action type="fix" dev="Julien Henry">
+            <action type="fix" dev="henryju">
                 Fix assertRadioButton[Not]Selected.
             </action>
-            <action type="fix" dev="Julien Henry">
+            <action type="fix" dev="henryju">
                 beginAt and gotoPage throw a TestingEngineResponseException on bad Http status code.
             </action>
-            <action type="fix" dev="Julien Henry">
+            <action type="fix" dev="henryju">
                 Make WebTestCase.tearDown() protected.
                 Make WebTestCase.tester protected.
                 Add WebTestCase.getTester() method.
             </action>
         </release>
         <release version="1.4-RC3" date="january 11, 2007">
-            <action type="fix" dev="Julien Henry" issue="1628076">
+            <action type="fix" dev="henryju" issue="1628076">
                 Fix exception when trying to access a page with a loop redirection.
             </action>
-            <action type="add" dev="Julien Henry" due-to="Gregory Joseph" issue="1531873">
+            <action type="add" dev="henryju" due-to="Gregory Joseph" issue="1531873">
                 Add methods to test images in a web page: assertImagePresent(String imageSrc, String imageAlt),
                 assertImageValid(String imageSrc, String imageAlt),
                 assertImageValidAndStore(String imageSrc, String imageAlt, File out)
             </action>
-            <action type="add" dev="Julien Henry" due-to="Jeff Grimshaw" issue="1563168">
+            <action type="add" dev="henryju" due-to="Jeff Grimshaw" issue="1563168">
                 Add methods in TestContext to specify custom request headers.
             </action>
         </release>
         <release version="1.4-RC2" date="december 5, 2006">
-            <action type="fix" dev="Julien Henry">
+            <action type="fix" dev="henryju">
                 Reset() function now check for the presence of a reset button.
             </action>
-            <action type="add" dev="Julien Henry">
+            <action type="add" dev="henryju">
                 Add the possibility to manipulate frame (and iframe) by ID in addition to their name.
             </action>
-            <action type="add" dev="Julien Henry">
+            <action type="add" dev="henryju">
                 Add saveAs(File f) and assertDownloadedFileEquals(File expected) methods
                 to check downloaded response as a binary File.
             </action>
-            <action type="add" dev="Julien Henry">
+            <action type="add" dev="henryju">
                 Add getServeurResponse() method to debug HTTP response.
             </action>
         </release>
         <release version="1.4-RC1" date="november 20, 2006">
-            <action type="fix" dev="Julien Henry">
+            <action type="fix" dev="henryju">
                 submit([...]) methods now detect image input elements.
             </action>
-            <action type="add" dev="Julien Henry">
+            <action type="add" dev="henryju">
                 Add setWorkingForm(int index) method to select the current form by its index.
             </action>
-            <action type="update" dev="Julien Henry">
+            <action type="update" dev="henryju">
                 Update to HtmlUnit 1.10.
             </action>
-            <action type="fix" dev="Julien Henry">
+            <action type="fix" dev="henryju">
                 Fix cookie support. You can now properly manually add cookie to the conversation by
                 using TestContext.addCookie() before calling beginAt().
             </action>
-            <action type="add" dev="Julien Henry">
+            <action type="add" dev="henryju">
                 Add setExpectedJavascript[Alert/Confirm/Prompt] methods to check presence of
                 Javascript message boxes.
             </action>
-            <action type="add" dev="Julien Henry">
+            <action type="add" dev="henryju">
                 Add support for Basic and Digest Authentication using Context.setAuthorization().
                 Context.setNTMLAuthorization() and Context.setProxyAuthorization may also work (not tested).
             </action>
-            <action type="fix" dev="Julien Henry" due-to="Joe Athman" issue="1554148">
+            <action type="fix" dev="henryju" due-to="Joe Athman" issue="1554148">
                 beginAt and gotoPage now accept absolute URL beginning with "http://", "https://" or "www."
             </action>
-            <action type="add" dev="Julien Henry" due-to="Lasse Koskela"
+            <action type="add" dev="henryju" due-to="Lasse Koskela"
                 issue="1575956">
                 Add new methods: assertCheckBox[Not]Selected(String name, String value)
                 to deal with multiple checkboxes with the same name.
             </action>
-            <action type="fix" dev="Julien Henry" due-to="Jack"
+            <action type="fix" dev="henryju" due-to="Jack"
                 issue="1567947">
                 assertButtonPresentWithText(String) was checking on
                 "value" attribut value instead of text between button
                 tag.
             </action>
-            <action type="fix" dev="Julien Henry" due-to="Veenay Dodia"
+            <action type="fix" dev="henryju" due-to="Veenay Dodia"
                 issue="1565634">
                 selectOption() reset previous setWorkingForm() action.
                 Problematic with 2 selects with same name in 2 different
@@ -137,47 +140,47 @@
             </action>
         </release>
         <release version="1.3" date="july 28, 2006">
-            <action type="remove" dev="Julien Henry"
+            <action type="remove" dev="henryju"
                 due-to="Fred Burlet">
                 assertFormParameterValue is now deprecated. Please use
                 more specific method, like assertTextFieldEquals,
                 assertSelectedValueEqual, ...
             </action>
-            <action type="add" dev="Julien Henry"
+            <action type="add" dev="henryju"
                 due-to="Fred Burlet">
                 Add assertHiddenFieldPresent method to check presence of
                 an hidden field with given value.
             </action>
-            <action type="add" dev="Julien Henry"
+            <action type="add" dev="henryju"
                 due-to="Fred Burlet">
                 Add assertTextFieldEquals method to check content of a
                 text field (text input, password input, textarea).
             </action>
-            <action type="fix" dev="Julien Henry"
+            <action type="fix" dev="henryju"
                 due-to="Fred Burlet">
                 setTextField is now working with TextArea.
             </action>
-            <action type="fix" dev="Julien Henry"
+            <action type="fix" dev="henryju"
                 due-to="Mark Chaimungkalanont">
                 Current form was saved but not reseted when page content
                 change.
             </action>
         </release>
         <release version="1.3-RC2" date="july 07, 2006">
-            <action type="add" dev="Julien Henry"
+            <action type="add" dev="henryju"
                 due-to="Tetyana Gimgina">
                 Show the getTable() method in WebTestCase to allow
                 custom assertions.
             </action>
-            <action type="add" dev="Julien Henry"
+            <action type="add" dev="henryju"
                 due-to="Tetyana Gimgina" issue="1517851">
                 Introduce the setFormElement() back as a deprecated
                 method that wraps setTextField().
             </action>
-            <action type="update" dev="Julien Henry">
+            <action type="update" dev="henryju">
                 Update to HtmlUnit 1.9.
             </action>
-            <action type="add" dev="Julien Henry"
+            <action type="add" dev="henryju"
                 due-to="Jeffrey W. Badorek" issue="1515297">
                 Allow selection of forms with same name (with index).
                 Add setWorkingForm(String nameOrId, int index) to the
@@ -186,36 +189,36 @@
         </release>
         <release version="1.3-RC1" date="june 27, 2006"
             description="After all these great changes, we need a RC.">
-            <action type="add" dev="Julien Henry" due-to="Buhi Mume">
+            <action type="add" dev="henryju" due-to="Buhi Mume">
                 Added ability to navigate to windows / assert presence
                 by window id.
             </action>
-            <action type="remove" dev="Julien Henry">
+            <action type="remove" dev="henryju">
                 Remove HttpUnit testing engine.
             </action>
-            <action type="update" dev="Julien Henry">
+            <action type="update" dev="henryju">
                 Refactoring of Table assertions to handle perfectly
                 colspan and rowspan.
             </action>
-            <action type="add" dev="Julien Henry">
+            <action type="add" dev="henryju">
                 Added XPath methods to core API.
             </action>
-            <action type="update" dev="Julien Henry">
+            <action type="update" dev="henryju">
                 Split jWebUnit in modules: one for the core (jWebUnit
                 API), one for the tests (that all plugins should pass),
                 and one for each plugin (currently HtmlUnit). This way,
                 for example, when you want to use one plugin, you don't
                 have to include all others dependencies.
             </action>
-            <action type="update" dev="Julien Henry">
+            <action type="update" dev="henryju">
                 Updated to Jetty 6 for running tests. Need less
                 dependencies and run faster.
             </action>
-            <action type="add" dev="Julien Henry">
+            <action type="add" dev="henryju">
                 Added HtmlUnitDialog, that provide better Javascript
                 support.
             </action>
-            <action type="add" dev="Julien Henry">
+            <action type="add" dev="henryju">
                 Added Maven 2 support. There are many reports available
                 on the website.
             </action>

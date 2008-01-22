@@ -233,6 +233,17 @@ public interface ITestingEngine {
      * @return Array of select options values.
      */
     String[] getSelectOptionValues(String selectName);
+    
+    /**
+     * Return a string array of option values for the Nth select box
+     * with the specified name.
+     * 
+     * @param selectName name of the select box.
+     * @param index the 0-based index used when more than one select with
+     * the same name is expected.
+     * @return Array of select options values.
+     */
+    String[] getSelectOptionValues(String selectName, int index);
 
     /**
      * Return the values of the currently selected items in a select box.
@@ -242,6 +253,17 @@ public interface ITestingEngine {
     String[] getSelectedOptions(String selectName);
 
     /**
+     * Return the values of the currently selected items in the Nth select box
+     * with the provided name.
+     * 
+     * @param selectName name of the select box.
+     * @param index the 0-based index used when more than one select with
+     * the same name is expected.
+     */
+    String[] getSelectedOptions(String selectName, int index);
+
+    
+    /**
      * Get the label for a given option of a select box.
      * 
      * @param selectName name of the select box.
@@ -249,6 +271,18 @@ public interface ITestingEngine {
      */
     String getSelectOptionLabelForValue(String selectName, String optionValue);
 
+    /**
+     * Get the label for a given option of the Nth select box with the
+     * specified name.
+     * 
+     * @param selectName name of the select box.
+     * @param index the 0-based index used when more than one select with
+     * the same name is expected.
+     * @param optionValue label of the option.
+     */
+    String getSelectOptionLabelForValue(String selectName, int index, String optionValue);
+
+    
     /**
      * Get the value for a given option of a select box.
      * 
@@ -258,21 +292,56 @@ public interface ITestingEngine {
     String getSelectOptionValueForLabel(String selectName, String optionLabel);
 
     /**
+     * Get the value for a given option of the Nth select box with
+     * the specified name.
+     * 
+     * @param selectName name of the select box.
+     * @param index the 0-based index used when more than one select with
+     * the same name is expected.
+     * @param optionLabel label of the option.
+     */
+    String getSelectOptionValueForLabel(String selectName, int index, String optionLabel);
+
+    
+    /**
      * Select option(s) of a select box by value.
      * 
      * @param selectName name of the select box.
-     * @param optionsValue values of the options to select.
+     * @param optionValues values of the options to select.
      */
-    void selectOptions(String selectName, String[] optionsValue);
+    void selectOptions(String selectName, String[] optionValues);
 
     /**
-     * Unselect option(s) of a select box by display label.
+     * Select option(s) of the Nth select box by value.
      * 
      * @param selectName name of the select box.
-     * @param optionsValue vaules of the options to unselect.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param optionValues values of the options to select.
      */
-    void unselectOptions(String selectName, String[] options);
+    void selectOptions(String selectName, int index, String[] optionValues);
 
+    
+    /**
+     * Unselect option(s) of a select box by value.
+     * 
+     * @param selectName name of the select box.
+     * @param optionValues vaules of the options to unselect.
+     */
+    void unselectOptions(String selectName, String[] optionValues);
+
+    /**
+     * Unselect option(s) of the Nth select box with the specified name
+     * by value.
+     * 
+     * @param selectName name of the select box.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param optionValues vaules of the options to unselect.
+     */
+    void unselectOptions(String selectName, int index, String[] optionValues);
+
+    
     /**
      * Test if a select box has the given option (by label).
      * 
@@ -291,6 +360,29 @@ public interface ITestingEngine {
      */
     boolean hasSelectOptionValue(String selectName, String optionValue);
 
+    /**
+     * Test if the Nth select box has the given option (by label).
+     * 
+     * @param selectName name of the select box.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param optionLabel label of the option.
+     * @return true if a select box has the given option (by label).
+     */
+    boolean hasSelectOption(String selectName, int index, String optionLabel);
+
+    /**
+     * Test if the Nth select box has the given option (by value).
+     * 
+     * @param selectName name of the select box.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param optionValue value of the option.
+     * @return true if a select box has the given option (by value).
+     */
+    boolean hasSelectOptionValue(String selectName, int index, String optionValue);
+
+    
     /**
      * Determines if the checkbox is selected.
      * 

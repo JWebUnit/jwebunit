@@ -513,6 +513,30 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         return (String[]) result.toArray(new String[0]);
     }
 
+    /**
+     * Return a string array of the Nth select box option values.
+     * 
+     * @param selectName name of the select box.
+     * @param index the 0-based index when more than one
+     * select with the same name is expected.
+     */
+    public String[] getSelectOptionValues(String selectName, int index) {
+        List sels = getForm().getSelectsByName(selectName);
+        if ( sels == null || sels.size() < index+1)
+        	throw new RuntimeException("Did not find select with name [" + selectName 
+        	                           + "] at index " + index);
+        	
+        HtmlSelect sel = (HtmlSelect)sels.get(index);
+        ArrayList result = new ArrayList();
+        List opts = sel.getOptions();
+        for (int i = 0; i < opts.size(); i++) {
+            HtmlOption opt = (HtmlOption) opts.get(i);
+            result.add(opt.getValueAttribute());
+        }
+        return (String[]) result.toArray(new String[0]);
+    }
+
+    
     public String[] getSelectedOptions(String selectName) {
         HtmlSelect sel = getForm().getSelectByName(selectName);
         List opts = sel.getSelectedOptions();
@@ -522,6 +546,20 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         return result;
     }
 
+    public String[] getSelectedOptions(String selectName, int index) {
+        List sels = getForm().getSelectsByName(selectName);
+        if ( sels == null || sels.size() < index+1)
+        	throw new RuntimeException("Did not find select with name [" + selectName 
+        	                           + "] at index " + index);
+        HtmlSelect sel = (HtmlSelect)sels.get(index);
+        List opts = sel.getSelectedOptions();
+        String[] result = new String[opts.size()];
+        for (int i = 0; i < result.length; i++)
+            result[i] = ((HtmlOption) opts.get(i)).getValueAttribute();
+        return result;
+    }
+
+    
     public String getSelectOptionValueForLabel(String selectName, String label) {
         HtmlSelect sel = getForm().getSelectByName(selectName);
         List opts = sel.getOptions();
@@ -534,6 +572,23 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 + selectName);
     }
 
+    public String getSelectOptionValueForLabel(String selectName, int index, String label) {
+        List sels = getForm().getSelectsByName(selectName);
+        if ( sels == null || sels.size() < index+1)
+        	throw new RuntimeException("Did not find select with name [" + selectName 
+        	                           + "] at index " + index);
+        HtmlSelect sel = (HtmlSelect)sels.get(index);
+        List opts = sel.getOptions();
+        for (int i = 0; i < opts.size(); i++) {
+            HtmlOption opt = (HtmlOption) opts.get(i);
+            if (opt.asText().equals(label))
+                return opt.getValueAttribute();
+        }
+        throw new RuntimeException("Unable to find option " + label + " for "
+                + selectName);
+    }
+
+    
     public String getSelectOptionLabelForValue(String selectName, String value) {
         HtmlSelect sel = getForm().getSelectByName(selectName);
         List opts = sel.getOptions();
@@ -545,7 +600,25 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         throw new RuntimeException("Unable to find option " + value + " for "
                 + selectName);
     }
+    public String getSelectOptionLabelForValue(String selectName, int index, String value) {
+        List sels = getForm().getSelectsByName(selectName);
+        if ( sels == null || sels.size() < index+1)
+        	throw new RuntimeException("Did not find select with name [" + selectName 
+        	                           + "] at index " + index);
+        	
+        HtmlSelect sel = (HtmlSelect)sels.get(index);
+        List opts = sel.getOptions();
+        for (int i = 0; i < opts.size(); i++) {
+            HtmlOption opt = (HtmlOption) opts.get(i);
+            if (opt.getValueAttribute().equals(value))
+                return opt.asText();
+        }
+        throw new RuntimeException("Unable to find option " + value + " for "
+                + selectName);
+    }
 
+    
+    
     public URL getPageURL() {
         return win.getEnclosedPage().getWebResponse().getUrl();
     }
@@ -1811,6 +1884,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         return false;
     }
 
+    /**
+     * Select the specified set of options in the select element
+     * with the provided name.
+     * @param selectName name of the select box
+     * @param options set of options to select.
+     */
     public void selectOptions(String selectName, String[] options) {
         HtmlSelect sel = getForm().getSelectByName(selectName);
         if (!sel.isMultipleSelectEnabled() && options.length > 1)
@@ -1832,8 +1911,101 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         }
     }
 
+    /**
+     * Return true if the Nth select box contains the indicated option.
+     * 
+     * @param selectName name of the select box.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param optionLabel label of the option.
+     */
+    public boolean hasSelectOption(String selectName, int index, String optionLabel) {
+    	String[] opts = getSelectOptionValues(selectName, index);
+        for (int i = 0; i < opts.length; i++) {
+            String label = getSelectOptionLabelForValue(selectName, index, opts[i]);
+            if (label.equals(optionLabel))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Return true if the Nth select box contains the indicated option.
+     * 
+     * @param selectName name of the select box.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param optionValue value of the option.
+     */
+    public boolean hasSelectOptionValue(String selectName, int index, String optionValue) {
+        String[] opts = getSelectOptionValues(selectName, index);
+        for (int i = 0; i < opts.length; i++) {
+            if (opts[i].equals(optionValue))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Select the specified set of options in the select element
+     * with the provided name.
+     * @param selectName name of the select box
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param options set of options to select.
+     */
+    public void selectOptions(String selectName, int index, String[] options) {
+    	List sels = getForm().getSelectsByName(selectName);
+    	if ( sels == null || sels.size() < index+1 )
+        	throw new RuntimeException("Did not find select with name [" + selectName 
+        	                           + "] at index " + index);
+    	HtmlSelect sel = (HtmlSelect)sels.get(index); 
+        if (!sel.isMultipleSelectEnabled() && options.length > 1)
+            throw new RuntimeException("Multiselect not enabled");
+        List l = sel.getOptions();
+        for (int j = 0; j < options.length; j++) {
+            boolean found = false;
+            for (int i = 0; i < l.size(); i++) {
+                HtmlOption opt = (HtmlOption) l.get(i);
+                if (opt.getValueAttribute().equals(options[j])) {
+                    sel.setSelectedAttribute(opt, true);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+                throw new RuntimeException("Option " + options[j]
+                        + " not found");
+        }
+    }
+
+    
     public void unselectOptions(String selectName, String[] options) {
         HtmlSelect sel = getForm().getSelectByName(selectName);
+        if (!sel.isMultipleSelectEnabled() && options.length > 1)
+            throw new RuntimeException("Multiselect not enabled");
+        List l = sel.getOptions();
+        for (int j = 0; j < options.length; j++) {
+            boolean found = false;
+            for (int i = 0; i < l.size(); i++) {
+                HtmlOption opt = (HtmlOption) l.get(i);
+                if (opt.asText().equals(options[j])) {
+                    sel.setSelectedAttribute(opt, false);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+                throw new RuntimeException("Option " + options[j]
+                        + " not found");
+        }
+    }
+    public void unselectOptions(String selectName, int index, String[] options) {
+        List sels = getForm().getSelectsByName(selectName);
+        if ( sels == null || sels.size() < index+1)
+        	throw new RuntimeException("Did not find select with name [" + selectName 
+        	                           + "] at index " + index);
+        HtmlSelect sel = (HtmlSelect)sels.get(index);
         if (!sel.isMultipleSelectEnabled() && options.length > 1)
             throw new RuntimeException("Multiselect not enabled");
         List l = sel.getOptions();

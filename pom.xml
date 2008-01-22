@@ -127,6 +127,16 @@
             <timezone />
             <properties />
         </contributor>
+        <contributor>
+            <name>Mike C</name>
+            <email>mtc3bmtc3b at users.sourceforge.net</email>
+            <url />
+            <organization />
+            <organizationUrl />
+            <roles />
+            <timezone />
+            <properties />
+        </contributor>
     </contributors>
     <licenses>
         <license>
@@ -234,7 +244,7 @@
                     <inherited>true</inherited>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>javacc-maven-plugin</artifactId>
-                    <version>2.2</version>
+                    <version>2.3-SNAPSHOT</version>
                 </plugin>
                 <plugin>
                     <inherited>true</inherited>

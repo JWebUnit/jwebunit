@@ -1023,6 +1023,37 @@ public class WebTester {
     }
 
     /**
+     * Assert that given options are present in the Nth select box (by label).
+     * 
+     * @param selectName name of the select element.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param optionLabels option labels.
+     */
+    public void assertSelectOptionsPresent(String selectName, int index,
+            String[] optionLabels) {
+        assertFormElementPresent(selectName);
+        for (int i = 0; i < optionLabels.length; i++)
+            Assert.assertTrue("Option [" + optionLabels[i]
+                    + "] not found in select element " + selectName,
+                    getTestingEngine().hasSelectOption(selectName, index,
+                            optionLabels[i]));
+    }
+
+    /**
+     * Assert that a specific option is present in the Nth select box (by label).
+     * 
+     * @param selectName name of the select element.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param optionLabel option label.
+     */
+    public void assertSelectOptionPresent(String selectName, int index, String optionLabel) {
+        assertSelectOptionsPresent(selectName, index, new String[] { optionLabel });
+    }
+
+    
+    /**
      * Assert that given options are present in a select box (by value).
      * 
      * @param selectName name of the select element.
@@ -1050,6 +1081,47 @@ public class WebTester {
                 new String[] { optionValue });
     }
 
+    /**
+     * Assert that given options are present in the Nth select box (by value).
+     * 
+     * @param selectName name of the select element.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param optionValues option labels.
+     */
+    public void assertSelectOptionValuesPresent(String selectName,
+    											int index, 
+    											String[] optionValues) {
+        assertFormElementPresent(selectName);
+        for (int i = 0; i < optionValues.length; i++)
+            Assert.assertTrue("Option [" + optionValues[i]
+                    + "] not found in select element " + selectName,
+                    getTestingEngine().hasSelectOptionValue(selectName, 
+                                                            index,
+                                                            optionValues[i]));
+    }
+
+    /**
+     * Assert that a specific option is present in the Nth select box (by value).
+     * 
+     * @param selectName name of the select element.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param optionValue option value.
+     */
+    public void assertSelectOptionValuePresent(String selectName, 
+    										   int index, 
+    										   String optionValue) {
+        assertSelectOptionValuesPresent(selectName, index,
+                new String[] { optionValue });
+    }
+
+    /**
+     * Assert that a specific option value is not present in a select box.
+     * 
+     * @param selectName name of the select element.
+     * @param optionValue option value.
+     */
     public void assertSelectOptionValueNotPresent(String selectName,
             String optionValue) {
         try {
@@ -1077,6 +1149,40 @@ public class WebTester {
         Assert.fail("Option " + optionLabel + " found in select element "
                 + selectName + " when not expected.");
     }
+    
+    /**
+     * Assert that a specific option value is not present in a select box.
+     * 
+     * @param selectName name of the select element.
+     * @param optionValue option value.
+     */
+    public void assertSelectOptionValueNotPresent(String selectName,
+            int index, String optionValue) {
+        try {
+            assertSelectOptionValuePresent(selectName, index, optionValue);
+        } catch (AssertionFailedError e) {
+            return;
+        }
+        Assert.fail("Option value" + optionValue + " found in select element "
+                + selectName + " when not expected.");
+    }
+
+    /**
+     * Assert that a specific option is not present in a select box.
+     * 
+     * @param selectName name of the select element.
+     * @param expectedOption option label.
+     */
+    public void assertSelectOptionNotPresent(String selectName,
+            int index, String optionLabel) {
+        try {
+            assertSelectOptionPresent(selectName, index, optionLabel);
+        } catch (AssertionFailedError e) {
+            return;
+        }
+        Assert.fail("Option " + optionLabel + " found in select element "
+                + selectName + " when not expected.");
+    }
 
     /**
      * Assert that the display values of a select element's options match a given array of strings.
@@ -1090,6 +1196,22 @@ public class WebTester {
         assertArraysEqual(expectedOptions, getOptionsFor(selectName));
     }
 
+    /**
+     * Assert that the display values of 
+     * the Nth select element's options match a given array of strings.
+     * 
+     * @param selectName name of the select element.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param expectedOptions expected labels for the select box.
+     */
+    public void assertSelectOptionsEqual(String selectName, int index,
+            String[] expectedOptions) {
+        assertFormElementPresent(selectName);
+        assertArraysEqual(expectedOptions, getOptionsFor(selectName, index));
+    }
+
+    
     /**
      * Assert that the display values of a select element's options do not match a given array of strings.
      * 
@@ -1108,6 +1230,44 @@ public class WebTester {
     }
 
     /**
+     * Assert that the display values of the Nth select element's 
+     * options do not match a given array of strings.
+     * 
+     * @param selectName name of the select element.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param expectedOptions expected display values for the select box.
+     */
+    public void assertSelectOptionsNotEqual(String selectName, int index,
+            String[] expectedOptions) {
+        assertFormElementPresent(selectName);
+        try {
+            assertSelectOptionsEqual(selectName, index, expectedOptions);
+        } catch (AssertionFailedError e) {
+            return;
+        }
+        Assert.fail("Options not expected to be equal");
+    }
+
+    
+    /**
+     * Assert that the values of the Nth select element's options match 
+     * a given array of strings.
+     * 
+     * @param selectName name of the select element.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param expectedValues expected values for the select box.
+     */
+    public void assertSelectOptionValuesEqual(String selectName, int index,
+            String[] expectedValues) {
+        assertFormElementPresent(selectName);
+        assertArraysEqual(expectedValues, getTestingEngine()
+                .getSelectOptionValues(selectName, index));
+
+    }
+
+    /**
      * Assert that the values of a select element's options match a given array of strings.
      * 
      * @param selectName name of the select element.
@@ -1121,6 +1281,7 @@ public class WebTester {
 
     }
 
+    
     /**
      * Assert that the values of a select element's options do not match a given array of strings.
      * 
@@ -1138,6 +1299,27 @@ public class WebTester {
         Assert.fail("Values not expected to be equal");
     }
 
+    /**
+     * Assert that the values of the Nth select element's options do not match a 
+     * given array of strings.
+     * 
+     * @param selectName name of the select element.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param optionValues expected values for the select box.
+     */
+    public void assertSelectOptionValuesNotEqual(String selectName, int index,
+            String[] optionValues) {
+        assertFormElementPresent(selectName);
+        try {
+            assertSelectOptionValuesEqual(selectName, index, optionValues);
+        } catch (AssertionFailedError e) {
+            return;
+        }
+        Assert.fail("Values not expected to be equal");
+    }
+
+    
     /**
      * Assert that the currently selected display label(s) of a select box matches given label(s).
      * 
@@ -1157,10 +1339,52 @@ public class WebTester {
                                             selectName)[i]));
     }
 
-    public void assertSelectedOptionEquals(String selectName, String option) {
-        assertSelectedOptionsEqual(selectName, new String[] { option });
+    /**
+     * Assert that the currently selected display label(s) of a select box matches given label(s).
+     * 
+     * @param selectName name of the select element.
+     * @param index the 0-based index used when more than one select element
+     * with the same name is expected.
+     * @param labels expected display label(s) of the selected option.
+     */
+    public void assertSelectedOptionsEqual(String selectName, int index, String[] labels) {
+        assertFormElementPresent(selectName);
+        Assert.assertEquals(labels.length, getTestingEngine()
+                .getSelectedOptions(selectName, index).length);
+        for (int i = 0; i < labels.length; i++)
+            Assert.assertEquals(labels[i],
+                    getTestingEngine()
+                            .getSelectOptionLabelForValue(
+                                    selectName, index,
+                                    getTestingEngine().getSelectedOptions(
+                                            selectName, index)[i]));
     }
 
+    
+    
+    /**
+     * Assert that the label of the current selected option matches
+     * the provided value.
+     * @param selectName name of the select element
+     * @param optionLabel expected value of the option label
+     */
+    public void assertSelectedOptionEquals(String selectName, String optionLabel) {
+        assertSelectedOptionsEqual(selectName, new String[] { optionLabel });
+    }
+
+    /**
+     * Assert that the label of the current selected option matches
+     * the provided value in the Nth select element with the specified name.
+     * @param selectName name of the select element
+     * @param index the 0-based index used when more than one select element
+     * with the same name is expected.
+     * @param optionLabel expected value of the option label
+     */
+    public void assertSelectedOptionEquals(String selectName, int index, String option) {
+        assertSelectedOptionsEqual(selectName, index, new String[] { option });
+    }
+
+    
     /**
      * Assert that the currently selected value(s) of a select box matches given value(s).
      * 
@@ -1178,6 +1402,26 @@ public class WebTester {
     }
 
     /**
+     * Assert that the currently selected value(s) of the Nth
+     * select box with the specified name matches given value(s).
+     * 
+     * @param selectName name of the select element.
+     * @param index the 0-based index used when more than one select element
+     * with the same name is expected.
+     * @param values expected value(s) of the selected option.
+     */
+    public void assertSelectedOptionValuesEqual(String selectName,
+            int index, String[] values) {
+        assertFormElementPresent(selectName);
+        Assert.assertEquals(values.length, getTestingEngine()
+                .getSelectedOptions(selectName, index).length);
+        for (int i = 0; i < values.length; i++)
+            Assert.assertEquals(values[i], getTestingEngine()
+                    .getSelectedOptions(selectName, index)[i]);
+    }
+
+    
+    /**
      * Assert that the currently selected value of a select box matches given value.
      * 
      * @param selectName name of the select element.
@@ -1187,6 +1431,20 @@ public class WebTester {
         assertSelectedOptionValuesEqual(selectName, new String[] { value });
     }
 
+    /**
+     * Assert that the currently selected value of a select box matches given value.
+     * 
+     * @param selectName name of the select element.
+     * @param index the 0-based index used when more than one select element
+     * with the same name is expected.
+     * @param value expected value of the selected option.
+     */
+    public void assertSelectedOptionValueEquals(String selectName, int index, String value) {
+        assertSelectedOptionValuesEqual(selectName, index, new String[] { value });
+    }
+
+    
+    
     /**
      * Assert that the currently selected display value(s) of a select box matches a given value(s).
      * 
@@ -1207,10 +1465,53 @@ public class WebTester {
         }
     }
 
+    /**
+     * Assert that the currently selected display value(s) of a select box matches a given value(s).
+     * 
+     * @param selectName name of the select element.
+     * @param index the 0-based index used when more than one select element
+     * with the same name is expected.
+     * @param regexps expected display value of the selected option.
+     */
+    public void assertSelectedOptionsMatch(String selectName, int index, String[] regexps) {
+        assertFormElementPresent(selectName);
+        Assert.assertEquals(regexps.length, getTestingEngine()
+                .getSelectedOptions(selectName, index).length);
+        for (int i = 0; i < regexps.length; i++) {
+            RE re = getRE(regexps[i]);
+            Assert.assertTrue("Unable to match [" + regexps[i]
+                    + "] in option \""
+                    + getTestingEngine().getSelectedOptions(selectName, index)[i]
+                    + "\" at index " + index, re.match(getTestingEngine().getSelectedOptions(
+                    selectName, index)[i]));
+        }
+    }
+
+    
+    
+    /**
+     * Assert that the label of the current selected option matches
+     * the provided regular expression value.
+     * @param selectName name of the select element
+     * @param regexp the regular expression to match 
+     */
     public void assertSelectedOptionMatches(String selectName, String regexp) {
         assertSelectedOptionsMatch(selectName, new String[] { regexp });
     }
 
+    /**
+     * Assert that the label of the current selected option matches
+     * the provided regular expression in the Nth select element with the specified name.
+     * @param selectName name of the select element
+     * @param index the 0-based index used when more than one select element
+     * with the same name is expected.
+     * @param regexp the regular expression to match
+     */
+    public void assertSelectedOptionMatches(String selectName, int index, String regexp) {
+        assertSelectedOptionsMatch(selectName, index, new String[] { regexp });
+    }
+
+    
     /**
      * Assert that a submit button is present. <br/> A submit button can be the following HTML elements:
      * <ul>
@@ -1856,7 +2157,7 @@ public class WebTester {
         assertFormElementPresent(checkBoxName);
         getTestingEngine().uncheckCheckbox(checkBoxName, value);
     }
-
+    
     /**
      * Select options with given display labels in a select element.
      * 
@@ -1867,7 +2168,7 @@ public class WebTester {
         assertSelectOptionsPresent(selectName, labels);
         selectOptionsByLabel(selectName, labels);
     }
-
+    
     /**
      * Select an option with a given display label in a select element.
      * 
@@ -1878,6 +2179,32 @@ public class WebTester {
         selectOptions(selectName, new String[] { label });
     }
 
+    /**
+     * Select an option with a given display label in Nth select element.
+     * 
+     * @param selectName name of select element.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param label label of option to be selected.
+     */
+    public void selectOption(String selectName, int index, String label) {
+        selectOptions(selectName, index, new String[] { label });
+    }
+    
+    /**
+     * Select options with given display labels in the Nth select element.
+     * 
+     * @param selectName name of select element.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param labels labels of options to be selected.
+     */
+    public void selectOptions(String selectName, int index, String[] labels) {
+        assertSelectOptionsPresent(selectName, index, labels);
+        selectOptionsByLabel(selectName, index, labels);
+    }
+    
+    
     /**
      * Select options with given values in a select element.
      * 
@@ -1890,15 +2217,41 @@ public class WebTester {
     }
 
     /**
-     * Select an option with a given value in a select element.
+     * Select an option with a given value in the Nth select element.
      * 
      * @param selectName name of select element.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
      * @param values values of options to be selected.
      */
     public void selectOptionByValue(String selectName, String value) {
         selectOptionsByValues(selectName, new String[] { value });
     }
 
+    /**
+     * Select options with given values in the Nth select element.
+     * 
+     * @param selectName name of select element.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param values values of options to be selected.
+     */
+    public void selectOptionsByValues(String selectName, int index, String[] values) {
+        assertSelectOptionValuesPresent(selectName, index, values);
+        getTestingEngine().selectOptions(selectName, index, values);
+    }
+
+    /**
+     * Select an option with a given value in a select element.
+     * 
+     * @param selectName name of select element.
+     * @param values values of options to be selected.
+     */
+    public void selectOptionByValue(String selectName, int index, String value) {
+        selectOptionsByValues(selectName, index, new String[] { value });
+    }
+
+    
     // Form submission and link navigation methods
 
     /**
@@ -2312,7 +2665,7 @@ public class WebTester {
     /**
      * Return a string array of select box option labels. <br/>
      * 
-     * Exemple: <br/>
+     * Example: <br/>
      * 
      * <pre>
      *  &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
@@ -2345,6 +2698,26 @@ public class WebTester {
     }
 
     /**
+     * Return a string array of select box option labels. 
+     * 
+     * @param selectName name of the select box.
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @return Array of options labels.
+     */
+    private String[] getOptionsFor(String selectName, int index) {
+        String[] values = getTestingEngine().getSelectOptionValues(selectName, index);
+        String[] result = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            result[i] = getTestingEngine().getSelectOptionLabelForValue(
+                    selectName, index, values[i]);
+        }
+        return result;
+    }
+
+    
+    
+    /**
      * Select options by given labels in a select box.
      * 
      * @param selectName name of the select
@@ -2359,6 +2732,24 @@ public class WebTester {
         getTestingEngine().selectOptions(selectName, values);
     }
 
+    /**
+     * Select options by given labels in the Nth select box.
+     * 
+     * @param selectName name of the select
+     * @param index the 0-based index of the select element when multiple
+     * select elements are expected. 
+     * @param labels labels of options to be selected
+     */
+    private void selectOptionsByLabel(String selectName, int index, String[] labels) {
+        String[] values = new String[labels.length];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = getTestingEngine().getSelectOptionValueForLabel(
+                    selectName, index, labels[i]);
+        }
+        getTestingEngine().selectOptions(selectName, index, values);
+    }
+
+    
     private void assertArraysEqual(String[] exptected, String[] returned) {
         Assert.assertEquals("Arrays not same length", exptected.length,
                 returned.length);
