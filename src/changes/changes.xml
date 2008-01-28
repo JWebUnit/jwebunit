@@ -8,15 +8,15 @@
     </properties>
     <body>
         <release version="1.5" date="UNKNOW">
+            <action type="update" dev="henryju">
+                Update to HtmlUnit 1.14.
+            </action>
             <action type="add" dev="henryju" issue="1874212" due-to="Mike C">
                 Support multiple selects with same name.
             </action>
             <action type="fix" dev="henryju" issue="1845893" due-to="Mike">
                 assertButtonPresentWithText and clickButtonWithText now work for input button
                 (submit, reset, button) matching the value attribute.
-            </action>
-            <action type="update" dev="henryju">
-                Update to HtmlUnit 1.13.
             </action>
             <action type="add" dev="henryju">
                 Add basic Selenium support.
