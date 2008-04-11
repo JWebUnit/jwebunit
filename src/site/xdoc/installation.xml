@@ -22,7 +22,7 @@
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-htmlunit-plugin</artifactId>
-            <version>1.4</version>
+            <version>1.5</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -38,9 +38,10 @@
 	</subsection>
 	<subsection name="Choose what plugin you want to use">
 		<p>
-			There are currently 1 available plugin:
+			There are currently 2 available plugins:
 			<ul>
 				<li>HtmlUnit: A good choice if you want rapidity and good Javascript support.</li>
+				<li>Selenium: BETA quality (not all the JWebUnit API could be executed with Selenium)</li>
 			</ul>
 		</p>
 	</subsection>
@@ -53,7 +54,7 @@
 		</p>
 		<p>			
 			If you don't want to migrate to Maven, 
-			make sure you add the jwebunit-htmlunit-plugin-1.3.jar, jwebunit-core-1.3.jar and all HtmlUnit dependencies
+			make sure you add the jwebunit-htmlunit-plugin-XX.jar, jwebunit-core-XX.jar and all HtmlUnit dependencies
 (these files are in lib/ folder of the JWebUnit package) to your classpath in your IDE.
 		</p>
 	</subsection>

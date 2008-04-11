@@ -23,15 +23,15 @@
                     First you need to download the latest Maven 2, which
                     currently is
                     <a href="http://maven.apache.org">
-                        <tt>Maven-2.0.8</tt>
+                        <tt>Maven-2.0.9</tt>
                     </a>
                     , make sure you download the binary archive
-                    (e.g. apache-maven-2.0.8-bin.tar.bz2).
+                    (e.g. apache-maven-2.0.9-bin.tar.bz2).
                 </p>
                 <p>
                     Installing Maven should be easy: unzip the file to
                     any directory you like, let's say:
-                    <source>/opt/apache-maven-2.0.8</source>
+                    <source>/opt/apache-maven-2.0.9</source>
                 </p>
                 <p>
                     Next you need to do 2 things:
@@ -70,29 +70,6 @@
                     plugins that are available.
                 </p>
             </subsection>
-            <subsection
-                name="Installing not released or snapshot plugins">
-                <p>
-                    JWebUnit needs some tweak to
-                    build properly under Microsoft Windows.
-                </p>
-                <ul>
-                    <li>
-                        javacc-maven-plugin 2.3-SNAPSHOT because of this
-                        <a
-                            href="http://jira.codehaus.org/browse/MJAVACC-29">
-                            issue
-                        </a>
-                    </li>
-                </ul>
-                <p>
-                    Windows users will have to checkout sources of javacc-maven-plugin then
-                    apply patch proposed in MJAVACC-29 then build the plugin (should be 2.3-SNAPSHOT)
-                    then alter JWebUnit pom.xml to use your local version.
-                    You can vote for these issues or spam
-                    the Maven mailing list to help. ;)
-                </p>               
-            </subsection>
             <subsection name="Building JWebUnit">
                 <p>
                     Building JWebUnit merely consist of running Maven:
@@ -116,7 +93,7 @@
                 Due to findbugs memory usage, following parameter is required:
                 <source>export MAVEN_OPTS=-Xmx384M</source>
                 Now you should be able to generate site:
-                    <source>mvn site:site</source>
+                    <source>mvn site</source>
                 </p>
                 <p>The files are in target/site directory of each module.<br/>
                 If you want to test the final assembled site, just hit:</p>

@@ -11,7 +11,7 @@
 <body>
 <section name="Welcome">
     <p>
-        You are on the JWebUnit 1.x website. Current version is 1.4. This is
+        You are on the JWebUnit 1.x website. Current version is 1.5. This is
         the "stable" version of JWebUnit. You can also consult <a href="2.x/index.html">JWebUnit 2.x website</a>.
     </p>
 </section>
@@ -20,6 +20,7 @@
         JWebUnit is a Java framework that facilitates creation of acceptance tests for web applications. It 
         evolved from a project where we were using <a href="http://www.junit.org">JUnit</a> to create acceptance tests. 
         Also, we can have different testing engines. Currently, only <a href="jwebunit-htmlunit-plugin/index.html">HtmlUnit plugin</a> is ready.
+        Some work is in progress to use Selenium to execute tests.
         As the tests were being written, they were continuously refactored to remove duplication and other bad smells in the test 
         code. JWebUnit is the result of these refactorings.
     </p>
