@@ -49,7 +49,8 @@ public class JettySetup extends TestSetup {
 	 * 
 	 * @see junit.extensions.TestSetup#setUp()
 	 */
-	public void setUp() {
+	public void setUp() throws Exception {
+        super.setUp();
 		try {
 			jettyServer = new Server();
 			SocketConnector connector = new SocketConnector();
@@ -95,7 +96,7 @@ public class JettySetup extends TestSetup {
 	 * 
 	 * @see junit.extensions.TestSetup#tearDown()
 	 */
-	public void tearDown() {
+	public void tearDown() throws Exception {
 		try {
 			jettyServer.stop();
 		} catch (InterruptedException e) {
@@ -105,5 +106,6 @@ public class JettySetup extends TestSetup {
 			e.printStackTrace();
 			fail("Could not stop the Jetty server: " + e);
 		}
+		super.tearDown();
 	}
 }
