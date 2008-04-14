@@ -7,7 +7,10 @@
         </author>
     </properties>
     <body>
-        <release version="1.5" date="UNKNOW">
+        <release version="1.5" date="UNKNOW" description="The latest major release before Java 1.5 migration">
+            <action type="fix" dev="henryju" issue="1747033" due-to="Carlo Possati">
+                assertCheckbox[Not]Present now works if HTML type attribute value is not lowercase (e.g.: type="CHECKBOX").
+            </action>
             <action type="update" dev="henryju">
                 Update to HtmlUnit 1.14.
             </action>

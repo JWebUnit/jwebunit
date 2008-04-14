@@ -731,7 +731,7 @@ public class WebTester {
         assertFormPresent();
         Assert.assertTrue("Did not find form checkbox with name ["
                 + checkboxName + "].", getTestingEngine().hasElementByXPath(
-                "//input[@type='checkbox' and @name='" + checkboxName + "']"));
+                "//input[lower-case(@type)='checkbox' and @name='" + checkboxName + "']"));
     }
 
     /**
@@ -745,7 +745,7 @@ public class WebTester {
         Assert.assertTrue("Did not find form checkbox with name ["
                 + checkboxName + "] and value [" + checkboxValue + "].",
                 getTestingEngine().hasElementByXPath(
-                        "//input[@type='checkbox' and @name='" + checkboxName
+                        "//input[lower-case(@type)='checkbox' and @name='" + checkboxName
                                 + "' and @value='" + checkboxValue + "']"));
     }
 
@@ -758,7 +758,7 @@ public class WebTester {
         assertFormPresent();
         Assert.assertFalse("Found form checkbox with name [" + checkboxName
                 + "] when not expected.", getTestingEngine().hasElementByXPath(
-                "//input[@type='checkbox' and @name='" + checkboxName + "']"));
+                "//input[lower-case(@type)='checkbox' and @name='" + checkboxName + "']"));
     }
 
     /**
@@ -773,7 +773,7 @@ public class WebTester {
         Assert.assertFalse("Found form checkbox with name [" + checkboxName
                 + "] and value [" + checkboxValue + "] when not expected.",
                 getTestingEngine().hasElementByXPath(
-                        "//input[@type='checkbox' and @name='" + checkboxName
+                        "//input[lower-case(@type)='checkbox' and @name='" + checkboxName
                                 + "' and @value='" + checkboxValue + "']"));
     }
 
