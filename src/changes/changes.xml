@@ -8,6 +8,9 @@
     </properties>
     <body>
         <release version="1.5" date="UNKNOW" description="The latest major release before Java 1.5 migration">
+            <action type="fix" dev="henryju" issue="1860745" due-to="Ward Bergmans">
+                setProxyAuthorization caused IllegalArgumentException with null username/password and not null host/port.
+            </action>
             <action type="add" dev="henryju" issue="1793818" due-to="Achim Huegen">
                 Added setHiddenField method to WebTestCase.
             </action>

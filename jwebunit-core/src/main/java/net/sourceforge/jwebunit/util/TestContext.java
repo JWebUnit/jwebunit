@@ -118,7 +118,7 @@ public class TestContext {
         this.proxyPasswd = passwd;
         this.proxyHost = host;
         this.proxyPort = port;
-        hasProxyAuth = true;
+        hasProxyAuth = !(null == user && null == passwd);
     }
 
     /**
