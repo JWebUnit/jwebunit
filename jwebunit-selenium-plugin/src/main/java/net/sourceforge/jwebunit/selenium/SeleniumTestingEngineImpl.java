@@ -427,6 +427,11 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
         String xpath2 = formSelector() + "//textarea[@name='"+inputName+"']";
         selenium.type("xpath=" + xpath1 + "|" + xpath2, text);
     }
+    
+    public void setHiddenField(String inputName, String text) {
+        String xpath = formSelector() + "//input[@name='"+inputName+"' and @type='hidden']";
+        selenium.type("xpath=" + xpath, text);
+    }
 
     public void setWorkingForm(String nameOrId, int index) {
         if (nameOrId != null)

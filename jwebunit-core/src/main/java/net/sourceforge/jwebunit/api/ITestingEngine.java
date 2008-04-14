@@ -205,6 +205,14 @@ public interface ITestingEngine {
      * @param text value to type in the field.
      */
     void setTextField(String inputName, String text);
+    
+    /**
+     * Fill hidden field with the provided text.
+     * 
+     * @param inputName name of the hidden element
+     * @param text value to set in the hidden field.
+     */
+    void setHiddenField(String inputName, String text);
 
     /**
      * Return a string array of select box option values.

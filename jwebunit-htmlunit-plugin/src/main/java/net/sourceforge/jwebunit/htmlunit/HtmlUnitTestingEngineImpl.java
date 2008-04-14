@@ -496,6 +496,37 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         throw new RuntimeException("No text field with name [" + fieldName
                 + "] was found.");
     }
+    
+    /**
+     * Set a form hidden element to the provided value.
+     * 
+     * @param fieldName name of the hidden input element
+     * @param paramValue parameter value to submit for the element.
+     */
+    public void setHiddenField(String fieldName, String text) {
+        List hiddenFieldElements = new LinkedList();
+        if (form != null) {
+            hiddenFieldElements.addAll(getForm().getInputsByName(fieldName));
+        } else {
+            for (Iterator i = getCurrentPage().getForms().iterator(); i
+                    .hasNext();) {
+                HtmlForm f = (HtmlForm) i.next();
+                hiddenFieldElements.addAll(f.getInputsByName(fieldName));
+            }
+        }
+        for (Iterator i = hiddenFieldElements.iterator(); i.hasNext();) {
+            HtmlElement e = (HtmlElement) i.next();
+            if (e instanceof HtmlHiddenInput) {
+                ((HtmlHiddenInput) e).setValueAttribute(text);
+                if (form == null) {
+                    form = e.getEnclosingFormOrDie();
+                }
+                return;
+            }
+        }
+        throw new RuntimeException("No hidden field with name [" + fieldName
+                + "] was found.");
+    }
 
     /**
      * Return a string array of select box option values.

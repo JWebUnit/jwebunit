@@ -310,6 +310,14 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("Submitted parameters");
         assertTextPresent("color=blue");
     }
+    
+    public void testSetHiddenField() {
+        beginAt("/SingleNamedButtonForm.html");
+        assertHiddenFieldPresent("hidden", "foo");
+        setHiddenField("hidden", "bar");
+        submit();
+        assertTextPresent("hidden=bar");
+    }
 
 
 }

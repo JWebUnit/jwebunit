@@ -2115,6 +2115,18 @@ public class WebTester {
         assertFormElementPresent(inputName);
         getTestingEngine().setTextField(inputName, value);
     }
+    
+    /**
+     * Set the value of an hidden input field.
+     * 
+     * @param inputName name of form element.
+     * @param value value to set.
+     */
+    public void setHiddenField(String inputName, String value) {
+        assertFormPresent();
+        assertFormElementPresent(inputName);
+        getTestingEngine().setHiddenField(inputName, value);
+    }
 
     /**
      * Select a specified checkbox. If the checkbox is already checked then the checkbox will stay checked.
