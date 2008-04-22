@@ -3,7 +3,7 @@
     <groupId>net.sourceforge.jwebunit</groupId>
     <artifactId>jwebunit</artifactId>
     <name>JWebUnit</name>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.5</version>
     <packaging>pom</packaging>
     <description>
         JWebUnit is a Java framework that facilitates creation of acceptance tests for web
@@ -145,9 +145,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:http://jwebunit.svn.sourceforge.net/svnroot/jwebunit/trunk</connection>
-        <developerConnection>scm:svn:https://jwebunit.svn.sourceforge.net/svnroot/jwebunit/trunk</developerConnection>
-        <url>http://jwebunit.svn.sourceforge.net/viewvc/jwebunit/trunk</url>
+        <connection>scm:svn:http://jwebunit.svn.sourceforge.net/svnroot/jwebunit/tags/jwebunit-1.5</connection>
+        <developerConnection>scm:svn:https://jwebunit.svn.sourceforge.net/svnroot/jwebunit/tags/jwebunit-1.5</developerConnection>
+        <url>http://jwebunit.svn.sourceforge.net/viewvc/jwebunit/tags/jwebunit-1.5</url>
     </scm>
     <organization>
         <name>SourceForge</name>
