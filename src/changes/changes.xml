@@ -7,6 +7,11 @@
         </author>
     </properties>
     <body>
+        <release version="2.0" date="UNKNOW">
+            <action type="update" dev="henryju" issue="1950248" due-to="Agnes Ro">
+                Update to HtmlUnit 2.1 and Java 1.5.
+            </action>
+    	</release>
         <release version="1.5" date="april 22, 2008" description="The latest major release before Java 1.5 migration">
             <action type="fix" dev="henryju" issue="1860745" due-to="Ward Bergmans">
                 setProxyAuthorization caused IllegalArgumentException with null username/password and not null host/port.

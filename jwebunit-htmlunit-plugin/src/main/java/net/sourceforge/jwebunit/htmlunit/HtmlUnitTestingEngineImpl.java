@@ -23,6 +23,7 @@ import com.gargoylesoftware.htmlunit.WebWindowEvent;
 import com.gargoylesoftware.htmlunit.WebWindowListener;
 import com.gargoylesoftware.htmlunit.WebWindowNotFoundException;
 import com.gargoylesoftware.htmlunit.html.ClickableElement;
+import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
@@ -44,10 +45,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
+import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
 import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
-import com.gargoylesoftware.htmlunit.html.xpath.HtmlUnitXPath;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
 
 import java.io.IOException;
@@ -88,7 +88,6 @@ import org.apache.commons.httpclient.NameValuePair;
 
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
-import org.jaxen.JaxenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,17 +132,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     /**
      * Javascript alerts.
      */
-    private LinkedList expectedJavascriptAlerts = new LinkedList();
+    private LinkedList<JavascriptAlert> expectedJavascriptAlerts = new LinkedList<JavascriptAlert>();
 
     /**
      * Javascript confirms.
      */
-    private LinkedList expectedJavascriptConfirms = new LinkedList();
+    private LinkedList<JavascriptConfirm> expectedJavascriptConfirms = new LinkedList<JavascriptConfirm>();
 
     /**
      * Javascript prompts.
      */
-    private LinkedList expectedJavascriptPrompts = new LinkedList();
+    private LinkedList<JavascriptPrompt> expectedJavascriptPrompts = new LinkedList<JavascriptPrompt>();
 
     // Implementation of IJWebUnitDialog
 
@@ -216,8 +215,8 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         }
     }
 
-    public List getCookies() {
-        List result = new LinkedList();
+    public List<javax.servlet.http.Cookie> getCookies() {
+        List<javax.servlet.http.Cookie> result = new LinkedList<javax.servlet.http.Cookie>();
         final HttpState stateForUrl = wc.getWebConnection().getState();
         Cookie[] cookies = stateForUrl.getCookies();
         for (int i = 0; i < cookies.length; i++) {
@@ -276,7 +275,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     /**
      * Goto first window with the given title.
      * 
-     * @param windowName
+     * @param title
      */
     public void gotoWindowByTitle(String title) {
         WebWindow window = getWindowByTitle(title);
@@ -355,14 +354,14 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      *            name.
      */
     public String getTextFieldValue(String paramName) {
-        List textFieldElements = new LinkedList();
+        List<HtmlElement> textFieldElements = new LinkedList<HtmlElement>();
         if (form != null) {
             textFieldElements.addAll(getForm().getHtmlElementsByAttribute(
                     "input", "type", "text"));
             textFieldElements.addAll(getForm().getHtmlElementsByAttribute(
                     "input", "type", "password"));
         } else {
-            for (Iterator i = getCurrentPage().getForms().iterator(); i
+            for (Iterator<HtmlForm> i = getCurrentPage().getForms().iterator(); i
                     .hasNext();) {
                 HtmlForm f = (HtmlForm) i.next();
                 textFieldElements.addAll(f.getHtmlElementsByAttribute("input",
@@ -371,7 +370,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                         "type", "password"));
             }
         }
-        Iterator it = textFieldElements.iterator();
+        Iterator<HtmlElement> it = textFieldElements.iterator();
         while (it.hasNext()) {
             HtmlInput input = (HtmlInput) it.next();
             if (paramName.equals(input.getNameAttribute())) {
@@ -386,7 +385,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         if (form != null) {
             textFieldElements.addAll(getForm().getTextAreasByName(paramName));
         } else {
-            for (Iterator i = getCurrentPage().getForms().iterator(); i
+            for (Iterator<HtmlForm> i = getCurrentPage().getForms().iterator(); i
                     .hasNext();) {
                 HtmlForm f = (HtmlForm) i.next();
                 textFieldElements.addAll(f.getTextAreasByName(paramName));
@@ -414,19 +413,19 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      *            name.
      */
     public String getHiddenFieldValue(String paramName) {
-        List hiddenFieldElements = new LinkedList();
+        List<HtmlElement> hiddenFieldElements = new LinkedList<HtmlElement>();
         if (form != null) {
             hiddenFieldElements.addAll(getForm().getHtmlElementsByAttribute(
                     "input", "type", "hidden"));
         } else {
-            for (Iterator i = getCurrentPage().getForms().iterator(); i
+            for (Iterator<HtmlForm> i = getCurrentPage().getForms().iterator(); i
                     .hasNext();) {
                 HtmlForm f = (HtmlForm) i.next();
                 hiddenFieldElements.addAll(f.getHtmlElementsByAttribute(
                         "input", "type", "hidden"));
             }
         }
-        Iterator it = hiddenFieldElements.iterator();
+        Iterator<HtmlElement> it = hiddenFieldElements.iterator();
         while (it.hasNext()) {
             HtmlHiddenInput hiddenInput = (HtmlHiddenInput) it.next();
             if (paramName.equals(hiddenInput.getNameAttribute())) {
@@ -445,16 +444,16 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * Set a form text, password input element or textarea to the provided value.
      * 
      * @param fieldName name of the input element or textarea
-     * @param paramValue parameter value to submit for the element.
+     * @param text parameter value to submit for the element.
      */
     public void setTextField(String fieldName, String text) {
-        List textFieldElements = new LinkedList();
+        List<HtmlElement> textFieldElements = new LinkedList<HtmlElement>();
         if (form != null) {
             textFieldElements.addAll(getForm().getHtmlElementsByAttribute(
                     "input", "name", fieldName));
             textFieldElements.addAll(getForm().getTextAreasByName(fieldName));
         } else {
-            for (Iterator i = getCurrentPage().getForms().iterator(); i
+            for (Iterator<HtmlForm> i = getCurrentPage().getForms().iterator(); i
                     .hasNext();) {
                 HtmlForm f = (HtmlForm) i.next();
                 textFieldElements.addAll(f.getHtmlElementsByAttribute("input",
@@ -462,7 +461,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 textFieldElements.addAll(f.getTextAreasByName(fieldName));
             }
         }
-        for (Iterator i = textFieldElements.iterator(); i.hasNext();) {
+        for (Iterator<HtmlElement> i = textFieldElements.iterator(); i.hasNext();) {
             HtmlElement e = (HtmlElement) i.next();
             if (e instanceof HtmlTextInput) {
                 ((HtmlTextInput) e).setValueAttribute(text);
@@ -504,17 +503,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param paramValue parameter value to submit for the element.
      */
     public void setHiddenField(String fieldName, String text) {
-        List hiddenFieldElements = new LinkedList();
+        List<HtmlInput> hiddenFieldElements = new LinkedList<HtmlInput>();
         if (form != null) {
             hiddenFieldElements.addAll(getForm().getInputsByName(fieldName));
         } else {
-            for (Iterator i = getCurrentPage().getForms().iterator(); i
+            for (Iterator<HtmlForm> i = getCurrentPage().getForms().iterator(); i
                     .hasNext();) {
                 HtmlForm f = (HtmlForm) i.next();
                 hiddenFieldElements.addAll(f.getInputsByName(fieldName));
             }
         }
-        for (Iterator i = hiddenFieldElements.iterator(); i.hasNext();) {
+        for (Iterator<HtmlInput> i = hiddenFieldElements.iterator(); i.hasNext();) {
             HtmlElement e = (HtmlElement) i.next();
             if (e instanceof HtmlHiddenInput) {
                 ((HtmlHiddenInput) e).setValueAttribute(text);
@@ -535,13 +534,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     public String[] getSelectOptionValues(String selectName) {
         HtmlSelect sel = getForm().getSelectByName(selectName);
-        ArrayList result = new ArrayList();
-        List opts = sel.getOptions();
-        for (int i = 0; i < opts.size(); i++) {
-            HtmlOption opt = (HtmlOption) opts.get(i);
+        ArrayList<String> result = new ArrayList<String>();
+        for (HtmlOption opt : sel.getOptions()) {
             result.add(opt.getValueAttribute());
         }
-        return (String[]) result.toArray(new String[0]);
+        return result.toArray(new String[result.size()]);
     }
 
     /**
@@ -552,100 +549,88 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * select with the same name is expected.
      */
     public String[] getSelectOptionValues(String selectName, int index) {
-        List sels = getForm().getSelectsByName(selectName);
+        List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
         if ( sels == null || sels.size() < index+1)
         	throw new RuntimeException("Did not find select with name [" + selectName 
         	                           + "] at index " + index);
         	
-        HtmlSelect sel = (HtmlSelect)sels.get(index);
-        ArrayList result = new ArrayList();
-        List opts = sel.getOptions();
-        for (int i = 0; i < opts.size(); i++) {
-            HtmlOption opt = (HtmlOption) opts.get(i);
+        HtmlSelect sel = sels.get(index);
+        ArrayList<String> result = new ArrayList<String>();
+        for (HtmlOption opt : sel.getOptions()) {
             result.add(opt.getValueAttribute());
         }
         return (String[]) result.toArray(new String[0]);
+    }
+    
+    private String[] getSelectedOptions(HtmlSelect sel) {
+        String[] result = new String[sel.getSelectedOptions().size()];
+        int i = 0;
+        for (HtmlOption opt : sel.getSelectedOptions())
+            result[i++] = opt.getValueAttribute();
+        return result;
     }
 
     
     public String[] getSelectedOptions(String selectName) {
         HtmlSelect sel = getForm().getSelectByName(selectName);
-        List opts = sel.getSelectedOptions();
-        String[] result = new String[opts.size()];
-        for (int i = 0; i < result.length; i++)
-            result[i] = ((HtmlOption) opts.get(i)).getValueAttribute();
-        return result;
+        return getSelectedOptions(sel);
     }
 
     public String[] getSelectedOptions(String selectName, int index) {
-        List sels = getForm().getSelectsByName(selectName);
+        List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
         if ( sels == null || sels.size() < index+1)
         	throw new RuntimeException("Did not find select with name [" + selectName 
         	                           + "] at index " + index);
-        HtmlSelect sel = (HtmlSelect)sels.get(index);
-        List opts = sel.getSelectedOptions();
-        String[] result = new String[opts.size()];
-        for (int i = 0; i < result.length; i++)
-            result[i] = ((HtmlOption) opts.get(i)).getValueAttribute();
-        return result;
+        HtmlSelect sel = sels.get(index);
+        return getSelectedOptions(sel);
     }
 
     
+    private String getSelectOptionValueForLabel(HtmlSelect sel, String label) {
+        for (HtmlOption opt : sel.getOptions()) {
+            if (opt.asText().equals(label))
+                return opt.getValueAttribute();
+        }
+        throw new RuntimeException("Unable to find option " + label + " for "
+                + sel.getNameAttribute());
+    }
+
     public String getSelectOptionValueForLabel(String selectName, String label) {
         HtmlSelect sel = getForm().getSelectByName(selectName);
-        List opts = sel.getOptions();
-        for (int i = 0; i < opts.size(); i++) {
-            HtmlOption opt = (HtmlOption) opts.get(i);
-            if (opt.asText().equals(label))
-                return opt.getValueAttribute();
-        }
-        throw new RuntimeException("Unable to find option " + label + " for "
-                + selectName);
+        return getSelectOptionValueForLabel(sel, label);
     }
-
+    
     public String getSelectOptionValueForLabel(String selectName, int index, String label) {
-        List sels = getForm().getSelectsByName(selectName);
+        List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
         if ( sels == null || sels.size() < index+1)
         	throw new RuntimeException("Did not find select with name [" + selectName 
         	                           + "] at index " + index);
         HtmlSelect sel = (HtmlSelect)sels.get(index);
-        List opts = sel.getOptions();
-        for (int i = 0; i < opts.size(); i++) {
-            HtmlOption opt = (HtmlOption) opts.get(i);
-            if (opt.asText().equals(label))
-                return opt.getValueAttribute();
-        }
-        throw new RuntimeException("Unable to find option " + label + " for "
-                + selectName);
+        return getSelectOptionValueForLabel(sel, label);
     }
 
-    
-    public String getSelectOptionLabelForValue(String selectName, String value) {
-        HtmlSelect sel = getForm().getSelectByName(selectName);
-        List opts = sel.getOptions();
-        for (int i = 0; i < opts.size(); i++) {
-            HtmlOption opt = (HtmlOption) opts.get(i);
+    private String getSelectOptionLabelForValue(HtmlSelect sel, String value) {
+        for (HtmlOption opt : sel.getOptions()) {
             if (opt.getValueAttribute().equals(value))
                 return opt.asText();
         }
         throw new RuntimeException("Unable to find option " + value + " for "
-                + selectName);
+                + sel.getNameAttribute());
     }
+    
+    public String getSelectOptionLabelForValue(String selectName, String value) {
+        HtmlSelect sel = getForm().getSelectByName(selectName);
+        return getSelectOptionLabelForValue(sel, value);
+    }
+    
     public String getSelectOptionLabelForValue(String selectName, int index, String value) {
-        List sels = getForm().getSelectsByName(selectName);
+        List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
         if ( sels == null || sels.size() < index+1)
         	throw new RuntimeException("Did not find select with name [" + selectName 
         	                           + "] at index " + index);
         	
         HtmlSelect sel = (HtmlSelect)sels.get(index);
-        List opts = sel.getOptions();
-        for (int i = 0; i < opts.size(); i++) {
-            HtmlOption opt = (HtmlOption) opts.get(i);
-            if (opt.getValueAttribute().equals(value))
-                return opt.asText();
-        }
-        throw new RuntimeException("Unable to find option " + value + " for "
-                + selectName);
+        return getSelectOptionLabelForValue(sel, value);
     }
 
     
@@ -687,9 +672,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         result.append(wr.getStatusCode()).append(" ").append(
                 wr.getStatusMessage()).append("\n");
         result.append("Location: ").append(wr.getUrl()).append("\n");
-        List headers = wr.getResponseHeaders();
-        for (Iterator i = headers.iterator(); i.hasNext();) {
-            NameValuePair h = (NameValuePair) i.next();
+        for (NameValuePair h : wr.getResponseHeaders()) {
             result.append(h.getName()).append(": ").append(h.getValue())
                     .append("\n");
         }
@@ -854,8 +837,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             }
         });
         // Deal with cookies
-        for (Iterator i = getTestContext().getCookies().iterator(); i.hasNext();) {
-            javax.servlet.http.Cookie c = (javax.servlet.http.Cookie) i.next();
+        for (javax.servlet.http.Cookie c : getTestContext().getCookies()) {
             // If Path==null, cookie is not send to the server.
             wc.getWebConnection().getState().addCookie(
                     new Cookie(c.getDomain() != null ? c.getDomain() : "", c
@@ -863,13 +845,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                             .getPath() : "", c.getMaxAge(), c.getSecure()));
         }
         // Deal with custom request header
-        Map requestHeaders = getTestContext().getRequestHeaders();
+        Map<String, String> requestHeaders = getTestContext().getRequestHeaders();
 
-        Set keys = requestHeaders.keySet();
-        Iterator it = keys.iterator();
-
-        while (it.hasNext()) {
-            String nextRequestHeaderName = (String) it.next();
+        for (String nextRequestHeaderName : requestHeaders.keySet()) {
             String nextRequestHeaderValue = (String) requestHeaders
                     .get(nextRequestHeaderName);
 
@@ -898,24 +876,15 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         return getElementByXPath(getCurrentPage(), xpath);
     }
 
-    private HtmlElement getElementByXPath(Object parent, String xpath) {
-        List l = null;
-        try {
-            final HtmlUnitXPath xp = new HtmlUnitXPath(xpath);
-            l = xp.selectNodes(parent);
-        } catch (JaxenException e) {
-            return null;
-        }
-        return (HtmlElement) (l.size() > 0 ? l.get(0) : null);
+    private HtmlElement getElementByXPath(DomNode parent, String xpath) {
+        return (HtmlElement) parent.getFirstByXPath(xpath);
     }
 
     /**
      * Return the first open window with the given title.
      */
     private WebWindow getWindowByTitle(String title) {
-        List webWindows = wc.getWebWindows();
-        for (int i = 0; i < webWindows.size(); i++) {
-            WebWindow window = (WebWindow) webWindows.get(i);
+        for (WebWindow window : wc.getWebWindows()) {
             if (window.getEnclosedPage() instanceof HtmlPage
                     && ((HtmlPage) window.getEnclosedPage()).getTitleText()
                             .equals(title)) {
@@ -986,17 +955,19 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     private HtmlForm getForm(String nameOrID, int index) {
-        HtmlForm form = null;
-        Iterator iter = getCurrentPage().getForms().iterator();
-        for (int pos = 0; pos <= index && iter.hasNext();) {
-            HtmlForm curr = (HtmlForm) iter.next();
-            if (nameOrID.equals(curr.getIdAttribute())
-                    || nameOrID.equals(curr.getNameAttribute())) {
-                pos++;
-                form = curr;
+        List<HtmlForm> forms = new ArrayList<HtmlForm>();
+        for (HtmlForm form : getCurrentPage().getForms()) {
+            if (nameOrID.equals(form.getIdAttribute())
+                    || nameOrID.equals(form.getNameAttribute())) {
+                forms.add(form);
             }
         }
-        return form;
+        if (forms.size()>index) {
+            return forms.get(index);
+        }
+        else {
+            return null;
+        }
     }
 
     private HtmlForm getFormWithInput(String inputName) {
@@ -1011,12 +982,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             }
         } else {
             if (hasForm()) {
-                for (int i = 0; i < getForms().size(); i++) {
-                    HtmlForm form = (HtmlForm) getForms().get(i);
-                    List inputElements = form.getHtmlElementsByAttribute("input",
-                            "name", inputName);
+                for (HtmlForm form : getForms()) {
+                    List<HtmlElement> inputElements = new LinkedList<HtmlElement>();
+                    inputElements.addAll(form.getHtmlElementsByAttribute("input",
+                            "name", inputName));
                     if (inputElements.isEmpty()) {
-                        inputElements = form.getTextAreasByName(inputName);
+                        inputElements.addAll(form.getTextAreasByName(inputName));
                     }
                     if (!inputElements.isEmpty()) {
                         setWorkingForm(form);
@@ -1056,7 +1027,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         return null;
     }
 
-    private List getForms() {
+    private List<HtmlForm> getForms() {
         HtmlPage page = (HtmlPage) win.getEnclosedPage();
         return page.getForms();
     }
@@ -1099,18 +1070,15 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @return the button
      */
     public ClickableElement getSubmitButton(String buttonName) {
-        List btns = new LinkedList();
+        List<HtmlElement> btns = new LinkedList<HtmlElement>();
         if (form != null) {
             btns.addAll(getForm().getInputsByName(buttonName));
         } else {
-            for (Iterator i = getCurrentPage().getForms().iterator(); i
-                    .hasNext();) {
-                HtmlForm f = (HtmlForm) i.next();
+            for (HtmlForm f : getCurrentPage().getForms()) {
                 btns.addAll(f.getInputsByName(buttonName));
             }
         }
-        for (Iterator i = btns.iterator(); i.hasNext();) {
-            Object o = i.next();
+        for (HtmlElement o : btns) {
             if (o instanceof HtmlSubmitInput) {
                 HtmlSubmitInput btn = (HtmlSubmitInput) o;
                 if (form == null) {
@@ -1139,18 +1107,15 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     public HtmlResetInput getResetButton(String buttonName) {
-        List btns = new LinkedList();
+        List<HtmlElement> btns = new LinkedList<HtmlElement>();
         if (form != null) {
             btns.addAll(getForm().getInputsByName(buttonName));
         } else {
-            for (Iterator i = getCurrentPage().getForms().iterator(); i
-                    .hasNext();) {
-                HtmlForm f = (HtmlForm) i.next();
+            for (HtmlForm f : getCurrentPage().getForms()) {
                 btns.addAll(f.getInputsByName(buttonName));
             }
         }
-        for (Iterator i = btns.iterator(); i.hasNext();) {
-            Object o = i.next();
+        for (HtmlElement o : btns) {
             if (o instanceof HtmlResetInput) {
                 HtmlResetInput btn = (HtmlResetInput) o;
                 if (form == null) {
@@ -1180,18 +1145,15 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     public ClickableElement getSubmitButton(String buttonName,
             String buttonValue) {
-        List btns = new LinkedList();
+        List<HtmlElement> btns = new LinkedList<HtmlElement>();
         if (form != null) {
             btns.addAll(getForm().getInputsByName(buttonName));
         } else {
-            for (Iterator i = getCurrentPage().getForms().iterator(); i
-                    .hasNext();) {
-                HtmlForm f = (HtmlForm) i.next();
+            for (HtmlForm f  : getCurrentPage().getForms()) {
                 btns.addAll(f.getInputsByName(buttonName));
             }
         }
-        for (Iterator i = btns.iterator(); i.hasNext();) {
-            Object o = i.next();
+        for (HtmlElement o : btns) {
             if (o instanceof HtmlSubmitInput) {
                 HtmlSubmitInput btn = (HtmlSubmitInput) o;
                 if (btn.getValueAttribute().equals(buttonValue)) {
@@ -1228,22 +1190,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * {@inheritDoc}
      */
     public boolean hasSubmitButton() {
-        List l = null;
-        try {
-            final HtmlUnitXPath xp = new HtmlUnitXPath(
-                    "//input[@type='submit' or @type='image']");
-            l = xp.selectNodes(getForm());
-        } catch (JaxenException e) {
-            throw new RuntimeException(e);
-        }
-        List l2 = null;
-        try {
-            final HtmlUnitXPath xp = new HtmlUnitXPath(
-                    "//button[@type='submit']");
-            l2 = xp.selectNodes(getForm());
-        } catch (JaxenException e) {
-            throw new RuntimeException(e);
-        }
+        final HtmlForm htmlForm = getForm();
+        List<?> l = htmlForm.getByXPath("//input[@type='submit' or @type='image']");
+        List<?> l2 = htmlForm.getByXPath("//button[@type='submit']");
         return (l.size() > 0 || l2.size() > 0);
     }
 
@@ -1267,21 +1216,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     public boolean hasResetButton() {
-        List l = null;
-        try {
-            final HtmlUnitXPath xp = new HtmlUnitXPath("//input[@type='reset']");
-            l = xp.selectNodes(getForm());
-        } catch (JaxenException e) {
-            throw new RuntimeException(e);
-        }
-        List l2 = null;
-        try {
-            final HtmlUnitXPath xp = new HtmlUnitXPath(
-                    "//button[@type='reset']");
-            l2 = xp.selectNodes(getForm());
-        } catch (JaxenException e) {
-            throw new RuntimeException(e);
-        }
+        HtmlForm form = getForm();
+        List<?> l = form.getByXPath("//input[@type='reset']");
+        List<?> l2 = form.getByXPath("//button[@type='reset']");
         return (l.size() > 0 || l2.size() > 0);
     }
 
@@ -1333,11 +1270,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * no such button is found. 
      */
     public ClickableElement getButtonWithText(String buttonValueText) {
-        List l = ((HtmlPage) win.getEnclosedPage()).getDocumentHtmlElement()
+        List<? extends HtmlElement> l = ((HtmlPage) win.getEnclosedPage()).getDocumentElement()
                 .getHtmlElementsByTagNames(
                         Arrays.asList(new String[] { "button", "input" }));
-        for (int i = 0; i < l.size(); i++) {
-            HtmlElement e = (HtmlElement) l.get(i);
+        for (HtmlElement e : l) {
             if ( e instanceof HtmlButton )
             {
             	if (((HtmlButton) e).asText().equals(buttonValueText))
@@ -1482,16 +1418,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     /**
-     * Submit the current form with the specifed submit button. See {@link #getForm}for an explanation of how the
+     * Submit the current form with the specified submit button. See {@link #getForm}for an explanation of how the
      * current form is established.
      * 
      * @param buttonName name of the button to use for submission.
      */
     public void submit(String buttonName) {
-        List l = getForm().getInputsByName(buttonName);
+        List<ClickableElement> l = new LinkedList<ClickableElement>();
+        l.addAll(getForm().getInputsByName(buttonName));
+        l.addAll(getForm().getButtonsByName(buttonName));
         try {
-            for (int i = 0; i < l.size(); i++) {
-                Object o = l.get(i);
+            for (ClickableElement o : l) {
                 if (o instanceof HtmlSubmitInput) {
                     HtmlSubmitInput inpt = (HtmlSubmitInput) o;
                     inpt.click();
@@ -1525,7 +1462,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param buttonValue value/label of the button to use for submission
      */
     public void submit(String buttonName, String buttonValue) {
-        List l = getForm().getInputsByName(buttonName);
+        List<ClickableElement> l = new LinkedList<ClickableElement>();
+        l.addAll(getForm().getInputsByName(buttonName));
+        l.addAll(getForm().getButtonsByName(buttonName));
         try {
             for (int i = 0; i < l.size(); i++) {
                 Object o = l.get(i);
@@ -1702,6 +1641,18 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 throw new RuntimeException("uncheckCheckbox failed", e);
             }
     }
+    
+    private HtmlRadioButtonInput getRadioOption(String radioGroup, String radioOption) {
+        for (HtmlForm form : getForms()) {
+            List<HtmlRadioButtonInput> buttons = form.getRadioButtonsByName(radioGroup);
+            for (HtmlRadioButtonInput button : buttons) {
+                if (button.getValueAttribute().equals(radioOption)) {
+                    return button;
+                }
+            }
+        }
+        return null;
+    }
 
     /**
      * Clicks a radio option. Asserts that the radio option exists first. *
@@ -1710,8 +1661,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param radioOption value of the option to check for.
      */
     public void clickRadioOption(String radioGroup, String radioOption) {
-        HtmlRadioButtonInput rb = (HtmlRadioButtonInput) getForm()
-                .getRadioButtonInput(radioGroup, radioOption);
+        HtmlRadioButtonInput rb = getRadioOption(radioGroup, radioOption);
         if (!rb.isChecked())
             try {
                 rb.click();
@@ -1737,10 +1687,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     private HtmlAnchor getLinkWithText(String linkText, int index) {
-        List lnks = ((HtmlPage) win.getEnclosedPage()).getAnchors();
+        List<HtmlAnchor> lnks = ((HtmlPage) win.getEnclosedPage()).getAnchors();
         int count = 0;
-        for (int i = 0; i < lnks.size(); i++) {
-            HtmlAnchor lnk = (HtmlAnchor) lnks.get(i);
+        for (HtmlAnchor lnk : lnks) {
             if ((lnk.asText().indexOf(linkText) >= 0) && (count++ == index))
                 return lnk;
         }
@@ -1748,10 +1697,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     private HtmlAnchor getLinkWithExactText(String linkText, int index) {
-        List lnks = ((HtmlPage) win.getEnclosedPage()).getAnchors();
+        List<HtmlAnchor> lnks = ((HtmlPage) win.getEnclosedPage()).getAnchors();
         int count = 0;
-        for (int i = 0; i < lnks.size(); i++) {
-            HtmlAnchor lnk = (HtmlAnchor) lnks.get(i);
+        for (HtmlAnchor lnk : lnks) {
             if ((lnk.asText().equals(linkText)) && (count++ == index))
                 return lnk;
         }
@@ -1860,23 +1808,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param radioOption value of the option to check for.
      */
     public boolean hasRadioOption(String radioGroup, String radioOption) {
-        List forms = getForms();
-        for (int i = 0; i < forms.size(); i++) {
-            HtmlForm form = (HtmlForm) forms.get(i);
-            try {
-                form.getRadioButtonInput(radioGroup, radioOption);
-                return true;
-            } catch (ElementNotFoundException e) {
-
-            }
-        }
-        return false;
+        return getRadioOption(radioGroup, radioOption) != null;
     }
     
     public String getSelectedRadio(String radioGroup) {
-        List radios = getForm().getRadioButtonsByName(radioGroup);
-        for (Iterator i = radios.iterator(); i.hasNext();) {
-        	HtmlRadioButtonInput radio = (HtmlRadioButtonInput) i.next();
+        List<HtmlRadioButtonInput> radios = getForm().getRadioButtonsByName(radioGroup);
+        for (HtmlRadioButtonInput radio : radios) {
         	if (radio.isChecked()) {
         		return radio.getValueAttribute();
         	}
@@ -1925,19 +1862,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         HtmlSelect sel = getForm().getSelectByName(selectName);
         if (!sel.isMultipleSelectEnabled() && options.length > 1)
             throw new RuntimeException("Multiselect not enabled");
-        List l = sel.getOptions();
-        for (int j = 0; j < options.length; j++) {
+        for (String option : options) {
             boolean found = false;
-            for (int i = 0; i < l.size(); i++) {
-                HtmlOption opt = (HtmlOption) l.get(i);
-                if (opt.getValueAttribute().equals(options[j])) {
+            for (HtmlOption opt : sel.getOptions()) {
+                if (opt.getValueAttribute().equals(option)) {
                     sel.setSelectedAttribute(opt, true);
                     found = true;
                     break;
                 }
             }
             if (!found)
-                throw new RuntimeException("Option " + options[j]
+                throw new RuntimeException("Option " + option
                         + " not found");
         }
     }
@@ -1986,26 +1921,24 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param options set of options to select.
      */
     public void selectOptions(String selectName, int index, String[] options) {
-    	List sels = getForm().getSelectsByName(selectName);
+    	List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
     	if ( sels == null || sels.size() < index+1 )
         	throw new RuntimeException("Did not find select with name [" + selectName 
         	                           + "] at index " + index);
     	HtmlSelect sel = (HtmlSelect)sels.get(index); 
         if (!sel.isMultipleSelectEnabled() && options.length > 1)
             throw new RuntimeException("Multiselect not enabled");
-        List l = sel.getOptions();
-        for (int j = 0; j < options.length; j++) {
+        for (String option : options) {
             boolean found = false;
-            for (int i = 0; i < l.size(); i++) {
-                HtmlOption opt = (HtmlOption) l.get(i);
-                if (opt.getValueAttribute().equals(options[j])) {
+            for (HtmlOption opt : sel.getOptions()) {
+                if (opt.getValueAttribute().equals(option)) {
                     sel.setSelectedAttribute(opt, true);
                     found = true;
                     break;
                 }
             }
             if (!found)
-                throw new RuntimeException("Option " + options[j]
+                throw new RuntimeException("Option " + option
                         + " not found");
         }
     }
@@ -2015,43 +1948,39 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         HtmlSelect sel = getForm().getSelectByName(selectName);
         if (!sel.isMultipleSelectEnabled() && options.length > 1)
             throw new RuntimeException("Multiselect not enabled");
-        List l = sel.getOptions();
-        for (int j = 0; j < options.length; j++) {
+        for (String option : options) {
             boolean found = false;
-            for (int i = 0; i < l.size(); i++) {
-                HtmlOption opt = (HtmlOption) l.get(i);
-                if (opt.asText().equals(options[j])) {
+            for (HtmlOption opt : sel.getOptions()) {
+                if (opt.asText().equals(option)) {
                     sel.setSelectedAttribute(opt, false);
                     found = true;
                     break;
                 }
             }
             if (!found)
-                throw new RuntimeException("Option " + options[j]
+                throw new RuntimeException("Option " + option
                         + " not found");
         }
     }
     public void unselectOptions(String selectName, int index, String[] options) {
-        List sels = getForm().getSelectsByName(selectName);
+        List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
         if ( sels == null || sels.size() < index+1)
         	throw new RuntimeException("Did not find select with name [" + selectName 
         	                           + "] at index " + index);
-        HtmlSelect sel = (HtmlSelect)sels.get(index);
+        HtmlSelect sel = sels.get(index);
         if (!sel.isMultipleSelectEnabled() && options.length > 1)
             throw new RuntimeException("Multiselect not enabled");
-        List l = sel.getOptions();
-        for (int j = 0; j < options.length; j++) {
+        for (String option : options) {
             boolean found = false;
-            for (int i = 0; i < l.size(); i++) {
-                HtmlOption opt = (HtmlOption) l.get(i);
-                if (opt.asText().equals(options[j])) {
+            for (HtmlOption opt : sel.getOptions()) {
+                if (opt.asText().equals(option)) {
                     sel.setSelectedAttribute(opt, false);
                     found = true;
                     break;
                 }
             }
             if (!found)
-                throw new RuntimeException("Option " + options[j]
+                throw new RuntimeException("Option " + option
                         + " not found");
         }
     }
@@ -2112,17 +2041,14 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @return The frame found or null.
      */
     private WebWindow getFrame(String frameNameOrId) {
-        final List frames = getCurrentPage().getFrames();
         // First try ID
-        for (final Iterator iter = frames.iterator(); iter.hasNext();) {
-            final FrameWindow frame = (FrameWindow) iter.next();
+        for (FrameWindow frame : getCurrentPage().getFrames()) {
             if (frameNameOrId.equals(frame.getFrameElement().getId())) {
                 return frame;
             }
         }
         // Now try with Name
-        for (final Iterator iter = frames.iterator(); iter.hasNext();) {
-            final FrameWindow frame = (FrameWindow) iter.next();
+        for (FrameWindow frame : getCurrentPage().getFrames()) {
             if (frameNameOrId.equals(frame.getName())) {
                 return frame;
             }

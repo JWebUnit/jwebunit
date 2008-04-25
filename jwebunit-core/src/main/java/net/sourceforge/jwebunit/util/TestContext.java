@@ -30,7 +30,7 @@ public class TestContext {
 
     private String domain;
 
-    private List cookies;
+    private List<javax.servlet.http.Cookie> cookies;
 
     private boolean hasAuth = false;
 
@@ -44,7 +44,7 @@ public class TestContext {
 
     private String userAgent;
 
-    private Map requestHeaders = new HashMap();
+    private Map<String, String> requestHeaders = new HashMap<String, String>();
 
     private String proxyUser = null;
 
@@ -195,7 +195,7 @@ public class TestContext {
     /**
      * Return the cookies which have been added to the test context.
      */
-    public List getCookies() {
+    public List<javax.servlet.http.Cookie> getCookies() {
         return cookies;
     }
 
@@ -321,7 +321,7 @@ public class TestContext {
      * @param name header name.
      * @param value header value.
      */
-    public Map getRequestHeaders() {
+    public Map<String, String> getRequestHeaders() {
         return requestHeaders;
     }
 
