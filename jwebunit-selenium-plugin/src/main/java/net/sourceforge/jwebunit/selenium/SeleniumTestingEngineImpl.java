@@ -7,7 +7,6 @@ package net.sourceforge.jwebunit.selenium;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -411,10 +410,9 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 	}
 
 	public void selectOptions(String selectName, String[] optionsValue) {
-		System.err.println(selectName + Arrays.toString(optionsValue));
 		if(optionsValue.length == 1) {
-			selenium.select("xpath=" + formSelector() + "//select[@name='" + selectName + "']",
-					optionsValue[0]);
+			selenium.select("xpath=" + formSelector() + "//select[@name='" + selectName + "']", "value="
+					+ optionsValue[0]);
 		} else {
 			for (int i = 0; i < optionsValue.length; i++) {
 				selenium.addSelection("xpath=" + formSelector() + "//select[@name='" + selectName + "']",
