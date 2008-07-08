@@ -6,6 +6,7 @@ package net.sourceforge.jwebunit.selenium;
 
 
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -302,15 +303,21 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 
     public boolean hasSelectOptionValue(String selectName, String optionValue) {
         try {
-            getSelectOptionLabelForValue(selectName, optionValue);
-            return true;
+            return getSelectOptionLabelForValue(selectName, optionValue) != null;
         } catch (SeleniumException e) {
             return false;
         }
     }
 
     public boolean hasSelectOption(String selectName, int index, String optionLabel) {
-        return false;
+        boolean equals;
+        try {
+            equals = getSelectedOptions(selectName)[index].equals(optionLabel);
+        } catch (RuntimeException e) {
+            logger.error("", e);
+            equals = false;
+        }
+        return equals;
     }
 
     public boolean hasSelectOptionValue(String selectName, int index, String optionValue) {
@@ -388,13 +395,31 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 
 
     public boolean isMatchInElement(String elementID, String regexp) {
-        //TODO Implement isMatchInElement in SeleniumDialog
-        throw new UnsupportedOperationException("isMatchInElement");
+        boolean match;
+        try {
+            String locator = "id=" + elementID;
+            String elementText = selenium.getText(locator);
+            if (elementText == null || elementText.equals("")) elementText = selenium.getValue(locator);
+            match = (elementText != null ? elementText.matches(regexp) : false);
+        } catch (RuntimeException e) {
+            logger.error("", e);
+            match = false;
+        }
+        return match;
     }
 
     public boolean isTextInElement(String elementID, String text) {
-        // TODO Implement isTextInElement in SeleniumDialog
-        throw new UnsupportedOperationException("isTextInElement");
+        boolean contains;
+        try {
+            String locator = "id=" + elementID;
+            String elementText = selenium.getText(locator);
+            if (elementText == null || elementText.equals("")) elementText = selenium.getValue(locator);
+            contains = (elementText != null ? elementText.contains(text) : false);
+        } catch (RuntimeException e) {
+            logger.error("", e);
+            contains = false;
+        }
+        return contains;
     }
 
     public void refresh() {
@@ -408,11 +433,17 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
     }
 
     public void selectOptions(String selectName, String[] optionsValue) {
-        for (int i=0; i<optionsValue.length; i++) {
-            selenium.addSelection("xpath=" + formSelector() + "//select[@name='"+selectName+"']","value="+optionsValue[i]);
+        if (optionsValue.length == 1) {
+            selenium.select("xpath=" + formSelector() + "//select[@name='" + selectName + "']",
+                    optionsValue[0]);
+        } else {
+            for (int i = 0; i < optionsValue.length; i++) {
+                selenium.addSelection("xpath=" + formSelector() + "//select[@name='" + selectName + "']",
+                        "value=" + optionsValue[i]);
+            }
         }
     }
-
+    
     public void selectOptions(String selectName, int index, String[] optionsValue) {
     }
 
@@ -569,12 +600,15 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
         throw new UnsupportedOperationException("getInputStream");
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.jwebunit.api.ITestingEngine#getPageURL()
-     */
     public URL getPageURL() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("getPageURL");
+        URL url;
+        try {
+            url = new URL(selenium.getLocation());
+        } catch (MalformedURLException e) {
+            logger.error("", e);
+            url = null;
+        }
+        return url;
     }
 
     /* (non-Javadoc)
