@@ -8,6 +8,9 @@
     </properties>
     <body>
         <release version="2.0" date="UNKNOW">
+            <action type="update" dev="henryju">
+                Updated to HtmlUnit 2.2.
+            </action>
             <action type="fix" dev="joshlane" issue="2007985,2009776" due-to="Josh Lane">
                 selectOptionByValue failed with Selenium Plugin.
                 selectOption always failed, cannot find element.
