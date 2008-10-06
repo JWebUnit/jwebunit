@@ -83,9 +83,7 @@ import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
 import net.sourceforge.jwebunit.util.TestContext;
 
 import org.apache.commons.httpclient.Cookie;
-import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.NameValuePair;
-
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.slf4j.Logger;
@@ -217,14 +215,13 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
     public List<javax.servlet.http.Cookie> getCookies() {
         List<javax.servlet.http.Cookie> result = new LinkedList<javax.servlet.http.Cookie>();
-        final HttpState stateForUrl = wc.getWebConnection().getState();
-        Cookie[] cookies = stateForUrl.getCookies();
-        for (int i = 0; i < cookies.length; i++) {
+        Set<Cookie> cookies = wc.getCookieManager().getCookies();
+        for (Cookie cookie : cookies) {
             javax.servlet.http.Cookie c = new javax.servlet.http.Cookie(
-                    cookies[i].getName(), cookies[i].getValue());
-            c.setComment(cookies[i].getComment());
-            c.setDomain(cookies[i].getDomain());
-            Date expire = cookies[i].getExpiryDate();
+                    cookie.getName(), cookie.getValue());
+            c.setComment(cookie.getComment());
+            c.setDomain(cookie.getDomain());
+            Date expire = cookie.getExpiryDate();
             if (expire == null) {
                 c.setMaxAge(-1);
             } else {
@@ -234,9 +231,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                         (expire.getTime() - now.getTime()) / 1000);
                 c.setMaxAge(second.intValue());
             }
-            c.setPath(cookies[i].getPath());
-            c.setSecure(cookies[i].getSecure());
-            c.setVersion(cookies[i].getVersion());
+            c.setPath(cookie.getPath());
+            c.setSecure(cookie.getSecure());
+            c.setVersion(cookie.getVersion());
             result.add(c);
         }
         return result;
@@ -839,7 +836,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         // Deal with cookies
         for (javax.servlet.http.Cookie c : getTestContext().getCookies()) {
             // If Path==null, cookie is not send to the server.
-            wc.getWebConnection().getState().addCookie(
+            wc.getCookieManager().addCookie(
                     new Cookie(c.getDomain() != null ? c.getDomain() : "", c
                             .getName(), c.getValue(), c.getPath() != null ? c
                             .getPath() : "", c.getMaxAge(), c.getSecure()));
