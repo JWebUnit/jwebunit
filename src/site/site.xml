@@ -71,6 +71,9 @@
                     href="#Building JWebUnit Web site and reports" />
 
             </item>
+            <item name="How-To contribute"
+                href="/how-to-contribute.html" collapse="true">
+            </item>
         </menu>
         <menu name="Sourceforge">
             <item name="Project page"

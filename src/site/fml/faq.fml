@@ -31,6 +31,7 @@ Finally, you can temporary disable JavaScript in your test:</p>
   setScriptingEnabled(true);
   ...
 }</source>
+Have a look at http://htmlunit.sourceforge.net/submittingJSBugs.html
       </answer>
     </faq>
   </part>

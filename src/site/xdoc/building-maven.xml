@@ -39,7 +39,7 @@
                         <li>
                             add an environment variable MAVEN_HOME which
                             points to the install directory of Maven,
-                            i.e. /opt/apache-maven-2.0.8
+                            i.e. /opt/apache-maven-2.0.9
                         </li>
                         <li>
                             add

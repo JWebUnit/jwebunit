@@ -838,7 +838,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             // If Path==null, cookie is not send to the server.
             wc.getCookieManager().addCookie(
                     new Cookie(c.getDomain() != null ? c.getDomain() : "", c
-                            .getName(), c.getValue(), c.getPath() != null ? c
+                            .getName(), c.getValue(), c.getPath() != null ? c                                          
                             .getPath() : "", c.getMaxAge(), c.getSecure()));
         }
         // Deal with custom request header

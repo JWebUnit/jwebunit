@@ -2,7 +2,7 @@
 <document>
     <properties>
         <author email="dashorst.at.users.sourceforge.net">Martijn Dashorst</author>
-        <title>JWebUnit 1.x</title>
+        <title>JWebUnit</title>
     </properties>
     <meta name="keyword" content="jwebunit, java, junit, htmlunit, jacobie, httpunit, integration, test, automated, html, webtest"/>
 	<head>
@@ -11,8 +11,14 @@
 <body>
 <section name="Welcome">
     <p>
-        You are on the JWebUnit 1.x website. Current version is 1.5. This is
-        the "stable" version of JWebUnit. You can also consult <a href="2.x/index.html">JWebUnit 2.x website</a>.
+        You are on the JWebUnit website. Current version is 2.0. This is
+        the "stable" version of JWebUnit. This version requires Java 1.5.
+    </p>
+</section>
+<section name="Please help JWebUnit  !!">
+    <p>
+        JWebUnit is not dead but is looking for contributors. The current maintainer will only be able to do quick fix, a bit of support on the
+        mailing-list and perfom releases. If you want new functionalities feel free to <a href="how-to-contribute.html">contribute</a>.
     </p>
 </section>
 <section name="What is JWebUnit?">
@@ -27,13 +33,14 @@
 </section>
 <section name="What does JWebUnit provide?">
     <p>
-        JWebUnit provides a high-level API for navigating a web application combined with a set
+        JWebUnit provides a high-level Java API for navigating a web application combined with a set
         of assertions to verify the application's correctness. This includes navigation
         via links, form entry and submission, validation of table contents, and other
         typical business web application features. This code try to stay independent of the libraries behind
         the scenes. The simple navigation methods and ready-to-use assertions allow for
         more rapid test creation than using only JUnit and HtmlUnit. And if you want to switch
-        from HtmlUnit to the other soon available plugins, no need to rewrite your tests.
+        from HtmlUnit to the other soon available plugins, no need to rewrite your tests (in the past, the HttpUnit to HtmlUnit migration was done
+        with only minor API changes).
     </p>
     <img src="images/jwebunit-architecture.png" alt="JWebUnit architecture"/>
 </section>
