@@ -7,8 +7,8 @@ package net.sourceforge.jwebunit.htmlunit;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.tests.util.JettySetup;
 import net.sourceforge.jwebunit.tests.*;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
  * Test Suite for JWebUnit.
@@ -52,6 +52,7 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(ImageTest.class);
         suite.addTestSuite(ResourceBundleAssertionsTest.class);
         suite.addTestSuite(SelectOptionsTest.class);
+        suite.addTestSuite(IElementTest.class);
         suite.addTest(JUnitPerfTest.suite());
         // $JUnit-END$
         return new JettySetup(suite);

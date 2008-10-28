@@ -17,6 +17,7 @@ import net.sourceforge.jwebunit.javascript.JavascriptAlert;
 import net.sourceforge.jwebunit.javascript.JavascriptConfirm;
 import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
 import net.sourceforge.jwebunit.util.TestContext;
+import net.sourceforge.jwebunit.api.IElement;
 
 /**
  * This is the interface for all communications between JWebUnit and the specific running test engine.
@@ -843,4 +844,12 @@ public interface ITestingEngine {
     void setExpectedJavaScriptPrompt(JavascriptPrompt[] prompts)
             throws ExpectedJavascriptPromptException;
 
+	/**
+	 * Get an element wrapper for a given xpath.
+	 * 
+	 * @param xpath XPath to evaluate
+	 * @return The element if found
+	 */
+	IElement getElementByXPath(String xpath);
+    
 }

@@ -24,6 +24,7 @@ import javax.servlet.http.Cookie;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
+import net.sourceforge.jwebunit.api.IElement;
 import net.sourceforge.jwebunit.api.ITestingEngine;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptConfirmException;
@@ -2433,8 +2434,16 @@ public class WebTester {
     	return getTestingEngine().getElementTextByXPath(xpath);
     }
     
-    
-    
+    /**
+     * Get an element for a particular xpath.
+     * 
+     * @param xpath
+     * @return
+     */
+    public IElement getElementByXPath(String xpath) {
+    	assertElementPresentByXPath(xpath);
+    	return getTestingEngine().getElementByXPath(xpath);
+    }
     
     // Window and Frame Navigation Methods
 

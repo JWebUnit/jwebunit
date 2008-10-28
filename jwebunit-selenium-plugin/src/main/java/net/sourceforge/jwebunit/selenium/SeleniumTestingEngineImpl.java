@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.sourceforge.jwebunit.api.IElement;
 import net.sourceforge.jwebunit.api.ITestingEngine;
 import net.sourceforge.jwebunit.exception.ElementNotFoundException;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
@@ -659,6 +660,15 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 	 */
 	public void setWorkingForm(int index) {
 		formIdent = "position()=" + (index + 1);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementByXPath(java.lang.String)
+	 */
+	@Override
+	public IElement getElementByXPath(String xpath) {
+		// TODO implement method
+		throw new UnsupportedOperationException("getElementByXPath");
 	}
 
 }

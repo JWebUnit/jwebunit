@@ -4,6 +4,46 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.htmlunit;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import net.sourceforge.jwebunit.api.IElement;
+import net.sourceforge.jwebunit.api.ITestingEngine;
+import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
+import net.sourceforge.jwebunit.exception.ExpectedJavascriptConfirmException;
+import net.sourceforge.jwebunit.exception.ExpectedJavascriptPromptException;
+import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
+import net.sourceforge.jwebunit.exception.UnableToSetFormException;
+import net.sourceforge.jwebunit.exception.UnexpectedJavascriptAlertException;
+import net.sourceforge.jwebunit.exception.UnexpectedJavascriptConfirmException;
+import net.sourceforge.jwebunit.exception.UnexpectedJavascriptPromptException;
+import net.sourceforge.jwebunit.html.Cell;
+import net.sourceforge.jwebunit.html.Row;
+import net.sourceforge.jwebunit.html.Table;
+import net.sourceforge.jwebunit.javascript.JavascriptAlert;
+import net.sourceforge.jwebunit.javascript.JavascriptConfirm;
+import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
+import net.sourceforge.jwebunit.util.TestContext;
+
+import org.apache.commons.httpclient.Cookie;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.regexp.RE;
+import org.apache.regexp.RESyntaxException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.ConfirmHandler;
@@ -45,49 +85,10 @@ import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
+import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
-import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import net.sourceforge.jwebunit.api.ITestingEngine;
-import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
-import net.sourceforge.jwebunit.exception.ExpectedJavascriptConfirmException;
-import net.sourceforge.jwebunit.exception.ExpectedJavascriptPromptException;
-import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
-import net.sourceforge.jwebunit.exception.UnableToSetFormException;
-import net.sourceforge.jwebunit.exception.UnexpectedJavascriptAlertException;
-import net.sourceforge.jwebunit.exception.UnexpectedJavascriptConfirmException;
-import net.sourceforge.jwebunit.exception.UnexpectedJavascriptPromptException;
-import net.sourceforge.jwebunit.html.Cell;
-import net.sourceforge.jwebunit.html.Row;
-import net.sourceforge.jwebunit.html.Table;
-import net.sourceforge.jwebunit.javascript.JavascriptAlert;
-import net.sourceforge.jwebunit.javascript.JavascriptConfirm;
-import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
-import net.sourceforge.jwebunit.util.TestContext;
-
-import org.apache.commons.httpclient.Cookie;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Acts as the wrapper for HtmlUnit access. A testing engine is initialized with a given URL, and maintains conversational state
@@ -861,7 +862,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         return wc.getWebWindowByName(windowName);
     }
 
-    private HtmlElement getElement(String anID) {
+    private HtmlElement getHtmlElement(String anID) {
         try {
             return ((HtmlPage) win.getEnclosedPage()).getHtmlElementById(anID);
         } catch (ElementNotFoundException e) {
@@ -869,11 +870,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         }
     }
 
-    private HtmlElement getElementByXPath(String xpath) {
-        return getElementByXPath(getCurrentPage(), xpath);
+    private HtmlElement getHtmlElementByXPath(String xpath) {
+        return getHtmlElementByXPath(getCurrentPage(), xpath);
     }
 
-    private HtmlElement getElementByXPath(DomNode parent, String xpath) {
+    private HtmlElement getHtmlElementByXPath(DomNode parent, String xpath) {
         return (HtmlElement) parent.getFirstByXPath(xpath);
     }
 
@@ -1679,7 +1680,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     private HtmlAnchor getLinkWithImage(String filename, int index) {
-        return (HtmlAnchor) getElementByXPath("(//a[img[contains(@src,\""
+        return (HtmlAnchor) getHtmlElementByXPath("(//a[img[contains(@src,\""
                 + filename + "\")]])[" + index + 1 + "]");
     }
 
@@ -1724,15 +1725,15 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     public boolean hasElement(String anID) {
-        return getElement(anID) != null;
+        return getHtmlElement(anID) != null;
     }
 
     public boolean hasElementByXPath(String xpath) {
-        return getElementByXPath(xpath) != null;
+        return getHtmlElementByXPath(xpath) != null;
     }
 
     public void clickElementByXPath(String xpath) {
-        HtmlElement e = getElementByXPath(xpath);
+        HtmlElement e = getHtmlElementByXPath(xpath);
         if (e == null)
             throw new RuntimeException("No element found with xpath \"" + xpath
                     + "\"");
@@ -1748,7 +1749,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     public String getElementAttributByXPath(String xpath, String attribut) {
-        HtmlElement e = getElementByXPath(xpath);
+        HtmlElement e = getHtmlElementByXPath(xpath);
         if (e == null)
             return null;
         return e.getAttributeValue(attribut);
@@ -1756,7 +1757,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
 
     public String getElementTextByXPath(String xpath) {
-        HtmlElement e = getElementByXPath(xpath);
+        HtmlElement e = getHtmlElementByXPath(xpath);
         if (e == null)
             return null;
         return e.asText();
@@ -1983,7 +1984,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     public boolean isTextInElement(String elementID, String text) {
-        return isTextInElement(getElement(elementID), text);
+        return isTextInElement(getHtmlElement(elementID), text);
     }
 
     /**
@@ -1997,7 +1998,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     public boolean isMatchInElement(String elementID, String regexp) {
-        return isMatchInElement(getElement(elementID), regexp);
+        return isMatchInElement(getHtmlElement(elementID), regexp);
     }
 
     /**
@@ -2103,5 +2104,13 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             expectedJavascriptPrompts.add(prompts[i]);
         }
     }
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementByXPath(java.lang.String)
+	 */
+	@Override
+	public IElement getElementByXPath(String xpath) {
+		return new HtmlUnitElementImpl(this.getHtmlElementByXPath(xpath));
+	}
 
 }
