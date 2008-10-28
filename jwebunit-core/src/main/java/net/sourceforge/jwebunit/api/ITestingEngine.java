@@ -878,6 +878,21 @@ public interface ITestingEngine {
 	int getServerResponseCode();
 	
 	/**
+	 * Get a particular header or null.
+	 * 
+	 * @param name The header name
+	 * @return The first header value or null
+	 */
+	String getHeader(String name);
+	
+	/**
+	 * Get all headers.
+	 * 
+	 * @return The header values stored in a map.
+	 */
+	java.util.Map<String,String> getAllHeaders();
+	
+	/**
 	 * Should the tester ignore failing status codes (300+)? Otherwise,
 	 * failing status codes will throw an exception.
 	 * 

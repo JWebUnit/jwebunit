@@ -9,7 +9,10 @@
     <body>
     	<release version="2.1" date="Unknown">
     		<action type="add" dev="jevonwright">
-    			Adding new IElement element interface, and methods to directly access elements by XPath.
+    			Added new IElement element interface, and methods to directly access elements by XPath.
+    		</action>
+    		<action type="add" dev="jevonwright" issue="1744628">
+    			Added assertHeader*() and assertResponseCode*() methods
     		</action>
     		<action type="update" dev="jevonwright">
     			BC CHANGE: setFormElement(), assertFormElementEquals() methods will no longer assert that a form already exists in the page (as allowed by the HTML standard).

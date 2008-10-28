@@ -17,6 +17,7 @@ import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
@@ -280,6 +281,70 @@ public class WebTester {
 	 */
     public void setIgnoreFailingStatusCodes(boolean ignore) {
     	getTestingEngine().setIgnoreFailingStatusCodes(ignore);
+    }
+    
+    /**
+     * Assert a header is present.
+     * 
+     * @param name The header to find
+     */
+    public void assertHeaderPresent(String name) {
+    	Assert.assertFalse( "header '" + name + "' not present", getTestingEngine().getHeader(name) == null );
+    }
+    
+    /**
+     * Assert a header is NOT present.
+     * 
+     * @param name The header to find
+     */
+    public void assertHeaderNotPresent(String name) {
+    	Assert.assertTrue( "header '" + name + "' present", getTestingEngine().getHeader(name) == null );
+    }
+    
+    /**
+     * Assert a header is equal to a particular value.
+     * 
+     * @param name Header to find
+     * @param value Value to compare against
+     */
+    public void assertHeaderEquals(String name, String value) {
+    	Assert.assertEquals( value, getTestingEngine().getHeader(name) );
+    }
+    
+    /**
+     * Assert a header matches a particular pattern.
+     * 
+     * @param name Header to find
+     * @param regexp Pattern to compare against
+     */
+    public void assertHeaderMatches(String name, String regexp) {
+        RE re = null;
+        try {
+            re = new RE(regexp, RE.MATCH_SINGLELINE);
+        } catch (RESyntaxException e) {
+            Assert.fail(e.toString());
+        }
+        Assert.assertTrue("Unable to match [" + regexp + "] in header [" + name + "]", 
+        		re.match( getTestingEngine().getHeader(name) ));
+    }
+    
+    /**
+     * Get a particular header value.
+     * 
+     * @param name Header to find
+     * @return The found header value, or null
+     */
+    public String getHeader(String name) {
+    	return getTestingEngine().getHeader(name);
+    }
+    
+    /**
+     * Get all response headers.
+     * 
+     * @return A map of response headers
+     */
+    public Map<String, String> getAllHeaders() {
+    	return getTestingEngine().getAllHeaders();
     }
 
     /**

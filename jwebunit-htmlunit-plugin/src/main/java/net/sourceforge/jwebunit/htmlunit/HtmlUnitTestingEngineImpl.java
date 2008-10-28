@@ -142,11 +142,6 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * Javascript prompts.
      */
     private LinkedList<JavascriptPrompt> expectedJavascriptPrompts = new LinkedList<JavascriptPrompt>();
-
-    /**
-     * The last web response status code, if HtmlUnit threw a FailingHttpStatusCodeException.
-     */
-    private int lastWebResponse = 0;
     
     /**
      * Should we ignore failing status codes?
@@ -169,6 +164,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         gotoPage(initialURL);
     }
 
+    /**
+     * Close the browser and check that all expected Javascript alerts, confirms and 
+     * prompts have been taken care of.
+     */
     public void closeBrowser() throws ExpectedJavascriptAlertException,
             ExpectedJavascriptConfirmException,
             ExpectedJavascriptPromptException {
@@ -194,7 +193,8 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     /**
      * Go to a particular page.
      * 
-     * @throws TestingEngineResponseException if an error response code is encountered and ignoreFailingStatusCodes is not enabled.
+     * @throws TestingEngineResponseException if an error response code is encountered 
+     * 	and ignoreFailingStatusCodes is not enabled.
      */
     public void gotoPage(URL initialURL) throws TestingEngineResponseException {
         try {
@@ -202,9 +202,6 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             win = wc.getCurrentWindow();
             form = null;
         } catch (FailingHttpStatusCodeException ex) {
-        	// save this web response
-        	lastWebResponse = ex.getStatusCode();
-        	
         	// only throw exception if necessary
         	if (!ignoreFailingStatusCodes) {
 	            throw new TestingEngineResponseException(
@@ -294,6 +291,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         }
     }
 
+    /**
+     * Close the current window.
+     */
     public void closeWindow() {
         if (win != null) {
             wc.deregisterWebWindow(win);
@@ -414,31 +414,30 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      *            name.
      */
     public String getHiddenFieldValue(String paramName) {
-        List<HtmlElement> hiddenFieldElements = new LinkedList<HtmlElement>();
-        if (form != null) {
-            hiddenFieldElements.addAll(getForm().getHtmlElementsByAttribute(
-                    "input", "type", "hidden"));
-        } else {
-            for (Iterator<HtmlForm> i = getCurrentPage().getForms().iterator(); i
-                    .hasNext();) {
-                HtmlForm f = (HtmlForm) i.next();
-                hiddenFieldElements.addAll(f.getHtmlElementsByAttribute(
-                        "input", "type", "hidden"));
-            }
+    	// first try the current form
+    	if (form != null) {
+	    	for (HtmlElement e : form.getAllHtmlChildElements()) {
+	    		if (e instanceof HtmlHiddenInput && e.getAttribute("name").equals(paramName)) {
+	    			// we found it
+	    			return ((HtmlInput) e).getValueAttribute();
+	    		}
+	    	}
+    	}
+
+    	// not in the current form: try *all* elements
+        HtmlElement outside_element = getHtmlElementWithAttribute("name", paramName);
+        if (outside_element != null) {
+        	if (outside_element instanceof HtmlHiddenInput) {
+    			// set current form if not null
+    			if (outside_element.getEnclosingForm() != null)
+    				form = outside_element.getEnclosingForm();
+        		return ((HtmlHiddenInput) outside_element).getValueAttribute();
+        	}
         }
-        Iterator<HtmlElement> it = hiddenFieldElements.iterator();
-        while (it.hasNext()) {
-            HtmlHiddenInput hiddenInput = (HtmlHiddenInput) it.next();
-            if (paramName.equals(hiddenInput.getNameAttribute())) {
-                if (form == null) {
-                    form = hiddenInput.getEnclosingFormOrDie();
-                }
-                return hiddenInput.getValueAttribute();
-            }
-        }
-        throw new RuntimeException(
-                "getHiddenFieldParameterValue failed, hidden field with name ["
-                        + paramName + "] does not exist.");
+        
+        // we can't find it anywhere
+        throw new RuntimeException("No hidden field with name [" + paramName
+                + "] was found.");
     }
 
     /**
@@ -495,26 +494,30 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param paramValue parameter value to submit for the element.
      */
     public void setHiddenField(String fieldName, String text) {
-        List<HtmlInput> hiddenFieldElements = new LinkedList<HtmlInput>();
-        if (form != null) {
-            hiddenFieldElements.addAll(getForm().getInputsByName(fieldName));
-        } else {
-            for (Iterator<HtmlForm> i = getCurrentPage().getForms().iterator(); i
-                    .hasNext();) {
-                HtmlForm f = (HtmlForm) i.next();
-                hiddenFieldElements.addAll(f.getInputsByName(fieldName));
-            }
+    	// first try the current form
+    	if (form != null) {
+	    	for (HtmlElement e : form.getAllHtmlChildElements()) {
+	    		if (e instanceof HtmlHiddenInput && e.getAttribute("name").equals(fieldName)) {
+	    			// we found it
+	    			((HtmlHiddenInput) e).setValueAttribute(text);
+	    			return;
+	    		}
+	    	}
+    	}
+        
+    	// not in the current form: try *all* elements
+        HtmlElement outside_element = getHtmlElementWithAttribute("name", fieldName);
+        if (outside_element != null) {
+        	if (outside_element instanceof HtmlHiddenInput) {
+    			((HtmlHiddenInput) outside_element).setValueAttribute(text);
+    			// set current form if not null
+    			if (outside_element.getEnclosingForm() != null)
+    				form = outside_element.getEnclosingForm();
+    			return;
+        	}
         }
-        for (Iterator<HtmlInput> i = hiddenFieldElements.iterator(); i.hasNext();) {
-            HtmlElement e = (HtmlElement) i.next();
-            if (e instanceof HtmlHiddenInput) {
-                ((HtmlHiddenInput) e).setValueAttribute(text);
-                if (form == null) {
-                    form = e.getEnclosingFormOrDie();
-                }
-                return;
-            }
-        }
+        
+        // we can't find it anywhere
         throw new RuntimeException("No hidden field with name [" + fieldName
                 + "] was found.");
     }
@@ -1428,7 +1431,6 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 	            throw new TestingEngineResponseException(
 	                    e.getStatusCode(), e);
         	
-        	lastWebResponse = e.getStatusCode();
         	return;
         } catch (IOException e) {
             throw new RuntimeException(
@@ -1475,7 +1477,6 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 	            throw new TestingEngineResponseException(
 	                    e.getStatusCode(), e);
         	
-        	lastWebResponse = e.getStatusCode();
         	return;
         } catch (IOException e) {
             throw new RuntimeException(
@@ -1527,7 +1528,6 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 	            throw new TestingEngineResponseException(
 	                    e.getStatusCode(), e);
         	
-        	lastWebResponse = e.getStatusCode();
         	return;
         } catch (IOException e) {
             throw new RuntimeException(
@@ -2175,7 +2175,14 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getServerResponseCode()
 	 */
 	public int getServerResponseCode() {
-		return this.lastWebResponse;
+		return getWebResponse().getStatusCode();
+	}
+	
+	/**
+	 * Get the last WebResponse from HtmlUnit.
+	 */
+	public WebResponse getWebResponse() {
+		return wc.getCurrentWindow().getEnclosedPage().getWebResponse();
 	}
 
 	/*
@@ -2190,6 +2197,24 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 	 */
 	public void setIgnoreFailingStatusCodes(boolean ignore) {
 		this.ignoreFailingStatusCodes = ignore;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getHeader(java.lang.String)
+	 */
+	public String getHeader(String name) {
+		return getWebResponse().getResponseHeaderValue(name);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getAllHeaders()
+	 */
+	public Map<String, String> getAllHeaders() {
+		Map<String, String> map = new java.util.HashMap<String, String>();
+		for (NameValuePair header : getWebResponse().getResponseHeaders()) {
+			map.put(header.getName(), header.getValue());
+		}
+		return map;
 	}
 
 }

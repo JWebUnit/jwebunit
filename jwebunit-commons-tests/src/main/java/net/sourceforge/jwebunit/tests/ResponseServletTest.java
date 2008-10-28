@@ -28,11 +28,17 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
 
     /*
      * currently we can't get the response code from HtmlUnit unless it is a failing code
-     * 
+     */ 
     public void testDefault() {
         beginAt("/SimpleForm.html");
         submit();
         assertResponseCodeBetween(200, 299);
+        
+        // test the headers
+        assertHeaderPresent("Test");
+        assertHeaderNotPresent("Not-present");
+        assertHeaderEquals("Test", "test2");
+        assertHeaderMatches("Header-Added", "[0-9]{2}");
     }
 
     public void testResponse200() {
@@ -41,7 +47,6 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
         submit();
         assertResponseCode(200);
     }
-    */
 
     /*
      * HtmlUnit cannot handle a 301 without a valid Location: header
@@ -51,7 +56,7 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
         submit();
         assertResponseCode(301);
     }
-    */
+     */
 
     public void testResponse404() {
         beginAt("/SimpleForm.html");

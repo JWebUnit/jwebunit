@@ -32,7 +32,11 @@ public class ResponseServlet extends HttpServlet {
     	// set the content type?
     	if (request.getParameter("content-type") != null && request.getParameter("content-type").length() > 0) {
     		response.setContentType( request.getParameter("content-type") );
-    	}    	
+    	}
+    	
+    	// lets set some headers
+    	response.setHeader("Test", "test2");
+    	response.setHeader("Header-Added", new java.util.Date().toString());
         
     }
 

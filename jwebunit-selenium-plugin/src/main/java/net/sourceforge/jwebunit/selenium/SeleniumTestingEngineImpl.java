@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import net.sourceforge.jwebunit.api.IElement;
 import net.sourceforge.jwebunit.api.ITestingEngine;
@@ -693,6 +694,30 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 		// TODO implement method
 		// I'm not even sure if Selenium can get this response code out.
 		throw new UnsupportedOperationException("getServerResponseCode");
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getAllHeaders()
+	 */
+	public Map<String, String> getAllHeaders() {
+		// TODO implement method
+		throw new UnsupportedOperationException("getAllHeaders");
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getHeader(java.lang.String)
+	 */
+	public String getHeader(String name) {
+		// TODO implement method
+		throw new UnsupportedOperationException("getHeader");
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#setIgnoreFailingStatusCodes(boolean)
+	 */
+	public void setIgnoreFailingStatusCodes(boolean ignore) {
+		// TODO implement method
+		throw new UnsupportedOperationException("setIgnoreFailingStatusCodes");
 	}
 
 }
