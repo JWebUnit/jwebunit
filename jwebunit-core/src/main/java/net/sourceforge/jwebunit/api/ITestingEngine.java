@@ -847,6 +847,7 @@ public interface ITestingEngine {
 	/**
 	 * Get an element wrapper for a given xpath.
 	 * 
+	 * @see #getElementsByXPath(String)
 	 * @param xpath XPath to evaluate
 	 * @return The element if found
 	 */
@@ -859,5 +860,14 @@ public interface ITestingEngine {
 	 * @return The element if found
 	 */
 	IElement getElementByID(String id);
+	
+	/**
+	 * Get a list of all elements that match the given xpath.
+	 * 
+	 * @see #getElementByXPath(String)
+	 * @param xpath XPath to evaluate
+	 * @return List of all elements found
+	 */
+	List<IElement> getElementsByXPath(String xpath);
 	
 }

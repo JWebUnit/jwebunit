@@ -4,6 +4,7 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.AssertionFailedError;
@@ -50,6 +51,9 @@ public class IElementTest extends JWebUnitAPITestCase {
     	}
     }
     
+    /**
+     * Test parent, child methods
+     */
     public void testChildren() {
     	assertElementPresent("first");
     	IElement element = getElementById("first");
@@ -73,7 +77,46 @@ public class IElementTest extends JWebUnitAPITestCase {
     	for (IElement e : children)
     		assertEquals(e.getName(), "li");
     }
+    
+    /**
+     * Test getting the XPath for multiple possible results
+     */
+    public void testMultiple() {
+    	List<IElement> children = getElementsByXPath("//li");
+    	assertEquals(children.size(), 4);
+    	assertEquals(children.get(0).getTextContent(), "one");
+    	assertEquals(children.get(1).getTextContent(), "two");
+    	assertEquals(children.get(2).getTextContent(), "three");
+    	assertEquals(children.get(3).getTextContent(), "four");
+    	
+    }
 
-    // TODO: test cases to change the element and make sure XPath has changed
+    /**
+     * change the element and make sure XPath has changed
+     */
+    public void testChanging() {
+    	{
+	    	IElement element = getElementByXPath("//input[@id='test']");
+	    	assertNotNull(element);
+	    	assertEquals(element.getName(), "input");
+	    	assertEquals(element.getAttribute("name"), "element_name");
+	    	assertEquals(element.getAttribute("id"), "test");
+	    	assertEquals(element.getAttribute("value"), "test3");
+    	}
+
+    	String testingText = new Date().toString();
+    	setFormElement("element_name", testingText);
+    	assertFormElementEquals("element_name", testingText);	// should still work
+    	
+    	{
+	    	IElement element = getElementByXPath("//input[@id='test']");
+	    	assertNotNull(element);
+	    	assertEquals(element.getName(), "input");
+	    	assertEquals(element.getAttribute("name"), "element_name");
+	    	assertEquals(element.getAttribute("id"), "test");
+	    	assertEquals(element.getAttribute("value"), "testingText");		// should have changed
+    	}
+    	
+    }
     
 }

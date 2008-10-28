@@ -678,4 +678,12 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 		throw new UnsupportedOperationException("getElementByID");
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementsByXPath(java.lang.String)
+	 */
+	public List<IElement> getElementsByXPath(String xpath) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("getElementsByXPath");
+	}
+
 }

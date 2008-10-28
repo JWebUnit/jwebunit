@@ -2459,6 +2459,16 @@ public class WebTester {
     	return getTestingEngine().getElementByID(id);
     }
     
+    /**
+     * Get elements for a particular xpath.
+     * 
+     * @param xpath XPath to search
+     * @return the requested elements found
+     */
+    public List<IElement> getElementsByXPath(String xpath) {
+    	return getTestingEngine().getElementsByXPath(xpath);
+    }    
+    
     // Window and Frame Navigation Methods
 
     /**

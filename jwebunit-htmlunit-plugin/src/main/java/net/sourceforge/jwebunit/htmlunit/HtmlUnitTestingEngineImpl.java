@@ -2119,4 +2119,16 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 		return new HtmlUnitElementImpl(this.getHtmlElement(id));
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementsByXPath(java.lang.String)
+	 */
+	public List<IElement> getElementsByXPath(String xpath) {
+		List<IElement> children = new ArrayList<IElement>();
+		for (Object child : getCurrentPage().getByXPath(xpath)) {
+			if (child instanceof HtmlElement)
+				children.add(new HtmlUnitElementImpl((HtmlElement) child));
+		}
+		return children;
+	}
+
 }
