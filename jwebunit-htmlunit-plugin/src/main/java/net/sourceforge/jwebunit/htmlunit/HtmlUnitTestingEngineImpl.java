@@ -340,9 +340,15 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     public boolean hasFormParameterNamed(String paramName) {
-        if (hasFormSelectNamed(paramName))
-            return true;
-        return hasFormInputNamed(paramName);
+		for (HtmlElement e : getCurrentPage().getAllHtmlChildElements()) {
+			if (e.getAttribute("name").equals(paramName)) {
+				// set the working form if none has been set
+				if (e.getEnclosingForm() != null && getWorkingForm() == null)
+					setWorkingForm( e.getEnclosingForm() );
+				return true;
+			}
+		}
+		return false;
     }
 
     /**
@@ -399,6 +405,19 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 return textInput.getText();
             }
         }
+        
+        
+        // if we get this far, there is no enclosing form,
+        // and we need to get the field manually (if it exists)
+        // TODO refactor and clean this up in other methods
+        HtmlElement outside_element = getHtmlElementWithAttribute("name", paramName);
+        if (outside_element != null) {
+        	if (outside_element instanceof HtmlInput) {
+        		return ((HtmlInput) outside_element).getValueAttribute();
+        	}
+        }
+        
+        // we can't find it anywhere
         throw new RuntimeException(
                 "getTextFieldParameterValue failed, text field with name ["
                         + paramName + "] does not exist.");
@@ -490,6 +509,19 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 return;
             }
         }
+        
+        // if we get this far, there is no enclosing form,
+        // and we need to set the field manually (if it exists)
+        // TODO refactor and clean this up in other methods
+        HtmlElement outside_element = getHtmlElementWithAttribute("name", fieldName);
+        if (outside_element != null) {
+        	if (outside_element instanceof HtmlInput) {
+        		((HtmlInput) outside_element).setValueAttribute(text);
+        		return;
+        	}
+        }
+        
+        // we can't find it anywhere
         throw new RuntimeException("No text field with name [" + fieldName
                 + "] was found.");
     }
@@ -1042,23 +1074,44 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             throw new UnableToSetFormException("Attempted to set form to null.");
         form = newForm;
     }
-
-    /**
-     * Return true if a form parameter (input element) is present on the current response.
-     * 
-     * @param inputName name of the input element to check for
-     */
-    public boolean hasFormInputNamed(String inputName) {
-        return (getFormWithInput(inputName) != null);
+    
+    private HtmlForm getWorkingForm() {
+    	return form;
     }
 
     /**
+     * Does an element with a certain attribute value exist in this page?
+     * 
+	 * @param attributeName attribute name to search for
+	 * @param value value to search for
+	 * @return true if the element is found
+	 */
+    private boolean hasHtmlElementWithAttribute(String attributeName, String value) {
+    	return getHtmlElementWithAttribute(attributeName, value) != null;
+    }
+    
+    /**
+     * Get an element with a certain attribute value.
+     * 
+     * @param attributeName attribute name to search for
+     * @param value value to search for
+     * @return the element found, or null
+     */
+	private HtmlElement getHtmlElementWithAttribute(String attributeName, String value) {
+		for (HtmlElement e : getCurrentPage().getAllHtmlChildElements()) {
+			if (e.getAttribute(attributeName).equals(value))
+				return e;
+		}
+		return null;
+	}
+
+	/**
      * Return true if a form parameter (input element) is present on the current response.
      * 
      * @param selectName name of the input element to check for
      */
     public boolean hasFormSelectNamed(String selectName) {
-        return (getFormWithSelect(selectName) != null);
+    	return hasHtmlElementWithAttribute("name", selectName);
     }
 
     /**

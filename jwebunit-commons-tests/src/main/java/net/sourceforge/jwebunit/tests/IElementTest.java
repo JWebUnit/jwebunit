@@ -102,11 +102,13 @@ public class IElementTest extends JWebUnitAPITestCase {
 	    	assertEquals(element.getAttribute("name"), "element_name");
 	    	assertEquals(element.getAttribute("id"), "test");
 	    	assertEquals(element.getAttribute("value"), "test3");
+	    	// the element should also be available through the normal method
+	    	assertFormElementPresent("element_name");
     	}
 
     	String testingText = new Date().toString();
-    	setFormElement("element_name", testingText);
-    	assertFormElementEquals("element_name", testingText);	// should still work
+    	setTextField("element_name", testingText);
+    	assertTextFieldEquals("element_name", testingText);		// should still work
     	
     	{
 	    	IElement element = getElementByXPath("//input[@id='test']");
@@ -114,7 +116,9 @@ public class IElementTest extends JWebUnitAPITestCase {
 	    	assertEquals(element.getName(), "input");
 	    	assertEquals(element.getAttribute("name"), "element_name");
 	    	assertEquals(element.getAttribute("id"), "test");
-	    	assertEquals(element.getAttribute("value"), "testingText");		// should have changed
+	    	assertEquals(element.getAttribute("value"), testingText);		// should have changed
+	    	// the element should also be available through the normal method
+	    	assertFormElementPresent("element_name");
     	}
     	
     }

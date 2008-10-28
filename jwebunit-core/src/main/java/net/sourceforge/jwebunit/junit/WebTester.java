@@ -45,7 +45,7 @@ import org.apache.regexp.RESyntaxException;
  * Provides a high-level API for basic web application navigation and validation by providing
  * JUnit assertions. It supports use of a property file for web resources (a la Struts), though a resource file for the
  * app is not required.
- * 
+ *
  * @author Julien Henry
  * @author Jim Weaver
  * @author Wilkes Joiner
@@ -62,10 +62,10 @@ public class WebTester {
 
     /**
      * Provides access to the testing engine for subclasses - in case functionality not yet wrappered required by test.
-     * 
+     *
      * If the testing engine is not explicitly set the JWebUnit framework will default to using the orignal testing engine,
      * which is, htmlunit.
-     * 
+     *
      * @return IJWebUnitDialog instance used to wrapper htmlunit conversation.
      * @deprecated You should not use plugin specific fonctionality. Please ask for a new core feature instead.
      */
@@ -75,7 +75,7 @@ public class WebTester {
 
     /**
      * Protected version of deprecated getDialog(). Not deprecated for internal use.
-     * 
+     *
      * @return IJWebUnitDialog instance.
      */
     protected ITestingEngine getTestingEngine() {
@@ -146,7 +146,7 @@ public class WebTester {
 
     /**
      * Set the testing engine.
-     * 
+     *
      * @param aIJWebUnitDialog Testing engine.
      */
     public void setDialog(ITestingEngine aIJWebUnitDialog) {
@@ -155,7 +155,7 @@ public class WebTester {
 
     /**
      * Provide access to test testContext.
-     * 
+     *
      * @return TestContext
      */
     public TestContext getTestContext() {
@@ -169,9 +169,9 @@ public class WebTester {
     /**
      * Allows setting an external test testContext class that might be extended from TestContext. Example:
      * setTestContext(new CompanyATestContext());
-     * 
+     *
      * CompanyATestContext extends TestContext.
-     * 
+     *
      * @param aTestContext
      */
     public void setTestContext(TestContext aTestContext) {
@@ -182,7 +182,7 @@ public class WebTester {
      * Begin conversation at a URL absolute or relative to base URL. Use
      * {@link TestContext#setBaseUrl(String) getTestContext().setBaseUrl(String)} to define base URL. Absolute URL
      * should start with "http://", "https://" or "www.".
-     * 
+     *
      * @param url absolute or relative URL (relative to base URL).
      * @throws TestingEngineResponseException If something bad happend (404)
      */
@@ -210,7 +210,7 @@ public class WebTester {
     /**
      * Return the value of a web resource based on its key. This translates to a property file lookup with the locale
      * based on the current TestContext.
-     * 
+     *
      * @param key name of the web resource.
      * @return value of the web resource, encoded according to TestContext.
      */
@@ -228,11 +228,11 @@ public class WebTester {
         }
         return message;
     }
-    
+
     /**
      * Return the value of a web resource based on its key, using MessageFormat
      * to perform parametric substitution with formatting.
-     * 
+     *
      * @see MessageFormat
      * @param key
      *            name of the web resource.
@@ -255,7 +255,7 @@ public class WebTester {
     /**
      * Assert title of current html page in conversation matches an expected
      * value.
-     * 
+     *
      * @param title
      *            expected title value
      */
@@ -265,7 +265,7 @@ public class WebTester {
 
     /**
      * Assert title of current html page in conversation matches an expected regexp.
-     * 
+     *
      * @param regexp expected title regexp
      */
     public void assertTitleMatch(String regexp) {
@@ -282,17 +282,17 @@ public class WebTester {
     /**
      * Assert title of current html page matches the value of a specified web
      * resource.
-     * 
+     *
      * @param titleKey
      *            web resource key for title
      */
     public void assertTitleEqualsKey(String titleKey) {
         Assert.assertEquals(getMessage(titleKey), getTestingEngine().getPageTitle());
     }
-    
+
     /**
      * Assert title of current page matches formatted message resource
-     * 
+     *
      * @param titleKey
      * @param args
      */
@@ -302,17 +302,17 @@ public class WebTester {
 
     /**
      * Assert that a web resource's value is present.
-     * 
+     *
      * @param key
      *            web resource name
      */
     public void assertKeyPresent(String key) {
         assertTextPresent(getMessage(key));
     }
-    
+
     /**
      * Assert that a web resource's value (with formatting) is present
-     * 
+     *
      * @param key
      * @param args
      */
@@ -322,7 +322,7 @@ public class WebTester {
 
     /**
      * Assert that supplied text is present.
-     * 
+     *
      * @param text
      */
     public void assertTextPresent(String text) {
@@ -334,7 +334,7 @@ public class WebTester {
 
     /**
      * Assert that supplied regexp is matched.
-     * 
+     *
      * @param regexp
      */
     public void assertMatch(String regexp) {
@@ -346,16 +346,16 @@ public class WebTester {
 
     /**
      * Assert that a web resource's value is not present.
-     * 
+     *
      * @param key web resource name
      */
     public void assertKeyNotPresent(String key) {
         assertTextNotPresent(getMessage(key));
     }
-    
+
     /**
      * Assert that a web resource's formatted value is not present.
-     * 
+     *
      * @param key
      *            web resource name
      */
@@ -365,7 +365,7 @@ public class WebTester {
 
     /**
      * Assert that supplied text is not present.
-     * 
+     *
      * @param text
      */
     public void assertTextNotPresent(String text) {
@@ -376,7 +376,7 @@ public class WebTester {
 
     /**
      * Assert that supplied regexp is not present.
-     * 
+     *
      * @param regexp
      */
     public void assertNoMatch(String regexp) {
@@ -387,7 +387,7 @@ public class WebTester {
     }
 
     /**
-     * 
+     *
      * @param tableSummaryNameOrId
      * @return Object that represent a html table in a way independent from plugin.
      */
@@ -397,7 +397,7 @@ public class WebTester {
 
     /**
      * Assert that a table with a given summary or id value is present.
-     * 
+     *
      * @param tableSummaryNameOrId summary, name or id attribute value of table
      */
     public void assertTablePresent(String tableSummaryNameOrId) {
@@ -408,7 +408,7 @@ public class WebTester {
 
     /**
      * Assert that a table with a given summary or id value is not present.
-     * 
+     *
      * @param tableSummaryNameOrId summary, name or id attribute value of table
      */
     public void assertTableNotPresent(String tableSummaryNameOrId) {
@@ -418,18 +418,18 @@ public class WebTester {
 
     /**
      * Assert that the value of a given web resource is present in a specific table.
-     * 
+     *
      * @param tableSummaryOrId summary or id attribute value of table
      * @param key web resource name
      */
     public void assertKeyInTable(String tableSummaryOrId, String key) {
         assertTextInTable(tableSummaryOrId, getMessage(key));
     }
-    
+
     /**
      * Assert that the value of a given web resource is present in a specific
      * table.
-     * 
+     *
      * @param tableSummaryOrId
      *            summary or id attribute value of table
      * @param key
@@ -441,7 +441,7 @@ public class WebTester {
 
     /**
      * Assert that supplied text is present in a specific table.
-     * 
+     *
      * @param tableSummaryNameOrId
      *            summary, name or id attribute value of table
      * @param text
@@ -455,7 +455,7 @@ public class WebTester {
 
     /**
      * Assert that supplied regexp is matched in a specific table.
-     * 
+     *
      * @param tableSummaryNameOrId summary, name or id attribute value of table
      * @param regexp
      */
@@ -468,7 +468,7 @@ public class WebTester {
 
     /**
      * Assert that the values of a set of web resources are all present in a specific table.
-     * 
+     *
      * @param tableSummaryOrId summary, name or id attribute value of table
      * @param keys Array of web resource names.
      */
@@ -477,11 +477,11 @@ public class WebTester {
             assertKeyInTable(tableSummaryOrId, keys[i]);
         }
     }
-    
+
     /**
      * Assert that the values of a set of web resources are all present in a
      * specific table.
-     * 
+     *
      * @param tableSummaryOrId
      *            summary or id attribute value of table
      * @param keys
@@ -495,7 +495,7 @@ public class WebTester {
 
     /**
      * Assert that a set of text values are all present in a specific table.
-     * 
+     *
      * @param tableSummaryOrId
      *            summary, name or id attribute value of table
      * @param text
@@ -509,7 +509,7 @@ public class WebTester {
 
     /**
      * Assert that a set of regexp values are all matched in a specific table.
-     * 
+     *
      * @param tableSummaryOrId summary, name or id attribute value of table
      * @param text Array of expected regexps to match.
      */
@@ -521,7 +521,7 @@ public class WebTester {
 
     /**
      * Assert that the value of a given web resource is not present in a specific table.
-     * 
+     *
      * @param tableSummaryOrId summary, name or id attribute value of table
      * @param key web resource name
      */
@@ -531,7 +531,7 @@ public class WebTester {
 
     /**
      * Assert that supplied text is not present in a specific table.
-     * 
+     *
      * @param tableSummaryNameOrId summary, name or id attribute value of table
      * @param text
      */
@@ -544,7 +544,7 @@ public class WebTester {
 
     /**
      * Assert that none of a set of text values are present in a specific table.
-     * 
+     *
      * @param tableSummaryNameOrId summary, name or id attribute value of table
      * @param text Array of text values
      */
@@ -556,7 +556,7 @@ public class WebTester {
 
     /**
      * Assert that supplied regexp is not present in a specific table.
-     * 
+     *
      * @param tableSummaryNameOrId summary, name or id attribute value of table
      * @param text
      */
@@ -569,7 +569,7 @@ public class WebTester {
 
     /**
      * Assert that none of a set of regexp values are present in a specific table.
-     * 
+     *
      * @param tableSummaryNameOrId summary, name or id attribute value of table
      * @param text Array of text values
      */
@@ -582,7 +582,7 @@ public class WebTester {
 
     /**
      * Assert that a specific table matches an ExpectedTable.
-     * 
+     *
      * @param tableSummaryNameOrId summary, name or id attribute value of table
      * @param expectedTable represents expected values (colspan supported).
      */
@@ -594,7 +594,7 @@ public class WebTester {
 
     /**
      * Assert that a specific table matches a matrix of supplied text values.
-     * 
+     *
      * @param tableSummaryNameOrId summary, name or id attribute value of table
      * @param expectedCellValues double dimensional array of expected values
      */
@@ -606,7 +606,7 @@ public class WebTester {
 
     /**
      * Assert that a range of rows for a specific table matches a matrix of supplied text values.
-     * 
+     *
      * @param tableSummaryNameOrId summary, name or id attribute value of table
      * @param startRow index of start row for comparison
      * @param expectedTable represents expected values (colspan and rowspan supported).
@@ -619,7 +619,7 @@ public class WebTester {
 
     /**
      * Assert that a range of rows for a specific table matches a matrix of supplied text values.
-     * 
+     *
      * @param tableSummaryNameOrId summary, name or id attribute value of table
      * @param startRow index of start row for comparison
      * @param expectedTable represents expected values (colspan and rowspan supported).
@@ -632,7 +632,7 @@ public class WebTester {
 
     /**
      * Assert that the number of rows for a specific table equals expected value.
-     * 
+     *
      * @param tableSummaryNameOrId summary, name or id attribute value of table
      * @param expectedRowCount expected row count.
      */
@@ -648,7 +648,7 @@ public class WebTester {
 
     /**
      * Assert that a specific table matches an ExpectedTable.
-     * 
+     *
      * @param tableSummaryOrId summary or id attribute value of table
      * @param expectedTable represents expected regexps (colspan supported).
      */
@@ -659,7 +659,7 @@ public class WebTester {
 
     /**
      * Assert that a specific table matches a matrix of supplied regexps.
-     * 
+     *
      * @param tableSummaryOrId summary or id attribute value of table
      * @param expectedCellValues double dimensional array of expected regexps
      */
@@ -671,7 +671,7 @@ public class WebTester {
 
     /**
      * Assert that a range of rows for a specific table matches a matrix of supplied regexps.
-     * 
+     *
      * @param tableSummaryOrId summary or id attribute value of table
      * @param startRow index of start row for comparison
      * @param expectedTable represents expected regexps (colspan and rowspan supported).
@@ -684,7 +684,7 @@ public class WebTester {
 
     /**
      * Assert that a range of rows for a specific table matches a matrix of supplied regexps.
-     * 
+     *
      * @param tableSummaryOrId summary or id attribute value of table
      * @param startRow index of start row for comparison
      * @param expectedTable represents expected regexps (colspan and rowspan not supported).
@@ -697,11 +697,10 @@ public class WebTester {
 
     /**
      * Assert that a form input element with a given name is present.
-     * 
+     *
      * @param formElementName
      */
     public void assertFormElementPresent(String formElementName) {
-        assertFormPresent();
         Assert.assertTrue("Did not find form element with name ["
                 + formElementName + "].", getTestingEngine()
                 .hasFormParameterNamed(formElementName));
@@ -709,11 +708,10 @@ public class WebTester {
 
     /**
      * Assert that a form input element with a given name is not present.
-     * 
+     *
      * @param formElementName
      */
     public void assertFormElementNotPresent(String formElementName) {
-        assertFormPresent();
         try {
             Assert.assertTrue("Found form element with name ["
                     + formElementName + "] when not expected.", !getTestingEngine()
@@ -725,11 +723,10 @@ public class WebTester {
 
     /**
      * Assert that a form checkbox with a given name is present.
-     * 
+     *
      * @param checkboxName checkbox name.
      */
     public void assertCheckboxPresent(String checkboxName) {
-        assertFormPresent();
         Assert.assertTrue("Did not find form checkbox with name ["
                 + checkboxName + "].", getTestingEngine().hasElementByXPath(
                 "//input[lower-case(@type)='checkbox' and @name='" + checkboxName + "']"));
@@ -737,12 +734,11 @@ public class WebTester {
 
     /**
      * Assert that a given checkbox is present.
-     * 
+     *
      * @param checkboxName checkbox name attribut.
      * @param checkboxValue checkbox value attribut.
      */
     public void assertCheckboxPresent(String checkboxName, String checkboxValue) {
-        assertFormPresent();
         Assert.assertTrue("Did not find form checkbox with name ["
                 + checkboxName + "] and value [" + checkboxValue + "].",
                 getTestingEngine().hasElementByXPath(
@@ -752,11 +748,10 @@ public class WebTester {
 
     /**
      * Assert that a form checkbox with a given name is not present.
-     * 
+     *
      * @param checkboxName checkbox name.
      */
     public void assertCheckboxNotPresent(String checkboxName) {
-        assertFormPresent();
         Assert.assertFalse("Found form checkbox with name [" + checkboxName
                 + "] when not expected.", getTestingEngine().hasElementByXPath(
                 "//input[lower-case(@type)='checkbox' and @name='" + checkboxName + "']"));
@@ -764,13 +759,12 @@ public class WebTester {
 
     /**
      * Assert that a given checkbox is not present.
-     * 
+     *
      * @param checkboxName checkbox name.
      * @param checkboxValue checkbox value attribut.
      */
     public void assertCheckboxNotPresent(String checkboxName,
             String checkboxValue) {
-        assertFormPresent();
         Assert.assertFalse("Found form checkbox with name [" + checkboxName
                 + "] and value [" + checkboxValue + "] when not expected.",
                 getTestingEngine().hasElementByXPath(
@@ -780,7 +774,7 @@ public class WebTester {
 
     /**
      * Assert that there is a form present.
-     * 
+     *
      */
     public void assertFormPresent() {
         Assert.assertTrue("No form present", getTestingEngine().hasForm());
@@ -788,7 +782,7 @@ public class WebTester {
 
     /**
      * Assert that there is a form with the specified name or id present.
-     * 
+     *
      * @param nameOrID
      */
     public void assertFormPresent(String nameOrID) {
@@ -798,7 +792,7 @@ public class WebTester {
 
     /**
      * Assert that there is not a form present.
-     * 
+     *
      */
     public void assertFormNotPresent() {
         Assert.assertFalse("A form is present", getTestingEngine().hasForm());
@@ -806,7 +800,7 @@ public class WebTester {
 
     /**
      * Assert that there is not a form with the specified name or id present.
-     * 
+     *
      * @param nameOrID
      */
     public void assertFormNotPresent(String nameOrID) {
@@ -816,7 +810,7 @@ public class WebTester {
 
     /**
      * Assert that a specific form element has an expected value. Can be used to check hidden input.
-     * 
+     *
      * @param formElementName
      * @param expectedValue
      * @deprecated
@@ -831,7 +825,7 @@ public class WebTester {
 
     /**
      * Assert that a specific form element matches an expected regexp.
-     * 
+     *
      * @param formElementName
      * @param regexp
      * @deprecated
@@ -852,7 +846,7 @@ public class WebTester {
 
     /**
      * Assert that a form element had no value / is empty.
-     * 
+     *
      * @param formElementName
      * @deprecated
      */
@@ -865,7 +859,7 @@ public class WebTester {
     /**
      * Assert that an input text element with name <code>formElementName</code> has the <code>expectedValue</code>
      * value.
-     * 
+     *
      * @param formElementName the value of the name attribute of the element
      * @param expectedValue the expected value of the given input element
      */
@@ -879,7 +873,7 @@ public class WebTester {
     /**
      * Assert that an input hidden element with name <code>formElementName</code> has the <code>expectedValue</code>
      * value.
-     * 
+     *
      * @param formElementName the value of the name attribute of the element
      * @param expectedValue the expected value of the given input element
      */
@@ -892,7 +886,7 @@ public class WebTester {
 
     /**
      * Assert that a specific checkbox is selected.
-     * 
+     *
      * @param checkBoxName
      */
     public void assertCheckboxSelected(String checkBoxName) {
@@ -905,7 +899,7 @@ public class WebTester {
 
     /**
      * Assert that a specific checkbox is selected.
-     * 
+     *
      * @param checkBoxName
      * @param checkBoxValue
      */
@@ -919,7 +913,7 @@ public class WebTester {
 
     /**
      * Assert that a specific checkbox is not selected.
-     * 
+     *
      * @param checkBoxName
      */
     public void assertCheckboxNotSelected(String checkBoxName) {
@@ -932,7 +926,7 @@ public class WebTester {
 
     /**
      * Assert that a specific checkbox is not selected.
-     * 
+     *
      * @param checkBoxName
      * @param checkBoxValue
      */
@@ -947,7 +941,7 @@ public class WebTester {
 
     /**
      * Assert that a specific option is present in a radio group.
-     * 
+     *
      * @param name radio group name.
      * @param radioOption option to test for.
      */
@@ -961,7 +955,7 @@ public class WebTester {
 
     /**
      * Assert that a specific option is not present in a radio group.
-     * 
+     *
      * @param name radio group name.
      * @param radioOption option to test for.
      */
@@ -974,7 +968,7 @@ public class WebTester {
 
     /**
      * Assert that a specific option is selected in a radio group.
-     * 
+     *
      * @param name radio group name.
      * @param radioOption option to test for selection.
      */
@@ -986,7 +980,7 @@ public class WebTester {
 
     /**
      * Assert that a specific option is not selected in a radio group.
-     * 
+     *
      * @param name radio group name.
      * @param radioOption option to test for selection.
      */
@@ -999,7 +993,7 @@ public class WebTester {
 
     /**
      * Assert that given options are present in a select box (by label).
-     * 
+     *
      * @param selectName name of the select element.
      * @param optionLabels option labels.
      */
@@ -1015,7 +1009,7 @@ public class WebTester {
 
     /**
      * Assert that a specific option is present in a select box (by label).
-     * 
+     *
      * @param selectName name of the select element.
      * @param optionLabel option label.
      */
@@ -1025,10 +1019,10 @@ public class WebTester {
 
     /**
      * Assert that given options are present in the Nth select box (by label).
-     * 
+     *
      * @param selectName name of the select element.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param optionLabels option labels.
      */
     public void assertSelectOptionsPresent(String selectName, int index,
@@ -1043,20 +1037,20 @@ public class WebTester {
 
     /**
      * Assert that a specific option is present in the Nth select box (by label).
-     * 
+     *
      * @param selectName name of the select element.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param optionLabel option label.
      */
     public void assertSelectOptionPresent(String selectName, int index, String optionLabel) {
         assertSelectOptionsPresent(selectName, index, new String[] { optionLabel });
     }
 
-    
+
     /**
      * Assert that given options are present in a select box (by value).
-     * 
+     *
      * @param selectName name of the select element.
      * @param optionValues option labels.
      */
@@ -1072,7 +1066,7 @@ public class WebTester {
 
     /**
      * Assert that a specific option is present in a select box (by value).
-     * 
+     *
      * @param selectName name of the select element.
      * @param optionValue option value.
      */
@@ -1084,34 +1078,34 @@ public class WebTester {
 
     /**
      * Assert that given options are present in the Nth select box (by value).
-     * 
+     *
      * @param selectName name of the select element.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param optionValues option labels.
      */
     public void assertSelectOptionValuesPresent(String selectName,
-    											int index, 
+    											int index,
     											String[] optionValues) {
         assertFormElementPresent(selectName);
         for (int i = 0; i < optionValues.length; i++)
             Assert.assertTrue("Option [" + optionValues[i]
                     + "] not found in select element " + selectName,
-                    getTestingEngine().hasSelectOptionValue(selectName, 
+                    getTestingEngine().hasSelectOptionValue(selectName,
                                                             index,
                                                             optionValues[i]));
     }
 
     /**
      * Assert that a specific option is present in the Nth select box (by value).
-     * 
+     *
      * @param selectName name of the select element.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param optionValue option value.
      */
-    public void assertSelectOptionValuePresent(String selectName, 
-    										   int index, 
+    public void assertSelectOptionValuePresent(String selectName,
+    										   int index,
     										   String optionValue) {
         assertSelectOptionValuesPresent(selectName, index,
                 new String[] { optionValue });
@@ -1119,7 +1113,7 @@ public class WebTester {
 
     /**
      * Assert that a specific option value is not present in a select box.
-     * 
+     *
      * @param selectName name of the select element.
      * @param optionValue option value.
      */
@@ -1136,7 +1130,7 @@ public class WebTester {
 
     /**
      * Assert that a specific option is not present in a select box.
-     * 
+     *
      * @param selectName name of the select element.
      * @param expectedOption option label.
      */
@@ -1150,10 +1144,10 @@ public class WebTester {
         Assert.fail("Option " + optionLabel + " found in select element "
                 + selectName + " when not expected.");
     }
-    
+
     /**
      * Assert that a specific option value is not present in a select box.
-     * 
+     *
      * @param selectName name of the select element.
      * @param optionValue option value.
      */
@@ -1170,7 +1164,7 @@ public class WebTester {
 
     /**
      * Assert that a specific option is not present in a select box.
-     * 
+     *
      * @param selectName name of the select element.
      * @param expectedOption option label.
      */
@@ -1187,7 +1181,7 @@ public class WebTester {
 
     /**
      * Assert that the display values of a select element's options match a given array of strings.
-     * 
+     *
      * @param selectName name of the select element.
      * @param expectedOptions expected labels for the select box.
      */
@@ -1198,12 +1192,12 @@ public class WebTester {
     }
 
     /**
-     * Assert that the display values of 
+     * Assert that the display values of
      * the Nth select element's options match a given array of strings.
-     * 
+     *
      * @param selectName name of the select element.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param expectedOptions expected labels for the select box.
      */
     public void assertSelectOptionsEqual(String selectName, int index,
@@ -1212,10 +1206,10 @@ public class WebTester {
         assertArraysEqual(expectedOptions, getOptionsFor(selectName, index));
     }
 
-    
+
     /**
      * Assert that the display values of a select element's options do not match a given array of strings.
-     * 
+     *
      * @param selectName name of the select element.
      * @param expectedOptions expected display values for the select box.
      */
@@ -1231,12 +1225,12 @@ public class WebTester {
     }
 
     /**
-     * Assert that the display values of the Nth select element's 
+     * Assert that the display values of the Nth select element's
      * options do not match a given array of strings.
-     * 
+     *
      * @param selectName name of the select element.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param expectedOptions expected display values for the select box.
      */
     public void assertSelectOptionsNotEqual(String selectName, int index,
@@ -1250,14 +1244,14 @@ public class WebTester {
         Assert.fail("Options not expected to be equal");
     }
 
-    
+
     /**
-     * Assert that the values of the Nth select element's options match 
+     * Assert that the values of the Nth select element's options match
      * a given array of strings.
-     * 
+     *
      * @param selectName name of the select element.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param expectedValues expected values for the select box.
      */
     public void assertSelectOptionValuesEqual(String selectName, int index,
@@ -1270,7 +1264,7 @@ public class WebTester {
 
     /**
      * Assert that the values of a select element's options match a given array of strings.
-     * 
+     *
      * @param selectName name of the select element.
      * @param expectedValues expected values for the select box.
      */
@@ -1282,10 +1276,10 @@ public class WebTester {
 
     }
 
-    
+
     /**
      * Assert that the values of a select element's options do not match a given array of strings.
-     * 
+     *
      * @param selectName name of the select element.
      * @param optionValues expected values for the select box.
      */
@@ -1301,12 +1295,12 @@ public class WebTester {
     }
 
     /**
-     * Assert that the values of the Nth select element's options do not match a 
+     * Assert that the values of the Nth select element's options do not match a
      * given array of strings.
-     * 
+     *
      * @param selectName name of the select element.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param optionValues expected values for the select box.
      */
     public void assertSelectOptionValuesNotEqual(String selectName, int index,
@@ -1320,10 +1314,10 @@ public class WebTester {
         Assert.fail("Values not expected to be equal");
     }
 
-    
+
     /**
      * Assert that the currently selected display label(s) of a select box matches given label(s).
-     * 
+     *
      * @param selectName name of the select element.
      * @param labels expected display label(s) of the selected option.
      */
@@ -1342,7 +1336,7 @@ public class WebTester {
 
     /**
      * Assert that the currently selected display label(s) of a select box matches given label(s).
-     * 
+     *
      * @param selectName name of the select element.
      * @param index the 0-based index used when more than one select element
      * with the same name is expected.
@@ -1361,8 +1355,8 @@ public class WebTester {
                                             selectName, index)[i]));
     }
 
-    
-    
+
+
     /**
      * Assert that the label of the current selected option matches
      * the provided value.
@@ -1385,10 +1379,10 @@ public class WebTester {
         assertSelectedOptionsEqual(selectName, index, new String[] { option });
     }
 
-    
+
     /**
      * Assert that the currently selected value(s) of a select box matches given value(s).
-     * 
+     *
      * @param selectName name of the select element.
      * @param values expected value(s) of the selected option.
      */
@@ -1405,7 +1399,7 @@ public class WebTester {
     /**
      * Assert that the currently selected value(s) of the Nth
      * select box with the specified name matches given value(s).
-     * 
+     *
      * @param selectName name of the select element.
      * @param index the 0-based index used when more than one select element
      * with the same name is expected.
@@ -1421,10 +1415,10 @@ public class WebTester {
                     .getSelectedOptions(selectName, index)[i]);
     }
 
-    
+
     /**
      * Assert that the currently selected value of a select box matches given value.
-     * 
+     *
      * @param selectName name of the select element.
      * @param value expected value of the selected option.
      */
@@ -1434,7 +1428,7 @@ public class WebTester {
 
     /**
      * Assert that the currently selected value of a select box matches given value.
-     * 
+     *
      * @param selectName name of the select element.
      * @param index the 0-based index used when more than one select element
      * with the same name is expected.
@@ -1444,11 +1438,11 @@ public class WebTester {
         assertSelectedOptionValuesEqual(selectName, index, new String[] { value });
     }
 
-    
-    
+
+
     /**
      * Assert that the currently selected display value(s) of a select box matches a given value(s).
-     * 
+     *
      * @param selectName name of the select element.
      * @param regexps expected display value of the selected option.
      */
@@ -1468,7 +1462,7 @@ public class WebTester {
 
     /**
      * Assert that the currently selected display value(s) of a select box matches a given value(s).
-     * 
+     *
      * @param selectName name of the select element.
      * @param index the 0-based index used when more than one select element
      * with the same name is expected.
@@ -1488,13 +1482,13 @@ public class WebTester {
         }
     }
 
-    
-    
+
+
     /**
      * Assert that the label of the current selected option matches
      * the provided regular expression value.
      * @param selectName name of the select element
-     * @param regexp the regular expression to match 
+     * @param regexp the regular expression to match
      */
     public void assertSelectedOptionMatches(String selectName, String regexp) {
         assertSelectedOptionsMatch(selectName, new String[] { regexp });
@@ -1512,7 +1506,7 @@ public class WebTester {
         assertSelectedOptionsMatch(selectName, index, new String[] { regexp });
     }
 
-    
+
     /**
      * Assert that a submit button is present. <br/> A submit button can be the following HTML elements:
      * <ul>
@@ -1520,10 +1514,9 @@ public class WebTester {
      * <li>image input
      * <li>submit button
      * </ul>
-     * 
+     *
      */
     public void assertSubmitButtonPresent() {
-        assertFormPresent();
         Assert.assertTrue("no submit button found.", getTestingEngine()
                 .hasSubmitButton());
     }
@@ -1536,11 +1529,10 @@ public class WebTester {
      * <li>image input
      * <li>submit button
      * </ul>
-     * 
+     *
      * @param buttonName
      */
     public void assertSubmitButtonPresent(String buttonName) {
-        assertFormPresent();
         Assert.assertTrue("Submit Button [" + buttonName + "] not found.",
                 getTestingEngine().hasSubmitButton(buttonName));
     }
@@ -1553,11 +1545,10 @@ public class WebTester {
      * <li>image input
      * <li>submit button
      * </ul>
-     * 
+     *
      * @param buttonName
      */
     public void assertSubmitButtonNotPresent() {
-        assertFormPresent();
         Assert.assertFalse("Submit Button found.", getTestingEngine()
                 .hasSubmitButton());
     }
@@ -1570,11 +1561,10 @@ public class WebTester {
      * <li>image input
      * <li>submit button
      * </ul>
-     * 
+     *
      * @param buttonName
      */
     public void assertSubmitButtonNotPresent(String buttonName) {
-        assertFormPresent();
         Assert.assertFalse("Submit Button [" + buttonName + "] found.",
                 getTestingEngine().hasSubmitButton(buttonName));
     }
@@ -1587,12 +1577,11 @@ public class WebTester {
      * <li>image input
      * <li>submit button
      * </ul>
-     * 
+     *
      * @param buttonName
      * @param buttonValue
      */
     public void assertSubmitButtonPresent(String buttonName, String buttonValue) {
-        assertFormPresent();
         Assert.assertTrue("Submit Button [" + buttonName + "] with value ["
                 + buttonValue + "] not found.", getTestingEngine()
                 .hasSubmitButton(buttonName, buttonValue));
@@ -1604,10 +1593,9 @@ public class WebTester {
      * <li>reset input
      * <li>reset button
      * </ul>
-     * 
+     *
      */
     public void assertResetButtonPresent() {
-        assertFormPresent();
         Assert.assertTrue("no reset button found.", getTestingEngine()
                 .hasResetButton());
     }
@@ -1618,11 +1606,10 @@ public class WebTester {
      * <li>reset input
      * <li>reset button
      * </ul>
-     * 
+     *
      * @param buttonName
      */
     public void assertResetButtonPresent(String buttonName) {
-        assertFormPresent();
         Assert.assertTrue("Reset Button [" + buttonName + "] not found.",
                 getTestingEngine().hasResetButton(buttonName));
     }
@@ -1634,11 +1621,10 @@ public class WebTester {
      * <li>reset input
      * <li>reset button
      * </ul>
-     * 
+     *
      * @param buttonName
      */
     public void assertResetButtonNotPresent() {
-        assertFormPresent();
         Assert.assertFalse("Reset Button found.", getTestingEngine()
                 .hasResetButton());
     }
@@ -1650,11 +1636,10 @@ public class WebTester {
      * <li>reset input
      * <li>reset button
      * </ul>
-     * 
+     *
      * @param buttonName
      */
     public void assertResetButtonNotPresent(String buttonName) {
-        assertFormPresent();
         Assert.assertFalse("Reset Button [" + buttonName + "] found.",
                 getTestingEngine().hasResetButton(buttonName));
     }
@@ -1666,18 +1651,17 @@ public class WebTester {
      * <li>button input
      * <li>button button
      * </ul>
-     * 
+     *
      * @param buttonId
      */
     public void assertButtonPresent(String buttonId) {
-        assertFormPresent();
         Assert.assertTrue("Button [" + buttonId + "] not found.", getTestingEngine()
                 .hasButton(buttonId));
     }
 
     /**
      * Assert that a button with a given text is present in the current window.
-     * 
+     *
      * @param text Text representation of button content.
      */
     public void assertButtonPresentWithText(String text) {
@@ -1687,7 +1671,7 @@ public class WebTester {
 
     /**
      * Assert that a button with a given text is not present in the current window.
-     * 
+     *
      * @param text Text representation of button content.
      */
     public void assertButtonNotPresentWithText(String text) {
@@ -1697,11 +1681,10 @@ public class WebTester {
 
     /**
      * Assert that a button with a given id is not present in the current window.
-     * 
+     *
      * @param buttonId
      */
     public void assertButtonNotPresent(String buttonId) {
-        assertFormPresent();
         Assert.assertFalse(
                 "Button [" + buttonId + "] found when not expected.",
                 getTestingEngine().hasButton(buttonId));
@@ -1709,7 +1692,7 @@ public class WebTester {
 
     /**
      * Assert that a link with a given id is present in the response.
-     * 
+     *
      * @param linkId
      */
     public void assertLinkPresent(String linkId) {
@@ -1719,7 +1702,7 @@ public class WebTester {
 
     /**
      * Assert that no link with the given id is present in the response.
-     * 
+     *
      * @param linkId
      */
     public void assertLinkNotPresent(String linkId) {
@@ -1729,7 +1712,7 @@ public class WebTester {
 
     /**
      * Assert that a link containing the supplied text is present.
-     * 
+     *
      * @param linkText
      */
     public void assertLinkPresentWithText(String linkText) {
@@ -1740,7 +1723,7 @@ public class WebTester {
 
     /**
      * Assert that no link containing the supplied text is present.
-     * 
+     *
      * @param linkText
      */
     public void assertLinkNotPresentWithText(String linkText) {
@@ -1751,7 +1734,7 @@ public class WebTester {
 
     /**
      * Assert that a link containing the supplied text is present.
-     * 
+     *
      * @param linkText
      * @param index The 0-based index, when more than one link with the same text is expected.
      */
@@ -1763,7 +1746,7 @@ public class WebTester {
 
     /**
      * Assert that no link containing the supplied text is present.
-     * 
+     *
      * @param linkText
      * @param index The 0-based index, when more than one link with the same text is expected.
      */
@@ -1777,7 +1760,7 @@ public class WebTester {
 
     /**
      * Assert that a link containing the Exact text is present.
-     * 
+     *
      * @param linkText
      */
     public void assertLinkPresentWithExactText(String linkText) {
@@ -1788,7 +1771,7 @@ public class WebTester {
 
     /**
      * Assert that no link containing the Exact text is present.
-     * 
+     *
      * @param linkText
      */
     public void assertLinkNotPresentWithExactText(String linkText) {
@@ -1799,7 +1782,7 @@ public class WebTester {
 
     /**
      * Assert that a link containing the Exact text is present.
-     * 
+     *
      * @param linkText
      * @param index The 0-based index, when more than one link with the same text is expected.
      */
@@ -1811,7 +1794,7 @@ public class WebTester {
 
     /**
      * Assert that no link containing the Exact text is present.
-     * 
+     *
      * @param linkText
      * @param index The 0-based index, when more than one link with the same text is expected.
      */
@@ -1825,7 +1808,7 @@ public class WebTester {
 
     /**
      * Assert that a link containing a specified image is present.
-     * 
+     *
      * @param imageFileName A suffix of the image's filename; for example, to match <tt>"images/my_icon.png"</tt>,
      *            you could just pass in <tt>"my_icon.png"</tt>.
      */
@@ -1837,7 +1820,7 @@ public class WebTester {
 
     /**
      * Assert that a link containing a specified image is not present.
-     * 
+     *
      * @param imageFileName A suffix of the image's filename; for example, to match <tt>"images/my_icon.png"</tt>,
      *            you could just pass in <tt>"my_icon.png"</tt>.
      */
@@ -1849,7 +1832,7 @@ public class WebTester {
 
     /**
      * Assert that an element with a given id is present.
-     * 
+     *
      * @param anID element id to test for.
      */
     public void assertElementPresent(String anID) {
@@ -1859,7 +1842,7 @@ public class WebTester {
 
     /**
      * Assert that an element with a given id is not present.
-     * 
+     *
      * @param anID element id to test for.
      */
     public void assertElementNotPresent(String anID) {
@@ -1869,7 +1852,7 @@ public class WebTester {
 
     /**
      * Assert that an element with a given xpath is present.
-     * 
+     *
      * @param xpath element xpath to test for.
      */
     public void assertElementPresentByXPath(String xpath) {
@@ -1879,7 +1862,7 @@ public class WebTester {
 
     /**
      * Assert that an element with a given xpath is not present.
-     * 
+     *
      * @param xpath element xpath to test for.
      */
     public void assertElementNotPresentByXPath(String xpath) {
@@ -1889,7 +1872,7 @@ public class WebTester {
 
     /**
      * Assert that a given element contains specific text.
-     * 
+     *
      * @param elementID id of element to be inspected.
      * @param text to check for.
      */
@@ -1912,7 +1895,7 @@ public class WebTester {
 
     /**
      * Assert that a given element matches a specific regexp.
-     * 
+     *
      * @param elementID id of element to be inspected.
      * @param regexp to match.
      */
@@ -1926,7 +1909,7 @@ public class WebTester {
 
     /**
      * Assert that a given element does not match a specific regexp.
-     * 
+     *
      * @param elementID id of element to be inspected.
      * @param regexp to match.
      */
@@ -1941,7 +1924,7 @@ public class WebTester {
 
     /**
      * Assert that a window with the given name is open.
-     * 
+     *
      * @param windowName
      */
     public void assertWindowPresent(String windowName) {
@@ -1951,7 +1934,7 @@ public class WebTester {
 
     /**
      * Assert that a window with the given ID is open.
-     * 
+     *
      * @param windowID Javascript window ID.
      */
     public void assertWindowPresent(int windowID) {
@@ -1961,7 +1944,7 @@ public class WebTester {
 
     /**
      * Assert that at least one window with the given title is open.
-     * 
+     *
      * @param title
      */
     public void assertWindowPresentWithTitle(String title) {
@@ -1972,7 +1955,7 @@ public class WebTester {
 
     /**
      * Assert that the number of opened windows equals given value.
-     * 
+     *
      * @param windowCount Window count
      */
     public void assertWindowCountEquals(int windowCount) {
@@ -1985,7 +1968,7 @@ public class WebTester {
 
     /**
      * Assert that a frame with the given name or ID is present.
-     * 
+     *
      * @param frameNameOrId Name or ID of the frame. ID is checked first.
      */
     public void assertFramePresent(String frameNameOrId) {
@@ -1996,7 +1979,7 @@ public class WebTester {
 
     /**
      * Checks to see if a cookie is present in the response.
-     * 
+     *
      * @param cookieName The cookie name
      */
     public void assertCookiePresent(String cookieName) {
@@ -2011,7 +1994,7 @@ public class WebTester {
 
     /**
      * Check to see if a cookie has the given value.
-     * 
+     *
      * @param cookieName The cookie name
      * @param expectedValue The cookie value
      */
@@ -2030,7 +2013,7 @@ public class WebTester {
 
     /**
      * Check to see if a cookie value match the given regexp.
-     * 
+     *
      * @param cookieName The cookie name
      * @param regexp The regexp
      */
@@ -2061,7 +2044,6 @@ public class WebTester {
      * @deprecated
      */
     public String getFormElementValue(String formElementName) {
-        assertFormPresent();
         assertFormElementPresent(formElementName);
         return getTestingEngine().getElementAttributByXPath(
                 "//input[@name='" + formElementName + "']", "value");
@@ -2070,9 +2052,9 @@ public class WebTester {
     /**
      * Begin interaction with a specified form. If form interaction methods are called without explicitly calling this
      * method first, JWebUnit will attempt to determine itself which form is being manipulated.
-     * 
+     *
      * It is not necessary to call this method if their is only one form on the current page.
-     * 
+     *
      * @param index 0-based index of the form to work with.
      */
     public void setWorkingForm(int index) {
@@ -2082,9 +2064,9 @@ public class WebTester {
     /**
      * Begin interaction with a specified form. If form interaction methods are called without explicitly calling this
      * method first, JWebUnit will attempt to determine itself which form is being manipulated.
-     * 
+     *
      * It is not necessary to call this method if their is only one form on the current page.
-     * 
+     *
      * @param nameOrId name or id of the form to work with.
      */
     public void setWorkingForm(String nameOrId) {
@@ -2095,9 +2077,9 @@ public class WebTester {
     /**
      * Begin interaction with a specified form. If form interaction methods are called without explicitly calling this
      * method first, JWebUnit will attempt to determine itself which form is being manipulated.
-     * 
+     *
      * It is not necessary to call this method if their is only one form on the current page.
-     * 
+     *
      * @param nameOrId name or id of the form to work with.
      * @param index The 0-based index, when more than one form with the same name is expected.
      */
@@ -2107,31 +2089,29 @@ public class WebTester {
 
     /**
      * Set the value of a text or password input field.
-     * 
+     *
      * @param inputName name of form element.
      * @param value value to set.
      */
     public void setTextField(String inputName, String value) {
-        assertFormPresent();
         assertFormElementPresent(inputName);
         getTestingEngine().setTextField(inputName, value);
     }
-    
+
     /**
      * Set the value of an hidden input field.
-     * 
+     *
      * @param inputName name of form element.
      * @param value value to set.
      */
     public void setHiddenField(String inputName, String value) {
-        assertFormPresent();
         assertFormElementPresent(inputName);
         getTestingEngine().setHiddenField(inputName, value);
     }
 
     /**
      * Select a specified checkbox. If the checkbox is already checked then the checkbox will stay checked.
-     * 
+     *
      * @param checkBoxName name of checkbox to be selected.
      */
     public void checkCheckbox(String checkBoxName) {
@@ -2141,7 +2121,7 @@ public class WebTester {
 
     /**
      * Select a specified checkbox. If the checkbox is already checked then the checkbox will stay checked.
-     * 
+     *
      * @param checkBoxName name of checkbox to be selected.
      * @param value value of checkbox to be selected.
      */
@@ -2152,7 +2132,7 @@ public class WebTester {
 
     /**
      * Deselect a specified checkbox. If the checkbox is already unchecked then the checkbox will stay unchecked.
-     * 
+     *
      * @param checkBoxName name of checkbox to be deselected.
      */
     public void uncheckCheckbox(String checkBoxName) {
@@ -2162,7 +2142,7 @@ public class WebTester {
 
     /**
      * Deselect a specified checkbox. If the checkbox is already unchecked then the checkbox will stay unchecked.
-     * 
+     *
      * @param checkBoxName name of checkbox to be deselected.
      * @param value value of checkbox to be deselected.
      */
@@ -2170,10 +2150,10 @@ public class WebTester {
         assertFormElementPresent(checkBoxName);
         getTestingEngine().uncheckCheckbox(checkBoxName, value);
     }
-    
+
     /**
      * Select options with given display labels in a select element.
-     * 
+     *
      * @param selectName name of select element.
      * @param labels labels of options to be selected.
      */
@@ -2181,10 +2161,10 @@ public class WebTester {
         assertSelectOptionsPresent(selectName, labels);
         selectOptionsByLabel(selectName, labels);
     }
-    
+
     /**
      * Select an option with a given display label in a select element.
-     * 
+     *
      * @param selectName name of select element.
      * @param label label of option to be selected.
      */
@@ -2194,33 +2174,33 @@ public class WebTester {
 
     /**
      * Select an option with a given display label in Nth select element.
-     * 
+     *
      * @param selectName name of select element.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param label label of option to be selected.
      */
     public void selectOption(String selectName, int index, String label) {
         selectOptions(selectName, index, new String[] { label });
     }
-    
+
     /**
      * Select options with given display labels in the Nth select element.
-     * 
+     *
      * @param selectName name of select element.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param labels labels of options to be selected.
      */
     public void selectOptions(String selectName, int index, String[] labels) {
         assertSelectOptionsPresent(selectName, index, labels);
         selectOptionsByLabel(selectName, index, labels);
     }
-    
-    
+
+
     /**
      * Select options with given values in a select element.
-     * 
+     *
      * @param selectName name of select element.
      * @param values values of options to be selected.
      */
@@ -2231,10 +2211,10 @@ public class WebTester {
 
     /**
      * Select an option with a given value in the Nth select element.
-     * 
+     *
      * @param selectName name of select element.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param values values of options to be selected.
      */
     public void selectOptionByValue(String selectName, String value) {
@@ -2243,10 +2223,10 @@ public class WebTester {
 
     /**
      * Select options with given values in the Nth select element.
-     * 
+     *
      * @param selectName name of select element.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param values values of options to be selected.
      */
     public void selectOptionsByValues(String selectName, int index, String[] values) {
@@ -2256,7 +2236,7 @@ public class WebTester {
 
     /**
      * Select an option with a given value in a select element.
-     * 
+     *
      * @param selectName name of select element.
      * @param values values of options to be selected.
      */
@@ -2264,7 +2244,7 @@ public class WebTester {
         selectOptionsByValues(selectName, index, new String[] { value });
     }
 
-    
+
     // Form submission and link navigation methods
 
     /**
@@ -2278,7 +2258,7 @@ public class WebTester {
 
     /**
      * Submit form by pressing named button.
-     * 
+     *
      * @param buttonName Submit button name attribut value.
      */
     public void submit(String buttonName) {
@@ -2289,7 +2269,7 @@ public class WebTester {
     /**
      * Submit the form by pressing the named button with the given value (label). Useful if you have more than one
      * submit button with same name.
-     * 
+     *
      * @param buttonName Submit button name attribut value.
      * @param buttonValue Submit button value attribut value.
      */
@@ -2309,7 +2289,7 @@ public class WebTester {
 
     /**
      * Navigate by selection of a link containing given text.
-     * 
+     *
      * @param linkText Text in the link.
      */
     public void clickLinkWithText(String linkText) {
@@ -2319,7 +2299,7 @@ public class WebTester {
 
     /**
      * Navigate by selecting Nth link containing given text.
-     * 
+     *
      * @param linkText Text in the link.
      * @param index The 0-based index, when more than one link with the same text is expected.
      */
@@ -2330,7 +2310,7 @@ public class WebTester {
 
     /**
      * Navigate by selection of a link with the exact given text.
-     * 
+     *
      * @param linkText Text of the link.
      */
     public void clickLinkWithExactText(String linkText) {
@@ -2340,7 +2320,7 @@ public class WebTester {
 
     /**
      * Navigate by selecting Nth link with the exact given text.
-     * 
+     *
      * @param linkText Text of the link.
      * @param index The 0-based index, when more than one link with the same text is expected.
      */
@@ -2351,7 +2331,7 @@ public class WebTester {
 
     /**
      * Click the button with the given id.
-     * 
+     *
      * @param buttonId Button ID attribut value.
      */
     public void clickButton(String buttonId) {
@@ -2361,7 +2341,7 @@ public class WebTester {
 
     /**
      * Clicks a button with <code>text</code> of the value attribute.
-     * 
+     *
      * @param buttonValueText The text of the button (contents of the value attribute).
      */
     public void clickButtonWithText(String buttonValueText) {
@@ -2371,7 +2351,7 @@ public class WebTester {
 
     /**
      * Navigate by selection of a link with a given image.
-     * 
+     *
      * @param imageFileName A suffix of the image's filename; for example, to match <tt>"images/my_icon.png"</tt>,
      *            you could just pass in <tt>"my_icon.png"</tt>.
      */
@@ -2382,7 +2362,7 @@ public class WebTester {
 
     /**
      * Navigate by selection of a link with given id.
-     * 
+     *
      * @param linkId id of link
      */
     public void clickLink(String linkId) {
@@ -2392,7 +2372,7 @@ public class WebTester {
 
     /**
      * Clicks a radio option. Asserts that the radio option exists first. *
-     * 
+     *
      * @param radioGroup name of the radio group.
      * @param radioOption value of the option to check for.
      */
@@ -2403,7 +2383,7 @@ public class WebTester {
 
     /**
      * Click element with given xpath.
-     * 
+     *
      * @param xpath xpath of the element.
      */
     public void clickElementByXPath(String xpath) {
@@ -2414,7 +2394,7 @@ public class WebTester {
     /**
      * Get the attribut value of the gicen element. For example, if you have img src="bla.gif" alt="toto",
      * getElementAttributByXPath("//img[@src='bla.gif']", "alt") returns "toto"
-     * 
+     *
      * @param xpath XPath of the element.
      * @param attribut Name of the attribut.
      * @return The value of the attribut.
@@ -2426,17 +2406,17 @@ public class WebTester {
 
     /**
      * Get text of the given element.
-     * 
+     *
      * @param xpath xpath of the element.
      */
     public String getElementTextByXPath(String xpath){
         assertElementPresentByXPath(xpath);
     	return getTestingEngine().getElementTextByXPath(xpath);
     }
-    
+
     /**
      * Get an element for a particular xpath.
-     * 
+     *
      * @param xpath XPath to search
      * @return the requested element
 	 * @throws AssertionFailedError if the element xpath is not found
@@ -2446,10 +2426,10 @@ public class WebTester {
     	return getTestingEngine().getElementByXPath(xpath);
     }
 
-    
+
     /**
      * Get an element for a particular ID.
-     * 
+     *
      * @param id element ID to find
      * @return the requested element
 	 * @throws AssertionFailedError if the element is not found
@@ -2458,22 +2438,22 @@ public class WebTester {
     	assertElementPresent(id);
     	return getTestingEngine().getElementByID(id);
     }
-    
+
     /**
      * Get elements for a particular xpath.
-     * 
+     *
      * @param xpath XPath to search
      * @return the requested elements found
      */
     public List<IElement> getElementsByXPath(String xpath) {
     	return getTestingEngine().getElementsByXPath(xpath);
-    }    
-    
+    }
+
     // Window and Frame Navigation Methods
 
     /**
      * Make a given window active.
-     * 
+     *
      * @param windowName Name of the window.
      */
     public void gotoWindow(String windowName) {
@@ -2483,7 +2463,7 @@ public class WebTester {
 
     /**
      * Make a given window active.
-     * 
+     *
      * @param windowID Javascript ID of the window
      */
     public void gotoWindow(int windowID) {
@@ -2500,7 +2480,7 @@ public class WebTester {
 
     /**
      * Make first window with the given title active.
-     * 
+     *
      * @param title Title of the window.
      */
     public void gotoWindowByTitle(String title) {
@@ -2510,7 +2490,7 @@ public class WebTester {
 
     /**
      * Make the given frame active.
-     * 
+     *
      * @param frameNameOrId Name or ID of the frame. ID is checked first.
      */
     public void gotoFrame(String frameNameOrId) {
@@ -2521,7 +2501,7 @@ public class WebTester {
      * Go to the given page like if user has typed the URL manually in the browser. Use
      * {@link TestContext#setBaseUrl(String) getTestContext().setBaseUrl(String)} to define base URL. Absolute URL
      * should start with "http://", "https://" or "www.".
-     * 
+     *
      * @param url absolute or relative URL (relative to base URL).
      * @throws TestingEngineResponseException If something bad happend (404)
      */
@@ -2535,7 +2515,7 @@ public class WebTester {
 
     /**
      * Print all the cookies to stdout.
-     * 
+     *
      */
     public void dumpCookies() {
         List cookies = getTestingEngine().getCookies();
@@ -2550,7 +2530,7 @@ public class WebTester {
 
     /**
      * Get the source of the HTML page (like in a real browser), or HTTP body for a non HTML content.
-     * 
+     *
      * @return The HTML content.
      */
     public String getPageSource() {
@@ -2559,7 +2539,7 @@ public class WebTester {
 
     /**
      * Get the last data sent by the server.
-     * 
+     *
      * @return HTTP server response.
      */
     public String getServeurResponse() {
@@ -2568,7 +2548,7 @@ public class WebTester {
 
     /**
      * Save the last downloaded page (or file) to the disk.
-     * 
+     *
      * @param f The file name.
      */
     public void saveAs(File f) {
@@ -2588,7 +2568,7 @@ public class WebTester {
 
     /**
      * Download the current page (or file) and compare it with the given file.
-     * 
+     *
      * @param expected Expected file URL.
      */
     public void assertDownloadedFileEquals(URL expected) {
@@ -2608,7 +2588,7 @@ public class WebTester {
 
     /**
      * Dump html of current response to System.out - for debugging purposes.
-     * 
+     *
      * @param stream
      * @deprecated Use {@link WebTester#getPageSource()}
      */
@@ -2618,7 +2598,7 @@ public class WebTester {
 
     /**
      * Dump html of current response to a specified stream - for debugging purposes.
-     * 
+     *
      * @param stream
      * @deprecated Use {@link WebTester#getPageSource()}
      */
@@ -2628,7 +2608,7 @@ public class WebTester {
 
     /**
      * Dump the table as the 2D array that is used for assertions - for debugging purposes.
-     * 
+     *
      * @param tableNameOrId
      * @param stream
      */
@@ -2638,7 +2618,7 @@ public class WebTester {
 
     /**
      * Dump the table as the 2D array that is used for assertions - for debugging purposes.
-     * 
+     *
      * @param tableNameOrId
      * @param table
      * @param stream
@@ -2668,7 +2648,7 @@ public class WebTester {
 
     /**
      * Set the Testing Engine that you want to use for the tests based on the Testing Engine Key.
-     * 
+     *
      * @see TestingEngineRegistry
      * @param testingEngineKey The testingEngineKey to set.
      */
@@ -2680,7 +2660,7 @@ public class WebTester {
     /**
      * Gets the Testing Engine Key that is used to find the proper testing engine class (HtmlUnitDialog /
      * SeleniumDialog) for the tests.
-     * 
+     *
      * @return Returns the testingEngineKey.
      */
     public String getTestingEngineKey() {
@@ -2709,9 +2689,9 @@ public class WebTester {
 
     /**
      * Return a string array of select box option labels. <br/>
-     * 
+     *
      * Example: <br/>
-     * 
+     *
      * <pre>
      *  &lt;FORM action=&quot;http://my_host/doit&quot; method=&quot;post&quot;&gt;
      *    &lt;P&gt;
@@ -2726,9 +2706,9 @@ public class WebTester {
      *    &lt;/P&gt;
      *  &lt;/FORM&gt;
      * </pre>
-     * 
+     *
      * Should return [Component_1, Component_2, Component_3, Component_4, Component_5]
-     * 
+     *
      * @param selectName name of the select box.
      * @return Array of options labels.
      */
@@ -2743,11 +2723,11 @@ public class WebTester {
     }
 
     /**
-     * Return a string array of select box option labels. 
-     * 
+     * Return a string array of select box option labels.
+     *
      * @param selectName name of the select box.
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @return Array of options labels.
      */
     private String[] getOptionsFor(String selectName, int index) {
@@ -2760,11 +2740,11 @@ public class WebTester {
         return result;
     }
 
-    
-    
+
+
     /**
      * Select options by given labels in a select box.
-     * 
+     *
      * @param selectName name of the select
      * @param labels labels of options to be selected
      */
@@ -2779,10 +2759,10 @@ public class WebTester {
 
     /**
      * Select options by given labels in the Nth select box.
-     * 
+     *
      * @param selectName name of the select
      * @param index the 0-based index of the select element when multiple
-     * select elements are expected. 
+     * select elements are expected.
      * @param labels labels of options to be selected
      */
     private void selectOptionsByLabel(String selectName, int index, String[] labels) {
@@ -2794,7 +2774,7 @@ public class WebTester {
         getTestingEngine().selectOptions(selectName, index, values);
     }
 
-    
+
     private void assertArraysEqual(String[] exptected, String[] returned) {
         Assert.assertEquals("Arrays not same length", exptected.length,
                 returned.length);
@@ -2806,20 +2786,19 @@ public class WebTester {
 
     /**
      * Set the value of a form input element.
-     * 
+     *
      * @param formElementName name of form element.
      * @param value
      * @deprecated use setTextField or other methods
      */
     public void setFormElement(String formElementName, String value) {
-        assertFormPresent();
         assertFormElementPresent(formElementName);
         getTestingEngine().setTextField(formElementName, value);
     }
 
     /**
      * Tell that the given alert boxe is expected.
-     * 
+     *
      * @param message Message in the alert.
      */
     public void setExpectedJavaScriptAlert(String message) {
@@ -2835,7 +2814,7 @@ public class WebTester {
 
     /**
      * Tell that the given alert boxes are expected in the given order.
-     * 
+     *
      * @param messages Messages in the alerts.
      */
     public void setExpectedJavaScriptAlert(String[] messages) {
@@ -2854,7 +2833,7 @@ public class WebTester {
 
     /**
      * Tell that the given confirm boxe is expected.
-     * 
+     *
      * @param message Message in the confirm.
      * @param action Whether we should click on "OK" (true) or "Cancel" (false)
      */
@@ -2872,7 +2851,7 @@ public class WebTester {
 
     /**
      * Tell that the given confirm boxes are expected in the given order.
-     * 
+     *
      * @param messages Messages in the confirms.
      * @param actions Whether we should click on "OK" (true) or "Cancel" (false)
      */
@@ -2896,7 +2875,7 @@ public class WebTester {
 
     /**
      * Tell that the given prompt boxe is expected.
-     * 
+     *
      * @param message Message in the prompt.
      * @param input What we should put in the prompt (null if user press Cancel)
      */
@@ -2914,7 +2893,7 @@ public class WebTester {
 
     /**
      * Tell that the given prompt boxes are expected in the given order.
-     * 
+     *
      * @param messages Messages in the prompts.
      * @param inputs What we should put in the prompt (null if user press Cancel)
      */
@@ -2954,7 +2933,7 @@ public class WebTester {
     /**
      * Asserts that the image with the given src and alt attribute values exist in the page and is an actual reachable
      * image, then saves it as png with the given file name.
-     * 
+     *
      * @param imageSrc as it appears in the html page, i.e. relative to the current page.
      */
     public void assertImageValidAndStore(String imageSrc, String imageAlt,
