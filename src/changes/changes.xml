@@ -7,7 +7,12 @@
         </author>
     </properties>
     <body>
-        <release version="2.0" date="october 27, 2008">
+    	<release version="2.1" date="Unknown">
+    		<action type="add" dev="jevonwright">
+    			Adding new IElement element interface, and methods to directly access elements by XPath.
+    		</action>
+    	</release>
+        <release version="2.0" date="October 27, 2008">
             <action type="update" dev="henryju">
                 Updated to HtmlUnit 2.3.
             </action>

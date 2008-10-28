@@ -81,6 +81,18 @@
 			</roles>
 			<timezone>-5</timezone>
 		</developer>
+		<developer>
+			<id>jevonwright</id>
+			<name>Jevon Wright</name>
+			<email>jevonwright at users.sourceforge.net</email>
+			<url>http://www.jevon.org</url>
+			<organization />
+			<organizationUrl />
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>+13</timezone>
+		</developer>
 	</developers>
 	<contributors>
 		<contributor>
