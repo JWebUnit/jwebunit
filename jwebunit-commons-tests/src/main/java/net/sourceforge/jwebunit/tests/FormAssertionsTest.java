@@ -227,4 +227,35 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPassFail("assertButtonNotPresent", "nobutton", "b1");
     }
     
+    /**
+     * Test elements with complicated names.
+     */
+    public void testComplicatedElementNames() {
+    	beginAt("/testPage.html");
+    	
+    	// the names to search for
+    	String[] names = new String[] {
+    			"complicated[5]", "complicated'6'", "complicated['7'].8",
+    	};
+    	
+    	// test each of them
+    	for (String s : names) {
+    		assertFormElementPresent(s);
+    		assertTextFieldEquals(s, s);
+    	}
+    }
+
+    /**
+     * Testing for issue 1996193: clickRadioOption does not work as expected 
+     */
+    public void testIssue1996193() {
+    	beginAt("/testPage.html");
+    	
+    	String option1 = "coreAnswers['0-1'].strAnswer"; 
+    	assertRadioOptionPresent(option1, "1"); 
+    	clickRadioOption(option1, "1");
+    	assertRadioOptionSelected(option1, "1");
+
+    }
+
 }

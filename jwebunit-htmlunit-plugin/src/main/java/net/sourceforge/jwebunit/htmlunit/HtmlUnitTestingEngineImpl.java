@@ -358,58 +358,21 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      *            name.
      */
     public String getTextFieldValue(String paramName) {
-        List<HtmlElement> textFieldElements = new LinkedList<HtmlElement>();
-        if (form != null) {
-            textFieldElements.addAll(getForm().getHtmlElementsByAttribute(
-                    "input", "type", "text"));
-            textFieldElements.addAll(getForm().getHtmlElementsByAttribute(
-                    "input", "type", "password"));
-        } else {
-            for (Iterator<HtmlForm> i = getCurrentPage().getForms().iterator(); i
-                    .hasNext();) {
-                HtmlForm f = (HtmlForm) i.next();
-                textFieldElements.addAll(f.getHtmlElementsByAttribute("input",
-                        "type", "text"));
-                textFieldElements.addAll(f.getHtmlElementsByAttribute("input",
-                        "type", "password"));
-            }
-        }
-        Iterator<HtmlElement> it = textFieldElements.iterator();
-        while (it.hasNext()) {
-            HtmlInput input = (HtmlInput) it.next();
-            if (paramName.equals(input.getNameAttribute())) {
-                if (form == null) {
-                    form = input.getEnclosingFormOrDie();
-                }
-                return input.getValueAttribute();
-            }
-        }
-        // If no text field with the name paramName then try with textareas.
-        textFieldElements.clear();
-        if (form != null) {
-            textFieldElements.addAll(getForm().getTextAreasByName(paramName));
-        } else {
-            for (Iterator<HtmlForm> i = getCurrentPage().getForms().iterator(); i
-                    .hasNext();) {
-                HtmlForm f = (HtmlForm) i.next();
-                textFieldElements.addAll(f.getTextAreasByName(paramName));
-            }
-        }
-        it = textFieldElements.iterator();
-        while (it.hasNext()) {
-            HtmlTextArea textInput = (HtmlTextArea) it.next();
-            if (paramName.equals(textInput.getNameAttribute())) {
-                if (form == null) {
-                    form = textInput.getEnclosingFormOrDie();
-                }
-                return textInput.getText();
-            }
-        }
+    	// first try the current form
+    	if (form != null) {
+	    	for (HtmlElement e : form.getAllHtmlChildElements()) {
+	    		if (e instanceof HtmlInput && e.getAttribute("name").equals(paramName)) {
+	    			// we found it
+	    			return ((HtmlInput) e).getValueAttribute();
+	    		}
+	    		if (e instanceof HtmlTextArea && e.getAttribute("name").equals(paramName)) {
+	    			// we found it
+	    			return ((HtmlTextArea) e).getText();
+	    		}
+	    	}
+    	}
         
-        
-        // if we get this far, there is no enclosing form,
-        // and we need to get the field manually (if it exists)
-        // TODO refactor and clean this up in other methods
+    	// not in the current form: try *all* elements
         HtmlElement outside_element = getHtmlElementWithAttribute("name", paramName);
         if (outside_element != null) {
         	if (outside_element instanceof HtmlInput) {

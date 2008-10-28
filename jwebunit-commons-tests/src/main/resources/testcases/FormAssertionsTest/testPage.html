@@ -41,9 +41,18 @@
             <option value="3">three</option>
             <option value="4">four</option>
         </select> <input type="reset" name="resetButton" /></form>
-        <form id="form5"><textarea name="textarea">sometexthere</textarea>
-        <input type="hidden" name="hiddenelement" value="hiddenvalue" />
-        <input type="password" name="passwordelement" value="password"></form>
+        <form id="form5">
+        	<textarea name="textarea">sometexthere</textarea>
+        	<input type="hidden" name="hiddenelement" value="hiddenvalue" />
+        	<input type="password" name="passwordelement" value="password">
+        	<input type="text" name="complicated[5]" value="complicated[5]" />
+        	<input type="text" name="complicated'6'" value="complicated'6'" />
+        	<input type="text" name="complicated['7'].8" value="complicated['7'].8" />
+        	
+        	<!-- testing bug 1996193 -->
+        	<input type="radio" name="coreAnswers['0-1'].strAnswer" value="1" id="c_0-1-1" />
+        	<input type="radio" name="coreAnswers['0-1'].strAnswer" value="2" id="c_0-1-2" />
+        </form>
         </td>
     </tr>
 </table>
