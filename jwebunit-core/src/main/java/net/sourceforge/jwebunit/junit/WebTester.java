@@ -251,6 +251,36 @@ public class WebTester {
     }
 
     // Assertions
+    
+    /**
+     * Assert that the page response has a particular code.
+     * 
+     * @param status the expected status code 
+     */
+    public void assertResponseCode(int status) {
+    	Assert.assertEquals( getTestingEngine().getServerResponseCode(), status );
+    }
+
+    /**
+     * Assert that the page response has a particular code between lower and higher
+     * (<code>lower <= status <= higher</code>).
+     * 
+     * @param lower the lower bound for the expected status code 
+     * @param higher the upper bound for the expected status code 
+     */
+    public void assertResponseCodeBetween(int lower, int higher) {
+    	Assert.assertTrue( getTestingEngine().getServerResponseCode() >= lower && getTestingEngine().getServerResponseCode() <= higher );
+    } 
+    
+	/**
+	 * Should the tester ignore failing status codes (300+)? Otherwise,
+	 * failing status codes will throw an exception.
+	 * 
+	 * @param ignore
+	 */
+    public void setIgnoreFailingStatusCodes(boolean ignore) {
+    	getTestingEngine().setIgnoreFailingStatusCodes(ignore);
+    }
 
     /**
      * Assert title of current html page in conversation matches an expected
@@ -2407,6 +2437,13 @@ public class WebTester {
         assertElementPresentByXPath(xpath);
         return getTestingEngine().getElementAttributByXPath(xpath, attribute);
     }
+    
+    /**
+     * @deprecated Use {@link #getElementAttributeByXPath(String, String)} 
+     */
+    public String getElementAttributByXPath(String xpath, String attribute) {
+    	return getElementAttributeByXPath(xpath, attribute);
+    }
 
     /**
      * Get text of the given element.
@@ -2546,8 +2583,16 @@ public class WebTester {
      *
      * @return HTTP server response.
      */
-    public String getServeurResponse() {
+    public String getServerResponse() {
         return getTestingEngine().getServerResponse();
+    }
+    
+    /**
+     * @deprecated use {@link #getServerResponse()}
+     * @return
+     */
+    public String getServeurResponse() {
+    	return getServerResponse();
     }
 
     /**

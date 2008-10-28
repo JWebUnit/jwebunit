@@ -682,8 +682,17 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementsByXPath(java.lang.String)
 	 */
 	public List<IElement> getElementsByXPath(String xpath) {
-		// TODO Auto-generated method stub
+		// TODO implement method
 		throw new UnsupportedOperationException("getElementsByXPath");
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getServerResponseCode()
+	 */
+	public int getServerResponseCode() {
+		// TODO implement method
+		// I'm not even sure if Selenium can get this response code out.
+		throw new UnsupportedOperationException("getServerResponseCode");
 	}
 
 }

@@ -869,5 +869,20 @@ public interface ITestingEngine {
 	 * @return List of all elements found
 	 */
 	List<IElement> getElementsByXPath(String xpath);
+
+	/**
+	 * Get the request response code.
+	 * 
+	 * @return The request response code.
+	 */
+	int getServerResponseCode();
+	
+	/**
+	 * Should the tester ignore failing status codes (300+)? Otherwise,
+	 * failing status codes will throw an exception.
+	 * 
+	 * @param ignore
+	 */
+	public void setIgnoreFailingStatusCodes(boolean ignore);
 	
 }

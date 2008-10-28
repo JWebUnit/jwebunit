@@ -20,6 +20,9 @@ public class ButtonAssertionsTest extends JWebUnitAPITestCase {
         assertButtonPresent("buttonOutside");
         assertButtonPresent("button1");
         assertButtonPresent("buttonOutside");
+        
+        // test for issue 1874971 
+        assertButtonPresentWithText("Input button");
     }
 
     public void testAssertButtonwithTowFormsfound() {

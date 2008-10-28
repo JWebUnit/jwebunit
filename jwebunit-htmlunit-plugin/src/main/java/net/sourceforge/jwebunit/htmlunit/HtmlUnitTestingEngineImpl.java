@@ -143,6 +143,16 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     private LinkedList<JavascriptPrompt> expectedJavascriptPrompts = new LinkedList<JavascriptPrompt>();
 
+    /**
+     * The last web response status code, if HtmlUnit threw a FailingHttpStatusCodeException.
+     */
+    private int lastWebResponse = 0;
+    
+    /**
+     * Should we ignore failing status codes?
+     */
+    private boolean ignoreFailingStatusCodes = false;
+    
     // Implementation of IJWebUnitDialog
 
     /**
@@ -156,17 +166,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             throws TestingEngineResponseException {
         this.setTestContext(context);
         initWebClient();
-        try {
-            wc.getPage(initialURL);
-            win = wc.getCurrentWindow();
-            form = null;
-        } catch (FailingHttpStatusCodeException aException) {
-            throw new TestingEngineResponseException(
-                    aException.getStatusCode(), aException);
-
-        } catch (IOException aException) {
-            throw new RuntimeException(aException);
-        }
+        gotoPage(initialURL);
     }
 
     public void closeBrowser() throws ExpectedJavascriptAlertException,
@@ -191,15 +191,27 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
     }
 
+    /**
+     * Go to a particular page.
+     * 
+     * @throws TestingEngineResponseException if an error response code is encountered and ignoreFailingStatusCodes is not enabled.
+     */
     public void gotoPage(URL initialURL) throws TestingEngineResponseException {
         try {
             wc.getPage(initialURL);
             win = wc.getCurrentWindow();
             form = null;
-        } catch (FailingHttpStatusCodeException aException) {
-            throw new TestingEngineResponseException(aException.getStatusCode());
-        } catch (IOException aException) {
-            throw new RuntimeException(aException);
+        } catch (FailingHttpStatusCodeException ex) {
+        	// save this web response
+        	lastWebResponse = ex.getStatusCode();
+        	
+        	// only throw exception if necessary
+        	if (!ignoreFailingStatusCodes) {
+	            throw new TestingEngineResponseException(
+	                    ex.getStatusCode(), ex);
+        	}
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -376,7 +388,16 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         HtmlElement outside_element = getHtmlElementWithAttribute("name", paramName);
         if (outside_element != null) {
         	if (outside_element instanceof HtmlInput) {
+    			// set current form if not null
+    			if (outside_element.getEnclosingForm() != null)
+    				form = outside_element.getEnclosingForm();
         		return ((HtmlInput) outside_element).getValueAttribute();
+        	}
+        	if (outside_element instanceof HtmlTextArea) {
+    			// set current form if not null
+    			if (outside_element.getEnclosingForm() != null)
+    				form = outside_element.getEnclosingForm();
+        		return ((HtmlTextArea) outside_element).getText();
         	}
         }
         
@@ -426,66 +447,44 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param fieldName name of the input element or textarea
      * @param text parameter value to submit for the element.
      */
-    public void setTextField(String fieldName, String text) {
-        List<HtmlElement> textFieldElements = new LinkedList<HtmlElement>();
-        if (form != null) {
-            textFieldElements.addAll(getForm().getHtmlElementsByAttribute(
-                    "input", "name", fieldName));
-            textFieldElements.addAll(getForm().getTextAreasByName(fieldName));
-        } else {
-            for (Iterator<HtmlForm> i = getCurrentPage().getForms().iterator(); i
-                    .hasNext();) {
-                HtmlForm f = (HtmlForm) i.next();
-                textFieldElements.addAll(f.getHtmlElementsByAttribute("input",
-                        "name", fieldName));
-                textFieldElements.addAll(f.getTextAreasByName(fieldName));
-            }
-        }
-        for (Iterator<HtmlElement> i = textFieldElements.iterator(); i.hasNext();) {
-            HtmlElement e = (HtmlElement) i.next();
-            if (e instanceof HtmlTextInput) {
-                ((HtmlTextInput) e).setValueAttribute(text);
-                if (form == null) {
-                    form = e.getEnclosingFormOrDie();
-                }
-                return;
-            }
-            if (e instanceof HtmlPasswordInput) {
-                ((HtmlPasswordInput) e).setValueAttribute(text);
-                if (form == null) {
-                    form = e.getEnclosingFormOrDie();
-                }
-                return;
-            }
-            if (e instanceof HtmlFileInput) {
-                ((HtmlFileInput) e).setValueAttribute(text);
-                if (form == null) {
-                    form = e.getEnclosingFormOrDie();
-                }
-                return;
-            }
-            if (e instanceof HtmlTextArea) {
-                ((HtmlTextArea) e).setText(text);
-                if (form == null) {
-                    form = e.getEnclosingFormOrDie();
-                }
-                return;
-            }
-        }
+    public void setTextField(String paramName, String text) {
+    	// first try the current form
+    	if (form != null) {
+	    	for (HtmlElement e : form.getAllHtmlChildElements()) {
+	    		if (e instanceof HtmlInput && e.getAttribute("name").equals(paramName)) {
+	    			// we found it
+	    			((HtmlInput) e).setValueAttribute(text);
+	    			return;
+	    		}
+	    		if (e instanceof HtmlTextArea && e.getAttribute("name").equals(paramName)) {
+	    			// we found it
+	    			((HtmlTextArea) e).setText(text);
+	    			return;
+	    		}
+	    	}
+    	}
         
-        // if we get this far, there is no enclosing form,
-        // and we need to set the field manually (if it exists)
-        // TODO refactor and clean this up in other methods
-        HtmlElement outside_element = getHtmlElementWithAttribute("name", fieldName);
+    	// not in the current form: try *all* elements
+        HtmlElement outside_element = getHtmlElementWithAttribute("name", paramName);
         if (outside_element != null) {
         	if (outside_element instanceof HtmlInput) {
-        		((HtmlInput) outside_element).setValueAttribute(text);
-        		return;
+    			((HtmlInput) outside_element).setValueAttribute(text);
+    			// set current form if not null
+    			if (outside_element.getEnclosingForm() != null)
+    				form = outside_element.getEnclosingForm();
+    			return;
+        	}
+        	if (outside_element instanceof HtmlTextArea) {
+    			((HtmlTextArea) outside_element).setText(text);
+    			// set current form if not null
+    			if (outside_element.getEnclosingForm() != null)
+    				form = outside_element.getEnclosingForm();
+    			return;
         	}
         }
         
         // we can't find it anywhere
-        throw new RuntimeException("No text field with name [" + fieldName
+        throw new RuntimeException("No text field with name [" + paramName
                 + "] was found.");
     }
     
@@ -1405,7 +1404,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     public void submit() {
         try {
             Object[] inpt = getForm().getHtmlElementsByTagName("input")
-                    .toArray();
+        		.toArray();
             for (int i = 0; i < inpt.length; i++) {
                 if (inpt[i] instanceof HtmlSubmitInput) {
                     ((HtmlSubmitInput) inpt[i]).click();
@@ -1422,6 +1421,15 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                     return;
                 }
             }
+            
+        } catch (FailingHttpStatusCodeException e) {
+        	// entirely possible that it can fail here
+        	if (!ignoreFailingStatusCodes)
+	            throw new TestingEngineResponseException(
+	                    e.getStatusCode(), e);
+        	
+        	lastWebResponse = e.getStatusCode();
+        	return;
         } catch (IOException e) {
             throw new RuntimeException(
                     "HtmlUnit Error submitting form using default submit button, "
@@ -1461,6 +1469,14 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                     }
                 }
             }
+        } catch (FailingHttpStatusCodeException e) {
+        	// entirely possible that it can fail here
+        	if (!ignoreFailingStatusCodes)
+	            throw new TestingEngineResponseException(
+	                    e.getStatusCode(), e);
+        	
+        	lastWebResponse = e.getStatusCode();
+        	return;
         } catch (IOException e) {
             throw new RuntimeException(
                     "HtmlUnit Error submitting form using default submit button", e);
@@ -1505,6 +1521,14 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                     }
                 }
             }
+        } catch (FailingHttpStatusCodeException e) {
+        	// entirely possible that it can fail here
+        	if (!ignoreFailingStatusCodes)
+	            throw new TestingEngineResponseException(
+	                    e.getStatusCode(), e);
+        	
+        	lastWebResponse = e.getStatusCode();
+        	return;
         } catch (IOException e) {
             throw new RuntimeException(
                     "HtmlUnit Error submitting form using submit button with name ["
@@ -2145,6 +2169,27 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 				children.add(new HtmlUnitElementImpl((HtmlElement) child));
 		}
 		return children;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getServerResponseCode()
+	 */
+	public int getServerResponseCode() {
+		return this.lastWebResponse;
+	}
+
+	/*
+	 * @return the ignoreFailingStatusCodes
+	 */
+	public boolean isIgnoreFailingStatusCodes() {
+		return ignoreFailingStatusCodes;
+	}
+
+	/*
+	 * @param ignoreFailingStatusCodes the ignoreFailingStatusCodes to set
+	 */
+	public void setIgnoreFailingStatusCodes(boolean ignore) {
+		this.ignoreFailingStatusCodes = ignore;
 	}
 
 }

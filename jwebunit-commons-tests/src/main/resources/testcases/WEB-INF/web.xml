@@ -16,6 +16,10 @@
     <servlet-name>RedirectServlet</servlet-name>
     <servlet-class>net.sourceforge.jwebunit.tests.util.RedirectServlet</servlet-class>
 </servlet>
+<servlet>
+    <servlet-name>ResponseServlet</servlet-name>
+    <servlet-class>net.sourceforge.jwebunit.tests.util.ResponseServlet</servlet-class>
+</servlet>
 <servlet-mapping>
     <servlet-name>ParamsServlet</servlet-name>
     <url-pattern>/params.jsp</url-pattern>
@@ -27,6 +31,10 @@
 <servlet-mapping>
     <servlet-name>RedirectServlet</servlet-name>
     <url-pattern>/redirect.jsp</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>ResponseServlet</servlet-name>
+    <url-pattern>/response.jsp</url-pattern>
 </servlet-mapping>
 
 <!--security-constraint>
