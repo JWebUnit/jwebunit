@@ -813,7 +813,8 @@ public class WebTester {
      *
      * @param formElementName
      * @param expectedValue
-     * @deprecated
+     * @see #assertTextFieldEquals(String, String)
+     * @deprecated use an explicit testing method, e.g. {@link #assertTextFieldEquals(String, String)}
      */
     public void assertFormElementEquals(String formElementName,
             String expectedValue) {
@@ -828,9 +829,9 @@ public class WebTester {
      *
      * @param formElementName
      * @param regexp
-     * @deprecated
      */
     public void assertFormElementMatch(String formElementName, String regexp) {
+    	// how can we @deprecate this if there is no available alternative? 
         assertFormElementPresent(formElementName);
         RE re = null;
         try {
@@ -848,7 +849,9 @@ public class WebTester {
      * Assert that a form element had no value / is empty.
      *
      * @param formElementName
-     * @deprecated
+     * @see #setTextField(String, String)
+     * @see #setHiddenField(String, String)
+     * @deprecated use an explicit testing method, e.g. {@link #setTextField(String, String)} or {@link #setHiddenField(String, String)} 
      */
     public void assertFormElementEmpty(String formElementName) {
         assertFormElementPresent(formElementName);
@@ -2041,7 +2044,7 @@ public class WebTester {
     // Form interaction methods
 
     /**
-     * @deprecated
+     * @deprecated Use {@link WebTester#getElementAttributeByXPath(String, String)}
      */
     public String getFormElementValue(String formElementName) {
         assertFormElementPresent(formElementName);
@@ -2392,16 +2395,17 @@ public class WebTester {
     }
 
     /**
-     * Get the attribut value of the gicen element. For example, if you have img src="bla.gif" alt="toto",
-     * getElementAttributByXPath("//img[@src='bla.gif']", "alt") returns "toto"
+     * Get the attribute value of the given element. 
+     * For example, if you have an element <code>&lt;img src="test.gif" alt="picture"&gt;</code>
+     * getElementAttributeByXPath("//img[@src='test.gif']", "alt") returns "picture".
      *
-     * @param xpath XPath of the element.
-     * @param attribut Name of the attribut.
-     * @return The value of the attribut.
+     * @param xpath XPath of the element
+     * @param attribute Name of the attribute
+     * @return The value of the attribute
      */
-    public String getElementAttributByXPath(String xpath, String attribut) {
+    public String getElementAttributeByXPath(String xpath, String attribute) {
         assertElementPresentByXPath(xpath);
-        return getTestingEngine().getElementAttributByXPath(xpath, attribut);
+        return getTestingEngine().getElementAttributByXPath(xpath, attribute);
     }
 
     /**
@@ -2789,7 +2793,8 @@ public class WebTester {
      *
      * @param formElementName name of form element.
      * @param value
-     * @deprecated use setTextField or other methods
+     * @see #setTextField(String, String)
+     * @deprecated use {@link #setTextField(String, String)} or other methods
      */
     public void setFormElement(String formElementName, String value) {
         assertFormElementPresent(formElementName);
