@@ -4,6 +4,8 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
+import java.util.List;
+
 import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -32,10 +34,10 @@ public class IElementTest extends JWebUnitAPITestCase {
     	// test an element that exists
     	IElement element = getElementByXPath("//input[@id='test']");
     	assertNotNull(element);
-    	assertEquals(element.name(), "input");
-    	assertEquals(element.attribute("name"), "element_name");
-    	assertEquals(element.attribute("id"), "test");
-    	assertEquals(element.attribute("value"), "test3");
+    	assertEquals(element.getName(), "input");
+    	assertEquals(element.getAttribute("name"), "element_name");
+    	assertEquals(element.getAttribute("id"), "test");
+    	assertEquals(element.getAttribute("value"), "test3");
     }
 
     public void testMissing() {
@@ -47,8 +49,31 @@ public class IElementTest extends JWebUnitAPITestCase {
     		// nothing
     	}
     }
+    
+    public void testChildren() {
+    	assertElementPresent("first");
+    	IElement element = getElementById("first");
+    	assertEquals(element.getName(), "li");
+    	assertEquals(element.getTextContent(), "one");
+    	assertEquals(element.getAttribute("id"), "first");
+    	
+    	// parent should be an <ol>
+    	IElement parent = element.getParent();
+    	assertEquals(parent.getName(), "ol");
+    	
+    	// it should have four children
+    	List<IElement> children = parent.getChildren();
+    	assertEquals(children.size(), 4);
+    	assertEquals(children.get(0).getTextContent(), "one");
+    	assertEquals(children.get(1).getTextContent(), "two");
+    	assertEquals(children.get(2).getTextContent(), "three");
+    	assertEquals(children.get(3).getTextContent(), "four");
+    	
+    	// they are all <li>'s
+    	for (IElement e : children)
+    		assertEquals(e.getName(), "li");
+    }
 
-    // TODO: expand API for IElement
     // TODO: test cases to change the element and make sure XPath has changed
     
 }

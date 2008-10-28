@@ -665,10 +665,17 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 	/* (non-Javadoc)
 	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementByXPath(java.lang.String)
 	 */
-	@Override
 	public IElement getElementByXPath(String xpath) {
 		// TODO implement method
 		throw new UnsupportedOperationException("getElementByXPath");
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementByID(java.lang.String)
+	 */
+	public IElement getElementByID(String id) {
+		// TODO implement method
+		throw new UnsupportedOperationException("getElementByID");
 	}
 
 }

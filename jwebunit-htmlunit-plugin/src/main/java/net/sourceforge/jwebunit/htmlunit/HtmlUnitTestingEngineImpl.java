@@ -2108,9 +2108,15 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 	/* (non-Javadoc)
 	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementByXPath(java.lang.String)
 	 */
-	@Override
 	public IElement getElementByXPath(String xpath) {
 		return new HtmlUnitElementImpl(this.getHtmlElementByXPath(xpath));
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementByID(java.lang.String)
+	 */
+	public IElement getElementByID(String id) {
+		return new HtmlUnitElementImpl(this.getHtmlElement(id));
 	}
 
 }

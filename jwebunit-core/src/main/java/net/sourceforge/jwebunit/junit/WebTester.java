@@ -2437,12 +2437,26 @@ public class WebTester {
     /**
      * Get an element for a particular xpath.
      * 
-     * @param xpath
-     * @return
+     * @param xpath XPath to search
+     * @return the requested element
+	 * @throws AssertionFailedError if the element xpath is not found
      */
     public IElement getElementByXPath(String xpath) {
     	assertElementPresentByXPath(xpath);
     	return getTestingEngine().getElementByXPath(xpath);
+    }
+
+    
+    /**
+     * Get an element for a particular ID.
+     * 
+     * @param id element ID to find
+     * @return the requested element
+	 * @throws AssertionFailedError if the element is not found
+     */
+    public IElement getElementById(String id) {
+    	assertElementPresent(id);
+    	return getTestingEngine().getElementByID(id);
     }
     
     // Window and Frame Navigation Methods

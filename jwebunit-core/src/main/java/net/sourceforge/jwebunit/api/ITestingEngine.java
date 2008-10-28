@@ -851,5 +851,13 @@ public interface ITestingEngine {
 	 * @return The element if found
 	 */
 	IElement getElementByXPath(String xpath);
-    
+	
+	/**
+	 * Get an element wrapper for a given ID.
+	 * 
+	 * @param id element ID to find
+	 * @return The element if found
+	 */
+	IElement getElementByID(String id);
+	
 }
