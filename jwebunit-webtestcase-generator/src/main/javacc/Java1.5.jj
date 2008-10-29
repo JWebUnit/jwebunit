@@ -904,34 +904,41 @@ String ReferenceType():
 }
 
 String ClassOrInterfaceType():
-{String result;
+{String result="";
+ String result2="";
  Token t;}
 {
-  t=<IDENTIFIER> {result=t.image;} [ LOOKAHEAD(2) TypeArguments() ]
+  t=<IDENTIFIER> {result=t.image;} [ LOOKAHEAD(2) result2=TypeArguments() ]
   ( LOOKAHEAD(2) "." <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ] )*
-  {return result;}
+  {return result+result2;}
 }
 
-void TypeArguments():
-{}
+String TypeArguments():
+{String resultTmp;
+ StringBuffer sb = new StringBuffer();}
 {
-   "<" TypeArgument() ( "," TypeArgument() )* ">"
+   "<" {sb.append("<");} resultTmp=TypeArgument() {sb.append(resultTmp);} ( "," {sb.append(",");} resultTmp=TypeArgument() {sb.append(resultTmp);} )* ">" {sb.append(">");}
+   {return sb.toString();}
 }
 
-void TypeArgument():
-{}
+String TypeArgument():
+{String resultTmp = "";
+ StringBuffer sb = new StringBuffer();}
 {
-   ReferenceType()
+   (resultTmp=ReferenceType() {sb.append(resultTmp);}
  |
-   "?" [ WildcardBounds() ]
+   "?" {sb.append("?");} [ resultTmp=WildcardBounds() {sb.append(resultTmp);} ])
+   {return sb.toString();}
 }
 
-void WildcardBounds():
-{}
+String WildcardBounds():
+{String resultTmp = "";
+ StringBuffer sb = new StringBuffer();}
 {
-   "extends" ReferenceType()
+   "extends" {sb.append("extends");} resultTmp=ReferenceType() {sb.append(resultTmp);}
  |
-   "super" ReferenceType()
+   "super" {sb.append("super");} resultTmp=ReferenceType() {sb.append(resultTmp);}
+   {return sb.toString();}
 }
 
 
