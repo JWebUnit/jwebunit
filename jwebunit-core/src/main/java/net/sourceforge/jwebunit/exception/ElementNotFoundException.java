@@ -12,7 +12,9 @@ package net.sourceforge.jwebunit.exception;
  */
 public class ElementNotFoundException extends Exception {
 
-    public ElementNotFoundException(String msg) {
+	private static final long serialVersionUID = 1L;
+
+	public ElementNotFoundException(String msg) {
         super(msg);
     }
 

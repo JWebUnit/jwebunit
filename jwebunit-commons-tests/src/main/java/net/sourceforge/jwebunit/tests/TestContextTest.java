@@ -32,7 +32,7 @@ public class TestContextTest extends JWebUnitAPITestCase {
         assertTrue(context.hasCookies());
         assertEquals(context.getUser(), "user");
         assertEquals(context.getPassword(), "pwd");
-        List cookies = context.getCookies();
+        List<?> cookies = context.getCookies();
         Cookie c = (Cookie)cookies.get(0);
         assertEquals(c.getName(), "key");
         assertEquals(c.getValue(), "val");

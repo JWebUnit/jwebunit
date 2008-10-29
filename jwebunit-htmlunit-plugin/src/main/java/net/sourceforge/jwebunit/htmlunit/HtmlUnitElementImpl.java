@@ -6,11 +6,10 @@ package net.sourceforge.jwebunit.htmlunit;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.jwebunit.api.IElement;
+
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.javascript.host.Node;
-
-import net.sourceforge.jwebunit.api.IElement;
 
 /**
  * HtmlUnit implementation of IElement wrapper.

@@ -11,6 +11,8 @@ package net.sourceforge.jwebunit.exception;
  */
 public class UnexpectedJavascriptPromptException extends RuntimeException {
 
+	private static final long serialVersionUID = 1L;
+
     /**
      * Message in the unexpected prompt
      */

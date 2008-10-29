@@ -4,7 +4,6 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.exception;
 
-import junit.framework.AssertionFailedError;
 
 /**
  * A Javascript confirm was expected but was not thrown.
@@ -12,6 +11,8 @@ import junit.framework.AssertionFailedError;
  * @author Julien Henry
  */
 public class ExpectedJavascriptConfirmException extends Exception {
+
+	private static final long serialVersionUID = 1L;
 
     /**
      * Expected message in the confirm

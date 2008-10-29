@@ -44,7 +44,7 @@ public class IElementTest extends JWebUnitAPITestCase {
     public void testMissing() {
     	// a missing element should throw an exception
     	try {
-    		IElement element = getElementByXPath("//input[@id='test2']");
+    		getElementByXPath("//input[@id='test2']");
     		fail("getElementByXPath() should have thrown an assertion exception.");
     	} catch (AssertionFailedError e) {
     		// nothing

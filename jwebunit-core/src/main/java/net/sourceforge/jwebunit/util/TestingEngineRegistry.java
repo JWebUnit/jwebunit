@@ -26,7 +26,7 @@ public class TestingEngineRegistry {
      */
     public final static String TESTING_ENGINE_SELENIUM = "TestingEngineSelenium";
 
-    private static Hashtable testingEngineMap = new Hashtable();
+    private static Hashtable<String,Class<?>> testingEngineMap = new Hashtable<String,Class<?>>();
 
     static {
         String cp = "net.sourceforge.jwebunit.htmlunit.HtmlUnitTestingEngineImpl";
@@ -51,9 +51,9 @@ public class TestingEngineRegistry {
      * @param aKey Key of the testing engine
      * @return the testing engine class.
      */
-    public static Class getTestingEngineClass(String aKey)
+    public static Class<?> getTestingEngineClass(String aKey)
             throws ClassNotFoundException {
-        Class theClass = (Class) testingEngineMap.get(aKey);
+        Class<?> theClass = (Class<?>) testingEngineMap.get(aKey);
         return theClass;
     }
 
@@ -66,7 +66,7 @@ public class TestingEngineRegistry {
      */
     public static void addTestingEngine(String key, String classpath)
             throws ClassNotFoundException {
-        Class c = Class.forName(classpath);
+        Class<?> c = Class.forName(classpath);
         if (ITestingEngine.class.isAssignableFrom(c)) {
             testingEngineMap.put(key, c);
         } else {

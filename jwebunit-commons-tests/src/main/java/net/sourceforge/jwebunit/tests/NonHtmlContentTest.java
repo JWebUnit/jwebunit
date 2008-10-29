@@ -4,12 +4,10 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
-import java.io.File;
 import java.io.IOException;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**

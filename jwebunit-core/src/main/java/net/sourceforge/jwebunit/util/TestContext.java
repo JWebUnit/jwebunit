@@ -60,7 +60,7 @@ public class TestContext {
      * Construct a test client context.
      */
     public TestContext() {
-        cookies = new ArrayList();
+        cookies = new ArrayList<javax.servlet.http.Cookie>();
         try {
             baseUrl = new URL("http://localhost:8080");
         } catch (MalformedURLException e) {
@@ -330,7 +330,7 @@ public class TestContext {
      *
      */
     public void clearRequestHeaders() {
-        requestHeaders = new HashMap();
+        requestHeaders = new HashMap<String, String>();
     }
 
 }

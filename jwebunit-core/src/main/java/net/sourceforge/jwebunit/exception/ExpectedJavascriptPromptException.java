@@ -4,7 +4,6 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.exception;
 
-import junit.framework.AssertionFailedError;
 
 /**
  * A Javascript prompt was expected but was not thrown.
@@ -12,7 +11,10 @@ import junit.framework.AssertionFailedError;
  * @author Julien Henry
  */
 public class ExpectedJavascriptPromptException extends Exception {
-    /**
+
+	private static final long serialVersionUID = 1L;
+	
+	/**
      * Expected message in the prompt
      */
     private String message;

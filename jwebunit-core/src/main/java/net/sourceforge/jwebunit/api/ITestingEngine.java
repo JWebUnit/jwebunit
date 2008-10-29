@@ -71,7 +71,7 @@ public interface ITestingEngine {
      * 
      * @return List of javax.servlet.http.Cookie.
      */
-    List getCookies();
+    List<?> getCookies();
 
     /**
      * Test if the window with the given name is present.

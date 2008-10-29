@@ -86,7 +86,7 @@ public abstract class JWebUnitAPITestCase extends WebTestCase {
         assertException(AssertionFailedError.class, methodName, args);
     }
 
-    public void assertException(Class exceptionClass, String methodName,
+    public void assertException(Class<?> exceptionClass, String methodName,
             Object[] args) {
         MethodInvoker invoker = new MethodInvoker(this, methodName, args);
         try {

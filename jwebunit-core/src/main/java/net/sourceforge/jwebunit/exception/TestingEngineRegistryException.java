@@ -10,7 +10,10 @@ package net.sourceforge.jwebunit.exception;
  * @author Nick Neuberger
  */
 public class TestingEngineRegistryException extends RuntimeException {
-    public TestingEngineRegistryException() {
+    
+	private static final long serialVersionUID = 1L;
+	
+	public TestingEngineRegistryException() {
     }
 
     public TestingEngineRegistryException(String s) {

@@ -11,7 +11,10 @@ package net.sourceforge.jwebunit.exception;
  * @author Wilkes Joiner
  */
 public class UnableToSetFormException extends RuntimeException {
-    public UnableToSetFormException() {
+
+	private static final long serialVersionUID = 1L;
+	
+	public UnableToSetFormException() {
     }
 
     public UnableToSetFormException(String s) {

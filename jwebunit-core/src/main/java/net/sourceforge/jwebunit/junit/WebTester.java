@@ -94,7 +94,7 @@ public class WebTester {
     protected ITestingEngine initializeDialog() {
         ITestingEngine theIJWebUnitDialog = null;
         String theTestingEngineKey = getTestingEngineKey();
-        Class theClass;
+        Class<?> theClass;
         try {
             theClass = TestingEngineRegistry
                     .getTestingEngineClass(theTestingEngineKey);
@@ -2081,8 +2081,8 @@ public class WebTester {
      * @param cookieName The cookie name
      */
     public void assertCookiePresent(String cookieName) {
-        List cookies = getTestingEngine().getCookies();
-        for (Iterator i = cookies.iterator(); i.hasNext();) {
+        List<?> cookies = getTestingEngine().getCookies();
+        for (Iterator<?> i = cookies.iterator(); i.hasNext();) {
             if (((Cookie) i.next()).getName().equals(cookieName)) {
                 return;
             }
@@ -2098,8 +2098,8 @@ public class WebTester {
      */
     public void assertCookieValueEquals(String cookieName, String expectedValue) {
         assertCookiePresent(cookieName);
-        List cookies = getTestingEngine().getCookies();
-        for (Iterator i = cookies.iterator(); i.hasNext();) {
+        List<?> cookies = getTestingEngine().getCookies();
+        for (Iterator<?> i = cookies.iterator(); i.hasNext();) {
             Cookie c = (Cookie) i.next();
             if (c.getName().equals(cookieName)) {
                 Assert.assertEquals(expectedValue, c.getValue());
@@ -2123,8 +2123,8 @@ public class WebTester {
         } catch (RESyntaxException e) {
             Assert.fail(e.toString());
         }
-        List cookies = getTestingEngine().getCookies();
-        for (Iterator i = cookies.iterator(); i.hasNext();) {
+        List<?> cookies = getTestingEngine().getCookies();
+        for (Iterator<?> i = cookies.iterator(); i.hasNext();) {
             Cookie c = (Cookie) i.next();
             if (c.getName().equals(cookieName)) {
                 Assert.assertTrue("Unable to match [" + regexp
@@ -2645,7 +2645,7 @@ public class WebTester {
 		    				value = field.getAttribute("value");
 			    		}
 		    		} else if (field.getAttribute("type").toLowerCase().equals("radio")) {
-		    			if (field.getAttribute("selected") != null) {
+		    			if (field.getAttribute("checked") != null) {
 		    				value = field.getAttribute("value");
 		    			}
 			    	} else {
@@ -2758,8 +2758,8 @@ public class WebTester {
      *
      */
     public void dumpCookies() {
-        List cookies = getTestingEngine().getCookies();
-        for (Iterator i = cookies.iterator(); i.hasNext();) {
+        List<?> cookies = getTestingEngine().getCookies();
+        for (Iterator<?> i = cookies.iterator(); i.hasNext();) {
             Cookie c = (Cookie) i.next();
             System.out.println("Name=" + c.getName() + "; Value="
                     + c.getValue() + "; Domain=" + c.getDomain() + "; Comment="
@@ -2825,7 +2825,7 @@ public class WebTester {
             tmp.deleteOnExit();
             saveAs(tmp);
             Assert.assertTrue("Files are not binary equals.", areFilesEqual(
-                    expected, tmp.toURL()));
+                    expected, tmp.toURI().toURL()));
         } catch (IOException e) {
             e.printStackTrace();
             Assert.fail(e.toString());

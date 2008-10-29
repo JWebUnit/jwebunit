@@ -15,6 +15,7 @@ package net.sourceforge.jwebunit.exception;
  */
 public class TestingEngineResponseException extends RuntimeException {
 
+	private static final long serialVersionUID = 1L;
     private int httpStatusCode = -1;
 
     /**
