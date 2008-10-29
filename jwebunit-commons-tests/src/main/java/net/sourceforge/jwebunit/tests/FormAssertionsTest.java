@@ -4,6 +4,7 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
+import net.sourceforge.jwebunit.api.IElement;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -258,7 +259,9 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
 
     }
     
-    // tests for label elements
+    /**
+     * tests for label elements
+     */
     public void testLabels() {
     	beginAt("/testPage.html");
     	
@@ -285,7 +288,42 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
 
     	assertLabelPresent("label8");
     	assertLabeledFieldEquals("label8", "eight");
+    }
+    
+    /**
+     * Test setting elements retrieved through labels
+     */
+    public void testSetLabels() {
+    	beginAt("/testPage.html");
 
+    	assertLabelPresent("label1");
+    	assertLabeledFieldEquals("label1", "one");
+    	assertTextFieldEquals("label1_field1", "one");
+    	assertEquals(getElementById("field1_id").getAttribute("value"), "one");
+    	
+    	// through setLabeledFormElementField
+    	setLabeledFormElementField("label1", "two");
+    	
+    	assertLabeledFieldEquals("label1", "two");
+    	assertTextFieldEquals("label1_field1", "two");
+    	assertEquals(getElementById("field1_id").getAttribute("value"), "two");
+    	
+    	// through normal setValue
+    	setTextField("label1_field1", "three");
+
+    	assertLabeledFieldEquals("label1", "three");
+    	assertTextFieldEquals("label1_field1", "three");
+    	assertEquals(getElementById("field1_id").getAttribute("value"), "three");
+    	
+    	// through IElement
+    	IElement element = getElementById("field1_id");
+    	assertNotNull(element);
+    	element.setAttribute("value", "four");
+
+    	assertLabeledFieldEquals("label1", "four");
+    	assertTextFieldEquals("label1_field1", "four");
+    	assertEquals(getElementById("field1_id").getAttribute("value"), "four");
+    	
     }
 
 }

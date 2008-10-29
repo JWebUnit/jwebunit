@@ -114,4 +114,28 @@ public class HtmlUnitElementImpl implements IElement {
 		return "IElement[name=" + getName() + " wrapped=" + element + "]";
 	}
 
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.IElement#setAttribute(java.lang.String)
+	 */
+	public void setAttribute(String string) {
+		element.setAttribute(string, "1");
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.IElement#setAttribute(java.lang.String, java.lang.String)
+	 */
+	public void setAttribute(String string, String value) {
+		element.setAttribute(string, value);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.IElement#setTextContent(java.lang.String)
+	 */
+	public void setTextContent(String value) {
+		element.setTextContent(value);
+	}
+
 }

@@ -18,7 +18,7 @@
     			Added WebTestCase(WebTester) constructor
     		</action>
     		<action type="add" dev="jevonwright" issue="1519807">
-    			Added assertLabeledFieldEquals(id, text) and assertLabel*() methods
+    			Added assertLabeledFieldEquals(id, text), assertLabel*(), and setLabeledFormElementField(id, value) methods
     		</action>
     		<action type="update" dev="jevonwright">
     			BC CHANGE: setFormElement(), assertFormElementEquals() methods will no longer assert that a form already exists in the page (as allowed by the HTML standard).

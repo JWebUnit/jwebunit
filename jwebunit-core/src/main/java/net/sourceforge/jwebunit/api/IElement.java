@@ -66,5 +66,27 @@ public interface IElement {
 	 * @return A list of all matching elements
 	 */
 	public List<IElement> getElements(String xpath);
+
+	/**
+	 * Set an attribute on this element.
+	 * 
+	 * @param string
+	 */
+	public void setAttribute(String string);
+
+	/**
+	 * Set an attribute on this element.
+	 * 
+	 * @param string
+	 * @param value
+	 */
+	public void setAttribute(String string, String value);
+
+	/**
+	 * Set the text content on this element.
+	 * 
+	 * @param value
+	 */
+	public void setTextContent(String value);
 	
 }

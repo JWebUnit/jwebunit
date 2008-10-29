@@ -2560,12 +2560,22 @@ public class WebTester {
      * Assert a label for a given ID exists.
      */
     public void assertLabelPresent(String id) {
+    	Assert.assertNotNull("No label found with id [" + id + "]", getLabel(id));
+    }
+    
+    /**
+     * Get a label for a particular ID.
+     * 
+     * @param id
+     * @return
+     */
+    private IElement getLabel(String id) {
     	// get all labels
     	for (IElement e : getTestingEngine().getElementsByXPath("//label")) {
     		if (e.getName().equals("label") && id.equals(e.getAttribute("id")))
-    			return;	// label found
+    			return e;	// label found
     	}
-    	Assert.fail("No label found with id [" + id + "]");
+    	return null;
     }
     
     /**
@@ -2605,12 +2615,12 @@ public class WebTester {
     }
     
     /**
-     * Private method to test the value of a field connected to a particular IElement label.
+     * Get all the fields that are referenced or contained in a particular label.
      * 
-     * @param label
-     * @param fieldText
+     * @param label The label to consider
+     * @return A list of all fields contained or referenced in this label
      */
-    private void assertLabeledFieldEquals(String identifier, IElement label, String fieldText) {
+    private List<IElement> getFieldsForLabel(IElement label) {
     	List<IElement> fields = new java.util.ArrayList<IElement>();
     	// a direct "for" attribute
     	if (label.getAttribute("for") != null) {
@@ -2628,6 +2638,18 @@ public class WebTester {
     			}
     		}
     	}
+    	
+    	return fields;
+    }
+    
+    /**
+     * Private method to test the value of a field connected to a particular IElement label.
+     * 
+     * @param label
+     * @param fieldText
+     */
+    private void assertLabeledFieldEquals(String identifier, IElement label, String fieldText) {
+    	List<IElement> fields = getFieldsForLabel(label);
     
     	Assert.assertFalse("No field found for label [" + identifier + "]", fields.isEmpty());
     	String value = null;
@@ -2682,11 +2704,65 @@ public class WebTester {
      * @param fieldText
      */
     public void assertLabeledFieldEquals(String id, String fieldText) {
-    	IElement label = getTestingEngine().getElementByID(id);
+    	IElement label = getLabel(id);
     	Assert.assertNotNull("no label for id [" + id + "] found", label);
-    	Assert.assertEquals("element with id [" + id + "] is not a label", "label", label.getName());
     	
     	assertLabeledFieldEquals(id, label, fieldText);
+    }
+    
+    public void setLabeledFormElementField(String id, String value) {
+    	IElement label = getLabel(id);
+    	Assert.assertNotNull("no label for id [" + id + "] found", label);
+    	
+    	List<IElement> fields = getFieldsForLabel(label);
+    	Assert.assertNotSame("there should be at least one element referenced for label [" + id + "]", 0, fields.size());
+    	
+    	// find the first element that we can change
+    	for (IElement field : fields) {
+    		if (field == null)
+    			throw new RuntimeException("unexpected null field " + field);
+    		
+	    	if ("input".equals(field.getName())) {
+	    		if (field.getAttribute("type") != null) {
+		    		if (field.getAttribute("type").toLowerCase().equals("checkbox")) {
+		    			if (value.equals(field.getAttribute("value"))) {
+		    				field.setAttribute("checked");
+		    				return;
+			    		}
+		    		} else if (field.getAttribute("type").toLowerCase().equals("radio")) {
+		    			if (value.equals(field.getAttribute("value"))) {
+		    				field.setAttribute("checked");
+		    				return;
+		    			}
+			    	} else {
+			    		// any other input type
+			    		field.setAttribute("value", value);
+			    		return;
+		    		}
+		    	} else {
+		    		// unspecified input type, default = text
+		    		field.setAttribute("value", value);
+		    		return;
+		    	}
+	    	} else if ("textarea".equals(field.getName())) {
+	    		field.setTextContent(value);
+	    		return;
+	    	} else if ("select".equals(field.getName())) {
+	    		// get the selected option
+	    		for (IElement children : field.getChildren()) {
+	    			// find the option which matches the given value (we can't specify random values)
+	    			if (children.getName().equals("option") && 
+	    					(children.getAttribute("value") == null ? value.equals(children.getTextContent()) : value.equals(children.getAttribute("value")))) {
+	    				children.setAttribute("selected");
+	    				return;
+	    			}
+	    		}
+	    	} else {
+	    		throw new RuntimeException("Unexpected field type " + field.getName());
+	    	}    		
+    	}
+    	
+    	Assert.fail("could not find any fields for label [" + id + "] to set.");
     }
 
     // Window and Frame Navigation Methods
