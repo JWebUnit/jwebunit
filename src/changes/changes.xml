@@ -14,6 +14,9 @@
     		<action type="add" dev="jevonwright" issue="1744628">
     			Added assertHeader*() and assertResponseCode*() methods
     		</action>
+    		<action type="add" dev="jevonwright" issue="1728676">
+    			Added WebTestCase(WebTester) constructor
+    		</action>
     		<action type="update" dev="jevonwright">
     			BC CHANGE: setFormElement(), assertFormElementEquals() methods will no longer assert that a form already exists in the page (as allowed by the HTML standard).
     		</action>

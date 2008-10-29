@@ -676,6 +676,18 @@ void ClassOrInterfaceBody(boolean isInterface, StringBuffer sb):
 {}
 { {sb.append("{\n");
   sb.append("    protected WebTester tester = null;\n\n");
+  sb.append("    protected WebTester customTester = null;\n\n");
+  sb.append("    /***\n");
+  sb.append("      * From 2.1 you can provide your own WebTester to run test cases.\n");
+  sb.append("      */\n");
+  sb.append("    public WebTestCase(WebTester customTester) {\n");
+  sb.append("        super();\n");
+  sb.append("        this.customTester = customTester;\n");
+  sb.append("    }\n\n");
+  sb.append("    public WebTestCase(String name, WebTester customTester) {\n");
+  sb.append("        super(name);\n");
+  sb.append("        this.customTester = customTester;\n");
+  sb.append("    }\n\n");
   sb.append("    public WebTestCase(String name) {\n");
   sb.append("        super(name);\n");
   sb.append("    }\n\n");
@@ -704,10 +716,13 @@ void ClassOrInterfaceBody(boolean isInterface, StringBuffer sb):
   sb.append("     */\n");
   sb.append("    public void runBare() throws Throwable {\n");
   sb.append("        try {\n");
-  sb.append("            tester=new WebTester();\n");
+  sb.append("            if (customTester == null)\n");
+  sb.append("                tester = new WebTester();\n");
+  sb.append("            else\n");
+  sb.append("                tester = customTester;\n");
   sb.append("            super.runBare();\n");
   sb.append("        } finally {\n");
-  sb.append("            tester=null;\n");
+  sb.append("            tester = null;\n");
   sb.append("        }\n");
   sb.append("    }\n\n");}
   "{" ( ClassOrInterfaceBodyDeclaration(isInterface, sb) )* "}"

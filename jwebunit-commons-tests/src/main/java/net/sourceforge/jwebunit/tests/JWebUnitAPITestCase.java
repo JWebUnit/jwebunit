@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import junit.framework.AssertionFailedError;
 import net.sourceforge.jwebunit.junit.WebTestCase;
+import net.sourceforge.jwebunit.junit.WebTester;
 import net.sourceforge.jwebunit.tests.util.reflect.MethodInvoker;
 
 /**
@@ -27,6 +28,10 @@ public abstract class JWebUnitAPITestCase extends WebTestCase {
     public static final String HOST_PATH = "http://localhost:" + JETTY_PORT
             + JETTY_URL;
 
+    public JWebUnitAPITestCase(String name, WebTester custom) {
+    	super(name, custom);
+    }
+    
     /**
      * @param name
      */
