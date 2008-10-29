@@ -26,6 +26,8 @@ public class HtmlUnitElementImpl implements IElement {
 	private HtmlElement element;
 	
 	public HtmlUnitElementImpl(HtmlElement element) {
+		if (element == null)
+			throw new NullPointerException("Cannot create an IElement for a null element.");
 		this.element = element;
 	}
 
@@ -34,6 +36,9 @@ public class HtmlUnitElementImpl implements IElement {
 	 * @see net.sourceforge.jwebunit.api.IElement#attribute(java.lang.String)
 	 */
 	public String getAttribute(String name) {
+		if (!element.hasAttribute(name))
+			return null;
+		
 		return element.getAttribute(name);
 	}
 
@@ -51,8 +56,10 @@ public class HtmlUnitElementImpl implements IElement {
 	 */
 	public List<IElement> getChildren() {
 		List<IElement> children = new ArrayList<IElement>();
-		for (HtmlElement e : element.getChildElements())
-			children.add(new HtmlUnitElementImpl(e));
+		for (HtmlElement e : element.getChildElements()) {
+			if (e != null)
+				children.add(new HtmlUnitElementImpl(e));
+		}
 		return children;
 	}
 
@@ -102,6 +109,10 @@ public class HtmlUnitElementImpl implements IElement {
 				elements.add(new HtmlUnitElementImpl((HtmlElement) o));
 		}
 		return elements;
+	}
+	
+	public String toString() {
+		return "IElement[name=" + getName() + " wrapped=" + element + "]";
 	}
 
 }

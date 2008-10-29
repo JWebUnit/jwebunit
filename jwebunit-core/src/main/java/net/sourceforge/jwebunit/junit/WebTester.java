@@ -2554,6 +2554,140 @@ public class WebTester {
     public List<IElement> getElementsByXPath(String xpath) {
     	return getTestingEngine().getElementsByXPath(xpath);
     }
+    
+    // label methods
+    /**
+     * Assert a label for a given ID exists.
+     */
+    public void assertLabelPresent(String id) {
+    	// get all labels
+    	for (IElement e : getTestingEngine().getElementsByXPath("//label")) {
+    		if (e.getName().equals("label") && id.equals(e.getAttribute("id")))
+    			return;	// label found
+    	}
+    	Assert.fail("No label found with id [" + id + "]");
+    }
+    
+    /**
+     * Find a particular element with given text
+     * 
+     * @param elementName the element type e.g. "input", "label"
+     * @param text the text to search for
+     * @return the found element, or null
+     */
+    private IElement getElementWithText(String elementName, String text) {
+    	for (IElement e : getTestingEngine().getElementsByXPath("//" + elementName)) {
+    		if (elementName.equals(e.getName()) && text.equals(e.getTextContent())) {
+    			return e;
+    		}
+    	}
+    	return null;
+    }
+
+    /**
+     * Assert a label exists.
+     */
+    public void assertLabelMatches(String regexp) {
+    	// get regexp
+        RE re = null;
+        try {
+            re = new RE(regexp, RE.MATCH_SINGLELINE);
+        } catch (RESyntaxException e) {
+            Assert.fail(e.toString());
+        }
+
+        // get all labels
+    	for (IElement e : getTestingEngine().getElementsByXPath("//label")) {
+    		if (e.getName().equals("label") && re.match( e.getTextContent() ))
+    			return;	// label found
+    	}
+    	Assert.fail("No label found with text matching [" + regexp + "]");
+    }
+    
+    /**
+     * Private method to test the value of a field connected to a particular IElement label.
+     * 
+     * @param label
+     * @param fieldText
+     */
+    private void assertLabeledFieldEquals(String identifier, IElement label, String fieldText) {
+    	List<IElement> fields = new java.util.ArrayList<IElement>();
+    	// a direct "for" attribute
+    	if (label.getAttribute("for") != null) {
+    		IElement e = getTestingEngine().getElementByID(label.getAttribute("for"));
+    		if (e != null)
+    			fields.add(e);
+    	}
+    	
+    	// implicitly the elements inside the label
+    	if (fields.isEmpty()) {
+    		// get elements inside the label
+    		for (IElement e : label.getChildren()) {
+    			if (e.getName().equals("input") || e.getName().equals("textarea") || e.getName().equals("select")) {
+    				fields.add(e);
+    			}
+    		}
+    	}
+    
+    	Assert.assertFalse("No field found for label [" + identifier + "]", fields.isEmpty());
+    	String value = null;
+    	// cycle through all fields trying to find value
+    	for (IElement field : fields) {
+    		if (value != null)	// stop at first correct value found
+    			break;
+    		if (field == null)
+    			throw new RuntimeException("unexpected null field " + field);
+    		
+	    	if ("input".equals(field.getName())) {
+	    		if (field.getAttribute("type") != null) {
+		    		if (field.getAttribute("type").toLowerCase().equals("checkbox")) {
+		    			if (field.getAttribute("checked") != null) {
+		    				value = field.getAttribute("value");
+			    		}
+		    		} else if (field.getAttribute("type").toLowerCase().equals("radio")) {
+		    			if (field.getAttribute("selected") != null) {
+		    				value = field.getAttribute("value");
+		    			}
+			    	} else {
+			    		// any other input type
+		    			value = field.getAttribute("value");
+		    		}
+		    	} else {
+		    		// unspecified input type, default = text
+	    			value = field.getAttribute("value");
+		    	}
+	    	} else if ("textarea".equals(field.getName())) {
+	    		value = field.getTextContent();
+	    	} else if ("select".equals(field.getName())) {
+	    		// get the selected option
+	    		for (IElement children : field.getChildren()) {
+	    			if (children.getName().equals("option") && children.getAttribute("selected") != null) {
+	    				value = children.getAttribute("value") == null ? children.getTextContent() : children.getAttribute("value");
+	   					break;
+	    			}
+	    		}
+	    	} else {
+	    		throw new RuntimeException("Unexpected field type " + field.getName());
+	    	}
+    	}
+    	
+    	Assert.assertEquals("value of field for label [" + identifier + "] should be [" + fieldText + "]", fieldText, value);
+    }
+    
+    /**
+     * Assert that a labeled field exists (for the given id) and the
+     * field that it labels equals the given text
+     * 
+     * @param id
+     * @param fieldText
+     */
+    public void assertLabeledFieldEquals(String id, String fieldText) {
+    	IElement label = getTestingEngine().getElementByID(id);
+    	Assert.assertNotNull("no label for id [" + id + "] found", label);
+    	Assert.assertEquals("element with id [" + id + "] is not a label", "label", label.getName());
+    	
+    	assertLabeledFieldEquals(id, label, fieldText);
+    }
 
     // Window and Frame Navigation Methods
 

@@ -257,5 +257,35 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
     	assertRadioOptionSelected(option1, "1");
 
     }
+    
+    // tests for label elements
+    public void testLabels() {
+    	beginAt("/testPage.html");
+    	
+    	assertLabelPresent("label1");
+    	assertLabeledFieldEquals("label1", "one");
+
+    	assertLabelPresent("label2");
+    	assertLabeledFieldEquals("label2", "two");
+
+    	assertLabelPresent("label3");
+    	assertLabeledFieldEquals("label3", "three");
+
+    	assertLabelPresent("label4");
+    	assertLabeledFieldEquals("label4", "2");
+
+    	assertLabelPresent("label5");
+    	assertLabeledFieldEquals("label5", "2");
+
+    	assertLabelPresent("label6");
+    	assertLabeledFieldEquals("label6", "ten");
+
+    	assertLabelPresent("label7");
+    	assertLabeledFieldEquals("label7", "10");
+
+    	assertLabelPresent("label8");
+    	assertLabeledFieldEquals("label8", "eight");
+
+    }
 
 }

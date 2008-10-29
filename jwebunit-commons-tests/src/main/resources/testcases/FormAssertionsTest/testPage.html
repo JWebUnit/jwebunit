@@ -55,6 +55,50 @@
         </form>
         </td>
     </tr>
+    <tr>
+    	<td colspan="3">
+    		<h1>Field with labels</h1>
+    		
+    		<label id="label1">
+    			Field 1:
+    			<input type="text" name="label1_field1" value="one" />
+    		</label>
+    		<label id="label2">
+    			Field 2:
+    			<input name="label1_field2" value="two" />
+    		</label>
+    		<label id="label3">
+    			<textarea>three</textarea>
+    		</label>
+    		<label id="label4">
+    			<input type="checkbox" value="1"> Not selected<br />
+    			<input type="checkbox" value="2" checked>Selected<br />
+    		</label>
+    		<label id="label5">
+    			<input type="radio" value="1">Not selected<br />
+    			<input type="radio" value="2" selected>Selected<br />
+    			<input type="text" name="label5_field1" value="Ignore this" />
+    		</label>
+    		<label id="label6">
+    			<select name="seven" id="label6_seven">
+    				<option>eight</option>
+    				<option>nine</option>
+    				<option selected>ten</option>
+    				<option>eleven</option>
+    			</select>
+    		</label>
+    		<label id="label7">
+    			<select name="eight" id="label7_eight">
+    				<option value="8">eight</option>
+    				<option value="9">nine</option>
+    				<option value="10" selected>ten</option>
+    				<option value="11">eleven</option>
+    			</select>
+    		</label>
+    		<label id="label8" for="input8">Label 8</label>
+    		<input id="input8" type="text" value="eight" />
+    	</td>
+    </tr>
 </table>
 </body>
 </html>

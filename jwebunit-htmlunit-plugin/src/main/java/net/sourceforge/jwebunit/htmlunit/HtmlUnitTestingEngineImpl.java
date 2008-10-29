@@ -2149,14 +2149,20 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementByXPath(java.lang.String)
 	 */
 	public IElement getElementByXPath(String xpath) {
-		return new HtmlUnitElementImpl(this.getHtmlElementByXPath(xpath));
+		HtmlElement element = this.getHtmlElementByXPath(xpath);
+		if (element != null)
+			return new HtmlUnitElementImpl(element);
+		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementByID(java.lang.String)
 	 */
 	public IElement getElementByID(String id) {
-		return new HtmlUnitElementImpl(this.getHtmlElement(id));
+		HtmlElement element = this.getHtmlElement(id);
+		if (element != null)
+			return new HtmlUnitElementImpl(element);
+		return null;
 	}
 
 	/* (non-Javadoc)
