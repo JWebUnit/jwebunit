@@ -82,4 +82,26 @@ public class HtmlUnitElementImpl implements IElement {
 		return element.getTextContent();
 	}
 
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.IElement#getElement(java.lang.String)
+	 */
+	public IElement getElement(String xpath) {
+		// if this fails with a ClassCastException, use getElements().get(0) (performance penalty)
+		return new HtmlUnitElementImpl((HtmlElement) element.getFirstByXPath(xpath));
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.jwebunit.api.IElement#getElements(java.lang.String)
+	 */
+	public List<IElement> getElements(String xpath) {
+		List<IElement> elements = new ArrayList<IElement>();
+		for (Object o : element.getByXPath(xpath)) {
+			if (o instanceof HtmlElement)
+				elements.add(new HtmlUnitElementImpl((HtmlElement) o));
+		}
+		return elements;
+	}
+
 }

@@ -51,4 +51,20 @@ public interface IElement {
 	 */
 	public List<IElement> getChildren();
 	
+	/**
+	 * Get an element from this element by xpath.
+	 * 
+	 * @param xpath The xpath to serach
+	 * @return an IElement if found, or null
+	 */
+	public IElement getElement(String xpath);
+	
+	/**
+	 * Get all elements from this element by xpath.
+	 * 
+	 * @param xpath The xpath to search
+	 * @return A list of all matching elements
+	 */
+	public List<IElement> getElements(String xpath);
+	
 }

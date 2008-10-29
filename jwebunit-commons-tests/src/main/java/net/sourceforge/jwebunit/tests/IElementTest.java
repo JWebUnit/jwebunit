@@ -123,4 +123,29 @@ public class IElementTest extends JWebUnitAPITestCase {
     	
     }
     
+    public void testWithXpath() {
+    	IElement element = getElementByXPath("//body");
+    	assertNotNull(element);
+    	assertEquals("body", element.getName());
+    	
+    	// get first input children
+    	IElement input = element.getElement("input");
+    	assertNotNull(input);
+    	assertEquals("input", input.getName());
+    	assertEquals("element_name", input.getAttribute("name"));
+    	assertEquals("test3", input.getAttribute("value"));
+    	
+    	// get all input children
+    	List<IElement> inputs = element.getElements("input");
+    	assertEquals(2, inputs.size());	// there should be two
+    	assertEquals("test3", inputs.get(0).getAttribute("value"));
+    	assertEquals("Do nothing", inputs.get(1).getAttribute("value"));
+    	
+    	// get parent through xpath
+    	IElement parent = element.getElement("..");
+    	assertNotNull(parent);
+    	assertEquals("html", parent.getName());
+    	
+    }
+    
 }
