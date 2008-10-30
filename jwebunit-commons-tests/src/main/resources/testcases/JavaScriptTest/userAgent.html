@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<title>prototype.js test</title>
+		<script language="Javascript">
+			function foo() {
+				var ua = navigator.userAgent;
+				var target = document.getElementById('target');
+				target.innerHTML = ua;
+				var nothing = ua.indexOf("test");	// crashes here if user agent is null
+			}
+		</script>
+	</head>
+<body onLoad="foo()">
+	<pre id="target">not loaded</pre>
+</body>
+</html>

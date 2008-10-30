@@ -77,8 +77,8 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setTextField("file", filename);
         submit("button");
         assertTextPresent("Submitted parameters");
-        //The following depend on the browser: IE send full path but FF send only file name.
-        assertTextPresent("file=" + temp.getAbsolutePath() + "{abcdefgh}");
+        //The following depend on the browser: IE send full path (i.e. temp.getAbsolutePath()) but FF send only file name.
+        assertTextPresent("file=" + temp.getName() + "{abcdefgh}");
     }
     
     public void testSubmitImageInput() {

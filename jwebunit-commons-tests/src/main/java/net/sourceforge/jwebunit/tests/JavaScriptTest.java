@@ -68,4 +68,32 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
         beginAt("Prompt.html");
         assertTextPresent("Cancel");
     }
+    
+    /**
+     * Test that the <code>navigator.userAgent</code> is actually available. 
+     * 
+     * @see bug 1724695
+     */
+    public void testUserAgent() {
+    	beginAt("userAgent.html");
+    	assertTextPresent("Mozilla");	// the default browser is a Mozilla browser
+    }
+    
+    /**
+     * Test prototype.js integration and make sure that it works
+     * in JWebUnit
+     * 
+     * @see bug 2208784 
+     * @author Jevon
+     * @throws InterruptedException 
+     */
+    public void testPrototypeJs() throws InterruptedException {
+    	beginAt("prototype.html");
+    	clickButtonWithText("do ajax");
+    	// we wait a while for the ajax to return
+    	Thread.sleep(500);
+    	assertTextPresent("hello, world!");
+    	assertTextNotPresent("not loaded");
+    }
+    
 }

@@ -140,6 +140,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     private LinkedList<JavascriptPrompt> expectedJavascriptPrompts = new LinkedList<JavascriptPrompt>();
     
     /**
+     * The default browser version.
+     */
+    BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_2;
+    
+    /**
      * Should we ignore failing status codes?
      */
     private boolean ignoreFailingStatusCodes = false;
@@ -705,8 +710,21 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
     private void initWebClient() {
         
-        BrowserVersion bv = new BrowserVersion(BrowserVersion.INTERNET_EXPLORER,
-                "4.0", testContext.getUserAgent(), "1.2", 6);
+    	/**
+    	 * The user agent string is now provided by default to new test cases.
+    	 * It can still be overridden if testContext.getUserAgent() is not
+    	 * null (i.e. has been set manually.)
+    	 * 
+    	 * @author Jevon
+    	 */
+    	BrowserVersion bv;
+    	if (testContext.getUserAgent() != null) {
+            bv = new BrowserVersion(BrowserVersion.INTERNET_EXPLORER,
+                    "4.0", testContext.getUserAgent(), "1.2", 6);
+    	} else {
+    		bv = defaultBrowserVersion;		// use default (which includes a full UserAgent string)
+    	}
+
         if (getTestContext().getProxyHost()!=null && getTestContext().getProxyPort()>0) {
             //Proxy
             wc = new WebClient(bv, getTestContext().getProxyHost(), getTestContext().getProxyPort());
@@ -2217,6 +2235,28 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 			map.put(header.getName(), header.getValue());
 		}
 		return map;
+	}
+
+	/**
+	 * An alternative to setting the {@link TestContext#setUserAgent(String) user agent string manually}
+	 * is to provide it with all the information for a complete browser version.
+	 * 
+	 * @see com.gargoylesoftware.htmlunit.BrowserVersion
+	 * @return The default browser version
+	 */
+	public BrowserVersion getDefaultBrowserVersion() {
+		return defaultBrowserVersion;
+	}
+
+	/**
+	 * An alternative to setting the {@link TestContext#setUserAgent(String) user agent string manually}
+	 * is to provide it with all the information for a complete browser version.
+	 * 
+	 * @see com.gargoylesoftware.htmlunit.BrowserVersion
+	 * @param the browser version to set as default for this engine instance
+	 */
+	public void setDefaultBrowserVersion(BrowserVersion defaultBrowserVersion) {
+		this.defaultBrowserVersion = defaultBrowserVersion;
 	}
 
 }

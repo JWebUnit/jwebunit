@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>prototype.js test</title>
+		<script src="prototype-1.6.0.3.js"></script>
+		<script language="Javascript">
+
+function getFromServer() {
+	$('target').innerHTML = "loading...";
+	new Ajax.Request('../response.jsp',
+	  {
+	    method:'get',
+	    onSuccess: function(transport){
+	    	var response = transport.responseText || "no response text";	   
+	    	$('target').innerHTML = response;
+	    },
+	    onFailure: function(transport){ $('target').innerHTML = "something went wrong..." + transport.responseText; }
+	  });
+}
+
+		</script>
+	</head>
+<body>
+
+	<input id="button_press" type="button" value="do ajax" onClick="getFromServer()" />
+
+	<div id="target">not loaded</div>
+
+</body>
+</html>

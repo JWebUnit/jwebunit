@@ -37,6 +37,8 @@ public class ResponseServlet extends HttpServlet {
     	// lets set some headers
     	response.setHeader("Test", "test2");
     	response.setHeader("Header-Added", new java.util.Date().toString());
+    	
+    	response.getWriter().println("hello, world!");
         
     }
 

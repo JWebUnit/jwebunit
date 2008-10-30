@@ -12,16 +12,20 @@
     			Added new IElement element interface, and methods to directly access elements by XPath.
     		</action>
     		<action type="add" dev="jevonwright" issue="1744628">
-    			Added assertHeader*() and assertResponseCode*() methods
+    			Added assertHeader*() and assertResponseCode*() methods.
     		</action>
     		<action type="add" dev="jevonwright" issue="1728676">
-    			Added WebTestCase(WebTester) constructor
+    			Added WebTestCase(WebTester) constructor.
     		</action>
     		<action type="add" dev="jevonwright" issue="1519807">
-    			Added assertLabeledFieldEquals(id, text), assertLabel*(), and setLabeledFormElementField(id, value) methods
+    			Added assertLabeledFieldEquals(id, text), assertLabel*(), and setLabeledFormElementField(id, value) methods.
     		</action>
     		<action type="update" dev="jevonwright">
     			BC CHANGE: setFormElement(), assertFormElementEquals() methods will no longer assert that a form already exists in the page (as allowed by the HTML standard).
+    		</action>
+    		<action type="fix" dev="jevonwright" issue="1724695">
+    			navigator.userAgent is no longer null by default.
+    			Test cases now use the Firefox 3.0 user agent as the default, rather than MSIE 4.0.
     		</action>
     	</release>
         <release version="2.0" date="October 27, 2008">
