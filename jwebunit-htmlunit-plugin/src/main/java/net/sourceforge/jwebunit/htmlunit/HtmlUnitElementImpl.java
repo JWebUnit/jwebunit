@@ -10,6 +10,8 @@ import net.sourceforge.jwebunit.api.IElement;
 
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 
 /**
  * HtmlUnit implementation of IElement wrapper.
@@ -119,7 +121,7 @@ public class HtmlUnitElementImpl implements IElement {
 	 * @see net.sourceforge.jwebunit.api.IElement#setAttribute(java.lang.String)
 	 */
 	public void setAttribute(String string) {
-		element.setAttribute(string, "1");
+		element.setAttributeValue(string, "1");
 	}
 
 
@@ -127,7 +129,12 @@ public class HtmlUnitElementImpl implements IElement {
 	 * @see net.sourceforge.jwebunit.api.IElement#setAttribute(java.lang.String, java.lang.String)
 	 */
 	public void setAttribute(String string, String value) {
-		element.setAttribute(string, value);
+		if ("value".equals(string) && element instanceof HtmlInput) {
+			// for HtmlInputs, we want to run any onChange code if the value changes
+			((HtmlInput) element).setValueAttribute(value);
+		} else {
+			element.setAttributeValue(string, value);
+		}
 	}
 
 
@@ -135,7 +142,11 @@ public class HtmlUnitElementImpl implements IElement {
 	 * @see net.sourceforge.jwebunit.api.IElement#setTextContent(java.lang.String)
 	 */
 	public void setTextContent(String value) {
-		element.setTextContent(value);
+		if (element instanceof HtmlTextArea) {
+			((HtmlTextArea) element).setText(value);
+		} else {
+			element.setTextContent(value);
+		}
 	}
 
 }

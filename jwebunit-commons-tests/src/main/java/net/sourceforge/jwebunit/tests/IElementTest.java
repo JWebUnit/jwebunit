@@ -137,15 +137,46 @@ public class IElementTest extends JWebUnitAPITestCase {
     	
     	// get all input children
     	List<IElement> inputs = element.getElements("input");
-    	assertEquals(2, inputs.size());	// there should be two
+    	assertEquals(4, inputs.size());	// there should be two
     	assertEquals("test3", inputs.get(0).getAttribute("value"));
     	assertEquals("Do nothing", inputs.get(1).getAttribute("value"));
+    	assertEquals("initial", inputs.get(2).getAttribute("value"));
+    	assertEquals("unchanged", inputs.get(3).getAttribute("value"));
     	
     	// get parent through xpath
     	IElement parent = element.getElement("..");
     	assertNotNull(parent);
     	assertEquals("html", parent.getName());
     	
+    }
+    
+    /**
+     * Test that setting attributes manually (e.g setAttribute("value") 
+     * properly calls any attached Javascript.
+     */
+    public void testAttributeJavascript() {
+    	String testingText = new Date().toString();
+    	
+    	{
+	    	IElement js1 = getElementById("js1");
+	    	IElement js2 = getElementById("js2");
+	    	
+	    	assertEquals(js1.getAttribute("value"), "initial");
+	    	assertEquals(js2.getAttribute("value"), "unchanged");
+	    	
+	    	// change js1's value
+	    	js1.setAttribute("value", testingText);
+    	}
+    	
+    	// refresh the elements and check they have changed
+    	{
+	    	IElement js1 = getElementById("js1");
+	    	IElement js2 = getElementById("js2");
+	    	
+	    	assertEquals(js1.getAttribute("value"), testingText);
+	    	assertEquals(js2.getAttribute("value"), testingText);
+    	}
+
     }
     
 }
