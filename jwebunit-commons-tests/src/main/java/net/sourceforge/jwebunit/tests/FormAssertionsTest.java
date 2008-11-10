@@ -325,5 +325,15 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
     	assertEquals(getElementById("field1_id").getAttribute("value"), "four");
     	
     }
+    
+    /**
+     * Even though the element has no value set (i.e. getAttribute("value") == null),
+     * it should still qualify as equal to an empty string.
+     */
+    public void testLabeledEmptyElement() {
+    	beginAt("/testPage.html");
+    	assertLabeledFieldEquals("label9", "");
+
+    }
 
 }

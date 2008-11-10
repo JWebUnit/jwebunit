@@ -2693,7 +2693,7 @@ public class WebTester {
 	    	}
     	}
     	
-    	Assert.assertEquals("value of field for label [" + identifier + "] should be [" + fieldText + "]", fieldText, value);
+    	Assert.assertEquals("value of field for label [" + identifier + "] should be [" + fieldText + "]", fieldText, value == null ? "" : value);
     }
     
     /**
