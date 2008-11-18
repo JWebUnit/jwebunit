@@ -200,4 +200,18 @@ public class IElementTest extends JWebUnitAPITestCase {
     	assertCommentNotPresent("definitely not here");
     }
     
+    /**
+     * Test preceding element XPath.
+     * preceding: "Selects everything in the document that is before the start tag of the current node"
+     */
+    public void testPreceding() {
+    	IElement element = getElementById("first"); // li
+    	// should get the first <input>, which is
+    	// <input id="test" name="element_name" value="test3">
+    	IElement preceding = element.getElement("preceding::input"); 
+    	
+    	assertEquals(preceding.getName(), "input");
+    	assertEquals(preceding.getAttribute("name"), "element_name");
+    }
+    
 }
