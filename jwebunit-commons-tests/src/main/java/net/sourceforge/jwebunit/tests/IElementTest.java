@@ -143,6 +143,12 @@ public class IElementTest extends JWebUnitAPITestCase {
     	assertEquals("initial", inputs.get(2).getAttribute("value"));
     	assertEquals("unchanged", inputs.get(3).getAttribute("value"));
     	
+    	// test regexps
+    	assertMatch("init.+", inputs.get(2).getAttribute("value"));
+    	assertNotMatch("^xinitial", inputs.get(2).getAttribute("value"));
+    	assertMatch("test regexp with message", "init.+", inputs.get(2).getAttribute("value"));
+    	assertNotMatch("test regexp with message", "$xinitial", inputs.get(2).getAttribute("value"));
+    	
     	// get parent through xpath
     	IElement parent = element.getElement("..");
     	assertNotNull(parent);

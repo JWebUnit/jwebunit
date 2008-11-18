@@ -428,7 +428,7 @@ public class WebTester {
     }
 
     /**
-     * Assert that supplied regexp is matched.
+     * Assert that supplied regexp is matched in the text of a page.
      *
      * @param regexp
      */
@@ -438,7 +438,52 @@ public class WebTester {
             Assert.fail("Expected rexexp not matched in response: [" + regexp
                     + "]");
     }
+    
+    /**
+     * Assert a given string matches a given regular expression.
+     * 
+     * @param regexp
+     * @param text
+     */
+    public void assertMatch(String regexp, String text) {
+    	assertMatch("Expected rexexp '" + regexp + "' not matched in text '" + text + "'", regexp, text);
+    }
 
+    /**
+     * Assert a given string does not match a given regular expression.
+     * 
+     * @param regexp
+     * @param text
+     */
+    public void assertNotMatch(String regexp, String text) {
+    	assertNotMatch("Expected rexexp '" + regexp + "' matched in text '" + text + "'", regexp, text);
+    }
+
+    
+    /**
+     * Assert a given string matches a given regular expression.
+     * 
+     * @param regexp
+     * @param text
+     */
+    public void assertMatch(String message, String regexp, String text) {
+        RE re = getRE(regexp);
+        if (!re.match(text))
+            Assert.fail(message);
+    }
+
+    /**
+     * Assert a given string does not match a given regular expression.
+     * 
+     * @param regexp
+     * @param text
+     */
+    public void assertNotMatch(String message, String regexp, String text) {
+        RE re = getRE(regexp);
+        if (re.match(text))
+            Assert.fail(message);
+    }
+    
     /**
      * Assert that a web resource's value is not present.
      *
