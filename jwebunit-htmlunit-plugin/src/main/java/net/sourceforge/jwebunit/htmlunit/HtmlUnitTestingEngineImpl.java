@@ -42,6 +42,8 @@ import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
@@ -62,6 +64,7 @@ import com.gargoylesoftware.htmlunit.WebWindowEvent;
 import com.gargoylesoftware.htmlunit.WebWindowListener;
 import com.gargoylesoftware.htmlunit.WebWindowNotFoundException;
 import com.gargoylesoftware.htmlunit.html.ClickableElement;
+import com.gargoylesoftware.htmlunit.html.DomComment;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
@@ -889,6 +892,34 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         return (HtmlElement) parent.getFirstByXPath(xpath);
     }
 
+    /**
+     * Get all the comments in a document, as a list of strings.
+     */
+    public List<String> getComments() {
+    	List<String> comments = new ArrayList<String>();
+    	getComments(comments, ((HtmlPage) win.getEnclosedPage()));
+    	
+    	return comments;
+    }
+
+    /**
+     * Recursively find comments for all child nodes.
+     * 
+     * @param comments
+     * @param node
+     */
+    private void getComments(List<String> comments, Node node) {
+    	NodeList nodes = node.getChildNodes();
+    	for (int i = 0; i < nodes.getLength(); i++) {
+    		Node n = nodes.item(i);
+    		if (n instanceof DomComment) {
+    			comments.add(((DomComment) n).getData().trim());
+    		}
+    		// add all child nodes
+    		getComments(comments, n);
+    	}
+    }
+    
     /**
      * Return the first open window with the given title.
      */

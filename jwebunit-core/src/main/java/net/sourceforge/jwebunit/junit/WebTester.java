@@ -2012,6 +2012,31 @@ public class WebTester {
         Assert.assertFalse("Located element with xpath \"" + xpath + "\"",
                 getTestingEngine().hasElementByXPath(xpath));
     }
+    
+    /**
+     * Get all the comments in a document, as a list of strings.
+     */
+    public List<String> getComments() {
+    	return getTestingEngine().getComments();
+    }
+    
+    /**
+     * Assert that a comment is present.
+     * 
+     * @param comment
+     */
+    public void assertCommentPresent(String comment) {
+    	Assert.assertTrue("Comment present: '" + comment + "'", getComments().contains(comment.trim()));
+    }
+    
+    /**
+     * Assert that a comment is not present.
+     * 
+     * @param comment
+     */
+    public void assertCommentNotPresent(String comment) {
+    	Assert.assertFalse("Comment not present: '" + comment + "'", getComments().contains(comment.trim()));
+    }
 
     /**
      * Assert that a given element contains specific text.

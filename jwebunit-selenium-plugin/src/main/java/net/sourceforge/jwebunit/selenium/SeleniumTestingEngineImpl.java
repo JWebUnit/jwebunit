@@ -720,4 +720,9 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 		throw new UnsupportedOperationException("setIgnoreFailingStatusCodes");
 	}
 
+	public boolean hasDomComment(String comment) {
+		// TODO implement method
+		throw new UnsupportedOperationException("hasDomComment");
+	}
+
 }

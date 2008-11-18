@@ -900,4 +900,9 @@ public interface ITestingEngine {
 	 */
 	public void setIgnoreFailingStatusCodes(boolean ignore);
 	
+    /**
+     * Get all the comments in a document, as a list of strings.
+     */
+    public List<String> getComments();    
+
 }

@@ -30,8 +30,11 @@
     		<action type="fix" dev="jevonwright" issue="2306967" due-to="r_monson">
     			Fixed proxy authentication bug in HtmlUnit implementation.
     		</action>
-    		<action type="fix" dev="jevonwright" issue="1637716">
+    		<action type="add" dev="jevonwright" issue="1637716">
     			Added assertMatch(regexp, text) and assertNotMatch(regexp, text) methods.
+    		</action>
+    		<action type="add" dev="jevonwright" issue="1277374">
+    			Added assertCommentPresent(text) and assertCommentNotPresent(text) methods.
     		</action>
     	</release>
         <release version="2.0" date="October 27, 2008">

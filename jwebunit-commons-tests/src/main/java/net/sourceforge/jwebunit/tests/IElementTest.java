@@ -185,4 +185,19 @@ public class IElementTest extends JWebUnitAPITestCase {
 
     }
     
+    /**
+     * Tests searching for comments.
+     */
+    public void testComments() {
+    	// whitespace is ignored
+    	assertCommentPresent("a comment");
+    	assertCommentPresent("another comment");
+    	assertCommentPresent("  a comment");
+    	assertCommentPresent("   another comment  ");
+    	
+    	// but case is not
+    	assertCommentNotPresent("A Comment");
+    	assertCommentNotPresent("definitely not here");
+    }
+    
 }
