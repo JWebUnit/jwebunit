@@ -756,7 +756,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         }
         if (getTestContext().hasProxyAuthorization()) {
             creds.addProxyCredentials(getTestContext().getProxyUser(),
-                    getTestContext().getPassword(), getTestContext()
+                    getTestContext().getProxyPasswd(), getTestContext()
                             .getProxyHost(), getTestContext().getProxyPort());
         }
         wc.setCredentialsProvider(creds);
