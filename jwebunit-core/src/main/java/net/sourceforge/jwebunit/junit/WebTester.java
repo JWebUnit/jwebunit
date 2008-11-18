@@ -79,7 +79,7 @@ public class WebTester {
      *
      * @return IJWebUnitDialog instance.
      */
-    protected ITestingEngine getTestingEngine() {
+    public ITestingEngine getTestingEngine() {
         if (testingEngine == null) {
             // defaulting to the HtmlUnitDialog implementation.
             testingEngine = initializeDialog();
