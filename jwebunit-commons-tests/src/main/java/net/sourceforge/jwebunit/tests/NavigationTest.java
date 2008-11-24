@@ -131,4 +131,27 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		clickLinkWithText("Map & Directions");
 		assertTitleEquals("targetPage");
 	}
+	
+	/**
+	 * Testing for issue 996031
+	 */
+	public void testLinkExactText() {
+		beginAt("/test1.html");
+		assertTitleEquals("test1");
+		assertLinkPresentWithExactText("one");
+		assertLinkPresentWithExactText("tone");
+		clickLinkWithExactText("one");
+		assertTitleEquals("test2");
+		
+		// the following should fail
+		boolean passed = false;
+		try {
+			clickLinkWithExactText("doesn't exist");
+		} catch (AssertionFailedError e) {
+			// expected
+			passed = true;
+		}
+		assertTrue("non-existant link should throw an error", passed);
+	}
+	
 }
