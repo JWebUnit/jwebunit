@@ -44,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.tidy.Tidy;
 
 import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
@@ -2288,6 +2289,47 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 	 */
 	public void setDefaultBrowserVersion(BrowserVersion defaultBrowserVersion) {
 		this.defaultBrowserVersion = defaultBrowserVersion;
+	}
+	
+	/**
+	 * Provide an input stream for a given String.
+	 *  
+	 * @author jmwright
+	 *
+	 */
+	protected class ThreadedStringInputStream extends InputStream {
+
+		private String data;
+		private int pointer = 0;
+		
+		public ThreadedStringInputStream(String data) {
+			this.data = data;
+		}
+		
+		@Override
+		public int read() throws IOException {
+			if (pointer >= data.length()) {
+				return -1;
+			}
+			char c = data.charAt(pointer);
+			pointer++;
+			return c;
+		}
+		
+	}
+	
+	public boolean isValidHTML() {
+		Tidy t = new Tidy();
+		InputStream in = new ThreadedStringInputStream( this.getPageSource() );
+		java.io.OutputStream out = System.err;
+		t.parse(in, out);
+		
+		return false;		
+	}
+
+	public boolean isValidXHTML() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

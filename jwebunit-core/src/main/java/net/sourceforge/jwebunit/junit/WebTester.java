@@ -2133,6 +2133,10 @@ public class WebTester {
                         + windowCount + " was expected.", getTestingEngine()
                         .getWindowCount() == windowCount);
     }
+    
+    public void assertValidHTML() {
+    	Assert.assertTrue("document contains valid HTML", getTestingEngine().isValidHTML());
+    }
 
     /**
      * Assert that a frame with the given name or ID is present.

@@ -55,6 +55,7 @@ public class JWebUnitTest extends TestCase {
         suite.addTestSuite(IElementTest.class);
         suite.addTestSuite(ResponseServletTest.class);
         suite.addTestSuite(CustomTesterTest.class);
+        suite.addTestSuite(ValidationTest.class);
         suite.addTest(JUnitPerfTest.suite());
         // $JUnit-END$
         return new JettySetup(suite);

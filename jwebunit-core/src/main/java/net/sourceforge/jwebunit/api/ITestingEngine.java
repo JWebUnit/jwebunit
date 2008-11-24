@@ -903,6 +903,16 @@ public interface ITestingEngine {
     /**
      * Get all the comments in a document, as a list of strings.
      */
-    public List<String> getComments();    
+    public List<String> getComments();
+    
+    /**
+     * Is the current document valid HTML?
+     */
+    public boolean isValidHTML();
+    
+    /**
+     * Is the current document valid XHTML?
+     */
+    public boolean isValidXHTML();
 
 }

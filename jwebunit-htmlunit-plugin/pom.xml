@@ -60,6 +60,10 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>jtidy</groupId>
+            <artifactId>jtidy</artifactId>
+        </dependency>
     </dependencies>
     <properties>
         <topDirectoryLocation>..</topDirectoryLocation>

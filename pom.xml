@@ -314,6 +314,11 @@
 				<version>1.5.0</version>
 				<scope>optional</scope>
 			</dependency>
+			<dependency>
+				<groupId>jtidy</groupId>
+				<artifactId>jtidy</artifactId>
+				<version>4aug2000r7-dev</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<reporting>
