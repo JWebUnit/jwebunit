@@ -725,4 +725,9 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 		throw new UnsupportedOperationException("hasDomComment");
 	}
 
+	public List<String> getComments() {
+		// TODO implement method
+		throw new UnsupportedOperationException("getComments");
+	}
+
 }
