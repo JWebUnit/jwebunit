@@ -30,6 +30,7 @@ public class HelloWorldTest extends JWebUnitAPITestCase {
 
 	public void testTitle() {
 		assertTitleEquals("Hello, World!");
+		assertTitleNotSame("Goodbye, World!");
 	}
 
 }

@@ -318,14 +318,7 @@ public class WebTester {
      * @param regexp Pattern to compare against
      */
     public void assertHeaderMatches(String name, String regexp) {
-        RE re = null;
-        try {
-            re = new RE(regexp, RE.MATCH_SINGLELINE);
-        } catch (RESyntaxException e) {
-            Assert.fail(e.toString());
-        }
-        Assert.assertTrue("Unable to match [" + regexp + "] in header [" + name + "]", 
-        		re.match( getTestingEngine().getHeader(name) ));
+    	assertMatch("Unable to match [" + regexp + "] in header [" + name + "]", regexp, getTestingEngine().getHeader(name));    	
     }
     
     /**
@@ -357,6 +350,17 @@ public class WebTester {
     public void assertTitleEquals(String title) {
         Assert.assertEquals(title, getTestingEngine().getPageTitle());
     }
+    
+    /**
+     * Assert title of current html page in conversation is not
+     * equal to another value.
+     *
+     * @param title
+     *            unexpected title value
+     */
+    public void assertTitleNotSame(String title) {
+    	Assert.assertNotSame(title, getTestingEngine().getPageTitle());
+    }
 
     /**
      * Assert title of current html page in conversation matches an expected regexp.
@@ -364,14 +368,7 @@ public class WebTester {
      * @param regexp expected title regexp
      */
     public void assertTitleMatch(String regexp) {
-        RE re = null;
-        try {
-            re = new RE(regexp, RE.MATCH_SINGLELINE);
-        } catch (RESyntaxException e) {
-            Assert.fail(e.toString());
-        }
-        Assert.assertTrue("Unable to match [" + regexp + "] in title", re
-                .match(getTestingEngine().getPageTitle()));
+    	assertMatch("Unable to match [" + regexp + "] in title", regexp, getTestingEngine().getPageTitle());
     }
 
     /**
@@ -421,7 +418,7 @@ public class WebTester {
      * @param text
      */
     public void assertTextPresent(String text) {
-        if (!(getTestingEngine().getPageText().indexOf(text) >= 0))
+        if (!(getTestingEngine().getPageText().contains(text)))
             Assert.fail("Expected text not found in current page: [" + text
                     + "]\n Page content was: ["
                     + getTestingEngine().getPageText() + "]");
@@ -509,7 +506,7 @@ public class WebTester {
      * @param text
      */
     public void assertTextNotPresent(String text) {
-        if (getTestingEngine().getPageText().indexOf(text) >= 0)
+        if (getTestingEngine().getPageText().contains(text))
             Assert.fail("Text found in response when not expected: [" + text
                     + "]");
     }
@@ -520,10 +517,8 @@ public class WebTester {
      * @param regexp
      */
     public void assertNoMatch(String regexp) {
-        RE re = getRE(regexp);
-        if (re.match(getTestingEngine().getPageText()))
-            Assert.fail("Regexp matched in response when not expected: ["
-                    + regexp + "]");
+    	assertNotMatch("Regexp matched in response when not expected: [" + regexp + "]", 
+   			getTestingEngine().getPageText());
     }
 
     /**
