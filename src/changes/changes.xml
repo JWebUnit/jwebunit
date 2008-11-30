@@ -335,11 +335,7 @@
                 support for multiple checkboxes with different values
             </action>
             <action type="add" dev="Martijn Dashorst">
-                Moved the build system from
-                <a href="http://ant.apache.org">Ant</a>
-                to
-                <a href="http://maven.apache.org">Maven</a>
-                .
+                Moved the build system from Ant to Maven.
             </action>
             <action type="update" dev="Martijn Dashorst">
                 Upgraded all dependencies (httpunit, rhino, nekohtml,
