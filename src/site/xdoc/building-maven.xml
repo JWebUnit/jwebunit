@@ -77,7 +77,34 @@
                 </p>
                 <p>
                     You now have successfully built JWebUnit. The files
-                    are in your private repository.
+                    are in your private repository. To remove all traces of
+                    generated files, allowing your repository to install from
+                    scratch, use:
+                    <source>mvn clean</source>
+                </p>
+            </subsection>
+            <subsection name="Testing JWebUnit">
+                <p>
+                	JWebUnit is supported with a suite of test cases, which
+                	ensure that the testing framework works as expected.
+                	These tests are run through Maven by running:
+                    <source>mvn test</source>
+                </p>
+            </subsection>
+            <subsection name="Using Eclipse">
+                <p>
+                	If you are using the <a href="http://www.eclipse.org">Eclipse IDE</a>
+                	to develop the JWebUnit plugin,
+                	you can use Maven to create the classpath and .project files
+                	of each module:
+                	<source>mvn eclipse:eclipse</source>
+                	(This command will also download the attached source files of the
+                	dependencies.)
+                </p>
+                <p>
+                	You can then import these modules into your Eclipse workspace once
+                	you configure the path to your Maven repository:
+                	<source>M2_REPO=your_home/.m2/repository</source>
                 </p>
             </subsection>
             <subsection name="Building Sourceforge upload bundle">
@@ -99,6 +126,13 @@
                 If you want to test the final assembled site, just hit:</p>
                 <source>mvn site:stage -DstagingDirectory=C:\fullsite</source>
                 <p>You can of course customize the destination folder of the assembled site.</p>
+                
+                <p>If it is taking a long time to build the dependencies report of each plugin,
+                you can disable it by adding the following parameter (<a href="http://www.nabble.com/Skipping-dependency-report-during-Maven2-site-generation-td20116761.html">reference</a>):
+                	<source>-Ddependency.locations.enabled=false</source>
+                This will disable the generation of dependency locations in the report and may
+                reduce site generation time significantly.
+                </p>
             </subsection>
         </section>
     </body>

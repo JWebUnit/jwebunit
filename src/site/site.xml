@@ -59,16 +59,18 @@
         <menu name="Developper documentation">
             <item name="Building JWebUnit with Maven 2"
                 href="/building-maven.html" collapse="true">
-                <item name="Installing Maven" href="#Installing Maven" />
-                <item name="Using Maven" href="#Using Maven" />
-                <item name="Installing not released or snapshot plugins"
-                    href="#Installing not released or snapshot plugins" />
-                <item name="Building JWebUnit"
-                    href="#Building JWebUnit" />
-                <item name="Building Sourceforge upload bundle"
-                    href="#Building Sourceforge upload bundle" />
-                <item name="Building JWebUnit Web site and reports"
-                    href="#Building JWebUnit Web site and reports" />
+                <item name="Installing" href="#Installing_Maven" />
+                <item name="Using" href="#Using_Maven" />
+                <item name="Building"
+                    href="#Building_JWebUnit" />
+                <item name="Testing"
+                    href="#Testing_JWebUnit" />
+                <item name="Using Eclipse"
+                    href="#Using_Eclipse" />
+                <item name="Sourceforge upload bundle"
+                    href="#Building_Sourceforge_upload_bundle" />
+                <item name="JWebUnit Web site and reports"
+                    href="#Building_JWebUnit_Web_site_and_reports" />
 
             </item>
             <item name="How-To contribute"
