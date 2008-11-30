@@ -34,6 +34,14 @@ public class ResponseServlet extends HttpServlet {
     		response.setContentType( request.getParameter("content-type") );
     	}
     	
+    	// wait for a timeout?
+    	if (request.getParameter("timeout") != null && request.getParameter("timeout").length() > 0) {
+    		int seconds = Integer.parseInt(request.getParameter("timeout"));
+    		long start = System.nanoTime();
+    		while (System.nanoTime() < start + (seconds * 1000 * 1000))
+    			;	// wait
+    	}
+    	
     	// lets set some headers
     	response.setHeader("Test", "test2");
     	response.setHeader("Header-Added", new java.util.Date().toString());

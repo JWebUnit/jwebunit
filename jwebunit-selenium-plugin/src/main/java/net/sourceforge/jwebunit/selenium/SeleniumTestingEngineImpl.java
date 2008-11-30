@@ -730,4 +730,9 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 		throw new UnsupportedOperationException("getComments");
 	}
 
+	public void setTimeout(int seconds) {
+		// TODO implement method
+		throw new UnsupportedOperationException("setTimeout");
+	}
+
 }

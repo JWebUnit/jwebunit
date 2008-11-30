@@ -152,6 +152,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     private boolean ignoreFailingStatusCodes = false;
     
+    /**
+     * Do we provide a timeout limit (in seconds)? Default 0 = unlimited timeout.
+     */
+    private int timeout = 0;
+    
     // Implementation of IJWebUnitDialog
 
     /**
@@ -739,6 +744,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         wc.setThrowExceptionOnScriptError(true);
         wc.setRedirectEnabled(true);
         wc.setRefreshHandler(new ImmediateRefreshHandler());
+        wc.setTimeout(timeout);
         DefaultCredentialsProvider creds = new DefaultCredentialsProvider();
         if (getTestContext().hasAuthorization()) {
             creds.addCredentials(getTestContext().getUser(), getTestContext()
@@ -2288,6 +2294,13 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 	 */
 	public void setDefaultBrowserVersion(BrowserVersion defaultBrowserVersion) {
 		this.defaultBrowserVersion = defaultBrowserVersion;
+	}
+
+	public void setTimeout(int seconds) {
+		if (wc != null && wc.getWebConnection() != null) {
+			throw new IllegalArgumentException("Cannot set the timeout when the WebConnection has already been created.");
+		}
+		timeout = seconds;
 	}
 
 }

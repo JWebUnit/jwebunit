@@ -4,6 +4,8 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
+import java.net.SocketTimeoutException;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
@@ -22,6 +24,7 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
+        setTimeout(2);			// specify a global timeout of 2 (must be set before the WebConnection is initialised)
         setIgnoreFailingStatusCodes(true);	// ignore failing status codes
         getTestContext().setBaseUrl(HOST_PATH + "/ResponseServletTest");
     }
@@ -72,6 +75,22 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
         setTextField("status", "501");
         submit();
         assertResponseCode(501);
+    }
+    
+    /**
+     * Issue 1674646: add support for specifying the timeout of pages
+     */
+    public void testTimeout() {
+        beginAt("/SimpleForm.html");
+        assertTitleEquals("response form");
+        setTextField("timeout", "10");		// server wait for 4 seconds
+        try {
+        	submit();
+        } catch (RuntimeException e) {
+        	assertTrue("timeout caused by SocketTimeoutException, but was " + e.getCause().getClass(), e.getCause() instanceof SocketTimeoutException);
+        }
+        assertTextNotPresent("hello, world!");	// this will only display if the timeout is completed
+    	
     }
 
 }

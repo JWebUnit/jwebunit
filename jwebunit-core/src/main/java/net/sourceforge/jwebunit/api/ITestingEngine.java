@@ -903,6 +903,15 @@ public interface ITestingEngine {
     /**
      * Get all the comments in a document, as a list of strings.
      */
-    public List<String> getComments();    
-
+    public List<String> getComments();
+    
+    /**
+     * Set the timeout for the request. A timeout of 0 means
+     * an infinite timeout.
+     * 
+     * @param seconds the seconds in which to timeout, or 0 for infinite
+     * wait (the default).
+     */
+    public void setTimeout(int seconds);
+    
 }
