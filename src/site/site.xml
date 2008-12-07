@@ -27,14 +27,14 @@
                 href="http://htmlunit.sourceforge.net" />
             <item name="Selenium" href="http://openqa.org/selenium-rc/" />
         </links>
-        <menu name="JWebUnit">
-            <item name="Home" href="/index.html" />
+        <menu name="JWebUnit" inherit="top">
+            <item name="Home" href="index.html" />
         </menu>
-        <menu name="User documentation">
-            <item name="Installation" href="/installation.html"
+        <menu name="User documentation" inherit="top">
+            <item name="Installation" href="installation.html"
                 collapse="true">
             </item>
-            <item name="Quick start" href="/quickstart.html"
+            <item name="Quick start" href="quickstart.html"
                 collapse="true">
                 <item name="Creating a TestCase"
                     href="#Creating a TestCase" />
@@ -53,12 +53,12 @@
                 <item name="Using Property Files"
                     href="#Using Property Files to Validate Content" />
             </item>
-            <item name="Articles" href="/articles.html" />
-            <item name="FAQ" href="/faq.html" />
+            <item name="Articles" href="articles.html" />
+            <item name="FAQ" href="faq.html" />
         </menu>
-        <menu name="Developper documentation">
+        <menu name="Developper documentation" inherit="top">
             <item name="Building JWebUnit with Maven 2"
-                href="/building-maven.html" collapse="true">
+                href="building-maven.html" collapse="true">
                 <item name="Installing" href="#Installing_Maven" />
                 <item name="Using" href="#Using_Maven" />
                 <item name="Building"
@@ -74,16 +74,16 @@
 
             </item>
             <item name="How-To contribute"
-                href="/how-to-contribute.html" collapse="true">
+                href="how-to-contribute.html" collapse="true">
             </item>
         </menu>
-        <menu name="Sourceforge">
+        <menu name="Sourceforge" inherit="top">
             <item name="Project page"
                 href="http://sourceforge.net/projects/jwebunit" />
             <item name="Download"
                 href="http://sourceforge.net/projects/jwebunit/files" />
         </menu>
-        <menu ref="modules" />
+        <menu ref="modules"  inherit="top"/>
         <menu ref="reports" />
     </body>
 </project>
