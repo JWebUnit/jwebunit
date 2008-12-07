@@ -24,7 +24,6 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        setTimeout(2);			// specify a global timeout of 2 (must be set before the WebConnection is initialised)
         setIgnoreFailingStatusCodes(true);	// ignore failing status codes
         getTestContext().setBaseUrl(HOST_PATH + "/ResponseServletTest");
     }
@@ -81,16 +80,30 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
      * Issue 1674646: add support for specifying the timeout of pages
      */
     public void testTimeout() {
+        //Test that timeout was fired
+    	
+    	setTimeout(500);			// specify a global timeout of 0.5 seconds (must be set before the WebConnection is initialised)
         beginAt("/SimpleForm.html");
         assertTitleEquals("response form");
-        setTextField("timeout", "10");		// server wait for 4 seconds
+        setTextField("timeout", "1");		// server wait for 1 seconds
+        boolean ok = false;
         try {
         	submit();
         } catch (RuntimeException e) {
         	assertTrue("timeout caused by SocketTimeoutException, but was " + e.getCause().getClass(), e.getCause() instanceof SocketTimeoutException);
+        	ok = true;
         }
-        assertTextNotPresent("hello, world!");	// this will only display if the timeout is completed
-    	
+        assertTrue("Timeout wasn't fired", ok);
+        closeBrowser();
+        
+        //Test that timeout wasn't fired 
+        
+        setTimeout(2000);			// specify a global timeout of 2 seconds (must be set before the WebConnection is initialised)
+        beginAt("/SimpleForm.html");
+        assertTitleEquals("response form");
+        setTextField("timeout", "1");		// server wait for 1 seconds
+        submit();
+        assertTextPresent("hello, world!");
     }
 
 }

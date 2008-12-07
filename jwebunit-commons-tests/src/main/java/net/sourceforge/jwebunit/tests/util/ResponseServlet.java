@@ -37,8 +37,8 @@ public class ResponseServlet extends HttpServlet {
     	// wait for a timeout?
     	if (request.getParameter("timeout") != null && request.getParameter("timeout").length() > 0) {
     		int seconds = Integer.parseInt(request.getParameter("timeout"));
-    		long start = System.nanoTime();
-    		while (System.nanoTime() < start + (seconds * 1000 * 1000))
+    		long start = System.currentTimeMillis();
+    		while (System.currentTimeMillis() < start + (seconds * 1000))
     			;	// wait
     	}
     	

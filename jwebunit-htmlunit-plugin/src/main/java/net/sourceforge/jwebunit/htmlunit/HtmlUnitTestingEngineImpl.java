@@ -2296,11 +2296,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 		this.defaultBrowserVersion = defaultBrowserVersion;
 	}
 
-	public void setTimeout(int seconds) {
+	public void setTimeout(int milliseconds) {
 		if (wc != null && wc.getWebConnection() != null) {
 			throw new IllegalArgumentException("Cannot set the timeout when the WebConnection has already been created.");
 		}
-		timeout = seconds;
+		timeout = milliseconds;
 	}
 
 }
