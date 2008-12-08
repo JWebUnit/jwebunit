@@ -48,7 +48,6 @@
 		<source>
 public class ExampleWebTestCase extends WebTestCase {
 	public ExampleWebTestCase(String name) {
-		super(name);
 		getTestContext().setBaseUrl("http://localhost:8080/test");
 	}
 

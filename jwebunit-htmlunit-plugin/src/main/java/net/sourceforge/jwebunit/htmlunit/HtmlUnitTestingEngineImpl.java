@@ -181,6 +181,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             ExpectedJavascriptConfirmException,
             ExpectedJavascriptPromptException {
         wc = null;
+        form = null;		// reset current form
         if (this.expectedJavascriptAlerts.size() > 0) {
             throw new ExpectedJavascriptAlertException(
                     ((JavascriptAlert) (expectedJavascriptAlerts.get(0)))

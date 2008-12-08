@@ -3342,11 +3342,11 @@ public class WebTester {
      * Set the timeout for the request. A timeout of 0 means
      * an infinite timeout.
      * 
-     * @param seconds the seconds in which to timeout, or 0 for infinite
+     * @param milli the milliseconds in which to timeout, or 0 for infinite
      * wait (the default).
      */
-    public void setTimeout(int seconds) {
-    	getTestingEngine().setTimeout(seconds);
+    public void setTimeout(int milli) {
+    	getTestingEngine().setTimeout(milli);
     }
 
     private Image validateImage(String imageSrc, String imageAlt, File out) {

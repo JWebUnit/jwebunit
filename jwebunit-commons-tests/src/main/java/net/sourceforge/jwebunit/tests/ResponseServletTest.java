@@ -80,24 +80,23 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
      * Issue 1674646: add support for specifying the timeout of pages
      */
     public void testTimeout() {
-        //Test that timeout was fired
     	
+        // test that timeout was fired
     	setTimeout(500);			// specify a global timeout of 0.5 seconds (must be set before the WebConnection is initialised)
         beginAt("/SimpleForm.html");
         assertTitleEquals("response form");
         setTextField("timeout", "1");		// server wait for 1 seconds
-        boolean ok = false;
         try {
         	submit();
+        	fail("timeout was not called");	// we should not get here
         } catch (RuntimeException e) {
         	assertTrue("timeout caused by SocketTimeoutException, but was " + e.getCause().getClass(), e.getCause() instanceof SocketTimeoutException);
-        	ok = true;
         }
-        assertTrue("Timeout wasn't fired", ok);
+        
+        // close and reset the browser
         closeBrowser();
         
-        //Test that timeout wasn't fired 
-        
+        // test that timeout wasn't fired 
         setTimeout(2000);			// specify a global timeout of 2 seconds (must be set before the WebConnection is initialised)
         beginAt("/SimpleForm.html");
         assertTitleEquals("response form");
