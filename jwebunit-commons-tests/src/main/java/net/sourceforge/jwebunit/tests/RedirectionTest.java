@@ -22,7 +22,7 @@ public class RedirectionTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/RedirectionTest");
+        setBaseUrl(HOST_PATH + "/RedirectionTest");
     }
 
     public void testRedirection() {

@@ -24,7 +24,7 @@ public class HelloWorldTest extends JWebUnitAPITestCase {
 
 	public void setUp() throws Exception {
 		super.setUp();
-		getTestContext().setBaseUrl(HOST_PATH);
+		setBaseUrl(HOST_PATH);
 		beginAt("/helloworld.html");
 	}
 

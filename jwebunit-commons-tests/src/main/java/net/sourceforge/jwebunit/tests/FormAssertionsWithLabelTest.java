@@ -17,7 +17,7 @@ public class FormAssertionsWithLabelTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/FormAssertionsTest");
+        setBaseUrl(HOST_PATH + "/FormAssertionsTest");
     }
 
     public void testAssertFormParameterPresentWithLabel() throws Throwable {

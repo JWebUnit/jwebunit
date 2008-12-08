@@ -21,7 +21,7 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
     
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/JavaScriptTest");
+        setBaseUrl(HOST_PATH + "/JavaScriptTest");
     }
     
     public void testDocumentWrite() {

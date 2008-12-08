@@ -13,7 +13,7 @@ public class SelectOptionsTest extends JWebUnitAPITestCase
     public void setUp() throws Exception 
     {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/SelectOptionsTest");
+        setBaseUrl(HOST_PATH + "/SelectOptionsTest");
     }
 
     public void testAssertSelectOptionsOneForm() 

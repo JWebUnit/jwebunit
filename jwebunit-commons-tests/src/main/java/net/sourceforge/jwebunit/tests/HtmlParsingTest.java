@@ -20,7 +20,7 @@ public class HtmlParsingTest extends JWebUnitAPITestCase {
     
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/HtmlTest/");
+        setBaseUrl(HOST_PATH + "/HtmlTest/");
     }
     
     public void testSimpleForm() {

@@ -23,7 +23,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
     
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/FramesAndWindowsTest");
+        setBaseUrl(HOST_PATH + "/FramesAndWindowsTest");
     }
     
     /**

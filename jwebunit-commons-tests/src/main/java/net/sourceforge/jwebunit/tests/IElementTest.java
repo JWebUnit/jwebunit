@@ -27,7 +27,7 @@ public class IElementTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/IElementTest");
+        setBaseUrl(HOST_PATH + "/IElementTest");
         beginAt("/template.html");
     }
     

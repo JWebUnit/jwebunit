@@ -26,7 +26,7 @@ public class NavigationTest extends JWebUnitAPITestCase {
 
 	public void setUp() throws Exception {
 		super.setUp();
-		getTestContext().setBaseUrl(HOST_PATH + "/NavigationTest");
+		setBaseUrl(HOST_PATH + "/NavigationTest");
 	}
 
 	public void testBeginAtRelative() {

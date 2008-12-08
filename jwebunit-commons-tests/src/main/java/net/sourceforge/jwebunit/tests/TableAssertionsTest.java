@@ -17,7 +17,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 
 	public void setUp() throws Exception {
 		super.setUp();
-		getTestContext().setBaseUrl(HOST_PATH + "/TableAssertionsTest");
+		setBaseUrl(HOST_PATH + "/TableAssertionsTest");
 		beginAt("/TableAssertionsTestPage.html");
 	}
 

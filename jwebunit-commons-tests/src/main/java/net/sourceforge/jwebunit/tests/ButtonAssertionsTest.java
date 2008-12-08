@@ -8,7 +8,7 @@ public class ButtonAssertionsTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/ButtonAssertionsTest");
+        setBaseUrl(HOST_PATH + "/ButtonAssertionsTest");
     }
 
     public void testAssertButtonwithOneFormfound() {

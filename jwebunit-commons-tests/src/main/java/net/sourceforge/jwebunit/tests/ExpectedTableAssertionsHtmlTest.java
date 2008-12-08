@@ -22,7 +22,7 @@ public class ExpectedTableAssertionsHtmlTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/ExpectedTableAssertionsTest");
+        setBaseUrl(HOST_PATH + "/ExpectedTableAssertionsTest");
         beginAt("/TableAssertionsTestPageHtml.html");
     }
 

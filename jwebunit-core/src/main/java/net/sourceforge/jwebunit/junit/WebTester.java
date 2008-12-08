@@ -73,6 +73,24 @@ public class WebTester {
     public ITestingEngine getDialog() {
         return getTestingEngine();
     }
+    
+    /**
+     * Set the base url for the test context.
+     * 
+     * @param url Base url value - A trailing "/" is appended if not provided.
+     */
+    public void setBaseUrl(String url) {
+    	getTestContext().setBaseUrl(url);
+    }
+    
+    /**
+     * Set the base url for the test context.
+     * 
+     * @param url Base url value - A trailing "/" is appended if not provided.
+     */
+    public void setBaseUrl(URL url) {
+    	getTestContext().setBaseUrl(url);
+    }
 
     /**
      * Protected version of deprecated getDialog(). Not deprecated for internal use.

@@ -30,7 +30,7 @@ public class ResourceBundleAssertionsTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/ResourceBundleAssertionsTest");
+        setBaseUrl(HOST_PATH + "/ResourceBundleAssertionsTest");
         getTestContext().setResourceBundleName(resourceBundleName);
         beginAt("/testPage.html");
     }

@@ -31,7 +31,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/FormSubmissionTest");
+        setBaseUrl(HOST_PATH + "/FormSubmissionTest");
     }
 
     public void testSetTextField() {

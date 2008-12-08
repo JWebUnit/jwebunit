@@ -26,7 +26,7 @@ public class ImageTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/ImageTest");
+        setBaseUrl(HOST_PATH + "/ImageTest");
         beginAt("/PageWithImages.html");
     }
 

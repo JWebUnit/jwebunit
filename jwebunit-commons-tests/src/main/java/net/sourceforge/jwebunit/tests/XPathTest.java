@@ -21,7 +21,7 @@ public class XPathTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/XPathTest");
+        setBaseUrl(HOST_PATH + "/XPathTest");
     }
 
     public void testAssertElementPresentByXPath() throws Throwable {

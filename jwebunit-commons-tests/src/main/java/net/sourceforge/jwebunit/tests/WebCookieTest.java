@@ -23,7 +23,7 @@ public class WebCookieTest extends JWebUnitAPITestCase {
     public void setUp() throws Exception {
         super.setUp();
 		getTestContext().addCookie("cookie1", "Cookievalue1", "localhost");
-		getTestContext().setBaseUrl(HOST_PATH);
+		setBaseUrl(HOST_PATH);
     }
     
     public void testAddCookie() {

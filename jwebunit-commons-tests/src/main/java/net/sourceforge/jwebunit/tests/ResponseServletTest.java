@@ -25,7 +25,7 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
     public void setUp() throws Exception {
         super.setUp();
         setIgnoreFailingStatusCodes(true);	// ignore failing status codes
-        getTestContext().setBaseUrl(HOST_PATH + "/ResponseServletTest");
+        setBaseUrl(HOST_PATH + "/ResponseServletTest");
     }
 
     /*

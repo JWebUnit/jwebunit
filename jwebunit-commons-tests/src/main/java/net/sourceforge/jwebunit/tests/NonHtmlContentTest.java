@@ -24,7 +24,7 @@ public class NonHtmlContentTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/NonHtmlContentTest");
+        setBaseUrl(HOST_PATH + "/NonHtmlContentTest");
     }
 
     public void testTextContent() {

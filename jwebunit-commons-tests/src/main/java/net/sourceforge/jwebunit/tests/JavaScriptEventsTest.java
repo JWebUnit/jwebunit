@@ -23,7 +23,7 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
     
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/JavaScriptEventsTest");
+        setBaseUrl(HOST_PATH + "/JavaScriptEventsTest");
     }
     
     public void testFormOnSubmit() {
