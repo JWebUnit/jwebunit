@@ -39,6 +39,9 @@
     		<action type="add" dev="jevonwright" issue="1674646">
     			Added setTimeout() method.
     		</action>
+    		<action type="fix" dev="jevonwright" issue="2404789">
+    			Cleaned up the quickstart documentation.
+    		</action>
     	</release>
         <release version="2.0" date="October 27, 2008">
             <action type="update" dev="henryju">

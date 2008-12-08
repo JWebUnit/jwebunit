@@ -38,9 +38,11 @@
                 collapse="true">
                 <item name="Creating a TestCase"
                     href="#Creating a TestCase" />
+                <item name="Selecting a plugin"
+                	href="#Selecting the plugin you want to use" />
                 <item name="Site Navigation"
                     href="#Navigating Your Web Application" />
-                <item name="Validating Forms"
+                <item name="Working With Forms"
                     href="#Working With Forms" />
                 <item name="Frames and Windows"
                     href="#Working With Frames and Windows" />

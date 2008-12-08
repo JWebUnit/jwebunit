@@ -7,41 +7,35 @@
 <body class="default">
 <section name="JWebUnit Quickstart">
 <p>
-    The QuickStart contains sample code and guidance to get you started with JWebUnit.  To see all
-    of the methods available, consult the a <a href="apidocs/index.html">Javadocs</a> - particularly
+    This quickstart contains sample code and guidance to get you started with JWebUnit.  To see all
+    of the methods available, consult the <a href="apidocs/index.html">Javadocs</a> - particularly
     the WebTestCase class for full documentation.
 </p>
 <subsection name="Creating a TestCase">
 <p>
-    JWebUnit uses two approaches for creating test cases: inheritance and delegation. The simplest is
-    to inherit from WebTestCase rather than junit.framework.TestCase.
-<source>
-import net.sourceforge.jwebunit.junit.WebTestCase;
+	JWebUnit follows the JUnit principle for creating test cases through inheritance. Simply
+	inherit from WebTestCase and you can start writing test cases right away.
 
+		<source>
 public class ExampleWebTestCase extends WebTestCase {
-    public ExampleWebTestCase(String name) {
-        super(name);
-    }
-}
-</source>
-    An alternative is to include an instance of the WebTester class in your TestCase and delegate navigation
-    and assertions to it.  This is provided in case you need or prefer delegation.
-<source>
-import junit.framework.TestCase;
-import net.sourceforge.jwebunit.junit.WebTester;
+	public ExampleWebTestCase(String name) {
+		setBaseUrl("http://localhost:8080/test");
+	}
 
-public class ExampleWebTestCase extends TestCase {
-    private WebTester tester;
-
-    public ExampleWebTestCase(String name) {
-        super(name);
-        tester = new WebTester();
-    }
+	public void test1() {
+		beginAt("/home");
+		clickLink("login");
+		assertTitleEquals("Login");
+		setTextField("username", "test");
+		setTextField("password", "test123");
+		submit();
+		assertTitleEquals("Welcome, test!");
+	}
 }
-</source>
-For the rest of the examples, we will use inheritance.
+		</source>
 </p>
 </subsection>
+
 <subsection name="Selecting the plugin you want to use">
 <p>
     JWebUnit can use different plugins to execute the tests you write. Only one line makes the difference:
@@ -51,8 +45,8 @@ import net.sourceforge.jwebunit.util.TestingEngineRegistry;
 
 public class ExampleWebTestCase extends WebTestCase {
     public ExampleWebTestCase(String name) {
-        super(name);
-        setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);
+        setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);    <i>// use HtmlUnit</i>
+        setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_SELENIUM);    <i>// use Selenium</i>
     }
 }
 </source>
@@ -60,85 +54,83 @@ public class ExampleWebTestCase extends WebTestCase {
 	to use it, JWebUnit will find and use it.
 </p>
 </subsection>
+
 <subsection name="Navigating Your Web Application">
 <p>
-    Navigation is a two step process.  First, point the TestCase to your application, then access a 
-    particular resource. Let's say that your app is running on <tt>http://myserver:8080/myapp</tt>. 
-    To minimize the number of the times we must set this, we set this either in the constructor or 
-    in the setUp() method of the TestCase.
-<source>
-    public ExampleWebTestCase(String name) {
-        super(name);
-        getTestContext().setBaseUrl("http://myserver:8080/myapp");
-    }
-</source>
-or
+	The primary way that JWebUnit allows you to test your web application is through navigation
+	of the application itself. You can consider each test case as a use case through the 
+	application itself. The first step is to point where the testable application is hosted
+	so that it may be accessed by JWebUnit. 
+
 <source>
     public void setUp() throws Exception {
-    	setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);
-        getTestContext().setBaseUrl("http://myserver:8080/myapp");
+        setBaseUrl("http://myserver:8080/myapp");
     }
 </source>
-    The TestContext encapsulates the configuration of a TestCase. More information is available in 
-    the <a href="apidocs/index.html">Javadocs</a>.
 </p>
+
 <p>
-    Now that the TestCase is pointed at your application, you can navigate to a particular resource. 
-    For example, if you have a html page, info.html, located under your application root, then you 
-    can access it in a test method with the following code:
-<source>
-    public void testInfoPage() {
-        beginAt("/info.html");
-    }
-</source>
-    You can also navigate through links either by text contained in the link or by the link's
-    id:
+	Note that you should not be pointing to the production version of your web application, but
+	rather a sandboxed development or testing server!
 </p>
+
 <p>
-    <![CDATA[<a id="addLink" href="/addPage">Add Widget</a>]]><br />
-    <![CDATA[<a id="editlink" href="/editPage">Edit Widget</a>]]><br />
+    Now that the TestCase is pointed at your application, you can navigate to a particular resource
+    to ensure that it exists, and contains the content you expect. For example,
+    if your application starts at <b>index.html</b> and contains a link to your login page
+    under "Login", you may test these assertions through the following code:
+
 <source>
-    public void testMainPageLinks() {
-        beginAt("/mainPage");
-        assertLinkPresent("addLink");
-        clickLink("addLink");
-        assertTitleEquals("Widget Add Page");
-        beginAt("/mainPage");
-        assertLinkPresentWithText("Edit Widget");
-        clickLinkWithText("Edit Widget");
-        assertTitleEquals("Widget Edit Page");
+    public void testIndexLogin() {
+        beginAt("/index.html");        <i>// start at index.html</i>
+        assertTitleEquals("Home");     <i>// the home page should be titled "Home"</i>
+        assertLinkPresent("Login");    <i>// there should be a "Login" link</i>
+        clickLink("Login");            <i>// click the link</i>
+        assertTitleEquals("Login");    <i>// we should now be on the login page</i>
     }
 </source>
+	<b>assertLinkPresent()</b> searches for links by a string ID; <b>assertLinkPresentWithText()</b>
+	searches for links that contain a text string. For more information on the differences
+	between the various testing methods, check out the <a href="apidocs/index.html">Javadocs</a>.
 </p>
 </subsection>
+
 <subsection name="Working With Forms">
 <p>
-    You can navigate to a page with a form, check for the presence and correct default values of form elements,
-    set form element values, and submit the form.
+	Now that we can access the Login page, we can use JWebUnit to fill out the form and assert
+	that it works as expected.
+
 <source>
     public void testFormSubmission() {
-        beginAt("/info.html");
-        assertFormPresent("expectedFormName");
-        assertFormElementPresent("field1");
-        assertFormElementEquals("field2", "field2_defaultValue");
-        setTextField("field1", "value1");
-        setTextField("fieldn", "valuen");
+        beginAt("/login.html");
+        assertTitleEquals("Login");    <i>// we should be on the login page</i>
+        
+        // fill out the form
+        assertLinkNotPresent("Logout");		<i>// we should not be logged in</i>
+        assertFormPresent("login_form");
+        assertFormElementPresent("username");
+        assertFormElementPresent("password");
+        setTextField("username", "test");
+        setTextField("password", "test123");
+        assertFormElementEquals("username", "test");
         submit();
+        
+        // now that we have filled out the form,
+        // we can assert that we can logout
+        assertLinkPresent("Logout");		<i>// we should now be logged in</i>
     }
 </source>
-    You can also check for the presence of submit buttons on the form and submit with a specific button.
-<source>
-    public void testFormSubmission() {
-        beginAt("/info.html");
-        assertFormPresent("expectedFormName");
-        assertSubmitButtonPresent("Add");
-        assertSubmitButtonPresent("Modify");
-        setTextField("field1", "value1");
-        submit("Modify");
-    }
-</source>
-    For pages with more than one form, JWebUnit will establish which form is being worked with implicitly
-    from the form elements checked or set.  You can also set the form explicitly by form id or name:
+</p>
+
+<p>
+	JWebUnit, through HtmlUnit/Selenium, automatically keeps track of cookies and session variables
+	specified by the web application, allowing you to traverse through your site as if you were
+	a normal user.
+</p>
+
+<p>
+    For pages with more than one form, JWebUnit will usually establish which form is being worked with 
+    implicitly from the form elements being accessed.  You can also set the form explicitly by form ID or name:
 <source>
     public void testBottomFormSubmission() {
         beginAt("/twoForm.html");
@@ -150,7 +142,7 @@ or
 <source>
     public void testPopupButton() {
         beginAt("/info.html");
-        assertButtonPresent("popupButtonId"); //clickButton will assert this also.
+        assertButtonPresent("popupButtonId"); <i>// clickButton() will also check this</i>
         clickButton("popupButtonId");
         assertWindowPresent("popupWindow");
     }
@@ -158,7 +150,6 @@ or
 
 </p>
 </subsection>
-
 
 <subsection name="Working With Frames and Windows">
 <p>
@@ -170,8 +161,8 @@ or
     public void testPopupWindow() {
         beginAt("/rootPage.html");
         clickLink("popupLink");
-        assertWindowPresent("popupWindow):  //optional - gotoWindow will
-                                            //perform this assertion.
+        assertWindowPresent("popupWindow):  <i>// optional - gotoWindow will</i>
+                                            <i>// also perform this assertion.</i>
         gotoWindow("popupWindow");
         ...
         gotoRootWindow();  //Use this method to return to root window.
@@ -183,20 +174,19 @@ or
 <source>
     public void testFrame() {
         beginAt("/info.html");
-        assertFramePresent("contentFrame"); //optional as window above.
+        assertFramePresent("contentFrame");
         gotoFrame("contentFrame");
         ...
     }
 </source>
 </subsection>
 
-
 <subsection name="Validating Page Content">
 <p>
     Once you have navigated to the page you wish to test, you can call the assertions provided by JWebUnit to 
     verify it's correctness.
 </p>
-<pre>
+<source>
     public void testCorrectness() {
         beginAt("/mainPage");
         assertTitleEquals("Main Page");
@@ -206,9 +196,8 @@ or
         submit();
         assertTextPresent("Widget successfully added."):
     }
-</pre>
+</source>
 </subsection>
-
 
 <subsection name="Validating Table Content">
 <p>
@@ -230,14 +219,17 @@ or
 <source>
     public void testAgeTable() {
         beginAt("/agePage");
-        <i>//check that table is present</i>
+        <i>// check that table is present</i>
         assertTablePresent("ageTable");
-        <i>//check that a single string is present somewhere in table</i>
+        
+        <i>// check that a single string is present somewhere in table</i>
         assertTextInTable("ageTable", "Jim");
-        <i>//check that a set of strings are present somewhere in table</i>
+        
+        <i>// check that a set of strings are present somewhere in table</i>
         assertTextInTable("ageTable",
                           new String[] {"Jim", "Wilkes"});
-        <i>//check composition of table rows/columns</i>
+                          
+        <i>// check composition of table rows/columns</i>
         assertTableEquals("ageTable",
                           new String[][] {{"Name", "Age"},
                                           {"Jim", "30ish"},
@@ -278,19 +270,22 @@ or
 	Even in the case of free floating text, a span element can be used to surround the text
 	and give it a logical id:
 </p>
-<p><![CDATA[<span id="welcomeMessage">Welcome, Joe User!</span>;]]>
+<p><![CDATA[<span id="welcomeMessage">Welcome, Joe User!</span>]]>
 </p>
-<pre>
+<source>
     public void testWelcomeMessage() {
         beginAt("/mainPage");
-        <i>//check for presence of welcome message by text</i>
+        
+        <i>// check for presence of welcome message by text</i>
         assertTextPresent("Welcome, Joe User!");
-        <i>//check for presence of welcome message by element id</i>
+        
+        <i>// check for presence of welcome message by element id</i>
         assertElementPresent("welcomeMessage");
-        <i>//check for text within an element</i>
+        
+        <i>// check for text within an element</i>
         assertTextInElement("welcomeMessage", "Joe User");
     }
-</pre>
+</source>
 </subsection>
 
 
