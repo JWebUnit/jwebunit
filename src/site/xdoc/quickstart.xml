@@ -13,26 +13,57 @@
 </p>
 <subsection name="Creating a TestCase">
 <p>
-	JWebUnit follows the JUnit principle for creating test cases through inheritance. Simply
-	inherit from WebTestCase and you can start writing test cases right away.
+	JWebUnit uses two approaches for creating test cases: inheritance and delegation. The simplest is
+	to inherit from WebTestCase rather than junit.framework.TestCase.
 
-		<source>
+	<source>
+import net.sourceforge.jwebunit.junit.WebTestCase;
+
 public class ExampleWebTestCase extends WebTestCase {
-	public ExampleWebTestCase(String name) {
-		setBaseUrl("http://localhost:8080/test");
-	}
+	
+    public void setUp() {
+        super.setUp();
+        setBaseUrl("http://localhost:8080/test");
+    }
 
-	public void test1() {
-		beginAt("/home");
-		clickLink("login");
-		assertTitleEquals("Login");
-		setTextField("username", "test");
-		setTextField("password", "test123");
-		submit();
-		assertTitleEquals("Welcome, test!");
-	}
+    public void test1() {
+        beginAt("/home");
+        clickLink("login");
+        assertTitleEquals("Login");
+        setTextField("username", "test");
+        setTextField("password", "test123");
+        submit();
+        assertTitleEquals("Welcome, test!");
+    }
 }
-		</source>
+	</source>
+	An alternative is to include an instance of the WebTester class in your TestCase and delegate navigation
+	and assertions to it.  This is provided in case you need or prefer delegation.
+	
+	<source>
+import junit.framework.TestCase;
+import net.sourceforge.jwebunit.junit.WebTester;
+
+public class ExampleWebTestCase extends TestCase {
+    private WebTester tester;
+
+    public void setUp() {
+        super.setUp();
+        tester = new WebTester();
+    }
+    
+    public void test1() {
+        tester.beginAt("/home");
+        tester.clickLink("login");
+        tester.assertTitleEquals("Login");
+        tester.setTextField("username", "test");
+        tester.setTextField("password", "test123");
+        tester.submit();
+        tester.assertTitleEquals("Welcome, test!");
+    }
+}
+	</source>
+In the following samples, inheritance will be used.
 </p>
 </subsection>
 
@@ -44,7 +75,8 @@ import net.sourceforge.jwebunit.junit.WebTestCase;
 import net.sourceforge.jwebunit.util.TestingEngineRegistry;
 
 public class ExampleWebTestCase extends WebTestCase {
-    public ExampleWebTestCase(String name) {
+    public void setUp() {
+        super.setUp();
         setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);    <i>// use HtmlUnit</i>
         setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_SELENIUM);    <i>// use Selenium</i>
     }
@@ -64,6 +96,7 @@ public class ExampleWebTestCase extends WebTestCase {
 
 <source>
     public void setUp() throws Exception {
+        super.setUp();
         setBaseUrl("http://myserver:8080/myapp");
     }
 </source>
@@ -300,6 +333,7 @@ public class ExampleWebTestCase extends WebTestCase {
 	</p>
 <source>
     public void setUp() throws Exception {
+        super.setUp();
         getTestContext().setbaseUrl("http://myserver:8080/myapp");
         getTestContext().setResourceBundleName("ApplicationResources");
     }

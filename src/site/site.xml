@@ -37,23 +37,23 @@
             <item name="Quick start" href="quickstart.html"
                 collapse="true">
                 <item name="Creating a TestCase"
-                    href="#Creating a TestCase" />
+                    href="#Creating_a_TestCase" />
                 <item name="Selecting a plugin"
-                	href="#Selecting the plugin you want to use" />
+                	href="#Selecting_the_plugin_you_want_to_use" />
                 <item name="Site Navigation"
-                    href="#Navigating Your Web Application" />
+                    href="#Navigating_Your_Web_Application" />
                 <item name="Working With Forms"
-                    href="#Working With Forms" />
+                    href="#Working_With_Forms" />
                 <item name="Frames and Windows"
-                    href="#Working With Frames and Windows" />
+                    href="#Working_With_Frames_and_Windows" />
                 <item name="Validating Page Content"
-                    href="#Validating Page Content" />
+                    href="#Validating_Page_Content" />
                 <item name="Validating Table Content"
-                    href="#Validating Table Content" />
+                    href="#Validating_Table_Content" />
                 <item name="Using Element IDs"
-                    href="#Using Element IDs to Validate Content" />
+                    href="#Using_Element_IDs_to_Validate_Content" />
                 <item name="Using Property Files"
-                    href="#Using Property Files to Validate Content" />
+                    href="#Using_Property_Files_to_Validate_Content" />
             </item>
             <item name="Articles" href="articles.html" />
             <item name="FAQ" href="faq.html" />
