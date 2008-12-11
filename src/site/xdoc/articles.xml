@@ -6,7 +6,7 @@
 	</properties>
 <body class="default">
 <section name="Articles about JWebUnit">
-	<p>Some articles from Johannes Brodwall:
+	<p>
 	
 		<ul>
 			<li><a href="http://www.brodwall.com/johannes/blog/2006/12/10/in-process-web-integration-tests-with-jetty-and-jwebunit/">In-process Web Integration Tests with Jetty and JWebUnit</a></li>
