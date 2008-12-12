@@ -59,7 +59,7 @@
             <item name="FAQ" href="faq.html" />
         </menu>
         <menu name="Developper documentation" inherit="top">
-            <item name="Building JWebUnit with Maven 2"
+            <item name="Building JWebUnit"
                 href="building-maven.html" collapse="true">
                 <item name="Installing" href="#Installing_Maven" />
                 <item name="Using" href="#Using_Maven" />
@@ -77,6 +77,9 @@
             </item>
             <item name="How-To contribute"
                 href="how-to-contribute.html" collapse="true">
+            </item>
+            <item name="How-To release"
+                href="how-to-release.html" collapse="true">
             </item>
         </menu>
         <menu name="Sourceforge" inherit="top">

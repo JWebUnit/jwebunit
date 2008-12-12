@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<document>
+    <properties>
+        <author>Julien Henry</author>
+        <title>How-To Release JWebUnit</title>
+    </properties>
+    <body class="default">
+        <section name="How-To Release JWebUnit with Maven 2">
+            <p>
+                This todo list if a reminder for JWebUnit release manager.
+            </p>
+            <subsection name="Last checks and updates">
+                <p>
+                	<ul>
+                		<li>Ensure you repository is up to date by running: <tt>svn update</tt></li>
+                		<li>Edit <tt>src/changes/changes.xml</tt> to set release date instead of "unknow"</li>
+                		<li>Update readme.txt (at least update the version number)</li>
+                	</ul>
+                </p>
+                <p>
+                    Now check that in your <tt>settings.xml</tt> (usually in <tt>$M2_HOME/conf</tt> or better in <tt>~/.m2</tt> 
+                    your JWebUnit details are correct:
+                    <source><![CDATA[                    
+    <server>
+      <id>jwebunit-website</id>
+      <username>henryju,jwebunit</username>
+      <password>XXXXXXXX</password>
+    </server>
+    
+    <server>
+      <id>jwebunit-m2-repo</id>
+      <username>henryju,jwebunit</username>
+      <password>XXXXXXXXX</password>
+    </server>
+]]></source>
+                    Don't forget to put your own sourceforge account and password.
+                </p>
+                <p>
+                    Last operation is to ensure you are running the correct JDK for building JWebUnit. Currently it is JDK 1.5.
+                    <source>
+$ mvn -v                    
+Maven version: 2.0.9
+<b>Java version: 1.5.0_15</b></source>
+                </p>
+            </subsection>
+            <subsection name="Preparing the release (tag and update pom)">
+                <p>
+                    This process is automatically done by maven-release-plugin.
+                    <source>mvn release:prepare -Dusername=henryju -Dpassword=XXXXXX</source>
+                    Don't forget to put your own sourceforge account and password.<br/>
+                    The plugin will ask for next release version, tag name and next development version. Most of the time defaults are ok.<br/>
+                    <em>NB:</em> Sometimes with SVN 1.5 the tag operation fails with a message like <tt>file XXX already exists</tt>. The solution is
+                    to run <tt>svn update</tt> then run <tt>mvn release:prepare -Dusername=henryju -Dpassword=XXXXXX</tt> again.
+                </p>
+                <p>
+                    Now the tag is done in SVN and the trunk is ready for next developments. It's time to actually do the release.
+                </p>
+            </subsection>
+            <subsection name="Perform the release (deploy artifacts and site)">
+                <p>
+                	First you need to activate a time-limited shell in Sourceforge to allow upload by SCP.
+                	<source>ssh henryju,jwebunit@shell.sourceforge.net create</source>
+                    Now the process is done by maven-release-plugin.
+                    <source>mvn release:perform</source>
+                </p>
+                <p>
+                    This will automatically checkout the tag from SVN in target/checkout folder then run <tt>mvn deploy site-deploy</tt>.
+                    Artifacts will be uploaded in http://jwebunit.sourceforge.net/m2-repo (this repository is synchronized to Maven central repo).
+                    Site will also be uploaded.
+                </p>
+                <p>
+                	Now close your Sourceforge shell:
+                	<source>ssh henryju,jwebunit@shell.sourceforge.net shutdown</source>
+                </p>
+            </subsection>
+            <subsection name="Dealing with non-maven bundle">
+                <p>
+                	We have to provide a bundle for non Maven users.
+                    <source>
+cd target
+cd checkout
+mvn package assembly:assembly
+                    </source>
+                    This will create a release bundle in target/checkout/target/jwebunit-XX-release.zip. Move this zip to another directory then run:
+                    <source>mvn clean</source>
+                    Now remove every .svn folders in target/checkout:
+                    <tt>find . -name .svn -exec rm -rf '{}' \;</tt> (works for Linux, on Windows I use the graphical search feature)
+                    And finally create a zip of the whole target/checkout folder content with name <tt>jwebunit-XX-sources.zip</tt>
+                </p>
+                <p>
+                	Open your browser at <a href="https://frs.sourceforge.net/webupload">http://frs.sourceforge.net/webupload</a>.<br/>
+                	Use your Sourceforge account to log in.<br/>
+                	Upload the two files:
+                	<ul>
+                		<li>jwebunit-XX-release.zip</li>
+                		<li>jwebunit-XX-sources.zip</li>
+                	</ul>
+                	Now open <a href="https://sourceforge.net/projects/jwebunit/">https://sourceforge.net/projects/jwebunit/</a> and in the menu
+                	select Admin -> File Releases.<br/>
+                	Click on the [Add Release] link in front of the JWebUnit package.<br/>
+                	Type the name of the new release: JWebUnit-XX<br/>
+                </p>
+                <p>
+                	<em>Step1:</em>
+                	Paste URL: http://jwebunit.sourceforge.net/changes-report.html in Change Log textarea.<br/>
+                	Submit/Refresh
+                </p>
+                <p>
+                	<em>Step2:</em>
+                	Select the two files:
+                	<ul>
+                		<li>jwebunit-XX-release.zip</li>
+                		<li>jwebunit-XX-sources.zip</li>
+                	</ul>
+                	Add files/Refresh view
+                </p>
+                <p>
+                	<em>Step3:</em>
+                	For each file:
+                	<ul>
+                		<li>Select Processor: Plateform Independant</li>
+                		<li>Select File Type: .zip</li>
+                		<li>Update/Refresh</li>
+                	</ul>
+                </p>
+                <p>
+                	<em>Step4:</em>
+                	Send email notification.
+                </p>
+            </subsection>
+            <subsection name="Communication">
+                <p>
+                	Add a news on the website (Admin -> News). You can copy/paste and adapt the previous one.
+                </p>
+                <p>
+                	Post an email on the user mailing list.
+                </p>
+            </subsection>
+            <subsection name="Go to Bed">
+                <p>
+                    It's getting late! Go to bed!
+                </p>
+            </subsection>
+        </section>
+    </body>
+</document>
