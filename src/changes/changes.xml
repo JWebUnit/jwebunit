@@ -7,7 +7,7 @@
         </author>
     </properties>
     <body>
-    	<release version="2.1" date="Unknown">
+    	<release version="2.1" date="December 12, 2008">
     		<action type="add" dev="jevonwright">
     			Added new IElement element interface, and methods to directly access elements by XPath.
     		</action>
