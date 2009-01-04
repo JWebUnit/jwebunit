@@ -51,7 +51,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setTextField("text", "sometext");
         submit("button");
         assertTextPresent("Submitted parameters");
-        assertTextPresent("Params are: text=sometext");
+        assertTextPresent("Params are:\ntext=sometext");
         clickLink("return");
         setTextField("text", "anothertext");
         submit();
@@ -116,7 +116,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         checkCheckbox("checkBox", "3");
         checkCheckbox("checkBox", "3"); // check for duplicates
         submit();
-        assertTextPresent("checkBox=1,3 ");
+        assertTextPresent("checkBox=1,3\n");
     }
 
     public void testCheckBoxDeSelectionWithSameFieldName() {
@@ -136,7 +136,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setTextField("color", "blue");
         uncheckCheckbox("checkBox");
         submit();
-        assertTextPresent("color=blue ");
+        assertTextPresent("color=blue\n");
     }
     
     public void testRadioSelection() {
@@ -144,7 +144,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
     	clickRadioOption("radio", "1");
     	assertRadioOptionSelected("radio", "1");
     	submit();
-    	assertTextPresent("radio=1 ");
+    	assertTextPresent("radio=1\n");
     	clickLink("return");
     	clickRadioOption("radio", "2");
     	clickRadioOption("radio", "3");
@@ -152,14 +152,14 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
     	assertRadioOptionNotSelected("radio", "2");
     	assertRadioOptionSelected("radio", "3");
     	submit();
-    	assertTextPresent("radio=3 ");
+    	assertTextPresent("radio=3\n");
     }
 
     public void testSingleFormSingleUnnamedButtonSubmission() {
         beginAt("/SingleUnnamedButtonForm.html");
         setTextField("color", "blue");
         submit();
-        assertTextPresent("color=blue ");
+        assertTextPresent("color=blue\n");
     }
 
     public void testSingleNamedButtonSubmission() {
@@ -172,7 +172,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
     public void testSingleFormMultipleButtonSubmission() {
         gotoMultiButtonPage();
         submit("color");
-        assertTextPresent("Params are: color=red");
+        assertTextPresent("Params are:\ncolor=red");
         gotoMultiButtonPage();
         submit("color", "blue");
         assertTextPresent("color=blue");
@@ -252,7 +252,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         beginAt("/MultiFormPage.html");
         setTextField("param2", "anyvalue");
         submit("button2b");
-        assertTextPresent("param2=anyvalue ");
+        assertTextPresent("param2=anyvalue\n");
         assertTextPresent("button2b=b2b");
     }
 
@@ -261,7 +261,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setTextField("param2", "anyvalue");
         reset();
         submit("button2b");
-        assertTextNotPresent("param2=anyvalue ");
+        assertTextNotPresent("param2=anyvalue\n");
         assertTextPresent("button2b=b2b");
     }
 

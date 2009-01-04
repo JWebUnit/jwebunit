@@ -7,42 +7,47 @@
         </author>
     </properties>
     <body>
-    	<release version="2.1" date="December 12, 2008">
-    		<action type="add" dev="jevonwright">
-    			Added new IElement element interface, and methods to directly access elements by XPath.
-    		</action>
-    		<action type="add" dev="jevonwright" issue="1744628">
-    			Added assertHeader*() and assertResponseCode*() methods.
-    		</action>
-    		<action type="add" dev="jevonwright" issue="1728676">
-    			Added WebTestCase(WebTester) constructor.
-    		</action>
-    		<action type="add" dev="jevonwright" issue="1519807">
-    			Added assertLabeledFieldEquals(id, text), assertLabel*(), and setLabeledFormElementField(id, value) methods.
-    		</action>
-    		<action type="update" dev="jevonwright">
-    			BC CHANGE: setFormElement(), assertFormElementEquals() methods will no longer assert that a form already exists in the page (as allowed by the HTML standard).
-    		</action>
-    		<action type="fix" dev="jevonwright" issue="1724695">
-    			navigator.userAgent is no longer null by default.
-    			Test cases now use the Firefox 3.0 user agent as the default, rather than MSIE 4.0.
-    		</action>
-    		<action type="fix" dev="jevonwright" issue="2306967" due-to="r_monson">
-    			Fixed proxy authentication bug in HtmlUnit implementation.
-    		</action>
-    		<action type="add" dev="jevonwright" issue="1637716">
-    			Added assertMatch(regexp, text) and assertNotMatch(regexp, text) methods.
-    		</action>
-    		<action type="add" dev="jevonwright" issue="1277374">
-    			Added assertCommentPresent(text) and assertCommentNotPresent(text) methods.
-    		</action>
-    		<action type="add" dev="jevonwright" issue="1674646">
-    			Added setTimeout() method.
-    		</action>
-    		<action type="fix" dev="jevonwright" issue="2404789">
-    			Cleaned up the quickstart documentation.
-    		</action>
-    	</release>
+        <release version="2.2" date="UNKNOW">
+        <action type="update" dev="henryju">
+            Updated to HtmlUnit 2.4.
+        </action>
+    </release>
+        <release version="2.1" date="December 12, 2008">
+            <action type="add" dev="jevonwright">
+                Added new IElement element interface, and methods to directly access elements by XPath.
+            </action>
+            <action type="add" dev="jevonwright" issue="1744628">
+                Added assertHeader*() and assertResponseCode*() methods.
+            </action>
+            <action type="add" dev="jevonwright" issue="1728676">
+                Added WebTestCase(WebTester) constructor.
+            </action>
+            <action type="add" dev="jevonwright" issue="1519807">
+                Added assertLabeledFieldEquals(id, text), assertLabel*(), and setLabeledFormElementField(id, value) methods.
+            </action>
+            <action type="update" dev="jevonwright">
+                BC CHANGE: setFormElement(), assertFormElementEquals() methods will no longer assert that a form already exists in the page (as allowed by the HTML standard).
+            </action>
+            <action type="fix" dev="jevonwright" issue="1724695">
+                navigator.userAgent is no longer null by default.
+                Test cases now use the Firefox 3.0 user agent as the default, rather than MSIE 4.0.
+            </action>
+            <action type="fix" dev="jevonwright" issue="2306967" due-to="r_monson">
+                Fixed proxy authentication bug in HtmlUnit implementation.
+            </action>
+            <action type="add" dev="jevonwright" issue="1637716">
+                Added assertMatch(regexp, text) and assertNotMatch(regexp, text) methods.
+            </action>
+            <action type="add" dev="jevonwright" issue="1277374">
+                Added assertCommentPresent(text) and assertCommentNotPresent(text) methods.
+            </action>
+            <action type="add" dev="jevonwright" issue="1674646">
+                Added setTimeout() method.
+            </action>
+            <action type="fix" dev="jevonwright" issue="2404789">
+                Cleaned up the quickstart documentation.
+            </action>
+        </release>
         <release version="2.0" date="October 27, 2008">
             <action type="update" dev="henryju">
                 Updated to HtmlUnit 2.3.
@@ -55,7 +60,7 @@
             <action type="update" dev="henryju" issue="1950248" due-to="Agnes Ro">
                 Updated to HtmlUnit 2.1 and Java 1.5.
             </action>
-    	</release>
+        </release>
         <release version="1.5" date="april 22, 2008" description="The latest major release before Java 1.5 migration">
             <action type="fix" dev="henryju" issue="1860745" due-to="Ward Bergmans">
                 setProxyAuthorization caused IllegalArgumentException with null username/password and not null host/port.
@@ -83,24 +88,24 @@
                 Rename IJWebUnitDialog in ITestingEngine.
             </action>
         </release>
-    	<release version="1.4.1" date="may 5, 2007">
-    		<action type="fix" dev="henryju" issue="1706395" due-to="meilon">
+        <release version="1.4.1" date="may 5, 2007">
+            <action type="fix" dev="henryju" issue="1706395" due-to="meilon">
                 getPageSource() now returns source of the current frame or window.
             </action>
-    		<action type="fix" dev="henryju" issue="1708229,1710809,1712633" due-to="Jon,Joe Fisher">
+            <action type="fix" dev="henryju" issue="1708229,1710809,1712633" due-to="Jon,Joe Fisher">
                 setTextField now doesn't change the current working form if already set.
                 clickRadioOption now doesn't change the current working form if already set.
                 assertFormElementPresent now only searches the current working form if already set.
             </action>
-    	</release>
-    	<release version="1.4" date="march 17, 2007">
-    		<action type="update" dev="henryju">
+        </release>
+        <release version="1.4" date="march 17, 2007">
+            <action type="update" dev="henryju">
                 Update to HtmlUnit 1.11.
             </action>
-    		<action type="add" dev="henryju" issue="1677214" due-to="Dragan Pazin">
+            <action type="add" dev="henryju" issue="1677214" due-to="Dragan Pazin">
                 Add a new method: getElementTextByXPath.
             </action>
-    	</release>
+        </release>
         <release version="1.4-RC4" date="march 04, 2007">
             <action type="add" dev="henryju" issue="993058" due-to="Chris Eldredge">
                 Add new ResourceBundle related methods allowing formatting of resources.

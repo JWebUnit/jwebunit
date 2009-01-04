@@ -26,8 +26,7 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
     
     public void testDocumentWrite() {
         beginAt("DocumentWrite.html");
-        //FIXME Fails with HtmlUnit
-        //assertTextPresent("Hello World");
+        assertTextPresent("Hello World");
     }
     
     public void testAlert() {

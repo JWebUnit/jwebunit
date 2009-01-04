@@ -144,8 +144,8 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 
 	public void testTableWithSpaces() throws Throwable {
 		assertTablePresent("tree");
-		String[][] table = { { "root", "", "", "" },
-				{ "child1 ;semicolon", "", "child2", "" },
+		String[][] table = { { "root", " ", "" },
+				{ "child1 ;semicolon", " ", "child2", " " },
 				{ "child1.1", "", "child2.1", "child2.2" } };
 		assertTableEquals("tree", table);
 	}
@@ -204,7 +204,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
     
     public void testTableWithSpacesMatch() throws Throwable {
         assertTablePresent("tree");
-        String[][] table = {{"root", "", "", ""},
+        String[][] table = {{"root", "", ""},
         {"child1 ;semicolon", "", "child2", ""},
         {"child1.1", "", "child2.1", "child2.2"}};
         assertTableMatch("tree", table);

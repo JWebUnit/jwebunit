@@ -34,10 +34,10 @@ public class ParamsServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         out.write(HtmlHelper.getStart("Submitted parameters"));
-        out.write("<h1>Submitted parameters</h1>\n<p>Params are:");
+        out.write("<h1>Submitted parameters</h1>\n<p>Params are:<br/>");
         /*
          * Prints POST and GET parameters as name=value1[,value2...] separated
-         * with spaces
+         * by <BR/>
          */
 
         // Check that we have a file upload request
@@ -75,9 +75,12 @@ public class ParamsServlet extends HttpServlet {
                     String contentType = item.getContentType();
                     boolean isInMemory = item.isInMemory();
                     long sizeInBytes = item.getSize();
-                    out.write(" " + item.getFieldName() + "=" + item.getName()
+                    out.write(" " + fieldName + "=" + fileName
                             + "{" + new String(item.get()) + "}");
 
+                }
+                if (iter.hasNext()) {
+                	out.write("<br/>\n");
                 }
             }
             out.write(" </p>\n");
@@ -87,13 +90,16 @@ public class ParamsServlet extends HttpServlet {
             for (; params.hasMoreElements();) {
                 String p = params.nextElement().toString();
                 String[] v = request.getParameterValues(p);
-                out.write(" " + p + "=");
+                out.write(p + "=");
                 int n = v.length;
                 if (n > 0) {
                     out.write(v[0] != null ? v[0] : "");
                     for (int i = 1; i < n; i++) {
                         out.write("," + (v[i] != null ? v[i] : ""));
                     }
+                }
+                if (params.hasMoreElements()) {
+                	out.write("<br/>\n");
                 }
             }
             out.write(" </p>\n");
