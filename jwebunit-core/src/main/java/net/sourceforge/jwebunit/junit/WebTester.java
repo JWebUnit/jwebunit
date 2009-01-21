@@ -3205,7 +3205,7 @@ public class WebTester {
     }
 
     /**
-     * Tell that the given alert boxe is expected.
+     * Tell that the given alert box is expected.
      *
      * @param message Message in the alert.
      */
