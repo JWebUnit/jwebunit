@@ -180,7 +180,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     public void closeBrowser() throws ExpectedJavascriptAlertException,
             ExpectedJavascriptConfirmException,
             ExpectedJavascriptPromptException {
-        wc = null;
+        if (wc!=null) {
+            wc.closeAllWindows();
+            wc = null;
+        }
         form = null;		// reset current form
         if (this.expectedJavascriptAlerts.size() > 0) {
             throw new ExpectedJavascriptAlertException(
@@ -772,7 +775,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         wc.setCredentialsProvider(creds);
         wc.addWebWindowListener(new WebWindowListener() {
             public void webWindowClosed(WebWindowEvent event) {
-                if (event.getOldPage().equals(win.getEnclosedPage())) {
+                if (win==null || event.getOldPage().equals(win.getEnclosedPage())) {
                     win = wc.getCurrentWindow();
                     form = null;
                 }
