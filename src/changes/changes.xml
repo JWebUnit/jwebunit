@@ -8,6 +8,9 @@
     </properties>
     <body>
         <release version="2.2" date="UNKNOW">
+            <action type="fix" dev="henryju" issue="2568604" due-to="Umkhulubaas">
+                Used buffered output stream to improve WebTester.saveAs method performances.
+            </action>
             <action type="fix" dev="henryju" issue="2525065" due-to="Sivan Mozes">
                 WebClient.closeAllWindows() called to prevent memory leak.
             </action>

@@ -6,10 +6,12 @@ package net.sourceforge.jwebunit.junit;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -2963,7 +2965,7 @@ public class WebTester {
         int c=0;
         try {
             f.createNewFile();
-            FileOutputStream out = new FileOutputStream(f);
+            OutputStream out = new BufferedOutputStream(new FileOutputStream(f));
             while ((c=in.read()) != -1) out.write(c);
             in.close();
             out.close();
