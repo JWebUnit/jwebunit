@@ -128,6 +128,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     private boolean jsEnabled = true;
 
     /**
+     * Should throw exception on Javascript error.
+     */
+    private boolean throwExceptionOnScriptError = true;
+
+    /**
      * Javascript alerts.
      */
     private LinkedList<JavascriptAlert> expectedJavascriptAlerts = new LinkedList<JavascriptAlert>();
@@ -233,6 +238,13 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         jsEnabled = value;
         if (wc != null) {
             wc.setJavaScriptEnabled(value);
+        }
+    }
+
+    public void setThrowExceptionOnScriptError(boolean value) {
+        throwExceptionOnScriptError = value;
+        if (wc != null) {
+            wc.setThrowExceptionOnScriptError(throwExceptionOnScriptError);
         }
     }
 
@@ -745,7 +757,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             wc = new WebClient(bv);
         }
         wc.setJavaScriptEnabled(jsEnabled);
-        wc.setThrowExceptionOnScriptError(true);
+        wc.setThrowExceptionOnScriptError(throwExceptionOnScriptError);
         wc.setRedirectEnabled(true);
         wc.setRefreshHandler(new ImmediateRefreshHandler());
         wc.setTimeout(timeout);

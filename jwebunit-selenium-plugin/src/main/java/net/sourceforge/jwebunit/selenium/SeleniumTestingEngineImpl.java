@@ -430,6 +430,10 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 		if(value == false) throw new UnsupportedOperationException("setScriptingEnabled");
 	}
 
+	public void setThrowExceptionOnScriptError(boolean value) {
+		throw new UnsupportedOperationException("setThrowExceptionOnScriptError");
+	}
+
 	public void setTextField(String inputName, String text) {
 		String xpath1 = formSelector() + "//input[@name='" + inputName
 				+ "' and (@type='text' or @type='password' or @type='file')]";

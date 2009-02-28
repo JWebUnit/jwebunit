@@ -67,6 +67,13 @@ public interface ITestingEngine {
     void setScriptingEnabled(boolean value);
 
     /**
+     * Set whether or not to throw an exception on Javascript errors.
+     * 
+     * @param value true to throw an exception on Javascript errors.
+     */
+    void setThrowExceptionOnScriptError(boolean value);
+
+    /**
      * Get all cookies.
      * 
      * @return List of javax.servlet.http.Cookie.
