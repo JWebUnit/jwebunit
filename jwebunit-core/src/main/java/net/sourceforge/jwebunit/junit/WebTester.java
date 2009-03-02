@@ -3324,10 +3324,29 @@ public class WebTester {
         }
     }
 
+    /**
+     * Assert there is at least one image in the page with given src and (optional) alt attributes.
+     * @param imageSrc Value of image src attribute.
+     * @param imageAlt Value of image alt attribute. Ignored when null.
+     */
     public void assertImagePresent(String imageSrc, String imageAlt) {
         String xpath = "//img[@src=\"" + imageSrc + "\"";
         if (imageAlt!= null) {
             xpath += " and @alt=\"" + imageAlt + "\"";
+        }
+        xpath += "]";
+        assertElementPresentByXPath(xpath);
+    }
+
+    /**
+     * Assert there is at least one image in the page with given partial src and (optional) partial alt attributes.
+     * @param partialImageSrc
+     * @param partialImageAlt
+     */
+    public void assertImagePresentPartial(String partialImageSrc, String partialImageAlt) {
+        String xpath = "//img[contains(@src, \"" + partialImageSrc + "\")";
+        if (partialImageAlt!= null) {
+            xpath += " and contains(@alt, \"" + partialImageAlt + "\")";
         }
         xpath += "]";
         assertElementPresentByXPath(xpath);

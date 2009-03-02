@@ -8,6 +8,9 @@
     </properties>
     <body>
         <release version="2.2" date="UNKNOW">
+            <action type="add" dev="henryju" issue="2106019" due-to="Kent R. Spillner">
+                Enable partial matches of image src and alt attributes. Added assertImagePresentPartial(String partialImageSrc, String partialImageAlt) method.
+            </action>
             <action type="add" dev="henryju" issue="2647451" due-to="Kent R. Spillner">
                 Exposed option to toggle exceptions on Javascript errors.
             </action>
