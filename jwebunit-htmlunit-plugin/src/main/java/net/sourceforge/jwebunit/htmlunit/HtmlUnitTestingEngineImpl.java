@@ -165,6 +165,21 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     // Implementation of IJWebUnitDialog
 
     /**
+     * Initializes default HtmlUnit testing engine implementation.
+     */
+    public HtmlUnitTestingEngineImpl() {
+    }
+
+    /**
+     * Initializes HtmlUnit testing engine implementation with web client.
+     *
+     * @param client web client
+     */
+    HtmlUnitTestingEngineImpl(WebClient client) {
+        this.wc = client;
+    }
+
+    /**
      * Begin a dialog with an initial URL and test client context.
      * 
      * @param initialURL absolute url at which to begin dialog.

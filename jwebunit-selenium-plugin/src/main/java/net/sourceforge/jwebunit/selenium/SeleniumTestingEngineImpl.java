@@ -431,7 +431,8 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 	}
 
 	public void setThrowExceptionOnScriptError(boolean value) {
-		throw new UnsupportedOperationException("setThrowExceptionOnScriptError");
+		throw new UnsupportedOperationException(SeleniumTestingEngineImpl.class.getSimpleName()
+				+ "#setThrowExceptionOnScriptError is not supported");
 	}
 
 	public void setTextField(String inputName, String text) {
