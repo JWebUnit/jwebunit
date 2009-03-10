@@ -9,7 +9,7 @@
     <bannerLeft>
         <name>SourceForge</name>
         <src>
-            http://sflogo.sourceforge.net/sflogo.php?group_id=61302&type=15
+            http://sflogo.sourceforge.net/sflogo.php?group_id=61302&amp;type=15
         </src>
         <href>http://sourceforge.net/projects/jwebunit</href>
     </bannerLeft>
