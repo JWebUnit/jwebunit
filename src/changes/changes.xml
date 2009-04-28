@@ -8,6 +8,9 @@
     </properties>
     <body>
         <release version="2.2" date="UNKNOW">
+            <action type="update" dev="henryju">
+                Updated to HtmlUnit 2.5.
+            </action>
             <action type="add" dev="henryju" issue="2106019" due-to="Kent R. Spillner">
                 Enable partial matches of image src and alt attributes. Added assertImagePresentPartial(String partialImageSrc, String partialImageAlt) method.
             </action>
@@ -19,9 +22,6 @@
             </action>
             <action type="fix" dev="henryju" issue="2525065" due-to="Sivan Mozes">
                 WebClient.closeAllWindows() called to prevent memory leak.
-            </action>
-            <action type="update" dev="henryju">
-                Updated to HtmlUnit 2.4.
             </action>
         </release>
         <release version="2.1" date="December 12, 2008">
