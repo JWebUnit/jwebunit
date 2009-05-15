@@ -7,7 +7,7 @@
         </author>
     </properties>
     <body>
-        <release version="2.2" date="UNKNOW">
+        <release version="2.2" date="May 15, 2009">
             <action type="update" dev="henryju">
                 Updated to HtmlUnit 2.5.
             </action>

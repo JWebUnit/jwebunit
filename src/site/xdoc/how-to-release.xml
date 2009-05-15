@@ -15,6 +15,7 @@
                 		<li>Ensure you repository is up to date by running: <tt>svn update</tt></li>
                 		<li>Edit <tt>src/changes/changes.xml</tt> to set release date instead of "unknow"</li>
                 		<li>Update readme.txt (at least update the version number)</li>
+                		<li>Commit the changes</li>
                 	</ul>
                 </p>
                 <p>
