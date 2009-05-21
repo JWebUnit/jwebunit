@@ -30,26 +30,26 @@
 		<mailingList>
 			<name>JWebUnit Development Mailing list</name>
 			<subscribe>
-				http://lists.sourceforge.net/mailman/listinfo/jwebunit-development
+				http://lists.sourceforge.net/lists/listinfo/jwebunit-development
 			</subscribe>
 			<unsubscribe>
-				http://lists.sourceforge.net/mailman/listinfo/jwebunit-development
+				http://lists.sourceforge.net/lists/listinfo/jwebunit-development
 			</unsubscribe>
 			<archive>
-				http://sourceforge.net/mailarchive/forum.php?forum_id=40831
+				http://sourceforge.net/mailarchive/forum.php?forum_name=jwebunit-development
 			</archive>
 			<post>jwebunit-development@lists.sourceforge.net</post>
 		</mailingList>
 		<mailingList>
 			<name>JWebUnit User Mailing list</name>
 			<subscribe>
-				http://lists.sourceforge.net/mailman/listinfo/jwebunit-users
+				http://lists.sourceforge.net/lists/listinfo/jwebunit-users
 			</subscribe>
 			<unsubscribe>
-				http://lists.sourceforge.net/mailman/listinfo/jwebunit-users
+				http://lists.sourceforge.net/lists/listinfo/jwebunit-users
 			</unsubscribe>
 			<archive>
-				http://sourceforge.net/mailarchive/forum.php?forum_id=40830
+				http://sourceforge.net/mailarchive/forum.php?forum_name=jwebunit-users
 			</archive>
 			<post>jwebunit-users@lists.sourceforge.net</post>
 		</mailingList>
