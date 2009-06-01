@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<title>prototype.js test</title>
+		<script src="prototype-1.6.0.3.js"></script>
+		<script language="Javascript">
+
+/**
+ * Define an exception class.
+ */
+function MyException(message) {
+  this.message = message;
+  this.getMessage = function() {
+    return message;
+  }
+
+  this.toString = function() {
+    return "MyException: " + message;
+  }
+
+}
+
+function getFromServer() {
+	$('target').innerHTML = "loading...";
+	new Ajax.Request('../response.jsp',
+	  {
+	    method:'get',
+	    onSuccess: function(transport){
+	    	var response = transport.responseText || "no response text";	   
+	    	$('target').innerHTML = response;
+	    	
+	    	// we are testing that we can actually get an alert box
+	    	// from out of here
+	    	alert("Alert box from Ajax response");
+	    	throw new MyException("oh noes!");
+	    },
+	    onFailure: function(transport){ $('target').innerHTML = "something went wrong..." + transport.responseText; }
+	  });
+}
+
+		</script>
+	</head>
+<body>
+
+	<input id="button_press" type="button" value="do ajax" onClick="getFromServer()" />
+
+	<div id="target">not loaded</div>
+
+</body>
+</html>
