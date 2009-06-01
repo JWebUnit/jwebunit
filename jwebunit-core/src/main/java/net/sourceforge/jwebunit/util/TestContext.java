@@ -127,11 +127,26 @@ public class TestContext {
      * @param name cookie name.
      * @param value cookie value.
      * @param domain cookie domain (ie localhost or www.foo.bar).
+     * @param expiry the expiry date in seconds. -1 will delete this cookie, 0 will delete it at the end of the browser session.
+     */
+    public void addCookie(String name, String value, String domain, int expiry) {
+        Cookie c = new Cookie(name, value);
+        c.setDomain(domain);
+        c.setMaxAge(expiry);
+        addCookie(c);
+    }
+    
+    /**
+     * Add a cookie to the test context. These cookies are set on the conversation when you use a {WebTester#beginAt}.
+     * 
+     * @param name cookie name.
+     * @param value cookie value.
+     * @param domain cookie domain (ie localhost or www.foo.bar).
      */
     public void addCookie(String name, String value, String domain) {
         Cookie c = new Cookie(name, value);
         c.setDomain(domain);
-        cookies.add(c);
+        addCookie(c);
     }
 
     /**

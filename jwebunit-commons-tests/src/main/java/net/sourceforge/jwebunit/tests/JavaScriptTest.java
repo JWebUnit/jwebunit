@@ -30,9 +30,9 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
         //assertTextPresent("Hello World");
     }
     
-    public void testAlert() {
+    public void testAlert() throws Exception {
     	setExpectedJavaScriptAlert("Foo Bar");
-        beginAt("Alert.html");
+    	beginAt("Alert.html");
     }
     
     public void testInvalidAlertOnPageLoad() {
@@ -96,4 +96,46 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
     	assertTextNotPresent("not loaded");
     }
     
+    /**
+     * Make sure that when Prototype is called and an alert box
+     * is thrown, that this alert box stops execution.
+     * 
+     * @see bug 2791025
+     * @author Jevon
+     */
+    public void testPrototypeJsAlert() throws InterruptedException {
+    	beginAt("prototype-alert.html");
+    	setExpectedJavaScriptAlert("Alert box from Ajax response");
+    	clickButtonWithText("do ajax");
+    	// we wait a while for the ajax to return
+    	Thread.sleep(500);
+    	assertTextPresent("hello, world!");
+    	assertTextNotPresent("not loaded");
+    }
+
+    /**
+     * Make sure that when Prototype is called and an alert box
+     * is thrown, that this alert box stops execution.
+     * 
+     * @see bug 2791025
+     * @author Jevon
+     */
+    public void testPrototypeJsAlertInvalid() throws InterruptedException {
+    	beginAt("prototype-alert.html");
+    	setExpectedJavaScriptAlert("This alert text will never appear");
+    	try {
+    		clickButtonWithText("do ajax");
+        	Thread.sleep(500);
+	    	// we wait a while for the ajax to return
+        	fail("The prototype alert box was never thrown");
+    	} catch (Exception e) {
+    		if (e instanceof InterruptedException) {
+    			throw (InterruptedException) e;	// rethrow
+    		}
+    		// OK
+    	}
+    	assertTextPresent("hello, world!");
+    	assertTextNotPresent("not loaded");
+    }
+
 }

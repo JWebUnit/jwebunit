@@ -52,8 +52,11 @@ public class CookiesServlet extends HttpServlet {
 
 		out.write(HtmlHelper.getEnd());
 		
-		Cookie cookie = new Cookie("serveurCookie","foo");
-		response.addCookie(cookie);
+		// to disable explicitly setting the cookie on each request
+		if (request.getParameter("dont_set") == null) {
+			Cookie cookie = new Cookie("serveurCookie","foo");
+			response.addCookie(cookie);
+		}
 	}
 
 }

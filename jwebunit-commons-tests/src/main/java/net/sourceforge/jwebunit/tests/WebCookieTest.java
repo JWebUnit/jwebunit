@@ -52,4 +52,22 @@ public class WebCookieTest extends JWebUnitAPITestCase {
     	beginAt("/cookies.jsp");
     	assertCookieValueMatch("serveurCookie", "fo*");
 	}
+    
+    /**
+     * Test that the cookie still exists across multiple requests,
+     * even if the cookie is not explicitly set each time.
+     */
+    public void testCookieWithoutExplicitSet() {
+    	beginAt("/cookies.jsp");		// beginAt also resets cookies
+    	assertCookieValueEquals("serveurCookie", "foo");
+    	gotoPage("/cookies.jsp?dont_set=1");
+    	assertCookieValueEquals("serveurCookie", "foo");	// should still be there
+    	gotoPage("/cookies.jsp?dont_set=1");
+    	assertCookieValueEquals("serveurCookie", "foo");	// should still be there
+    	gotoPage("/cookies.jsp?dont_set=1");
+    	assertCookieValueEquals("serveurCookie", "foo");	// should still be there
+    	
+    	
+    }
+    
 }

@@ -386,7 +386,7 @@ public class WebTester {
      * @param regexp expected title regexp
      */
     public void assertTitleMatch(String regexp) {
-    	assertMatch("Unable to match [" + regexp + "] in title", regexp, getTestingEngine().getPageTitle());
+    	assertMatch("Unable to match [" + regexp + "] in title '" + getTestingEngine().getPageTitle() + "'", regexp, getTestingEngine().getPageTitle());
     }
 
     /**
