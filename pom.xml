@@ -192,7 +192,7 @@
 		<repository>
 			<id>selenium</id>
 			<name>Selenium release repository</name>
-			<url>http://archiva.openqa.org/repository/releases/</url>
+			<url>http://nexus.openqa.org/content/repositories/releases</url>
 		</repository>
 	</repositories>
 	<build>
@@ -298,9 +298,9 @@
 				<version>2.5</version>
 			</dependency>
 			<dependency>
-				<groupId>org.openqa.selenium.client-drivers</groupId>
+				<groupId>org.seleniumhq.selenium.client-drivers</groupId>
 				<artifactId>selenium-java-client-driver</artifactId>
-				<version>1.0-beta-1</version>
+				<version>1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>regexp</groupId>

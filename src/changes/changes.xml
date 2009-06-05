@@ -7,6 +7,11 @@
         </author>
     </properties>
     <body>
+        <release version="2.3" date="UNKNOW">
+            <action type="update" dev="henryju">
+                Updated to Selenium RC 1.0.
+            </action>
+        </release>
         <release version="2.2" date="May 15, 2009">
             <action type="update" dev="henryju">
                 Updated to HtmlUnit 2.5.
