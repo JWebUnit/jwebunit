@@ -3418,10 +3418,10 @@ public class WebTester {
         // read and compare bytes pair-wise
         InputStream i1 = f1.openStream();
         InputStream i2 = f2.openStream();
-        if (f1 == null) {
+        if (i1 == null) {
             throw new IOException(f1.toString() + " can't be opened.");
         }
-        if (f2 == null) {
+        if (i2 == null) {
             throw new IOException(f2.toString() + " can't be opened.");
         }
         int b1, b2;

@@ -85,8 +85,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
-import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
+import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
 
 /**
@@ -277,8 +277,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             } else {
                 Date now = Calendar.getInstance().getTime();
                 // Convert milli-second to second
-                Long second = new Long(
-                        (expire.getTime() - now.getTime()) / 1000);
+                Long second = Long.valueOf((expire.getTime() - now.getTime()) / 1000);
                 c.setMaxAge(second.intValue());
             }
             c.setPath(cookie.getPath());
@@ -896,11 +895,8 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         // Deal with custom request header
         Map<String, String> requestHeaders = getTestContext().getRequestHeaders();
 
-        for (String nextRequestHeaderName : requestHeaders.keySet()) {
-            String nextRequestHeaderValue = (String) requestHeaders
-                    .get(nextRequestHeaderName);
-
-            wc.addRequestHeader(nextRequestHeaderName, nextRequestHeaderValue);
+        for (Map.Entry<String, String> requestHeader : requestHeaders.entrySet()) {
+            wc.addRequestHeader(requestHeader.getKey(), requestHeader.getValue());
         }
     }
 
