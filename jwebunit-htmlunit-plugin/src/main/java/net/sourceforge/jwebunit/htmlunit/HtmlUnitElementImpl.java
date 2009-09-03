@@ -121,7 +121,7 @@ public class HtmlUnitElementImpl implements IElement {
 	 * @see net.sourceforge.jwebunit.api.IElement#setAttribute(java.lang.String)
 	 */
 	public void setAttribute(String string) {
-		element.setAttributeValue(string, "1");
+		element.setAttributeNS(null, string, "1");
 	}
 
 
@@ -133,7 +133,7 @@ public class HtmlUnitElementImpl implements IElement {
 			// for HtmlInputs, we want to run any onChange code if the value changes
 			((HtmlInput) element).setValueAttribute(value);
 		} else {
-			element.setAttributeValue(string, value);
+			element.setAttributeNS(null, string, value);
 		}
 	}
 

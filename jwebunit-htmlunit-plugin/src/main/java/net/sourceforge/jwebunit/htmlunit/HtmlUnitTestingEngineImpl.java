@@ -63,7 +63,6 @@ import com.gargoylesoftware.htmlunit.WebWindow;
 import com.gargoylesoftware.htmlunit.WebWindowEvent;
 import com.gargoylesoftware.htmlunit.WebWindowListener;
 import com.gargoylesoftware.htmlunit.WebWindowNotFoundException;
-import com.gargoylesoftware.htmlunit.html.ClickableElement;
 import com.gargoylesoftware.htmlunit.html.DomComment;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
@@ -150,7 +149,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     /**
      * The default browser version.
      */
-    BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_2;
+    BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_3;
     
     /**
      * Should we ignore failing status codes?
@@ -670,7 +669,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     
     
     public URL getPageURL() {
-        return win.getEnclosedPage().getWebResponse().getUrl();
+        return win.getEnclosedPage().getWebResponse().getRequestSettings().getUrl();
     }
     
     public String getPageSource() {
@@ -705,7 +704,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 .getWebResponse();
         result.append(wr.getStatusCode()).append(" ").append(
                 wr.getStatusMessage()).append("\n");
-        result.append("Location: ").append(wr.getUrl()).append("\n");
+        result.append("Location: ").append(wr.getRequestSettings().getUrl()).append("\n");
         for (NameValuePair h : wr.getResponseHeaders()) {
             result.append(h.getName()).append(": ").append(h.getValue())
                     .append("\n");
@@ -757,8 +756,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     	 */
     	BrowserVersion bv;
     	if (testContext.getUserAgent() != null) {
-            bv = new BrowserVersion(BrowserVersion.INTERNET_EXPLORER,
-                    "4.0", testContext.getUserAgent(), "1.2", 6);
+            bv = new BrowserVersion(
+            		BrowserVersion.NETSCAPE, "5.0 (Windows; en-US)",
+            		testContext.getUserAgent(),
+                    3);
     	} else {
     		bv = defaultBrowserVersion;		// use default (which includes a full UserAgent string)
     	}
@@ -1030,7 +1031,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     private HtmlForm getForm(String nameOrID, int index) {
         List<HtmlForm> forms = new ArrayList<HtmlForm>();
         for (HtmlForm form : getCurrentPage().getForms()) {
-            if (nameOrID.equals(form.getIdAttribute())
+            if (nameOrID.equals(form.getId())
                     || nameOrID.equals(form.getNameAttribute())) {
                 forms.add(form);
             }
@@ -1041,63 +1042,6 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         else {
             return null;
         }
-    }
-
-    private HtmlForm getFormWithInput(String inputName) {
-        // Search in Working form if available
-        if (form != null) {
-            if (!form.getHtmlElementsByAttribute("input",
-                    "name", inputName).isEmpty()) {
-                return form;
-            }
-            if (!form.getTextAreasByName(inputName).isEmpty()) {
-                return form;
-            }
-        } else {
-            if (hasForm()) {
-                for (HtmlForm form : getForms()) {
-                    List<HtmlElement> inputElements = new LinkedList<HtmlElement>();
-                    inputElements.addAll(form.getHtmlElementsByAttribute("input",
-                            "name", inputName));
-                    if (inputElements.isEmpty()) {
-                        inputElements.addAll(form.getTextAreasByName(inputName));
-                    }
-                    if (!inputElements.isEmpty()) {
-                        setWorkingForm(form);
-                        return form;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    private HtmlForm getFormWithSelect(String selectName) {
-        // Search in Working form if available
-        if (form != null) {
-            try {
-                if (form.getSelectByName(selectName) != null) {
-                    return form;
-                }
-            } catch (ElementNotFoundException e) {
-                // Nothing
-            }
-        } else {
-            if (hasForm()) {
-                for (int i = 0; i < getForms().size(); i++) {
-                    HtmlForm form = (HtmlForm) getForms().get(i);
-                    try {
-                        if (form.getSelectByName(selectName) != null) {
-                            setWorkingForm(form);
-                            return form;
-                        }
-                    } catch (ElementNotFoundException e) {
-                        // Nothing
-                    }
-                }
-            }
-        }
-        return null;
     }
 
     private List<HtmlForm> getForms() {
@@ -1163,7 +1107,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param buttonName name of button.
      * @return the button
      */
-    public ClickableElement getSubmitButton(String buttonName) {
+    public HtmlElement getSubmitButton(String buttonName) {
         List<HtmlElement> btns = new LinkedList<HtmlElement>();
         if (form != null) {
             btns.addAll(getForm().getInputsByName(buttonName));
@@ -1237,7 +1181,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param buttonValue button value.
      * @return HtmlSubmitInput, HtmlImageInput or HtmlButton
      */
-    public ClickableElement getSubmitButton(String buttonName,
+    public HtmlElement getSubmitButton(String buttonName,
             String buttonValue) {
         List<HtmlElement> btns = new LinkedList<HtmlElement>();
         if (form != null) {
@@ -1325,14 +1269,14 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * 
      * @param buttonId
      */
-    private ClickableElement getButton(String buttonId) {
+    private HtmlElement getButton(String buttonId) {
         HtmlElement btn = null;
         try {
             btn = getCurrentPage().getHtmlElementById(buttonId);
             if (btn instanceof HtmlButton || btn instanceof HtmlButtonInput
                     || btn instanceof HtmlSubmitInput
                     || btn instanceof HtmlResetInput)
-                return (ClickableElement) btn;
+                return btn;
         } catch (ElementNotFoundException e) {
             return null;
         }
@@ -1363,7 +1307,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @return the ClickableElement with the specified text or null if 
      * no such button is found. 
      */
-    public ClickableElement getButtonWithText(String buttonValueText) {
+    public HtmlElement getButtonWithText(String buttonValueText) {
         List<? extends HtmlElement> l = ((HtmlPage) win.getEnclosedPage()).getDocumentElement()
                 .getHtmlElementsByTagNames(
                         Arrays.asList(new String[] { "button", "input" }));
@@ -1371,14 +1315,14 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             if ( e instanceof HtmlButton )
             {
             	if (((HtmlButton) e).asText().equals(buttonValueText))
-            		return (ClickableElement) e;
+            		return e;
             }
             else if ( e instanceof HtmlButtonInput ||
             		  e instanceof HtmlSubmitInput ||
             		  e instanceof HtmlResetInput )
             {
-            	if ( buttonValueText.equals(e.getAttributeValue("value")) )
-            		return (ClickableElement)e;
+            	if ( buttonValueText.equals(e.getAttribute("value")) )
+            		return e;
             }
         }
         return null;
@@ -1526,11 +1470,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param buttonName name of the button to use for submission.
      */
     public void submit(String buttonName) {
-        List<ClickableElement> l = new LinkedList<ClickableElement>();
+        List<HtmlElement> l = new LinkedList<HtmlElement>();
         l.addAll(getForm().getInputsByName(buttonName));
         l.addAll(getForm().getButtonsByName(buttonName));
         try {
-            for (ClickableElement o : l) {
+            for (HtmlElement o : l) {
                 if (o instanceof HtmlSubmitInput) {
                     HtmlSubmitInput inpt = (HtmlSubmitInput) o;
                     inpt.click();
@@ -1571,7 +1515,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param buttonValue value/label of the button to use for submission
      */
     public void submit(String buttonName, String buttonValue) {
-        List<ClickableElement> l = new LinkedList<ClickableElement>();
+        List<HtmlElement> l = new LinkedList<HtmlElement>();
         l.addAll(getForm().getInputsByName(buttonName));
         l.addAll(getForm().getButtonsByName(buttonName));
         try {
@@ -1856,11 +1800,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             throw new RuntimeException("No element found with xpath \"" + xpath
                     + "\"");
         try {
-            ClickableElement c = (ClickableElement) e;
-            c.click();
-        } catch (ClassCastException exp) {
-            throw new RuntimeException("Element with xpath \"" + xpath
-                    + "\" is not clickable", exp);
+            e.click();
         } catch (IOException exp) {
             throw new RuntimeException("Click failed", exp);
         }
@@ -1870,7 +1810,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         HtmlElement e = getHtmlElementByXPath(xpath);
         if (e == null)
             return null;
-        return e.getAttributeValue(attribut);
+        return e.getAttribute(attribut);
     }
 
 
@@ -1889,7 +1829,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param buttonId
      */
     public void clickButton(String buttonId) {
-        ClickableElement btn = getButton(buttonId);
+        HtmlElement btn = getButton(buttonId);
         try {
             btn.click();
         } catch (Exception e) {
@@ -1904,7 +1844,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * content by converting it to text.  or an HTML &lt;button&gt; tag.
      */
     public void clickButtonWithText(String buttonValueText) {
-    	ClickableElement b = getButtonWithText(buttonValueText);
+    	HtmlElement b = getButtonWithText(buttonValueText);
     	if (b != null) {
     		try {
     			b.click();

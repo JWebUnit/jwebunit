@@ -7,7 +7,13 @@
         </author>
     </properties>
     <body>
-        <release version="2.3" date="UNKNOW">
+        <release version="2.3" date="UNKNOW" description="Updated to JUnit 4.7">
+            <action type="update" dev="henryju">
+                Updated to HtmlUnit 2.6.
+            </action>
+            <action type="update" dev="henryju">
+                Updated to JUnit 4.7.
+            </action>
             <action type="update" dev="henryju">
                 Updated to Selenium RC 1.0.
             </action>
@@ -65,7 +71,7 @@
                 Cleaned up the quickstart documentation.
             </action>
         </release>
-        <release version="2.0" date="October 27, 2008">
+        <release version="2.0" date="October 27, 2008" description="First release that requires Java 1.4+">
             <action type="update" dev="henryju">
                 Updated to HtmlUnit 2.3.
             </action>
