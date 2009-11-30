@@ -2727,15 +2727,30 @@ public class WebTester {
     	return fields;
     }
     
+    
     /**
-     * Private method to test the value of a field connected to a particular IElement label.
+     * Private method - test the value of a field connected to a particular IElement label.
      * 
-     * @param label
-     * @param fieldText
+     * @param identifier the HTML ID for the given labelled field
+     * @param label the label found for the given HTML field
+     * @param fieldText the value to check is equal
      */
     private void assertLabeledFieldEquals(String identifier, IElement label, String fieldText) {
-    	List<IElement> fields = getFieldsForLabel(label);
+    	String value = getLabeledFieldValue(identifier, label);
+    	Assert.assertEquals("value of field for label [" + identifier + "] should be [" + fieldText + "]", fieldText, value == null ? "" : value);
+    }
     
+    /**
+     * Get the current value of a given labelled field. 
+     * 
+     * @param identifier the HTML ID for the given labelled field
+     * @param label the label found for the given HTML ID
+     * @return the value found in a field for the given label/ID, or 
+     * 		<code>null</code> if none was found
+     */
+    protected String getLabeledFieldValue(String identifier, IElement label) {
+    	List<IElement> fields = getFieldsForLabel(label);
+    	
     	Assert.assertFalse("No field found for label [" + identifier + "]", fields.isEmpty());
     	String value = null;
     	// cycle through all fields trying to find value
@@ -2778,15 +2793,17 @@ public class WebTester {
 	    	}
     	}
     	
-    	Assert.assertEquals("value of field for label [" + identifier + "] should be [" + fieldText + "]", fieldText, value == null ? "" : value);
+    	return value;
     }
     
     /**
-     * Assert that a labeled field exists (for the given id) and the
+     * Assert that a labeled field exists (for the given ID) and the
      * field that it labels equals the given text
      * 
-     * @param id
-     * @param fieldText
+     * @param id the HTML ID for the given labelled field
+     * @param fieldText the text that the field's value should equal
+     * @see #getLabeledFieldValue(String, IElement, String)
+     * @see #getLabel(String)
      */
     public void assertLabeledFieldEquals(String id, String fieldText) {
     	IElement label = getLabel(id);
