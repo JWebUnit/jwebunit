@@ -57,7 +57,7 @@ public class WebTester {
     private ITestingEngine testingEngine = null;
 
     private TestContext testContext = null;
-
+    
     /**
      * This is the testing engine key that the webtester will use to find the correct testing engine from the registry.
      */
@@ -70,7 +70,7 @@ public class WebTester {
      * which is, htmlunit.
      *
      * @return IJWebUnitDialog instance used to wrapper htmlunit conversation.
-     * @deprecated You should not use plugin specific fonctionality. Please ask for a new core feature instead.
+     * @deprecated You should not use plugin specific functionality. Please ask for a new core feature instead.
      */
     public ITestingEngine getDialog() {
         return getTestingEngine();

@@ -905,9 +905,28 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * Return the window with the given name in the current conversation.
      * 
      * @param windowName
+     * @throws WebWindowNotFoundException if the window could not be found
      */
-    private WebWindow getWindow(String windowName) {
+    public WebWindow getWindow(String windowName) {
         return wc.getWebWindowByName(windowName);
+    }
+    
+    /**
+     * Return the currently opened window (issue 2697234).
+     * 
+     * @return the currently opened window
+     */
+    public WebWindow getCurrentWindow() {
+    	return win;
+    }
+    
+    /**
+     * Return the current web client (issue 2697234).
+     * 
+     * @return the current web client
+     */
+    public WebClient getWebClient() {
+    	return wc;
     }
 
     private HtmlElement getHtmlElement(String anID) {
