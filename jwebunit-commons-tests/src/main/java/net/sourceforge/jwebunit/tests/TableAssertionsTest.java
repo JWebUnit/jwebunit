@@ -88,7 +88,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
     public void testAssertTableRowCountEquals() throws Throwable {
         assertPassFail("assertTableRowCountEquals", new Object[] {
                 "tree", new Integer(3)}, new Object[] {
-                        "tree", new Integer(4)});
+                        "tree", Integer.valueOf(4)});
     }
 
     public void testAssertTableEqualsExtraColumn() throws Throwable {
@@ -129,7 +129,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 	public void testAssertTableRowsEquals() throws Throwable {
 		assertPass("assertTableRowsEqual", new Object[] {
 				"testTable",
-				new Integer(1),
+				Integer.valueOf(1),
 				new String[][] { { "table text row 2" },
 						{ "table text row 3", "row 3 col 1" } } });
 	}
@@ -137,7 +137,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 	public void testAssertTableRowsEqualsTooManyExpected() throws Throwable {
 		assertFail("assertTableRowsEqual", new Object[] {
 				"testTable",
-				new Integer(2),
+				Integer.valueOf(2),
 				new String[][] { { "table text row 3", "row 3 col 1" },
 						{ "unexpected" } } });
 	}
@@ -189,7 +189,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
     public void testAssertTableRowsMatch() throws Throwable {
         assertPass("assertTableRowsMatch",
                    new Object[]{"testTable",
-                                new Integer(1),
+                                Integer.valueOf(1),
                                 new String[][]{{"table text row 2"},
                                                {"table text row 3", "row 3 col 1"}}});
     }
@@ -197,7 +197,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
     public void testAssertTableRowsMatchTooManyExpected() throws Throwable {
         assertFail("assertTableRowsMatch",
                    new Object[]{"testTable",
-                                new Integer(2),
+                                Integer.valueOf(2),
                                 new String[][]{{"table text row 3", "row 3 col 1"},
                                                {"unexpected", ""}}});
     }

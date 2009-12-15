@@ -72,9 +72,6 @@ public class ParamsServlet extends HttpServlet {
                 } else {
                     String fieldName = item.getFieldName();
                     String fileName = item.getName();
-                    String contentType = item.getContentType();
-                    boolean isInMemory = item.isInMemory();
-                    long sizeInBytes = item.getSize();
                     out.write(" " + fieldName + "=" + fileName
                             + "{" + new String(item.get()) + "}");
 

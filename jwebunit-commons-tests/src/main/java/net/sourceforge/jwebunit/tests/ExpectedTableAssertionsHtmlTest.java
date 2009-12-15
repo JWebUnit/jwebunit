@@ -65,7 +65,7 @@ public class ExpectedTableAssertionsHtmlTest extends JWebUnitAPITestCase {
         cells[2][3] = new Cell("40%", 1, 1);
         Table table = new Table(cells);
         assertPass("assertTableRowsEqual", new Object[] { "myTable",
-                new Integer(0), table });
+                Integer.valueOf(0), table });
         assertFail("assertTableEquals", new Object[] { "myTable", table });
     }
 

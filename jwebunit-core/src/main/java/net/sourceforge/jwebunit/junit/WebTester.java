@@ -2758,7 +2758,7 @@ public class WebTester {
     		if (value != null)	// stop at first correct value found
     			break;
     		if (field == null)
-    			throw new RuntimeException("unexpected null field " + field);
+    			throw new RuntimeException("unexpected null field");
     		
 	    	if ("input".equals(field.getName())) {
 	    		if (field.getAttribute("type") != null) {
@@ -2822,7 +2822,7 @@ public class WebTester {
     	// find the first element that we can change
     	for (IElement field : fields) {
     		if (field == null)
-    			throw new RuntimeException("unexpected null field " + field);
+    			throw new RuntimeException("unexpected null field");
     		
 	    	if ("input".equals(field.getName())) {
 	    		if (field.getAttribute("type") != null) {
@@ -3435,12 +3435,6 @@ public class WebTester {
         // read and compare bytes pair-wise
         InputStream i1 = f1.openStream();
         InputStream i2 = f2.openStream();
-        if (i1 == null) {
-            throw new IOException(f1.toString() + " can't be opened.");
-        }
-        if (i2 == null) {
-            throw new IOException(f2.toString() + " can't be opened.");
-        }
         int b1, b2;
         do {
             b1 = i1.read();
