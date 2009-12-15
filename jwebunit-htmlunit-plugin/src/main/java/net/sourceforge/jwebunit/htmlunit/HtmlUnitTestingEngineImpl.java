@@ -63,6 +63,7 @@ import com.gargoylesoftware.htmlunit.WebWindow;
 import com.gargoylesoftware.htmlunit.WebWindowEvent;
 import com.gargoylesoftware.htmlunit.WebWindowListener;
 import com.gargoylesoftware.htmlunit.WebWindowNotFoundException;
+import com.gargoylesoftware.htmlunit.html.ClickableElement;
 import com.gargoylesoftware.htmlunit.html.DomComment;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
@@ -1163,7 +1164,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         return null;
     }
 
-    public HtmlResetInput getResetButton(String buttonName) {
+    public ClickableElement getResetButton(String buttonName) {
         List<HtmlElement> btns = new LinkedList<HtmlElement>();
         if (form != null) {
             btns.addAll(getForm().getInputsByName(buttonName));
@@ -1181,7 +1182,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 return btn;
             }
             if (o instanceof HtmlButton) {
-                HtmlResetInput btn = (HtmlResetInput) o;
+                HtmlButton btn = (HtmlButton) o;
                 if (btn.getTypeAttribute().equals("reset")) {
                     if (form == null) {
                         form = btn.getEnclosingFormOrDie();
