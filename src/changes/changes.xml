@@ -9,7 +9,7 @@
     <body>
         <release version="2.3" date="UNKNOW" description="Updated to JUnit 4.7">
             <action type="update" dev="henryju">
-                Updated to HtmlUnit 2.6.
+                Updated to HtmlUnit 2.7.
             </action>
             <action type="update" dev="henryju">
                 Updated to JUnit 4.7.

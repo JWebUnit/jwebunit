@@ -36,8 +36,6 @@ import net.sourceforge.jwebunit.javascript.JavascriptConfirm;
 import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
 import net.sourceforge.jwebunit.util.TestContext;
 
-import org.apache.commons.httpclient.Cookie;
-import org.apache.commons.httpclient.NameValuePair;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.slf4j.Logger;
@@ -63,7 +61,6 @@ import com.gargoylesoftware.htmlunit.WebWindow;
 import com.gargoylesoftware.htmlunit.WebWindowEvent;
 import com.gargoylesoftware.htmlunit.WebWindowListener;
 import com.gargoylesoftware.htmlunit.WebWindowNotFoundException;
-import com.gargoylesoftware.htmlunit.html.ClickableElement;
 import com.gargoylesoftware.htmlunit.html.DomComment;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
@@ -85,8 +82,10 @@ import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
-import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
 import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
+import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
+import com.gargoylesoftware.htmlunit.util.Cookie;
+import com.gargoylesoftware.htmlunit.util.NameValuePair;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
 
 /**
@@ -269,9 +268,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         for (Cookie cookie : cookies) {
             javax.servlet.http.Cookie c = new javax.servlet.http.Cookie(
                     cookie.getName(), cookie.getValue());
-            c.setComment(cookie.getComment());
+            c.setComment(cookie.toHttpClient().getComment());
             c.setDomain(cookie.getDomain());
-            Date expire = cookie.getExpiryDate();
+            Date expire = cookie.toHttpClient().getExpiryDate();
             if (expire == null) {
                 c.setMaxAge(-1);
             } else {
@@ -281,8 +280,8 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 c.setMaxAge(second.intValue());
             }
             c.setPath(cookie.getPath());
-            c.setSecure(cookie.getSecure());
-            c.setVersion(cookie.getVersion());
+            c.setSecure(cookie.toHttpClient().getSecure());
+            c.setVersion(cookie.toHttpClient().getVersion());
             result.add(c);
         }
         return result;
@@ -1164,7 +1163,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         return null;
     }
 
-    public ClickableElement getResetButton(String buttonName) {
+    public HtmlElement getResetButton(String buttonName) {
         List<HtmlElement> btns = new LinkedList<HtmlElement>();
         if (form != null) {
             btns.addAll(getForm().getInputsByName(buttonName));
