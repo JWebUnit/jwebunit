@@ -3,7 +3,7 @@
         <artifactId>jwebunit</artifactId>
         <groupId>net.sourceforge.jwebunit</groupId>
         <version>3.0-SNAPSHOT</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jwebunit-htmlunit-plugin</artifactId>
@@ -45,12 +45,12 @@
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-core</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-commons-tests</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

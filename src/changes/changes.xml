@@ -9,13 +9,13 @@
     <body>
         <release version="2.3" date="UNKNOW" description="Updated to JUnit 4.7">
             <action type="update" dev="henryju">
+                Updated to Selenium RC 1.0.1.
+            </action>
+            <action type="update" dev="henryju">
                 Updated to HtmlUnit 2.7.
             </action>
             <action type="update" dev="henryju">
                 Updated to JUnit 4.7.
-            </action>
-            <action type="update" dev="henryju">
-                Updated to Selenium RC 1.0.
             </action>
         </release>
         <release version="2.2" date="May 15, 2009">
