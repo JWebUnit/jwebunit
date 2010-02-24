@@ -22,7 +22,7 @@
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-htmlunit-plugin</artifactId>
-            <version>1.5</version>
+            <version>2.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -40,20 +40,17 @@
 		<p>
 			There are currently 2 available plugins:
 			<ul>
-				<li>HtmlUnit: A good choice if you want rapidity and good Javascript support.</li>
+				<li>HtmlUnit: A good choice if you want fast tests and good Javascript support.</li>
 				<li>Selenium: BETA quality (not all the JWebUnit API could be executed with Selenium)</li>
 			</ul>
 		</p>
 	</subsection>
 	<subsection name="Integrate with IDE">
 		<p>
-			The simplest way to manage dependencies is to use Maven 2. If your POM is well
-			configured, just run:
-			<source>mvn eclipse:eclipse</source>
-			This will create the .project and the .classpath for your eclipse project.
+			The simplest way to manage dependencies in Eclipse when you use Maven 2 is to use m2eclipse plugin.
 		</p>
 		<p>			
-			If you don't want to migrate to Maven, 
+			If you don't want to use Maven, 
 			make sure you add the jwebunit-htmlunit-plugin-XX.jar, jwebunit-core-XX.jar and all HtmlUnit dependencies
 (these files are in lib/ folder of the JWebUnit package) to your classpath in your IDE.
 		</p>

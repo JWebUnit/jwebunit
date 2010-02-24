@@ -15,6 +15,7 @@
                 		<li>Ensure you repository is up to date by running: <tt>svn update</tt></li>
                 		<li>Edit <tt>src/changes/changes.xml</tt> to set release date instead of "unknow"</li>
                 		<li>Update readme.txt (at least update the version number)</li>
+                		<li>Update JWebUnit latest version in src/site/xdoc/index.xml</li>
                 		<li>Commit the changes</li>
                 	</ul>
                 </p>
@@ -36,13 +37,6 @@
 ]]></source>
                     Don't forget to put your own sourceforge account and password.
                 </p>
-                <p>
-                    Last operation is to ensure you are running the correct JDK for building JWebUnit. Currently it is JDK 1.5.
-                    <source>
-$ mvn -v                    
-Maven version: 2.0.9
-<b>Java version: 1.5.0_15</b></source>
-                </p>
             </subsection>
             <subsection name="Preparing the release (tag and update pom)">
                 <p>
@@ -60,7 +54,12 @@ Maven version: 2.0.9
             <subsection name="Perform the release (deploy artifacts and site)">
                 <p>
                 	First you need to activate a time-limited shell in Sourceforge to allow upload by SCP.
+                	On Linux you can use:
                 	<source>ssh henryju,jwebunit@shell.sourceforge.net create</source>
+                	On Windows you can use:
+                	<source>plink henryju,jwebunit@shell.sourceforge.net create</source>
+                </p>
+               	<p>
                     Now the process is done by maven-release-plugin.
                     <source>mvn release:perform</source>
                 </p>
@@ -71,7 +70,8 @@ Maven version: 2.0.9
                 </p>
                 <p>
                 	Now close your Sourceforge shell:
-                	<source>ssh henryju,jwebunit@shell.sourceforge.net shutdown</source>
+                	<source>ssh henryju,jwebunit@shell.sourceforge.net shutdown</source> (Linux)
+                	<source>plink henryju,jwebunit@shell.sourceforge.net shutdown</source> (Windows)
                 </p>
             </subsection>
             <subsection name="Dealing with non-maven bundle">

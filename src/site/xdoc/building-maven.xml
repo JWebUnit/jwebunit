@@ -18,20 +18,30 @@
                 difficult than installing ant. We've included a best
                 practise installation and configuration for Maven.
             </p>
+            <subsection name="Installing Sun JDK 1.5">
+                <p>
+                    JWebUnit is compiled with JDK 1.5 to ensure compatibility.
+                </p>
+                <p>
+                    You need to download and install latest Sun JDK 1.5 for your platform. 
+                    Let's say the JDK location is: 
+                    <source>/opt/jdk1.5.0_15</source>
+                </p>
+            </subsection>
             <subsection name="Installing Maven">
                 <p>
                     First you need to download the latest Maven 2, which
                     currently is
                     <a href="http://maven.apache.org">
-                        <tt>Maven-2.0.9</tt>
+                        <tt>Maven-2.2.1</tt>
                     </a>
                     , make sure you download the binary archive
-                    (e.g. apache-maven-2.0.9-bin.tar.bz2).
+                    (e.g. apache-maven-2.2.1-bin.tar.bz2).
                 </p>
                 <p>
                     Installing Maven should be easy: unzip the file to
                     any directory you like, let's say:
-                    <source>/opt/apache-maven-2.0.9</source>
+                    <source>/opt/apache-maven-2.2.1</source>
                 </p>
                 <p>
                     Next you need to do 2 things:
@@ -39,7 +49,7 @@
                         <li>
                             add an environment variable MAVEN_HOME which
                             points to the install directory of Maven,
-                            i.e. /opt/apache-maven-2.0.9
+                            i.e. /opt/apache-maven-2.2.1
                         </li>
                         <li>
                             add
@@ -49,6 +59,38 @@
                             arrives)
                         </li>
                     </ul>
+                </p>
+                <p>
+                    You can test that Maven is correctly installed by running in a shell:
+                    <tt>mvn -v</tt>
+                </p>
+            </subsection>
+            <subsection name="Configure Maven toolchains">
+                <p>
+                    You can run Maven with any JDK (let's say JDK 1.6) but JWebUnit should be compiled
+                    with JDK 1.5. To achieve this we are using Maven toolchains mecanism.
+                </p>
+                <p>
+                    Create a file <tt>~/.m2/toolchains.xml</tt> with the given content:                    
+                </p>
+                <source><![CDATA[
+<?xml version="1.0" encoding="UTF8"?>
+<toolchains>
+  <toolchain>
+     <type>jdk</type>
+     <provides>
+         <version>1.5</version>
+         <vendor>sun</vendor>
+         <id>1.5</id>
+     </provides>
+     <configuration>
+        <jdkHome>/opt/jdk1.5.0_15</jdkHome>
+     </configuration>
+  </toolchain>
+</toolchains>]]>                
+                </source>
+                <p>
+                    You should of course define the correct jdkHome for you.                    
                 </p>
             </subsection>
             <subsection name="Using Maven">
@@ -95,16 +137,7 @@
                 <p>
                 	If you are using the <a href="http://www.eclipse.org">Eclipse IDE</a>
                 	to develop the JWebUnit plugin,
-                	you can use Maven to create the classpath and .project files
-                	of each module:
-                	<source>mvn eclipse:eclipse</source>
-                	(This command will also download the attached source files of the
-                	dependencies.)
-                </p>
-                <p>
-                	You can then import these modules into your Eclipse workspace once
-                	you configure the path to your Maven repository:
-                	<source>M2_REPO=your_home/.m2/repository</source>
+                	you can use <a href="http://m2eclipse.sonatype.org/">m2eclipse</a>.
                 </p>
             </subsection>
             <subsection name="Building Sourceforge upload bundle">
