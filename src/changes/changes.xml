@@ -7,7 +7,7 @@
         </author>
     </properties>
     <body>
-        <release version="2.3" date="UNKNOW" description="Updated to JUnit 4.7">
+        <release version="2.3" date="March 3, 2010" description="Updated to JUnit 4.7 and latest HtmlUnit and Selenium">
             <action type="update" dev="henryju">
                 Updated to Selenium RC 1.0.1.
             </action>
