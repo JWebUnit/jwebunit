@@ -2748,7 +2748,7 @@ public class WebTester {
      * @return the value found in a field for the given label/ID, or 
      * 		<code>null</code> if none was found
      */
-    protected String getLabeledFieldValue(String identifier, IElement label) {
+    public String getLabeledFieldValue(String identifier, IElement label) {
     	List<IElement> fields = getFieldsForLabel(label);
     	
     	Assert.assertFalse("No field found for label [" + identifier + "]", fields.isEmpty());

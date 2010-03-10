@@ -744,10 +744,19 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             }
         }
     }
-
-    private void initWebClient() {
-        
-    	/**
+    
+    /**
+     * Create the {@link WebClient} that will be used for this test.
+     * Subclasses should only override this method if they need to override
+     * the default {@link WebClient}.
+     * 
+     * <p>Also see issue 2697234.
+     * 
+     * @author Jevon
+     * @return A newly created {@link WebClient}
+     */
+    protected WebClient createWebClient() {
+    	/*
     	 * The user agent string is now provided by default to new test cases.
     	 * It can still be overridden if testContext.getUserAgent() is not
     	 * null (i.e. has been set manually.)
@@ -764,13 +773,21 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     		bv = defaultBrowserVersion;		// use default (which includes a full UserAgent string)
     	}
 
-        if (getTestContext().getProxyHost()!=null && getTestContext().getProxyPort()>0) {
-            //Proxy
-            wc = new WebClient(bv, getTestContext().getProxyHost(), getTestContext().getProxyPort());
+    	if (getTestContext().getProxyHost() != null && getTestContext().getProxyPort() > 0) {
+            // Proxy configuration
+            return new WebClient(bv, getTestContext().getProxyHost(), getTestContext().getProxyPort());
+        } else {
+            return new WebClient(bv);
         }
-        else {
-            wc = new WebClient(bv);
-        }
+    }
+
+    /**
+     * Initialise the web client before accessing a page.
+     */
+    private void initWebClient() {
+
+    	wc = createWebClient();
+    	
         wc.setJavaScriptEnabled(jsEnabled);
         wc.setThrowExceptionOnScriptError(throwExceptionOnScriptError);
         wc.setRedirectEnabled(true);
