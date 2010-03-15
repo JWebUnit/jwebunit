@@ -537,7 +537,8 @@ public class WebTester {
      * @param regexp
      */
     public void assertNoMatch(String regexp) {
-    	assertNotMatch("Regexp matched in response when not expected: [" + regexp + "]", 
+    	assertNotMatch("Regexp matched in response when not expected: [" + regexp + "]",
+    		regexp,
    			getTestingEngine().getPageText());
     }
 

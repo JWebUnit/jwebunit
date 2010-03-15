@@ -4,6 +4,7 @@
  ******************************************************************************/
 package net.sourceforge.jwebunit.tests;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
@@ -55,6 +56,21 @@ public class WebAssertionsTest extends JWebUnitAPITestCase {
     public void testAssertNoMatch() throws Throwable {
         assertNoMatch("no.*text");
         //assertPassFail("assertNoMatch", "no.*text", "This (is)* a .* page.");
+    }
+    
+    /**
+     * Check that {@link #assertNoMatch(String)} can actually fail.
+     */
+    public void testAssertNoMatchFails() throws Throwable {
+    	boolean failed = false;
+    	try {
+    		// 'Span Text' definitely exists in the source page text
+    		assertNoMatch("Span Text");
+    		failed = true;		// should not get this far
+    	} catch (AssertionFailedError e) {
+    		// expected
+    	}
+    	assertFalse("assertNoMatch() did not throw expected failure", failed);
     }
 
 	public void testAssertLinkPresentWithText() throws Throwable {
