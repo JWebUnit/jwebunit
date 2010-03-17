@@ -712,7 +712,7 @@ void ClassOrInterfaceBody(boolean isInterface, StringBuffer sb):
   sb.append("     * not an option for this requires the subclasses of this class to call the\n");
   sb.append("     * respective <tt>super</tt> methods.\n");
   sb.append("     *\n");
-  sb.append("     * Original patch contributed by Budi Boentaran.\n");
+  sb.append("     * <p>Original patch contributed by Budi Boentaran.\n");
   sb.append("     */\n");
   sb.append("    public void runBare() throws Throwable {\n");
   sb.append("        try {\n");
@@ -723,6 +723,7 @@ void ClassOrInterfaceBody(boolean isInterface, StringBuffer sb):
   sb.append("            super.runBare();\n");
   sb.append("        } finally {\n");
   sb.append("            tester = null;\n");
+  sb.append("            customTester = null;\n");
   sb.append("        }\n");
   sb.append("    }\n\n");}
   "{" ( ClassOrInterfaceBodyDeclaration(isInterface, sb) )* "}"
