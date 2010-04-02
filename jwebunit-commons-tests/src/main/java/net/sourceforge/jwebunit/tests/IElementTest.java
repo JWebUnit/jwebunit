@@ -214,4 +214,38 @@ public class IElementTest extends JWebUnitAPITestCase {
     	assertEquals(preceding.getAttribute("name"), "element_name");
     }
     
+    /**
+     * Test that {@link IElement#equals(Object)} is implemented
+     * correctly.
+     * 
+     */
+    public void testIElementEquals() {
+    	
+    	// through getElementById
+    	IElement container1 = getElementById("container");
+    	
+    	// through IElement.getElement
+    	IElement span = getElementByXPath("//span[@class='inline']");
+    	IElement container2 = span.getElement("..");
+    	
+    	// through getByXPath
+    	IElement container3 = null;
+    	for (IElement e : getElementsByXPath("//div")) {
+    		if ("container".equals(e.getAttribute("id"))) {
+    			container3 = e;
+    		}
+    	}
+    	
+    	// should have found all of these
+    	assertNotNull(container1);
+    	assertNotNull(container2);
+    	assertNotNull(container3);
+    	
+    	// check equality
+    	assertEquals(container1, container2);
+    	assertEquals(container2, container3);
+    	assertEquals(container1, container3);
+    	
+    }
+    
 }

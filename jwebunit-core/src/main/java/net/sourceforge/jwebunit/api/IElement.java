@@ -89,4 +89,14 @@ public interface IElement {
 	 */
 	public void setTextContent(String value);
 	
+	/**
+	 * Two {@link IElement}s are equal if they 
+	 * refer to the same element in the current page.
+	 * 
+	 * @param obj the object to compare
+	 * @return <code>true</code> if the object is an {@link IElement}, and refers to the same
+	 * 		element as this {@link IElement}
+	 */
+	public boolean equals(Object obj);
+	
 }
