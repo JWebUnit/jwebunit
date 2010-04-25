@@ -1,4 +1,25 @@
 <?xml version="1.0"?>
+<!--
+
+    Copyright (c) 2010, JWebUnit team.
+
+    This file is part of JWebUnit.
+
+    JWebUnit is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JWebUnit is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
 <document>
     <properties>
         <title>JWebUnit changes</title>
@@ -7,6 +28,11 @@
         </author>
     </properties>
     <body>
+        <release version="2.4" date="UNKNOW" description="Licensing change">
+            <action type="update" dev="henryju">
+                License was changed to LGPL v3
+            </action>
+        </release>
         <release version="2.3" date="March 3, 2010" description="Updated to JUnit 4.7 and latest HtmlUnit and Selenium">
             <action type="update" dev="henryju">
                 Updated to Selenium RC 1.0.1.

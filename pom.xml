@@ -175,7 +175,7 @@
 	</contributors>
 	<licenses>
 		<license>
-			<name>GPL License</name>
+			<name>LGPL License</name>
 			<url>${topDirectoryLocation}/LICENSE.txt</url>
 		</license>
 	</licenses>
@@ -249,6 +249,35 @@
 					</toolchains>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <header>${topDirectoryLocation}/src/license/header.txt</header>
+                    <aggregate>false</aggregate>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <excludes>
+                        <exclude>LICENSE.txt</exclude>
+                        <exclude>README.txt</exclude>
+                        <exclude>COPYING*</exclude>
+                        <exclude>src/test/clover/clover.license</exclude>
+                        <exclude>src/site/resources/images/jwebunit-architecture.odg</exclude>
+                        <exclude>src/main/javacc/Java1.5.jj</exclude>
+                        <exclude>src/main/javacc/Token.java</exclude>
+                        <exclude>src/main/resources/testcases/CharsetTest/charset.html_utf-8</exclude>
+                        <exclude>src/main/resources/testcases/NonHtmlContentTest/text.bin</exclude>   
+                        <exclude>src/main/resources/testcases/FramesAndWindowsTest/TopFrame.html</exclude>                     
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
