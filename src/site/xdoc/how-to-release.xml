@@ -51,12 +51,15 @@
     </server>
     
     <server>
-      <id>jwebunit-m2-repo</id>
-      <username>henryju,jwebunit</username>
-      <password>XXXXXXXXX</password>
+      <id>sonatype-nexus</id>
+      <username>henryju</username>
+      <password>YYYYYYYYYY</password>
     </server>
 ]]></source>
-                    Don't forget to put your own sourceforge account and password.
+                    Don't forget to put your own sourceforge account and password for jwebunit-website. Concerning sonatype-nexus you need
+                    the username and password from http://oss.sonatype.org/ (see <a href="https://docs.sonatype.com/display/NX/OSS+Repository+Hosting">OSS Repository Hosting</a>)
+                    for instructions on how to set up your configuration like GPG signature.
+                    Reminder: in order to have access granted to a new JWebUnit developper, ask on <a href="https://issues.sonatype.org/browse/OSSRH-384">OSSRH-384</a>.
                 </p>
             </subsection>
             <subsection name="Preparing the release (tag and update pom)">
