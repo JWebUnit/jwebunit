@@ -2717,12 +2717,13 @@ public class WebTester {
     }
     
     /**
-     * Get all the fields that are referenced or contained in a particular label.
+     * Get all the fields of type <code>input</code>, <code>textarea</code> or <code>select</code>
+     * that are referenced or contained in a particular label.
      * 
      * @param label The label to consider
      * @return A list of all fields contained or referenced in this label
      */
-    private List<IElement> getFieldsForLabel(IElement label) {
+    public List<IElement> getFieldsForLabel(IElement label) {
     	List<IElement> fields = new java.util.ArrayList<IElement>();
     	// a direct "for" attribute
     	if (label.getAttribute("for") != null) {
