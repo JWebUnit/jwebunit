@@ -192,5 +192,14 @@ public class HtmlUnitElementImpl implements IElement {
 			return false;
 		return true;
 	}
+	
+	/**
+	 * Return the unwrapped HtmlUnit element that this IElement represents. 
+	 * 
+	 * @return the HtmlUnit element this IElement represents.
+	 */
+	public HtmlElement getHtmlElement() {
+		return element;
+	}
 
 }
