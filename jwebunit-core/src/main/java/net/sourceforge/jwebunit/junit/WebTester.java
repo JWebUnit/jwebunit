@@ -295,7 +295,7 @@ public class WebTester {
      * @param status the expected status code 
      */
     public void assertResponseCode(int status) {
-    	Assert.assertEquals( getTestingEngine().getServerResponseCode(), status );
+    	Assert.assertEquals( status, getTestingEngine().getServerResponseCode() );
     }
 
     /**
