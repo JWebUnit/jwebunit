@@ -28,7 +28,7 @@
         </author>
     </properties>
     <body>
-        <release version="2.4" date="UNKNOW" description="Licensing change">
+        <release version="2.4" date="July 4, 2010" description="Licensing change">
             <action type="update" dev="henryju">
                 License was changed to LGPL v3
             </action>
