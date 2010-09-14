@@ -73,4 +73,20 @@ Test loadTest = new LoadTest(factory, users);</source>
     </faq>
   </part>
   
+    <part id="HtmlUnit">
+    <title>HtmlUnit testing engine</title>
+   
+    <faq id="htmlunit-change-refreshhandler">
+      <question>
+        How can I change HtmlUnit refresh handler (default is ImmediateRefreshHandler)?
+      </question>
+      <answer>
+        <p>Warning: this is not something easily portable to other testing engine.</p>
+	<source>if (getTestingEngine() instanceof HtmlUnitTestingEngineImpl) {
+	HtmlUnitTestingEngineImpl engine = (HtmlUnitTestingEngineImpl) getTestingEngine();			
+	engine.setRefreshHandler(new ThreadedRefreshHandler());
+}</source>
+      </answer>
+    </faq>
+  </part>
 </faqs>

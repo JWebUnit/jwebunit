@@ -68,6 +68,7 @@ import com.gargoylesoftware.htmlunit.ImmediateRefreshHandler;
 import com.gargoylesoftware.htmlunit.JavaScriptPage;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.PromptHandler;
+import com.gargoylesoftware.htmlunit.RefreshHandler;
 import com.gargoylesoftware.htmlunit.TextPage;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -116,6 +117,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     private final Logger logger = LoggerFactory.getLogger(HtmlUnitTestingEngineImpl.class);
 
+    /**
+     * holder for alternative refresh handler.
+     */
+    private RefreshHandler refreshHandler;
     /**
      * Encapsulate browser abilities.
      */
@@ -252,7 +257,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         	// only throw exception if necessary
         	if (!ignoreFailingStatusCodes) {
 	            throw new TestingEngineResponseException(
-	                    ex.getStatusCode(), ex);
+	                    "unexpected status code ["+ex.getStatusCode()+"] at URL: ["+initialURL+"]", ex);
         	}
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -806,7 +811,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         wc.setJavaScriptEnabled(jsEnabled);
         wc.setThrowExceptionOnScriptError(throwExceptionOnScriptError);
         wc.setRedirectEnabled(true);
-        wc.setRefreshHandler(new ImmediateRefreshHandler());
+        if (refreshHandler == null){
+        	wc.setRefreshHandler(new ImmediateRefreshHandler());
+        } else {
+        	wc.setRefreshHandler(refreshHandler);
+        }
         wc.setTimeout(timeout);
         DefaultCredentialsProvider creds = new DefaultCredentialsProvider();
         if (getTestContext().hasAuthorization()) {
@@ -2321,4 +2330,13 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 		timeout = milliseconds;
 	}
 
+	
+	public void setRefreshHandler(RefreshHandler handler){
+		this.refreshHandler = handler;
+		
+		if (wc != null){
+			wc.setRefreshHandler(refreshHandler);
+		}
+	}
+	
 }

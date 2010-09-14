@@ -28,6 +28,11 @@
         </author>
     </properties>
     <body>
+        <release version="2.5" date="UNKNOW" description="">
+            <action type="add" dev="henryju" issue="1864365" due-to="Jason McSwain">
+                Added the ability to change RefreshHandler in HtmlUnitTestingEngine.
+            </action>
+        </release>
         <release version="2.4" date="July 4, 2010" description="Licensing change">
             <action type="update" dev="henryju">
                 License was changed to LGPL v3
