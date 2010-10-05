@@ -317,6 +317,23 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changes-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <id>validate-changes</id>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>changes-validate</goal>
+                        </goals>
+                        <configuration>
+                            <failOnError>true</failOnError>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <properties>
@@ -494,8 +511,9 @@
                     </reportSet>
                 </reportSets>
                 <configuration>
-                    <issueLinkTemplate>
-                        http://sourceforge.net/support/tracker.php?aid=%ISSUE% </issueLinkTemplate>
+                    <issueLinkTemplatePerSystem>
+                        <sourceforge>http://sourceforge.net/support/tracker.php?aid=%ISSUE%</sourceforge>
+                    </issueLinkTemplatePerSystem>
                 </configuration>
             </plugin>
             <plugin>
