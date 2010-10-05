@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, JWebUnit team.
+
+    This file is part of JWebUnit.
+
+    JWebUnit is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JWebUnit is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<configuration>
+  <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+    <Target>System.out</Target>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="net.sourceforge.jwebunit" level="ERROR"/>
+
+  <logger name="com.gargoylesoftware" level="ERROR"/>
+  <logger name="com.gargoylesoftware.javascript" level="ERROR"/>
+
+  <logger name="org.apache.james.mime4j" level="ERROR"/>
+
+  <logger name="org.apache.commons.httpclient" level="ERROR"/>
+  <logger name="org.apache.http" level="ERROR"/>
+
+  <logger name="org.mortbay" level="ERROR"/>
+  
+  <logger name="ch.qos.logback" level="ERROR"/>
+
+  <root level="DEBUG">
+    <appender-ref ref="consoleAppender"/>
+  </root>
+</configuration>
