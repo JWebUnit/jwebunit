@@ -300,7 +300,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 c.setMaxAge(second.intValue());
             }
             c.setPath(cookie.getPath());
-            c.setSecure(cookie.toHttpClient().getSecure());
+            c.setSecure(cookie.toHttpClient().isSecure());
             c.setVersion(cookie.toHttpClient().getVersion());
             result.add(c);
         }
@@ -735,12 +735,8 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     public InputStream getInputStream() {
-        try {
-            return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
-                    .getContentAsStream();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
+                .getContentAsStream();
     }
 
     public InputStream getInputStream(URL resourceUrl)
@@ -755,9 +751,6 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         } catch (FailingHttpStatusCodeException aException) {
             throw new TestingEngineResponseException(
                     aException.getStatusCode(), aException);
-
-        } catch (IOException aException) {
-            throw new RuntimeException(aException);
         } finally {
             if (imageWindow != null) {
                 wc.deregisterWebWindow(imageWindow);
