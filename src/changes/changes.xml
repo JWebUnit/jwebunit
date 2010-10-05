@@ -29,6 +29,9 @@
     </properties>
     <body>
         <release version="2.5" date="UNKNOW" description="">
+            <action type="update" dev="henryju">
+                Updated to JUnit 4.8.2.
+            </action>
             <action type="add" dev="henryju" issue="1864365" due-to="Jason McSwain">
                 Added the ability to change RefreshHandler in HtmlUnitTestingEngine.
             </action>
