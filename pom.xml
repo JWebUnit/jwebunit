@@ -200,7 +200,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2-beta-2</version>
+				<version>2.2-beta-5</version>
 				<configuration>
 					<attach>false</attach>
 					<descriptors>
@@ -223,7 +223,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.1</version>
+				<version>2.3.2</version>
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>
@@ -253,7 +253,7 @@
             <plugin>
                 <groupId>com.mycila.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
-                <version>1.6.0</version>
+                <version>1.6.1</version>
                 <configuration>
                     <header>${topDirectoryLocation}/src/license/header.txt</header>
                     <aggregate>false</aggregate>
@@ -286,13 +286,13 @@
 					<inherited>true</inherited>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>javacc-maven-plugin</artifactId>
-					<version>2.4</version>
+					<version>2.6</version>
 				</plugin>
 				<plugin>
 					<inherited>true</inherited>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>exec-maven-plugin</artifactId>
-					<version>1.1-beta-1</version>
+					<version>1.2</version>
 				</plugin>
 				<plugin>
 					<inherited>true</inherited>
@@ -386,7 +386,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.0</version>
+                        <version>1.1</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
