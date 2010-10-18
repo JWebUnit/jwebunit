@@ -111,7 +111,7 @@ public class SearchExample extends WebTestCase {
     &lt;dependency&gt;
         &lt;groupId&gt;net.sourceforge.jwebunit&lt;/groupId&gt;
         &lt;artifactId&gt;jwebunit-htmlunit-plugin&lt;/artifactId&gt;
-        &lt;version&gt;2.0&lt;/version&gt;
+        &lt;version&gt;2.5&lt;/version&gt;
     &lt;/dependency&gt;
     ...
 &lt;/dependencies&gt;
