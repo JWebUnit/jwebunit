@@ -25,9 +25,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import net.sourceforge.jwebunit.tests.util.JettySetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.Test;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+import static org.junit.Assert.*;
 
 /**
  * Test form submission related methods of WebTestCase.
@@ -39,16 +40,12 @@ import junit.framework.TestSuite;
  */
 public class FormSubmissionTest extends JWebUnitAPITestCase {
 
-    public static Test suite() {
-        Test suite = new TestSuite(FormSubmissionTest.class);
-        return new JettySetup(suite);
-    }
-
     public void setUp() throws Exception {
         super.setUp();
         setBaseUrl(HOST_PATH + "/FormSubmissionTest");
     }
 
+    @Test
     public void testSetTextField() {
         beginAt("/SingleNamedButtonForm.html");
         setTextField("color", "blue");
@@ -61,6 +58,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("color=red");
     }
 
+    @Test
     public void testSetTextArea() {
         beginAt("/TextAreaForm.html");
         setTextField("text", "sometext");
@@ -73,6 +71,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("text=anothertext");
     }
 
+    @Test
     public void testSetFileField() {
         beginAt("/InputFileForm.html");
         File temp = null;
@@ -96,6 +95,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("file=" + temp.getName() + "{abcdefgh}");
     }
     
+    @Test
     public void testSubmitImageInput() {
         beginAt("/InputImageForm.html");
         setTextField("color", "toto");
@@ -105,6 +105,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("color=toto");
     }
 
+    @Test
     public void testSubmitImageInputByName() {
         beginAt("/InputImageForm.html");
         setTextField("color", "toto");
@@ -114,6 +115,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("color=toto");
     }
 
+    @Test
     public void testCheckBoxSelection() {
         beginAt("/SingleNamedButtonForm.html");
         checkCheckbox("checkBox");
@@ -125,6 +127,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("checkBox=,on");
     }
 
+    @Test
     public void testCheckBoxSelectionWithSameFieldName() {
         beginAt("/CheckboxForm.html");
         checkCheckbox("checkBox", "1");
@@ -134,6 +137,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("checkBox=1,3" + System.getProperty("line.separator"));
     }
 
+    @Test
     public void testCheckBoxDeSelectionWithSameFieldName() {
         beginAt("/CheckboxForm.html");
         checkCheckbox("checkBox", "1");
@@ -143,6 +147,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("checkBox=1");
     }
 
+    @Test
     public void testCheckBoxDeselection() {
         beginAt("/SingleNamedButtonForm.html");
         checkCheckbox("checkBox"); // Fail with httpunit because of hidden
@@ -154,6 +159,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("color=blue" + System.getProperty("line.separator"));
     }
     
+    @Test
     public void testRadioSelection() {
     	beginAt("/RadioForm.html");
     	clickRadioOption("radio", "1");
@@ -170,6 +176,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
     	assertTextPresent("radio=3" + System.getProperty("line.separator"));
     }
 
+    @Test
     public void testSingleFormSingleUnnamedButtonSubmission() {
         beginAt("/SingleUnnamedButtonForm.html");
         setTextField("color", "blue");
@@ -177,6 +184,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("color=blue" + System.getProperty("line.separator"));
     }
 
+    @Test
     public void testSingleNamedButtonSubmission() {
         beginAt("/SingleNamedButtonForm.html");
         setTextField("color", "red");
@@ -184,6 +192,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("color=red");
     }
 
+    @Test
     public void testSingleFormMultipleButtonSubmission() {
         gotoMultiButtonPage();
         submit("color");
@@ -193,6 +202,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("color=blue");
     }
 
+    @Test
     public void testBogusParameter() {
         gotoMultiButtonPage();
         try {
@@ -203,6 +213,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         }
     }
 
+    @Test
     public void testParamSetOnMultiForm() {
         beginAt("/MultiFormPage.html");
         setTextField("param1", "anyvalue");
@@ -212,6 +223,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("param2=anyvalue");
     }
 
+    @Test
     public void testTextFieldSetOnMultiFormWithSameName() {
         beginAt("/MultiFormPage.html");
         setWorkingForm("form2");
@@ -230,11 +242,13 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("email=anyvalue");
     }
 
+    @Test
     public void testSetWorkingFormById() {
         beginAt("/MultiFormPage.html");
         setWorkingForm("form5");
     }
 
+    @Test
     public void testSetWorkingFormWithSameName() {
         beginAt("/MultiFormPage.html");
         setWorkingForm("myForm", 0);
@@ -245,6 +259,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertSubmitButtonPresent("myInput2");
     }
 
+    @Test
     public void testInvalidButton() {
         beginAt("/InvalidActionForm.html");
         try {
@@ -256,6 +271,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         }
     }
 
+    @Test
     public void testUnnamedSubmitOnSpecificForm() {
         beginAt("/MultiFormPage.html");
         setTextField("param4", "anyvalue");
@@ -263,6 +279,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("param4=anyvalue");
     }
 
+    @Test
     public void testNamedSubmitOnSpecificForm() {
         beginAt("/MultiFormPage.html");
         setTextField("param2", "anyvalue");
@@ -271,6 +288,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("button2b=b2b");
     }
 
+    @Test
     public void testSubmissionReset() {
         beginAt("/MultiFormPage.html");
         setTextField("param2", "anyvalue");
@@ -280,6 +298,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("button2b=b2b");
     }
 
+    @Test
     public void testSelectOption() {
         beginAt("/MultiFormPage.html");
         assertSelectedOptionEquals("select1", "one");
@@ -287,6 +306,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertSelectedOptionEquals("select1", "two");
     }
 
+    @Test
     public void testSelectOptionInAnotherForm() {
         beginAt("/MultiFormPage.html");
         setWorkingForm("form6bis");
@@ -295,6 +315,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertSelectedOptionEquals("select1", "five");
     }
 
+    @Test
     public void testSelectOptionByValue() {
         beginAt("/MultiFormPage.html");
         assertSelectedOptionValueEquals("select1", "1");
@@ -306,6 +327,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         beginAt("/MultiNamedButtonForm.html");
     }
     
+    @Test
     public void testCachedForm() {
         beginAt("/Submit1.html");
         assertTextPresent("Page 1");
@@ -318,6 +340,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
     /**
      * Submit input
      */
+    @Test
     public void testClickButtonWithText1() {
         beginAt("/SingleNamedButtonForm.html");
         setTextField("color", "blue");
@@ -326,6 +349,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("color=blue");
     }
     
+    @Test
     public void testSetHiddenField() {
         beginAt("/SingleNamedButtonForm.html");
         assertHiddenFieldPresent("hidden", "foo");

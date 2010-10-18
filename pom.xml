@@ -296,6 +296,7 @@
                     <header>${topDirectoryLocation}/src/license/header.txt</header>
                     <aggregate>false</aggregate>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                    <strictChecking>true</strictChecking>
                     <excludes>
                         <exclude>LICENSE.txt</exclude>
                         <exclude>README.txt</exclude>
@@ -346,11 +347,6 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.8.2</version>
-            </dependency>
-            <dependency>
-                <groupId>junitperf</groupId>
-                <artifactId>junitperf</artifactId>
-                <version>1.8</version>
             </dependency>
             <dependency>
                 <groupId>org.mortbay.jetty</groupId>
@@ -447,7 +443,7 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-site-plugin</artifactId>
-                            <version>3.0-beta-2</version>
+                            <version>3.0-beta-3</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>

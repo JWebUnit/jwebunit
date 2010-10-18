@@ -20,6 +20,32 @@
 
 package net.sourceforge.jwebunit.tests;
 
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectOptionNotPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectOptionPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectOptionValueNotPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectOptionValuePresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectOptionValuesEqual;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectOptionValuesNotEqual;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectOptionValuesPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectOptionsEqual;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectOptionsNotEqual;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectOptionsPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectedOptionEquals;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectedOptionMatches;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectedOptionValueEquals;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectedOptionValuesEqual;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectedOptionsEqual;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectedOptionsMatch;
+import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
+import static net.sourceforge.jwebunit.junit.JWebUnit.selectOption;
+import static net.sourceforge.jwebunit.junit.JWebUnit.selectOptionByValue;
+import static net.sourceforge.jwebunit.junit.JWebUnit.selectOptions;
+import static net.sourceforge.jwebunit.junit.JWebUnit.selectOptionsByValues;
+import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
+import static net.sourceforge.jwebunit.junit.JWebUnit.setWorkingForm;
+
+import org.junit.Test;
+
 /**
  * Tests for <select> elements.
  */
@@ -32,7 +58,7 @@ public class SelectOptionsTest extends JWebUnitAPITestCase
         setBaseUrl(HOST_PATH + "/SelectOptionsTest");
     }
 
-    public void testAssertSelectOptionsOneForm() 
+    @Test public void testAssertSelectOptionsOneForm() 
     {
         beginAt("/pageWithOneForm.html");
 		assertSelectOptionsForm1();
@@ -46,7 +72,7 @@ public class SelectOptionsTest extends JWebUnitAPITestCase
     	assertSelectOptionsForm1();
     }
 
-    public void testAssertSelectOptionsTwoForms() 
+    @Test public void testAssertSelectOptionsTwoForms() 
     {
         beginAt("/pageWithTwoForms.html");
         setWorkingForm("form1");
@@ -60,7 +86,7 @@ public class SelectOptionsTest extends JWebUnitAPITestCase
         assertSelectOptionsForm2();
     }
 
-	public void testSelectOptionsOneForm()
+	@Test public void testSelectOptionsOneForm()
 	{
         //by label.
         beginAt("/pageWithOneForm.html");

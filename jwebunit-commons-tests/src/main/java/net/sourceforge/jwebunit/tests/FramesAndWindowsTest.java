@@ -19,9 +19,10 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.tests.util.JettySetup;
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 /**
  * User: djoiner
@@ -29,11 +30,6 @@ import net.sourceforge.jwebunit.tests.util.JettySetup;
  * Time: 11:35:52 AM
  */
 public class FramesAndWindowsTest extends JWebUnitAPITestCase {
-    
-    public static Test suite() {
-        Test suite = new TestSuite(FramesAndWindowsTest.class);
-        return new JettySetup(suite);
-    }   
     
     public void setUp() throws Exception {
         super.setUp();
@@ -51,42 +47,42 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
     
     // ------------ windows test ------------    
     
-    public void testOpenWindow() throws Throwable {
+    @Test public void testOpenWindow() throws Throwable {
         gotoRootAndOpenChild("ChildPage1");
         assertPassFail("assertWindowPresent", new Object[]{"ChildPage1"}, new Object[]{"NoSuchChild"});
     }   
 
-    public void testGotoWindow() {
+    @Test public void testGotoWindow() {
         gotoRootAndOpenChild("ChildPage1");
         gotoWindow("ChildPage1");
         assertTextPresent("child 1");
     }
     
-    public void testGotoWindowByID() {
+    @Test public void testGotoWindowByID() {
         gotoRootAndOpenChild("ChildPage3");
         gotoWindow(1);
         assertTextPresent("child 3");
     }
 
-    public void testGotoWindowByTitle() {
+    @Test public void testGotoWindowByTitle() {
         gotoRootAndOpenChild("ChildPage2");
         gotoWindowByTitle("Child Page 2");
         assertTextPresent("child 2");
     }
     
-    public void testAssertWindowWithTitle() throws Throwable {
+    @Test public void testAssertWindowWithTitle() throws Throwable {
         gotoRootAndOpenChild("ChildPage2");
         assertPassFail("assertWindowPresentWithTitle", new Object[]{"Child Page 2"}, new Object[]{"NoSuchTitle"});
     }
 
-    public void testSwitchWindows() {
+    @Test public void testSwitchWindows() {
         gotoRootAndOpenChild("ChildPage1");
         gotoWindow("ChildPage1");
         gotoRootWindow();
         assertTextPresent("This is the Root");
     }
 
-    public void testCloseWindow() {
+    @Test public void testCloseWindow() {
         beginAt("RootPage.html");
         assertTitleEquals("This is the Root");
         clickLink("ChildPage1");
@@ -97,7 +93,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertTitleEquals("This is the Root");
     }
 
-    public void testAssertWindowCountEquals() {
+    @Test public void testAssertWindowCountEquals() {
         beginAt("RootPage.html");
         assertWindowCountEquals(1);
         clickLink("ChildPage1");
@@ -109,7 +105,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
 
     // ----------- frames test --------------
 
-    public void testGotoFrame() {
+    @Test public void testGotoFrame() {
         beginAt("Frames.html");
 		assertFramePresent("TopFrame");
         gotoFrame("TopFrame");
@@ -126,7 +122,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
 				new Object[] { "BottomFrame" });
 	}
     
-    public void testGetFrameSource() {
+    @Test public void testGetFrameSource() {
         beginAt("Frames.html");
         assertTrue(getPageSource().indexOf("<frameset rows=\"33%, 33%, 33%\">")>=0);
         gotoFrame("TopFrame");
@@ -134,7 +130,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertTextPresent("TopFrame");
 	}
 
-	public void testGotoFrameById() {
+	@Test public void testGotoFrameById() {
         beginAt("Frames.html");
         assertFramePresent("frame1");
         gotoFrame("frame1");
@@ -150,7 +146,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertException(RuntimeException.class, "gotoFrame", new Object[] { "TopFrame" });
     }
 
-    public void testGotoInlineFrame() {
+    @Test public void testGotoInlineFrame() {
         beginAt("InlineFrame.html");
         assertTextPresent("TopFrame");
         // Is this how it should work? see also the test below
@@ -159,7 +155,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertTextPresent("ContentFrame"); // only 'ContentFrame' matches frameset tag too
     }
 
-    public void testFormInputInFrame() {
+    @Test public void testFormInputInFrame() {
         beginAt("Frames.html");
         gotoFrame("ContentFrame");
         assertFormPresent();
@@ -168,7 +164,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertTextPresent("color=red" + System.getProperty("line.separator"));
     }
 
-    public void testFormInputInInlineFrame() {
+    @Test public void testFormInputInInlineFrame() {
         beginAt("InlineFrame.html");
         gotoFrame("ContentFrame");
         assertFormPresent();
@@ -178,7 +174,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
     }
 
     //TODO this just posts to a new frameset inside the frame, is the test needed?
-    public void testFormInputInFrameToFrame() {
+    @Test public void testFormInputInFrameToFrame() {
 		beginAt("Frames.html");
 		gotoFrame("ContentFrame");
         setTextField("color", "green");

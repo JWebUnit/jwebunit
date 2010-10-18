@@ -20,11 +20,14 @@
 
 package net.sourceforge.jwebunit.tests;
 
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertDownloadedFileEquals;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
+import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
+
 import java.io.IOException;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.tests.util.JettySetup;
+import org.junit.Test;
 
 /**
  * Test that non-html content is well handled.
@@ -33,27 +36,22 @@ import net.sourceforge.jwebunit.tests.util.JettySetup;
  */
 public class NonHtmlContentTest extends JWebUnitAPITestCase {
 
-    public static Test suite() {
-        Test suite = new TestSuite(NonHtmlContentTest.class);
-        return new JettySetup(suite);
-    }
-
     public void setUp() throws Exception {
         super.setUp();
         setBaseUrl(HOST_PATH + "/NonHtmlContentTest");
     }
 
-    public void testTextContent() {
+    @Test public void testTextContent() {
         beginAt("/text.txt");
         assertTextPresent("Hello\r\nWorld");
     }
 
-    public void testBinaryContent() {
+    @Test public void testBinaryContent() {
         beginAt("/text.bin");
         assertTextPresent("Hello\r\nWorld");
     }
 
-    public void testImageContent() throws IOException {
+    @Test public void testImageContent() throws IOException {
         beginAt("/image.png");
         assertDownloadedFileEquals(this.getClass().getResource("/testcases/NonHtmlContentTest/image.png"));
     }

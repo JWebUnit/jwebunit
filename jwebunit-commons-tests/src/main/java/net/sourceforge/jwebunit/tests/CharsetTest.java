@@ -19,9 +19,9 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.tests.util.JettySetup;
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+
+import org.junit.Test;
 
 /**
  * Make sure JWebUnit handles character conversions properly.
@@ -29,13 +29,6 @@ import net.sourceforge.jwebunit.tests.util.JettySetup;
  * @author <a href="mailto:jesse@swank.ca">Jesse Wilson</a>
  */
 public class CharsetTest extends JWebUnitAPITestCase {
-    public CharsetTest(String name) {
-        super(name);
-    }
-
-    public static Test suite() {
-        return new JettySetup(new TestSuite(CharsetTest.class));
-    }
 
     public void setUp() throws Exception {
         super.setUp();
@@ -43,18 +36,22 @@ public class CharsetTest extends JWebUnitAPITestCase {
         beginAt("/charset.html_utf-8");
     }
 
+    @Test
     public void testEuro() {
         assertTextFieldEquals("eur", "\u20AC");
     }
 
+    @Test
     public void testDollar() {
         assertTextFieldEquals("usd", "$");
     }
 
+    @Test
     public void testYen() {
         assertTextFieldEquals("yen", "\u00A5");
     }
 
+    @Test
     public void testPound() {
         assertTextFieldEquals("gbp", "\u00A3");
     }

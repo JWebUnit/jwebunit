@@ -19,9 +19,16 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.tests.util.JettySetup;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertCookiePresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertCookieValueEquals;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertCookieValueMatch;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
+import static net.sourceforge.jwebunit.junit.JWebUnit.getTestContext;
+import static net.sourceforge.jwebunit.junit.JWebUnit.gotoPage;
+import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
+
+import org.junit.Test;
 
 /**
  * Test the Cookies methods provided by WebTestCase.
@@ -31,39 +38,35 @@ import net.sourceforge.jwebunit.tests.util.JettySetup;
 public class WebCookieTest extends JWebUnitAPITestCase {
 
 
-	public static Test suite() {
-		return new JettySetup(new TestSuite(WebCookieTest.class));
-	}
-
     public void setUp() throws Exception {
         super.setUp();
 		getTestContext().addCookie("cookie1", "Cookievalue1", "localhost");
 		setBaseUrl(HOST_PATH);
     }
     
-    public void testAddCookie() {
+    @Test public void testAddCookie() {
     	beginAt("/cookies.jsp");
     	assertTextPresent("cookie1=Cookievalue1");
     }
     
-    public void testAddAnotherCookie() {
+    @Test public void testAddAnotherCookie() {
     	getTestContext().addCookie("cookie2", "Cookievalue2", "localhost");
     	beginAt("/cookies.jsp");
     	assertTextPresent("cookie1=Cookievalue1");
     	assertTextPresent("cookie2=Cookievalue2");
     }
 
-    public void testAssertCookiePresent() throws Throwable {
+    @Test public void testAssertCookiePresent() throws Throwable {
     	beginAt("/cookies.jsp");
     	assertCookiePresent("serveurCookie");
 	}
 
-    public void testAssertCookieValue() throws Throwable {
+    @Test public void testAssertCookieValue() throws Throwable {
     	beginAt("/cookies.jsp");
     	assertCookieValueEquals("serveurCookie", "foo");
 	}
 
-    public void testAssertCookieMatch() throws Throwable {
+    @Test public void testAssertCookieMatch() throws Throwable {
     	beginAt("/cookies.jsp");
     	assertCookieValueMatch("serveurCookie", "fo*");
 	}
@@ -72,7 +75,7 @@ public class WebCookieTest extends JWebUnitAPITestCase {
      * Test that the cookie still exists across multiple requests,
      * even if the cookie is not explicitly set each time.
      */
-    public void testCookieWithoutExplicitSet() {
+    @Test public void testCookieWithoutExplicitSet() {
     	beginAt("/cookies.jsp");		// beginAt also resets cookies
     	assertCookieValueEquals("serveurCookie", "foo");
     	gotoPage("/cookies.jsp?dont_set=1");

@@ -19,9 +19,12 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import net.sourceforge.jwebunit.tests.util.JettySetup;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertTitleEquals;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertTitleNotSame;
+import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
+import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
+
+import org.junit.Test;
 
 /**
  * Sanity check for the Jetty setup.
@@ -29,13 +32,6 @@ import net.sourceforge.jwebunit.tests.util.JettySetup;
  * @author Martijn Dashorst
  */
 public class HelloWorldTest extends JWebUnitAPITestCase {
-	public HelloWorldTest(String name) {
-		super(name);
-	}
-
-	public static Test suite() {
-		return new JettySetup(new TestSuite(HelloWorldTest.class));
-	}
 
 	public void setUp() throws Exception {
 		super.setUp();
@@ -43,7 +39,7 @@ public class HelloWorldTest extends JWebUnitAPITestCase {
 		beginAt("/helloworld.html");
 	}
 
-	public void testTitle() {
+	@Test public void testTitle() {
 		assertTitleEquals("Hello, World!");
 		assertTitleNotSame("Goodbye, World!");
 	}

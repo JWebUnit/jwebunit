@@ -19,6 +19,10 @@
 
 package net.sourceforge.jwebunit.tests;
 
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+
+import org.junit.Test;
+
 public class ButtonAssertionsTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
@@ -26,6 +30,7 @@ public class ButtonAssertionsTest extends JWebUnitAPITestCase {
         setBaseUrl(HOST_PATH + "/ButtonAssertionsTest");
     }
 
+    @Test
     public void testAssertButtonwithOneFormfound() {
         beginAt("/pageWithOneForm.html");
         assertButtonPresent("button1");
@@ -40,6 +45,7 @@ public class ButtonAssertionsTest extends JWebUnitAPITestCase {
         assertButtonPresentWithText("Input button");
     }
 
+    @Test
     public void testAssertButtonwithTowFormsfound() {
         beginAt("/pageWithTwoForms.html");
         assertButtonPresent("button1");
@@ -58,6 +64,7 @@ public class ButtonAssertionsTest extends JWebUnitAPITestCase {
         assertButtonPresent("buttonOutside");
     }
     
+    @Test
     public void testAssertButtonWithText() {
         beginAt("/pageWithTwoForms.html");
         assertButtonPresentWithText("Testbutton");

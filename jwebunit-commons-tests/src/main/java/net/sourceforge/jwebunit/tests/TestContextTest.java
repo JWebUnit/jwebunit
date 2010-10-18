@@ -19,19 +19,24 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import javax.servlet.http.Cookie;
-
-import net.sourceforge.jwebunit.util.TestContext;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
+import static net.sourceforge.jwebunit.junit.JWebUnit.getTestContext;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
+
+import net.sourceforge.jwebunit.util.TestContext;
+
+import org.junit.Test;
+
 public class TestContextTest extends JWebUnitAPITestCase {
     private TestContext context;
-
-    public TestContextTest(String s) {
-        super(s);
-    }
 
     public void setUp() throws Exception {
         super.setUp();
@@ -42,7 +47,7 @@ public class TestContextTest extends JWebUnitAPITestCase {
     }
 
 
-    public void testInit() {
+    @Test public void testInit() {
         assertTrue(context.hasAuthorization());
         assertTrue(context.hasCookies());
         assertEquals(context.getUser(), "user");
@@ -57,13 +62,13 @@ public class TestContextTest extends JWebUnitAPITestCase {
         assertNull(context.getResourceBundleName());
     }
 
-    public void testResourceBundle() {
+    @Test public void testResourceBundle() {
         String name = "/TestContextBundle";
         context.setResourceBundleName("/TestContextBundle");
         assertEquals(name, context.getResourceBundleName());
     }
 
-    public void testUserAgent() {
+    @Test public void testUserAgent() {
         getTestContext().setBaseUrl(HOST_PATH + "/TestContextTest");
         String userAgent = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.3) Gecko/20060426 Firefox/1.5.0.3";
         getTestContext().setUserAgent(userAgent);

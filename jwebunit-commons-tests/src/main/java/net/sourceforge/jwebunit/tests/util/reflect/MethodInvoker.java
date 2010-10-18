@@ -31,8 +31,8 @@ import java.lang.reflect.Method;
 public class MethodInvoker {
     private Object receiver;
     private String methodName;
-    private Class[] argTypes;
-    private Class receiverType;
+    private Class<?>[] argTypes;
+    private Class<?> receiverType;
     private Object[] args;
 
     public MethodInvoker(Object receiver, String methodName) {
@@ -64,7 +64,7 @@ public class MethodInvoker {
             } catch (NoSuchMethodException e1) {
                 String classes = "(";
                 for (int i = 0; i < argTypes.length; i++) {
-                    Class argType = argTypes[i];
+                    Class<?> argType = argTypes[i];
                     classes += " " + argType.getName();
                     if (i != argTypes.length - 1) {
                         classes += ",";
@@ -78,9 +78,9 @@ public class MethodInvoker {
     }
 
     private void convertToPrimitives() {
-        Class[] newArgTypes = new Class[argTypes.length];
+        Class<?>[] newArgTypes = new Class[argTypes.length];
         for (int i = 0; i < argTypes.length; i++) {
-            Class argType = argTypes[i];
+            Class<?> argType = argTypes[i];
             if (argType.equals(Boolean.class)) {
                 newArgTypes[i] = Boolean.TYPE;
             } else if (argType.equals(Byte.class)) {

@@ -17,33 +17,18 @@
  * along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+package net.sourceforge.jwebunit.tests.util;
 
-package net.sourceforge.jwebunit.tests;
-
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTitleEquals;
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
-
-import org.junit.Test;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Test redirection support.
- * 
- * @author Julien Henry
+ * @author Mathieu Carbou (mathieu.carbou@gmail.com)
  */
-public class RedirectionTest extends JWebUnitAPITestCase {
-
-    public void setUp() throws Exception {
-        super.setUp();
-        setBaseUrl(HOST_PATH + "/RedirectionTest");
-    }
-
-    @Test public void testRedirection() {
-        beginAt("/redirect.html");
-        assertTitleEquals("Redirected");
-        closeBrowser();
-        beginAt(HOST_PATH + "/redirect.jsp");
-        assertTitleEquals("Redirected");
-    }
-
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD})
+public @interface Concurrent {
+    int value() default 10;
 }

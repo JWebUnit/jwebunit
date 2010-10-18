@@ -20,10 +20,23 @@
 
 package net.sourceforge.jwebunit.tests;
 
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertLinkPresentWithExactText;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertLinkPresentWithText;
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertTitleEquals;
+import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
+import static net.sourceforge.jwebunit.junit.JWebUnit.clickLink;
+import static net.sourceforge.jwebunit.junit.JWebUnit.clickLinkWithExactText;
+import static net.sourceforge.jwebunit.junit.JWebUnit.clickLinkWithImage;
+import static net.sourceforge.jwebunit.junit.JWebUnit.clickLinkWithText;
+import static net.sourceforge.jwebunit.junit.JWebUnit.getTestContext;
+import static net.sourceforge.jwebunit.junit.JWebUnit.gotoPage;
+import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
-import net.sourceforge.jwebunit.tests.util.JettySetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
+
+import org.junit.Test;
 
 /**
  * Test url navigation methods on WebTestCase (starting at a url, navigating
@@ -34,25 +47,20 @@ import junit.framework.TestSuite;
  */
 public class NavigationTest extends JWebUnitAPITestCase {
 
-	public static Test suite() {
-		Test suite = new TestSuite(NavigationTest.class);
-		return new JettySetup(suite);
-	}
-
 	public void setUp() throws Exception {
 		super.setUp();
 		setBaseUrl(HOST_PATH + "/NavigationTest");
 	}
 
-	public void testBeginAtRelative() {
+	@Test public void testBeginAtRelative() {
 	    beginAt("/blah.html");
 	}
 
-	public void testBeginAtAbsolute() {
+	@Test public void testBeginAtAbsolute() {
 	    beginAt(HOST_PATH + "/NavigationTest/blah.html");
 	}
 
-	public void testForwardSlashConfusion() throws Exception {
+	@Test public void testForwardSlashConfusion() throws Exception {
 	    beginAt("/blah.html");
 	    beginAt("blah.html");
 		getTestContext().setBaseUrl(HOST_PATH + "/NavigationTest/");
@@ -60,14 +68,14 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		beginAt("blah.html");
 	}
 
-	public void testInvalidBeginAt() {
+	@Test public void testInvalidBeginAt() {
 
 		//the testing engines should throw an exception if a 404 Error is found.
         assertException(TestingEngineResponseException.class, "beginAt", new Object[] {"/nosuchresource.html"});
 
 	}
 
-	public void testClickLinkWithText() {
+	@Test public void testClickLinkWithText() {
 		beginAt("/pageWithLink.html");
 		assertTitleEquals("pageWithLink");
 
@@ -75,6 +83,7 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		assertTitleEquals("targetPage");
 	}
 
+	@Test 
 	public void testClickLinkWithTextN() {
 		beginAt("/pageWithLink.html");
 		assertTitleEquals("pageWithLink");
@@ -97,7 +106,7 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		assertTitleEquals("pageWithLink");
 	}
 
-	public void testClickLinkWithImage() {
+	@Test public void testClickLinkWithImage() {
 		beginAt("/pageWithLink.html");
 		assertTitleEquals("pageWithLink");
 
@@ -105,7 +114,7 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		assertTitleEquals("targetPage2");
 	}
 
-	public void testClickLinkByID() {
+	@Test public void testClickLinkByID() {
 		beginAt("/pageWithLink.html");
 		assertTitleEquals("pageWithLink");
 
@@ -113,7 +122,7 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		assertTitleEquals("targetPage");
 	}
 
-	public void testInvalidClickLink() {
+	@Test public void testInvalidClickLink() {
 		beginAt("/pageWithLink.html");
 		assertTitleEquals("pageWithLink");
 
@@ -125,14 +134,14 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		fail("Expected exception");
 	}
 
-	public void testGotoPageRelative() {
+	@Test public void testGotoPageRelative() {
 		beginAt("/targetPage.html");
 		assertTitleEquals("targetPage");
 		gotoPage("/targetPage2.html");
 		assertTitleEquals("targetPage2");
 	}
 
-	public void testGotoPageAbsolute() {
+	@Test public void testGotoPageAbsolute() {
 		beginAt("/targetPage.html");
 		assertTitleEquals("targetPage");
                 gotoPage(HOST_PATH + "/NavigationTest/targetPage2.html");
@@ -140,7 +149,7 @@ public class NavigationTest extends JWebUnitAPITestCase {
 	}
 
 	//For bug 726143
-	public void testLinkWithEscapedText() {
+	@Test public void testLinkWithEscapedText() {
 		beginAt("/pageWithAmpersandInLink.html");
 		assertLinkPresentWithText("Map & Directions");
 		clickLinkWithText("Map & Directions");
@@ -150,7 +159,7 @@ public class NavigationTest extends JWebUnitAPITestCase {
 	/**
 	 * Testing for issue 996031
 	 */
-	public void testLinkExactText() {
+	@Test public void testLinkExactText() {
 		beginAt("/test1.html");
 		assertTitleEquals("test1");
 		assertLinkPresentWithExactText("one");
