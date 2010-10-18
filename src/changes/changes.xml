@@ -31,7 +31,10 @@
         </author>
     </properties>
     <body>
-        <release version="2.5" date="UNKNOW" description="">
+        <release version="3.0" date="UNKNOW" description="Updated all internals to JUnit 4">
+            <action type="update" dev="henryju">
+                Updated to JUnit 4. See migration section of the documentation.
+            </action>
             <action type="update" dev="henryju">
                 Updated to slf4j 1.6.1.
             </action>

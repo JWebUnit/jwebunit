@@ -22,7 +22,6 @@ package net.sourceforge.jwebunit.tests;
 
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
-import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -91,7 +90,7 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		try {
 			clickLinkWithText("an active link", 2);
 			fail();
-		} catch (AssertionFailedError expected) {
+		} catch (AssertionError expected) {
 			assertEquals("Link with text [an active link] and index [2] "
 					+ "not found in response.", expected.getMessage());
 		}
@@ -163,7 +162,7 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		boolean passed = false;
 		try {
 			clickLinkWithExactText("doesn't exist");
-		} catch (AssertionFailedError e) {
+		} catch (AssertionError e) {
 			// expected
 			passed = true;
 		}

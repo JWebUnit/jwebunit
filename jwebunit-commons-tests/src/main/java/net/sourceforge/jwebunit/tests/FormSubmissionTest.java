@@ -26,7 +26,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import net.sourceforge.jwebunit.tests.util.JettySetup;
-import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -198,10 +197,10 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         gotoMultiButtonPage();
         try {
             setTextField("nonexistent", "anyvalue");
-        } catch (AssertionFailedError e) {
-            return;
+            fail("Expected AssertionError");
+        } catch (AssertionError e) {
+            //OK it was expected
         }
-        fail("Expected AssertionFailedError");
     }
 
     public void testParamSetOnMultiForm() {

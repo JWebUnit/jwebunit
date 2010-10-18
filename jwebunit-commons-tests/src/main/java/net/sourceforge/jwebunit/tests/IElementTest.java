@@ -22,7 +22,6 @@ package net.sourceforge.jwebunit.tests;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import net.sourceforge.jwebunit.api.IElement;
@@ -61,7 +60,7 @@ public class IElementTest extends JWebUnitAPITestCase {
     	try {
     		getElementByXPath("//input[@id='test2']");
     		fail("getElementByXPath() should have thrown an assertion exception.");
-    	} catch (AssertionFailedError e) {
+    	} catch (AssertionError e) {
     		// nothing
     	}
     }

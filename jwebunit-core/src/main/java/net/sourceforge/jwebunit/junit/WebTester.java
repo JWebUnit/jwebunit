@@ -41,8 +41,6 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
 
-import junit.framework.Assert;
-import junit.framework.AssertionFailedError;
 import net.sourceforge.jwebunit.api.IElement;
 import net.sourceforge.jwebunit.api.ITestingEngine;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
@@ -59,6 +57,8 @@ import net.sourceforge.jwebunit.util.TestingEngineRegistry;
 
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
+
+import static org.junit.Assert.*;
 
 /**
  * Provides a high-level API for basic web application navigation and validation by providing
@@ -160,15 +160,15 @@ public class WebTester {
         try {
             getTestingEngine().closeBrowser();
         } catch (ExpectedJavascriptAlertException e) {
-            Assert.fail("You previously tell that alert with message ["
+            fail("You previously tell that alert with message ["
                     + e.getAlertMessage()
                     + "] was expected, but nothing appeared.");
         } catch (ExpectedJavascriptConfirmException e) {
-            Assert.fail("You previously tell that confirm with message ["
+            fail("You previously tell that confirm with message ["
                     + e.getConfirmMessage()
                     + "] was expected, but nothing appeared.");
         } catch (ExpectedJavascriptPromptException e) {
-            Assert.fail("You previously tell that prompt with message ["
+            fail("You previously tell that prompt with message ["
                     + e.getPromptMessage()
                     + "] was expected, but nothing appeared.");
         }
@@ -227,7 +227,7 @@ public class WebTester {
         try {
             getTestingEngine().beginAt(createUrl(aRelativeURL, getTestContext().getBaseUrl()), testContext);
         } catch (MalformedURLException e) {
-            Assert.fail(e.getLocalizedMessage());
+            fail(e.getLocalizedMessage());
         }
 
     }
@@ -295,7 +295,7 @@ public class WebTester {
      * @param status the expected status code 
      */
     public void assertResponseCode(int status) {
-    	Assert.assertEquals( status, getTestingEngine().getServerResponseCode() );
+    	assertEquals( status, getTestingEngine().getServerResponseCode() );
     }
 
     /**
@@ -306,7 +306,7 @@ public class WebTester {
      * @param higher the upper bound for the expected status code 
      */
     public void assertResponseCodeBetween(int lower, int higher) {
-    	Assert.assertTrue( getTestingEngine().getServerResponseCode() >= lower && getTestingEngine().getServerResponseCode() <= higher );
+    	assertTrue( getTestingEngine().getServerResponseCode() >= lower && getTestingEngine().getServerResponseCode() <= higher );
     } 
     
 	/**
@@ -325,7 +325,7 @@ public class WebTester {
      * @param name The header to find
      */
     public void assertHeaderPresent(String name) {
-    	Assert.assertFalse( "header '" + name + "' not present", getTestingEngine().getHeader(name) == null );
+    	assertFalse( "header '" + name + "' not present", getTestingEngine().getHeader(name) == null );
     }
     
     /**
@@ -334,7 +334,7 @@ public class WebTester {
      * @param name The header to find
      */
     public void assertHeaderNotPresent(String name) {
-    	Assert.assertTrue( "header '" + name + "' present", getTestingEngine().getHeader(name) == null );
+    	assertTrue( "header '" + name + "' present", getTestingEngine().getHeader(name) == null );
     }
     
     /**
@@ -344,7 +344,7 @@ public class WebTester {
      * @param value Value to compare against
      */
     public void assertHeaderEquals(String name, String value) {
-    	Assert.assertEquals( value, getTestingEngine().getHeader(name) );
+    	assertEquals( value, getTestingEngine().getHeader(name) );
     }
     
     /**
@@ -384,7 +384,7 @@ public class WebTester {
      *            expected title value
      */
     public void assertTitleEquals(String title) {
-        Assert.assertEquals(title, getTestingEngine().getPageTitle());
+        assertEquals(title, getTestingEngine().getPageTitle());
     }
     
     /**
@@ -395,7 +395,7 @@ public class WebTester {
      *            unexpected title value
      */
     public void assertTitleNotSame(String title) {
-    	Assert.assertNotSame(title, getTestingEngine().getPageTitle());
+    	assertNotSame(title, getTestingEngine().getPageTitle());
     }
 
     /**
@@ -415,7 +415,7 @@ public class WebTester {
      *            web resource key for title
      */
     public void assertTitleEqualsKey(String titleKey) {
-        Assert.assertEquals(getMessage(titleKey), getTestingEngine().getPageTitle());
+        assertEquals(getMessage(titleKey), getTestingEngine().getPageTitle());
     }
 
     /**
@@ -425,7 +425,7 @@ public class WebTester {
      * @param args
      */
     public void assertTitleEqualsKey(String titleKey, Object[] args) {
-        Assert.assertEquals(getMessage(titleKey, args), getTestingEngine().getPageTitle());
+        assertEquals(getMessage(titleKey, args), getTestingEngine().getPageTitle());
     }
 
     /**
@@ -455,7 +455,7 @@ public class WebTester {
      */
     public void assertTextPresent(String text) {
         if (!(getTestingEngine().getPageText().contains(text)))
-            Assert.fail("Expected text not found in current page: [" + text
+            fail("Expected text not found in current page: [" + text
                     + "]\n Page content was: ["
                     + getTestingEngine().getPageText() + "]");
     }
@@ -468,7 +468,7 @@ public class WebTester {
     public void assertMatch(String regexp) {
         RE re = getRE(regexp);
         if (!re.match(getTestingEngine().getPageText()))
-            Assert.fail("Expected rexexp not matched in response: [" + regexp
+            fail("Expected rexexp not matched in response: [" + regexp
                     + "]");
     }
     
@@ -502,7 +502,7 @@ public class WebTester {
     public void assertMatch(String message, String regexp, String text) {
         RE re = getRE(regexp);
         if (!re.match(text))
-            Assert.fail(message);
+            fail(message);
     }
 
     /**
@@ -514,7 +514,7 @@ public class WebTester {
     public void assertNotMatch(String message, String regexp, String text) {
         RE re = getRE(regexp);
         if (re.match(text))
-            Assert.fail(message);
+            fail(message);
     }
     
     /**
@@ -543,7 +543,7 @@ public class WebTester {
      */
     public void assertTextNotPresent(String text) {
         if (getTestingEngine().getPageText().contains(text))
-            Assert.fail("Text found in response when not expected: [" + text
+            fail("Text found in response when not expected: [" + text
                     + "]");
     }
 
@@ -574,7 +574,7 @@ public class WebTester {
      */
     public void assertTablePresent(String tableSummaryNameOrId) {
         if (!getTestingEngine().hasTable(tableSummaryNameOrId))
-            Assert.fail("Unable to locate table \"" + tableSummaryNameOrId
+            fail("Unable to locate table \"" + tableSummaryNameOrId
                     + "\"");
     }
 
@@ -585,7 +585,7 @@ public class WebTester {
      */
     public void assertTableNotPresent(String tableSummaryNameOrId) {
         if (getTestingEngine().hasTable(tableSummaryNameOrId))
-            Assert.fail("Located table \"" + tableSummaryNameOrId + "\"");
+            fail("Located table \"" + tableSummaryNameOrId + "\"");
     }
 
     /**
@@ -620,7 +620,7 @@ public class WebTester {
      */
     public void assertTextInTable(String tableSummaryNameOrId, String text) {
         assertTablePresent(tableSummaryNameOrId);
-        Assert.assertTrue("Could not find: [" + text + "]" + "in table ["
+        assertTrue("Could not find: [" + text + "]" + "in table ["
                 + tableSummaryNameOrId + "]", getTestingEngine().getTable(
                 tableSummaryNameOrId).hasText(text));
     }
@@ -633,7 +633,7 @@ public class WebTester {
      */
     public void assertMatchInTable(String tableSummaryNameOrId, String regexp) {
         assertTablePresent(tableSummaryNameOrId);
-        Assert.assertTrue("Could not match: [" + regexp + "]" + "in table ["
+        assertTrue("Could not match: [" + regexp + "]" + "in table ["
                 + tableSummaryNameOrId + "]", getTestingEngine().getTable(
                 tableSummaryNameOrId).hasMatch(regexp));
     }
@@ -709,7 +709,7 @@ public class WebTester {
      */
     public void assertTextNotInTable(String tableSummaryNameOrId, String text) {
         assertTablePresent(tableSummaryNameOrId);
-        Assert.assertTrue("Found text: [" + text + "] in table ["
+        assertTrue("Found text: [" + text + "] in table ["
                 + tableSummaryNameOrId + "]", !getTestingEngine().getTable(
                 tableSummaryNameOrId).hasText(text));
     }
@@ -734,7 +734,7 @@ public class WebTester {
      */
     public void assertNoMatchInTable(String tableSummaryNameOrId, String regexp) {
         assertTablePresent(tableSummaryNameOrId);
-        Assert.assertTrue("Found regexp: [" + regexp + "] in table ["
+        assertTrue("Found regexp: [" + regexp + "] in table ["
                 + tableSummaryNameOrId + "]", !getTestingEngine().getTable(
                 tableSummaryNameOrId).hasMatch(regexp));
     }
@@ -813,7 +813,7 @@ public class WebTester {
         assertTablePresent(tableSummaryNameOrId);
         int actualRowCount = getTestingEngine().getTable(tableSummaryNameOrId)
                 .getRowCount();
-        Assert.assertTrue("Expected row count was " + expectedRowCount
+        assertTrue("Expected row count was " + expectedRowCount
                 + " but actual row count is " + actualRowCount,
                 actualRowCount == expectedRowCount);
     }
@@ -873,7 +873,7 @@ public class WebTester {
      * @param formElementName
      */
     public void assertFormElementPresent(String formElementName) {
-        Assert.assertTrue("Did not find form element with name ["
+        assertTrue("Did not find form element with name ["
                 + formElementName + "].", getTestingEngine()
                 .hasFormParameterNamed(formElementName));
     }
@@ -885,7 +885,7 @@ public class WebTester {
      */
     public void assertFormElementNotPresent(String formElementName) {
         try {
-            Assert.assertTrue("Found form element with name ["
+            assertTrue("Found form element with name ["
                     + formElementName + "] when not expected.", !getTestingEngine()
                     .hasFormParameterNamed(formElementName));
         } catch (UnableToSetFormException e) {
@@ -899,7 +899,7 @@ public class WebTester {
      * @param checkboxName checkbox name.
      */
     public void assertCheckboxPresent(String checkboxName) {
-        Assert.assertTrue("Did not find form checkbox with name ["
+        assertTrue("Did not find form checkbox with name ["
                 + checkboxName + "].", getTestingEngine().hasElementByXPath(
                 "//input[lower-case(@type)='checkbox' and @name='" + checkboxName + "']"));
     }
@@ -911,7 +911,7 @@ public class WebTester {
      * @param checkboxValue checkbox value attribut.
      */
     public void assertCheckboxPresent(String checkboxName, String checkboxValue) {
-        Assert.assertTrue("Did not find form checkbox with name ["
+        assertTrue("Did not find form checkbox with name ["
                 + checkboxName + "] and value [" + checkboxValue + "].",
                 getTestingEngine().hasElementByXPath(
                         "//input[lower-case(@type)='checkbox' and @name='" + checkboxName
@@ -924,7 +924,7 @@ public class WebTester {
      * @param checkboxName checkbox name.
      */
     public void assertCheckboxNotPresent(String checkboxName) {
-        Assert.assertFalse("Found form checkbox with name [" + checkboxName
+        assertFalse("Found form checkbox with name [" + checkboxName
                 + "] when not expected.", getTestingEngine().hasElementByXPath(
                 "//input[lower-case(@type)='checkbox' and @name='" + checkboxName + "']"));
     }
@@ -937,7 +937,7 @@ public class WebTester {
      */
     public void assertCheckboxNotPresent(String checkboxName,
             String checkboxValue) {
-        Assert.assertFalse("Found form checkbox with name [" + checkboxName
+        assertFalse("Found form checkbox with name [" + checkboxName
                 + "] and value [" + checkboxValue + "] when not expected.",
                 getTestingEngine().hasElementByXPath(
                         "//input[lower-case(@type)='checkbox' and @name='" + checkboxName
@@ -949,7 +949,7 @@ public class WebTester {
      *
      */
     public void assertFormPresent() {
-        Assert.assertTrue("No form present", getTestingEngine().hasForm());
+        assertTrue("No form present", getTestingEngine().hasForm());
     }
 
     /**
@@ -958,7 +958,7 @@ public class WebTester {
      * @param nameOrID
      */
     public void assertFormPresent(String nameOrID) {
-        Assert.assertTrue("No form present with name or id [" + nameOrID + "]",
+        assertTrue("No form present with name or id [" + nameOrID + "]",
                 getTestingEngine().hasForm(nameOrID));
     }
 
@@ -967,7 +967,7 @@ public class WebTester {
      *
      */
     public void assertFormNotPresent() {
-        Assert.assertFalse("A form is present", getTestingEngine().hasForm());
+        assertFalse("A form is present", getTestingEngine().hasForm());
     }
 
     /**
@@ -976,7 +976,7 @@ public class WebTester {
      * @param nameOrID
      */
     public void assertFormNotPresent(String nameOrID) {
-        Assert.assertFalse("Form present with name or id [" + nameOrID + "]",
+        assertFalse("Form present with name or id [" + nameOrID + "]",
                 getTestingEngine().hasForm(nameOrID));
     }
 
@@ -991,7 +991,7 @@ public class WebTester {
     public void assertFormElementEquals(String formElementName,
             String expectedValue) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals(expectedValue, getTestingEngine()
+        assertEquals(expectedValue, getTestingEngine()
                 .getElementAttributByXPath(
                         "//input[@name='" + formElementName + "']", "value"));
     }
@@ -1009,9 +1009,9 @@ public class WebTester {
         try {
             re = new RE(regexp, RE.MATCH_SINGLELINE);
         } catch (RESyntaxException e) {
-            Assert.fail(e.toString());
+            fail(e.toString());
         }
-        Assert.assertTrue("Unable to match [" + regexp + "] in form element \""
+        assertTrue("Unable to match [" + regexp + "] in form element \""
                 + formElementName + "\"", re.match(getTestingEngine()
                 .getElementAttributByXPath(
                         "//input[@name='" + formElementName + "']", "value")));
@@ -1027,7 +1027,7 @@ public class WebTester {
      */
     public void assertFormElementEmpty(String formElementName) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals("", getTestingEngine().getElementAttributByXPath(
+        assertEquals("", getTestingEngine().getElementAttributByXPath(
                 "//input[@name='" + formElementName + "']", "value"));
     }
 
@@ -1041,7 +1041,7 @@ public class WebTester {
     public void assertTextFieldEquals(String formElementName,
             String expectedValue) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals(expectedValue, getTestingEngine()
+        assertEquals(expectedValue, getTestingEngine()
                 .getTextFieldValue(formElementName));
     }
 
@@ -1055,7 +1055,7 @@ public class WebTester {
     public void assertHiddenFieldPresent(String formElementName,
             String expectedValue) {
         assertFormElementPresent(formElementName);
-        Assert.assertEquals(expectedValue, getTestingEngine()
+        assertEquals(expectedValue, getTestingEngine()
                 .getHiddenFieldValue(formElementName));
     }
 
@@ -1067,7 +1067,7 @@ public class WebTester {
     public void assertCheckboxSelected(String checkBoxName) {
         assertCheckboxPresent(checkBoxName);
         if (!getTestingEngine().isCheckboxSelected(checkBoxName)) {
-            Assert.fail("Checkbox with name [" + checkBoxName
+            fail("Checkbox with name [" + checkBoxName
                     + "] was not found selected.");
         }
     }
@@ -1081,7 +1081,7 @@ public class WebTester {
     public void assertCheckboxSelected(String checkBoxName, String checkBoxValue) {
         assertCheckboxPresent(checkBoxName, checkBoxValue);
         if (!getTestingEngine().isCheckboxSelected(checkBoxName, checkBoxValue)) {
-            Assert.fail("Checkbox with name [" + checkBoxName + "] and value ["
+            fail("Checkbox with name [" + checkBoxName + "] and value ["
                     + checkBoxValue + "] was not found selected.");
         }
     }
@@ -1094,7 +1094,7 @@ public class WebTester {
     public void assertCheckboxNotSelected(String checkBoxName) {
         assertCheckboxPresent(checkBoxName);
         if (getTestingEngine().isCheckboxSelected(checkBoxName)) {
-            Assert.fail("Checkbox with name [" + checkBoxName
+            fail("Checkbox with name [" + checkBoxName
                     + "] was found selected.");
         }
     }
@@ -1109,7 +1109,7 @@ public class WebTester {
             String checkBoxValue) {
         assertCheckboxPresent(checkBoxName, checkBoxValue);
         if (getTestingEngine().isCheckboxSelected(checkBoxName, checkBoxValue)) {
-            Assert.fail("Checkbox with name [" + checkBoxName + "] and value ["
+            fail("Checkbox with name [" + checkBoxName + "] and value ["
                     + checkBoxValue + "] was found selected.");
         }
     }
@@ -1123,7 +1123,7 @@ public class WebTester {
     public void assertRadioOptionPresent(String name, String radioOption) {
         assertFormElementPresent(name);
         if (!getTestingEngine().hasRadioOption(name, radioOption)) {
-            Assert.fail("Unable to find option [" + radioOption
+            fail("Unable to find option [" + radioOption
                     + "] in radio group [" + name + "]");
         }
     }
@@ -1137,7 +1137,7 @@ public class WebTester {
     public void assertRadioOptionNotPresent(String name, String radioOption) {
         assertFormElementPresent(name);
         if (getTestingEngine().hasRadioOption(name, radioOption))
-            Assert.fail("Found option [" + radioOption + "] in radio group ["
+            fail("Found option [" + radioOption + "] in radio group ["
                     + name + "]");
     }
 
@@ -1149,7 +1149,7 @@ public class WebTester {
      */
     public void assertRadioOptionSelected(String name, String radioOption) {
         assertRadioOptionPresent(name, radioOption);
-        Assert.assertEquals(radioOption, getTestingEngine()
+        assertEquals(radioOption, getTestingEngine()
         		.getSelectedRadio(name));
     }
 
@@ -1161,7 +1161,7 @@ public class WebTester {
      */
     public void assertRadioOptionNotSelected(String name, String radioOption) {
         assertRadioOptionPresent(name, radioOption);
-        Assert.assertFalse("Radio option [" + radioOption + "] is selected.",
+        assertFalse("Radio option [" + radioOption + "] is selected.",
                 radioOption.equals(getTestingEngine()
                         .getSelectedRadio(name)));
     }
@@ -1176,7 +1176,7 @@ public class WebTester {
             String[] optionLabels) {
         assertFormElementPresent(selectName);
         for (int i = 0; i < optionLabels.length; i++)
-            Assert.assertTrue("Option [" + optionLabels[i]
+            assertTrue("Option [" + optionLabels[i]
                     + "] not found in select element " + selectName,
                     getTestingEngine().hasSelectOption(selectName,
                             optionLabels[i]));
@@ -1204,7 +1204,7 @@ public class WebTester {
             String[] optionLabels) {
         assertFormElementPresent(selectName);
         for (int i = 0; i < optionLabels.length; i++)
-            Assert.assertTrue("Option [" + optionLabels[i]
+            assertTrue("Option [" + optionLabels[i]
                     + "] not found in select element " + selectName,
                     getTestingEngine().hasSelectOption(selectName, index,
                             optionLabels[i]));
@@ -1233,7 +1233,7 @@ public class WebTester {
             String[] optionValues) {
         assertFormElementPresent(selectName);
         for (int i = 0; i < optionValues.length; i++)
-            Assert.assertTrue("Option [" + optionValues[i]
+            assertTrue("Option [" + optionValues[i]
                     + "] not found in select element " + selectName,
                     getTestingEngine().hasSelectOptionValue(selectName,
                             optionValues[i]));
@@ -1264,7 +1264,7 @@ public class WebTester {
     											String[] optionValues) {
         assertFormElementPresent(selectName);
         for (int i = 0; i < optionValues.length; i++)
-            Assert.assertTrue("Option [" + optionValues[i]
+            assertTrue("Option [" + optionValues[i]
                     + "] not found in select element " + selectName,
                     getTestingEngine().hasSelectOptionValue(selectName,
                                                             index,
@@ -1296,10 +1296,10 @@ public class WebTester {
             String optionValue) {
         try {
             assertSelectOptionValuePresent(selectName, optionValue);
-        } catch (AssertionFailedError e) {
+        } catch (AssertionError e) {
             return;
         }
-        Assert.fail("Option value" + optionValue + " found in select element "
+        fail("Option value" + optionValue + " found in select element "
                 + selectName + " when not expected.");
     }
 
@@ -1313,10 +1313,10 @@ public class WebTester {
             String optionLabel) {
         try {
             assertSelectOptionPresent(selectName, optionLabel);
-        } catch (AssertionFailedError e) {
+        } catch (AssertionError e) {
             return;
         }
-        Assert.fail("Option " + optionLabel + " found in select element "
+        fail("Option " + optionLabel + " found in select element "
                 + selectName + " when not expected.");
     }
 
@@ -1330,10 +1330,10 @@ public class WebTester {
             int index, String optionValue) {
         try {
             assertSelectOptionValuePresent(selectName, index, optionValue);
-        } catch (AssertionFailedError e) {
+        } catch (AssertionError e) {
             return;
         }
-        Assert.fail("Option value" + optionValue + " found in select element "
+        fail("Option value" + optionValue + " found in select element "
                 + selectName + " when not expected.");
     }
 
@@ -1347,10 +1347,10 @@ public class WebTester {
             int index, String optionLabel) {
         try {
             assertSelectOptionPresent(selectName, index, optionLabel);
-        } catch (AssertionFailedError e) {
+        } catch (AssertionError e) {
             return;
         }
-        Assert.fail("Option " + optionLabel + " found in select element "
+        fail("Option " + optionLabel + " found in select element "
                 + selectName + " when not expected.");
     }
 
@@ -1393,10 +1393,10 @@ public class WebTester {
         assertFormElementPresent(selectName);
         try {
             assertSelectOptionsEqual(selectName, expectedOptions);
-        } catch (AssertionFailedError e) {
+        } catch (AssertionError e) {
             return;
         }
-        Assert.fail("Options not expected to be equal");
+        fail("Options not expected to be equal");
     }
 
     /**
@@ -1413,10 +1413,10 @@ public class WebTester {
         assertFormElementPresent(selectName);
         try {
             assertSelectOptionsEqual(selectName, index, expectedOptions);
-        } catch (AssertionFailedError e) {
+        } catch (AssertionError e) {
             return;
         }
-        Assert.fail("Options not expected to be equal");
+        fail("Options not expected to be equal");
     }
 
 
@@ -1463,10 +1463,10 @@ public class WebTester {
         assertFormElementPresent(selectName);
         try {
             assertSelectOptionValuesEqual(selectName, optionValues);
-        } catch (AssertionFailedError e) {
+        } catch (AssertionError e) {
             return;
         }
-        Assert.fail("Values not expected to be equal");
+        fail("Values not expected to be equal");
     }
 
     /**
@@ -1483,10 +1483,10 @@ public class WebTester {
         assertFormElementPresent(selectName);
         try {
             assertSelectOptionValuesEqual(selectName, index, optionValues);
-        } catch (AssertionFailedError e) {
+        } catch (AssertionError e) {
             return;
         }
-        Assert.fail("Values not expected to be equal");
+        fail("Values not expected to be equal");
     }
 
 
@@ -1498,10 +1498,10 @@ public class WebTester {
      */
     public void assertSelectedOptionsEqual(String selectName, String[] labels) {
         assertFormElementPresent(selectName);
-        Assert.assertEquals(labels.length, getTestingEngine()
+        assertEquals(labels.length, getTestingEngine()
                 .getSelectedOptions(selectName).length);
         for (int i = 0; i < labels.length; i++)
-            Assert.assertEquals(labels[i],
+            assertEquals(labels[i],
                     getTestingEngine()
                             .getSelectOptionLabelForValue(
                                     selectName,
@@ -1519,10 +1519,10 @@ public class WebTester {
      */
     public void assertSelectedOptionsEqual(String selectName, int index, String[] labels) {
         assertFormElementPresent(selectName);
-        Assert.assertEquals(labels.length, getTestingEngine()
+        assertEquals(labels.length, getTestingEngine()
                 .getSelectedOptions(selectName, index).length);
         for (int i = 0; i < labels.length; i++)
-            Assert.assertEquals(labels[i],
+            assertEquals(labels[i],
                     getTestingEngine()
                             .getSelectOptionLabelForValue(
                                     selectName, index,
@@ -1564,10 +1564,10 @@ public class WebTester {
     public void assertSelectedOptionValuesEqual(String selectName,
             String[] values) {
         assertFormElementPresent(selectName);
-        Assert.assertEquals(values.length, getTestingEngine()
+        assertEquals(values.length, getTestingEngine()
                 .getSelectedOptions(selectName).length);
         for (int i = 0; i < values.length; i++)
-            Assert.assertEquals(values[i], getTestingEngine()
+            assertEquals(values[i], getTestingEngine()
                     .getSelectedOptions(selectName)[i]);
     }
 
@@ -1583,10 +1583,10 @@ public class WebTester {
     public void assertSelectedOptionValuesEqual(String selectName,
             int index, String[] values) {
         assertFormElementPresent(selectName);
-        Assert.assertEquals(values.length, getTestingEngine()
+        assertEquals(values.length, getTestingEngine()
                 .getSelectedOptions(selectName, index).length);
         for (int i = 0; i < values.length; i++)
-            Assert.assertEquals(values[i], getTestingEngine()
+            assertEquals(values[i], getTestingEngine()
                     .getSelectedOptions(selectName, index)[i]);
     }
 
@@ -1623,11 +1623,11 @@ public class WebTester {
      */
     public void assertSelectedOptionsMatch(String selectName, String[] regexps) {
         assertFormElementPresent(selectName);
-        Assert.assertEquals(regexps.length, getTestingEngine()
+        assertEquals(regexps.length, getTestingEngine()
                 .getSelectedOptions(selectName).length);
         for (int i = 0; i < regexps.length; i++) {
             RE re = getRE(regexps[i]);
-            Assert.assertTrue("Unable to match [" + regexps[i]
+            assertTrue("Unable to match [" + regexps[i]
                     + "] in option \""
                     + getTestingEngine().getSelectedOptions(selectName)[i]
                     + "\"", re.match(getTestingEngine().getSelectedOptions(
@@ -1645,11 +1645,11 @@ public class WebTester {
      */
     public void assertSelectedOptionsMatch(String selectName, int index, String[] regexps) {
         assertFormElementPresent(selectName);
-        Assert.assertEquals(regexps.length, getTestingEngine()
+        assertEquals(regexps.length, getTestingEngine()
                 .getSelectedOptions(selectName, index).length);
         for (int i = 0; i < regexps.length; i++) {
             RE re = getRE(regexps[i]);
-            Assert.assertTrue("Unable to match [" + regexps[i]
+            assertTrue("Unable to match [" + regexps[i]
                     + "] in option \""
                     + getTestingEngine().getSelectedOptions(selectName, index)[i]
                     + "\" at index " + index, re.match(getTestingEngine().getSelectedOptions(
@@ -1692,7 +1692,7 @@ public class WebTester {
      *
      */
     public void assertSubmitButtonPresent() {
-        Assert.assertTrue("no submit button found.", getTestingEngine()
+        assertTrue("no submit button found.", getTestingEngine()
                 .hasSubmitButton());
     }
 
@@ -1708,7 +1708,7 @@ public class WebTester {
      * @param buttonName
      */
     public void assertSubmitButtonPresent(String buttonName) {
-        Assert.assertTrue("Submit Button [" + buttonName + "] not found.",
+        assertTrue("Submit Button [" + buttonName + "] not found.",
                 getTestingEngine().hasSubmitButton(buttonName));
     }
 
@@ -1724,7 +1724,7 @@ public class WebTester {
      * @param buttonName
      */
     public void assertSubmitButtonNotPresent() {
-        Assert.assertFalse("Submit Button found.", getTestingEngine()
+        assertFalse("Submit Button found.", getTestingEngine()
                 .hasSubmitButton());
     }
 
@@ -1740,7 +1740,7 @@ public class WebTester {
      * @param buttonName
      */
     public void assertSubmitButtonNotPresent(String buttonName) {
-        Assert.assertFalse("Submit Button [" + buttonName + "] found.",
+        assertFalse("Submit Button [" + buttonName + "] found.",
                 getTestingEngine().hasSubmitButton(buttonName));
     }
 
@@ -1757,7 +1757,7 @@ public class WebTester {
      * @param buttonValue
      */
     public void assertSubmitButtonPresent(String buttonName, String buttonValue) {
-        Assert.assertTrue("Submit Button [" + buttonName + "] with value ["
+        assertTrue("Submit Button [" + buttonName + "] with value ["
                 + buttonValue + "] not found.", getTestingEngine()
                 .hasSubmitButton(buttonName, buttonValue));
     }
@@ -1771,7 +1771,7 @@ public class WebTester {
      *
      */
     public void assertResetButtonPresent() {
-        Assert.assertTrue("no reset button found.", getTestingEngine()
+        assertTrue("no reset button found.", getTestingEngine()
                 .hasResetButton());
     }
 
@@ -1785,7 +1785,7 @@ public class WebTester {
      * @param buttonName
      */
     public void assertResetButtonPresent(String buttonName) {
-        Assert.assertTrue("Reset Button [" + buttonName + "] not found.",
+        assertTrue("Reset Button [" + buttonName + "] not found.",
                 getTestingEngine().hasResetButton(buttonName));
     }
 
@@ -1800,7 +1800,7 @@ public class WebTester {
      * @param buttonName
      */
     public void assertResetButtonNotPresent() {
-        Assert.assertFalse("Reset Button found.", getTestingEngine()
+        assertFalse("Reset Button found.", getTestingEngine()
                 .hasResetButton());
     }
 
@@ -1815,7 +1815,7 @@ public class WebTester {
      * @param buttonName
      */
     public void assertResetButtonNotPresent(String buttonName) {
-        Assert.assertFalse("Reset Button [" + buttonName + "] found.",
+        assertFalse("Reset Button [" + buttonName + "] found.",
                 getTestingEngine().hasResetButton(buttonName));
     }
 
@@ -1830,7 +1830,7 @@ public class WebTester {
      * @param buttonId
      */
     public void assertButtonPresent(String buttonId) {
-        Assert.assertTrue("Button [" + buttonId + "] not found.", getTestingEngine()
+        assertTrue("Button [" + buttonId + "] not found.", getTestingEngine()
                 .hasButton(buttonId));
     }
 
@@ -1840,7 +1840,7 @@ public class WebTester {
      * @param text Text representation of button content.
      */
     public void assertButtonPresentWithText(String text) {
-        Assert.assertTrue("Did not find button with text [" + text + "].",
+        assertTrue("Did not find button with text [" + text + "].",
                 getTestingEngine().hasButtonWithText(text));
     }
 
@@ -1850,7 +1850,7 @@ public class WebTester {
      * @param text Text representation of button content.
      */
     public void assertButtonNotPresentWithText(String text) {
-        Assert.assertFalse("Found button with text [" + text + "].",
+        assertFalse("Found button with text [" + text + "].",
                 getTestingEngine().hasButtonWithText(text));
     }
 
@@ -1860,7 +1860,7 @@ public class WebTester {
      * @param buttonId
      */
     public void assertButtonNotPresent(String buttonId) {
-        Assert.assertFalse(
+        assertFalse(
                 "Button [" + buttonId + "] found when not expected.",
                 getTestingEngine().hasButton(buttonId));
     }
@@ -1871,7 +1871,7 @@ public class WebTester {
      * @param linkId
      */
     public void assertLinkPresent(String linkId) {
-        Assert.assertTrue("Unable to find link with id [" + linkId + "]",
+        assertTrue("Unable to find link with id [" + linkId + "]",
                 getTestingEngine().hasLink(linkId));
     }
 
@@ -1881,7 +1881,7 @@ public class WebTester {
      * @param linkId
      */
     public void assertLinkNotPresent(String linkId) {
-        Assert.assertTrue("link with id [" + linkId + "] found in response",
+        assertTrue("link with id [" + linkId + "] found in response",
                 !getTestingEngine().hasLink(linkId));
     }
 
@@ -1891,7 +1891,7 @@ public class WebTester {
      * @param linkText
      */
     public void assertLinkPresentWithText(String linkText) {
-        Assert.assertTrue("Link with text [" + linkText
+        assertTrue("Link with text [" + linkText
                 + "] not found in response.", getTestingEngine()
                 .hasLinkWithText(linkText, 0));
     }
@@ -1902,7 +1902,7 @@ public class WebTester {
      * @param linkText
      */
     public void assertLinkNotPresentWithText(String linkText) {
-        Assert.assertTrue("Link with text [" + linkText
+        assertTrue("Link with text [" + linkText
                 + "] found in response.", !getTestingEngine().hasLinkWithText(
                 linkText, 0));
     }
@@ -1914,7 +1914,7 @@ public class WebTester {
      * @param index The 0-based index, when more than one link with the same text is expected.
      */
     public void assertLinkPresentWithText(String linkText, int index) {
-        Assert.assertTrue("Link with text [" + linkText + "] and index ["
+        assertTrue("Link with text [" + linkText + "] and index ["
                 + index + "] not found in response.", getTestingEngine()
                 .hasLinkWithText(linkText, index));
     }
@@ -1926,7 +1926,7 @@ public class WebTester {
      * @param index The 0-based index, when more than one link with the same text is expected.
      */
     public void assertLinkNotPresentWithText(String linkText, int index) {
-        Assert.assertTrue("Link with text [" + linkText + "] and index "
+        assertTrue("Link with text [" + linkText + "] and index "
                 + index + " found in response.", !getTestingEngine()
                 .hasLinkWithText(linkText, index));
     }
@@ -1939,7 +1939,7 @@ public class WebTester {
      * @param linkText
      */
     public void assertLinkPresentWithExactText(String linkText) {
-        Assert.assertTrue("Link with Exact text [" + linkText
+        assertTrue("Link with Exact text [" + linkText
                 + "] not found in response.", getTestingEngine()
                 .hasLinkWithExactText(linkText, 0));
     }
@@ -1950,7 +1950,7 @@ public class WebTester {
      * @param linkText
      */
     public void assertLinkNotPresentWithExactText(String linkText) {
-        Assert.assertTrue("Link with Exact text [" + linkText
+        assertTrue("Link with Exact text [" + linkText
                 + "] found in response.", !getTestingEngine()
                 .hasLinkWithExactText(linkText, 0));
     }
@@ -1962,7 +1962,7 @@ public class WebTester {
      * @param index The 0-based index, when more than one link with the same text is expected.
      */
     public void assertLinkPresentWithExactText(String linkText, int index) {
-        Assert.assertTrue("Link with Exact text [" + linkText + "] and index ["
+        assertTrue("Link with Exact text [" + linkText + "] and index ["
                 + index + "] not found in response.", getTestingEngine()
                 .hasLinkWithExactText(linkText, index));
     }
@@ -1974,7 +1974,7 @@ public class WebTester {
      * @param index The 0-based index, when more than one link with the same text is expected.
      */
     public void assertLinkNotPresentWithExactText(String linkText, int index) {
-        Assert.assertTrue("Link with Exact text [" + linkText + "] and index "
+        assertTrue("Link with Exact text [" + linkText + "] and index "
                 + index + " found in response.", !getTestingEngine()
                 .hasLinkWithExactText(linkText, index));
     }
@@ -1988,7 +1988,7 @@ public class WebTester {
      *            you could just pass in <tt>"my_icon.png"</tt>.
      */
     public void assertLinkPresentWithImage(String imageFileName) {
-        Assert.assertTrue("Link with image file [" + imageFileName
+        assertTrue("Link with image file [" + imageFileName
                 + "] not found in response.", getTestingEngine()
                 .hasLinkWithImage(imageFileName, 0));
     }
@@ -2000,7 +2000,7 @@ public class WebTester {
      *            you could just pass in <tt>"my_icon.png"</tt>.
      */
     public void assertLinkNotPresentWithImage(String imageFileName) {
-        Assert.assertTrue("Link with image file [" + imageFileName
+        assertTrue("Link with image file [" + imageFileName
                 + "] found in response.", !getTestingEngine().hasLinkWithImage(
                 imageFileName, 0));
     }
@@ -2011,7 +2011,7 @@ public class WebTester {
      * @param anID element id to test for.
      */
     public void assertElementPresent(String anID) {
-        Assert.assertTrue("Unable to locate element with id \"" + anID + "\"",
+        assertTrue("Unable to locate element with id \"" + anID + "\"",
                 getTestingEngine().hasElement(anID));
     }
 
@@ -2021,7 +2021,7 @@ public class WebTester {
      * @param anID element id to test for.
      */
     public void assertElementNotPresent(String anID) {
-        Assert.assertFalse("Located element with id \"" + anID + "\"",
+        assertFalse("Located element with id \"" + anID + "\"",
                 getTestingEngine().hasElement(anID));
     }
 
@@ -2031,7 +2031,7 @@ public class WebTester {
      * @param xpath element xpath to test for.
      */
     public void assertElementPresentByXPath(String xpath) {
-        Assert.assertTrue("Unable to locate element with xpath \"" + xpath
+        assertTrue("Unable to locate element with xpath \"" + xpath
                 + "\"", getTestingEngine().hasElementByXPath(xpath));
     }
 
@@ -2041,7 +2041,7 @@ public class WebTester {
      * @param xpath element xpath to test for.
      */
     public void assertElementNotPresentByXPath(String xpath) {
-        Assert.assertFalse("Located element with xpath \"" + xpath + "\"",
+        assertFalse("Located element with xpath \"" + xpath + "\"",
                 getTestingEngine().hasElementByXPath(xpath));
     }
     
@@ -2058,7 +2058,7 @@ public class WebTester {
      * @param comment
      */
     public void assertCommentPresent(String comment) {
-    	Assert.assertTrue("Comment present: '" + comment + "'", getComments().contains(comment.trim()));
+    	assertTrue("Comment present: '" + comment + "'", getComments().contains(comment.trim()));
     }
     
     /**
@@ -2067,7 +2067,7 @@ public class WebTester {
      * @param comment
      */
     public void assertCommentNotPresent(String comment) {
-    	Assert.assertFalse("Comment not present: '" + comment + "'", getComments().contains(comment.trim()));
+    	assertFalse("Comment not present: '" + comment + "'", getComments().contains(comment.trim()));
     }
 
     /**
@@ -2077,18 +2077,18 @@ public class WebTester {
      * @param text to check for.
      */
     public void assertTextInElement(String elementID, String text) {
-        Assert.assertTrue("Unable to locate element with id \"" + elementID
+        assertTrue("Unable to locate element with id \"" + elementID
                 + "\"", getTestingEngine().hasElement(elementID));
-        Assert.assertTrue("Unable to locate [" + text + "] in element \""
+        assertTrue("Unable to locate [" + text + "] in element \""
                 + elementID + "\"", getTestingEngine()
                 .isTextInElement(elementID, text));
     }
 
     public void assertTextNotInElement(String elementID, String text) {
         assertElementPresent(elementID);
-        Assert.assertTrue("Unable to locate element with id \"" + elementID
+        assertTrue("Unable to locate element with id \"" + elementID
                 + "\"", getTestingEngine().hasElement(elementID));
-        Assert.assertFalse("Text [" + text + "] found in element [" + elementID
+        assertFalse("Text [" + text + "] found in element [" + elementID
                 + "] when not expected", getTestingEngine().isTextInElement(
                 elementID, text));
     }
@@ -2100,9 +2100,9 @@ public class WebTester {
      * @param regexp to match.
      */
     public void assertMatchInElement(String elementID, String regexp) {
-        Assert.assertTrue("Unable to locate element with id \"" + elementID
+        assertTrue("Unable to locate element with id \"" + elementID
                 + "\"", getTestingEngine().hasElement(elementID));
-        Assert.assertTrue("Unable to match [" + regexp + "] in element \""
+        assertTrue("Unable to match [" + regexp + "] in element \""
                 + elementID + "\"", getTestingEngine().isMatchInElement(
                 elementID, regexp));
     }
@@ -2115,9 +2115,9 @@ public class WebTester {
      */
     public void assertNoMatchInElement(String elementID, String regexp) {
         assertElementPresent(elementID);
-        Assert.assertTrue("Unable to locate element with id \"" + elementID
+        assertTrue("Unable to locate element with id \"" + elementID
                 + "\"", getTestingEngine().hasElement(elementID));
-        Assert.assertFalse("Regexp [" + regexp + "] matched in element ["
+        assertFalse("Regexp [" + regexp + "] matched in element ["
                 + elementID + "] when not expected", getTestingEngine()
                 .isMatchInElement(elementID, regexp));
     }
@@ -2128,7 +2128,7 @@ public class WebTester {
      * @param windowName
      */
     public void assertWindowPresent(String windowName) {
-        Assert.assertTrue("Unable to locate window [" + windowName + "].",
+        assertTrue("Unable to locate window [" + windowName + "].",
                 getTestingEngine().hasWindow(windowName));
     }
 
@@ -2138,7 +2138,7 @@ public class WebTester {
      * @param windowID Javascript window ID.
      */
     public void assertWindowPresent(int windowID) {
-        Assert.assertTrue("There is no window with index [" + windowID + "].",
+        assertTrue("There is no window with index [" + windowID + "].",
                 getTestingEngine().getWindowCount() > windowID);
     }
 
@@ -2148,7 +2148,7 @@ public class WebTester {
      * @param title
      */
     public void assertWindowPresentWithTitle(String title) {
-        Assert.assertTrue(
+        assertTrue(
                 "Unable to locate window with title [" + title + "].",
                 getTestingEngine().hasWindowByTitle(title));
     }
@@ -2159,8 +2159,7 @@ public class WebTester {
      * @param windowCount Window count
      */
     public void assertWindowCountEquals(int windowCount) {
-        Assert
-                .assertTrue("Window count is "
+        assertTrue("Window count is "
                         + getTestingEngine().getWindowCount() + " but "
                         + windowCount + " was expected.", getTestingEngine()
                         .getWindowCount() == windowCount);
@@ -2172,7 +2171,7 @@ public class WebTester {
      * @param frameNameOrId Name or ID of the frame. ID is checked first.
      */
     public void assertFramePresent(String frameNameOrId) {
-        Assert.assertTrue("Unable to locate frame with name or ID ["
+        assertTrue("Unable to locate frame with name or ID ["
                 + frameNameOrId + "].", getTestingEngine().hasFrame(
                 frameNameOrId));
     }
@@ -2189,7 +2188,7 @@ public class WebTester {
                 return;
             }
         }
-        Assert.fail("Could not find Cookie with name [" + cookieName + "]");
+        fail("Could not find Cookie with name [" + cookieName + "]");
     }
 
     /**
@@ -2204,11 +2203,11 @@ public class WebTester {
         for (Iterator<?> i = cookies.iterator(); i.hasNext();) {
             Cookie c = (Cookie) i.next();
             if (c.getName().equals(cookieName)) {
-                Assert.assertEquals(expectedValue, c.getValue());
+                assertEquals(expectedValue, c.getValue());
                 return;
             }
         }
-        Assert.fail("Should not be reached");
+        fail("Should not be reached");
     }
 
     /**
@@ -2223,19 +2222,19 @@ public class WebTester {
         try {
             re = new RE(regexp, RE.MATCH_SINGLELINE);
         } catch (RESyntaxException e) {
-            Assert.fail(e.toString());
+            fail(e.toString());
         }
         List<?> cookies = getTestingEngine().getCookies();
         for (Iterator<?> i = cookies.iterator(); i.hasNext();) {
             Cookie c = (Cookie) i.next();
             if (c.getName().equals(cookieName)) {
-                Assert.assertTrue("Unable to match [" + regexp
+                assertTrue("Unable to match [" + regexp
                         + "] in cookie \"" + cookieName + "\"", re.match(c
                         .getValue()));
                 return;
             }
         }
-        Assert.fail("Should not be reached");
+        fail("Should not be reached");
     }
 
     // Form interaction methods
@@ -2627,7 +2626,7 @@ public class WebTester {
      *
      * @param xpath XPath to search
      * @return the requested element
-	 * @throws AssertionFailedError if the element xpath is not found
+	 * @throws AssertionError if the element xpath is not found
      */
     public IElement getElementByXPath(String xpath) {
     	assertElementPresentByXPath(xpath);
@@ -2640,7 +2639,7 @@ public class WebTester {
      *
      * @param id element ID to find
      * @return the requested element
-	 * @throws AssertionFailedError if the element is not found
+	 * @throws AssertionError if the element is not found
      */
     public IElement getElementById(String id) {
     	assertElementPresent(id);
@@ -2662,7 +2661,7 @@ public class WebTester {
      * Assert a label for a given ID exists.
      */
     public void assertLabelPresent(String id) {
-    	Assert.assertNotNull("No label found with id [" + id + "]", getLabel(id));
+    	assertNotNull("No label found with id [" + id + "]", getLabel(id));
     }
     
     /**
@@ -2705,7 +2704,7 @@ public class WebTester {
         try {
             re = new RE(regexp, RE.MATCH_SINGLELINE);
         } catch (RESyntaxException e) {
-            Assert.fail(e.toString());
+            fail(e.toString());
         }
 
         // get all labels
@@ -2713,7 +2712,7 @@ public class WebTester {
     		if (e.getName().equals("label") && re.match( e.getTextContent() ))
     			return;	// label found
     	}
-    	Assert.fail("No label found with text matching [" + regexp + "]");
+    	fail("No label found with text matching [" + regexp + "]");
     }
     
     /**
@@ -2755,7 +2754,7 @@ public class WebTester {
      */
     private void assertLabeledFieldEquals(String identifier, IElement label, String fieldText) {
     	String value = getLabeledFieldValue(identifier, label);
-    	Assert.assertEquals("value of field for label [" + identifier + "] should be [" + fieldText + "]", fieldText, value == null ? "" : value);
+    	assertEquals("value of field for label [" + identifier + "] should be [" + fieldText + "]", fieldText, value == null ? "" : value);
     }
     
     /**
@@ -2769,7 +2768,7 @@ public class WebTester {
     public String getLabeledFieldValue(String identifier, IElement label) {
     	List<IElement> fields = getFieldsForLabel(label);
     	
-    	Assert.assertFalse("No field found for label [" + identifier + "]", fields.isEmpty());
+    	assertFalse("No field found for label [" + identifier + "]", fields.isEmpty());
     	String value = null;
     	// cycle through all fields trying to find value
     	for (IElement field : fields) {
@@ -2825,17 +2824,17 @@ public class WebTester {
      */
     public void assertLabeledFieldEquals(String id, String fieldText) {
     	IElement label = getLabel(id);
-    	Assert.assertNotNull("no label for id [" + id + "] found", label);
+    	assertNotNull("no label for id [" + id + "] found", label);
     	
     	assertLabeledFieldEquals(id, label, fieldText);
     }
     
     public void setLabeledFormElementField(String id, String value) {
     	IElement label = getLabel(id);
-    	Assert.assertNotNull("no label for id [" + id + "] found", label);
+    	assertNotNull("no label for id [" + id + "] found", label);
     	
     	List<IElement> fields = getFieldsForLabel(label);
-    	Assert.assertNotSame("there should be at least one element referenced for label [" + id + "]", 0, fields.size());
+    	assertNotSame("there should be at least one element referenced for label [" + id + "]", 0, fields.size());
     	
     	// find the first element that we can change
     	for (IElement field : fields) {
@@ -2882,7 +2881,7 @@ public class WebTester {
 	    	}    		
     	}
     	
-    	Assert.fail("could not find any fields for label [" + id + "] to set.");
+    	fail("could not find any fields for label [" + id + "] to set.");
     }
 
     // Window and Frame Navigation Methods
@@ -2945,7 +2944,7 @@ public class WebTester {
         try {
             getTestingEngine().gotoPage(createUrl(url, getTestContext().getBaseUrl()));
         } catch (MalformedURLException e) {
-            Assert.fail(e.getLocalizedMessage());
+            fail(e.getLocalizedMessage());
         }
     }
 
@@ -3020,11 +3019,11 @@ public class WebTester {
             File tmp = File.createTempFile("jwebunit", null);
             tmp.deleteOnExit();
             saveAs(tmp);
-            Assert.assertTrue("Files are not binary equals.", areFilesEqual(
+            assertTrue("Files are not binary equals.", areFilesEqual(
                     expected, tmp.toURI().toURL()));
         } catch (IOException e) {
             e.printStackTrace();
-            Assert.fail(e.toString());
+            fail(e.toString());
         }
     }
 
@@ -3126,7 +3125,7 @@ public class WebTester {
         try {
             re = new RE(regexp, RE.MATCH_SINGLELINE);
         } catch (RESyntaxException e) {
-            Assert.fail(e.toString());
+            fail(e.toString());
         }
         return re;
     }
@@ -3220,10 +3219,10 @@ public class WebTester {
 
 
     private void assertArraysEqual(String[] exptected, String[] returned) {
-        Assert.assertEquals("Arrays not same length", exptected.length,
+        assertEquals("Arrays not same length", exptected.length,
                 returned.length);
         for (int i = 0; i < returned.length; i++) {
-            Assert.assertEquals("Elements " + i + "not equal", exptected[i],
+            assertEquals("Elements " + i + "not equal", exptected[i],
                     returned[i]);
         }
     }
@@ -3251,7 +3250,7 @@ public class WebTester {
             getTestingEngine().setExpectedJavaScriptAlert(
                     new JavascriptAlert[] { new JavascriptAlert(message) });
         } catch (ExpectedJavascriptAlertException e) {
-            Assert.fail("You previously tell that alert with message ["
+            fail("You previously tell that alert with message ["
                     + e.getAlertMessage()
                     + "] was expected, but nothing appeared.");
         }
@@ -3270,7 +3269,7 @@ public class WebTester {
         try {
             getTestingEngine().setExpectedJavaScriptAlert(alerts);
         } catch (ExpectedJavascriptAlertException e) {
-            Assert.fail("You previously tell that alert with message ["
+            fail("You previously tell that alert with message ["
                     + e.getAlertMessage()
                     + "] was expected, but nothing appeared.");
         }
@@ -3288,7 +3287,7 @@ public class WebTester {
                     new JavascriptConfirm[] { new JavascriptConfirm(message,
                             action) });
         } catch (ExpectedJavascriptConfirmException e) {
-            Assert.fail("You previously tell that confirm with message ["
+            fail("You previously tell that confirm with message ["
                     + e.getConfirmMessage()
                     + "] was expected, but nothing appeared.");
         }
@@ -3302,7 +3301,7 @@ public class WebTester {
      */
     public void setExpectedJavaScriptConfirm(String[] messages,
             boolean[] actions) {
-        Assert.assertEquals(
+        assertEquals(
                 "You should give the same number of messages and actions",
                 messages.length, actions.length);
         JavascriptConfirm[] confirms = new JavascriptConfirm[messages.length];
@@ -3312,7 +3311,7 @@ public class WebTester {
         try {
             getTestingEngine().setExpectedJavaScriptConfirm(confirms);
         } catch (ExpectedJavascriptConfirmException e) {
-            Assert.fail("You previously tell that confirm with message ["
+            fail("You previously tell that confirm with message ["
                     + e.getConfirmMessage()
                     + "] was expected, but nothing appeared.");
         }
@@ -3330,7 +3329,7 @@ public class WebTester {
                     new JavascriptPrompt[] { new JavascriptPrompt(message,
                             input) });
         } catch (ExpectedJavascriptPromptException e) {
-            Assert.fail("You previously tell that prompt with message ["
+            fail("You previously tell that prompt with message ["
                     + e.getPromptMessage()
                     + "] was expected, but nothing appeared.");
         }
@@ -3343,7 +3342,7 @@ public class WebTester {
      * @param inputs What we should put in the prompt (null if user press Cancel)
      */
     public void setExpectedJavaScriptPrompt(String[] messages, String[] inputs) {
-        Assert.assertEquals(
+        assertEquals(
                 "You should give the same number of messages and inputs",
                 messages.length, inputs.length);
         JavascriptPrompt[] prompts = new JavascriptPrompt[messages.length];
@@ -3353,7 +3352,7 @@ public class WebTester {
         try {
             getTestingEngine().setExpectedJavaScriptPrompt(prompts);
         } catch (ExpectedJavascriptPromptException e) {
-            Assert.fail("You previously tell that prompt with message ["
+            fail("You previously tell that prompt with message ["
                     + e.getPromptMessage()
                     + "] was expected, but nothing appeared.");
         }
@@ -3429,22 +3428,22 @@ public class WebTester {
         try {
             imageUrl = createUrl(imageSrc, getTestingEngine().getPageURL());
         } catch (MalformedURLException e1) {
-            Assert.fail(e1.getLocalizedMessage());
+            fail(e1.getLocalizedMessage());
         }
         try {
             final InputStream imgStream = getTestingEngine().getInputStream(imageUrl);
             final BufferedImage img = ImageIO.read(imgStream);
             if (img == null) {
-                Assert.fail("Could not load image from " + imageUrl);
+                fail("Could not load image from " + imageUrl);
             }
             if (out != null) {
                 ImageIO.write(img, "png", out);
             }
             return img;
         } catch (IOException e) {
-            Assert.fail("Could not load or save image from " + imageUrl);
+            fail("Could not load or save image from " + imageUrl);
         } catch (TestingEngineResponseException e) {
-            Assert.fail("The server returns the code " + e.getHttpStatusCode());
+            fail("The server returns the code " + e.getHttpStatusCode());
         }
         throw new IllegalStateException();
     }

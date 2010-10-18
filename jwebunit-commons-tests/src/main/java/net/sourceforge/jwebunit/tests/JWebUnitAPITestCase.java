@@ -21,7 +21,6 @@ package net.sourceforge.jwebunit.tests;
 
 import java.lang.reflect.InvocationTargetException;
 
-import junit.framework.AssertionFailedError;
 import net.sourceforge.jwebunit.junit.WebTestCase;
 import net.sourceforge.jwebunit.junit.WebTester;
 import net.sourceforge.jwebunit.tests.util.reflect.MethodInvoker;
@@ -98,7 +97,7 @@ public abstract class JWebUnitAPITestCase extends WebTestCase {
     }
 
     public void assertFail(String methodName, Object[] args) {
-        assertException(AssertionFailedError.class, methodName, args);
+        assertException(AssertionError.class, methodName, args);
     }
 
     public void assertException(Class<?> exceptionClass, String methodName,
