@@ -35,6 +35,8 @@
             <action type="update" dev="henryju">
                 Updated to JUnit 4. See migration section of the documentation.
             </action>
+        </release>
+        <release version="2.5" date="UNKNOW" description="Small fixes and dependency updates">
             <action type="update" dev="henryju">
                 Updated to slf4j 1.6.1.
             </action>
