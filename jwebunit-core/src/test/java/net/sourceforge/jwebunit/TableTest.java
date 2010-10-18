@@ -1,7 +1,23 @@
-/******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
- * Distributed open-source, see full license under LICENCE.txt                *
- ******************************************************************************/
+/**
+ * Copyright (c) 2010, JWebUnit team.
+ *
+ * This file is part of JWebUnit.
+ *
+ * JWebUnit is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JWebUnit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
 package net.sourceforge.jwebunit;
 
 import junit.framework.TestCase;
@@ -10,9 +26,8 @@ import net.sourceforge.jwebunit.html.Row;
 import net.sourceforge.jwebunit.html.Table;
 
 /**
- * Test the methods of Table. Exemple come from <a
- * href="http://www.w3.org/TR/html401/struct/tables.html#h-11.1"> HTML 4.01
- * specs</a>.
+ * Test the methods of Table. Exemple come from <a href="http://www.w3.org/TR/html401/struct/tables.html#h-11.1"> HTML
+ * 4.01 specs</a>.
  * 
  * @author Julien Henry
  */
@@ -53,9 +68,9 @@ public class TableTest extends TestCase {
      * Test method assertSubTableEquals.
      * 
      */
-    public final void testAssertSubTableEquals() throws Exception {
-        String[] r1 = {"Males", "1.9", "0.003", "40%"};
-        String[] r2 = {"Females", "1.7", "0.002", "43%"};
+    public final void testAssertSubTableEquals() {
+        String[] r1 = { "Males", "1.9", "0.003", "40%" };
+        String[] r2 = { "Females", "1.7", "0.002", "43%" };
         Table sub = new Table();
         sub.appendRow(new Row(r1));
         sub.appendRow(new Row(r2));
@@ -64,11 +79,11 @@ public class TableTest extends TestCase {
 
     /**
      * Test method assertSubTableMatch.
-     *
+     * 
      */
-    public final void testAssertSubTableMatch() throws Exception {
-        String[] r1 = {"Mal(e|r)s", "1\\.?", "0\\.003", "40\\%"};
-        String[] r2 = {"Fem(.)les", "1\\.?", "0[:punct:]002", "43\\%"};
+    public final void testAssertSubTableMatch() {
+        String[] r1 = { "Mal(e|r)s", "1\\.?", "0\\.003", "40\\%" };
+        String[] r2 = { "Fem(.)les", "1\\.?", "0[:punct:]002", "43\\%" };
         Table sub = new Table();
         sub.appendRow(new Row(r1));
         sub.appendRow(new Row(r2));

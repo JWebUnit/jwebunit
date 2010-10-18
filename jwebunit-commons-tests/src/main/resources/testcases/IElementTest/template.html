@@ -1,0 +1,63 @@
+<!--
+
+    Copyright (c) 2010, JWebUnit team.
+
+    This file is part of JWebUnit.
+
+    JWebUnit is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JWebUnit is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<html>
+<head>
+	<title>IElement Test</title>
+	<style>
+		.inline { color: blue; }
+		#container { border: 1px solid black; padding: 5px; margin: 5px; }
+	</style>
+</head>
+
+<body>
+
+<p>
+	A simple test case for testing IElements. This page is <i>not</i> HTML/XHTML compliant.
+</p>
+
+<input id="test" name="element_name" value="test3">
+<input type="submit" value="Do nothing" />
+
+<div id="container">
+	<span style="color: red;" class="inline">this is an inline element</span>
+</div>
+
+<ol>
+	<li id="first">one</li>
+	<li>two</li>
+	<li>three</li>
+	<li>four</li>
+</ol>
+
+<hr>
+
+<p>A small Javascript test.</p>
+<input id="js1" value="initial" onChange="document.getElementById('js2').value=this.value;" />
+<input id="js2" value="unchanged" />
+
+<!--a comment-->
+<!-- 
+  another comment    
+-->
+
+</body>
+</html>

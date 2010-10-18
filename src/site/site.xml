@@ -1,21 +1,42 @@
 <?xml version="1.0"?>
-<project name="jWebUnit">
+<!--
+
+    Copyright (c) 2010, JWebUnit team.
+
+    This file is part of JWebUnit.
+
+    JWebUnit is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JWebUnit is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<project name="JWebUnit">
     <skin>
         <groupId>org.apache.maven.skins</groupId>
         <artifactId>maven-stylus-skin</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
     </skin>
 
     <bannerLeft>
         <name>SourceForge</name>
         <src>
-            http://sourceforge.net/sflogo.php?group_id=61302&amp;type=5
+            http://sflogo.sourceforge.net/sflogo.php?group_id=61302&amp;type=15
         </src>
-        <href>http://sourceforge.net</href>
+        <href>http://sourceforge.net/projects/jwebunit</href>
     </bannerLeft>
 
     <bannerRight>
-        <name>jWebUnit</name>
+        <name>JWebUnit</name>
         <src>./images/jwebunit-logo.png</src>
         <href>http://jwebunit.sourceforge.net</href>
     </bannerRight>
@@ -27,51 +48,68 @@
                 href="http://htmlunit.sourceforge.net" />
             <item name="Selenium" href="http://openqa.org/selenium-rc/" />
         </links>
-        <menu name="jWebUnit">
-            <item name="Home" href="/index.html" />
-            <item name="Installation" href="/installation.html"
+        <menu name="JWebUnit" inherit="top">
+            <item name="Home" href="index.html" />
+        </menu>
+        <menu name="User documentation" inherit="top">
+            <item name="Installation" href="installation.html"
                 collapse="true">
             </item>
-            <item name="Quick start" href="/quickstart.html"
+            <item name="Quick start" href="quickstart.html"
                 collapse="true">
                 <item name="Creating a TestCase"
-                    href="#Creating a TestCase" />
+                    href="#Creating_a_TestCase" />
+                <item name="Selecting a plugin"
+                	href="#Selecting_the_plugin_you_want_to_use" />
                 <item name="Site Navigation"
-                    href="#Navigating Your Web Application" />
-                <item name="Validating Forms"
-                    href="#Working With Forms" />
+                    href="#Navigating_Your_Web_Application" />
+                <item name="Working With Forms"
+                    href="#Working_With_Forms" />
                 <item name="Frames and Windows"
-                    href="#Working With Frames and Windows" />
+                    href="#Working_With_Frames_and_Windows" />
                 <item name="Validating Page Content"
-                    href="#Validating Page Content" />
+                    href="#Validating_Page_Content" />
                 <item name="Validating Table Content"
-                    href="#Validating Table Content" />
+                    href="#Validating_Table_Content" />
                 <item name="Using Element IDs"
-                    href="#Using Element IDs to Validate Content" />
+                    href="#Using_Element_IDs_to_Validate_Content" />
                 <item name="Using Property Files"
-                    href="#Using Property Files to Validate Content" />
+                    href="#Using_Property_Files_to_Validate_Content" />
+            </item>
+            <item name="Articles" href="articles.html" />
+            <item name="FAQ" href="faq.html" />
+        </menu>
+        <menu name="Developper documentation" inherit="top">
+            <item name="Building JWebUnit"
+                href="building-maven.html" collapse="true">
+                <item name="Installing" href="#Installing_Maven" />
+                <item name="Using" href="#Using_Maven" />
+                <item name="Building"
+                    href="#Building_JWebUnit" />
+                <item name="Testing"
+                    href="#Testing_JWebUnit" />
+                <item name="Using Eclipse"
+                    href="#Using_Eclipse" />
+                <item name="Sourceforge upload bundle"
+                    href="#Building_Sourceforge_upload_bundle" />
+                <item name="JWebUnit Web site and reports"
+                    href="#Building_JWebUnit_Web_site_and_reports" />
+
+            </item>
+            <item name="How-To contribute"
+                href="how-to-contribute.html" collapse="true">
+            </item>
+            <item name="How-To release"
+                href="how-to-release.html" collapse="true">
             </item>
         </menu>
-        <menu name="Building jWebUnit">
-            <item name="With Maven" href="/building-maven.html"
-                collapse="true">
-                <item name="Installing Maven"
-                    href="#Installing Maven" />
-                <item name="Using Maven"
-                    href="#Using Maven" />
-                <item name="Building jWebUnit"
-                    href="#Building jWebUnit" />
-                <item name="Building an assembly"
-                    href="#Building an assembly" />
-            </item>
-        </menu>
-        <menu name="Sourceforge">
+        <menu name="Sourceforge" inherit="top">
             <item name="Project page"
                 href="http://sourceforge.net/projects/jwebunit" />
             <item name="Download"
                 href="http://sourceforge.net/projects/jwebunit/files" />
         </menu>
-        <menu ref="modules" />
+        <menu ref="modules"  inherit="top"/>
         <menu ref="reports" />
     </body>
 </project>

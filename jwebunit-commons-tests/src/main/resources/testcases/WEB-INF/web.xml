@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+
+    Copyright (c) 2010, JWebUnit team.
+
+    This file is part of JWebUnit.
+
+    JWebUnit is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JWebUnit is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
 <!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
@@ -8,9 +29,51 @@
     <servlet-name>ParamsServlet</servlet-name>
     <servlet-class>net.sourceforge.jwebunit.tests.util.ParamsServlet</servlet-class>
 </servlet>
+<servlet>
+    <servlet-name>CookiesServlet</servlet-name>
+    <servlet-class>net.sourceforge.jwebunit.tests.util.CookiesServlet</servlet-class>
+</servlet>
+<servlet>
+    <servlet-name>RedirectServlet</servlet-name>
+    <servlet-class>net.sourceforge.jwebunit.tests.util.RedirectServlet</servlet-class>
+</servlet>
+<servlet>
+    <servlet-name>ResponseServlet</servlet-name>
+    <servlet-class>net.sourceforge.jwebunit.tests.util.ResponseServlet</servlet-class>
+</servlet>
 <servlet-mapping>
     <servlet-name>ParamsServlet</servlet-name>
     <url-pattern>/params.jsp</url-pattern>
 </servlet-mapping>
+<servlet-mapping>
+    <servlet-name>CookiesServlet</servlet-name>
+    <url-pattern>/cookies.jsp</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>RedirectServlet</servlet-name>
+    <url-pattern>/redirect.jsp</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>ResponseServlet</servlet-name>
+    <url-pattern>/response.jsp</url-pattern>
+</servlet-mapping>
+
+<!--security-constraint>
+   <web-resource-collection>
+     <web-resource-name>A Protected Page</web-resource-name>
+     <url-pattern>/*</url-pattern>
+   </web-resource-collection>
+
+   <auth-constraint>
+     <role-name>admin</role-name>
+     <role-name>user</role-name>
+     <role-name>moderator</role-name>
+   </auth-constraint>
+</security-constraint>
+
+  <login-config>
+   <auth-method>DIGEST</auth-method>
+   <realm-name>MyRealm</realm-name>
+  </login-config-->
 
 </web-app>

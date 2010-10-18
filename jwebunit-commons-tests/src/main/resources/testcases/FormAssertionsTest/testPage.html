@@ -1,46 +1,129 @@
+<!--
+
+    Copyright (c) 2010, JWebUnit team.
+
+    This file is part of JWebUnit.
+
+    JWebUnit is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JWebUnit is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
 <html>
 <head>
 <title>This is a test page.</title>
 </head>
 <body>
 <table summary="testTable">
-	<tr>
-		<td>table text</td>
-	</tr>
-	<tr>
-		<td>table text row 2</td>
-	</tr>
-	<tr>
-		<td>table text row 3</td>
-		<td>row 3 col 1</td>
-		<td><a href="someurl.html">test link</a>
-		<form id="form1"><input type="button" id="b1" /> <select
-			name="selectOption">
-			<option value="1">One</option>
-			<option value="2">Two</option>
-			<option value="3">Three</option>
-		</select> Test Input : <input type="text" name="testInputElement"
-			value="testValue" /> Test Input 2: <input type="text"
-			name="testInputElement2" value="" /> <input type="submit"
-			name="submitButton" value="buttonLabel" /> <input type="checkbox"
-			name="checkboxselected" CHECKED> <input type="checkbox"
-			name="checkboxnotselected"> <textarea name="text" cols="44" rows="3"
-			wrap="VIRTUAL"></textarea></form>
-		<form name="form2"></form>
-		<form id="form3"><input type="radio" name="cool" value="dog"
-			checked="checked" /> <input type="radio" name="cool" value="cat" />
-		<input type="radio" name="cool" value="chicken" /></form>
-		<form id="form4"><select name="select1">
-			<option value="1">one</option>
-			<option value="2">two</option>
-			<option value="3">three</option>
-			<option value="4">four</option>
-		</select> <input type="reset" name="resetButton" /></form>
-		<form id="form5"><textarea name="textarea">sometexthere</textarea>
-		<input type="hidden" name="hiddenelement" value="hiddenvalue"/>
-		<input type="password" name="passwordelement" value="password"></form>
-		</td>
-	</tr>
+    <tr>
+        <td>table text</td>
+    </tr>
+    <tr>
+        <td>table text row 2</td>
+    </tr>
+    <tr>
+        <td>table text row 3</td>
+        <td>row 3 col 1</td>
+        <td><a href="someurl.html">test link</a>
+        <form id="form1"><input type="button" id="b1" /> <select
+            name="selectOption">
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select> Test Input : <input type="text" name="testInputElement"
+            value="testValue" /> Test Input 2: <input type="text"
+            name="testInputElement2" value="" /> <input type="submit"
+            name="submitButton" value="buttonLabel" /> <input
+            type="checkbox" name="checkboxselected" CHECKED>
+            <input
+            type="checkbox" name="checkboxselected" value="actuallynotselected"> <input
+            type="checkbox" name="checkboxnotselected">
+            <input
+            type="checkbox" name="checkboxnotselected" value="actuallyselected" CHECKED> <textarea
+            name="text" cols="44" rows="3" wrap="VIRTUAL"></textarea></form>
+        <form name="form2"></form>
+        <form id="form3"><input type="radio" name="cool"
+            value="dog" checked="checked" /> <input type="radio"
+            name="cool" value="cat" /> <input type="radio" name="cool"
+            value="chicken" /></form>
+        <form id="form4"><select name="select1">
+            <option value="1">one</option>
+            <option value="2">two</option>
+            <option value="3">three</option>
+            <option value="4">four</option>
+        </select> <input type="reset" name="resetButton" /></form>
+        <form id="form5">
+        	<textarea name="textarea">sometexthere</textarea>
+        	<input type="hidden" name="hiddenelement" value="hiddenvalue" />
+        	<input type="password" name="passwordelement" value="password">
+        	<input type="text" name="complicated[5]" value="complicated[5]" />
+        	<input type="text" name="complicated'6'" value="complicated'6'" />
+        	<input type="text" name="complicated['7'].8" value="complicated['7'].8" />
+        	
+        	<!-- testing bug 1996193 -->
+        	<input type="radio" name="coreAnswers['0-1'].strAnswer" value="1" id="c_0-1-1" />
+        	<input type="radio" name="coreAnswers['0-1'].strAnswer" value="2" id="c_0-1-2" />
+        </form>
+        </td>
+    </tr>
+    <tr>
+    	<td colspan="3">
+    		<h1>Field with labels</h1>
+    		
+    		<label id="label1">
+    			Field 1:
+    			<input type="text" name="label1_field1" id="field1_id" value="one" />
+    		</label>
+    		<label id="label2">
+    			Field 2:
+    			<input name="label1_field2" value="two" />
+    		</label>
+    		<label id="label3">
+    			<textarea>three</textarea>
+    		</label>
+    		<label id="label4">
+    			<input type="checkbox" value="1"> Not selected<br />
+    			<input type="checkbox" value="2" checked>Selected<br />
+    		</label>
+    		<label id="label5">
+    			<input type="radio" value="1">Not selected<br />
+    			<input type="radio" value="2" checked>Selected<br />
+    			<input type="text" name="label5_field1" value="Ignore this" />
+    		</label>
+    		<label id="label6">
+    			<select name="seven" id="label6_seven">
+    				<option>eight</option>
+    				<option>nine</option>
+    				<option selected>ten</option>
+    				<option>eleven</option>
+    			</select>
+    		</label>
+    		<label id="label7">
+    			<select name="eight" id="label7_eight">
+    				<option value="8">eight</option>
+    				<option value="9">nine</option>
+    				<option value="10" selected>ten</option>
+    				<option value="11">eleven</option>
+    			</select>
+    		</label>
+    		<label id="label8" for="input8">Label 8</label>
+    		<input id="input8" type="text" value="eight" />
+    		<label id="label9">
+    			Field 9:
+    			<input name="label9_field1" /><!-- no "value" attribute -->
+    		</label>
+    	</td>
+    </tr>
 </table>
 </body>
 </html>

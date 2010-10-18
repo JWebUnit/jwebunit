@@ -1,18 +1,32 @@
-/******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
- * Distributed open-source, see full license under LICENCE.txt                *
- ******************************************************************************/
+/**
+ * Copyright (c) 2010, JWebUnit team.
+ *
+ * This file is part of JWebUnit.
+ *
+ * JWebUnit is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JWebUnit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
 package net.sourceforge.jwebunit.html;
 
-import net.sourceforge.jwebunit.exception.AssertEqualsException;
-import net.sourceforge.jwebunit.exception.AssertMatchException;
+import junit.framework.Assert;
 
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
 /**
- * Represents a cell of an html table - a string value spanning an indicated
- * amount of columns.
+ * Represents a cell of an html table - a string value spanning an indicated amount of columns.
  * 
  * @author Jim Weaver
  * @author Julien Henry
@@ -28,8 +42,7 @@ public class Cell {
     /**
      * Construct a cell with a default colspan/rowspan of 1.
      * 
-     * @param value
-     *            text expected within the cell.
+     * @param value text expected within the cell.
      */
     public Cell(String value) {
         this(value, 1, 1);
@@ -38,12 +51,9 @@ public class Cell {
     /**
      * Construct a cell with a specified colspan.
      * 
-     * @param value
-     *            text expected within the cell.
-     * @param colspan
-     *            number of columns the cell is expected to span.
-     * @param rowspan
-     *            number of rows the cell is expected to span.
+     * @param value text expected within the cell.
+     * @param colspan number of columns the cell is expected to span.
+     * @param rowspan number of rows the cell is expected to span.
      */
     public Cell(String value, int colspan, int rowspan) {
         this.value = value;
@@ -73,49 +83,42 @@ public class Cell {
     }
 
     /**
-     * Assert that the current cell equals given one. Check text, colspan and
-     * rowspan.
+     * Assert that the current cell equals given one. Check text, colspan and rowspan.
      * 
-     * @param c
-     *            given cell
+     * @param c given cell
      */
-    public void assertEquals(Cell c) throws AssertEqualsException {
-        if (!this.getValue().equals(c.getValue())) {
-            throw new AssertEqualsException(c.toString(), this.toString());
-        }
-        if (this.getColspan() != c.getColspan()) {
-            throw new AssertEqualsException(c.toString(), this.toString());
-        }
-        if (this.getRowspan() != c.getRowspan()) {
-            throw new AssertEqualsException(c.toString(), this.toString());
-        }
+    public void assertEquals(Cell c) {
+        Assert.assertTrue(c.getValue() + " do not equal " + this.getValue(),
+                this.getValue().equals(c.getValue()));
+        Assert.assertTrue("Expected colspan was " + c.getColspan()
+                + " but was " + this.getColspan(), this.getColspan() == c
+                .getColspan());
+        Assert.assertTrue("Expected rowspan was " + c.getRowspan()
+                + " but was " + this.getRowspan(), this.getRowspan() == c
+                .getRowspan());
     }
 
     /**
-     * Assert that the current cell matches given one. Check colspan and
-     * rowspan. Regexp is in text of given cell.
+     * Assert that the current cell matches given one. Check colspan and rowspan. Regexp is in text of given cell.
      * 
-     * @param c
-     *            given cell
+     * @param c given cell
      */
-    public void assertMatch(Cell c) throws AssertMatchException, RESyntaxException {
+    public void assertMatch(Cell c) {
         RE re = getRE(c.getValue());
-        if (!re.match(this.getValue())) {
-            throw new AssertMatchException(c.getValue(), this.toString());
-        }
-        if (this.getColspan() != c.getColspan()) {
-            throw new AssertMatchException(c.toString(), this.toString());
-        }
-        if (this.getRowspan() != c.getRowspan()) {
-            throw new AssertMatchException(c.toString(), this.toString());
-        }
+        Assert.assertTrue(c.getValue() + " do not match " + this.getValue(), re
+                .match(this.getValue()));
+        Assert.assertTrue("Expected colspan was " + c.getColspan()
+                + " but was " + this.getColspan(), this.getColspan() == c
+                .getColspan());
+        Assert.assertTrue("Expected rowspan was " + c.getRowspan()
+                + " but was " + this.getRowspan(), this.getRowspan() == c
+                .getRowspan());
     }
 
     /**
      * Check if the current cell contains given text.
      * 
-     * @param text
-     *            given text.
+     * @param text given text.
      * @return true if the current cell contains given text.
      */
     public boolean equals(String text) {
@@ -125,8 +128,7 @@ public class Cell {
     /**
      * Check if the current cell matches given text.
      * 
-     * @param regexp
-     *            given regexp.
+     * @param regexp given regexp.
      * @return true if the current cell matches given text.
      */
     public boolean match(String regexp) {
@@ -137,11 +139,16 @@ public class Cell {
     /**
      * Create a regexp.
      * 
-     * @param regexp
-     *            regexp pattern
+     * @param regexp regexp pattern
      * @return regexp object
      */
-    private RE getRE(String regexp) throws RESyntaxException {
-        return new RE(regexp, RE.MATCH_SINGLELINE);
+    private RE getRE(String regexp) {
+        RE re = null;
+        try {
+            re = new RE(regexp, RE.MATCH_SINGLELINE);
+        } catch (RESyntaxException e) {
+            Assert.fail(e.toString());
+        }
+        return re;
     }
 }

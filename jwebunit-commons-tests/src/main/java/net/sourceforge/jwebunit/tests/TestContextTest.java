@@ -1,12 +1,27 @@
-/******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
- * Distributed open-source, see full license under LICENCE.txt                *
- ******************************************************************************/
+/**
+ * Copyright (c) 2010, JWebUnit team.
+ *
+ * This file is part of JWebUnit.
+ *
+ * JWebUnit is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JWebUnit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package net.sourceforge.jwebunit.tests;
 
 import javax.servlet.http.Cookie;
 
-import net.sourceforge.jwebunit.TestContext;
+import net.sourceforge.jwebunit.util.TestContext;
 
 import java.util.List;
 import java.util.Locale;
@@ -22,7 +37,7 @@ public class TestContextTest extends JWebUnitAPITestCase {
         super.setUp();
         context = new TestContext();
         context.setAuthorization("user", "pwd");
-        context.addCookie("key", "val");
+        context.addCookie("key", "val", "www.foo.bar");
         context.setLocale(Locale.CANADA_FRENCH);
     }
 
@@ -32,12 +47,13 @@ public class TestContextTest extends JWebUnitAPITestCase {
         assertTrue(context.hasCookies());
         assertEquals(context.getUser(), "user");
         assertEquals(context.getPassword(), "pwd");
-        List cookies = context.getCookies();
+        List<?> cookies = context.getCookies();
         Cookie c = (Cookie)cookies.get(0);
         assertEquals(c.getName(), "key");
         assertEquals(c.getValue(), "val");
+        assertEquals(c.getDomain(), "www.foo.bar");
         assertEquals(Locale.CANADA_FRENCH, context.getLocale());
-        assertEquals("http://localhost:8080", context.getBaseUrl());
+        assertEquals("http://localhost:8080", context.getBaseUrl().toString());
         assertNull(context.getResourceBundleName());
     }
 

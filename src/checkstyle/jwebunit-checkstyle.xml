@@ -1,90 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    This configuration file was written by the eclipse-cs plugin configuration editor
+
+    Copyright (c) 2010, JWebUnit team.
+
+    This file is part of JWebUnit.
+
+    JWebUnit is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JWebUnit is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!--
+	This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: jWebUnit
-    Description:    
+	Checkstyle-Configuration: JWebUnit
+	Description:
+	
 -->
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 <module name="Checker">
-    <property name="severity" value="warning" />
-    <module name="TreeWalker">
-        <module name="JavadocMethod" />
-        <module name="JavadocType" />
-        <module name="JavadocVariable">
-            <property name="severity" value="info" />
-        </module>
-        <module name="JavadocStyle" />
-        <module name="ConstantName" />
-        <module name="LocalFinalVariableName" />
-        <module name="LocalVariableName" />
-        <module name="MemberName" />
-        <module name="MethodName" />
-        <module name="PackageName" />
-        <module name="ParameterName" />
-        <module name="StaticVariableName" />
-        <module name="TypeName" />
-        <module name="Header">
-            <property name="headerFile"
-                value="${checkstyle.header.file}" />
-        </module>
-        <module name="AvoidStarImport" />
-        <module name="IllegalImport" />
-        <module name="RedundantImport" />
-        <module name="UnusedImports" />
-        <module name="FileLength" />
-        <module name="LineLength">
-            <property name="ignorePattern" value="^/\**$" />
-        </module>
-        <module name="MethodLength" />
-        <module name="ParameterNumber" />
-        <module name="EmptyForIteratorPad" />
-        <module name="NoWhitespaceAfter" />
-        <module name="NoWhitespaceBefore" />
-        <module name="OperatorWrap" />
-        <module name="ParenPad" />
-        <module name="TypecastParenPad" />
-        <module name="TabCharacter" />
-        <module name="WhitespaceAfter" />
-        <module name="WhitespaceAround" />
-        <module name="ModifierOrder" />
-        <module name="RedundantModifier" />
-        <module name="AvoidNestedBlocks" />
-        <module name="EmptyBlock" />
-        <module name="LeftCurly" />
-        <module name="NeedBraces" />
-        <module name="RightCurly" />
-        <module name="AvoidInlineConditionals" />
-        <module name="DoubleCheckedLocking" />
-        <module name="EmptyStatement" />
-        <module name="EqualsHashCode" />
-        <module name="HiddenField">
-            <property name="severity" value="info" />
-        </module>
-        <module name="IllegalInstantiation" />
-        <module name="InnerAssignment" />
-        <module name="MagicNumber">
-            <property name="severity" value="info" />
-        </module>
-        <module name="MissingSwitchDefault" />
-        <module name="RedundantThrows" />
-        <module name="SimplifyBooleanExpression" />
-        <module name="SimplifyBooleanReturn" />
-        <module name="DesignForExtension">
-            <property name="severity" value="ignore" />
-        </module>
-        <module name="FinalClass" />
-        <module name="HideUtilityClassConstructor" />
-        <module name="InterfaceIsType" />
-        <module name="VisibilityModifier" />
-        <module name="ArrayTypeStyle" />
-        <module name="TodoComment" />
-        <module name="UpperEll" />
-        <module name="AbstractClassName" />
-        <module name="ImportOrder" />
-    </module>
-    <module name="PackageHtml" />
-    <module name="NewlineAtEndOfFile" />
-    <module name="Translation" />
+	<property name="severity" value="warning" />
+	<module name="Header">
+		<property name="headerFile"
+			value="${checkstyle.header.file}" />
+	</module>
+	<module name="FileLength" />
+	<module name="TreeWalker">
+		<module name="JavadocMethod" />
+		<module name="JavadocType" />
+		<module name="JavadocVariable">
+			<property name="severity" value="info" />
+		</module>
+		<module name="JavadocStyle" />
+		<module name="ConstantName" />
+		<module name="LocalFinalVariableName" />
+		<module name="LocalVariableName" />
+		<module name="MemberName" />
+		<module name="MethodName" />
+		<module name="PackageName" />
+		<module name="ParameterName" />
+		<module name="StaticVariableName" />
+		<module name="TypeName" />
+		<module name="AvoidStarImport" />
+		<module name="IllegalImport" />
+		<module name="RedundantImport" />
+		<module name="UnusedImports" />
+		<module name="LineLength">
+			<property name="ignorePattern" value="^/\**$" />
+			<property name="max" value="120" />
+		</module>
+		<module name="ParameterNumber" />
+		<module name="EmptyForIteratorPad" />
+		<module name="NoWhitespaceAfter" />
+		<module name="NoWhitespaceBefore" />
+		<module name="OperatorWrap" />
+		<module name="ParenPad" />
+		<module name="TypecastParenPad" />
+		<module name="WhitespaceAfter" />
+		<module name="WhitespaceAround" />
+		<module name="ModifierOrder" />
+		<module name="RedundantModifier" />
+		<module name="AvoidNestedBlocks" />
+		<module name="EmptyBlock" />
+		<module name="LeftCurly" />
+		<module name="NeedBraces" />
+		<module name="RightCurly" />
+		<module name="AvoidInlineConditionals" />
+		<module name="DoubleCheckedLocking" />
+		<module name="EmptyStatement" />
+		<module name="EqualsHashCode" />
+		<module name="HiddenField">
+			<property name="severity" value="info" />
+		</module>
+		<module name="IllegalInstantiation" />
+		<module name="InnerAssignment" />
+		<module name="MagicNumber">
+			<property name="severity" value="info" />
+		</module>
+		<module name="MissingSwitchDefault" />
+		<module name="RedundantThrows" />
+		<module name="SimplifyBooleanExpression" />
+		<module name="SimplifyBooleanReturn" />
+		<module name="DesignForExtension">
+			<property name="severity" value="ignore" />
+		</module>
+		<module name="FinalClass" />
+		<module name="HideUtilityClassConstructor" />
+		<module name="InterfaceIsType" />
+		<module name="VisibilityModifier" />
+		<module name="ArrayTypeStyle" />
+		<module name="TodoComment" />
+		<module name="UpperEll" />
+		<module name="AbstractClassName" />
+		<module name="ImportOrder" />
+		<module name="MethodLength" />
+		<module name="ParameterNumber" />
+		<module name="DeclarationOrder" />
+		<module name="IllegalCatch" />
+		<module name="JUnitTestCase" />
+	</module>
+	<module name="NewlineAtEndOfFile" />
+	<module name="Translation" />
+	<module name="FileTabCharacter" />
 </module>

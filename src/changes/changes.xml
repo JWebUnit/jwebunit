@@ -1,256 +1,558 @@
 <?xml version="1.0"?>
-<document>
-	<properties>
-		<title>jWebUnit changes</title>
-		<author email="dashorst at users.sourceforge.net">Martijn Dashorst</author>
-	</properties>
-	<body>
-	<release version="2.0" date="unknow">
-            <action type="update" dev="Julien Henry">
-                Update to Jetty 6.0.1.
+<!--
+
+    Copyright (c) 2010, JWebUnit team.
+
+    This file is part of JWebUnit.
+
+    JWebUnit is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JWebUnit is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+
+    <properties>
+        <title>JWebUnit changes</title>
+        <author email="henryju at users.sourceforge.net">
+            Julien Henry
+        </author>
+    </properties>
+    <body>
+        <release version="2.5" date="UNKNOW" description="">
+            <action type="update" dev="henryju">
+                Updated to slf4j 1.6.1.
             </action>
-             <action type="fix" dev="Julien Henry" due-to="Joe Athman" issue="1554148">
+            <action type="update" dev="henryju">
+                Updated to HtmlUnit 2.8.
+            </action>
+            <action type="update" dev="henryju">
+                Updated to JUnit 4.8.2.
+            </action>
+            <action type="add" dev="henryju" issue="1864365" due-to="Jason McSwain">
+                Added the ability to change RefreshHandler in HtmlUnitTestingEngine.
+            </action>
+        </release>
+        <release version="2.4" date="July 4, 2010" description="Licensing change">
+            <action type="update" dev="henryju">
+                License was changed to LGPL v3
+            </action>
+        </release>
+        <release version="2.3" date="March 3, 2010" description="Updated to JUnit 4.7 and latest HtmlUnit and Selenium">
+            <action type="update" dev="henryju">
+                Updated to Selenium RC 1.0.1.
+            </action>
+            <action type="update" dev="henryju">
+                Updated to HtmlUnit 2.7.
+            </action>
+            <action type="update" dev="henryju">
+                Updated to JUnit 4.7.
+            </action>
+        </release>
+        <release version="2.2" date="May 15, 2009">
+            <action type="update" dev="henryju">
+                Updated to HtmlUnit 2.5.
+            </action>
+            <action type="add" dev="henryju" issue="2106019" due-to="Kent R. Spillner">
+                Enable partial matches of image src and alt attributes. Added assertImagePresentPartial(String partialImageSrc, String partialImageAlt) method.
+            </action>
+            <action type="add" dev="henryju" issue="2647451" due-to="Kent R. Spillner">
+                Exposed option to toggle exceptions on Javascript errors.
+            </action>
+            <action type="fix" dev="henryju" issue="2568604" due-to="Umkhulubaas">
+                Used buffered output stream to improve WebTester.saveAs method performances.
+            </action>
+            <action type="fix" dev="henryju" issue="2525065" due-to="Sivan Mozes">
+                WebClient.closeAllWindows() called to prevent memory leak.
+            </action>
+        </release>
+        <release version="2.1" date="December 12, 2008">
+            <action type="add" dev="jevonwright">
+                Added new IElement element interface, and methods to directly access elements by XPath.
+            </action>
+            <action type="add" dev="jevonwright" issue="1744628">
+                Added assertHeader*() and assertResponseCode*() methods.
+            </action>
+            <action type="add" dev="jevonwright" issue="1728676">
+                Added WebTestCase(WebTester) constructor.
+            </action>
+            <action type="add" dev="jevonwright" issue="1519807">
+                Added assertLabeledFieldEquals(id, text), assertLabel*(), and setLabeledFormElementField(id, value) methods.
+            </action>
+            <action type="update" dev="jevonwright">
+                BC CHANGE: setFormElement(), assertFormElementEquals() methods will no longer assert that a form already exists in the page (as allowed by the HTML standard).
+            </action>
+            <action type="fix" dev="jevonwright" issue="1724695">
+                navigator.userAgent is no longer null by default.
+                Test cases now use the Firefox 3.0 user agent as the default, rather than MSIE 4.0.
+            </action>
+            <action type="fix" dev="jevonwright" issue="2306967" due-to="r_monson">
+                Fixed proxy authentication bug in HtmlUnit implementation.
+            </action>
+            <action type="add" dev="jevonwright" issue="1637716">
+                Added assertMatch(regexp, text) and assertNotMatch(regexp, text) methods.
+            </action>
+            <action type="add" dev="jevonwright" issue="1277374">
+                Added assertCommentPresent(text) and assertCommentNotPresent(text) methods.
+            </action>
+            <action type="add" dev="jevonwright" issue="1674646">
+                Added setTimeout() method.
+            </action>
+            <action type="fix" dev="jevonwright" issue="2404789">
+                Cleaned up the quickstart documentation.
+            </action>
+        </release>
+        <release version="2.0" date="October 27, 2008" description="First release that requires Java 1.4+">
+            <action type="update" dev="henryju">
+                Updated to HtmlUnit 2.3.
+            </action>
+            <action type="fix" dev="joshlane" issue="2007985,2009776" due-to="Josh Lane">
+                selectOptionByValue failed with Selenium Plugin.
+                selectOption always failed, cannot find element.
+                Other improvements to Selenium plugin.
+            </action>
+            <action type="update" dev="henryju" issue="1950248" due-to="Agnes Ro">
+                Updated to HtmlUnit 2.1 and Java 1.5.
+            </action>
+        </release>
+        <release version="1.5" date="april 22, 2008" description="The latest major release before Java 1.5 migration">
+            <action type="fix" dev="henryju" issue="1860745" due-to="Ward Bergmans">
+                setProxyAuthorization caused IllegalArgumentException with null username/password and not null host/port.
+            </action>
+            <action type="add" dev="henryju" issue="1793818" due-to="Achim Huegen">
+                Added setHiddenField method to WebTestCase.
+            </action>
+            <action type="fix" dev="henryju" issue="1747033" due-to="Carlo Possati">
+                assertCheckbox[Not]Present now works if HTML type attribute value is not lowercase (e.g.: type="CHECKBOX").
+            </action>
+            <action type="update" dev="henryju">
+                Update to HtmlUnit 1.14.
+            </action>
+            <action type="add" dev="henryju" issue="1874212" due-to="Mike C">
+                Support multiple selects with same name.
+            </action>
+            <action type="fix" dev="henryju" issue="1845893" due-to="Mike">
+                assertButtonPresentWithText and clickButtonWithText now work for input button
+                (submit, reset, button) matching the value attribute.
+            </action>
+            <action type="add" dev="henryju">
+                Add basic Selenium support.
+            </action>
+            <action type="update" dev="henryju">
+                Rename IJWebUnitDialog in ITestingEngine.
+            </action>
+        </release>
+        <release version="1.4.1" date="may 5, 2007">
+            <action type="fix" dev="henryju" issue="1706395" due-to="meilon">
+                getPageSource() now returns source of the current frame or window.
+            </action>
+            <action type="fix" dev="henryju" issue="1708229,1710809,1712633" due-to="Jon,Joe Fisher">
+                setTextField now doesn't change the current working form if already set.
+                clickRadioOption now doesn't change the current working form if already set.
+                assertFormElementPresent now only searches the current working form if already set.
+            </action>
+        </release>
+        <release version="1.4" date="march 17, 2007">
+            <action type="update" dev="henryju">
+                Update to HtmlUnit 1.11.
+            </action>
+            <action type="add" dev="henryju" issue="1677214" due-to="Dragan Pazin">
+                Add a new method: getElementTextByXPath.
+            </action>
+        </release>
+        <release version="1.4-RC4" date="march 04, 2007">
+            <action type="add" dev="henryju" issue="993058" due-to="Chris Eldredge">
+                Add new ResourceBundle related methods allowing formatting of resources.
+            </action>
+            <action type="fix" dev="henryju" issue="1633967" due-to="Dirk Jerusalem">
+                Table.getRows is now public.
+            </action>
+            <action type="fix" dev="henryju" issue="1638720">
+                gotoFrame should throw an Exception when no frame is found.
+            </action>
+            <action type="fix" dev="henryju" issue="735092">
+                Make WebTestCase abstract.
+            </action>
+            <action type="fix" dev="henryju">
+                Fix assertRadioButton[Not]Selected.
+            </action>
+            <action type="fix" dev="henryju">
+                beginAt and gotoPage throw a TestingEngineResponseException on bad Http status code.
+            </action>
+            <action type="fix" dev="henryju">
+                Make WebTestCase.tearDown() protected.
+                Make WebTestCase.tester protected.
+                Add WebTestCase.getTester() method.
+            </action>
+        </release>
+        <release version="1.4-RC3" date="january 11, 2007">
+            <action type="fix" dev="henryju" issue="1628076">
+                Fix exception when trying to access a page with a loop redirection.
+            </action>
+            <action type="add" dev="henryju" due-to="Gregory Joseph" issue="1531873">
+                Add methods to test images in a web page: assertImagePresent(String imageSrc, String imageAlt),
+                assertImageValid(String imageSrc, String imageAlt),
+                assertImageValidAndStore(String imageSrc, String imageAlt, File out)
+            </action>
+            <action type="add" dev="henryju" due-to="Jeff Grimshaw" issue="1563168">
+                Add methods in TestContext to specify custom request headers.
+            </action>
+        </release>
+        <release version="1.4-RC2" date="december 5, 2006">
+            <action type="fix" dev="henryju">
+                Reset() function now check for the presence of a reset button.
+            </action>
+            <action type="add" dev="henryju">
+                Add the possibility to manipulate frame (and iframe) by ID in addition to their name.
+            </action>
+            <action type="add" dev="henryju">
+                Add saveAs(File f) and assertDownloadedFileEquals(File expected) methods
+                to check downloaded response as a binary File.
+            </action>
+            <action type="add" dev="henryju">
+                Add getServeurResponse() method to debug HTTP response.
+            </action>
+        </release>
+        <release version="1.4-RC1" date="november 20, 2006">
+            <action type="fix" dev="henryju">
+                submit([...]) methods now detect image input elements.
+            </action>
+            <action type="add" dev="henryju">
+                Add setWorkingForm(int index) method to select the current form by its index.
+            </action>
+            <action type="update" dev="henryju">
+                Update to HtmlUnit 1.10.
+            </action>
+            <action type="fix" dev="henryju">
+                Fix cookie support. You can now properly manually add cookie to the conversation by
+                using TestContext.addCookie() before calling beginAt().
+            </action>
+            <action type="add" dev="henryju">
+                Add setExpectedJavascript[Alert/Confirm/Prompt] methods to check presence of
+                Javascript message boxes.
+            </action>
+            <action type="add" dev="henryju">
+                Add support for Basic and Digest Authentication using Context.setAuthorization().
+                Context.setNTMLAuthorization() and Context.setProxyAuthorization may also work (not tested).
+            </action>
+            <action type="fix" dev="henryju" due-to="Joe Athman" issue="1554148">
                 beginAt and gotoPage now accept absolute URL beginning with "http://", "https://" or "www."
             </action>
-		<action type="add" dev="Julien Henry">
-			Add assertJavascriptAlertPresent method to check presence of a Javascript alert.
-		</action>
-		<action type="update" dev="Julien Henry">
-			Refactor TestingEngineRegistry: now fully static and use JDK 1.5.
-			It is now easier to add a custom plugin in registry.
-		</action>
-	</release>
+            <action type="add" dev="henryju" due-to="Lasse Koskela"
+                issue="1575956">
+                Add new methods: assertCheckBox[Not]Selected(String name, String value)
+                to deal with multiple checkboxes with the same name.
+            </action>
+            <action type="fix" dev="henryju" due-to="Jack"
+                issue="1567947">
+                assertButtonPresentWithText(String) was checking on
+                "value" attribut value instead of text between button
+                tag.
+            </action>
+            <action type="fix" dev="henryju" due-to="Veenay Dodia"
+                issue="1565634">
+                selectOption() reset previous setWorkingForm() action.
+                Problematic with 2 selects with same name in 2 different
+                forms.
+            </action>
+        </release>
         <release version="1.3" date="july 28, 2006">
-            <action type="remove" dev="Julien Henry" due-to="Fred Burlet">
-                assertFormParameterValue is now deprecated. Please use more specific method, like
-                assertTextFieldEquals, assertSelectedValueEqual, ...
+            <action type="remove" dev="henryju"
+                due-to="Fred Burlet">
+                assertFormParameterValue is now deprecated. Please use
+                more specific method, like assertTextFieldEquals,
+                assertSelectedValueEqual, ...
             </action>
-            <action type="add" dev="Julien Henry" due-to="Fred Burlet">
-                Add assertHiddenFieldPresent method to check presence of an hidden field with given value.
+            <action type="add" dev="henryju"
+                due-to="Fred Burlet">
+                Add assertHiddenFieldPresent method to check presence of
+                an hidden field with given value.
             </action>
-            <action type="add" dev="Julien Henry" due-to="Fred Burlet">
-                Add assertTextFieldEquals method to check content of a text field (text input, password input, textarea).
+            <action type="add" dev="henryju"
+                due-to="Fred Burlet">
+                Add assertTextFieldEquals method to check content of a
+                text field (text input, password input, textarea).
             </action>
-            <action type="fix" dev="Julien Henry" due-to="Fred Burlet">
+            <action type="fix" dev="henryju"
+                due-to="Fred Burlet">
                 setTextField is now working with TextArea.
             </action>
-            <action type="fix" dev="Julien Henry" due-to="Mark Chaimungkalanont">
-                Current form was saved but not reseted when page content change.
+            <action type="fix" dev="henryju"
+                due-to="Mark Chaimungkalanont">
+                Current form was saved but not reseted when page content
+                change.
             </action>
-         </release>
-		<release version="1.3-RC2" date="july 07, 2006">
-			<action type="add" dev="Julien Henry" due-to="Tetyana Gimgina">
-				Show the getTable() method in WebTestCase to allow custom assertions.
-			</action>
-			<action type="add" dev="Julien Henry" due-to="Tetyana Gimgina" issue="1517851">
-				Introduce the setFormElement() back as a deprecated method that wraps setTextField().
-			</action>
-			<action type="update" dev="Julien Henry">
-				Update to HtmlUnit 1.9.
-			</action>
-			<action type="add" dev="Julien Henry" due-to="Jeffrey W. Badorek" issue="1515297">
-				Allow selection of forms with same name (with index). Add setWorkingForm(String nameOrId, int index) to the API.
-			</action>
-		 </release>
-		<release version="1.3-RC1" date="june 27, 2006" description="After all these great changes, we need a RC.">
-			<action type="add" dev="Julien Henry" due-to="Buhi Mume" >
-				Added ability to navigate to windows / assert presence by window id.
-			</action>
-			<action type="remove" dev="Julien Henry">
-				Remove HttpUnit testing engine.
-			</action>
-			<action type="update" dev="Julien Henry">
-				Refactoring of Table assertions to handle perfectly colspan and rowspan.
-			</action>
-			<action type="add" dev="Julien Henry">
-				Added XPath methods to core API.
-			</action>
-			<action type="update" dev="Julien Henry">
-				Split jWebUnit in modules: one for the core (jWebUnit API), one for the tests (that all plugins should pass),
-				and one for each plugin (currently HtmlUnit). This way, for example,  when you want to use
-				one plugin, you don't have to include all others dependencies.
-			</action>
-			<action type="update" dev="Julien Henry">
-				Updated to Jetty 6 for running tests. Need less dependencies and run faster.
-			</action>
-			<action type="add" dev="Julien Henry">
-				Added HtmlUnitDialog, that provide better Javascript support.
-			</action>
-			<action type="add" dev="Julien Henry">
-				Added Maven 2 support. There are many reports available on the website.
-			</action>
-			<action type="update" dev="Nicholas Neuberger" issue="1064807">
-					 Added new method to clickButtonWithText. I believe it is useful addition to existing functionality as we already have assertButtonPresentWithText().
-			</action>
-			<action type="add" dev="Jim Weaver" due-to="Dragos Manolescu" issue="800660">
-				Integrated patch for multiple submit buttons with different values.  API change -
-				assertSubmitButtonValue(button, value) now assertSubmitButtonPresent(button, value).
-			</action>
-			<action type="add" dev="Martijn Dashorst" due-to="John Evans" issue="1005396">
-				Assert button (not) present with text added.
-			</action>
-		    <action type="add" dev="Jim Weaver" issue="999600">
-		        Added ability to navigate to windows / assert presence by window title.
-		    </action>
-		    <action type="add" dev="Jim Weaver" due-to="Kenny MacLeod" issue="979856">
-		        Added assert select option present / not present.
-		    </action>
-		    <action type="add" dev="Jim Weaver" issue="981534">
-		        onchange event bug fixed / test added.
-		    </action>
-            <action type="fix" dev="Martijn Dashorst" due-to="Budi Boentaran" issue="972992">
-                Memory leak in WebTestCase. Note: tester is no longer allocated at constructor time, but just before 'setUp' is called.
+        </release>
+        <release version="1.3-RC2" date="july 07, 2006">
+            <action type="add" dev="henryju"
+                due-to="Tetyana Gimgina">
+                Show the getTable() method in WebTestCase to allow
+                custom assertions.
             </action>
-			<action type="update" dev="Vivek Venugopalan" due-to="Oliver Haid" issue="735087">
-				better support subclassing of WebTestCase
-			</action>
-		</release>
-		<release version="1.2" date="june 13, 2004" description="The long awaited release">
-		    <action type="add" dev="Jim Weaver">
-		        assertTextNotInElement method addition
-		    </action>
-		    <action type="update" dev="Jim Weaver">
-		        form assertion failure messages more accurate
-		    </action>
-		    <action type="add" dev="Wilkes Joiner" issue="">
-		        assertFormNotPresent method addition
-		    </action>
-		    <action type="add" due-to="Alex Chaffee" issue="724337">
-		        goto a page directly by url
-		    </action>
-		    <action type="add" due-to="justin sampson">
-		        support for clicking links by text when there are multiple links with
-                same text on page
-		    </action>
-		    <action type="add" dev="Wilkes Joiner" issue="627735">
+            <action type="add" dev="henryju"
+                due-to="Tetyana Gimgina" issue="1517851">
+                Introduce the setFormElement() back as a deprecated
+                method that wraps setTextField().
+            </action>
+            <action type="update" dev="henryju">
+                Update to HtmlUnit 1.9.
+            </action>
+            <action type="add" dev="henryju"
+                due-to="Jeffrey W. Badorek" issue="1515297">
+                Allow selection of forms with same name (with index).
+                Add setWorkingForm(String nameOrId, int index) to the
+                API.
+            </action>
+        </release>
+        <release version="1.3-RC1" date="june 27, 2006"
+            description="After all these great changes, we need a RC.">
+            <action type="add" dev="henryju" due-to="Buhi Mume">
+                Added ability to navigate to windows / assert presence
+                by window id.
+            </action>
+            <action type="remove" dev="henryju">
+                Remove HttpUnit testing engine.
+            </action>
+            <action type="update" dev="henryju">
+                Refactoring of Table assertions to handle perfectly
+                colspan and rowspan.
+            </action>
+            <action type="add" dev="henryju">
+                Added XPath methods to core API.
+            </action>
+            <action type="update" dev="henryju">
+                Split jWebUnit in modules: one for the core (jWebUnit
+                API), one for the tests (that all plugins should pass),
+                and one for each plugin (currently HtmlUnit). This way,
+                for example, when you want to use one plugin, you don't
+                have to include all others dependencies.
+            </action>
+            <action type="update" dev="henryju">
+                Updated to Jetty 6 for running tests. Need less
+                dependencies and run faster.
+            </action>
+            <action type="add" dev="henryju">
+                Added HtmlUnitDialog, that provide better Javascript
+                support.
+            </action>
+            <action type="add" dev="henryju">
+                Added Maven 2 support. There are many reports available
+                on the website.
+            </action>
+            <action type="update" dev="Nicholas Neuberger"
+                issue="1064807">
+                Added new method to clickButtonWithText. I believe it is
+                useful addition to existing functionality as we already
+                have assertButtonPresentWithText().
+            </action>
+            <action type="add" dev="Jim Weaver"
+                due-to="Dragos Manolescu" issue="800660">
+                Integrated patch for multiple submit buttons with
+                different values. API change -
+                assertSubmitButtonValue(button, value) now
+                assertSubmitButtonPresent(button, value).
+            </action>
+            <action type="add" dev="Martijn Dashorst"
+                due-to="John Evans" issue="1005396">
+                Assert button (not) present with text added.
+            </action>
+            <action type="add" dev="Jim Weaver" issue="999600">
+                Added ability to navigate to windows / assert presence
+                by window title.
+            </action>
+            <action type="add" dev="Jim Weaver" due-to="Kenny MacLeod"
+                issue="979856">
+                Added assert select option present / not present.
+            </action>
+            <action type="add" dev="Jim Weaver" issue="981534">
+                onchange event bug fixed / test added.
+            </action>
+            <action type="fix" dev="Martijn Dashorst"
+                due-to="Budi Boentaran" issue="972992">
+                Memory leak in WebTestCase. Note: tester is no longer
+                allocated at constructor time, but just before 'setUp'
+                is called.
+            </action>
+            <action type="update" dev="Vivek Venugopalan"
+                due-to="Oliver Haid" issue="735087">
+                better support subclassing of WebTestCase
+            </action>
+        </release>
+        <release version="1.2" date="june 13, 2004"
+            description="The long awaited release">
+            <action type="add" dev="Jim Weaver">
+                assertTextNotInElement method addition
+            </action>
+            <action type="update" dev="Jim Weaver">
+                form assertion failure messages more accurate
+            </action>
+            <action type="add" dev="Wilkes Joiner" issue="">
+                assertFormNotPresent method addition
+            </action>
+            <action type="add" due-to="Alex Chaffee" issue="724337">
+                goto a page directly by url
+            </action>
+            <action type="add" due-to="justin sampson">
+                support for clicking links by text when there are
+                multiple links with same text on page
+            </action>
+            <action type="add" dev="Wilkes Joiner" issue="627735">
                 support for multiple checkboxes with different values
-		    </action>
-			<action type="add" dev="Martijn Dashorst">
-				Moved the build system from <a href="http://ant.apache.org">Ant</a> 
-				to <a href="http://maven.apache.org">Maven</a>.
-			</action>
-			<action type="update" dev="Martijn Dashorst">
-				Upgraded all dependencies (httpunit, rhino, nekohtml, 
-				xerces, junit) to their newest released version.
-			</action>
-			<action type="add" dev="Jim Weaver" due-to="Vivek Venugopalan" issue="715841">
-				Added support for cookies.
-			</action>
-			<action type="fix" dev="Vivek Venugopalan" issue="856218" due-to="Roberto Cosenza">
-				Wrong text in Assert
-			</action>
-			<action type="fix" dev="Vivek Venugopalan" issue="908440" due-to="Vasile Alaiba">
-				quickstart.html setBaseUrl is mistyped
-			</action>
-			<action type="fix" dev="Vivek Venugopalan" issue="910242" due-to="Hien Nguyen">
-				assertFormElementPresent fails when a form is in an IFRAME
-			</action>
-			<action type="fix" dev="Vivek Venugopalan" issue="908372">
-				assertLinkPresentWithImage("foo") fails if foo isn't first
-			</action>
-			<action type="fix" dev="Vivek Venugopalan" due-to="Jim Cloughley" issue="918278">
-				broken link in jwebunit-1.1.1 set of files
-			</action>
-		    <action type="fix" dev="Jim Weaver">
-		        prevent js files from being returned as response content
-		    </action>
-			<action type="fix" dev="Jim Weaver" due-to="Brad Clarke" issue="727614">
-				Fork enabled for ant-build compile.
-			</action>
-			<action type="fix" dev="Jim Weaver" due-to="Charles Blaxland" issue="745868">
-				Form submit overload for forms with multiple submit buttons.
-			</action>
-		</release>
-		<release version="1.1">
-			<action type="add" due-to="Allen Wu">
-				Support for frames and multiple windows.
-			</action>
-			<action type="add">
-				Support for non-submit buttons (input type='button').
-			</action>
-			<action type="add" due-to="Justin Sampson">
-				Support for accessing form elements by display label.
-			</action>
-			<action type="add">
-				Support for form reset and onReset event.
-			</action>
-			<action type="fix">
-				Fixed problem with onClick javascript event not being triggered by clickLink methods.
-			</action>
-			<action type="update">
-		        HttpUnit 1.5 incorporated, which also replaces jTidy with nekoHtml.
-		    </action>
-		 </release>
-		 <release version="1.0">
-		 	<action type="add" due-to="Justin Sampson">
-			 	Support for links with images contributed.
-		 	</action>
-		 	<action type="add">
-			 	Methods were added to assert and navigate links with images by filename.
-		 	</action>
-		 	<action type="add">
-			 	assertFormElementEmpty method added - a convenience.
-		 	</action>
-		 	<action type="update">
-		 		assertHasForm renamed to assertFormPresent to be consistent with other methods.
-		 	</action>
-		 </release>
-		 <release version="RC2">
-		 	<action type="add">
-			 	Support for Radio Options.
-		 	</action>
-		 	<action type="add">
-			 	Methods were added to support interaction with and testing of radio button groups.
-		 	</action>
-		 	<action type="add">
-			 	Select boxes.
-		 	</action>
-		 	<action type="add">
-			 	Methods were added to support interaction with and testing of single-select elements.
-			 	Multi-select elements are not yet supported.
-		 	</action>
-		 	<action type="update">
-		 		FormControl renamed to FormElement.
-		 	</action>
-		 	<action type="update">
-		 		Methods related to setting and testing of form input fields were renamed for consistency.
-		 		All such methods now refer to "FormElement".
-		 	</action>
-		 	<action type="update">
-		 		InResponse renamed to Present.
-				AssertXInResponse methods were renamed to AssertXPresent for consistency with other method names.
-		 	</action>
-		 	<action type="update">
-		 		Multiple Form support simplified.
-				The two submitForm methods (submitForm(formName) and submitForm(formName, buttonName)) where removed.
-				To explicitly indicate which form to work with on a multi-form page, use the new setWorkingForm method.
-				The two remaining submit methods (submit() and submit(buttonName)) are used to submit the form when ready.
-		 	</action>
-		 	<action type="update">
-		 		FormControl renamed to FormElement
-		 	</action>
-		 	<action type="update">
-		 		ClickLink signature change.
-				clickLink parameter is now the link id.
-				To navigate a link based on text contained in the link, use clickLinkWithText.
-		 	</action>
-		 	<action type="update">
-		 		Access to HttpUnit Response, Request, WebConversation opened up.
-		 	</action>
-		 	<action type="update">
-		 		New HttpUnit (1.4.5) utilized, which provides JavaScript support.
-		 	</action>
-		 	<action type="update">
-		 		HttpUnitDialog class changed to act as a WebClientListener and update the response upon responseReceived call back.
-		 	</action>
-		 	<action type="update">
-		 		Updated to JUnit 3.8.1.
-		 	</action>
-		 </release>
-		 <release version="RC1">
-		 	<action type="add">
-		 		First release.
-		 	</action>
-		 </release>
-	</body>
+            </action>
+            <action type="add" dev="Martijn Dashorst">
+                Moved the build system from Ant to Maven.
+            </action>
+            <action type="update" dev="Martijn Dashorst">
+                Upgraded all dependencies (httpunit, rhino, nekohtml,
+                xerces, junit) to their newest released version.
+            </action>
+            <action type="add" dev="Jim Weaver"
+                due-to="Vivek Venugopalan" issue="715841">
+                Added support for cookies.
+            </action>
+            <action type="fix" dev="Vivek Venugopalan" issue="856218"
+                due-to="Roberto Cosenza">
+                Wrong text in Assert
+            </action>
+            <action type="fix" dev="Vivek Venugopalan" issue="908440"
+                due-to="Vasile Alaiba">
+                quickstart.html setBaseUrl is mistyped
+            </action>
+            <action type="fix" dev="Vivek Venugopalan" issue="910242"
+                due-to="Hien Nguyen">
+                assertFormElementPresent fails when a form is in an
+                IFRAME
+            </action>
+            <action type="fix" dev="Vivek Venugopalan" issue="908372">
+                assertLinkPresentWithImage("foo") fails if foo isn't
+                first
+            </action>
+            <action type="fix" dev="Vivek Venugopalan"
+                due-to="Jim Cloughley" issue="918278">
+                broken link in jwebunit-1.1.1 set of files
+            </action>
+            <action type="fix" dev="Jim Weaver">
+                prevent js files from being returned as response content
+            </action>
+            <action type="fix" dev="Jim Weaver" due-to="Brad Clarke"
+                issue="727614">
+                Fork enabled for ant-build compile.
+            </action>
+            <action type="fix" dev="Jim Weaver"
+                due-to="Charles Blaxland" issue="745868">
+                Form submit overload for forms with multiple submit
+                buttons.
+            </action>
+        </release>
+        <release version="1.1">
+            <action type="add" due-to="Allen Wu">
+                Support for frames and multiple windows.
+            </action>
+            <action type="add">
+                Support for non-submit buttons (input type='button').
+            </action>
+            <action type="add" due-to="Justin Sampson">
+                Support for accessing form elements by display label.
+            </action>
+            <action type="add">
+                Support for form reset and onReset event.
+            </action>
+            <action type="fix">
+                Fixed problem with onClick javascript event not being
+                triggered by clickLink methods.
+            </action>
+            <action type="update">
+                HttpUnit 1.5 incorporated, which also replaces jTidy
+                with nekoHtml.
+            </action>
+        </release>
+        <release version="1.0">
+            <action type="add" due-to="Justin Sampson">
+                Support for links with images contributed.
+            </action>
+            <action type="add">
+                Methods were added to assert and navigate links with
+                images by filename.
+            </action>
+            <action type="add">
+                assertFormElementEmpty method added - a convenience.
+            </action>
+            <action type="update">
+                assertHasForm renamed to assertFormPresent to be
+                consistent with other methods.
+            </action>
+        </release>
+        <release version="RC2">
+            <action type="add">Support for Radio Options.</action>
+            <action type="add">
+                Methods were added to support interaction with and
+                testing of radio button groups.
+            </action>
+            <action type="add">Select boxes.</action>
+            <action type="add">
+                Methods were added to support interaction with and
+                testing of single-select elements. Multi-select elements
+                are not yet supported.
+            </action>
+            <action type="update">
+                FormControl renamed to FormElement.
+            </action>
+            <action type="update">
+                Methods related to setting and testing of form input
+                fields were renamed for consistency. All such methods
+                now refer to "FormElement".
+            </action>
+            <action type="update">
+                InResponse renamed to Present. AssertXInResponse methods
+                were renamed to AssertXPresent for consistency with
+                other method names.
+            </action>
+            <action type="update">
+                Multiple Form support simplified. The two submitForm
+                methods (submitForm(formName) and submitForm(formName,
+                buttonName)) where removed. To explicitly indicate which
+                form to work with on a multi-form page, use the new
+                setWorkingForm method. The two remaining submit methods
+                (submit() and submit(buttonName)) are used to submit the
+                form when ready.
+            </action>
+            <action type="update">
+                FormControl renamed to FormElement
+            </action>
+            <action type="update">
+                ClickLink signature change. clickLink parameter is now
+                the link id. To navigate a link based on text contained
+                in the link, use clickLinkWithText.
+            </action>
+            <action type="update">
+                Access to HttpUnit Response, Request, WebConversation
+                opened up.
+            </action>
+            <action type="update">
+                New HttpUnit (1.4.5) utilized, which provides JavaScript
+                support.
+            </action>
+            <action type="update">
+                HttpUnitDialog class changed to act as a
+                WebClientListener and update the response upon
+                responseReceived call back.
+            </action>
+            <action type="update">Updated to JUnit 3.8.1.</action>
+        </release>
+        <release version="RC1">
+            <action type="add">First release.</action>
+        </release>
+    </body>
 </document>

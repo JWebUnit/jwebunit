@@ -1,10 +1,24 @@
-/******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
- * Distributed open-source, see full license under LICENCE.txt                *
- ******************************************************************************/
+/**
+ * Copyright (c) 2010, JWebUnit team.
+ *
+ * This file is part of JWebUnit.
+ *
+ * JWebUnit is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JWebUnit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package net.sourceforge.jwebunit.tests;
 
-import net.sourceforge.jwebunit.locator.ClickableHtmlElementLocator;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -22,7 +36,7 @@ public class XPathTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        getTestContext().setBaseUrl(HOST_PATH + "/XPathTest");
+        setBaseUrl(HOST_PATH + "/XPathTest");
     }
 
     public void testAssertElementPresentByXPath() throws Throwable {
@@ -38,20 +52,15 @@ public class XPathTest extends JWebUnitAPITestCase {
         assertPassFail("assertElementNotPresentByXPath", "//InvalidXPath",
                 "//tr[contains(.//a/@href,\"next\") and contains(string(),\"test link\")]");
     }
-    
-    private class myLink extends ClickableHtmlElementLocator {
-        public myLink() {
-            super("a");
-        }
-        
-        public String getXPath() {
-            return "//tr//a[contains(@href,\"next\") and contains(string(),\"test link\")]";
-        }
-    }
 
     public void testClickElementByXPath() throws Throwable {
         beginAt("/testPage.html");
-        click(new myLink());
+        clickElementByXPath("//tr//a[contains(@href,\"next\") and contains(string(),\"test link\")]");
         assertTitleEquals("Next");
+    }
+    
+    public void testGetElementTextByXPath() throws Throwable {
+        beginAt("/testPage.html");        
+        assertEquals("test link", getElementTextByXPath("//tr//a[contains(@href,\"next\")]"));
     }
 }

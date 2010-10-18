@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright (c) 2010, JWebUnit team.
+
+    This file is part of JWebUnit.
+
+    JWebUnit is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JWebUnit is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<document>
+	<properties>
+		<author>Julien Henry</author>
+		<title>Articles</title>
+	</properties>
+<body class="default">
+<section name="Articles about JWebUnit">
+	<p>
+	
+		<ul>
+			<li><a href="http://www.brodwall.com/johannes/blog/2006/12/10/in-process-web-integration-tests-with-jetty-and-jwebunit/">In-process Web Integration Tests with Jetty and JWebUnit</a></li>
+			<li><a href="http://portletwork.blogspot.com/2007/08/testing-portlets-with-jetty-pluto-and.html">Testing Portlets with Jetty, Pluto and JWebUnit</a></li>
+			<li><a href="http://blog.ippon.fr/2008/11/14/testez-vos-applications-graphiques-web">Testez vos applications graphiques web (FR)</a></li>
+		</ul>
+	
+	</p>
+</section>
+</body>
+</document>

@@ -1,41 +1,40 @@
-/******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
- * Distributed open-source, see full license under LICENCE.txt                *
- ******************************************************************************/
-package net.sourceforge.jwebunit.exception;
+/**
+ * Copyright (c) 2010, JWebUnit team.
+ *
+ * This file is part of JWebUnit.
+ *
+ * JWebUnit is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JWebUnit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import net.sourceforge.jwebunit.locator.Locator;
+package net.sourceforge.jwebunit.exception;
 
 /**
  * This exception should be used when an expected element is not found.
+ * 
  * @author Julien Henry (henryju@yahoo.fr)
  * 
  */
-@SuppressWarnings("serial")
-public class ElementNotFoundException extends JWebUnitException {
-    
-    private Locator elementNotFound;
-   
-    //TODO Perhaps add some informations about missing element (tag, name, ...).
-    
-    /**
-     * @return Returns the elementNotFound.
-     */
-    public Locator getElementNotFound() {
-        return elementNotFound;
-    }
+public class ElementNotFoundException extends Exception {
 
-    public ElementNotFoundException(String msg) {
+	private static final long serialVersionUID = 1L;
+
+	public ElementNotFoundException(String msg) {
         super(msg);
     }
 
     public ElementNotFoundException(String msg, Exception cause) {
         super(msg, cause);
-    }
-    
-    public ElementNotFoundException(Locator elementNotFound) {
-        super();
-        this.elementNotFound=elementNotFound;        
     }
 
 }

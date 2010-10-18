@@ -1,7 +1,22 @@
-/******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
- * Distributed open-source, see full license under LICENCE.txt                *
- ******************************************************************************/
+/**
+ * Copyright (c) 2010, JWebUnit team.
+ *
+ * This file is part of JWebUnit.
+ *
+ * JWebUnit is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JWebUnit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package net.sourceforge.jwebunit.tests;
 
 import junit.framework.Test;
@@ -17,7 +32,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 
 	public void setUp() throws Exception {
 		super.setUp();
-		getTestContext().setBaseUrl(HOST_PATH + "/TableAssertionsTest");
+		setBaseUrl(HOST_PATH + "/TableAssertionsTest");
 		beginAt("/TableAssertionsTestPage.html");
 	}
 
@@ -88,7 +103,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
     public void testAssertTableRowCountEquals() throws Throwable {
         assertPassFail("assertTableRowCountEquals", new Object[] {
                 "tree", new Integer(3)}, new Object[] {
-                        "tree", new Integer(4)});
+                        "tree", Integer.valueOf(4)});
     }
 
     public void testAssertTableEqualsExtraColumn() throws Throwable {
@@ -129,7 +144,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 	public void testAssertTableRowsEquals() throws Throwable {
 		assertPass("assertTableRowsEqual", new Object[] {
 				"testTable",
-				new Integer(1),
+				Integer.valueOf(1),
 				new String[][] { { "table text row 2" },
 						{ "table text row 3", "row 3 col 1" } } });
 	}
@@ -137,15 +152,15 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
 	public void testAssertTableRowsEqualsTooManyExpected() throws Throwable {
 		assertFail("assertTableRowsEqual", new Object[] {
 				"testTable",
-				new Integer(2),
+				Integer.valueOf(2),
 				new String[][] { { "table text row 3", "row 3 col 1" },
 						{ "unexpected" } } });
 	}
 
 	public void testTableWithSpaces() throws Throwable {
 		assertTablePresent("tree");
-		String[][] table = { { "root", "", "", "" },
-				{ "child1", "", "child2", "" },
+		String[][] table = { { "root", " ", "" },
+				{ "child1 ;semicolon", " ", "child2", " " },
 				{ "child1.1", "", "child2.1", "child2.2" } };
 		assertTableEquals("tree", table);
 	}
@@ -189,7 +204,7 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
     public void testAssertTableRowsMatch() throws Throwable {
         assertPass("assertTableRowsMatch",
                    new Object[]{"testTable",
-                                new Integer(1),
+                                Integer.valueOf(1),
                                 new String[][]{{"table text row 2"},
                                                {"table text row 3", "row 3 col 1"}}});
     }
@@ -197,15 +212,15 @@ public class TableAssertionsTest extends JWebUnitAPITestCase {
     public void testAssertTableRowsMatchTooManyExpected() throws Throwable {
         assertFail("assertTableRowsMatch",
                    new Object[]{"testTable",
-                                new Integer(2),
+                                Integer.valueOf(2),
                                 new String[][]{{"table text row 3", "row 3 col 1"},
                                                {"unexpected", ""}}});
     }
     
     public void testTableWithSpacesMatch() throws Throwable {
         assertTablePresent("tree");
-        String[][] table = {{"root", "", "", ""},
-        {"child1", "", "child2", ""},
+        String[][] table = {{"root", "", ""},
+        {"child1 ;semicolon", "", "child2", ""},
         {"child1.1", "", "child2.1", "child2.2"}};
         assertTableMatch("tree", table);
     }

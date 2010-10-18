@@ -1,11 +1,32 @@
 <?xml version="1.0"?>
+<!--
+
+    Copyright (c) 2010, JWebUnit team.
+
+    This file is part of JWebUnit.
+
+    JWebUnit is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JWebUnit is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
 <document>
 	<properties>
 		<author></author>
 		<title>Installation</title>
 	</properties>
 <body class="default">
-<section name="jWebUnit Installation">
+<section name="JWebUnit Installation">
 	<subsection name="Using Maven">
 		<p>
 			If your project use Maven 2, it's very simple. Just add the plugin you want as dependency:
@@ -17,12 +38,12 @@
     <groupId>com.compagny.myproject</groupId>
     <artifactId>myproject</artifactId>
     <version>0.0.1</version>
-    <description>A wonderful project using jWebUnit</description>
+    <description>A wonderful project using JWebUnit</description>
     <dependencies>
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-htmlunit-plugin</artifactId>
-            <version>1.3</version>
+            <version>2.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -32,30 +53,27 @@
 	<subsection name="Download">
 		<p>
 			If you don't want to use Maven, you can download files manually.
-			First download latest stable version of jWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
+			First download latest stable version of JWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
 			and expand to a local directory.
 		</p>
 	</subsection>
 	<subsection name="Choose what plugin you want to use">
 		<p>
-			There are currently 1 available plugin:
+			There are currently 2 available plugins:
 			<ul>
-				<li>HtmlUnit: A good choice if you want rapidity and good Javascript support.</li>
-				<li>Selenium: You can run your tests directly in your favorite browser.</li>
+				<li>HtmlUnit: A good choice if you want fast tests and good Javascript support.</li>
+				<li>Selenium: BETA quality (not all the JWebUnit API could be executed with Selenium)</li>
 			</ul>
 		</p>
 	</subsection>
 	<subsection name="Integrate with IDE">
 		<p>
-			The simplest way to manage dependencies is to use Maven 2. If your POM is well
-			configured, just run:
-			<source>mvn eclipse:eclipse</source>
-			This will create the .project and the .classpath for your eclipse project.
+			The simplest way to manage dependencies in Eclipse when you use Maven 2 is to use m2eclipse plugin.
 		</p>
 		<p>			
-			If you don't want to migrate to Maven, 
-			make sure you add the jwebunit-htmlunit-plugin-1.3.jar, jwebunit-core-1.3.jar and all HtmlUnit dependencies
-(these files are in lib/ folder of the jWebUnit package) to your classpath in your IDE.
+			If you don't want to use Maven, 
+			make sure you add the jwebunit-htmlunit-plugin-XX.jar, jwebunit-core-XX.jar and all HtmlUnit dependencies
+(these files are in lib/ folder of the JWebUnit package) to your classpath in your IDE.
 		</p>
 	</subsection>
 </section>

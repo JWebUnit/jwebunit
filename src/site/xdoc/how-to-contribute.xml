@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright (c) 2010, JWebUnit team.
+
+    This file is part of JWebUnit.
+
+    JWebUnit is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JWebUnit is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<document>
+    <properties>
+        <author>Julien Henry</author>
+        <title>How-To contribute to JWebUnit</title>
+    </properties>
+    <body class="default">
+        <section name="How-To contribute to JWebUnit">
+            <p>
+                JWebUnit is an open-source project and is looking for contributors. Please read the following sections if you plan to help.
+            </p>
+            <subsection name="What needs to be done?">
+                <p>
+                    Here are some ideas:
+                    <ul>
+                        <li>
+                            Improve Selenium plugin (should ideally pass 100% unit tests). May need some modifications of the API.
+                        </li>
+                        <li>
+                            Improve Web 2.0 support (AJAX, drag&amp;drop, focus, mouse clicks, keypress, ...). Will need additions/modifications of the API.
+                        </li>
+                        <li>
+                            Take advantage of Java 5 (migrate to JUnit 4, use generics, ...)
+                        </li>
+                        <li>
+                            Create a record tool like SeleniumIDE or WebTestRecorder.
+                        </li>
+                    </ul>
+                    Of course these are simple suggestions and you can propose many different things.
+                </p>
+            </subsection>
+            <subsection name="OK, I want to help. How to start with?">
+                <p>
+                    First, you need to do your homeworks. Checkout latest code from trunk then try to <a href="building-maven.html">build JWebUnit with Maven</a>.
+                </p>
+                <p>
+                    Please subscribe to the developper mailing-list and tell me what feature you are working on.
+                </p>
+                <p>
+                    I will review your first contribution and if it doesn't break anything you will certainly be granted with commit rights (you need a sourceforge account for that).
+                </p>
+            </subsection>
+        </section>
+    </body>
+</document>

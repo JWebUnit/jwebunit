@@ -1,7 +1,22 @@
-/******************************************************************************
- * jWebUnit project (http://jwebunit.sourceforge.net)                         *
- * Distributed open-source, see full license under LICENCE.txt                *
- ******************************************************************************/
+/**
+ * Copyright (c) 2010, JWebUnit team.
+ *
+ * This file is part of JWebUnit.
+ *
+ * JWebUnit is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JWebUnit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package net.sourceforge.jwebunit.tests.util;
 
 import java.io.IOException;
@@ -34,10 +49,10 @@ public class ParamsServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         out.write(HtmlHelper.getStart("Submitted parameters"));
-        out.write("<h1>Submitted parameters</h1>\n<p>Params are:");
+        out.write("<h1>Submitted parameters</h1>\n<p>Params are:<br/>");
         /*
          * Prints POST and GET parameters as name=value1[,value2...] separated
-         * with spaces
+         * by <BR/>
          */
 
         // Check that we have a file upload request
@@ -72,12 +87,12 @@ public class ParamsServlet extends HttpServlet {
                 } else {
                     String fieldName = item.getFieldName();
                     String fileName = item.getName();
-                    String contentType = item.getContentType();
-                    boolean isInMemory = item.isInMemory();
-                    long sizeInBytes = item.getSize();
-                    out.write(" " + item.getFieldName() + "=" + item.getName()
+                    out.write(" " + fieldName + "=" + fileName
                             + "{" + new String(item.get()) + "}");
 
+                }
+                if (iter.hasNext()) {
+                	out.write("<br/>\n");
                 }
             }
             out.write(" </p>\n");
@@ -87,13 +102,16 @@ public class ParamsServlet extends HttpServlet {
             for (; params.hasMoreElements();) {
                 String p = params.nextElement().toString();
                 String[] v = request.getParameterValues(p);
-                out.write(" " + p + "=");
+                out.write(p + "=");
                 int n = v.length;
                 if (n > 0) {
                     out.write(v[0] != null ? v[0] : "");
                     for (int i = 1; i < n; i++) {
                         out.write("," + (v[i] != null ? v[i] : ""));
                     }
+                }
+                if (params.hasMoreElements()) {
+                	out.write("<br/>\n");
                 }
             }
             out.write(" </p>\n");
