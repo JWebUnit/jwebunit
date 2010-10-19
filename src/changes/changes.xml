@@ -32,7 +32,7 @@
     </properties>
     <body>
         <release version="3.0" date="UNKNOW" description="Updated all internals to JUnit 4">
-            <action type="update" dev="henryju">
+            <action type="update" dev="henryju" issue="2837745">
                 Updated to JUnit 4. See migration section of the documentation.
             </action>
         </release>
