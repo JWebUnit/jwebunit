@@ -306,8 +306,9 @@
                     <header>${topDirectoryLocation}/src/license/header.txt</header>
                     <aggregate>false</aggregate>
                     <encoding>${project.build.sourceEncoding}</encoding>
-                    <strictChecking>true</strictChecking>
+                    <strictCheck>true</strictCheck>
                     <excludes>
+                        <exclude>src/license/header.txt</exclude>
                         <exclude>LICENSE.txt</exclude>
                         <exclude>README.txt</exclude>
                         <exclude>COPYING*</exclude>
