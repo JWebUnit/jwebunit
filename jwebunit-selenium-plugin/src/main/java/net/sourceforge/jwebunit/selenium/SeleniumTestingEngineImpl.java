@@ -63,7 +63,7 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 	private Selenium selenium;
 
 	// Timeout in milliseconds. It's a string 'cause Selenium wants a string.
-	private static final String timeout = "3000";
+	private String timeout = "3000";
 	private static final int port = 4444;
 
 	private TestContext testContext;
@@ -752,8 +752,7 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 	}
 
 	public void setTimeout(int milliseconds) {
-		// TODO implement method
-		throw new UnsupportedOperationException("setTimeout");
+	    timeout = Integer.toString(milliseconds);
 	}
 
 }
