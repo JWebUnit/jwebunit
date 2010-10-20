@@ -314,7 +314,8 @@
                         <exclude>COPYING*</exclude>
                         <exclude>src/test/clover/clover.license</exclude>
                         <exclude>src/site/resources/images/jwebunit-architecture.odg</exclude>
-                        <exclude>src/main/javacc/Java1.5.jj</exclude>
+                        <exclude>src/main/javacc/WebTestCase.jj</exclude>
+                        <exclude>src/main/javacc/JWebUnit.jj</exclude>
                         <exclude>src/main/javacc/Token.java</exclude>
                         <exclude>src/main/resources/testcases/CharsetTest/charset.html_utf-8</exclude>
                         <exclude>src/main/resources/testcases/NonHtmlContentTest/text.bin</exclude>

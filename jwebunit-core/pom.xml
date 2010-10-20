@@ -85,9 +85,7 @@
 				<dependencies>
 					<dependency>
 						<groupId>net.sourceforge.jwebunit</groupId>
-						<artifactId>
-							jwebunit-webtestcase-generator
-						</artifactId>
+						<artifactId>jwebunit-code-generator</artifactId>
 						<version>${project.version}</version>
 					</dependency>
 				</dependencies>

@@ -6,9 +6,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jwebunit-webtestcase-generator</artifactId>
-    <name>WebTestCase Generator</name>
-    <description>A little parser that create WebTestCase from WebTester.</description>
+    <artifactId>jwebunit-code-generator</artifactId>
+    <name>Code Generator</name>
+    <description>JavaCC parsers that create WebTestCase and JWebUnit based on WebTester.</description>
     <properties>
         <topDirectoryLocation>..</topDirectoryLocation>
         <!-- Prevents deployment as this module is not intended to be used by end-users -->
