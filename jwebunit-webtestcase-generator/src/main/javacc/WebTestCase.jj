@@ -141,7 +141,7 @@ public class WebTestCaseGenerator
     FileOutputStream output;
     if (args.length == 2) {
       webTesterPath = args[0] + File.separator + "net" + File.separator + "sourceforge" + File.separator + "jwebunit" + File.separator + "junit" + File.separator + "WebTester.java";
-      webTestCasePath = args[1] + File.separator + "net" + File.separator + "sourceforge" + File.separator + "jwebunit" + File.separator + "junit" + File.separator + "JWebUnit.java";
+      webTestCasePath = args[1] + File.separator + "net" + File.separator + "sourceforge" + File.separator + "jwebunit" + File.separator + "junit" + File.separator + "WebTestCase.java";
       inputFile = new File(webTesterPath);
       if (inputFile.exists()) {
         System.out.println("WebTestCaseGenerator:  Reading from file " + webTesterPath + " . . .");
@@ -497,12 +497,14 @@ void CompilationUnit(StringBuffer sb):
   sb.append("import net.sourceforge.jwebunit.api.ITestingEngine;\n");
   sb.append("import net.sourceforge.jwebunit.exception.TestingEngineResponseException;\n");
   sb.append("import net.sourceforge.jwebunit.html.Table;\n");
-  sb.append("import net.sourceforge.jwebunit.util.TestContext;\n\n");}
+  sb.append("import net.sourceforge.jwebunit.util.TestContext;\n\n");
+  sb.append("import junit.framework.TestCase;\n\n");}
 
   ( ImportDeclaration(sb) )*
 
   {sb.append("/**\n");
-  sb.append(" * Utility class for JUnit 4 tests which provides web application navigation and \n");
+  sb.append(" * Deprecated: use JUnit 4 and {@link JWebUnit} instead.\n");
+  sb.append(" * Superclass for JUnit 3 TestCases which provides web application navigation and \n");
   sb.append(" * JUnit assertions. This class uses and is generated from {@link net.sourceforge.jwebunit.junit.WebTester}.\n");
   sb.append(" * \n");
   sb.append(" * @author JavaCC\n");
@@ -602,7 +604,7 @@ void ClassOrInterfaceDeclaration(int modifiers, StringBuffer sb):
   [ TypeParameters() ]
   [ ExtendsList(isInterface) ]
   [ ImplementsList(isInterface) ]
-  {sb.append("public class JWebUnit ");}
+  {sb.append("@Deprecated\npublic abstract class WebTestCase extends TestCase ");}
   ClassOrInterfaceBody(isInterface, sb)
 }
 
@@ -674,37 +676,57 @@ void TypeBound():
 void ClassOrInterfaceBody(boolean isInterface, StringBuffer sb):
 {}
 { {sb.append("{\n");
-  sb.append("    private static InheritableThreadLocal<WebTester> tester = new InheritableThreadLocal<WebTester>() {\n");
-  sb.append("        @Override\n");
-  sb.append("        protected WebTester childValue(WebTester parentValue) {\n");
-  sb.append("            //Create a new web tester for each child thread\n");
-  sb.append("            WebTester webTester = new WebTester();\n");
-  sb.append("            //But initialize it with parent TestContext\n");
-  sb.append("            webTester.setTestContext(parentValue.getTestContext());\n");
-  sb.append("            return webTester;\n");
-  sb.append("        }\n");
-  sb.append("    };\n\n");
-  sb.append("    private JWebUnit() {\n");
-  sb.append("        //This class should not be instanciated, but instead used statically\n");
+  sb.append("    protected WebTester tester = null;\n\n");
+  sb.append("    protected WebTester customTester = null;\n\n");
+  sb.append("    /***\n");
+  sb.append("      * From 2.1 you can provide your own WebTester to run test cases.\n");
+  sb.append("      */\n");
+  sb.append("    public WebTestCase(WebTester customTester) {\n");
+  sb.append("        super();\n");
+  sb.append("        this.customTester = customTester;\n");
+  sb.append("    }\n\n");
+  sb.append("    public WebTestCase(String name, WebTester customTester) {\n");
+  sb.append("        super(name);\n");
+  sb.append("        this.customTester = customTester;\n");
+  sb.append("    }\n\n");
+  sb.append("    public WebTestCase(String name) {\n");
+  sb.append("        super(name);\n");
+  sb.append("    }\n\n");
+  sb.append("    public WebTestCase() {\n");
+  sb.append("        super();\n");
+  sb.append("    }\n\n");
+
+  sb.append("    protected void tearDown() throws Exception {\n");
+  sb.append("        closeBrowser();\n");
+  sb.append("        super.tearDown();\n");
   sb.append("    }\n\n");
 
   sb.append("    /**\n");
   sb.append("     * Get internal WebTester.\n");
   sb.append("     */\n");
-  sb.append("    public static WebTester getTester() {\n");
-  sb.append("        if (tester.get() == null) {\n");
-  sb.append("            tester.set(new WebTester());\n");
-  sb.append("        }\n");
-  sb.append("        return tester.get();\n");
+  sb.append("    public WebTester getTester() {\n");
+  sb.append("        return this.tester;\n");
   sb.append("    }\n\n");
 
   sb.append("    /**\n");
-  sb.append("     * Set a custom WebTester (for example your own subclass).\n");
+  sb.append("     * Clean up unused memory. Using <tt>setUp</tt> and <tt>tearDown</tt> is\n");
+  sb.append("     * not an option for this requires the subclasses of this class to call the\n");
+  sb.append("     * respective <tt>super</tt> methods.\n");
+  sb.append("     *\n");
+  sb.append("     * <p>Original patch contributed by Budi Boentaran.\n");
   sb.append("     */\n");
-  sb.append("    public static void setCustomTester(WebTester tester) {\n");
-  sb.append("        JWebUnit.tester.set(tester);\n");
+  sb.append("    public void runBare() throws Throwable {\n");
+  sb.append("        try {\n");
+  sb.append("            if (customTester == null)\n");
+  sb.append("                tester = new WebTester();\n");
+  sb.append("            else\n");
+  sb.append("                tester = customTester;\n");
+  sb.append("            super.runBare();\n");
+  sb.append("        } finally {\n");
+  sb.append("            tester = null;\n");
+  sb.append("            customTester = null;\n");
+  sb.append("        }\n");
   sb.append("    }\n\n");}
-
   "{" ( ClassOrInterfaceBodyDeclaration(isInterface, sb) )* "}"
   {sb.append("}\n");}
 }
@@ -788,7 +810,7 @@ void MethodDeclaration(int modifiers, StringBuffer sb, String comment):
   // Modifiers already matched in the caller!
   { append = (modifiers & ModifierSet.PUBLIC) != 0;}
   { if (append && comment!=null) sb.append("    ").append(comment).append("\n");}
-  { if (append) sb.append("    public static ");}
+  { if (append) sb.append("    public ");}
   [ TypeParameters() ]
   isVoid=ResultType(append, sb)
   params=MethodDeclarator(append, sb) [ "throws" throwsList=NameList() {if (append) sb.append("throws "+throwsList);} ]
@@ -797,7 +819,7 @@ void MethodDeclaration(int modifiers, StringBuffer sb, String comment):
     sb.append(" {\n");
     sb.append("        ");
     if (!isVoid) sb.append("return ");
-    sb.append("getTester().").append(params.remove(0)).append("(");
+    sb.append("tester.").append(params.remove(0)).append("(");
     for (Iterator i = params.iterator(); i.hasNext();) {
       i.next();
       sb.append(i.next());
