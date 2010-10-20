@@ -11,6 +11,8 @@
     <description>A little parser that create WebTestCase from WebTester.</description>
     <properties>
         <topDirectoryLocation>..</topDirectoryLocation>
+        <!-- Prevents deployment as this module is not intended to be used by end-users -->
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <build>
         <plugins>
