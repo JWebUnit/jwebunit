@@ -29,7 +29,7 @@
 <section name="JWebUnit Installation">
 	<subsection name="Using Maven">
 		<p>
-			If your project use Maven 2, it's very simple. Just add the plugin you want as dependency:
+			If your project use Maven, it's very simple. Just add the plugin you want as dependency:
 		</p>
 		<source><![CDATA[
 <?xml version="1.0" encoding="UTF-8"?>
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-htmlunit-plugin</artifactId>
-            <version>2.2</version>
+            <version>3.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

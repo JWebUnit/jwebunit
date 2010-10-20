@@ -41,7 +41,7 @@
                             Improve Web 2.0 support (AJAX, drag&amp;drop, focus, mouse clicks, keypress, ...). Will need additions/modifications of the API.
                         </li>
                         <li>
-                            Take advantage of Java 5 (migrate to JUnit 4, use generics, ...)
+                            Take advantage of Java 5 (use generics, ...)
                         </li>
                         <li>
                             Create a record tool like SeleniumIDE or WebTestRecorder.

@@ -53,10 +53,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class SearchExample extends TestCase {
+public class SearchExample {
     
+    @Test
     public void testSearch() throws Exception {
         final WebClient webClient = new WebClient();
         final URL url = new URL("http://www.google.com");
@@ -76,17 +77,20 @@ public class SearchExample extends TestCase {
 </td>
 <td valign="top" nowrap="nowrap">
 <source>
-import net.sourceforge.jwebunit.util.TestingEngineRegistry;
-import net.sourceforge.jwebunit.junit.WebTestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class SearchExample extends WebTestCase {
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+
+public class SearchExample {
     
-    public void setUp() {
-        setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);
-        getTestContext().setBaseUrl("http://www.google.com");
-     }
+    @Before
+    public void prepare() {
+        setBaseUrl("http://www.google.com");
+    }
     
-    public void testSearch() throws Exception {
+    @Test
+    public void testSearch() {
         beginAt("/");
         setTextField("q", "htmlunit");
         submit("btnG");
@@ -111,7 +115,7 @@ public class SearchExample extends WebTestCase {
     &lt;dependency&gt;
         &lt;groupId&gt;net.sourceforge.jwebunit&lt;/groupId&gt;
         &lt;artifactId&gt;jwebunit-htmlunit-plugin&lt;/artifactId&gt;
-        &lt;version&gt;2.0&lt;/version&gt;
+        &lt;version&gt;3.0&lt;/version&gt;
     &lt;/dependency&gt;
     ...
 &lt;/dependencies&gt;

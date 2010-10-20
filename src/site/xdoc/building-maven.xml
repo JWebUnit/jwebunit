@@ -26,18 +26,12 @@
         <title>Building JWebUnit</title>
     </properties>
     <body class="default">
-        <section name="Building JWebUnit with Maven 2">
+        <section name="Building JWebUnit">
             <p>
-                Maven is, just like ant, a build tool. However, where
-                you have to tell ant what it needs to do and how, you
-                only have to tell Maven what you need, if you adhere to
-                the Maven standards.
-            </p>
-            <p>
-                In order to use Maven to build JWebUnit, you need to
-                have Maven 2 installed. This should not be any more
+                In order to build JWebUnit, you need to
+                have Maven installed. This should not be any more
                 difficult than installing ant. We've included a best
-                practise installation and configuration for Maven.
+                practice installation and configuration for Maven.
             </p>
             <subsection name="Installing Sun JDK 1.5">
                 <p>
@@ -46,35 +40,35 @@
                 <p>
                     You need to download and install latest Sun JDK 1.5 for your platform. 
                     Let's say the JDK location is: 
-                    <source>/opt/jdk1.5.0_15</source>
+                    <source>/opt/jdk1.5.0_22</source>
                 </p>
             </subsection>
             <subsection name="Installing Maven">
                 <p>
-                    First you need to download the latest Maven 2, which
+                    First you need to download the latest Maven, which
                     currently is
                     <a href="http://maven.apache.org">
-                        <tt>Maven-2.2.1</tt>
+                        <tt>Maven-3.0</tt>
                     </a>
                     , make sure you download the binary archive
-                    (e.g. apache-maven-2.2.1-bin.tar.bz2).
+                    (e.g. apache-maven-3.0-bin.tar.bz2).
                 </p>
                 <p>
-                    Installing Maven should be easy: unzip the file to
+                    Installing Maven should be easy: extract the file to
                     any directory you like, let's say:
-                    <source>/opt/apache-maven-2.2.1</source>
+                    <source>/opt/apache-maven-3.0</source>
                 </p>
                 <p>
                     Next you need to do 2 things:
                     <ul>
                         <li>
-                            add an environment variable MAVEN_HOME which
+                            add an environment variable M2_HOME which
                             points to the install directory of Maven,
-                            i.e. /opt/apache-maven-2.2.1
+                            i.e. /opt/apache-maven-3.0
                         </li>
                         <li>
                             add
-                            <tt>$MAVEN_HOME/bin</tt>
+                            <tt>$M2_HOME/bin</tt> (Linux) or <tt>%M2_HOME%\bin</tt> (Windows)
                             to your path (using the variable you can
                             switch more easily when a new version
                             arrives)
@@ -89,7 +83,7 @@
             <subsection name="Configure Maven toolchains">
                 <p>
                     You can run Maven with any JDK (let's say JDK 1.6) but JWebUnit should be compiled
-                    with JDK 1.5. To achieve this we are using Maven toolchains mecanism.
+                    with JDK 1.5. To achieve this we are using <a href="http://maven.apache.org/guides/mini/guide-using-toolchains.html">Maven toolchains mecanism</a>.
                 </p>
                 <p>
                     Create a file <tt>~/.m2/toolchains.xml</tt> with the given content:                    
@@ -105,7 +99,7 @@
          <id>1.5</id>
      </provides>
      <configuration>
-        <jdkHome>/opt/jdk1.5.0_15</jdkHome>
+        <jdkHome>/opt/jdk1.5.0_22</jdkHome>
      </configuration>
   </toolchain>
 </toolchains>]]>                
