@@ -232,6 +232,15 @@ public class WebTester {
 
     }
 
+    /**
+     * This way of creating URL is not standard as absolute path are not correctly handled. We have to keep this
+     * non standard method for {@link #beginAt(String)} that advertise a bad usage for a long time.
+     * @param url Absolute or relative URL. If start with '/', then it is incorrectly appended to baseURL.
+     * @param baseURL Base URL of the page
+     * @return Final absolute URL.
+     * @throws MalformedURLException
+     */
+    @Deprecated
     private URL createUrl(String url, URL baseURL) throws MalformedURLException {
         if (url.startsWith("http://") || url.startsWith("https://")
                 || url.startsWith("file://")) {
@@ -240,6 +249,24 @@ public class WebTester {
             return new URL("http://" + url);
         } else {
             url = url.startsWith("/") ? url.substring(1) : url;
+            return new URL(baseURL, url);
+        }
+    }
+
+	/**
+     * 
+     * @param url Absolute or relative URL
+     * @param baseURL Base URL of the page
+     * @return Final absolute URL.
+     * @throws MalformedURLException
+     */
+    private URL createUrlFixed(String url, URL baseURL) throws MalformedURLException {
+        if (url.startsWith("http://") || url.startsWith("https://") //Absolute URL
+                || url.startsWith("file://")) {
+            return new URL(url);
+        } else if (url.startsWith("www.")) { //Absolute URL with missing scheme (accepted by some browsers)
+            return new URL("http://" + url);
+        } else { //Relative path
             return new URL(baseURL, url);
         }
     }
@@ -3427,7 +3454,7 @@ public class WebTester {
         assertImagePresent(imageSrc, imageAlt);
         URL imageUrl = null;
         try {
-            imageUrl = createUrl(imageSrc, getTestingEngine().getPageURL());
+            imageUrl = createUrlFixed(imageSrc, getTestingEngine().getPageURL());
         } catch (MalformedURLException e1) {
             Assert.fail(e1.getLocalizedMessage());
         }

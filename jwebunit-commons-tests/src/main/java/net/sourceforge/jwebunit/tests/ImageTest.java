@@ -94,4 +94,9 @@ public class ImageTest extends JWebUnitAPITestCase {
         assertImageValid("images/Image5.png", "image 5 - subdir");
         assertImageValid("../images/photos/Image3.jpg", "image 3 again - topdir");
     }
+	
+	public void testAbsolutePath() {
+        assertImagePresent("/jwebunit/ImageTest/images/Image1.gif", "absolute image 1");
+        assertImageValid("/jwebunit/ImageTest/images/Image1.gif", "absolute image 1");        
+    }
 }
