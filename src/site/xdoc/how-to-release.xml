@@ -26,7 +26,7 @@
         <title>How-To Release JWebUnit</title>
     </properties>
     <body class="default">
-        <section name="How-To Release JWebUnit with Maven 2">
+        <section name="How-To Release JWebUnit with Maven">
             <p>
                 This todo list if a reminder for JWebUnit release manager.
             </p>
@@ -85,7 +85,7 @@
                 </p>
                	<p>
                     Now the process is done by maven-release-plugin.
-                    <source>mvn release:perform</source>
+                    <source>mvn release:perform -Darguments="-Dgpg.passphrase=XXXXXXXXXX"</source>
                 </p>
                 <p>
                     This will automatically checkout the tag from SVN in target/checkout folder then run <tt>mvn deploy site-deploy</tt>.
@@ -113,49 +113,26 @@ mvn package assembly:assembly
                     And finally create a zip of the whole target/checkout folder content with name <tt>jwebunit-XX-sources.zip</tt>
                 </p>
                 <p>
-                	Open your browser at <a href="https://frs.sourceforge.net/webupload">http://frs.sourceforge.net/webupload</a>.<br/>
+                	Open your browser at <a href="https://sourceforge.net/projects/jwebunit/">JWebUnir admin page</a>.<br/>
                 	Use your Sourceforge account to log in.<br/>
-                	Upload the two files:
-                	<ul>
-                		<li>jwebunit-XX-release.zip</li>
-                		<li>jwebunit-XX-sources.zip</li>
-                	</ul>
-                	Now open <a href="https://sourceforge.net/projects/jwebunit/">https://sourceforge.net/projects/jwebunit/</a> and in the menu
-                	select Admin -> File Releases.<br/>
-                	Click on the [Add Release] link in front of the JWebUnit package.<br/>
+                	In the menu select Project Admin -> File Manager (beta).<br/>
+                	Click on JWebUnit folder.<br/>
+                	Click on the [Add Folder] button.<br/>
                 	Type the name of the new release: JWebUnit-XX<br/>
-                </p>
-                <p>
-                	<em>Step1:</em>
-                	Paste URL: http://jwebunit.sourceforge.net/changes-report.html in Change Log textarea.<br/>
-                	Submit/Refresh
-                </p>
-                <p>
-                	<em>Step2:</em>
-                	Select the two files:
+                	Select the folder you just have created<br/>
+                	Click on the [Add File] button.<br/>
+                	Browse and select for upload:
                 	<ul>
                 		<li>jwebunit-XX-release.zip</li>
                 		<li>jwebunit-XX-sources.zip</li>
+                		<li>README.txt</li>
                 	</ul>
-                	Add files/Refresh view
-                </p>
-                <p>
-                	<em>Step3:</em>
-                	For each file:
-                	<ul>
-                		<li>Select Processor: Plateform Independant</li>
-                		<li>Select File Type: .zip</li>
-                		<li>Update/Refresh</li>
-                	</ul>
-                </p>
-                <p>
-                	<em>Step4:</em>
-                	Send email notification.
+                	Click on the [Upload] button.<br/>
                 </p>
             </subsection>
             <subsection name="Communication">
                 <p>
-                	Add a news on the website (Admin -> News). You can copy/paste and adapt the previous one.
+                	Add a news on the website (Develop -> News). You can copy/paste and adapt the previous one.
                 </p>
                 <p>
                 	Post an email on the user mailing list.
