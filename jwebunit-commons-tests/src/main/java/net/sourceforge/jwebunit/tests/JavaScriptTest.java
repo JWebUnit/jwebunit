@@ -19,19 +19,9 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertLinkNotPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertLinkPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextNotPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.clickButtonWithText;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setExpectedJavaScriptAlert;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setExpectedJavaScriptConfirm;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setExpectedJavaScriptPrompt;
-import static org.junit.Assert.fail;
-
-import org.junit.Test;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
  * @author henryju
@@ -39,22 +29,27 @@ import org.junit.Test;
 
 public class JavaScriptTest  extends JWebUnitAPITestCase {
 
+    public static Test suite() {
+        Test suite = new TestSuite(JavaScriptTest.class);
+        return new JettySetup(suite);
+    }   
+    
     public void setUp() throws Exception {
         super.setUp();
         setBaseUrl(HOST_PATH + "/JavaScriptTest");
     }
     
-    @Test public void testDocumentWrite() {
+    public void testDocumentWrite() {
         beginAt("DocumentWrite.html");
         assertTextPresent("Hello World");
     }
     
-    @Test public void testAlert() {
+    public void testAlert() {
     	setExpectedJavaScriptAlert("Foo Bar");
         beginAt("Alert.html");
     }
     
-    @Test public void testInvalidAlertOnPageLoad() {
+    public void testInvalidAlertOnPageLoad() {
     	setExpectedJavaScriptAlert("invalid");
     	try {
     		beginAt("Alert.html");
@@ -64,25 +59,25 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
     	}        
     }
 
-    @Test public void testMultipleAlerts() {
+    public void testMultipleAlerts() {
     	setExpectedJavaScriptAlert(new String[] {"Alert 1", "Alert 2"});
         beginAt("MultipleAlerts.html");
     }
 
-    @Test public void testConfirm() {
+    public void testConfirm() {
     	setExpectedJavaScriptConfirm("Foo Bar", true);
         beginAt("Confirm.html");
         assertLinkPresent("Toto");
         assertLinkNotPresent("Titi");
     }
 
-    @Test public void testPrompt() {
+    public void testPrompt() {
     	setExpectedJavaScriptPrompt("Foo Bar", "toto");
         beginAt("Prompt.html");
         assertTextPresent("Toto");
     }
 
-    @Test public void testPromptCanceled() {
+    public void testPromptCanceled() {
     	setExpectedJavaScriptPrompt("Foo Bar", null);
         beginAt("Prompt.html");
         assertTextPresent("Cancel");
@@ -93,7 +88,7 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
      * 
      * @see bug 1724695
      */
-    @Test public void testUserAgent() {
+    public void testUserAgent() {
     	beginAt("userAgent.html");
     	assertTextPresent("Mozilla");	// the default browser is a Mozilla browser
     }
@@ -106,7 +101,7 @@ public class JavaScriptTest  extends JWebUnitAPITestCase {
      * @author Jevon
      * @throws InterruptedException 
      */
-    @Test public void testPrototypeJs() throws InterruptedException {
+    public void testPrototypeJs() throws InterruptedException {
     	beginAt("prototype.html");
     	clickButtonWithText("do ajax");
     	// we wait a while for the ajax to return

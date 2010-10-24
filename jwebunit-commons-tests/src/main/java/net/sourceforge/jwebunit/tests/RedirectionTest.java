@@ -20,11 +20,9 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTitleEquals;
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
-
-import org.junit.Test;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
  * Test redirection support.
@@ -33,12 +31,17 @@ import org.junit.Test;
  */
 public class RedirectionTest extends JWebUnitAPITestCase {
 
+    public static Test suite() {
+        Test suite = new TestSuite(RedirectionTest.class);
+        return new JettySetup(suite);
+    }
+
     public void setUp() throws Exception {
         super.setUp();
         setBaseUrl(HOST_PATH + "/RedirectionTest");
     }
 
-    @Test public void testRedirection() {
+    public void testRedirection() {
         beginAt("/redirect.html");
         assertTitleEquals("Redirected");
         closeBrowser();

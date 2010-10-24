@@ -21,14 +21,10 @@ package net.sourceforge.jwebunit.tests;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.junit.After;
-import org.junit.Before;
-
-import net.sourceforge.jwebunit.junit.JWebUnit;
-import net.sourceforge.jwebunit.tests.util.reflect.StaticMethodInvoker;
-
-import static net.sourceforge.jwebunit.junit.JWebUnit.*;
-import static org.junit.Assert.*;
+import junit.framework.AssertionFailedError;
+import net.sourceforge.jwebunit.junit.WebTestCase;
+import net.sourceforge.jwebunit.junit.WebTester;
+import net.sourceforge.jwebunit.tests.util.reflect.MethodInvoker;
 
 /**
  * This class is intended be used by all "testcase" classes that are used to test the functionality of the jwebunit core
@@ -36,7 +32,7 @@ import static org.junit.Assert.*;
  * 
  * @author Nicholas Neuberger
  */
-public abstract class JWebUnitAPITestCase {
+public abstract class JWebUnitAPITestCase extends WebTestCase {
 
     protected static final Object[] NOARGS = new Object[0];
 
@@ -47,15 +43,28 @@ public abstract class JWebUnitAPITestCase {
     public static final String HOST_PATH = "http://localhost:" + JETTY_PORT
             + JETTY_URL;
 
-    @Before
-    public void setUp() throws Exception {
-        getTestContext().setBaseUrl(HOST_PATH);
-        getTestContext().setAuthorization("admin", "admin");
+    public JWebUnitAPITestCase(String name, WebTester custom) {
+    	super(name, custom);
     }
     
-    @After
-    public void closeBrowser() {
-        JWebUnit.closeBrowser();
+    /**
+     * @param name
+     */
+    public JWebUnitAPITestCase(String name) {
+        super(name);
+    }
+
+    /**
+     * 
+     */
+    public JWebUnitAPITestCase() {
+        super();
+    }
+
+    public void setUp() throws Exception {
+        super.setUp();
+        getTestContext().setBaseUrl(HOST_PATH);
+        getTestContext().setAuthorization("admin", "admin");
     }
 
     public void assertPassFail(String methodName, Object passArg,
@@ -76,7 +85,7 @@ public abstract class JWebUnitAPITestCase {
 
     protected void assertPass(String methodName, Object[] args)
             throws Throwable {
-        StaticMethodInvoker invoker = new StaticMethodInvoker(JWebUnit.class, methodName, args);
+        MethodInvoker invoker = new MethodInvoker(this, methodName, args);
         try {
             invoker.invoke();
         } catch (InvocationTargetException e) {
@@ -89,12 +98,12 @@ public abstract class JWebUnitAPITestCase {
     }
 
     public void assertFail(String methodName, Object[] args) {
-        assertException(AssertionError.class, methodName, args);
+        assertException(AssertionFailedError.class, methodName, args);
     }
 
     public void assertException(Class<?> exceptionClass, String methodName,
             Object[] args) {
-        StaticMethodInvoker invoker = new StaticMethodInvoker(JWebUnit.class, methodName, args);
+        MethodInvoker invoker = new MethodInvoker(this, methodName, args);
         try {
             invoker.invoke();
             fail("Expected test failure did not occur for method: "

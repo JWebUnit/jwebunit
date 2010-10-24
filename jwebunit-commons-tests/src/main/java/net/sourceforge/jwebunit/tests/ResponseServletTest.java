@@ -20,26 +20,11 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertHeaderEquals;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertHeaderMatches;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertHeaderNotPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertHeaderPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertResponseCode;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertResponseCodeBetween;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTitleEquals;
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setIgnoreFailingStatusCodes;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setTextField;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setTimeout;
-import static net.sourceforge.jwebunit.junit.JWebUnit.submit;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.net.SocketTimeoutException;
 
-import org.junit.Test;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
  * Test redirection support.
@@ -47,6 +32,11 @@ import org.junit.Test;
  * @author Julien Henry
  */
 public class ResponseServletTest extends JWebUnitAPITestCase {
+
+    public static Test suite() {
+        Test suite = new TestSuite(ResponseServletTest.class);
+        return new JettySetup(suite);
+    }
 
     public void setUp() throws Exception {
         super.setUp();
@@ -57,7 +47,7 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
     /*
      * currently we can't get the response code from HtmlUnit unless it is a failing code
      */ 
-    @Test public void testDefault() {
+    public void testDefault() {
         beginAt("/SimpleForm.html");
         submit();
         assertResponseCodeBetween(200, 299);
@@ -69,7 +59,7 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
         assertHeaderMatches("Header-Added", "[0-9]{2}");
     }
 
-    @Test public void testResponse200() {
+    public void testResponse200() {
         beginAt("/SimpleForm.html");
         setTextField("status", "200");
         submit();
@@ -78,7 +68,7 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
 
     /*
      * HtmlUnit cannot handle a 301 without a valid Location: header
-    @Test public void testResponse301() {
+    public void testResponse301() {
         beginAt("/SimpleForm.html");
         setTextField("status", "301");
         submit();
@@ -86,7 +76,7 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
     }
      */
 
-    @Test public void testResponse404() {
+    public void testResponse404() {
         beginAt("/SimpleForm.html");
         assertTitleEquals("response form");
         setTextField("status", "404");
@@ -94,7 +84,7 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
         assertResponseCode(404);
     }
 
-    @Test public void testResponse501() {
+    public void testResponse501() {
         beginAt("/SimpleForm.html");
         assertTitleEquals("response form");
         setTextField("status", "501");
@@ -105,7 +95,7 @@ public class ResponseServletTest extends JWebUnitAPITestCase {
     /**
      * Issue 1674646: add support for specifying the timeout of pages
      */
-    @Test public void testTimeout() {
+    public void testTimeout() {
     	
         // test that timeout was fired
     	setTimeout(500);			// specify a global timeout of 0.5 seconds (must be set before the WebConnection is initialised)

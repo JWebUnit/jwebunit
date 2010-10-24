@@ -20,55 +20,56 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertElementPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertFormPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
-import static net.sourceforge.jwebunit.junit.JWebUnit.submit;
-
-import org.junit.Test;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
  * Tests the use of HttpUnit and the types of html documents accepted.
  */
 public class HtmlParsingTest extends JWebUnitAPITestCase {
 
+    public static Test suite() {
+        Test suite = new TestSuite(HtmlParsingTest.class);
+        return new JettySetup(suite);
+    }   
+    
     public void setUp() throws Exception {
         super.setUp();
         setBaseUrl(HOST_PATH + "/HtmlTest/");
     }
     
-    @Test public void testSimpleForm() {
+    public void testSimpleForm() {
         beginAt("SimpleForm.html");
         assertFormPresent();
         submit();
     }
 
-    @Test public void testInvalidForm() {
+    public void testInvalidForm() {
         beginAt("InvalidForm.html");
         assertFormPresent();
         submit();
     }
 
-    @Test public void testInvalidFormNoDoctype() {
+    public void testInvalidFormNoDoctype() {
         beginAt("InvalidFormNoDoctype.html");
         assertFormPresent();
         submit();
     }    
 
-    @Test public void testValidComplexForm() {
+    public void testValidComplexForm() {
         beginAt("ValidComplexForm.html");
         assertFormPresent();
         submit();
     }    
 
-    @Test public void testValidFormNoDoctype() {
+    public void testValidFormNoDoctype() {
         beginAt("ValidFormNoDoctype.html");
         assertFormPresent();
         submit();
     }    
     
-    @Test public void testXhtmlStrict() {
+    public void testXhtmlStrict() {
         beginAt("XhtmlStrict.html");
         // run a method that gets the DOM
         assertElementPresent("div1");

@@ -52,7 +52,9 @@
             <item name="Home" href="index.html" />
         </menu>
         <menu name="User documentation" inherit="top">
-            <item name="Installation" href="installation.html" />
+            <item name="Installation" href="installation.html"
+                collapse="true">
+            </item>
             <item name="Quick start" href="quickstart.html"
                 collapse="true">
                 <item name="Creating a TestCase"
@@ -74,7 +76,6 @@
                 <item name="Using Property Files"
                     href="#Using_Property_Files_to_Validate_Content" />
             </item>
-            <item name="Migration guide" href="migration.html" />
             <item name="Articles" href="articles.html" />
             <item name="FAQ" href="faq.html" />
         </menu>

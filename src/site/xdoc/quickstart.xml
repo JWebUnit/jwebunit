@@ -32,67 +32,9 @@
     of the methods available, consult the <a href="apidocs/index.html">Javadocs</a> - particularly
     the WebTestCase class for full documentation.
 </p>
-<subsection name="Creating a JUnit 4 TestCase">
+<subsection name="Creating a TestCase">
 <p>
-	JWebUnit uses two approaches for creating JUnit 4 test cases: static import and delegation. The simplest is
-	to statically import all methods of net.sourceforge.jwebunit.junit.JWebUnit.
-
-	<source>
-import static net.sourceforge.jwebunit.junit.JWebUnit.*;
-
-public class ExampleWebTestCase {
-	
-	@Before
-    public void prepare() {
-        setBaseUrl("http://localhost:8080/test");
-    }
-
-    @Test
-    public void test1() {
-        beginAt("home.xhtml"); //Open the browser on http://localhost:8080/test/home.xhtml
-        clickLink("login");
-        assertTitleEquals("Login");
-        setTextField("username", "test");
-        setTextField("password", "test123");
-        submit();
-        assertTitleEquals("Welcome, test!");
-    }
-}
-	</source>
-	An alternative is to include an instance of the WebTester class in your TestCase and delegate navigation
-	and assertions to it.  This is provided in case you need or prefer delegation.
-	
-	<source>
-import net.sourceforge.jwebunit.junit.WebTester;
-
-public class ExampleWebTestCase {
-    private WebTester tester;
-
-    @Before
-    public void prepare() {
-        tester = new WebTester();
-        tester.setBaseUrl("http://localhost:8080/test");
-    }
-    
-    @Test
-    public void test1() {
-        tester.beginAt("home.xhtml"); //Open the browser on http://localhost:8080/test/home.xhtml
-        tester.clickLink("login");
-        tester.assertTitleEquals("Login");
-        tester.setTextField("username", "test");
-        tester.setTextField("password", "test123");
-        tester.submit();
-        tester.assertTitleEquals("Welcome, test!");
-    }
-}
-	</source>
-In the following samples, JUnit 4 and static import will be used.
-</p>
-</subsection>
-
-<subsection name="Creating a JUnit 3 TestCase (deprecated)">
-<p>
-	JWebUnit uses two approaches for creating JUnit 3 test cases: inheritance and delegation. The simplest is
+	JWebUnit uses two approaches for creating test cases: inheritance and delegation. The simplest is
 	to inherit from WebTestCase rather than junit.framework.TestCase.
 
 	<source>
@@ -106,7 +48,7 @@ public class ExampleWebTestCase extends WebTestCase {
     }
 
     public void test1() {
-        beginAt("home.xhtml"); //Open the browser on http://localhost:8080/test/home.xhtml
+        beginAt("/home");
         clickLink("login");
         assertTitleEquals("Login");
         setTextField("username", "test");
@@ -118,8 +60,7 @@ public class ExampleWebTestCase extends WebTestCase {
 	</source>
 	An alternative is to include an instance of the WebTester class in your TestCase and delegate navigation
 	and assertions to it.  This is provided in case you need or prefer delegation.
-	<b>WARNING: WebTester was migrated to JUnit 4. As a result all assertXX will throw java.lang.AssertionError 
-	instead of old junit.framework.AssertionFailedError.</b>
+	
 	<source>
 import junit.framework.TestCase;
 import net.sourceforge.jwebunit.junit.WebTester;
@@ -130,11 +71,10 @@ public class ExampleWebTestCase extends TestCase {
     public void setUp() {
         super.setUp();
         tester = new WebTester();
-        tester.setBaseUrl("http://localhost:8080/test");
     }
     
     public void test1() {
-        tester.beginAt("home.xhtml"); //Open the browser on http://localhost:8080/test/home.xhtml
+        tester.beginAt("/home");
         tester.clickLink("login");
         tester.assertTitleEquals("Login");
         tester.setTextField("username", "test");
@@ -144,6 +84,7 @@ public class ExampleWebTestCase extends TestCase {
     }
 }
 	</source>
+In the following samples, inheritance will be used.
 </p>
 </subsection>
 
@@ -151,15 +92,12 @@ public class ExampleWebTestCase extends TestCase {
 <p>
     JWebUnit can use different plugins to execute the tests you write. Only one line makes the difference:
 <source>
+import net.sourceforge.jwebunit.junit.WebTestCase;
 import net.sourceforge.jwebunit.util.TestingEngineRegistry;
-import org.junit.Before;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.*;
-
-public class ExampleWebTestCase {
-
-    @Before
-    public void prepare() {
+public class ExampleWebTestCase extends WebTestCase {
+    public void setUp() {
+        super.setUp();
         setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);    <i>// use HtmlUnit</i>
         setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_SELENIUM);    <i>// use Selenium</i>
     }
@@ -175,11 +113,11 @@ public class ExampleWebTestCase {
 	The primary way that JWebUnit allows you to test your web application is through navigation
 	of the application itself. You can consider each test case as a use case through the 
 	application itself. The first step is to point where the testable application is hosted
-	so that it may be accessed by JWebUnit. It can generally be done in a test fixture.
+	so that it may be accessed by JWebUnit. 
 
 <source>
-    @Before
-    public void prepare() {
+    public void setUp() throws Exception {
+        super.setUp();
         setBaseUrl("http://myserver:8080/myapp");
     }
 </source>
@@ -197,9 +135,8 @@ public class ExampleWebTestCase {
     under "Login", you may test these assertions through the following code:
 
 <source>
-    @Test
     public void testIndexLogin() {
-        beginAt("index.html");        <i>// start at index.html</i>
+        beginAt("/index.html");        <i>// start at index.html</i>
         assertTitleEquals("Home");     <i>// the home page should be titled "Home"</i>
         assertLinkPresent("Login");    <i>// there should be a "Login" link</i>
         clickLink("Login");            <i>// click the link</i>
@@ -218,9 +155,8 @@ public class ExampleWebTestCase {
 	that it works as expected.
 
 <source>
-    @Test
     public void testFormSubmission() {
-        beginAt("login.html");
+        beginAt("/login.html");
         assertTitleEquals("Login");    <i>// we should be on the login page</i>
         
         // fill out the form
@@ -250,18 +186,16 @@ public class ExampleWebTestCase {
     For pages with more than one form, JWebUnit will usually establish which form is being worked with 
     implicitly from the form elements being accessed.  You can also set the form explicitly by form ID or name:
 <source>
-    @Test
     public void testBottomFormSubmission() {
-        beginAt("twoForm.html");
+        beginAt("/twoForm.html");
         setWorkingForm("bottomForm");
         submit();
     }
 </source>
     You can work with non-submit (type='button') buttons as well:
 <source>
-    @Test
     public void testPopupButton() {
-        beginAt("info.html");
+        beginAt("/info.html");
         assertButtonPresent("popupButtonId"); <i>// clickButton() will also check this</i>
         clickButton("popupButtonId");
         assertWindowPresent("popupWindow");
@@ -278,9 +212,8 @@ public class ExampleWebTestCase {
     as follows:
 </p>
 <source>
-    @Test
     public void testPopupWindow() {
-        beginAt("rootPage.html");
+        beginAt("/rootPage.html");
         clickLink("popupLink");
         assertWindowPresent("popupWindow):  <i>// optional - gotoWindow will</i>
                                             <i>// also perform this assertion.</i>
@@ -293,9 +226,8 @@ public class ExampleWebTestCase {
     You can work with frames in a similar manner:
 </p>
 <source>
-    @Test
     public void testFrame() {
-        beginAt("info.html");
+        beginAt("/info.html");
         assertFramePresent("contentFrame");
         gotoFrame("contentFrame");
         ...
@@ -309,9 +241,8 @@ public class ExampleWebTestCase {
     verify it's correctness.
 </p>
 <source>
-    @Test
     public void testCorrectness() {
-        beginAt("mainPage.xhtml");
+        beginAt("/mainPage");
         assertTitleEquals("Main Page");
         assertLinkPresentWithText("Add Widget");
         clickLinkWithText("Add Widget");
@@ -340,9 +271,8 @@ public class ExampleWebTestCase {
     </table>
 </p>
 <source>
-    @Test
     public void testAgeTable() {
-        beginAt("agePage.html");
+        beginAt("/agePage");
         <i>// check that table is present</i>
         assertTablePresent("ageTable");
         
@@ -373,9 +303,8 @@ public class ExampleWebTestCase {
     </table>
 </p>
 <source>
-    @Test
     public void testAgeTable() {
-        beginAt("agePage.html");
+        beginAt("/agePage");
         ExpectedTable ageTable = new Table(new Object[][] {
             {new Cell("Age Table", 2, 1)},
             {"Name", "Age"},
@@ -398,9 +327,8 @@ public class ExampleWebTestCase {
 <p><![CDATA[<span id="welcomeMessage">Welcome, Joe User!</span>]]>
 </p>
 <source>
-    @Test
     public void testWelcomeMessage() {
-        beginAt("mainPage.xhtml");
+        beginAt("/mainPage");
         
         <i>// check for presence of welcome message by text</i>
         assertTextPresent("Welcome, Joe User!");
@@ -425,21 +353,20 @@ public class ExampleWebTestCase {
 		Locale (default is Locale.getDefault()).
 	</p>
 <source>
-    @Before
-    public void prepare() {
-        setbaseUrl("http://myserver:8080/myapp");
+    public void setUp() throws Exception {
+        super.setUp();
+        getTestContext().setbaseUrl("http://myserver:8080/myapp");
         getTestContext().setResourceBundleName("ApplicationResources");
     }
 
-    @Test
     public void testMainPage() {
-        beginAt("mainPage.html");
+        beginAt("/mainPage");
         assertTitleEqualsKey("title.mainPage");
         assertKeyPresent("message.welcome");
         assertKeyInTable("mainPageTable", "header.mainPageTable");
     }
 </source>
-		There is also a getMessage() method on WebTester, WebTestCase and JWebUnit that can be used to access
+		There is also a getMessage() method on WebTester and WebTestCase that can be used to access
 		resource bundle messages directly in your tests.
 	</p>
 	<p>

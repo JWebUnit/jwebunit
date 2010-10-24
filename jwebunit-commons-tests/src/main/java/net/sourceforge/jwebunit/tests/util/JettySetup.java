@@ -19,24 +19,23 @@
 
 package net.sourceforge.jwebunit.tests.util;
 
-import static org.junit.Assert.fail;
-
 import java.net.URL;
 
-import net.sourceforge.jwebunit.tests.JWebUnitAPITestCase;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.MimeTypes;
 import org.mortbay.jetty.Server;
+import org.mortbay.jetty.bio.SocketConnector;
 import org.mortbay.jetty.handler.DefaultHandler;
 import org.mortbay.jetty.handler.HandlerCollection;
-import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.security.HashUserRealm;
 import org.mortbay.jetty.security.UserRealm;
 import org.mortbay.jetty.webapp.WebAppContext;
+
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+
+import net.sourceforge.jwebunit.tests.JWebUnitAPITestCase;
 
 /**
  * Sets up and tears down the Jetty servlet engine before and after the tests in
@@ -44,12 +43,20 @@ import org.mortbay.jetty.webapp.WebAppContext;
  * 
  * @author Eelco Hillenius
  */
-public class JettySetup {
+public class JettySetup extends TestSetup {
 	/**
 	 * The Jetty server we are going to use as test server.
 	 */
-	private static Server jettyServer = null;
+	private Server jettyServer = null;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param test
+	 */
+	public JettySetup(Test test) {
+		super(test);
+	}
 
 	/**
 	 * Starts the Jetty server using the <tt>jetty-test-config.xml</tt> file
@@ -57,13 +64,11 @@ public class JettySetup {
 	 * 
 	 * @see junit.extensions.TestSetup#setUp()
 	 */
-	@BeforeClass
-	public static void setUp() throws Exception {
+	public void setUp() throws Exception {
+        super.setUp();
 		try {
 			jettyServer = new Server();
-			SelectChannelConnector connector = new SelectChannelConnector();
-            connector.setPort(JWebUnitAPITestCase.JETTY_PORT);
-            connector.setAcceptors(5);
+			SocketConnector connector = new SocketConnector();
 			connector.setPort(JWebUnitAPITestCase.JETTY_PORT);
 			jettyServer.setConnectors(new Connector[] { connector });
 
@@ -90,7 +95,7 @@ public class JettySetup {
 			
 			wah.setContextPath(JWebUnitAPITestCase.JETTY_URL);
 
-			URL url = JettySetup.class.getResource("/testcases/");
+			URL url = this.getClass().getResource("/testcases/");
 			wah.setWar(url.toString());
 			
 			jettyServer.start();
@@ -106,8 +111,7 @@ public class JettySetup {
 	 * 
 	 * @see junit.extensions.TestSetup#tearDown()
 	 */
-	@AfterClass
-	public static void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		try {
 			jettyServer.stop();
 		} catch (InterruptedException e) {
@@ -117,5 +121,6 @@ public class JettySetup {
 			e.printStackTrace();
 			fail("Could not stop the Jetty server: " + e);
 		}
+		super.tearDown();
 	}
 }

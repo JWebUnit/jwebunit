@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.jwebunit</groupId>
     <artifactId>jwebunit</artifactId>
     <name>JWebUnit</name>
-    <version>3.0-SNAPSHOT</version>
+    <version>2.5</version>
     <packaging>pom</packaging>
     <description>
         JWebUnit is a Java framework that facilitates creation of
@@ -21,7 +20,7 @@
     </issueManagement>
     <inceptionYear>2002</inceptionYear>
     <modules>
-        <module>jwebunit-code-generator</module>
+        <module>jwebunit-webtestcase-generator</module>
         <module>jwebunit-core</module>
         <module>jwebunit-commons-tests</module>
         <module>jwebunit-htmlunit-plugin</module>
@@ -181,9 +180,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:http://jwebunit.svn.sourceforge.net/svnroot/jwebunit/trunk</connection>
-        <developerConnection>scm:svn:https://jwebunit.svn.sourceforge.net/svnroot/jwebunit/trunk</developerConnection>
-        <url>http://jwebunit.svn.sourceforge.net/viewvc/jwebunit/trunk</url>
+	    <connection>scm:svn:http://jwebunit.svn.sourceforge.net/svnroot/jwebunit/tags/jwebunit-2.5</connection>
+	    <developerConnection>scm:svn:https://jwebunit.svn.sourceforge.net/svnroot/jwebunit/tags/jwebunit-2.5</developerConnection>
+        <url>http://jwebunit.svn.sourceforge.net/viewvc/jwebunit/tags/jwebunit-2.5</url>
     </scm>
     <organization>
         <name>SourceForge</name>
@@ -306,16 +305,13 @@
                     <header>${topDirectoryLocation}/src/license/header.txt</header>
                     <aggregate>false</aggregate>
                     <encoding>${project.build.sourceEncoding}</encoding>
-                    <strictCheck>true</strictCheck>
                     <excludes>
-                        <exclude>src/license/header.txt</exclude>
                         <exclude>LICENSE.txt</exclude>
                         <exclude>README.txt</exclude>
                         <exclude>COPYING*</exclude>
                         <exclude>src/test/clover/clover.license</exclude>
                         <exclude>src/site/resources/images/jwebunit-architecture.odg</exclude>
-                        <exclude>src/main/javacc/WebTestCase.jj</exclude>
-                        <exclude>src/main/javacc/JWebUnit.jj</exclude>
+                        <exclude>src/main/javacc/Java1.5.jj</exclude>
                         <exclude>src/main/javacc/Token.java</exclude>
                         <exclude>src/main/resources/testcases/CharsetTest/charset.html_utf-8</exclude>
                         <exclude>src/main/resources/testcases/NonHtmlContentTest/text.bin</exclude>
@@ -359,6 +355,11 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.8.2</version>
+            </dependency>
+            <dependency>
+                <groupId>junitperf</groupId>
+                <artifactId>junitperf</artifactId>
+                <version>1.8</version>
             </dependency>
             <dependency>
                 <groupId>org.mortbay.jetty</groupId>
@@ -455,7 +456,7 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-site-plugin</artifactId>
-                            <version>3.0-beta-3</version>
+                            <version>3.0-beta-2</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>

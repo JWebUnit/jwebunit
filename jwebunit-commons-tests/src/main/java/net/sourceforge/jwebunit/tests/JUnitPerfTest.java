@@ -20,60 +20,36 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTitleEquals;
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.clickLinkWithText;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import net.sourceforge.jwebunit.tests.util.Concurrent;
-import net.sourceforge.jwebunit.tests.util.ConcurrentRule;
+import com.clarkware.junitperf.ConstantTimer;
+import com.clarkware.junitperf.LoadTest;
+import com.clarkware.junitperf.TestFactory;
+import com.clarkware.junitperf.Timer;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.Timeout;
-
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Test junit perf integration.
  * 
  * @author Julien Henry
  */
-public class JUnitPerfTest extends JWebUnitAPITestCase {
+public class JUnitPerfTest extends TestCase {
 
-    public void setUp() throws Exception {
-        super.setUp();
-        setBaseUrl(HOST_PATH + "/NavigationTest");
-    }
+    public static TestSuite suite() {
 
-    @Rule
-    public Timeout timeoutRule = new Timeout(1000);
+        // create a timed test that verifies that the called function
+        // is completed in the specified time
+        TestSuite suite = new TestSuite();
+        
+        int users = 5;
+        Timer timer = new ConstantTimer(10);
+        Test factory = new TestFactory(NavigationTest.class);
+        Test loadTest = new LoadTest(factory, users, timer);
+        
+        suite.addTest(loadTest);
 
-    @Rule
-    public ConcurrentRule concurrentRule = new ConcurrentRule();
-
-    @Test
-    @Concurrent(5)
-    public void testClickLinkWithTextN() {
-        beginAt("/pageWithLink.html");
-        assertTitleEquals("pageWithLink");
-
-        clickLinkWithText("an active link", 0);
-        assertTitleEquals("targetPage");
-
-        beginAt("/pageWithLink.html");
-        clickLinkWithText("an active link", 1);
-
-        assertTitleEquals("targetPage2");
-        beginAt("/pageWithLink.html");
-        try {
-            clickLinkWithText("an active link", 2);
-            fail();
-        } catch (AssertionError expected) {
-            assertEquals("Link with text [an active link] and index [2] "
-                    + "not found in response.", expected.getMessage());
-        }
-        assertTitleEquals("pageWithLink");
+        return suite;
     }
 
 }

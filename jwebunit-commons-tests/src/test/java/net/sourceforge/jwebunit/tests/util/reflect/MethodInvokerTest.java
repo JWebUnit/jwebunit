@@ -24,52 +24,54 @@
  */
 package net.sourceforge.jwebunit.tests.util.reflect;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
 import java.lang.reflect.InvocationTargetException;
-
-import org.junit.Before;
-import org.junit.Test;
 
 import net.sourceforge.jwebunit.tests.util.reflect.MethodInvoker;
 
 
-public class MethodInvokerTest {
+public class MethodInvokerTest extends TestCase {
     private Receiver receiver;
 
-    @Before
-    public void setUp() throws Exception {
+    public MethodInvokerTest(String s) {
+        super(s);
+    }
+
+    protected void setUp() throws Exception {
+        super.setUp();
         receiver = new Receiver();
     }
 
-    @Test
     public void testNoArg() throws Exception {
         MethodInvoker invoker = new MethodInvoker(receiver, "noArg");
         invoker.invoke();
         assertTrue(receiver.noArgCalled);
     }
 
-    @Test
     public void testOneArg() throws Exception {
         MethodInvoker invoker = new MethodInvoker(receiver, "oneArg", "anArg");
         invoker.invoke();
         assertTrue(receiver.oneArgCalled);
     }
 
-    @Test
     public void testMultipleArgs() throws Exception {
         MethodInvoker invoker = new MethodInvoker(receiver, "multiArg", new Object[]{"arg1", "arg2"});
         invoker.invoke();
         assertTrue(receiver.multiArgCalled);
     }
 
-    @Test(expected=NoSuchMethodException.class)
-    public void testNoMethod() throws IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        MethodInvoker invoker = new MethodInvoker(receiver, "noMethod");
-        invoker.invoke();
+    public void testNoMethod() {
+        try {
+            MethodInvoker invoker = new MethodInvoker(receiver, "noMethod");
+            invoker.invoke();
+            fail();
+        } catch (NoSuchMethodException e) {
+        } catch (Exception e) {
+            fail();
+        }
     }
 
-    @Test
     public void testMethodThrowsException() throws Exception {
         MethodInvoker invoker = new MethodInvoker(receiver, "throwRuntime");
         try {
@@ -79,14 +81,12 @@ public class MethodInvokerTest {
         }
     }
 
-    @Test
     public void testPrimitiveArgs() throws Exception {
         MethodInvoker invoker = new MethodInvoker(receiver, "primitiveArg", new Integer(1));
         invoker.invoke();
         assertTrue(receiver.primitiveArgCalled);
     }
 
-    @Test
     public void testAllPrimitives() throws Exception {
         Object[] args = new Object[]{new Boolean(true), new Byte((byte) 1),
                                      new Character('c'), new Double(1),

@@ -19,14 +19,9 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTitleEquals;
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.clickElementByXPath;
-import static net.sourceforge.jwebunit.junit.JWebUnit.getElementTextByXPath;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Test all methods that use XPath
@@ -34,12 +29,17 @@ import org.junit.Test;
  */
 public class XPathTest extends JWebUnitAPITestCase {
 
+    public static Test suite() {
+        Test suite = new TestSuite(XPathTest.class);
+        return new JettySetup(suite);
+    }
+
     public void setUp() throws Exception {
         super.setUp();
         setBaseUrl(HOST_PATH + "/XPathTest");
     }
 
-    @Test public void testAssertElementPresentByXPath() throws Throwable {
+    public void testAssertElementPresentByXPath() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail(
                 "assertElementPresentByXPath",
@@ -47,19 +47,19 @@ public class XPathTest extends JWebUnitAPITestCase {
                 "//InvalidXPath");
     }
 
-    @Test public void testAssertElementNotPresentByXPath() throws Throwable {
+    public void testAssertElementNotPresentByXPath() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertElementNotPresentByXPath", "//InvalidXPath",
                 "//tr[contains(.//a/@href,\"next\") and contains(string(),\"test link\")]");
     }
 
-    @Test public void testClickElementByXPath() throws Throwable {
+    public void testClickElementByXPath() throws Throwable {
         beginAt("/testPage.html");
         clickElementByXPath("//tr//a[contains(@href,\"next\") and contains(string(),\"test link\")]");
         assertTitleEquals("Next");
     }
     
-    @Test public void testGetElementTextByXPath() throws Throwable {
+    public void testGetElementTextByXPath() throws Throwable {
         beginAt("/testPage.html");        
         assertEquals("test link", getElementTextByXPath("//tr//a[contains(@href,\"next\")]"));
     }

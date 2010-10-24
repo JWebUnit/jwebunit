@@ -19,29 +19,14 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertCommentNotPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertCommentPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertElementPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertFormElementPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertMatch;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertNotMatch;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextFieldEquals;
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.getElementById;
-import static net.sourceforge.jwebunit.junit.JWebUnit.getElementByXPath;
-import static net.sourceforge.jwebunit.junit.JWebUnit.getElementsByXPath;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setTextField;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
 import java.util.Date;
 import java.util.List;
 
+import junit.framework.AssertionFailedError;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import net.sourceforge.jwebunit.api.IElement;
-
-import org.junit.Test;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
  * Test the IElement interface
@@ -50,13 +35,18 @@ import org.junit.Test;
  */
 public class IElementTest extends JWebUnitAPITestCase {
 
+    public static Test suite() {
+        Test suite = new TestSuite(IElementTest.class);
+        return new JettySetup(suite);
+    }
+
     public void setUp() throws Exception {
         super.setUp();
         setBaseUrl(HOST_PATH + "/IElementTest");
         beginAt("/template.html");
     }
     
-    @Test public void testSimple() {
+    public void testSimple() {
     	// test an element that exists
     	IElement element = getElementByXPath("//input[@id='test']");
     	assertNotNull(element);
@@ -66,12 +56,12 @@ public class IElementTest extends JWebUnitAPITestCase {
     	assertEquals(element.getAttribute("value"), "test3");
     }
 
-    @Test public void testMissing() {
+    public void testMissing() {
     	// a missing element should throw an exception
     	try {
     		getElementByXPath("//input[@id='test2']");
     		fail("getElementByXPath() should have thrown an assertion exception.");
-    	} catch (AssertionError e) {
+    	} catch (AssertionFailedError e) {
     		// nothing
     	}
     }
@@ -79,7 +69,7 @@ public class IElementTest extends JWebUnitAPITestCase {
     /**
      * Test parent, child methods
      */
-    @Test public void testChildren() {
+    public void testChildren() {
     	assertElementPresent("first");
     	IElement element = getElementById("first");
     	assertEquals(element.getName(), "li");
@@ -106,7 +96,7 @@ public class IElementTest extends JWebUnitAPITestCase {
     /**
      * Test getting the XPath for multiple possible results
      */
-    @Test public void testMultiple() {
+    public void testMultiple() {
     	List<IElement> children = getElementsByXPath("//li");
     	assertEquals(children.size(), 4);
     	assertEquals(children.get(0).getTextContent(), "one");
@@ -119,7 +109,7 @@ public class IElementTest extends JWebUnitAPITestCase {
     /**
      * change the element and make sure XPath has changed
      */
-    @Test public void testChanging() {
+    public void testChanging() {
     	{
 	    	IElement element = getElementByXPath("//input[@id='test']");
 	    	assertNotNull(element);
@@ -148,7 +138,7 @@ public class IElementTest extends JWebUnitAPITestCase {
     	
     }
     
-    @Test public void testWithXpath() {
+    public void testWithXpath() {
     	IElement element = getElementByXPath("//body");
     	assertNotNull(element);
     	assertEquals("body", element.getName());
@@ -185,7 +175,7 @@ public class IElementTest extends JWebUnitAPITestCase {
      * Test that setting attributes manually (e.g setAttribute("value") 
      * properly calls any attached Javascript.
      */
-    @Test public void testAttributeJavascript() {
+    public void testAttributeJavascript() {
     	String testingText = new Date().toString();
     	
     	{
@@ -213,7 +203,7 @@ public class IElementTest extends JWebUnitAPITestCase {
     /**
      * Tests searching for comments.
      */
-    @Test public void testComments() {
+    public void testComments() {
     	// whitespace is ignored
     	assertCommentPresent("a comment");
     	assertCommentPresent("another comment");
@@ -229,7 +219,7 @@ public class IElementTest extends JWebUnitAPITestCase {
      * Test preceding element XPath.
      * preceding: "Selects everything in the document that is before the start tag of the current node"
      */
-    @Test public void testPreceding() {
+    public void testPreceding() {
     	IElement element = getElementById("first"); // li
     	// should get the first <input>, which is
     	// <input id="test" name="element_name" value="test3">
@@ -244,7 +234,7 @@ public class IElementTest extends JWebUnitAPITestCase {
      * correctly.
      * 
      */
-    @Test public void testIElementEquals() {
+    public void testIElementEquals() {
     	
     	// through getElementById
     	IElement container1 = getElementById("container");

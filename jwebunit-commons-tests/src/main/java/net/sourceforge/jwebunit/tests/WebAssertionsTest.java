@@ -19,24 +19,10 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertElementPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertFormElementEquals;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertFormElementMatch;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertHiddenFieldPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertMatchInElement;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertNoMatch;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertNoMatchInElement;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectedOptionEquals;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertSelectedOptionMatches;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextFieldEquals;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextInElement;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextNotInElement;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextNotPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
-import static org.junit.Assert.fail;
-
-import org.junit.Test;
+import junit.framework.AssertionFailedError;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
  * Test the assertions provided by WebTestCase using the PseudoServer test
@@ -47,37 +33,42 @@ import org.junit.Test;
  */
 public class WebAssertionsTest extends JWebUnitAPITestCase {
 
+	public static Test suite() {
+		Test suite = new TestSuite(WebAssertionsTest.class);
+		return new JettySetup(suite);
+	}
+
 	public void setUp() throws Exception {
 		super.setUp();
 		setBaseUrl(HOST_PATH + "/WebAssertionsTest");
 		beginAt("/testPage.html");
 	}
 
-    @Test public void testAssertTitleEquals() throws Throwable {
+    public void testAssertTitleEquals() throws Throwable {
         assertPass("assertTitleEquals", new String[] { "testPage" });
         assertFail("assertTitleEquals", "wrong title");
     }
 
-    @Test public void testAssertTitleMatch() throws Throwable {
+    public void testAssertTitleMatch() throws Throwable {
         assertPass("assertTitleMatch", new String[] { "test[Pp]age" });
         assertFail("assertTitleMatch", "[Ww]rong title");
     }
 
-	@Test public void testAssertTextPresent() throws Throwable {
+	public void testAssertTextPresent() throws Throwable {
 		assertPassFail("assertTextPresent", "This is a test.",
 				"no such text");
 	}
-    @Test public void testAssertMatch() throws Throwable {
+    public void testAssertMatch() throws Throwable {
         assertPassFail("assertMatch", "This (is)* a .* test.", "no.*text");
     }
 
-	@Test public void testAssertTextNotPresent() throws Throwable {
+	public void testAssertTextNotPresent() throws Throwable {
 		assertTextNotPresent("no such text");
 		//assertPassFail("assertTextNotPresent", "no such text",
 		//		"This is a test page.");
 	}
 
-    @Test public void testAssertNoMatch() throws Throwable {
+    public void testAssertNoMatch() throws Throwable {
         assertNoMatch("no.*text");
         //assertPassFail("assertNoMatch", "no.*text", "This (is)* a .* page.");
     }
@@ -85,74 +76,76 @@ public class WebAssertionsTest extends JWebUnitAPITestCase {
     /**
      * Check that {@link #assertNoMatch(String)} can actually fail.
      */
-    @Test public void testAssertNoMatchFails() throws Throwable {
+    public void testAssertNoMatchFails() throws Throwable {
+    	boolean failed = false;
     	try {
     		// 'Span Text' definitely exists in the source page text
     		assertNoMatch("Span Text");
-    		fail("assertNoMatch() did not throw expected failure");		// should not get this far
-    	} catch (AssertionError e) {
+    		failed = true;		// should not get this far
+    	} catch (AssertionFailedError e) {
     		// expected
     	}
+    	assertFalse("assertNoMatch() did not throw expected failure", failed);
     }
 
-	@Test public void testAssertLinkPresentWithText() throws Throwable {
+	public void testAssertLinkPresentWithText() throws Throwable {
 		assertPassFail("assertLinkPresentWithText", "test link", "no such link");
 	}
 
-	@Test public void testAssertLinkNotPresentWithText() throws Throwable {
+	public void testAssertLinkNotPresentWithText() throws Throwable {
 		assertPassFail("assertLinkNotPresentWithText", "no such link",
 				"test link");
 	}
 
-	@Test public void testAssertLinkPresentWithTextN() throws Throwable {
+	public void testAssertLinkPresentWithTextN() throws Throwable {
 		assertPass("assertLinkPresentWithText", new Object[] { "test link",
 				Integer.valueOf(0) });
 		assertFail("assertLinkPresentWithText", new Object[] { "test link",
 				Integer.valueOf(1) });
 	}
 
-	@Test public void testAssertLinkNotPresentWithTextN() throws Throwable {
+	public void testAssertLinkNotPresentWithTextN() throws Throwable {
 		assertPass("assertLinkNotPresentWithText", new Object[] { "test link",
 				new Integer(1) });
 		assertFail("assertLinkNotPresentWithText", new Object[] { "test link",
 				Integer.valueOf(0) });
 	}
 
-	@Test public void testAssertLinkPresent() throws Throwable {
+	public void testAssertLinkPresent() throws Throwable {
 		assertPassFail("assertLinkPresent", "test_link_id", "no_link_id");
 	}
 
-	@Test public void testAssertLinkNotPresent() throws Throwable {
+	public void testAssertLinkNotPresent() throws Throwable {
 		assertPassFail("assertLinkNotPresent", "no_link_id", "test_link_id");
 	}
 
-	@Test public void testAssertLinkPresentWithImage() throws Throwable {
+	public void testAssertLinkPresentWithImage() throws Throwable {
 		assertPassFail("assertLinkPresentWithImage", "graphic.jpg",
 				"nosuchgraphic.jsp");
 	}
 
-	@Test public void testAssertLinkNotPresentWithImage() throws Throwable {
+	public void testAssertLinkNotPresentWithImage() throws Throwable {
 		assertPassFail("assertLinkNotPresentWithImage", "nosuchgraphic.jpg",
 				"graphic.jpg");
 	}
 
-	@Test public void testAssertElementPresent() throws Throwable {
+	public void testAssertElementPresent() throws Throwable {
 		assertElementPresent("row1");
 		assertPassFail("assertElementPresent", "span_id", "no_id");
 	}
 
-	@Test public void testAssertElementNotPresent() throws Throwable {
+	public void testAssertElementNotPresent() throws Throwable {
 		assertPassFail("assertElementNotPresent", "no_id", "span_id");
 	}
 
-	@Test public void testAssertTextNotInElement() throws Throwable {
+	public void testAssertTextNotInElement() throws Throwable {
 		assertTextNotInElement("outer_id", "nosuchtext");
 		assertTextNotInElement("inner_id", "Outer");
 		assertFail("assertTextNotInElement",
 				new Object[] { "outer_id", "Outer" });
 	}
 
-	@Test public void testAssertElementContainsText() throws Throwable {
+	public void testAssertElementContainsText() throws Throwable {
 		assertTextInElement("span_id", "Span");
 		assertTextInElement("span_id", "Text");
 		assertTextInElement("span_id", "Span Text");
@@ -161,27 +154,27 @@ public class WebAssertionsTest extends JWebUnitAPITestCase {
 				new Object[] { "span_id", "Not Text" });
 	}
 
-	@Test public void testAssertElementContainsTextInChild() throws Throwable {
+	public void testAssertElementContainsTextInChild() throws Throwable {
 		assertTextInElement("outer_id", "Outer");
 		assertTextInElement("outer_id", "Text");
 		assertTextInElement("outer_id", "Inner Text");
 		assertTextInElement("outer2", "$100,000/$300,000");
 	}
 
-    @Test public void testAssertNoMatchInElement() throws Throwable {
+    public void testAssertNoMatchInElement() throws Throwable {
         assertNoMatchInElement("outer_id", "no[Ss]uchtext");
         assertNoMatchInElement("inner_id", "Out+er");
         assertFail("assertNoMatchInElement", new Object[] {"outer_id", "Out+er"});
     }
 
-    @Test public void testAssertMatchInElement() throws Throwable {
+    public void testAssertMatchInElement() throws Throwable {
         assertMatchInElement("span_id", "Sp[Aa]n");
         assertMatchInElement("span_id", "Te+xt");
         assertMatchInElement("span_id", "Span\\sText");
         assertFail("assertMatchInElement", new Object[] {"span_id", "Not.*Text"});
     }
     
-    @Test public void testAssertMatchInElementChild() throws Throwable {
+    public void testAssertMatchInElementChild() throws Throwable {
         assertMatchInElement("outer_id", "Out+er");
         assertMatchInElement("outer_id", "Texx*t");
         assertMatchInElement("outer_id", "Inner.*Text");
@@ -190,32 +183,32 @@ public class WebAssertionsTest extends JWebUnitAPITestCase {
     /** 
      * @deprecated
      */
-    @Test public void testAssertFormElementEquals() throws Throwable {
+    public void testAssertFormElementEquals() throws Throwable {
         assertFormElementEquals("testInputElement", "testValue");
         assertFail("assertFormElementEquals", new Object[] {"testInputElement", "AnotherValue"});
     }
     
-    @Test public void testAssertTextFieldEquals() throws Throwable {
+    public void testAssertTextFieldEquals() throws Throwable {
         assertTextFieldEquals("testInputElement", "testValue");
         assertFail("assertTextFieldEquals", new Object[] {"testInputElement", "AnotherValue"});
     }
     
-    @Test public void testAssertHiddenFieldPresent() throws Throwable {
+    public void testAssertHiddenFieldPresent() throws Throwable {
         assertHiddenFieldPresent("hidden", "h");
         assertFail("assertHiddenFieldPresent", new Object[] {"hidden", "AnotherValue"});
     }
 
-    @Test public void testAssertFormElementMatch() throws Throwable {
+    public void testAssertFormElementMatch() throws Throwable {
         assertFormElementMatch("testInputElement", "test[Vv]alue");
         assertFail("assertFormElementMatch", new Object[] {"testInputElement", "Another[Vv]alue"});
     }
 
-    @Test public void testAssertSelectedOptionEquals() throws Throwable {
+    public void testAssertSelectedOptionEquals() throws Throwable {
         assertSelectedOptionEquals("testSelect", "Value1");
         assertFail("assertSelectedOptionEquals", new Object[] {"testSelect", "AnotherValue"});
     }
 
-    @Test public void testAssertSelectedOptionMatch() throws Throwable {
+    public void testAssertSelectedOptionMatch() throws Throwable {
         assertSelectedOptionMatches("testSelect", "[Vv]alue1");
         assertFail("assertSelectedOptionMatches", new Object[] {"testSelect", "Another[Vv]alue"});
     }

@@ -19,18 +19,21 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
-
-import org.junit.Test;
-
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import net.sourceforge.jwebunit.html.Cell;
 import net.sourceforge.jwebunit.html.Table;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
 /**
  * Test table equals assertions using expected tables.
  */
 public class ExpectedTableAssertionsHtmlTest extends JWebUnitAPITestCase {
+
+    public static Test suite() {
+        return new JettySetup(new TestSuite(
+                ExpectedTableAssertionsHtmlTest.class));
+    }
 
     public void setUp() throws Exception {
         super.setUp();
@@ -38,7 +41,6 @@ public class ExpectedTableAssertionsHtmlTest extends JWebUnitAPITestCase {
         beginAt("/TableAssertionsTestPageHtml.html");
     }
 
-    @Test
     public void testAssertTableEquals() throws Throwable {
         Cell[][] cells = new Cell[4][];
         cells[0] = new Cell[3];
@@ -62,7 +64,6 @@ public class ExpectedTableAssertionsHtmlTest extends JWebUnitAPITestCase {
         assertPass("assertTableEquals", new Object[] { "myTable", table });
     }
 
-    @Test
     public void testAssertTableEqualsMissingRows() throws Throwable {
         Cell[][] cells = new Cell[3][];
         cells[0] = new Cell[3];

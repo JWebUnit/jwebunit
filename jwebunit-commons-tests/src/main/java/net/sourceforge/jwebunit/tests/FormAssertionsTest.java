@@ -19,21 +19,23 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import org.junit.Test;
-
 import net.sourceforge.jwebunit.api.IElement;
-
-import static net.sourceforge.jwebunit.junit.JWebUnit.*;
-import static org.junit.Assert.*;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 public class FormAssertionsTest extends JWebUnitAPITestCase {
 	
+    public static Test suite() {
+        Test suite = new TestSuite(FormAssertionsTest.class);
+        return new JettySetup(suite);
+    }
+
     public void setUp() throws Exception {
         super.setUp();
         setBaseUrl(HOST_PATH + "/FormAssertionsTest");
     }
 
-    @Test
     public void testAssertButtonWithTextPresent() {
         beginAt("/assertButtonWithText.html");
         assertButtonPresentWithText("foo");
@@ -41,7 +43,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertButtonNotPresentWithText("foobar");
     }
     
-    @Test
     public void testAssertFormParameterPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertFormElementPresent", "testInputElement", "noSuchElement");
@@ -50,13 +51,11 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPass("assertFormElementPresent", "text");
     }
 
-    @Test
     public void testAssertFormParameterNotPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertFormElementNotPresent", "noSuchElement", "testInputElement");
     }
 
-    @Test
     public void testAssertFormPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPass("assertFormPresent", NOARGS);
@@ -65,7 +64,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPass("assertFormNotPresent", NOARGS);        
     }
 
-    @Test
     public void testAssertFormPresentByName() throws Throwable {
         beginAt("/testPage.html");
         assertPass("assertFormPresent", new String[]{"form2"});
@@ -73,7 +71,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPass("assertFormNotPresent", new String[]{"noform"});
     }
 
-    @Test
     public void testAssertFormElementEquals() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertTextFieldEquals", new Object[]{"testInputElement", "testValue"}, new Object[]{"testInputElement", "noSuchValue"});
@@ -91,14 +88,12 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPassFail("assertTextFieldEquals", new Object[]{"passwordelement", "password"}, new Object[]{"passwordelement", "noSuchValue"});
     }
 
-    @Test
     public void testCheckboxSelected() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertCheckboxSelected", "checkboxselected", "checkboxnotselected");
         assertFail("assertCheckboxSelected", "nosuchbox");
     }
 
-    @Test
     public void testCheckboxSelectedByName() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertCheckboxSelected", new Object[]{"checkboxnotselected", "actuallyselected"},
@@ -106,14 +101,12 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertFail("assertCheckboxSelected", new Object[]{"checkboxselected", "nosuchvalue"});
     }
 
-    @Test
     public void testCheckboxNotSelected() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertCheckboxNotSelected", "checkboxnotselected", "checkboxselected");
         assertFail("assertCheckboxNotSelected", "nosuchbox");
     }
 
-    @Test
     public void testCheckboxNotSelectedByName() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertCheckboxNotSelected", new Object[]{"checkboxselected", "actuallynotselected"},
@@ -121,19 +114,16 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertFail("assertCheckboxNotSelected", new Object[]{"checkboxnotselected", "nosuchvalue"});
     }
 
-    @Test
     public void testAssertSubmitButtonPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertSubmitButtonPresent", "submitButton", "noSuchButton");
     }
 
-    @Test
     public void testAssertSubmitButtonNotPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertSubmitButtonNotPresent", "noSuchButton", "submitButton");
     }
 
-    @Test
     public void testAssertSubmitButtonValue() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertSubmitButtonPresent",
@@ -141,19 +131,16 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
                 new Object[]{"submitButton", "noSuchLabel"});
     }
 
-    @Test
     public void testAssertResetButtonPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertResetButtonPresent", "resetButton", "noSuchButton");
     }
 
-    @Test
     public void testAssertResetButtonNotPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertResetButtonNotPresent", "noSuchButton", "resetButton");
     }
 
-    @Test
     public void testAssertRadioOptionPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertRadioOptionPresent",
@@ -161,7 +148,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
                 new String[]{"cool", "fish"});
     }
 
-    @Test
     public void testAssertRadioOptionNotPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertRadioOptionNotPresent",
@@ -169,7 +155,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
                 new String[]{"cool", "cat"});
     }
 
-    @Test
     public void testAssertRadioOptionSelected() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertRadioOptionSelected",
@@ -177,13 +162,11 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
                 new String[]{"cool", "cat"});
     }
 
-    @Test
     public void testAssertRadioOptionNotSelected() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertRadioOptionNotSelected", new String[]{"cool", "cat"}, new String[]{"cool", "dog"});
     }
     
-    @Test
     public void testAssertSelectOptionPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertSelectOptionPresent",
@@ -191,7 +174,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
                 new String[]{"selectOption", "NoSuchOption"});
     }
     
-    @Test
     public void testAssertSelectOptionNotPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertSelectOptionNotPresent",
@@ -199,7 +181,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
                 new String[]{"selectOption", "One"});    	
     }
 
-    @Test
     public void testAssertSelectOptionValuePresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertSelectOptionValuePresent",
@@ -207,7 +188,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
                 new String[]{"selectOption", "NoSuchOption"});
     }
     
-    @Test
     public void testAssertSelectOptionValueNotPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertSelectOptionValueNotPresent",
@@ -215,7 +195,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
                 new String[]{"selectOption", "1"});       
     }
 
-    @Test
     public void testAssertSelectOptionsEqual() throws Throwable {
         beginAt("/testPage.html");
         assertPass("assertSelectOptionsEqual", new Object[]{"select1", new String[]{"one", "two", "three", "four"}});
@@ -223,7 +202,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertFail("assertSelectOptionsEqual", new Object[]{"select1", new String[]{"one", "two", "three", "four", "five"}});
     }
 
-    @Test
     public void testAssertSelectOptionsNotEqual() throws Throwable {
         beginAt("/testPage.html");
         assertFail("assertSelectOptionsNotEqual", new Object[]{"select1", new String[]{"one", "two", "three", "four"}});
@@ -231,7 +209,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPass("assertSelectOptionsNotEqual", new Object[]{"select1", new String[]{"one", "two", "three", "four", "five"}});
     }
 
-    @Test
     public void testAssertSelectOptionValuesEqual() throws Throwable {
         beginAt("/testPage.html");
         assertPass("assertSelectOptionValuesEqual", new Object[]{"select1", new String[]{"1", "2", "3", "4"}});
@@ -239,7 +216,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertFail("assertSelectOptionValuesEqual", new Object[]{"select1", new String[]{"1", "2", "3", "4", "5"}});
     }
 
-    @Test
     public void testAssertSelectOptionValuesNotEqual() throws Throwable {
         beginAt("/testPage.html");
         assertFail("assertSelectOptionValuesNotEqual", new Object[]{"select1", new String[]{"1", "2", "3", "4"}});
@@ -247,25 +223,21 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
         assertPass("assertSelectOptionValuesNotEqual", new Object[]{"select1", new String[]{"1", "2", "3", "4", "5"}});
     }
 
-    @Test
     public void testAssertSelectedOptionEquals() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertSelectedOptionEquals", new String[]{"select1", "one"}, new String[]{"select1", "two"});
     }
 
-    @Test
     public void testAssertSelectedOptionValueEquals() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertSelectedOptionValueEquals", new String[]{"select1", "1"}, new String[]{"select1", "2"});
     }
 
-    @Test
     public void testAssertButtonPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertButtonPresent", "b1", "nobutton");
     }
 
-    @Test
     public void testAssertButtonNotPresent() throws Throwable {
         beginAt("/testPage.html");
         assertPassFail("assertButtonNotPresent", "nobutton", "b1");
@@ -274,7 +246,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
     /**
      * Test elements with complicated names.
      */
-    @Test
     public void testComplicatedElementNames() {
     	beginAt("/testPage.html");
     	
@@ -293,7 +264,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
     /**
      * Testing for issue 1996193: clickRadioOption does not work as expected 
      */
-    @Test
     public void testIssue1996193() {
     	beginAt("/testPage.html");
     	
@@ -307,7 +277,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
     /**
      * tests for label elements
      */
-    @Test
     public void testLabels() {
     	beginAt("/testPage.html");
     	
@@ -339,7 +308,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
     /**
      * Test setting elements retrieved through labels
      */
-    @Test
     public void testSetLabels() {
     	beginAt("/testPage.html");
 
@@ -377,7 +345,6 @@ public class FormAssertionsTest extends JWebUnitAPITestCase {
      * Even though the element has no value set (i.e. getAttribute("value") == null),
      * it should still qualify as equal to an empty string.
      */
-    @Test
     public void testLabeledEmptyElement() {
     	beginAt("/testPage.html");
     	assertLabeledFieldEquals("label9", "");

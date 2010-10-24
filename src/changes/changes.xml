@@ -27,16 +27,11 @@
     <properties>
         <title>JWebUnit changes</title>
         <author email="henryju at users.sourceforge.net">
-            Julien HENRY
+            Julien Henry
         </author>
     </properties>
     <body>
-        <release version="3.0" date="UNKNOW" description="Updated all internals to JUnit 4">
-            <action type="update" dev="henryju" issue="2837745">
-                Updated to JUnit 4. See migration section of the documentation.
-            </action>
-        </release>
-        <release version="2.5" date="UNKNOW" description="Small fixes and dependency updates">
+        <release version="2.5" date="October 18, 2010" description="Small fixes and dependency updates">
             <action type="fix" dev="henryju" issue="2970512" due-to="Todd Owen">
                 Fixed handling of absolute image path (when src attribute start with a /).
             </action>

@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>jwebunit</artifactId>
 		<groupId>net.sourceforge.jwebunit</groupId>
-		<version>3.0-SNAPSHOT</version>
+		<version>2.5</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -41,34 +41,21 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>generate-webtestcase</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>java</goal>
 						</goals>
 						<configuration>
-							<mainClass>
-								net.sourceforge.jwebunit.javacc.WebTestCaseGenerator
-							</mainClass>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-jwebunit</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<mainClass>
-								net.sourceforge.jwebunit.javacc.JWebUnitGenerator
-							</mainClass>
+							<sourceRoot>
+								${project.build.directory}/generated-sources/main/java
+							</sourceRoot>
 						</configuration>
 					</execution>
 				</executions>
 				<configuration>
-					<sourceRoot>
-						${project.build.directory}/generated-sources/main/java
-					</sourceRoot>
+					<mainClass>
+						net.sourceforge.jwebunit.javacc.WebTestCaseGenerator
+					</mainClass>
 					<arguments>
 						<argument>${basedir}/src/main/java</argument>
 						<argument>
@@ -85,7 +72,9 @@
 				<dependencies>
 					<dependency>
 						<groupId>net.sourceforge.jwebunit</groupId>
-						<artifactId>jwebunit-code-generator</artifactId>
+						<artifactId>
+							jwebunit-webtestcase-generator
+						</artifactId>
 						<version>${project.version}</version>
 					</dependency>
 				</dependencies>

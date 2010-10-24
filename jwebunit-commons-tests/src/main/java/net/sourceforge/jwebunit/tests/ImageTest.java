@@ -19,16 +19,14 @@
 
 package net.sourceforge.jwebunit.tests;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.*;
-import static org.junit.Assert.assertNotNull;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.tests.util.JettySetup;
 
+import javax.imageio.ImageIO;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
-import javax.imageio.ImageIO;
-
-import org.junit.Test;
 
 /**
  *
@@ -36,13 +34,17 @@ import org.junit.Test;
  */
 public class ImageTest extends JWebUnitAPITestCase {
 
+    public static Test suite() {
+        Test suite = new TestSuite(ImageTest.class);
+        return new JettySetup(suite);
+    }
+
     public void setUp() throws Exception {
         super.setUp();
         setBaseUrl(HOST_PATH + "/ImageTest");
         beginAt("/PageWithImages.html");
     }
 
-    @Test 
     public void testSimpleImagePresenceAssertion() throws Throwable {
         assertImagePresent("images/Image1.gif", "image 1");
         assertImagePresent("images/Image2.png", "image 2");
@@ -55,27 +57,22 @@ public class ImageTest extends JWebUnitAPITestCase {
         assertFail("assertImagePresent", new Object[]{"images/Image2.png", "wrong alt"});
     }
 
-    @Test 
     public void testGifCanBeLoaded() throws Throwable {
         assertPass("assertImageValid", new Object[]{"images/Image1.gif", "image 1"});
     }
 
-    @Test 
     public void testPngCanBeLoaded() throws Throwable {
         assertPass("assertImageValid", new Object[]{"images/Image2.png", "image 2"});
     }
 
-    @Test 
     public void testJpgCanBeLoaded() throws Throwable {
         assertPass("assertImageValid", new Object[]{"images/photos/Image3.jpg", "image 3"});
     }
 
-    @Test 
     public void testFailsOnInvalidImages() throws Throwable {
         assertFail("assertImageValid", new Object[]{"images/InvalidImage.gif", "invalid image"});
     }
 
-    @Test 
     public void testSavesImage() throws Throwable {
         File testOut = File.createTempFile("jwebunit-test-", ".png");
         testOut.deleteOnExit();
@@ -85,25 +82,21 @@ public class ImageTest extends JWebUnitAPITestCase {
         assertNotNull(testImg);
     }
 
-    @Test 
     public void testImagesAreExposed() throws Throwable {
         Image image = getImage("images/Image1.gif", "image 1");
         // let's just assume it's ok if the image is there
         assertNotNull(image);
     }
 
-    @Test 
     public void testRelativePathsAreCorrectlyResolved() {
         beginAt("/somedir/AnotherPageWithImages.html");
         assertImageValid("Image4.gif", "image 4 - same dir");
         assertImageValid("images/Image5.png", "image 5 - subdir");
         assertImageValid("../images/photos/Image3.jpg", "image 3 again - topdir");
     }
-    
-    @Test
-    public void testAbsolutePath() {
+	
+	public void testAbsolutePath() {
         assertImagePresent("/jwebunit/ImageTest/images/Image1.gif", "absolute image 1");
         assertImageValid("/jwebunit/ImageTest/images/Image1.gif", "absolute image 1");        
     }
-
 }

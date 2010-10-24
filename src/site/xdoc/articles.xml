@@ -30,11 +30,9 @@
 	<p>
 	
 		<ul>
-			<li><a href="http://johannesbrodwall.com/2006/12/10/in-process-web-integration-tests-with-jetty-and-jwebunit/">In-process Web Integration Tests with Jetty and JWebUnit</a></li>
+			<li><a href="http://www.brodwall.com/johannes/blog/2006/12/10/in-process-web-integration-tests-with-jetty-and-jwebunit/">In-process Web Integration Tests with Jetty and JWebUnit</a></li>
 			<li><a href="http://portletwork.blogspot.com/2007/08/testing-portlets-with-jetty-pluto-and.html">Testing Portlets with Jetty, Pluto and JWebUnit</a></li>
 			<li><a href="http://blog.ippon.fr/2008/11/14/testez-vos-applications-graphiques-web">Testez vos applications graphiques web (FR)</a></li>
-			<li><a href="http://www.wakaleo.com/component/content/article/183">Web testing BDD-style with JWebUnit and Easyb</a></li>
-			<li><a href="http://cvalcarcel.wordpress.com/2009/12/13/and-now-by-popular-demand-jwebunit/">Eclipse development, Software Development, Testing > And Now By Popular Demand: jWebUnit</a></li>
 		</ul>
 	
 	</p>

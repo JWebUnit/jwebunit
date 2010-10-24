@@ -19,18 +19,15 @@
 
 package net.sourceforge.jwebunit.htmlunit;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import net.sourceforge.jwebunit.tests.JWebUnitAPITestCase;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
 import net.sourceforge.jwebunit.htmlunit.HtmlUnitTestingEngineImpl;
 import com.gargoylesoftware.htmlunit.ThreadedRefreshHandler;
 import com.gargoylesoftware.htmlunit.WaitingRefreshHandler;
-
-import static net.sourceforge.jwebunit.junit.JWebUnit.*;
-import static org.junit.Assert.*;
 
 /**
  * Unit test to validate JWEbUnit's HtmlUnit plugin will now allow for custom
@@ -41,20 +38,24 @@ import static org.junit.Assert.*;
  * @author Jason McSwain
  */
 public class RefreshHandlerTest extends JWebUnitAPITestCase {
-    
-    @BeforeClass
-    public static void startJetty() throws Exception {
-        JettySetup.setUp();
-    }
-    
-    @AfterClass
-    public static void stopJetty() throws Exception {
-        JettySetup.tearDown();
-    }
+	public RefreshHandlerTest(String name) {
+		super(name);
+	}
 
-    @Test
+	public static Test suite() {
+		return new JettySetup(new TestSuite(RefreshHandlerTest.class));
+	}
+
+	public void setUp() throws Exception {
+		super.setUp();
+	}
+
+	public void tearDown() throws Exception {
+		super.tearDown();
+	}
+
 	public void testDefaultRefreshHandler() throws Exception {
-		if (getTestingEngine() instanceof HtmlUnitTestingEngineImpl) {
+		if (this.getTestingEngine() instanceof HtmlUnitTestingEngineImpl) {
 			setBaseUrl(HOST_PATH + "/RefreshHandlerTest");
 			getTestContext().setResourceBundleName("RefreshHandlerTest");
 			try {
@@ -74,10 +75,10 @@ public class RefreshHandlerTest extends JWebUnitAPITestCase {
 		}
 	}
 
-    @Test
 	public void testAlternateRefreshHandler() throws Exception {
-		if (getTestingEngine() instanceof HtmlUnitTestingEngineImpl) {
-			HtmlUnitTestingEngineImpl engine = (HtmlUnitTestingEngineImpl) getTestingEngine();			
+		if (this.getTestingEngine() instanceof HtmlUnitTestingEngineImpl) {
+			HtmlUnitTestingEngineImpl engine = (HtmlUnitTestingEngineImpl) this
+					.getTestingEngine();			
 			setBaseUrl(HOST_PATH + "/RefreshHandlerTest");
 			getTestContext().setResourceBundleName("RefreshHandlerTest");
 
@@ -95,10 +96,10 @@ public class RefreshHandlerTest extends JWebUnitAPITestCase {
 		}
 	}
 
-    @Test
 	public void testChangeRefreshHandler() throws Exception {
-		if (getTestingEngine() instanceof HtmlUnitTestingEngineImpl) {
-			HtmlUnitTestingEngineImpl engine = (HtmlUnitTestingEngineImpl) getTestingEngine();
+		if (this.getTestingEngine() instanceof HtmlUnitTestingEngineImpl) {
+			HtmlUnitTestingEngineImpl engine = (HtmlUnitTestingEngineImpl) this
+					.getTestingEngine();
 			setBaseUrl(HOST_PATH + "/RefreshHandlerTest");
 			getTestContext().setResourceBundleName("RefreshHandlerTest");
 

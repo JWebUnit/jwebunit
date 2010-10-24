@@ -503,8 +503,7 @@ void CompilationUnit(StringBuffer sb):
   ( ImportDeclaration(sb) )*
 
   {sb.append("/**\n");
-  sb.append(" * Deprecated: use JUnit 4 and {@link JWebUnit} instead.\n");
-  sb.append(" * Superclass for JUnit 3 TestCases which provides web application navigation and \n");
+  sb.append(" * Superclass for Junit TestCases which provides web application navigation and \n");
   sb.append(" * JUnit assertions. This class uses and is generated from {@link net.sourceforge.jwebunit.junit.WebTester}.\n");
   sb.append(" * \n");
   sb.append(" * @author JavaCC\n");
@@ -604,7 +603,7 @@ void ClassOrInterfaceDeclaration(int modifiers, StringBuffer sb):
   [ TypeParameters() ]
   [ ExtendsList(isInterface) ]
   [ ImplementsList(isInterface) ]
-  {sb.append("@Deprecated\npublic abstract class WebTestCase extends TestCase ");}
+  {sb.append("public abstract class WebTestCase extends TestCase ");}
   ClassOrInterfaceBody(isInterface, sb)
 }
 
@@ -817,8 +816,7 @@ void MethodDeclaration(int modifiers, StringBuffer sb, String comment):
   ( Block() | ";" )
   {if (append) {
     sb.append(" {\n");
-    sb.append("        try {\n");
-    sb.append("            ");
+    sb.append("        ");
     if (!isVoid) sb.append("return ");
     sb.append("tester.").append(params.remove(0)).append("(");
     for (Iterator i = params.iterator(); i.hasNext();) {
@@ -827,11 +825,6 @@ void MethodDeclaration(int modifiers, StringBuffer sb, String comment):
       if (i.hasNext()) sb.append(", ");
     }
     sb.append(");\n");
-    sb.append("        } catch (org.junit.ComparisonFailure e) {\n");
-    sb.append("            throw new junit.framework.ComparisonFailure(e.getMessage(), e.getExpected(), e.getActual());\n");
-    sb.append("        } catch (java.lang.AssertionError e) {\n");
-    sb.append("            throw new junit.framework.AssertionFailedError(e.getMessage());\n");
-    sb.append("        }\n");
     sb.append("    }\n\n");
   }}
 }
