@@ -181,8 +181,8 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:http://jwebunit.svn.sourceforge.net/svnroot/jwebunit/trunk</connection>
-        <developerConnection>scm:svn:https://jwebunit.svn.sourceforge.net/svnroot/jwebunit/trunk</developerConnection>
+	    <connection>scm:svn:http://jwebunit.svn.sourceforge.net/svnroot/jwebunit/branches/2.x</connection>
+	    <developerConnection>scm:svn:https://jwebunit.svn.sourceforge.net/svnroot/jwebunit/branches/2.x</developerConnection>
         <url>http://jwebunit.svn.sourceforge.net/viewvc/jwebunit/trunk</url>
     </scm>
     <organization>
