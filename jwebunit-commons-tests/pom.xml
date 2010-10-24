@@ -2,7 +2,7 @@
     <parent>
         <artifactId>jwebunit</artifactId>
         <groupId>net.sourceforge.jwebunit</groupId>
-        <version>2.6-SNAPSHOT</version>
+        <version>2.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
