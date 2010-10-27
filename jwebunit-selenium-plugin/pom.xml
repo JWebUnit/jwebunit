@@ -17,20 +17,12 @@
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                     <skip>true</skip>
-                    <includes>
-                        <include>**/*Test.java</include>
-                        <include>**/*Tests.java</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/*AbstractTest.java</exclude>
-                        <exclude>**/*AbstractTests.java</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
-            <!-- Requires java 1.5 -->
-            <!--plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>selenium-maven-plugin</artifactId>
+                <version>1.1</version>
                 <executions>
                     <execution>
                         <id>start</id>
@@ -43,15 +35,15 @@
                             <multiWindow>true</multiWindow>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>stop</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>stop-server</goal>
+                        </goals>
+                    </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.openqa.selenium.server</groupId>
-                        <artifactId>selenium-server</artifactId>
-                        <version>1.0-beta-1</version>
-                    </dependency>
-                </dependencies>
-            </plugin-->
+            </plugin>
         </plugins>
     </build>
     <dependencies>

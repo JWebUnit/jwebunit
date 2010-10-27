@@ -9,24 +9,6 @@
     <artifactId>jwebunit-htmlunit-plugin</artifactId>
     <name>HtmlUnit Plugin</name>
     <description>HtmlUnit plugin for JWebUnit.</description>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                        <include>**/*Tests.java</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/*AbstractTest.java</exclude>
-                        <exclude>**/*AbstractTests.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
