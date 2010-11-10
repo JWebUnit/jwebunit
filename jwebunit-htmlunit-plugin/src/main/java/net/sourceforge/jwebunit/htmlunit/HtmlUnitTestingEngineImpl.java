@@ -154,22 +154,22 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     /**
      * Javascript alerts.
      */
-    private LinkedList<JavascriptAlert> expectedJavascriptAlerts = new LinkedList<JavascriptAlert>();
+    private List<JavascriptAlert> expectedJavascriptAlerts = new LinkedList<JavascriptAlert>();
 
     /**
      * Javascript confirms.
      */
-    private LinkedList<JavascriptConfirm> expectedJavascriptConfirms = new LinkedList<JavascriptConfirm>();
+    private List<JavascriptConfirm> expectedJavascriptConfirms = new LinkedList<JavascriptConfirm>();
 
     /**
      * Javascript prompts.
      */
-    private LinkedList<JavascriptPrompt> expectedJavascriptPrompts = new LinkedList<JavascriptPrompt>();
+    private List<JavascriptPrompt> expectedJavascriptPrompts = new LinkedList<JavascriptPrompt>();
     
     /**
      * The default browser version.
      */
-    BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_3;
+    private BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_3;
     
     /**
      * Should we ignore failing status codes?
@@ -603,23 +603,24 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     public String[] getSelectOptionValues(String selectName, int index) {
         List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
-        if ( sels == null || sels.size() < index+1)
-        	throw new RuntimeException("Did not find select with name [" + selectName 
+        if ( sels == null || sels.size() < index+1) {
+            throw new RuntimeException("Did not find select with name [" + selectName 
         	                           + "] at index " + index);
-        	
+        }        	
         HtmlSelect sel = sels.get(index);
         ArrayList<String> result = new ArrayList<String>();
         for (HtmlOption opt : sel.getOptions()) {
             result.add(opt.getValueAttribute());
         }
-        return (String[]) result.toArray(new String[0]);
+        return (String[]) result.toArray(new String[result.size()]);
     }
     
     private String[] getSelectedOptions(HtmlSelect sel) {
         String[] result = new String[sel.getSelectedOptions().size()];
         int i = 0;
-        for (HtmlOption opt : sel.getSelectedOptions())
+        for (HtmlOption opt : sel.getSelectedOptions()) {
             result[i++] = opt.getValueAttribute();
+        }
         return result;
     }
 
@@ -631,9 +632,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
     public String[] getSelectedOptions(String selectName, int index) {
         List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
-        if ( sels == null || sels.size() < index+1)
-        	throw new RuntimeException("Did not find select with name [" + selectName 
+        if ( sels == null || sels.size() < index+1) {
+            throw new RuntimeException("Did not find select with name [" + selectName 
         	                           + "] at index " + index);
+        }
         HtmlSelect sel = sels.get(index);
         return getSelectedOptions(sel);
     }
@@ -641,8 +643,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     
     private String getSelectOptionValueForLabel(HtmlSelect sel, String label) {
         for (HtmlOption opt : sel.getOptions()) {
-            if (opt.asText().equals(label))
+            if (opt.asText().equals(label)) {
                 return opt.getValueAttribute();
+            }
         }
         throw new RuntimeException("Unable to find option " + label + " for "
                 + sel.getNameAttribute());
@@ -655,17 +658,19 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     
     public String getSelectOptionValueForLabel(String selectName, int index, String label) {
         List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
-        if ( sels == null || sels.size() < index+1)
-        	throw new RuntimeException("Did not find select with name [" + selectName 
+        if ( sels == null || sels.size() < index+1) {
+            throw new RuntimeException("Did not find select with name [" + selectName 
         	                           + "] at index " + index);
+        }
         HtmlSelect sel = (HtmlSelect)sels.get(index);
         return getSelectOptionValueForLabel(sel, label);
     }
 
     private String getSelectOptionLabelForValue(HtmlSelect sel, String value) {
         for (HtmlOption opt : sel.getOptions()) {
-            if (opt.getValueAttribute().equals(value))
+            if (opt.getValueAttribute().equals(value)) {
                 return opt.asText();
+            }
         }
         throw new RuntimeException("Unable to find option " + value + " for "
                 + sel.getNameAttribute());
@@ -678,10 +683,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     
     public String getSelectOptionLabelForValue(String selectName, int index, String value) {
         List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
-        if ( sels == null || sels.size() < index+1)
-        	throw new RuntimeException("Did not find select with name [" + selectName 
+        if ( sels == null || sels.size() < index+1) {
+            throw new RuntimeException("Did not find select with name [" + selectName 
         	                           + "] at index " + index);
-        	
+        }
         HtmlSelect sel = (HtmlSelect)sels.get(index);
         return getSelectOptionLabelForValue(sel, value);
     }
@@ -703,17 +708,22 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
     public String getPageText() {
         Page page = win.getEnclosedPage();
-        if (page instanceof HtmlPage)
+        if (page instanceof HtmlPage) {
             return ((HtmlPage) page).asText();
-        if (page instanceof TextPage)
+        }
+        if (page instanceof TextPage) {
             return ((TextPage) page).getContent();
-        if (page instanceof JavaScriptPage)
+        }
+        if (page instanceof JavaScriptPage) {
             return ((JavaScriptPage) page).getContent();
-        if (page instanceof XmlPage)
+        }
+        if (page instanceof XmlPage) {
             return ((XmlPage) page).getContent();
-        if (page instanceof UnexpectedPage)
+        }
+        if (page instanceof UnexpectedPage) {
             return ((UnexpectedPage) page).getWebResponse()
                     .getContentAsString();
+        }
         throw new RuntimeException(
                 "Unexpected error in getPageText(). This method need to be updated.");
     }
@@ -855,18 +865,20 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 Page oldPage = event.getOldPage();
                 Page newPage = event.getNewPage();
                 String oldPageTitle = "no_html";
-                if (oldPage instanceof HtmlPage)
+                if (oldPage instanceof HtmlPage) {
                     oldPageTitle = ((HtmlPage) oldPage).getTitleText();
+                }
                 String newPageTitle = "no_html";
-                if (newPage instanceof HtmlPage)
+                if (newPage instanceof HtmlPage) {
                     newPageTitle = ((HtmlPage) newPage).getTitleText();
+                }
                 logger.debug("Window \"{}\" changed : \"{}\" became \"{}", new Object[] {winName, oldPageTitle, newPageTitle});
             }
 
             public void webWindowOpened(WebWindowEvent event) {
                 String win = event.getWebWindow().getName();
                 Page newPage = event.getNewPage();
-                if (newPage != null && newPage instanceof HtmlPage) {
+                if (newPage instanceof HtmlPage) {
                     logger.debug("Window {} opened : {}", win, ((HtmlPage) newPage).getTitleText());
                 } else {
                     logger.info("Window {} opened", win);
@@ -880,7 +892,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                     throw new UnexpectedJavascriptAlertException(msg);
                 } else {
                     JavascriptAlert expected = (JavascriptAlert) expectedJavascriptAlerts
-                            .removeFirst();
+                            .remove(0);
                     if (!msg.equals(expected.getMessage())) {
                         throw new UnexpectedJavascriptAlertException(msg);
                     }
@@ -894,7 +906,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                     throw new UnexpectedJavascriptConfirmException(msg);
                 } else {
                     JavascriptConfirm expected = (JavascriptConfirm) expectedJavascriptConfirms
-                            .removeFirst();
+                            .remove(0);
                     if (!msg.equals(expected.getMessage())) {
                         throw new UnexpectedJavascriptConfirmException(msg);
                     } else {
@@ -910,7 +922,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                     throw new UnexpectedJavascriptPromptException(msg);
                 } else {
                     JavascriptPrompt expected = (JavascriptPrompt) expectedJavascriptPrompts
-                            .removeFirst();
+                            .remove(0);
                     if (!msg.equals(expected.getMessage())) {
                         throw new UnexpectedJavascriptPromptException(msg);
                     } else {
@@ -1104,14 +1116,16 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
     private HtmlPage getCurrentPage() {
         Page page = win.getEnclosedPage();
-        if (page instanceof HtmlPage)
+        if (page instanceof HtmlPage) {
             return (HtmlPage) page;
+        }
         throw new RuntimeException("Non HTML content");
     }
 
     private void setWorkingForm(HtmlForm newForm) {
-        if (newForm == null)
+        if (newForm == null) {
             throw new UnableToSetFormException("Attempted to set form to null.");
+        }
         form = newForm;
     }
     
@@ -1137,13 +1151,14 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @param value value to search for
      * @return the element found, or null
      */
-	private HtmlElement getHtmlElementWithAttribute(String attributeName, String value) {
-		for (HtmlElement e : getCurrentPage().getAllHtmlChildElements()) {
-			if (e.getAttribute(attributeName).equals(value))
-				return e;
-		}
-		return null;
-	}
+    private HtmlElement getHtmlElementWithAttribute(String attributeName, String value) {
+        for (HtmlElement e : getCurrentPage().getAllHtmlChildElements()) {
+            if (e.getAttribute(attributeName).equals(value)) {
+                return e;
+            }
+        }
+        return null;
+    }
 
 	/**
      * Return true if a form parameter (input element) is present on the current response.
@@ -1328,8 +1343,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             btn = getCurrentPage().getHtmlElementById(buttonId);
             if (btn instanceof HtmlButton || btn instanceof HtmlButtonInput
                     || btn instanceof HtmlSubmitInput
-                    || btn instanceof HtmlResetInput)
+                    || btn instanceof HtmlResetInput) {
                 return btn;
+            }
         } catch (ElementNotFoundException e) {
             return null;
         }
@@ -1365,17 +1381,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 .getHtmlElementsByTagNames(
                         Arrays.asList(new String[] { "button", "input" }));
         for (HtmlElement e : l) {
-            if ( e instanceof HtmlButton )
-            {
-            	if (((HtmlButton) e).asText().equals(buttonValueText))
-            		return e;
+            if ( e instanceof HtmlButton ) {
+                if (((HtmlButton) e).asText().equals(buttonValueText)) {
+                    return e;
+                }
             }
             else if ( e instanceof HtmlButtonInput ||
             		  e instanceof HtmlSubmitInput ||
-            		  e instanceof HtmlResetInput )
-            {
-            	if ( buttonValueText.equals(e.getAttribute("value")) )
-            		return e;
+            		  e instanceof HtmlResetInput ) {
+                if ( buttonValueText.equals(e.getAttribute("value")) ) {
+            	    return e;
+                }
             }
         }
         return null;
@@ -1422,8 +1438,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 HtmlTableCell cell = table.getCellAt(row, col);
                 if (cell != null) {
                     String cellHtml = cell.asText();
-                    if (cellHtml.indexOf(text) != -1)
+                    if (cellHtml.indexOf(text) != -1) {
                         return true;
+                    }
                 }
             }
         }
@@ -1502,10 +1519,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             
         } catch (FailingHttpStatusCodeException e) {
         	// entirely possible that it can fail here
-        	if (!ignoreFailingStatusCodes)
+        	if (!ignoreFailingStatusCodes) {
 	            throw new TestingEngineResponseException(
 	                    e.getStatusCode(), e);
-        	
+	        }        	
         	return;
         } catch (IOException e) {
             throw new RuntimeException(
@@ -1599,10 +1616,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
             }
         } catch (FailingHttpStatusCodeException e) {
         	// entirely possible that it can fail here
-        	if (!ignoreFailingStatusCodes)
+        	if (!ignoreFailingStatusCodes) {
 	            throw new TestingEngineResponseException(
 	                    e.getStatusCode(), e);
-        	
+	        }        	
         	return;
         } catch (IOException e) {
             throw new RuntimeException(
@@ -1658,9 +1675,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
     public void clickLinkWithText(String linkText, int index) {
         HtmlAnchor link = getLinkWithText(linkText, index);
-        if (link == null)
+        if (link == null) {
             throw new RuntimeException("No Link found for \"" + linkText
                     + "\" with index " + index);
+        }
         try {
             link.click();
         } catch (IOException e) {
@@ -1670,9 +1688,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
     public void clickLinkWithExactText(String linkText, int index) {
         HtmlAnchor link = getLinkWithExactText(linkText, index);
-        if (link == null)
+        if (link == null) {
             throw new RuntimeException("No Link found for \"" + linkText
                     + "\" with index " + index);
+        }
         try {
             link.click();
         } catch (IOException e) {
@@ -1683,8 +1702,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     private HtmlCheckBoxInput getCheckbox(String checkBoxName) {
         Object[] l = getForm().getInputsByName(checkBoxName).toArray();
         for (int i = 0; i < l.length; i++) {
-            if (l[i] instanceof HtmlCheckBoxInput)
+            if (l[i] instanceof HtmlCheckBoxInput) {
                 return (HtmlCheckBoxInput) l[i];
+            }
         }
         throw new RuntimeException("No checkbox with name [" + checkBoxName
                 + "] was found in current form.");
@@ -1693,10 +1713,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     private HtmlCheckBoxInput getCheckbox(String checkBoxName, String value) {
         Object[] l = getForm().getInputsByName(checkBoxName).toArray();
         for (int i = 0; i < l.length; i++) {
-            if (l[i] instanceof HtmlCheckBoxInput)
-                if (((HtmlCheckBoxInput) l[i]).getValueAttribute()
-                        .equals(value))
-                    return (HtmlCheckBoxInput) l[i];
+            if ((l[i] instanceof HtmlCheckBoxInput) &&
+                    ((HtmlCheckBoxInput) l[i]).getValueAttribute()
+                        .equals(value)) {
+                return (HtmlCheckBoxInput) l[i];
+            }
         }
         throw new RuntimeException("No checkbox with name [" + checkBoxName
                 + "] and value [" + value + "] was found in current form.");
@@ -1709,23 +1730,25 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     public void checkCheckbox(String checkBoxName) {
         HtmlCheckBoxInput cb = getCheckbox(checkBoxName);
-        if (!cb.isChecked())
+        if (!cb.isChecked()) {
             try {
                 cb.click();
             } catch (IOException e) {
                 throw new RuntimeException("checkCheckbox failed", e);
             }
+        }
     }
 
     public void checkCheckbox(String checkBoxName, String value) {
         HtmlCheckBoxInput cb = getCheckbox(checkBoxName, value);
-        if (!cb.isChecked())
+        if (!cb.isChecked()) {
             try {
                 cb.click();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("checkCheckbox failed", e);
             }
+        }
     }
 
     /**
@@ -1735,24 +1758,26 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     public void uncheckCheckbox(String checkBoxName) {
         HtmlCheckBoxInput cb = getCheckbox(checkBoxName);
-        if (cb.isChecked())
+        if (cb.isChecked()) {
             try {
                 cb.click();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("checkCheckbox failed", e);
             }
+        }
     }
 
     public void uncheckCheckbox(String checkBoxName, String value) {
         HtmlCheckBoxInput cb = getCheckbox(checkBoxName, value);
-        if (cb.isChecked())
+        if (cb.isChecked()) {
             try {
                 cb.click();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("uncheckCheckbox failed", e);
             }
+        }
     }
     
     private HtmlRadioButtonInput getRadioOption(String radioGroup, String radioOption) {
@@ -1775,13 +1800,14 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     public void clickRadioOption(String radioGroup, String radioOption) {
         HtmlRadioButtonInput rb = getRadioOption(radioGroup, radioOption);
-        if (!rb.isChecked())
+        if (!rb.isChecked()) {
             try {
                 rb.click();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("checkCheckbox failed", e);
             }
+        }
     }
 
     /**
@@ -1803,8 +1829,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         List<HtmlAnchor> lnks = ((HtmlPage) win.getEnclosedPage()).getAnchors();
         int count = 0;
         for (HtmlAnchor lnk : lnks) {
-            if ((lnk.asText().indexOf(linkText) >= 0) && (count++ == index))
+            if ((lnk.asText().indexOf(linkText) >= 0) && (count++ == index)) {
                 return lnk;
+            }
         }
         return null;
     }
@@ -1813,8 +1840,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         List<HtmlAnchor> lnks = ((HtmlPage) win.getEnclosedPage()).getAnchors();
         int count = 0;
         for (HtmlAnchor lnk : lnks) {
-            if ((lnk.asText().equals(linkText)) && (count++ == index))
+            if ((lnk.asText().equals(linkText)) && (count++ == index)) {
                 return lnk;
+            }
         }
         return null;
     }
@@ -1829,9 +1857,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     public void clickLinkWithImage(String imageFileName, int index) {
         HtmlAnchor link = getLinkWithImage(imageFileName, index);
-        if (link == null)
+        if (link == null) {
             throw new RuntimeException("No Link found with filename \""
                     + imageFileName + "\" and index " + index);
+        }
         try {
             link.click();
         } catch (IOException e) {
@@ -1849,9 +1878,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
     public void clickElementByXPath(String xpath) {
         HtmlElement e = getHtmlElementByXPath(xpath);
-        if (e == null)
+        if (e == null) {
             throw new RuntimeException("No element found with xpath \"" + xpath
                     + "\"");
+        }
         try {
             e.click();
         } catch (IOException exp) {
@@ -1861,16 +1891,18 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
     public String getElementAttributByXPath(String xpath, String attribut) {
         HtmlElement e = getHtmlElementByXPath(xpath);
-        if (e == null)
+        if (e == null) {
             return null;
+        }
         return e.getAttribute(attribut);
     }
 
 
     public String getElementTextByXPath(String xpath) {
         HtmlElement e = getHtmlElementByXPath(xpath);
-        if (e == null)
+        if (e == null) {
             return null;
+        }
         return e.asText();
     }
     
@@ -1897,17 +1929,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * content by converting it to text.  or an HTML &lt;button&gt; tag.
      */
     public void clickButtonWithText(String buttonValueText) {
-    	HtmlElement b = getButtonWithText(buttonValueText);
-    	if (b != null) {
-    		try {
-    			b.click();
-    		} catch (Exception e) {
-    			throw new RuntimeException(e);
-    		}
-    	}
-    	else {
-    		throw new RuntimeException("No button found with text: " + buttonValueText);
-    	}
+        HtmlElement b = getButtonWithText(buttonValueText);
+        if (b != null) {
+            try {
+                b.click();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {
+            throw new RuntimeException("No button found with text: " + buttonValueText);
+        }
     }
 
     /**
@@ -1923,9 +1955,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     public String getSelectedRadio(String radioGroup) {
         List<HtmlRadioButtonInput> radios = getForm().getRadioButtonsByName(radioGroup);
         for (HtmlRadioButtonInput radio : radios) {
-        	if (radio.isChecked()) {
-        		return radio.getValueAttribute();
-        	}
+            if (radio.isChecked()) {
+                return radio.getValueAttribute();
+            }
         }
         throw new RuntimeException("Unexpected state: no radio button was selected in radio group ["+radioGroup+"]. Is it possible in a real browser?");
     }
@@ -1940,8 +1972,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         String[] opts = getSelectOptionValues(selectName);
         for (int i = 0; i < opts.length; i++) {
             String label = getSelectOptionLabelForValue(selectName, opts[i]);
-            if (label.equals(optionLabel))
+            if (label.equals(optionLabel)) {
                 return true;
+            }
         }
         return false;
     }
@@ -1955,8 +1988,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     public boolean hasSelectOptionValue(String selectName, String optionValue) {
         String[] opts = getSelectOptionValues(selectName);
         for (int i = 0; i < opts.length; i++) {
-            if (opts[i].equals(optionValue))
+            if (opts[i].equals(optionValue)) {
                 return true;
+            }
         }
         return false;
     }
@@ -1980,9 +2014,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                     break;
                 }
             }
-            if (!found)
+            if (!found) {
                 throw new RuntimeException("Option " + option
                         + " not found");
+            }
         }
     }
 
@@ -1998,8 +2033,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     	String[] opts = getSelectOptionValues(selectName, index);
         for (int i = 0; i < opts.length; i++) {
             String label = getSelectOptionLabelForValue(selectName, index, opts[i]);
-            if (label.equals(optionLabel))
+            if (label.equals(optionLabel)) {
                 return true;
+            }
         }
         return false;
     }
@@ -2015,8 +2051,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     public boolean hasSelectOptionValue(String selectName, int index, String optionValue) {
         String[] opts = getSelectOptionValues(selectName, index);
         for (int i = 0; i < opts.length; i++) {
-            if (opts[i].equals(optionValue))
+            if (opts[i].equals(optionValue)) {
                 return true;
+            }
         }
         return false;
     }
@@ -2031,12 +2068,14 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     public void selectOptions(String selectName, int index, String[] options) {
     	List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
-    	if ( sels == null || sels.size() < index+1 )
-        	throw new RuntimeException("Did not find select with name [" + selectName 
-        	                           + "] at index " + index);
+    	if ( sels == null || sels.size() < index+1 ) {
+            throw new RuntimeException("Did not find select with name [" + selectName 
+                                       + "] at index " + index);
+        }
     	HtmlSelect sel = (HtmlSelect)sels.get(index); 
-        if (!sel.isMultipleSelectEnabled() && options.length > 1)
+        if (!sel.isMultipleSelectEnabled() && options.length > 1) {
             throw new RuntimeException("Multiselect not enabled");
+        }
         for (String option : options) {
             boolean found = false;
             for (HtmlOption opt : sel.getOptions()) {
@@ -2046,17 +2085,19 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                     break;
                 }
             }
-            if (!found)
+            if (!found) {
                 throw new RuntimeException("Option " + option
                         + " not found");
+            }
         }
     }
 
     
     public void unselectOptions(String selectName, String[] options) {
         HtmlSelect sel = getForm().getSelectByName(selectName);
-        if (!sel.isMultipleSelectEnabled() && options.length > 1)
+        if (!sel.isMultipleSelectEnabled() && options.length > 1) {
             throw new RuntimeException("Multiselect not enabled");
+        }
         for (String option : options) {
             boolean found = false;
             for (HtmlOption opt : sel.getOptions()) {
@@ -2066,19 +2107,22 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                     break;
                 }
             }
-            if (!found)
+            if (!found) {
                 throw new RuntimeException("Option " + option
                         + " not found");
+            }
         }
     }
     public void unselectOptions(String selectName, int index, String[] options) {
         List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
-        if ( sels == null || sels.size() < index+1)
-        	throw new RuntimeException("Did not find select with name [" + selectName 
-        	                           + "] at index " + index);
+        if ( sels == null || sels.size() < index+1) {
+            throw new RuntimeException("Did not find select with name [" + selectName 
+                                       + "] at index " + index);
+        }
         HtmlSelect sel = sels.get(index);
-        if (!sel.isMultipleSelectEnabled() && options.length > 1)
+        if (!sel.isMultipleSelectEnabled() && options.length > 1) {
             throw new RuntimeException("Multiselect not enabled");
+        }
         for (String option : options) {
             boolean found = false;
             for (HtmlOption opt : sel.getOptions()) {
@@ -2088,9 +2132,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                     break;
                 }
             }
-            if (!found)
+            if (!found) {
                 throw new RuntimeException("Option " + option
                         + " not found");
+            }
         }
     }
 
