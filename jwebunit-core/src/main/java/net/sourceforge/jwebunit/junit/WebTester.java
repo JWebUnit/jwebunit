@@ -58,6 +58,7 @@ import net.sourceforge.jwebunit.util.TestingEngineRegistry;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -420,9 +421,22 @@ public class WebTester {
      *
      * @param title
      *            unexpected title value
+     * @deprecated Replaced by {@link #assertTitleNotEquals(String)}
      */
+    @Deprecated
     public void assertTitleNotSame(String title) {
-    	assertNotSame(title, getTestingEngine().getPageTitle());
+    	assertTitleNotEquals(title);
+    }
+
+    /**
+     * Assert title of current html page in conversation is not
+     * equal to another value.
+     *
+     * @param title
+     *            unexpected title value
+     */
+    public void assertTitleNotEquals(String title) {
+    	assertThat(title, not(equalTo(getTestingEngine().getPageTitle())));
     }
 
     /**
@@ -2861,7 +2875,7 @@ public class WebTester {
     	assertNotNull("no label for id [" + id + "] found", label);
     	
     	List<IElement> fields = getFieldsForLabel(label);
-    	assertNotSame("there should be at least one element referenced for label [" + id + "]", 0, fields.size());
+    	assertFalse("there should be at least one element referenced for label [" + id + "]", fields.size()==0);
     	
     	// find the first element that we can change
     	for (IElement field : fields) {

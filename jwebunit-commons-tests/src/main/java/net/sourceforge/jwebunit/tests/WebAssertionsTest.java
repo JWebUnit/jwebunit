@@ -53,46 +53,50 @@ public class WebAssertionsTest extends JWebUnitAPITestCase {
 		beginAt("/testPage.html");
 	}
 
-    @Test public void testAssertTitleEquals() throws Throwable {
+    @Test
+    public void testAssertTitleEquals() throws Throwable {
         assertPass("assertTitleEquals", new String[] { "testPage" });
         assertFail("assertTitleEquals", "wrong title");
     }
 
-    @Test public void testAssertTitleMatch() throws Throwable {
+    @Test
+    public void testAssertTitleMatch() throws Throwable {
         assertPass("assertTitleMatch", new String[] { "test[Pp]age" });
         assertFail("assertTitleMatch", "[Ww]rong title");
     }
 
-	@Test public void testAssertTextPresent() throws Throwable {
-		assertPassFail("assertTextPresent", "This is a test.",
-				"no such text");
-	}
-    @Test public void testAssertMatch() throws Throwable {
+    @Test
+    public void testAssertTitleNotEquals() throws Throwable {
+        assertPass("assertTitleNotEquals", new String[] { "wrong title" });
+        assertFail("assertTitleNotEquals", "testPage");
+    }
+
+    @Test
+    public void testAssertTextPresent() throws Throwable {
+        assertPassFail("assertTextPresent", "This is a test.", "no such text");
+    }
+
+    @Test
+    public void testAssertMatch() throws Throwable {
         assertPassFail("assertMatch", "This (is)* a .* test.", "no.*text");
     }
 
-	@Test public void testAssertTextNotPresent() throws Throwable {
-		assertTextNotPresent("no such text");
-		//assertPassFail("assertTextNotPresent", "no such text",
-		//		"This is a test page.");
-	}
+    @Test
+    public void testAssertTextNotPresent() throws Throwable {
+        assertPassFail("assertTextNotPresent", "no such text", "This is a test.");
+    }
 
     @Test public void testAssertNoMatch() throws Throwable {
-        assertNoMatch("no.*text");
-        //assertPassFail("assertNoMatch", "no.*text", "This (is)* a .* page.");
+        assertPassFail("assertNoMatch", "no.*text", "This (is)* a .* test.");
     }
     
     /**
      * Check that {@link #assertNoMatch(String)} can actually fail.
      */
-    @Test public void testAssertNoMatchFails() throws Throwable {
-    	try {
-    		// 'Span Text' definitely exists in the source page text
-    		assertNoMatch("Span Text");
-    		fail("assertNoMatch() did not throw expected failure");		// should not get this far
-    	} catch (AssertionError e) {
-    		// expected
-    	}
+    @Test(expected=AssertionError.class)
+    public void testAssertNoMatchFails() throws Throwable {
+        // 'Span Text' definitely exists in the source page text
+        assertNoMatch("Span Text");
     }
 
 	@Test public void testAssertLinkPresentWithText() throws Throwable {

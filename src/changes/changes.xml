@@ -32,6 +32,9 @@
     </properties>
     <body>
         <release version="3.0" date="UNKNOW" description="Updated all internals to JUnit 4">
+            <action type="fix" dev="henryju" issue="3116839" due-to="Tony Qian">
+                assertTitleNotSame works incorrectly. Deprecated and replaced by a working assertTitleNotEquals.
+            </action>
             <action type="update" dev="henryju" issue="2837745">
                 Updated to JUnit 4. See migration section of the documentation.
             </action>
