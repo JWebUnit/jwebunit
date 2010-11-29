@@ -33,16 +33,16 @@
             <subsection name="Last checks and updates">
                 <p>
                 	<ul>
-                		<li>Ensure you repository is up to date by running: <tt>svn update</tt></li>
-                		<li>Edit <tt>src/changes/changes.xml</tt> to set release date instead of "unknow"</li>
+                		<li>Ensure your repository is up to date by running: <tt>svn update</tt></li>
+                		<li>Edit <tt>src/changes/changes.xml</tt> to set the release date instead of "unknow"</li>
                 		<li>Update readme.txt (at least update the version number)</li>
                 		<li>Update JWebUnit latest version in src/site/xdoc/index.xml, src/site/xdoc/installation.xml, jwebunit-htmlunit-plugin/src/site/xdoc/index.xml, jwebunit-selenium-plugin/src/site/xdoc/index.xml</li>
                 		<li>Commit the changes</li>
                 	</ul>
                 </p>
                 <p>
-                    Now check that in your <tt>settings.xml</tt> (usually in <tt>$M2_HOME/conf</tt> or better in <tt>~/.m2</tt> 
-                    your JWebUnit details are correct:
+                    Now check that in your <tt>settings.xml</tt> (usually in <tt>~/.m2</tt>) 
+                    the JWebUnit server details are correct:
                     <source><![CDATA[                    
     <server>
       <id>jwebunit-website</id>
