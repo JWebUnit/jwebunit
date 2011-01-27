@@ -19,6 +19,8 @@
 
 package net.sourceforge.jwebunit.htmlunit;
 
+import org.apache.http.auth.AuthScope;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -410,7 +412,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     public boolean hasFormParameterNamed(String paramName) {
-		for (HtmlElement e : getCurrentPage().getAllHtmlChildElements()) {
+		for (HtmlElement e : getCurrentPage().getHtmlElementDescendants()) {
 			if (e.getAttribute("name").equals(paramName)) {
 				// set the working form if none has been set
 				if (e.getEnclosingForm() != null && getWorkingForm() == null)
@@ -430,7 +432,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     public String getTextFieldValue(String paramName) {
     	// first try the current form
     	if (form != null) {
-	    	for (HtmlElement e : form.getAllHtmlChildElements()) {
+	    	for (HtmlElement e : form.getHtmlElementDescendants()) {
 	    		if (e instanceof HtmlInput && e.getAttribute("name").equals(paramName)) {
 	    			// we found it
 	    			return ((HtmlInput) e).getValueAttribute();
@@ -474,7 +476,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     public String getHiddenFieldValue(String paramName) {
     	// first try the current form
     	if (form != null) {
-	    	for (HtmlElement e : form.getAllHtmlChildElements()) {
+	    	for (HtmlElement e : form.getHtmlElementDescendants()) {
 	    		if (e instanceof HtmlHiddenInput && e.getAttribute("name").equals(paramName)) {
 	    			// we found it
 	    			return ((HtmlInput) e).getValueAttribute();
@@ -507,7 +509,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     public void setTextField(String paramName, String text) {
     	// first try the current form
     	if (form != null) {
-	    	for (HtmlElement e : form.getAllHtmlChildElements()) {
+	    	for (HtmlElement e : form.getHtmlElementDescendants()) {
 	    		if (e instanceof HtmlInput && e.getAttribute("name").equals(paramName)) {
 	    			// we found it
 	    			((HtmlInput) e).setValueAttribute(text);
@@ -554,7 +556,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     public void setHiddenField(String fieldName, String text) {
     	// first try the current form
     	if (form != null) {
-	    	for (HtmlElement e : form.getAllHtmlChildElements()) {
+	    	for (HtmlElement e : form.getHtmlElementDescendants()) {
 	    		if (e instanceof HtmlHiddenInput && e.getAttribute("name").equals(fieldName)) {
 	    			// we found it
 	    			((HtmlHiddenInput) e).setValueAttribute(text);
@@ -694,7 +696,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     
     
     public URL getPageURL() {
-        return win.getEnclosedPage().getWebResponse().getRequestSettings().getUrl();
+        return win.getEnclosedPage().getWebResponse().getWebRequest().getUrl();
     }
     
     public String getPageSource() {
@@ -734,7 +736,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                 .getWebResponse();
         result.append(wr.getStatusCode()).append(" ").append(
                 wr.getStatusMessage()).append("\n");
-        result.append("Location: ").append(wr.getRequestSettings().getUrl()).append("\n");
+        result.append("Location: ").append(wr.getWebRequest().getUrl()).append("\n");
         for (NameValuePair h : wr.getResponseHeaders()) {
             result.append(h.getName()).append(": ").append(h.getValue())
                     .append("\n");
@@ -788,10 +790,8 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     	 */
     	BrowserVersion bv;
     	if (testContext.getUserAgent() != null) {
-            bv = new BrowserVersion(
-            		BrowserVersion.NETSCAPE, "5.0 (Windows; en-US)",
-            		testContext.getUserAgent(),
-                    3);
+            bv = BrowserVersion.FIREFOX_3;
+            bv.setUserAgent(testContext.getUserAgent());
     	} else {
     		bv = defaultBrowserVersion;		// use default (which includes a full UserAgent string)
     	}
@@ -839,9 +839,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
                     getTestContext().getDomain());
         }
         if (getTestContext().hasProxyAuthorization()) {
-            creds.addProxyCredentials(getTestContext().getProxyUser(),
+            creds.addCredentials(getTestContext().getProxyUser(),
                     getTestContext().getProxyPasswd(), getTestContext()
-                            .getProxyHost(), getTestContext().getProxyPort());
+                            .getProxyHost(), getTestContext().getProxyPort(), AuthScope.ANY_REALM);
         }
         wc.setCredentialsProvider(creds);
         wc.addWebWindowListener(new WebWindowListener() {
@@ -1152,7 +1152,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @return the element found, or null
      */
     private HtmlElement getHtmlElementWithAttribute(String attributeName, String value) {
-        for (HtmlElement e : getCurrentPage().getAllHtmlChildElements()) {
+        for (HtmlElement e : getCurrentPage().getHtmlElementDescendants()) {
             if (e.getAttribute(attributeName).equals(value)) {
                 return e;
             }
