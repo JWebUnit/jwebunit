@@ -34,6 +34,9 @@ import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import org.junit.Before;
+
 import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
 
 import org.junit.Test;
@@ -47,20 +50,24 @@ import org.junit.Test;
  */
 public class NavigationTest extends JWebUnitAPITestCase {
 
+    @Before
 	public void setUp() throws Exception {
 		super.setUp();
 		setBaseUrl(HOST_PATH + "/NavigationTest");
 	}
 
-	@Test public void testBeginAtRelative() {
+	@Test
+	public void testBeginAtRelative() {
 	    beginAt("/blah.html");
 	}
 
-	@Test public void testBeginAtAbsolute() {
+	@Test
+	public void testBeginAtAbsolute() {
 	    beginAt(HOST_PATH + "/NavigationTest/blah.html");
 	}
 
-	@Test public void testForwardSlashConfusion() throws Exception {
+	@Test
+	public void testForwardSlashConfusion() throws Exception {
 	    beginAt("/blah.html");
 	    beginAt("blah.html");
 		getTestContext().setBaseUrl(HOST_PATH + "/NavigationTest/");
@@ -68,14 +75,16 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		beginAt("blah.html");
 	}
 
-	@Test public void testInvalidBeginAt() {
+	@Test
+	public void testInvalidBeginAt() {
 
 		//the testing engines should throw an exception if a 404 Error is found.
         assertException(TestingEngineResponseException.class, "beginAt", new Object[] {"/nosuchresource.html"});
 
 	}
 
-	@Test public void testClickLinkWithText() {
+	@Test
+	public void testClickLinkWithText() {
 		beginAt("/pageWithLink.html");
 		assertTitleEquals("pageWithLink");
 
@@ -106,7 +115,8 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		assertTitleEquals("pageWithLink");
 	}
 
-	@Test public void testClickLinkWithImage() {
+	@Test
+	public void testClickLinkWithImage() {
 		beginAt("/pageWithLink.html");
 		assertTitleEquals("pageWithLink");
 
@@ -114,7 +124,26 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		assertTitleEquals("targetPage2");
 	}
 
-	@Test public void testClickLinkByID() {
+    @Test
+    public void testClickLinkWithImageAnd0Index() {
+        beginAt("/pageWithLink.html");
+        assertTitleEquals("pageWithLink");
+
+        clickLinkWithImage("graphic.jpg", 0);
+        assertTitleEquals("targetPage2");
+    }
+
+    @Test
+    public void testClickLinkWithImageAnd1Index() {
+        beginAt("/pageWithLink.html");
+        assertTitleEquals("pageWithLink");
+
+        clickLinkWithImage("graphic.jpg", 1);
+        assertTitleEquals("targetPage");
+    }
+
+    @Test
+    public void testClickLinkByID() {
 		beginAt("/pageWithLink.html");
 		assertTitleEquals("pageWithLink");
 
@@ -122,7 +151,8 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		assertTitleEquals("targetPage");
 	}
 
-	@Test public void testInvalidClickLink() {
+	@Test
+	public void testInvalidClickLink() {
 		beginAt("/pageWithLink.html");
 		assertTitleEquals("pageWithLink");
 
@@ -134,14 +164,16 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		fail("Expected exception");
 	}
 
-	@Test public void testGotoPageRelative() {
+	@Test
+	public void testGotoPageRelative() {
 		beginAt("/targetPage.html");
 		assertTitleEquals("targetPage");
 		gotoPage("/targetPage2.html");
 		assertTitleEquals("targetPage2");
 	}
 
-	@Test public void testGotoPageAbsolute() {
+	@Test
+	public void testGotoPageAbsolute() {
 		beginAt("/targetPage.html");
 		assertTitleEquals("targetPage");
                 gotoPage(HOST_PATH + "/NavigationTest/targetPage2.html");
@@ -149,7 +181,8 @@ public class NavigationTest extends JWebUnitAPITestCase {
 	}
 
 	//For bug 726143
-	@Test public void testLinkWithEscapedText() {
+	@Test
+	public void testLinkWithEscapedText() {
 		beginAt("/pageWithAmpersandInLink.html");
 		assertLinkPresentWithText("Map & Directions");
 		clickLinkWithText("Map & Directions");
@@ -159,7 +192,8 @@ public class NavigationTest extends JWebUnitAPITestCase {
 	/**
 	 * Testing for issue 996031
 	 */
-	@Test public void testLinkExactText() {
+	@Test
+	public void testLinkExactText() {
 		beginAt("/test1.html");
 		assertTitleEquals("test1");
 		assertLinkPresentWithExactText("one");

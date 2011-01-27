@@ -1822,7 +1822,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
     private HtmlAnchor getLinkWithImage(String filename, int index) {
         return (HtmlAnchor) getHtmlElementByXPath("(//a[img[contains(@src,\""
-                + filename + "\")]])[" + index + 1 + "]");
+                + filename + "\")]])[" + (index + 1) + "]");
     }
 
     private HtmlAnchor getLinkWithText(String linkText, int index) {

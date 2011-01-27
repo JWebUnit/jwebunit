@@ -2035,15 +2035,41 @@ public class WebTester {
     }
 
     /**
+     * Assert that a link containing a specified image is present.
+     *
+     * @param imageFileName A suffix of the image's filename; for example, to match <tt>"images/my_icon.png"</tt>,
+     *            you could just pass in <tt>"my_icon.png"</tt>.
+     * @param index The 0-based index, when more than one link with the same image is expected.
+     */
+    public void assertLinkPresentWithImage(String imageFileName, int index) {
+        assertTrue("Link with image file [" + imageFileName
+                + "] and index " + index + " not found in response.", getTestingEngine()
+                .hasLinkWithImage(imageFileName, index));
+    }
+
+    /**
      * Assert that a link containing a specified image is not present.
      *
      * @param imageFileName A suffix of the image's filename; for example, to match <tt>"images/my_icon.png"</tt>,
      *            you could just pass in <tt>"my_icon.png"</tt>.
      */
     public void assertLinkNotPresentWithImage(String imageFileName) {
-        assertTrue("Link with image file [" + imageFileName
-                + "] found in response.", !getTestingEngine().hasLinkWithImage(
+        assertFalse("Link with image file [" + imageFileName
+                + "] found in response.", getTestingEngine().hasLinkWithImage(
                 imageFileName, 0));
+    }
+
+    /**
+     * Assert that a link containing a specified image is not present.
+     *
+     * @param imageFileName A suffix of the image's filename; for example, to match <tt>"images/my_icon.png"</tt>,
+     *            you could just pass in <tt>"my_icon.png"</tt>.
+     * @param index The 0-based index, when more than one link with the same image is expected.
+     */
+    public void assertLinkNotPresentWithImage(String imageFileName, int index) {
+        assertFalse("Link with image file [" + imageFileName
+                + "] and index " + index + " found in response.", 
+                getTestingEngine().hasLinkWithImage(imageFileName, index));
     }
 
     /**
@@ -2598,6 +2624,18 @@ public class WebTester {
     public void clickLinkWithImage(String imageFileName) {
         assertLinkPresentWithImage(imageFileName);
         getTestingEngine().clickLinkWithImage(imageFileName, 0);
+    }
+
+    /**
+     * Navigate by selection of a link with a given image.
+     *
+     * @param imageFileName A suffix of the image's filename; for example, to match <tt>"images/my_icon.png"</tt>,
+     *            you could just pass in <tt>"my_icon.png"</tt>.
+     * @param index The 0-based index, when more than one link with the same image is expected.
+     */
+    public void clickLinkWithImage(String imageFileName, int index) {
+        assertLinkPresentWithImage(imageFileName, index);
+        getTestingEngine().clickLinkWithImage(imageFileName, index);
     }
 
     /**

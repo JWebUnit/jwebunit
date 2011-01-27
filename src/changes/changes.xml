@@ -32,6 +32,9 @@
     </properties>
     <body>
         <release version="3.0" date="UNKNOW" description="Updated all internals to JUnit 4">
+            <action type="add" dev="henryju" issue="3166502" due-to="Harri">
+                Added indexed alternatives of methods clickLinkWithImage, assertLinkPresentWithImage and assertLinkNotPresentWithImage.
+            </action>
             <action type="fix" dev="henryju" issue="3116839" due-to="Tony Qian">
                 assertTitleNotSame works incorrectly. Deprecated and replaced by a working assertTitleNotEquals.
             </action>
