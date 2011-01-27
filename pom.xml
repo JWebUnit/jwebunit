@@ -489,6 +489,24 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>m2e</id>
+            <activation>
+                <property>
+                    <name>m2e.version</name><!-- Activate only when within eclipse -->
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- Set to false to work around Maven Eclipse plugin (m2e) bug MNGECLIPSE-2215 -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-toolchains-plugin</artifactId>
+                        <inherited>false</inherited>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
     <reporting>
         <plugins>
