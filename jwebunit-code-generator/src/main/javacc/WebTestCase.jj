@@ -535,9 +535,10 @@ void ImportDeclaration(StringBuffer sb):
  * better error messages.
  */
 
-int Modifiers():
+Object[] Modifiers():
 {
    int modifiers = 0;
+   String annotations = "";
 }
 {
  (
@@ -565,12 +566,12 @@ int Modifiers():
   |
    "strictfp" { modifiers |= ModifierSet.STRICTFP; }
   |
-   Annotation()
+   annotations = Annotation()
   )
  )*
 
  {
-    return modifiers;
+    return new Object[] {modifiers, annotations};
  }
 }
 
@@ -579,12 +580,14 @@ int Modifiers():
  */
 void TypeDeclaration(StringBuffer sb):
 {
+   Object[] modifiersAndAnnot;
    int modifiers;
 }
 {
   ";"
 |
-  modifiers = Modifiers()
+  modifiersAndAnnot=Modifiers()
+  {modifiers = (Integer) modifiersAndAnnot[0];}
   (
      ClassOrInterfaceDeclaration(modifiers, sb)
    |
@@ -735,8 +738,10 @@ void ClassOrInterfaceBody(boolean isInterface, StringBuffer sb):
 void ClassOrInterfaceBodyDeclaration(boolean isInterface, StringBuffer sb):
 {
    boolean isNestedInterface = false;
+   Object[] modifiersAndAnnot;
    int modifiers;
    String comment;
+   String annotations;
 }
 {
   LOOKAHEAD(2)
@@ -747,8 +752,12 @@ void ClassOrInterfaceBodyDeclaration(boolean isInterface, StringBuffer sb):
   }
 |
   {comment=getToken(1).specialToken!=null?getToken(1).specialToken.image:"";}
-  modifiers = Modifiers() // Just get all the modifiers out of the way. If you want to do
+  modifiersAndAnnot = Modifiers() // Just get all the modifiers out of the way. If you want to do
               // more checks, pass the modifiers down to the member
+  {
+    modifiers = (Integer) modifiersAndAnnot[0];
+    annotations = (String) modifiersAndAnnot[1];
+  }
   (
       ClassOrInterfaceDeclaration(modifiers, sb)
     |
@@ -760,7 +769,7 @@ void ClassOrInterfaceBodyDeclaration(boolean isInterface, StringBuffer sb):
       LOOKAHEAD( Type() <IDENTIFIER> ( "[" "]" )* ( "," | "=" | ";" ) )
       FieldDeclaration(modifiers)
     |
-      MethodDeclaration(modifiers, sb, comment)
+      MethodDeclaration(modifiers, sb, comment, annotations)
   )
 |
   ";"
@@ -801,7 +810,7 @@ void ArrayInitializer():
   "{" [ VariableInitializer() ( LOOKAHEAD(2) "," VariableInitializer() )* ] [ "," ] "}"
 }
 
-void MethodDeclaration(int modifiers, StringBuffer sb, String comment):
+void MethodDeclaration(int modifiers, StringBuffer sb, String comment, String annotations):
 { boolean append;
   String resultType;
   List params;
@@ -811,6 +820,7 @@ void MethodDeclaration(int modifiers, StringBuffer sb, String comment):
   // Modifiers already matched in the caller!
   { append = (modifiers & ModifierSet.PUBLIC) != 0;}
   { if (append && comment!=null) sb.append("    ").append(comment).append("\n");}
+  { if (append && annotations!=null && !"".equals(annotations)) sb.append("    ").append(annotations).append("\n");}
   { if (append) sb.append("    public ");}
   [ TypeParameters() ]
   isVoid=ResultType(append, sb)
@@ -1532,62 +1542,92 @@ void RSIGNEDSHIFT():
 
 /* Annotation syntax follows. */
 
-void Annotation():
-{}
+String Annotation():
+{
+    StringBuffer sb = new StringBuffer();
+}
 {
    LOOKAHEAD( "@" Name() "(" ( <IDENTIFIER> "=" | ")" ))
-   NormalAnnotation()
+   NormalAnnotation(sb)
  |
    LOOKAHEAD( "@" Name() "(" )
-   SingleMemberAnnotation()
+   SingleMemberAnnotation(sb)
  |
-   MarkerAnnotation()
+   MarkerAnnotation(sb)
+ {return sb.toString();}
 }
 
-void NormalAnnotation():
-{}
+
+void NormalAnnotation(StringBuffer sb):
 {
-   "@" Name() "(" [ MemberValuePairs() ] ")"
+    String name;
+    String member = "";
+}
+{
+   "@" name=Name() "(" [ member=MemberValuePairs() ] ")"
+   {sb.append("@").append(name).append("(").append(member).append(")");}
 }
 
-void MarkerAnnotation():
-{}
+void MarkerAnnotation(StringBuffer sb):
 {
-  "@" Name()
+    String name;
+}
+{
+  "@" name=Name()
+   {sb.append("@").append(name);}
 }
 
-void SingleMemberAnnotation():
-{}
+void SingleMemberAnnotation(StringBuffer sb):
 {
-  "@" Name() "(" MemberValue() ")"
+    String name;
+    String member = "";
+}
+{
+  "@" name=Name() "(" member=MemberValue() ")"
+  {sb.append("@").append(name).append("(").append(member).append(")");}
 }
 
-void MemberValuePairs():
-{}
+String MemberValuePairs():
 {
-   MemberValuePair() ( "," MemberValuePair() )*
+  StringBuffer sb = new StringBuffer();
+  String member;
+}
+{
+   member=MemberValuePair() {sb.append(member);} ( "," member=MemberValuePair() {sb.append(", ").append(member);} )*
+   {return sb.toString();}
 }
 
-void MemberValuePair():
-{}
+String MemberValuePair():
 {
-    <IDENTIFIER> "=" MemberValue()
+	Token t;
+	String member;
+}
+{
+    t=<IDENTIFIER> "=" member=MemberValue()
+    {return t.image + "=" + member;}
 }
 
-void MemberValue():
-{}
+String MemberValue():
 {
-   Annotation()
+	String result= "";
+}
+{
+   result=Annotation()
  |
-   MemberValueArrayInitializer()
+   result=MemberValueArrayInitializer()
  |
    ConditionalExpression()
+ {return result;}
 }
 
-void  MemberValueArrayInitializer():
-{}
+String  MemberValueArrayInitializer():
 {
-  "{" MemberValue() ( LOOKAHEAD(2) "," MemberValue() )* [ "," ] "}"
+    StringBuffer sb = new StringBuffer();
+    String member;
+}
+{
+  "{" member=MemberValue() {sb.append("{").append(member);} ( LOOKAHEAD(2) "," member=MemberValue() {sb.append(",").append(member);} )* [ "," ] "}" {sb.append("}");}
+  {return sb.toString();}
 }
 
 
@@ -1607,10 +1647,12 @@ void AnnotationTypeBody():
 
 void AnnotationTypeMemberDeclaration():
 {
+   Object[] modifiersAndAnnot;
    int modifiers;
 }
 {
- modifiers = Modifiers()
+ modifiersAndAnnot = Modifiers()
+ {modifiers = (Integer) modifiersAndAnnot[0];}
  (
    LOOKAHEAD(Type() <IDENTIFIER> "(")
    Type() <IDENTIFIER> "(" ")" [ DefaultValue() ] ";"
