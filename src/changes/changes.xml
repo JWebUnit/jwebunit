@@ -32,6 +32,12 @@
     </properties>
     <body>
         <release version="3.0" date="UNKNOW" description="Updated all internals to JUnit 4">
+            <action type="fix" dev="henryju" issue="3190055" due-to="Achim Westermann">
+                Fixed handling of several cookies/headers with same name. getAllHeaders() was wrongly returning only the latest header
+                header with the same name so this method was deprecated and a new one was added with a different return type. 
+                See getResponseHeaders().
+                AssertCookiePresent/Match was also updated to take the last set cookie of the given name instead of the first one.
+            </action>
             <action type="add" dev="henryju" issue="3166502" due-to="Harri">
                 Added indexed alternatives of methods clickLinkWithImage, assertLinkPresentWithImage and assertLinkNotPresentWithImage.
             </action>

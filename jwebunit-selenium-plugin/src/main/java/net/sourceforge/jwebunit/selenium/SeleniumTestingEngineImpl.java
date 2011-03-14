@@ -20,6 +20,8 @@
 
 package net.sourceforge.jwebunit.selenium;
 
+import net.sourceforge.jwebunit.api.HttpHeader;
+
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -720,10 +722,16 @@ public class SeleniumTestingEngineImpl implements ITestingEngine {
 	/* (non-Javadoc)
 	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getAllHeaders()
 	 */
+    @Deprecated
 	public Map<String, String> getAllHeaders() {
 		// TODO implement method
 		throw new UnsupportedOperationException("getAllHeaders");
 	}
+    
+    public List<HttpHeader> getResponseHeaders() {
+        // TODO implement method
+        throw new UnsupportedOperationException("getResponseHeaders");
+    }
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getHeader(java.lang.String)

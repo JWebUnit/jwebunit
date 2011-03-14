@@ -72,6 +72,40 @@ public class CookiesServlet extends HttpServlet {
 			Cookie cookie = new Cookie("serveurCookie","foo");
 			response.addCookie(cookie);
 		}
+		
+		/*
+		 * To test if serveral same cookies with same path, domain and name 
+		 * are passed through to the test API. This "should" not be done by a 
+		 * server but there are use cases where it has to be done. One example is 
+		 * the JSESSIONID cookie which is set by Tomcat but has to be modified in a 
+		 * mod_jk - clustered environment in order to let the client jump to another 
+		 * worker (-> Tomcat cluster member). However within the web application the 
+		 * JSESSIONID cookie has already been added to the response and cannot be 
+		 * removed from there via API. Solution is to set another cookie to overwrite this.  
+		 * 
+		 * See http://tools.ietf.org/html/draft-ietf-httpstate-cookie-21#section-5.3, 11
+		 */
+		if(request.getParameter("threesamecookies") != null) {
+			// 1
+			Cookie jsessionIDCookie = new Cookie("JSESSIONID", "07D486AC962DE67F176F70B7C9816AAE.worker1");
+			jsessionIDCookie.setPath("/");
+			// session cookie:
+			jsessionIDCookie.setMaxAge(-2);
+			jsessionIDCookie.setDomain("localhost");
+			response.addCookie(jsessionIDCookie);
+			// 2
+			jsessionIDCookie = new Cookie("JSESSIONID", "07D486AC962DE67F176F70B7C9816AAE.worker2");
+			jsessionIDCookie.setMaxAge(-2);
+			jsessionIDCookie.setDomain("localhost");
+			response.addCookie(jsessionIDCookie);
+			
+			// 3
+			jsessionIDCookie = new Cookie("JSESSIONID", "07D486AC962DE67F176F70B7C9816AAE.worker3");
+			jsessionIDCookie.setMaxAge(-2);
+			jsessionIDCookie.setDomain("localhost");
+			jsessionIDCookie.setSecure(true);
+			response.addCookie(jsessionIDCookie);
+		}
 	}
 
 }

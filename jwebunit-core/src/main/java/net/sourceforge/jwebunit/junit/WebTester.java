@@ -37,10 +37,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-
 import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
-
+import net.sourceforge.jwebunit.api.HttpHeader;
 import net.sourceforge.jwebunit.api.IElement;
 import net.sourceforge.jwebunit.api.ITestingEngine;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
@@ -54,7 +53,6 @@ import net.sourceforge.jwebunit.javascript.JavascriptConfirm;
 import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
 import net.sourceforge.jwebunit.util.TestContext;
 import net.sourceforge.jwebunit.util.TestingEngineRegistry;
-
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
@@ -399,9 +397,20 @@ public class WebTester {
      * Get all response headers.
      * 
      * @return A map of response headers
+     * @deprecated This method do not deal with several headers with same name. Use {@link #getResponseHeaders()} instead.
      */
+    @Deprecated
     public Map<String, String> getAllHeaders() {
-    	return getTestingEngine().getAllHeaders();
+        return getTestingEngine().getAllHeaders();
+    }
+    
+    /**
+     * Return all HTTP headers that are in last response. It is possible to have several headers with same name.
+     * 
+     * @return A list of {@link HttpHeader} elements.
+     */
+    public List<HttpHeader> getResponseHeaders() {
+        return getTestingEngine().getResponseHeaders();
     }
 
     /**
@@ -2269,12 +2278,11 @@ public class WebTester {
         List<?> cookies = getTestingEngine().getCookies();
         for (Iterator<?> i = cookies.iterator(); i.hasNext();) {
             Cookie c = (Cookie) i.next();
-            if (c.getName().equals(cookieName)) {
-                assertEquals(expectedValue, c.getValue());
+            if (c.getName().equals(cookieName) && c.getValue().equals(expectedValue)) {
                 return;
             }
         }
-        fail("Should not be reached");
+        fail("Could not find cookie with name [" + cookieName + "] and value [" + expectedValue + "]");
     }
 
     /**
@@ -2289,19 +2297,17 @@ public class WebTester {
         try {
             re = new RE(regexp, RE.MATCH_SINGLELINE);
         } catch (RESyntaxException e) {
-            fail(e.toString());
+            fail(e.getMessage());
         }
         List<?> cookies = getTestingEngine().getCookies();
         for (Iterator<?> i = cookies.iterator(); i.hasNext();) {
             Cookie c = (Cookie) i.next();
-            if (c.getName().equals(cookieName)) {
-                assertTrue("Unable to match [" + regexp
-                        + "] in cookie \"" + cookieName + "\"", re.match(c
-                        .getValue()));
+            if (c.getName().equals(cookieName) &&
+                    re.match(c.getValue())) {
                 return;
             }
         }
-        fail("Should not be reached");
+        fail("Could not find cookie with name [" + cookieName + "] with value matching [" + regexp + "]");
     }
 
     // Form interaction methods

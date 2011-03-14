@@ -19,6 +19,8 @@
 
 package net.sourceforge.jwebunit.htmlunit;
 
+import net.sourceforge.jwebunit.api.HttpHeader;
+
 import org.apache.http.auth.AuthScope;
 
 import java.io.IOException;
@@ -2331,6 +2333,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 	/* (non-Javadoc)
 	 * @see net.sourceforge.jwebunit.api.ITestingEngine#getAllHeaders()
 	 */
+    @Deprecated
 	public Map<String, String> getAllHeaders() {
 		Map<String, String> map = new java.util.HashMap<String, String>();
 		for (NameValuePair header : getWebResponse().getResponseHeaders()) {
@@ -2338,6 +2341,14 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 		}
 		return map;
 	}
+    
+    public List<HttpHeader> getResponseHeaders() {
+        List<HttpHeader> result = new LinkedList<HttpHeader>();
+        for (NameValuePair header : getWebResponse().getResponseHeaders()) {
+            result.add(new HttpHeader(header.getName(), header.getValue()));
+        }
+        return result;
+    }
 
 	/**
 	 * An alternative to setting the {@link TestContext#setUserAgent(String) user agent string manually}

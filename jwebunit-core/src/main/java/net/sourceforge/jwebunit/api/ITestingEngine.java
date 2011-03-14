@@ -19,6 +19,8 @@
 
 package net.sourceforge.jwebunit.api;
 
+import java.util.Map;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
@@ -907,21 +909,29 @@ public interface ITestingEngine {
 	 */
 	String getHeader(String name);
 	
-	/**
-	 * Get all headers.
-	 * 
-	 * @return The header values stored in a map.
-	 */
-	java.util.Map<String,String> getAllHeaders();
-	
-	/**
-	 * Should the tester ignore failing status codes (300+)? Otherwise,
-	 * failing status codes will throw an exception.
-	 * 
-	 * @param ignore
-	 */
-	public void setIgnoreFailingStatusCodes(boolean ignore);
-	
+    /**
+     * Get all distinct response headers. In case there are duplicate headers with same name, the last one will be returned.
+     * 
+     * @return The header values stored in a map.
+     * @deprecated Use {@link #getResponseHeaders()}
+     */
+    @Deprecated
+    Map<String, String> getAllHeaders();
+    
+    /**
+     * Get all response headers.
+     * @return the response headers as a list of {@link HttpHeader}s
+     */
+    List<HttpHeader> getResponseHeaders();
+    
+    /**
+     * Should the tester ignore failing status codes (300+)? Otherwise,
+     * failing status codes will throw an exception.
+     * 
+     * @param ignore
+     */
+    public void setIgnoreFailingStatusCodes(boolean ignore);
+    
     /**
      * Get all the comments in a document, as a list of strings.
      */

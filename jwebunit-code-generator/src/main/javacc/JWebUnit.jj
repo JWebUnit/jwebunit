@@ -493,6 +493,7 @@ void CompilationUnit(StringBuffer sb):
   sb.append("import java.util.List;\n");
   sb.append("import java.util.Map;\n");
   sb.append("import java.net.URL;\n\n");
+  sb.append("import net.sourceforge.jwebunit.api.HttpHeader;\n");
   sb.append("import net.sourceforge.jwebunit.api.IElement;\n");
   sb.append("import net.sourceforge.jwebunit.api.ITestingEngine;\n");
   sb.append("import net.sourceforge.jwebunit.exception.TestingEngineResponseException;\n");
