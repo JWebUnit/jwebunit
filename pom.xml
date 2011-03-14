@@ -377,6 +377,11 @@
                 <version>4.8.2</version>
             </dependency>
             <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-library</artifactId>
+                <version>1.3.RC2</version>
+            </dependency>
+            <dependency>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty</artifactId>
                 <version>6.1.26</version>

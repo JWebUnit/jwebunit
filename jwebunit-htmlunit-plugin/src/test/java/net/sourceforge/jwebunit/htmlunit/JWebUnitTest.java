@@ -20,10 +20,6 @@
 
 package net.sourceforge.jwebunit.htmlunit;
 
-import static org.junit.Assert.fail;
-
-import java.net.URL;
-
 import net.sourceforge.jwebunit.tests.ButtonAssertionsTest;
 import net.sourceforge.jwebunit.tests.CharsetTest;
 import net.sourceforge.jwebunit.tests.CustomTesterTest;
@@ -37,7 +33,6 @@ import net.sourceforge.jwebunit.tests.HtmlParsingTest;
 import net.sourceforge.jwebunit.tests.IElementTest;
 import net.sourceforge.jwebunit.tests.ImageTest;
 import net.sourceforge.jwebunit.tests.JUnitPerfTest;
-import net.sourceforge.jwebunit.tests.JWebUnitAPITestCase;
 import net.sourceforge.jwebunit.tests.JavaScriptEventsTest;
 import net.sourceforge.jwebunit.tests.JavaScriptTest;
 import net.sourceforge.jwebunit.tests.NavigationTest;
@@ -52,21 +47,8 @@ import net.sourceforge.jwebunit.tests.WebAssertionsTest;
 import net.sourceforge.jwebunit.tests.WebCookieTest;
 import net.sourceforge.jwebunit.tests.XPathTest;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import org.mortbay.jetty.Connector;
-import org.mortbay.jetty.Handler;
-import org.mortbay.jetty.MimeTypes;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.handler.DefaultHandler;
-import org.mortbay.jetty.handler.HandlerCollection;
-import org.mortbay.jetty.nio.SelectChannelConnector;
-import org.mortbay.jetty.security.HashUserRealm;
-import org.mortbay.jetty.security.UserRealm;
-import org.mortbay.jetty.webapp.WebAppContext;
 
 /**
  * Test Suite for JWebUnit.

@@ -17,9 +17,6 @@
  * along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * 
- */
 package net.sourceforge.jwebunit.api;
 
 import java.util.List;
