@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jetty.http.HttpHeaders;
+
 public class CookiesServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -74,7 +76,7 @@ public class CookiesServlet extends HttpServlet {
 		}
 		
 		/*
-		 * To test if serveral same cookies with same path, domain and name 
+		 * To test if several same cookies with same path, domain and name 
 		 * are passed through to the test API. This "should" not be done by a 
 		 * server but there are use cases where it has to be done. One example is 
 		 * the JSESSIONID cookie which is set by Tomcat but has to be modified in a 
@@ -85,7 +87,7 @@ public class CookiesServlet extends HttpServlet {
 		 * 
 		 * See http://tools.ietf.org/html/draft-ietf-httpstate-cookie-21#section-5.3, 11
 		 */
-		if(request.getParameter("threesamecookies") != null) {
+		if(request.getParameter("set_by_headers") != null) {
 			// 1
 			Cookie jsessionIDCookie = new Cookie("JSESSIONID", "07D486AC962DE67F176F70B7C9816AAE.worker1");
 			jsessionIDCookie.setPath("/");
@@ -93,18 +95,13 @@ public class CookiesServlet extends HttpServlet {
 			jsessionIDCookie.setMaxAge(-2);
 			jsessionIDCookie.setDomain("localhost");
 			response.addCookie(jsessionIDCookie);
-			// 2
-			jsessionIDCookie = new Cookie("JSESSIONID", "07D486AC962DE67F176F70B7C9816AAE.worker2");
-			jsessionIDCookie.setMaxAge(-2);
-			jsessionIDCookie.setDomain("localhost");
-			response.addCookie(jsessionIDCookie);
 			
-			// 3
-			jsessionIDCookie = new Cookie("JSESSIONID", "07D486AC962DE67F176F70B7C9816AAE.worker3");
-			jsessionIDCookie.setMaxAge(-2);
-			jsessionIDCookie.setDomain("localhost");
-			jsessionIDCookie.setSecure(true);
-			response.addCookie(jsessionIDCookie);
+			//With Jetty 6 we are now forced to access low level API to be able to set 2 same named cookies in the same response
+			org.eclipse.jetty.server.Response responseJetty = (org.eclipse.jetty.server.Response) response;
+			String cookie1 = responseJetty.getHttpFields().getStringField(HttpHeaders.SET_COOKIE);
+			// 2
+			String cookie2 = cookie1.replace("worker1", "worker2");
+			response.addHeader(HttpHeaders.SET_COOKIE, cookie2);
 		}
 	}
 

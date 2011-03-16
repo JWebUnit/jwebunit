@@ -19,24 +19,21 @@
 
 package net.sourceforge.jwebunit.tests.util;
 
-import static org.junit.Assert.fail;
-
 import java.net.URL;
-
 import net.sourceforge.jwebunit.tests.JWebUnitAPITestCase;
-
+import org.eclipse.jetty.http.MimeTypes;
+import org.eclipse.jetty.security.HashLoginService;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.DefaultHandler;
+import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.webapp.WebAppContext;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.mortbay.jetty.Connector;
-import org.mortbay.jetty.Handler;
-import org.mortbay.jetty.MimeTypes;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.handler.DefaultHandler;
-import org.mortbay.jetty.handler.HandlerCollection;
-import org.mortbay.jetty.nio.SelectChannelConnector;
-import org.mortbay.jetty.security.HashUserRealm;
-import org.mortbay.jetty.security.UserRealm;
-import org.mortbay.jetty.webapp.WebAppContext;
+
+import static org.junit.Assert.fail;
 
 /**
  * Sets up and tears down the Jetty servlet engine before and after the tests in
@@ -81,12 +78,10 @@ public class JettySetup {
 			handlers.setHandlers(new Handler[]{wah, new DefaultHandler()});
 
 			jettyServer.setHandler(wah);
-			HashUserRealm myrealm = new HashUserRealm("MyRealm");
-			myrealm.put("jetty", "jetty");
-			myrealm.addUserToRole("jetty", "user");
-			myrealm.put("admin", "admin");
-			myrealm.addUserToRole("admin", "admin");
-			jettyServer.setUserRealms(new UserRealm[]{myrealm});
+			HashLoginService myrealm = new HashLoginService("MyRealm");
+			URL config = JettySetup.class.getResource("/jetty-users.properties");
+			myrealm.setConfig(config.toString());
+			jettyServer.addBean(myrealm);
 			
 			wah.setContextPath(JWebUnitAPITestCase.JETTY_URL);
 

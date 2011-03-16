@@ -88,8 +88,8 @@ public class WebCookieTest extends JWebUnitAPITestCase {
      */
     @Test
     public void testCookieMatchLastCookie() {
-        beginAt("/cookies.jsp?threesamecookies=true&dont_set=1");
-        assertCookieValueMatch("JSESSIONID", "(.)*worker3"); 
+        beginAt("/cookies.jsp?set_by_headers=true&dont_set=1");
+        assertCookieValueMatch("JSESSIONID", "(.)*worker2"); 
     }
 
     
@@ -117,11 +117,10 @@ public class WebCookieTest extends JWebUnitAPITestCase {
      */
     @Test
     public void testCookieSetInHeaders() {
-        beginAt("/cookies.jsp?threesamecookies=true&dont_set=1");
+        beginAt("/cookies.jsp?set_by_headers=true&dont_set=1");
         List<HttpHeader> headers = getResponseHeaders();
         boolean foundCookie1 = false;
         boolean foundCookie2 = false;
-        boolean foundCookie3 = false;
         for (HttpHeader h : headers) {
             if (h.getName().equals("Set-Cookie")) {
                 if (h.getValue().contains(".worker1")) {
@@ -130,11 +129,8 @@ public class WebCookieTest extends JWebUnitAPITestCase {
                 else if (h.getValue().contains(".worker2")) {
                     foundCookie2 = true;
                 }
-                else if (h.getValue().contains(".worker3")) {
-                    foundCookie3 = true;
-                }
             }
         }
-        assertTrue("getResponseHeaders should return all headers even duplicates", foundCookie1 && foundCookie2 && foundCookie3);
+        assertTrue("getResponseHeaders should return all headers even duplicates", foundCookie1 && foundCookie2);
     }
 }
