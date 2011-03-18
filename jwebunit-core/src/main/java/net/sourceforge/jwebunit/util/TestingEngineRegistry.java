@@ -37,9 +37,14 @@ public class TestingEngineRegistry {
     public final static String TESTING_ENGINE_HTMLUNIT = "TestingEngineHtmlUnit";
 
     /**
-     * Key of HtmlUnit testing engine.
+     * Key of Selenium testing engine.
      */
     public final static String TESTING_ENGINE_SELENIUM = "TestingEngineSelenium";
+
+    /**
+     * Key of Selenium testing engine.
+     */
+    public final static String TESTING_ENGINE_WEBDRIVER = "TestingEngineWebDriver";
 
     private static Hashtable<String,Class<?>> testingEngineMap = new Hashtable<String,Class<?>>();
 
@@ -57,6 +62,13 @@ public class TestingEngineRegistry {
             addTestingEngine(TESTING_ENGINE_SELENIUM, cp);
         } catch (ClassNotFoundException e) {
             // Selenium Testing Engine is not present in the classpath. Nothing to do.
+        }
+        cp = "net.sourceforge.jwebunit.webdriver.WebDriverTestingEngineImpl";
+        // Try to load WebDriver Testing Engine to check if it is present.
+        try {
+            addTestingEngine(TESTING_ENGINE_WEBDRIVER, cp);
+        } catch (ClassNotFoundException e) {
+            // WebDriver Testing Engine is not present in the classpath. Nothing to do.
         }
     }
 

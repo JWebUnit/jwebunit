@@ -26,6 +26,7 @@
         <module>jwebunit-commons-tests</module>
         <module>jwebunit-htmlunit-plugin</module>
         <module>jwebunit-selenium-plugin</module>
+        <module>jwebunit-webdriver-plugin</module>
     </modules>
     <mailingLists>
         <mailingList>
@@ -405,6 +406,11 @@
                 <groupId>org.seleniumhq.selenium.client-drivers</groupId>
                 <artifactId>selenium-java-client-driver</artifactId>
                 <version>1.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-htmlunit-driver</artifactId>
+                <version>2.0a5</version>
             </dependency>
             <dependency>
                 <groupId>regexp</groupId>

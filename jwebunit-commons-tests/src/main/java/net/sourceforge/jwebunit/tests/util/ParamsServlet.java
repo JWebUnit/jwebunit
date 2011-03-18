@@ -95,7 +95,7 @@ public class ParamsServlet extends HttpServlet {
                 	out.write("<br/>\n");
                 }
             }
-            out.write(" </p>\n");
+            out.write("</p>\n");
             out.write(HtmlHelper.getLinkParagraph("return", ref));
         } else {
             java.util.Enumeration params = request.getParameterNames();
@@ -114,7 +114,7 @@ public class ParamsServlet extends HttpServlet {
                 	out.write("<br/>\n");
                 }
             }
-            out.write(" </p>\n");
+            out.write("</p>\n");
             String ref = request.getHeader("Referer");
             if (ref == null) {
                 if (request.getParameterValues("myReferer") != null) {
