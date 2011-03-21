@@ -18,18 +18,23 @@
  */
 package net.sourceforge.jwebunit.webdriver;
 
+import org.apache.regexp.RE;
+import org.apache.regexp.RESyntaxException;
+
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-
+import net.sourceforge.jwebunit.api.HttpHeader;
 import net.sourceforge.jwebunit.api.IElement;
 import net.sourceforge.jwebunit.api.ITestingEngine;
 import net.sourceforge.jwebunit.exception.ExpectedJavascriptAlertException;
@@ -43,12 +48,13 @@ import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
 import net.sourceforge.jwebunit.util.TestContext;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-
+import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,6 +82,10 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     public void beginAt(URL aInitialURL, TestContext aTestContext) throws TestingEngineResponseException {
         this.setTestContext(aTestContext);
         driver = new HtmlUnitDriver(BrowserVersion.FIREFOX_3);
+        ((HtmlUnitDriver) driver).setJavascriptEnabled(true);
+        
+        //Reset form
+        formIdent = null;
 
         gotoPage(aInitialURL);
     }
@@ -85,10 +95,12 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public void closeBrowser() throws ExpectedJavascriptAlertException, ExpectedJavascriptConfirmException, ExpectedJavascriptPromptException {
+        formIdent = null;
         driver.close();
     }
 
     public void gotoPage(URL url) throws TestingEngineResponseException {
+        formIdent = null;
         driver.get(url.toString());
     }
 
@@ -167,11 +179,11 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public void gotoWindow(int windowID) {
-        driver.switchTo().window("" + windowID);
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void gotoRootWindow() {
-        driver.switchTo().window("top");
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public int getWindowCount() {
@@ -179,6 +191,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public void closeWindow() {
+        formIdent = null;
         driver.close();
     }
 
@@ -262,139 +275,222 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public String getTextFieldValue(String paramName) {
-        WebElement e = getWebElementByXPath("/input[@type='text' and @name='" + paramName + "']", false);
+        WebElement e = getWebElementByXPath("//input[@type='text' and @name='" + paramName + "']", false);
         return e.getValue();
     }
 
     public String getHiddenFieldValue(String paramName) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        WebElement e = getWebElementByXPath("//input[@type='hidden' and @name='" + paramName + "']", false);
+        return e.getValue();
     }
 
     public void setTextField(String inputName, String text) {
-        WebElement e = getWebElementByXPath("/input[@type='text' and @name='" + inputName + "']", false);
+        WebElement e = getWebElementByXPath("//input[@type='text' and @name='" + inputName + "']", false);
         if (e == null) {
-            e = getWebElementByXPath("/textarea[@name='" + inputName + "']", false);
+            e = getWebElementByXPath("//textarea[@name='" + inputName + "']", false);
         }
         if (e == null) {
-            e = getWebElementByXPath("/input[@type='file' and @name='" + inputName + "']", false);
+            e = getWebElementByXPath("//input[@type='file' and @name='" + inputName + "']", false);
         }
         e.clear();
         e.sendKeys(text);
     }
 
     public void setHiddenField(String inputName, String text) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        WebElement e = getWebElementByXPath("//input[@type='hidden' and @name='" + inputName + "']", false);
+        ((JavascriptExecutor)driver).executeScript("arguments[0].value=" + escapeQuotes(text), e); 
     }
 
     public String[] getSelectOptionValues(String selectName) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getSelectOptionValues(selectName, 0);
     }
 
     public String[] getSelectOptionValues(String selectName, int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true));
+        ArrayList<String> result = new ArrayList<String>();
+        for (WebElement opt : select.getOptions()) {
+            result.add(opt.getValue());
+        }
+        return result.toArray(new String[result.size()]);
     }
 
     public String[] getSelectedOptions(String selectName) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getSelectedOptions(selectName, 0);
+    }
+
+    private String[] getSelectedOptions(Select select) {
+        String[] result = new String[select.getAllSelectedOptions().size()];
+        int i = 0;
+        for (WebElement opt : select.getAllSelectedOptions()) {
+            result[i++] = opt.getValue();
+        }
+        return result;
     }
 
     public String[] getSelectedOptions(String selectName, int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true));
+        return getSelectedOptions(select);
+    }
+
+    private String getSelectOptionValueForLabel(Select select, String label) {
+        for (WebElement opt : select.getOptions()) {
+            if (opt.getText().equals(label)) {
+                return opt.getValue();
+            }
+        }
+        throw new RuntimeException("Unable to find option " + label);
+    }
+
+    private String getSelectOptionLabelForValue(Select select, String value) {
+        for (WebElement opt : select.getOptions()) {
+            if (opt.getValue().equals(value)) {
+                return opt.getText();
+            }
+        }
+        throw new RuntimeException("Unable to find option " + value);
     }
 
     public String getSelectOptionLabelForValue(String selectName, String optionValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "']", true));
+        return getSelectOptionLabelForValue(select, optionValue);
     }
 
     public String getSelectOptionLabelForValue(String selectName, int index, String optionValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true));
+        return getSelectOptionLabelForValue(select, optionValue);
     }
 
     public String getSelectOptionValueForLabel(String selectName, String optionLabel) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "']", true));
+        return getSelectOptionValueForLabel(select, optionLabel);
     }
 
     public String getSelectOptionValueForLabel(String selectName, int index, String optionLabel) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true));
+        return getSelectOptionValueForLabel(select, optionLabel);
     }
 
     public void selectOptions(String selectName, String[] optionValues) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        selectOptions(selectName, 0, optionValues);
     }
 
     public void selectOptions(String selectName, int index, String[] optionValues) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true));
+        if (!select.isMultiple() && optionValues.length > 1)
+            throw new RuntimeException("Multiselect not enabled");
+        for (String option : optionValues) {
+            boolean found = false;
+            for (WebElement opt : select.getOptions()) {
+                if (opt.getValue().equals(option)) {
+                    select.selectByValue(option);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                throw new RuntimeException("Option " + option
+                        + " not found");
+            }
+        }
     }
 
     public void unselectOptions(String selectName, String[] optionValues) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        unselectOptions(selectName, 0, optionValues);
     }
 
     public void unselectOptions(String selectName, int index, String[] optionValues) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true));
+        if (!select.isMultiple() && optionValues.length > 1)
+            throw new RuntimeException("Multiselect not enabled");
+        for (String option : optionValues) {
+            boolean found = false;
+            for (WebElement opt : select.getOptions()) {
+                if (opt.getValue().equals(option)) {
+                    select.deselectByValue(option);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                throw new RuntimeException("Option " + option
+                        + " not found");
+            }
+        }
     }
 
     public boolean hasSelectOption(String selectName, String optionLabel) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return hasSelectOption(selectName, 0, optionLabel);
     }
 
     public boolean hasSelectOptionValue(String selectName, String optionValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return hasSelectOptionValue(selectName, 0, optionValue);
     }
 
     public boolean hasSelectOption(String selectName, int index, String optionLabel) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true));
+        for (WebElement opt : select.getOptions()) {
+            if (opt.getText().equals(optionLabel)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean hasSelectOptionValue(String selectName, int index, String optionValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true));
+        for (WebElement opt : select.getOptions()) {
+            if (opt.getValue().equals(optionValue)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isCheckboxSelected(String checkBoxName) {
-        WebElement e = getWebElementByXPath("/input[@type='checkbox' and @name='" + checkBoxName + "']", true);
+        WebElement e = getWebElementByXPath("//input[@type='checkbox' and @name='" + checkBoxName + "']", true);
         return e.isSelected();
     }
 
     public boolean isCheckboxSelected(String checkBoxName, String checkBoxValue) {
-        WebElement e = getWebElementByXPath("/input[@type='checkbox' and @name='" + checkBoxName + "' and @value='" + checkBoxValue + "']", true);
+        WebElement e = getWebElementByXPath("//input[@type='checkbox' and @name='" + checkBoxName + "' and @value='" + checkBoxValue + "']", true);
         return e.isSelected();
     }
 
     public void checkCheckbox(String checkBoxName) {
-        WebElement e = getWebElementByXPath("/input[@type='checkbox' and @name='" + checkBoxName + "']", true);
+        WebElement e = getWebElementByXPath("//input[@type='checkbox' and @name='" + checkBoxName + "']", true);
         if (!e.isSelected()) {
             e.toggle();
         }
     }
 
     public void checkCheckbox(String checkBoxName, String checkBoxValue) {
-        WebElement e = getWebElementByXPath("/input[@type='checkbox' and @name='" + checkBoxName + "' and @value='" + checkBoxValue + "']", true);
+        WebElement e = getWebElementByXPath("//input[@type='checkbox' and @name='" + checkBoxName + "' and @value='" + checkBoxValue + "']", true);
         if (!e.isSelected()) {
             e.toggle();
         }
     }
 
     public void uncheckCheckbox(String checkBoxName) {
-        WebElement e = getWebElementByXPath("/input[@type='checkbox' and @name='" + checkBoxName + "']", true);
+        WebElement e = getWebElementByXPath("//input[@type='checkbox' and @name='" + checkBoxName + "']", true);
         if (e.isSelected()) {
             e.toggle();
         }
     }
 
     public void uncheckCheckbox(String checkBoxName, String value) {
-        WebElement e = getWebElementByXPath("/input[@type='checkbox' and @name='" + checkBoxName + "' and @value='" + value + "']", true);
+        WebElement e = getWebElementByXPath("//input[@type='checkbox' and @name='" + checkBoxName + "' and @value='" + value + "']", true);
         if (e.isSelected()) {
             e.toggle();
         }
     }
 
     public void clickRadioOption(String radioGroup, String radioOptionValue) {
-        WebElement e = getWebElementByXPath("/input[@type='radio' and @name='" + radioGroup + "' and @value='" + radioOptionValue + "']", false);
+        WebElement e = getWebElementByXPath("//input[@type='radio' and @name='" + radioGroup + "' and @value='" + radioOptionValue + "']", false);
         e.click();
     }
 
     public boolean hasRadioOption(String radioGroup, String radioOptionValue) {
-        WebElement e = getWebElementByXPath("/input[@type='radio' and @name='" + radioGroup + "' and @value='" + radioOptionValue + "']", false);
+        WebElement e = getWebElementByXPath("//input[@type='radio' and @name='" + radioGroup + "' and @value='" + radioOptionValue + "']", false);
         return e != null;
     }
 
@@ -409,63 +505,67 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public boolean hasSubmitButton() {
-        return (getWebElementByXPath("/input[@type='submit' or @type='image']", true) != null) || (getWebElementByXPath("/button[@type='submit']", false) != null);
+        return (getWebElementByXPath("//input[@type='submit' or @type='image']", true) != null) || (getWebElementByXPath("//button[@type='submit']", false) != null);
     }
 
     public boolean hasSubmitButton(String nameOrID) {
-        return (getWebElementByXPath("/input[(@type='submit' or @type='image') and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", true) != null)
-                || (getWebElementByXPath("/button[@type='submit' and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", true) != null);
+        return (getWebElementByXPath("//input[(@type='submit' or @type='image') and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", true) != null)
+                || (getWebElementByXPath("//button[@type='submit' and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", true) != null);
     }
 
     public boolean hasSubmitButton(String nameOrID, String value) {
-        return (getWebElementByXPath("/input[(@type='submit' or @type='image') and (@name='" + nameOrID + "' or @id='" + nameOrID + "') and @value='" + value + "']", true) != null)
-                || (getWebElementByXPath("/button[@type='submit' and (@name='" + nameOrID + "' or @id='" + nameOrID + "') and @value='" + value + "']", true) != null);
+        return (getWebElementByXPath("//input[(@type='submit' or @type='image') and (@name='" + nameOrID + "' or @id='" + nameOrID + "') and @value='" + value + "']", true) != null)
+                || (getWebElementByXPath("//button[@type='submit' and (@name='" + nameOrID + "' or @id='" + nameOrID + "') and @value='" + value + "']", true) != null);
     }
 
     public void submit() {
-        driver.findElement(By.xpath(formSelector())).submit();
+        WebElement e = getWebElementByXPath("//input[@type='submit' or @type='image']", true);
+        if (e == null) {
+            e = getWebElementByXPath("//button[@type='submit']", true);
+        }
+        e.submit();
     }
 
     public void submit(String nameOrID) {
-        WebElement e = getWebElementByXPath("/input[(@type='submit' or @type='image') and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", true);
+        WebElement e = getWebElementByXPath("//input[(@type='submit' or @type='image') and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", true);
         if (e == null) {
-            e = getWebElementByXPath("/button[@type='submit' and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", true);
+            e = getWebElementByXPath("//button[@type='submit' and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", true);
         }
         e.submit();
     }
 
     public void submit(String buttonName, String buttonValue) {
-        WebElement e = getWebElementByXPath("/input[(@type='submit' or @type='image') and (@name='" + buttonName + "' or @id='" + buttonName + "') and @value='" + buttonValue + "']", true);
+        WebElement e = getWebElementByXPath("//input[(@type='submit' or @type='image') and (@name='" + buttonName + "' or @id='" + buttonName + "') and @value='" + buttonValue + "']", true);
         if (e == null) {
-            e = getWebElementByXPath("/button[@type='submit' and (@name='" + buttonName + "' or @id='" + buttonName + "') and @value='" + buttonValue + "']", true);
+            e = getWebElementByXPath("//button[@type='submit' and (@name='" + buttonName + "' or @id='" + buttonName + "') and @value='" + buttonValue + "']", true);
         }
         e.submit();
     }
 
     public boolean hasResetButton() {
-        return getWebElementByXPath("/input[@type='reset']", false) != null;
+        return getWebElementByXPath("//input[@type='reset']", false) != null;
     }
 
     public boolean hasResetButton(String nameOrID) {
-        return getWebElementByXPath("/input[@type='reset' and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", true) != null;
+        return getWebElementByXPath("//input[@type='reset' and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", true) != null;
     }
 
     public void reset() {
-        getWebElementByXPath("/input[@type='reset']", true).click();;
+        getWebElementByXPath("//input[@type='reset']", true).click();;
     }
 
     private WebElement getButton(String nameOrID) {
-        WebElement e = getWebElementByXPath("/input[(@type='submit' or @type='image' or @type='reset' or @type='button') and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", false);
+        WebElement e = getWebElementByXPath("//input[(@type='submit' or @type='image' or @type='reset' or @type='button') and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", false);
         if (e == null) {
-            e = getWebElementByXPath("/button[@type='submit' and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", false);
+            e = getWebElementByXPath("//button[@type='submit' and (@name='" + nameOrID + "' or @id='" + nameOrID + "')]", false);
         }
         return e;
     }
 
     private WebElement getButtonWithText(String text) {
-        WebElement e = getWebElementByXPath("/input[(@type='submit' or @type='image' or @type='reset' or @type='button') and contains(.,'" + text + "')]", false);
+        WebElement e = getWebElementByXPath("//input[(@type='submit' or @type='reset' or @type='button') and contains(@value," + escapeQuotes(text) + ")]", false);
         if (e == null) {
-            e = getWebElementByXPath("/button[@type='submit' and contains(.,'" + text + "')]", false);
+            e = getWebElementByXPath("//button[contains(.," + escapeQuotes(text) + ")]", false);
         }
         return e;
     }
@@ -526,20 +626,56 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    private WebElement getLinkWithImage(String filename, int index) {
+        try {
+            return driver.findElement(By.xpath("(//a[img[contains(@src,"
+                + escapeQuotes(filename) + ")]])[" + (index + 1) + "]"));
+        } catch (NoSuchElementException e) {
+            return null;
+        }
+    }
+
+    private WebElement getLinkWithText(String linkText, int index) {
+        List<WebElement> lnks = driver.findElements(By.xpath("//a"));
+        int count = 0;
+        for (WebElement lnk : lnks) {
+            if ((lnk.getText().indexOf(linkText) >= 0) && (count++ == index)) {
+                return lnk;
+            }
+        }
+        return null;
+    }
+
+    private WebElement getLinkWithExactText(String linkText, int index) {
+        List<WebElement> lnks = driver.findElements(By.xpath("//a"));
+        int count = 0;
+        for (WebElement lnk : lnks) {
+            if (lnk.getText().equals(linkText) && (count++ == index)) {
+                return lnk;
+            }
+        }
+        return null;
+    }
+
     public boolean hasLinkWithText(String linkText, int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getLinkWithText(linkText, index) != null;
     }
 
     public boolean hasLinkWithExactText(String linkText, int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getLinkWithExactText(linkText, index) != null;
     }
 
     public boolean hasLinkWithImage(String imageFileName, int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getLinkWithImage(imageFileName, index) != null;
     }
 
     public boolean hasLink(String anId) {
-        return driver.findElement(By.xpath("//a[@id='" + anId + "']")) != null;
+        try {
+            driver.findElement(By.xpath("//a[@id='" + anId + "']"));
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     public void clickLinkWithText(String linkText, int index) {
@@ -559,7 +695,12 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public boolean hasElement(String anID) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            driver.findElement(By.id(anID));
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     public boolean hasElementByXPath(String xpath) {
@@ -572,26 +713,53 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public void clickElementByXPath(String xpath) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        driver.findElement(By.xpath(xpath)).click();
     }
 
     public String getElementAttributByXPath(String xpath, String attribut) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return driver.findElement(By.xpath(xpath)).getAttribute(attribut);
     }
 
     public String getElementTextByXPath(String xpath) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return driver.findElement(By.xpath(xpath)).getText();
     }
 
     public boolean isTextInElement(String elementID, String text) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return isTextInElement(driver.findElement(By.id(elementID)), text);
     }
 
+    /**
+     * Return true if a given string is contained within the specified element.
+     * 
+     * @param element element to inspect.
+     * @param text text to check for.
+     */
+    private boolean isTextInElement(WebElement element, String text) {
+        return element.getText().indexOf(text) >= 0;
+    }
+    
     public boolean isMatchInElement(String elementID, String regexp) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return isMatchInElement(driver.findElement(By.id(elementID)), regexp);
     }
 
-    public void setExpectedJavaScriptAlert(JavascriptAlert[] alerts) throws ExpectedJavascriptAlertException {
+    /**
+     * Return true if a given regexp is contained within the specified element.
+     * 
+     * @param element element to inspect.
+     * @param regexp regexp to match.
+     */
+    private boolean isMatchInElement(WebElement element, String regexp) {
+        RE re = getRE(regexp);
+        return re.match(element.getText());
+    }
+
+    private RE getRE(String regexp) {
+        try {
+            return new RE(regexp, RE.MATCH_SINGLELINE);
+        } catch (RESyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }    public void setExpectedJavaScriptAlert(JavascriptAlert[] alerts) throws ExpectedJavascriptAlertException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -638,4 +806,41 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     public void setTimeout(int milliseconds) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public List<HttpHeader> getResponseHeaders() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    /**
+     * Copied from {@link Select}
+     * @param toEscape
+     * @return
+     */
+    protected String escapeQuotes(String toEscape) {
+        // Convert strings with both quotes and ticks into: foo'"bar -> concat("foo'", '"', "bar")
+        if (toEscape.indexOf("\"") > -1 && toEscape.indexOf("'") > -1) {
+          boolean quoteIsLast = false;
+          if (toEscape.indexOf("\"") == toEscape.length() -1) {
+            quoteIsLast = true;
+          }
+          String[] substrings = toEscape.split("\"");
+
+          StringBuilder quoted = new StringBuilder("concat(");
+          for (int i = 0; i < substrings.length; i++) {
+            quoted.append("\"").append(substrings[i]).append("\"");
+            quoted.append(((i == substrings.length -1) ? (quoteIsLast ? ", '\"')" : ")") : ", '\"', "));
+          }
+          return quoted.toString();
+        }
+
+        // Escape string with just a quote into being single quoted: f"oo -> 'f"oo'
+        if (toEscape.indexOf("\"") > -1) {
+          return String.format("'%s'", toEscape);
+        }
+
+        // Otherwise return the quoted string
+        return String.format("\"%s\"", toEscape);
+      }
+
 }

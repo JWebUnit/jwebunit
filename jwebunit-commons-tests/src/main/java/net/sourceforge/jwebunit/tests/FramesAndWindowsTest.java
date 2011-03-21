@@ -55,7 +55,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
     @Test public void testGotoWindow() {
         gotoRootAndOpenChild("ChildPage1");
         gotoWindow("ChildPage1");
-        assertTextPresent("child 1");
+        assertTextPresent("Child Page 1");
     }
     
     @Test public void testGotoWindowByID() {
@@ -87,7 +87,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertTitleEquals("This is the Root");
         clickLink("ChildPage1");
         gotoWindow("ChildPage1");
-        assertTextPresent("child 1");
+        assertTextPresent("Child Page 1");
         closeWindow();
         assertWindowCountEquals(1);
         assertTitleEquals("This is the Root");
@@ -161,7 +161,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertFormPresent();
         setTextField("color", "red");
         submit("submit");
-        assertTextPresent("color=red" + System.getProperty("line.separator"));
+        assertTextPresent("color=red\n");
     }
 
     @Test public void testFormInputInInlineFrame() {
@@ -170,7 +170,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertFormPresent();
         setTextField("color", "red");
         submit("submit");
-        assertTextPresent("color=red" + System.getProperty("line.separator"));
+        assertTextPresent("color=red\n");
     }
 
     //TODO this just posts to a new frameset inside the frame, is the test needed?

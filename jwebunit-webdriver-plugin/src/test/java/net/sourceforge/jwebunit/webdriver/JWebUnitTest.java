@@ -19,58 +19,70 @@
 
 package net.sourceforge.jwebunit.webdriver;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import net.sourceforge.jwebunit.tests.ButtonAssertionsTest;
+import net.sourceforge.jwebunit.tests.CharsetTest;
+import net.sourceforge.jwebunit.tests.CustomTesterTest;
+import net.sourceforge.jwebunit.tests.ExpectedTableAssertionsHtmlTest;
+import net.sourceforge.jwebunit.tests.ExpectedTableAssertionsXHtmlTest;
+import net.sourceforge.jwebunit.tests.FormAssertionsTest;
+import net.sourceforge.jwebunit.tests.FormSubmissionTest;
+import net.sourceforge.jwebunit.tests.FramesAndWindowsTest;
+import net.sourceforge.jwebunit.tests.HelloWorldTest;
+import net.sourceforge.jwebunit.tests.HtmlParsingTest;
+import net.sourceforge.jwebunit.tests.IElementTest;
+import net.sourceforge.jwebunit.tests.ImageTest;
+import net.sourceforge.jwebunit.tests.JUnitPerfTest;
+import net.sourceforge.jwebunit.tests.JavaScriptEventsTest;
+import net.sourceforge.jwebunit.tests.JavaScriptTest;
+import net.sourceforge.jwebunit.tests.NavigationTest;
+import net.sourceforge.jwebunit.tests.NonHtmlContentTest;
+import net.sourceforge.jwebunit.tests.RedirectionTest;
+import net.sourceforge.jwebunit.tests.ResourceBundleAssertionsTest;
+import net.sourceforge.jwebunit.tests.ResponseServletTest;
+import net.sourceforge.jwebunit.tests.SelectOptionsTest;
+import net.sourceforge.jwebunit.tests.TableAssertionsTest;
+import net.sourceforge.jwebunit.tests.TestContextTest;
+import net.sourceforge.jwebunit.tests.WebAssertionsTest;
+import net.sourceforge.jwebunit.tests.WebCookieTest;
+import net.sourceforge.jwebunit.tests.XPathTest;
 import net.sourceforge.jwebunit.tests.util.JettySetup;
-import net.sourceforge.jwebunit.tests.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 /**
  * Test Suite for JWebUnit.
  * 
  * @author Julien Henry
  */
-public class JWebUnitTest extends TestCase {
-
-    /**
-     * Runs all the tests for JWebUnit. Add each new TestCase by using the <code>addTestSuite(Class)</code> method, so
-     * that the TestCase's <code>suite</code> method <strong>isn't called </strong>. This prevents
-     * <code>JettySetup</code> from starting the Jetty server twice and consequently the error 'port 80xx is already
-     * in use'.
-     * 
-     * @return the <code>TestSuite</code> containing all the tests for JWebUnit ready to run utilizing Jetty as
-     *         testserver.
-     */
-    public static Test suite() {
-        TestSuite suite = new TestSuite("Test for net.sourceforge.jwebunit");
-        // $JUnit-BEGIN$
-        suite.addTestSuite(FormSubmissionTest.class);
-        suite.addTestSuite(WebAssertionsTest.class);
-        suite.addTestSuite(FramesAndWindowsTest.class);
-        suite.addTestSuite(TableAssertionsTest.class);
-        suite.addTestSuite(ExpectedTableAssertionsHtmlTest.class);
-        suite.addTestSuite(ExpectedTableAssertionsXHtmlTest.class);
-        suite.addTestSuite(JavaScriptEventsTest.class);
-        suite.addTestSuite(JavaScriptTest.class);
-        suite.addTestSuite(HelloWorldTest.class);
-        suite.addTestSuite(HtmlParsingTest.class);
-        suite.addTestSuite(WebCookieTest.class);
-        suite.addTestSuite(TestContextTest.class);
-        suite.addTestSuite(FormAssertionsTest.class);
-        suite.addTestSuite(NavigationTest.class);
-        suite.addTestSuite(XPathTest.class);
-        suite.addTestSuite(CharsetTest.class);
-        suite.addTestSuite(ButtonAssertionsTest.class);
-        suite.addTestSuite(NonHtmlContentTest.class);
-        suite.addTestSuite(RedirectionTest.class);
-        suite.addTestSuite(ImageTest.class);
-        suite.addTestSuite(ResourceBundleAssertionsTest.class);
-        suite.addTestSuite(IElementTest.class);
-        suite.addTestSuite(ResponseServletTest.class);
-        suite.addTestSuite(CustomTesterTest.class);
-        //suite.addTest(JUnitPerfTest.suite());
-        // $JUnit-END$
-        return new JettySetup(suite);
-    }
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+    FormSubmissionTest.class,
+    WebAssertionsTest.class,
+    FramesAndWindowsTest.class,
+    TableAssertionsTest.class,
+    ExpectedTableAssertionsHtmlTest.class,
+    ExpectedTableAssertionsXHtmlTest.class,
+    JavaScriptEventsTest.class,
+    JavaScriptTest.class,
+    HelloWorldTest.class,
+    HtmlParsingTest.class,
+    WebCookieTest.class,
+    TestContextTest.class,
+    FormAssertionsTest.class,
+    NavigationTest.class,
+    XPathTest.class,
+    CharsetTest.class,
+    ButtonAssertionsTest.class,
+    NonHtmlContentTest.class,
+    RedirectionTest.class,
+    ImageTest.class,
+    ResourceBundleAssertionsTest.class,
+    SelectOptionsTest.class,
+    IElementTest.class,
+    ResponseServletTest.class,
+    CustomTesterTest.class,
+    JUnitPerfTest.class
+})
+public class JWebUnitTest extends JettySetup {
 
 }

@@ -713,7 +713,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     public String getPageText() {
         Page page = win.getEnclosedPage();
         if (page instanceof HtmlPage) {
-            return ((HtmlPage) page).asText();
+            return ((HtmlPage) page).getBody().asText();
         }
         if (page instanceof TextPage) {
             return ((TextPage) page).getContent();
@@ -1365,7 +1365,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * @return <code>true</code> when the button with text could be found.
      */
     public boolean hasButtonWithText(String text) {
-        return getButtonWithText(text) != null ? true : false;
+        return getButtonWithText(text) != null;
     }
 
     /**
