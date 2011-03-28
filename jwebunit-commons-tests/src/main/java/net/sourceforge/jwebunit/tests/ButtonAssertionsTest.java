@@ -21,6 +21,8 @@ package net.sourceforge.jwebunit.tests;
 
 import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 
+import net.sourceforge.jwebunit.junit.WebTester;
+
 import org.junit.Test;
 
 public class ButtonAssertionsTest extends JWebUnitAPITestCase {
@@ -84,6 +86,17 @@ public class ButtonAssertionsTest extends JWebUnitAPITestCase {
         assertButtonPresentWithText("Testbutton");
         assertButtonPresentWithText("Testbutton2");
         assertButtonPresentWithText("Outside");
+    }
+    
+    /**
+     * As per the semantics of {@link WebTester#assertButtonPresentWithText(String)}, 
+     * buttons that are not currently displayed are still "present".
+     */
+    @Test
+    public void testHiddenButtonsAreStillFound() {
+    	beginAt("/pageWithOneForm.html");
+    	assertButtonPresentWithText("Hidden Input");
+    	assertButtonPresentWithText("Hidden Button");
     }
 
 }

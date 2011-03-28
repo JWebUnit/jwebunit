@@ -1359,7 +1359,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * Checks whether a button containing the specified text as its label exists.
      * For HTML input tags of type submit, reset, or button, this checks the
      * value attribute.  For HTML button tags, this checks the element's
-     * content by converting it to text.  
+     * content by retrieving the text content.
+     * 
+     * <p>This method does not check whether the button is currently visible to the
+     * client. 
+     * 
      * @param text the text of the button (between &lt;button&gt;&lt;/button&gt;)
      * or the value of the "value" attribute.
      * @return <code>true</code> when the button with text could be found.
@@ -1372,19 +1376,29 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * Returns the first button that contains the specified text as its label.
      * For HTML input tags of type submit, reset, or button, this checks the
      * value attribute.  For HTML button tags, this checks the element's
-     * content by converting it to text.  
+     * content by retrieving the text content.
+     * 
+     * <p>This method does not check whether the button is currently visible to the
+     * client. 
+     * 
      * @param buttonValueText the text of the button (between &lt;button&gt;&lt;/button&gt;)
      * or the value of the "value" attribute.
      * @return the ClickableElement with the specified text or null if 
      * no such button is found. 
      */
     public HtmlElement getButtonWithText(String buttonValueText) {
+    	if (buttonValueText == null)
+    		throw new NullPointerException("Cannot search for button with null text");
+    	
         List<? extends HtmlElement> l = ((HtmlPage) win.getEnclosedPage()).getDocumentElement()
                 .getHtmlElementsByTagNames(
                         Arrays.asList(new String[] { "button", "input" }));
         for (HtmlElement e : l) {
             if ( e instanceof HtmlButton ) {
-                if (((HtmlButton) e).asText().equals(buttonValueText)) {
+            	// we cannot use asText(), as this returns an empty string if the
+            	// button is not currently displayed, resulting in different
+            	// behaviour as the <input> Buttons
+                if (buttonValueText.equals(((HtmlButton) e).getTextContent())) {
                     return e;
                 }
             }
