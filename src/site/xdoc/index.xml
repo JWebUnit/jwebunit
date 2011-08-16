@@ -72,21 +72,21 @@ import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 
 public class ExampleWebTestCase {
 
-	@Before
+    @Before
     public void prepare() {
-		setBaseUrl("http://localhost:8080/test");
-	}
+        setBaseUrl("http://localhost:8080/test");
+    }
 
     @Test
-	public void testLogin() {
-		beginAt("/home");
-		clickLink("login");
-		assertTitleEquals("Login");
-		setTextField("username", "test");
-		setTextField("password", "test123");
-		submit();
-		assertTitleEquals("Welcome, test!");
-	}
+    public void testLogin() {
+        beginAt("/home");
+        clickLink("login");
+        assertTitleEquals("Login");
+        setTextField("username", "test");
+        setTextField("password", "test123");
+        submit();
+        assertTitleEquals("Welcome, test!");
+    }
 }
 		</source>
 		
