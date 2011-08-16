@@ -64,16 +64,22 @@
 	<p>
 		To use JWebUnit you only need to <a href="http://sourceforge.net/projects/jwebunit/files">download the latest release JARs</a> 
 		and include them into your project classpath. You may then test your web application 
-		by extending WebTestCase, and running these test cases with JUnit:
+		by importing JWebUnit static helpers, and running these test cases with JUnit:
 		
 		<source>
-public class ExampleWebTestCase extends WebTestCase {
-	public void setUp() {
-		super.setUp();
+import org.junit.*;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+
+public class ExampleWebTestCase {
+
+	@Before
+    public void prepare() {
 		setBaseUrl("http://localhost:8080/test");
 	}
 
-	public void test1() {
+    @Test
+	public void testLogin() {
 		beginAt("/home");
 		clickLink("login");
 		assertTitleEquals("Login");
