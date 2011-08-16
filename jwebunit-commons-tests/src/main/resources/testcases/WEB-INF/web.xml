@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
 
-    Copyright (c) 2010, JWebUnit team.
+    Copyright (c) 2011, JWebUnit team.
 
     This file is part of JWebUnit.
 
@@ -19,7 +19,6 @@
     along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
-
 <!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>

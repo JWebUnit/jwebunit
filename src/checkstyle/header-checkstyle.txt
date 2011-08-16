@@ -1,5 +1,5 @@
 ====
-    Copyright (c) 2010, JWebUnit team.
+    Copyright (c) 2011, JWebUnit team.
 
     This file is part of JWebUnit.
 
