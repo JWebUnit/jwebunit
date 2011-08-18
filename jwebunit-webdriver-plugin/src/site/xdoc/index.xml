@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright (c) 2010, JWebUnit team.
+
+    This file is part of JWebUnit.
+
+    JWebUnit is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JWebUnit is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<document>
+    <properties>
+        <author email="henryju.at.users.sourceforge.net">Julien HENRY</author>
+        <title>JWebUnit</title>
+    </properties>
+    <meta name="keyword" content="jwebunit, java, junit, htmlunit, jacobie, httpunit, integration, test, automated, html, webtest, selenium"/>
+	<head>
+		<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+	</head>
+<body>
+<section name="Selenium plugin">
+    <p>
+        The Selenium plugin allow to run your test in a real browser. The main advantage is the JavaScript support is perfectly identical to
+        your target browser (of course). The main drawbacks are it is slooooooow and can't run on a headless server.
+    </p>
+    <p>
+        This plugin is still in development. In fact not all test cases works. Feel free to <a href="../how-to-contribute.html">contribute</a>
+    </p>
+</section>
+<section name="HowTo manage dependencies with Maven 2">
+	<p>
+		Just add the following dependency to your pom:
+		<source><pre>
+...
+&lt;dependencies&gt;
+    ...
+    &lt;dependency&gt;
+        &lt;groupId&gt;net.sourceforge.jwebunit&lt;/groupId&gt;
+        &lt;artifactId&gt;jwebunit-selenium-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.0&lt;/version&gt;
+    &lt;/dependency&gt;
+    ...
+&lt;/dependencies&gt;
+...
+		</pre></source>
+	</p>
+</section>
+</body>    
+</document>
