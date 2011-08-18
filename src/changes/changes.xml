@@ -30,7 +30,7 @@
         </author>
     </properties>
     <body>
-        <release version="3.0" date="UNKNOW" description="Updated all internals to JUnit 4. HtmlUnit 2.9.">
+        <release version="3.0" date="August 18, 2011" description="Updated all internals to JUnit 4. HtmlUnit 2.9.">
             <action type="update" dev="henryju">
                 Updated to HtmlUnit 2.9.
             </action>
