@@ -45,7 +45,12 @@
                     <source><![CDATA[                    
     <server>
       <id>jwebunit-website</id>
-      <username>henryju,jwebunit</username>
+      <username>henryju</username>
+      <password>XXXXXXXX</password>
+    </server>
+    <server>
+      <id>jwebunit.svn.sourceforge.net</id>
+      <username>henryju</username>
       <password>XXXXXXXX</password>
     </server>
     
@@ -55,7 +60,7 @@
       <password>YYYYYYYYYY</password>
     </server>
 ]]></source>
-                    Don't forget to put your own sourceforge account and password for jwebunit-website. Concerning sonatype-nexus you need
+                    Don't forget to put your own sourceforge account and password for jwebunit-website and svn. Concerning sonatype-nexus you need
                     the username and password from http://oss.sonatype.org/ (see <a href="https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide">OSS Repository Hosting</a>)
                     for instructions on how to set up your configuration like GPG signature.
                     Reminder: in order to have access granted to a new JWebUnit developper, ask on <a href="https://issues.sonatype.org/browse/OSSRH-384">OSSRH-384</a>.
@@ -75,55 +80,43 @@
                 </p>
             </subsection>
             <subsection name="Perform the release (deploy artifacts and site)">
-                <p>
-                	First you need to activate a time-limited shell in Sourceforge to allow upload by SCP.
-                	On Linux you can use:
-                	<source>ssh henryju,jwebunit@shell.sourceforge.net create</source>
-                	On Windows you can use:
-                	<source>plink henryju,jwebunit@shell.sourceforge.net create</source>
-                </p>
                	<p>
-                    Now the process is done by maven-release-plugin.
+                    The process is done by maven-release-plugin.
                     <source>mvn release:perform -Darguments="-Dgpg.passphrase=XXXXXXXXXX"</source>
                 </p>
                 <p>
                     This will automatically checkout the tag from SVN in target/checkout folder then run <tt>mvn deploy site-deploy</tt>.
-                    Artifacts will be uploaded in http://jwebunit.sourceforge.net/m2-repo (this repository is synchronized to Maven central repo).
+                    Artifacts will be staged in http://oss.sonatype.org.
                     Site will also be uploaded.
                 </p>
                 <p>
-                	Now close your Sourceforge shell:
-                	<source>ssh henryju,jwebunit@shell.sourceforge.net shutdown</source> (Linux)
-                	<source>plink henryju,jwebunit@shell.sourceforge.net shutdown</source> (Windows)
+                  Now connect to http://oss.sonatype.org and go to <i>Staging Repositories</i> section. There you can close and release the repository.
+                  If everything is fine the artifacts will be synced to Maven central.
                 </p>
             </subsection>
             <subsection name="Dealing with non-maven bundle">
                 <p>
-                	We have to provide a bundle for non Maven users.
+                  We also provide a bundle for non Maven users.
                     <source>
 cd target
 cd checkout
 mvn package assembly:assembly
                     </source>
-                    This will create a release bundle in target/checkout/target/jwebunit-XX-release.zip. Move this zip to another directory then run:
-                    <source>mvn clean</source>
-                    Now remove every .svn folders in target/checkout:
-                    <tt>find . -name .svn -exec rm -rf '{}' \;</tt> (works for Linux, on Windows I use the graphical search feature)
-                    And finally create a zip of the whole target/checkout folder content with name <tt>jwebunit-XX-sources.zip</tt>
+                    This will create a release bundle in [target/checkout/]target/jwebunit-XX-release.zip and a source bundle in [target/checkout/]target/jwebunit-XX-source-release.zip. 
                 </p>
                 <p>
-                	Open your browser at <a href="https://sourceforge.net/projects/jwebunit/">JWebUnir admin page</a>.<br/>
+                	Open your browser at <a href="https://sourceforge.net/projects/jwebunit/">JWebUnit admin page</a>.<br/>
                 	Use your Sourceforge account to log in.<br/>
-                	In the menu select Project Admin -> File Manager (beta).<br/>
+                	In the menu select "Files".<br/>
                 	Click on JWebUnit folder.<br/>
                 	Click on the [Add Folder] button.<br/>
-                	Type the name of the new release: JWebUnit-XX<br/>
+                	Type the name of the new release: JWebUnit XX<br/>
                 	Select the folder you just have created<br/>
                 	Click on the [Add File] button.<br/>
                 	Browse and select for upload:
                 	<ul>
                 		<li>jwebunit-XX-release.zip</li>
-                		<li>jwebunit-XX-sources.zip</li>
+                		<li>jwebunit-XX-source-release.zip</li>
                 		<li>README.txt</li>
                 	</ul>
                 	Click on the [Upload] button.<br/>

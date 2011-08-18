@@ -248,12 +248,21 @@
                     <version>2.2.1</version>
                     <configuration>
                         <attach>false</attach>
+                        <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
                         <descriptors>
-                            <descriptor>
-                                src/assemble/release.xml
-	                        </descriptor>
+                            <descriptor>src/assemble/release.xml</descriptor>
                         </descriptors>
+                        <descriptorRefs>
+                            <descriptorRef>source-release</descriptorRef>
+                        </descriptorRefs>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.apache.resources</groupId>
+                            <artifactId>apache-source-release-assembly-descriptor</artifactId>
+                            <version>1.0.3</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -669,7 +678,7 @@
             <id>jwebunit-website</id>
             <name>JWebUnit WebSite - Sourceforge</name>
             <url>
-                scp://shell.sourceforge.net/home/groups/j/jw/jwebunit/htdocs
+                scp://web.sourceforge.net/home/project-web/jwebunit/htdocs
             </url>
         </site>
         <snapshotRepository>
