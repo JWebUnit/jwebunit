@@ -259,7 +259,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         } catch (FailingHttpStatusCodeException ex) {
         	// only throw exception if necessary
         	if (!ignoreFailingStatusCodes) {
-	            throw new TestingEngineResponseException(
+	            throw new TestingEngineResponseException(ex.getStatusCode(),
 	                    "unexpected status code ["+ex.getStatusCode()+"] at URL: ["+initialURL+"]", ex);
         	}
         } catch (IOException ex) {

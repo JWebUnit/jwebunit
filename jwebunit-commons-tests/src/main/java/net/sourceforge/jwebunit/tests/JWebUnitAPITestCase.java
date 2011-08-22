@@ -91,17 +91,19 @@ public abstract class JWebUnitAPITestCase {
         assertException(AssertionError.class, methodName, args);
     }
 
-    public void assertException(Class<?> exceptionClass, String methodName,
+    public <G extends Throwable> G assertException(Class<G> exceptionClass, String methodName,
             Object[] args) {
         StaticMethodInvoker invoker = new StaticMethodInvoker(JWebUnit.class, methodName, args);
         try {
             invoker.invoke();
             fail("Expected test failure did not occur for method: "
                     + methodName);
+            return null; //never called
         } catch (InvocationTargetException e) {
             assertTrue("Expected " + exceptionClass.getName() + "but was "
                     + e.getTargetException().getClass().getName(),
                     exceptionClass.isInstance(e.getTargetException()));
+            return (G) e.getTargetException();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

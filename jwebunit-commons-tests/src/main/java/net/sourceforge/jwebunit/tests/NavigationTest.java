@@ -76,12 +76,11 @@ public class NavigationTest extends JWebUnitAPITestCase {
 
 	@Test
 	public void testInvalidBeginAt() {
-
 		//the testing engines should throw an exception if a 404 Error is found.
-        assertException(TestingEngineResponseException.class, "beginAt", new Object[] {"/nosuchresource.html"});
-
+		TestingEngineResponseException e = assertException(TestingEngineResponseException.class, "beginAt", new Object[] {"/nosuchresource.html"});
+		assertEquals(404, e.getHttpStatusCode());
 	}
-
+	
 	@Test
 	public void testClickLinkWithText() {
 		beginAt("/pageWithLink.html");
@@ -170,13 +169,21 @@ public class NavigationTest extends JWebUnitAPITestCase {
 		gotoPage("/targetPage2.html");
 		assertTitleEquals("targetPage2");
 	}
-
+	
 	@Test
 	public void testGotoPageAbsolute() {
 		beginAt("/targetPage.html");
 		assertTitleEquals("targetPage");
                 gotoPage(HOST_PATH + "/NavigationTest/targetPage2.html");
 		assertTitleEquals("targetPage2");
+	}
+
+	@Test
+	public void testInvalidGotoPage() {
+		beginAt("/targetPage.html");
+		//the testing engines should throw an exception if a 404 Error is found.
+		TestingEngineResponseException e = assertException(TestingEngineResponseException.class, "gotoPage", new Object[] {"/nosuchresource.html"});
+		assertEquals(404, e.getHttpStatusCode());
 	}
 
 	//For bug 726143
