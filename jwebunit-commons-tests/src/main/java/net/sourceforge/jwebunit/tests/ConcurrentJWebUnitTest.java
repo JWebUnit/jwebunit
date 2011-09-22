@@ -25,8 +25,14 @@ import static net.sourceforge.jwebunit.junit.JWebUnit.clickLinkWithText;
 import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import net.sourceforge.jwebunit.tests.util.Concurrent;
-import net.sourceforge.jwebunit.tests.util.ConcurrentRule;
+
+import com.google.code.tempusfugit.concurrency.annotations.Repeating;
+
+import com.google.code.tempusfugit.concurrency.annotations.Concurrent;
+
+import com.google.code.tempusfugit.concurrency.ConcurrentRule;
+
+import com.google.code.tempusfugit.concurrency.RepeatingRule;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,25 +40,25 @@ import org.junit.rules.Timeout;
 
 
 /**
- * Test junit perf integration.
+ * Test parallel execution of JWebUnit.
  * 
  * @author Julien Henry
  */
-public class JUnitPerfTest extends JWebUnitAPITestCase {
+public class ConcurrentJWebUnitTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
         super.setUp();
         setBaseUrl(HOST_PATH + "/NavigationTest");
     }
 
-    @Rule
-    public Timeout timeoutRule = new Timeout(1000);
+    @Rule public Timeout timeoutRule = new Timeout(2000);
 
-    @Rule
-    public ConcurrentRule concurrentRule = new ConcurrentRule();
+    @Rule public ConcurrentRule concurrently = new ConcurrentRule();
+    @Rule public RepeatingRule repeatedly = new RepeatingRule();
 
     @Test
-    @Concurrent(5)
+    @Concurrent(count = 5)
+    @Repeating (repetition = 10)
     public void testClickLinkWithTextN() {
         beginAt("/pageWithLink.html");
         assertTitleEquals("pageWithLink");
