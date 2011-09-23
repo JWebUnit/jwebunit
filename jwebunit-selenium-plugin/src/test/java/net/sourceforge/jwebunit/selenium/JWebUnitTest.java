@@ -59,7 +59,7 @@ import net.sourceforge.jwebunit.tests.*;
     IElementTest.class,
     ResponseServletTest.class,
     CustomTesterTest.class,
-    JUnitPerfTest.class
+    ConcurrentJWebUnitTest.class
 })
 public class JWebUnitTest extends JettySetup {
 

@@ -31,7 +31,7 @@ import net.sourceforge.jwebunit.tests.HelloWorldTest;
 import net.sourceforge.jwebunit.tests.HtmlParsingTest;
 import net.sourceforge.jwebunit.tests.IElementTest;
 import net.sourceforge.jwebunit.tests.ImageTest;
-import net.sourceforge.jwebunit.tests.JUnitPerfTest;
+import net.sourceforge.jwebunit.tests.ConcurrentJWebUnitTest;
 import net.sourceforge.jwebunit.tests.JavaScriptEventsTest;
 import net.sourceforge.jwebunit.tests.JavaScriptTest;
 import net.sourceforge.jwebunit.tests.NavigationTest;
@@ -82,7 +82,7 @@ import org.junit.runners.Suite;
     IElementTest.class,
     ResponseServletTest.class,
     CustomTesterTest.class,
-    JUnitPerfTest.class
+    ConcurrentJWebUnitTest.class
 })
 public class JWebUnitTest extends JettySetup {
     
