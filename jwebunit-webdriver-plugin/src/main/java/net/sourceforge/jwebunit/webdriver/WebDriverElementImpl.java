@@ -44,14 +44,14 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
  * @author henryju
  * 
  */
-public class WebdriverElementImpl implements IElement {
+public class WebDriverElementImpl implements IElement {
 
     /**
      * The wrapped element.
      */
     private WebElement element;
 
-    public WebdriverElementImpl(WebElement element) {
+    public WebDriverElementImpl(WebElement element) {
         if (element == null)
             throw new NullPointerException("Cannot create an IElement for a null element.");
         this.element = element;
@@ -82,9 +82,9 @@ public class WebdriverElementImpl implements IElement {
      */
     public List<IElement> getChildren() {
         List<IElement> children = new ArrayList<IElement>();
-        for (WebElement e : element.findElements(By.xpath("/"))) {
+        for (WebElement e : element.findElements(By.xpath("child::*"))) {
             if (e != null)
-                children.add(new WebdriverElementImpl(e));
+                children.add(new WebDriverElementImpl(e));
         }
         return children;
     }
@@ -95,7 +95,7 @@ public class WebdriverElementImpl implements IElement {
      * @see net.sourceforge.jwebunit.api.IElement#getParent()
      */
     public IElement getParent() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new WebDriverElementImpl(element.findElement(By.xpath("//parent::*")));
     }
 
     /*
@@ -113,7 +113,7 @@ public class WebdriverElementImpl implements IElement {
      * @see net.sourceforge.jwebunit.api.IElement#getElement(java.lang.String)
      */
     public IElement getElement(String xpath) {
-        return new WebdriverElementImpl((WebElement) element.findElement(By.xpath(xpath)));
+        return new WebDriverElementImpl((WebElement) element.findElement(By.xpath(xpath)));
     }
 
     /*
@@ -124,7 +124,7 @@ public class WebdriverElementImpl implements IElement {
     public List<IElement> getElements(String xpath) {
         List<IElement> elements = new ArrayList<IElement>();
         for (WebElement o : element.findElements(By.xpath(xpath))) {
-            elements.add(new WebdriverElementImpl(o));
+            elements.add(new WebDriverElementImpl(o));
         }
         return elements;
     }
@@ -176,7 +176,7 @@ public class WebdriverElementImpl implements IElement {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final WebdriverElementImpl other = (WebdriverElementImpl) obj;
+        final WebDriverElementImpl other = (WebDriverElementImpl) obj;
         if (element == null) {
             if (other.element != null)
                 return false;

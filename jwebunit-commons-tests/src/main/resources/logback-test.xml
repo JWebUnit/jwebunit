@@ -40,6 +40,8 @@
   <logger name="org.eclipse.jetty" level="ERROR"/>
   
   <logger name="ch.qos.logback" level="ERROR"/>
+  
+  <logger name="org.browsermob.proxy" level="ERROR"/>
 
   <root level="DEBUG">
     <appender-ref ref="consoleAppender"/>

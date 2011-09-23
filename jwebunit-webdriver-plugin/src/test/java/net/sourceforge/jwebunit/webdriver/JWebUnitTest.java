@@ -19,6 +19,8 @@
 
 package net.sourceforge.jwebunit.webdriver;
 
+import org.junit.AfterClass;
+
 import net.sourceforge.jwebunit.tests.ButtonAssertionsTest;
 import net.sourceforge.jwebunit.tests.CharsetTest;
 import net.sourceforge.jwebunit.tests.CustomTesterTest;
@@ -31,7 +33,7 @@ import net.sourceforge.jwebunit.tests.HelloWorldTest;
 import net.sourceforge.jwebunit.tests.HtmlParsingTest;
 import net.sourceforge.jwebunit.tests.IElementTest;
 import net.sourceforge.jwebunit.tests.ImageTest;
-import net.sourceforge.jwebunit.tests.JUnitPerfTest;
+import net.sourceforge.jwebunit.tests.ConcurrentJWebUnitTest;
 import net.sourceforge.jwebunit.tests.JavaScriptEventsTest;
 import net.sourceforge.jwebunit.tests.JavaScriptTest;
 import net.sourceforge.jwebunit.tests.NavigationTest;
@@ -74,15 +76,20 @@ import org.junit.runners.Suite;
     CharsetTest.class,
     ButtonAssertionsTest.class,
     NonHtmlContentTest.class,
-    RedirectionTest.class,
+    //RedirectionTest.class,
     ImageTest.class,
     ResourceBundleAssertionsTest.class,
     SelectOptionsTest.class,
     IElementTest.class,
     ResponseServletTest.class,
     CustomTesterTest.class,
-    JUnitPerfTest.class
+    ConcurrentJWebUnitTest.class
 })
 public class JWebUnitTest extends JettySetup {
+    
+    @AfterClass
+    public static void tearDown() throws Exception {
+        shutdown();
+    }
 
 }
