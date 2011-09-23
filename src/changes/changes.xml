@@ -30,6 +30,14 @@
         </author>
     </properties>
     <body>
+        <release version="3.1" date="UNKNOW" description="Cleanup for Webdriver integration">
+            <action type="update" dev="henryju">
+                gotoRootWindow() now goes to the root "frame" in a multi-frame window. Previously it was only by chance.
+            </action>
+            <action type="update" dev="henryju">
+                Deprecated gotoWindow(windowID) method as implementation is not stable and window ID is not something well-defined.
+            </action>
+        </release>
         <release version="3.0.1" date="UNKNOW" description="Minor fixes">
             <action type="fix" dev="henryju" issue="3395872" due-to="Tim Pizey">
                 HtmlUnitTestingEngineImpl.gotoPage no longer returns the failing status. Broken since 2.5 after applying

@@ -130,18 +130,23 @@ public interface ITestingEngine {
      * Goto window with the given Javascript ID.
      * 
      * @param windowID Javascript ID of the window
+     * @deprecated Javascript ID does'nt not exists. Currently this is an index
+     * in the list of available windows, but this is not portable (and probably not stable).
+     * Use {@link #gotoWindow(String)} or {@link #gotoWindowByTitle(String)} instead.
      */
+    @Deprecated
     void gotoWindow(int windowID);
 
     /**
-     * Make the root window active.
+     * Make the root window active. Used to reset the effect of {@link ITestingEngine#gotoFrame(String)}.
+     * 
      */
     void gotoRootWindow();
 
     /**
-     * Get the number of openend Windows.
+     * Get the number of opened Windows.
      * 
-     * @return Number of openend Windows.
+     * @return Number of opened Windows.
      */
     int getWindowCount();
 

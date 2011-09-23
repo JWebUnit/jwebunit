@@ -57,12 +57,6 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertTextPresent("child 1");
     }
     
-    @Test public void testGotoWindowByID() {
-        gotoRootAndOpenChild("ChildPage3");
-        gotoWindow(1);
-        assertTextPresent("child 3");
-    }
-
     @Test public void testGotoWindowByTitle() {
         gotoRootAndOpenChild("ChildPage2");
         gotoWindowByTitle("Child Page 2");
@@ -72,13 +66,6 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
     @Test public void testAssertWindowWithTitle() throws Throwable {
         gotoRootAndOpenChild("ChildPage2");
         assertPassFail("assertWindowPresentWithTitle", new Object[]{"Child Page 2"}, new Object[]{"NoSuchTitle"});
-    }
-
-    @Test public void testSwitchWindows() {
-        gotoRootAndOpenChild("ChildPage1");
-        gotoWindow("ChildPage1");
-        gotoRootWindow();
-        assertTextPresent("This is the Root");
     }
 
     @Test public void testCloseWindow() {

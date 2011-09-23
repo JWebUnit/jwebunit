@@ -2192,10 +2192,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     /**
-     * Make the root window in the current conversation active.
+     * {@inheritDoc}
      */
     public void gotoRootWindow() {
-        setMainWindow((WebWindow) wc.getWebWindows().get(0));
+        win = win.getTopWindow();
     }
 
     private void setMainWindow(WebWindow win) {

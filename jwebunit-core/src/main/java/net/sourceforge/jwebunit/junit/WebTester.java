@@ -2984,14 +2984,18 @@ public class WebTester {
      * Make a given window active.
      *
      * @param windowID Javascript ID of the window
+     * @deprecated Javascript ID does'nt not exists. Currently this is an index
+     * in the list of available windows, but this is not portable (and probably not stable).
+     * Use {@link #gotoWindow(String)} or {@link #gotoWindowByTitle(String)} instead.
      */
+    @Deprecated
     public void gotoWindow(int windowID) {
         assertWindowPresent(windowID);
         getTestingEngine().gotoWindow(windowID);
     }
 
     /**
-     * Make the root window active.
+     * Make the root window active. Used to reset the effect of {@link ITestingEngine#gotoFrame(String)}.
      */
     public void gotoRootWindow() {
         getTestingEngine().gotoRootWindow();
