@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import net.sourceforge.jwebunit.exception.TestingEngineResponseException;
+
 import org.junit.Test;
 
 import static net.sourceforge.jwebunit.junit.JWebUnit.*;
@@ -262,11 +264,10 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
     public void testInvalidButton() {
         beginAt("/InvalidActionForm.html");
         try {
-            submit("button1");
-            fail("Should have failed because the target page does not exist");
-        } catch (RuntimeException e) {
-            // TODO Have a better way to know if 404 happened
-            assertTrue("Should return 404 error", true);
+        	submit("button1");
+        	fail("A TestingEngineResponseException was expected.");
+        } catch (TestingEngineResponseException e) {
+        	assertEquals(404, e.getHttpStatusCode());
         }
     }
 

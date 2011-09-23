@@ -23,6 +23,9 @@ import static net.sourceforge.jwebunit.junit.JWebUnit.assertTitleEquals;
 import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
 import static net.sourceforge.jwebunit.junit.JWebUnit.getTestContext;
 import static net.sourceforge.jwebunit.junit.JWebUnit.setCustomTester;
+
+import org.junit.Before;
+
 import net.sourceforge.jwebunit.junit.WebTester;
 
 import org.junit.After;
@@ -57,6 +60,7 @@ public class CustomTesterTest extends JWebUnitAPITestCase {
 		
 	}
 	
+	@Before
     public void setUp() throws Exception {
         setCustomTester(new MyWebTester());
         super.setUp();
