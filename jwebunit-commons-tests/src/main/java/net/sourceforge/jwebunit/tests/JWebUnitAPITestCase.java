@@ -18,6 +18,8 @@
  */
 package net.sourceforge.jwebunit.tests;
 
+import net.sourceforge.jwebunit.tests.util.JettySetup;
+
 import java.lang.reflect.InvocationTargetException;
 
 import org.junit.After;
@@ -35,7 +37,7 @@ import static org.junit.Assert.*;
  * 
  * @author Nicholas Neuberger
  */
-public abstract class JWebUnitAPITestCase {
+public abstract class JWebUnitAPITestCase extends JettySetup {
 
     protected static final Object[] NOARGS = new Object[0];
 

@@ -19,6 +19,8 @@
 
 package net.sourceforge.jwebunit.htmlunit;
 
+import org.junit.AfterClass;
+
 import net.sourceforge.jwebunit.tests.ButtonAssertionsTest;
 import net.sourceforge.jwebunit.tests.CharsetTest;
 import net.sourceforge.jwebunit.tests.CustomTesterTest;
@@ -85,5 +87,10 @@ import org.junit.runners.Suite;
     ConcurrentJWebUnitTest.class
 })
 public class JWebUnitTest extends JettySetup {
+   
+    @AfterClass
+    public static void tearDown() throws Exception {
+        shutdown();
+    }
     
 }

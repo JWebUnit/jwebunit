@@ -18,21 +18,20 @@
  */
 package net.sourceforge.jwebunit.htmlunit;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import net.sourceforge.jwebunit.tests.JWebUnitAPITestCase;
-import net.sourceforge.jwebunit.tests.util.JettySetup;
-import net.sourceforge.jwebunit.htmlunit.HtmlUnitTestingEngineImpl;
 import com.gargoylesoftware.htmlunit.ThreadedRefreshHandler;
 import com.gargoylesoftware.htmlunit.WaitingRefreshHandler;
+import net.sourceforge.jwebunit.tests.JWebUnitAPITestCase;
+import org.junit.Test;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.*;
-import static org.junit.Assert.*;
+import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
+import static net.sourceforge.jwebunit.junit.JWebUnit.getTestContext;
+import static net.sourceforge.jwebunit.junit.JWebUnit.getTestingEngine;
+import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
- * Unit test to validate JWEbUnit's HtmlUnit plugin will now allow for custom
+ * Unit test to validate JWebUnit's HtmlUnit plugin will now allow for custom
  * RefreshHandler to be passed in prior to initialization, as well as changed on
  * the fly.
  * 
@@ -40,16 +39,6 @@ import static org.junit.Assert.*;
  * @author Jason McSwain
  */
 public class RefreshHandlerTest extends JWebUnitAPITestCase {
-    
-    @BeforeClass
-    public static void startJetty() throws Exception {
-        JettySetup.setUp();
-    }
-    
-    @AfterClass
-    public static void stopJetty() throws Exception {
-        JettySetup.tearDown();
-    }
 
     @Test
 	public void testDefaultRefreshHandler() throws Exception {

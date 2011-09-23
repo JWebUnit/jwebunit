@@ -45,6 +45,8 @@ public class JettySetup {
 	 * The Jetty server we are going to use as test server.
 	 */
 	private static Server jettyServer = null;
+	
+	private static boolean started = false;
 
 
 	/**
@@ -54,62 +56,61 @@ public class JettySetup {
 	 * @see junit.extensions.TestSetup#setUp()
 	 */
 	@BeforeClass
-	public static void setUp() throws Exception {
-		try {
-			jettyServer = new Server();
-			SelectChannelConnector connector = new SelectChannelConnector();
-            connector.setPort(JWebUnitAPITestCase.JETTY_PORT);
-            connector.setAcceptors(5);
-			connector.setPort(JWebUnitAPITestCase.JETTY_PORT);
-			jettyServer.setConnectors(new Connector[] { connector });
-
-			WebAppContext wah = new WebAppContext();
-			
-			// Handle files encoded in UTF-8
-			MimeTypes mimeTypes = new MimeTypes();
-			mimeTypes.addMimeMapping("html_utf-8", "text/html; charset=UTF-8");
-            mimeTypes.addMimeMapping("txt", "text/plain");
-            mimeTypes.addMimeMapping("bin", "application/octet-stream");
-			wah.setMimeTypes(mimeTypes);
-			
-			
-			HandlerCollection handlers= new HandlerCollection();
-			handlers.setHandlers(new Handler[]{wah, new DefaultHandler()});
-
-			jettyServer.setHandler(wah);
-			HashLoginService myrealm = new HashLoginService("MyRealm");
-			URL config = JettySetup.class.getResource("/jetty-users.properties");
-			myrealm.setConfig(config.toString());
-			jettyServer.addBean(myrealm);
-			
-			wah.setContextPath(JWebUnitAPITestCase.JETTY_URL);
-
-			URL url = JettySetup.class.getResource("/testcases/");
-			wah.setWar(url.toString());
-			
-			jettyServer.start();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail("Could not start the Jetty server: " + e);
-		}
+	public static void startup() throws Exception {
+	    if (!started) {
+    		try {
+    			jettyServer = new Server();
+    			SelectChannelConnector connector = new SelectChannelConnector();
+                connector.setPort(JWebUnitAPITestCase.JETTY_PORT);
+                connector.setAcceptors(5);
+    			connector.setPort(JWebUnitAPITestCase.JETTY_PORT);
+    			jettyServer.setConnectors(new Connector[] { connector });
+    
+    			WebAppContext wah = new WebAppContext();
+    			
+    			// Handle files encoded in UTF-8
+    			MimeTypes mimeTypes = new MimeTypes();
+    			mimeTypes.addMimeMapping("html_utf-8", "text/html; charset=UTF-8");
+                mimeTypes.addMimeMapping("txt", "text/plain");
+                mimeTypes.addMimeMapping("bin", "application/octet-stream");
+    			wah.setMimeTypes(mimeTypes);
+    			
+    			
+    			HandlerCollection handlers= new HandlerCollection();
+    			handlers.setHandlers(new Handler[]{wah, new DefaultHandler()});
+    
+    			jettyServer.setHandler(wah);
+    			HashLoginService myrealm = new HashLoginService("MyRealm");
+    			URL config = JettySetup.class.getResource("/jetty-users.properties");
+    			myrealm.setConfig(config.toString());
+    			jettyServer.addBean(myrealm);
+    			
+    			wah.setContextPath(JWebUnitAPITestCase.JETTY_URL);
+    
+    			URL url = JettySetup.class.getResource("/testcases/");
+    			wah.setWar(url.toString());
+    			
+    			jettyServer.start();
+    			
+    			started = true;
+    
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    			fail("Could not start the Jetty server: " + e);
+    		}
+	    }
 	}
-
-	/**
-	 * Stops the Jetty server.
-	 * 
-	 * @see junit.extensions.TestSetup#tearDown()
-	 */
-	@AfterClass
-	public static void tearDown() throws Exception {
-		try {
-			jettyServer.stop();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			fail("Jetty server was interrupted: " + e);
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail("Could not stop the Jetty server: " + e);
-		}
-	}
+	
+	protected static void shutdown() throws Exception {
+        try {
+            jettyServer.stop();
+            started = false;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            fail("Jetty server was interrupted: " + e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Could not stop the Jetty server: " + e);
+        }
+    }
 }

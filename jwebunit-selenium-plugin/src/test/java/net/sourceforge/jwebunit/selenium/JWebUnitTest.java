@@ -18,6 +18,8 @@
  */
 package net.sourceforge.jwebunit.selenium;
 
+import org.junit.AfterClass;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -63,4 +65,8 @@ import net.sourceforge.jwebunit.tests.*;
 })
 public class JWebUnitTest extends JettySetup {
 
+    @AfterClass
+    public static void tearDown() throws Exception {
+        shutdown();
+    }
 }
