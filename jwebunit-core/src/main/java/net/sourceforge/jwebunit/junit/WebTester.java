@@ -2757,7 +2757,7 @@ public class WebTester {
     private IElement getLabel(String id) {
     	// get all labels
     	for (IElement e : getTestingEngine().getElementsByXPath("//label")) {
-    		if (e.getName().equals("label") && id.equals(e.getAttribute("id")))
+    		if (id.equals(e.getAttribute("id")))
     			return e;	// label found
     	}
     	return null;
@@ -2838,7 +2838,7 @@ public class WebTester {
      */
     private void assertLabeledFieldEquals(String identifier, IElement label, String fieldText) {
     	String value = getLabeledFieldValue(identifier, label);
-    	assertEquals("value of field for label [" + identifier + "] should be [" + fieldText + "]", fieldText, value == null ? "" : value);
+    	assertEquals("unexpected value of field for label [" + identifier + "]", fieldText, value == null ? "" : value);
     }
     
     /**
@@ -2883,12 +2883,20 @@ public class WebTester {
 	    		value = field.getTextContent();
 	    	} else if ("select".equals(field.getName())) {
 	    		// get the selected option
-	    		for (IElement children : field.getChildren()) {
-	    			if (children.getName().equals("option") && children.getAttribute("selected") != null) {
-	    				value = children.getAttribute("value") == null ? children.getTextContent() : children.getAttribute("value");
-	   					break;
-	    			}
-	    		}
+                for (IElement child : field.getChildren()) {
+                    if (child.getName().equals("option") && child.getAttribute("selected") != null) {
+                        value = child.getAttribute("value") == null ? child.getTextContent() : child.getAttribute("value");
+                        break;
+                    }
+                    if (child.getName().equals("optgroup")) {
+                        for (IElement subchild : child.getChildren()) {
+                            if (subchild.getName().equals("option") && subchild.getAttribute("selected") != null) {
+                                value = child.getAttribute("value") == null ? child.getTextContent() : child.getAttribute("value");
+                                break;
+                            }
+                        }
+                    }
+                }
 	    	} else {
 	    		throw new RuntimeException("Unexpected field type " + field.getName());
 	    	}
