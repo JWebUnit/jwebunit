@@ -32,6 +32,9 @@
     <body>
         <release version="3.1" date="UNKNOW" description="Cleanup for Webdriver integration">
             <action type="update" dev="henryju">
+                getPageText() (and all related assertXX methods) now only deals with what is inside <body> element. Previously it was also returning page title for example.
+            </action>
+            <action type="update" dev="henryju">
                 gotoRootWindow() now goes to the root "frame" in a multi-frame window. Previously it was only by chance.
             </action>
             <action type="update" dev="henryju">
