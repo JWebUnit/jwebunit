@@ -95,7 +95,7 @@ public class WebDriverElementImpl implements IElement {
      * @see net.sourceforge.jwebunit.api.IElement#getParent()
      */
     public IElement getParent() {
-        return new WebDriverElementImpl(element.findElement(By.xpath("//parent::*")));
+        return new WebDriverElementImpl(element.findElement(By.xpath("parent::*")));
     }
 
     /*

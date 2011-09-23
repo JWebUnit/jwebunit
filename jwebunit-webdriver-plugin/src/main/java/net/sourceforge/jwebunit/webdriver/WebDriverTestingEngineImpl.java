@@ -540,7 +540,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public String[] getSelectOptionValues(String selectName, int index) {
-        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + " and position()=" + (index + 1) + "]", true, true));
+        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + "][" + (index + 1) + "]", true, true));
         ArrayList<String> result = new ArrayList<String>();
         for (WebElement opt : select.getOptions()) {
             result.add(opt.getAttribute("value"));
@@ -563,7 +563,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public String[] getSelectedOptions(String selectName, int index) {
-        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true, true));
+        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + "][" + (index + 1) + "]", true, true));
         return getSelectedOptions(select);
     }
 
@@ -586,22 +586,22 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public String getSelectOptionLabelForValue(String selectName, String optionValue) {
-        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "']", true, true));
+        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + "]", true, true));
         return getSelectOptionLabelForValue(select, optionValue);
     }
 
     public String getSelectOptionLabelForValue(String selectName, int index, String optionValue) {
-        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true, true));
+        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + "][" + (index + 1) + "]", true, true));
         return getSelectOptionLabelForValue(select, optionValue);
     }
 
     public String getSelectOptionValueForLabel(String selectName, String optionLabel) {
-        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "']", true, true));
+        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + "]", true, true));
         return getSelectOptionValueForLabel(select, optionLabel);
     }
 
     public String getSelectOptionValueForLabel(String selectName, int index, String optionLabel) {
-        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true, true));
+        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + "][" + (index + 1) + "]", true, true));
         return getSelectOptionValueForLabel(select, optionLabel);
     }
 
@@ -610,7 +610,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public void selectOptions(String selectName, int index, String[] optionValues) {
-        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true, true));
+        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + "][" + (index + 1) + "]", true, true));
         if (!select.isMultiple() && optionValues.length > 1)
             throw new RuntimeException("Multiselect not enabled");
         for (String option : optionValues) {
@@ -634,7 +634,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public void unselectOptions(String selectName, int index, String[] optionValues) {
-        Select select = new Select(getWebElementByXPath("//select[@name='" + selectName + "' and position()=" + (index + 1) + "]", true, true));
+        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + "][" + (index + 1) + "]", true, true));
         if (!select.isMultiple() && optionValues.length > 1)
             throw new RuntimeException("Multiselect not enabled");
         for (String option : optionValues) {
@@ -662,7 +662,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public boolean hasSelectOption(String selectName, int index, String optionLabel) {
-        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + " and position()=" + (index + 1) + "]", true, true));
+        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + "][" + (index + 1) + "]", true, true));
         for (WebElement opt : select.getOptions()) {
             if (opt.getText().equals(optionLabel)) {
                 return true;
@@ -672,7 +672,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public boolean hasSelectOptionValue(String selectName, int index, String optionValue) {
-        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + " and position()=" + (index + 1) + "]", true, true));
+        Select select = new Select(getWebElementByXPath("//select[@name=" + escapeQuotes(selectName) + "][" + (index + 1) + "]", true, true));
         for (WebElement opt : select.getOptions()) {
             if (opt.getAttribute("value").equals(optionValue)) {
                 return true;

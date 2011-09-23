@@ -78,7 +78,7 @@ public class IElementTest extends JWebUnitAPITestCase {
     /**
      * Test parent, child methods
      */
-    @Test public void testChildren() {
+    @Test public void testChildrenAndParent() {
     	assertElementPresent("first");
     	IElement element = getElementById("first");
     	assertEquals(element.getName(), "li");
