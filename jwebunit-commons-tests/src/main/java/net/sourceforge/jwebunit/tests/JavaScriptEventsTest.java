@@ -81,19 +81,22 @@ public class JavaScriptEventsTest  extends JWebUnitAPITestCase {
         assertTextPresent("Here is the text we expect");
     }
  
-    @Test public void testLinkAssertsWorkJavascriptDisabled() {
+    @Test 
+    public void testLinkAssertsWorkJavascriptDisabled() {
         setScriptingEnabled(false);
         beginAt("index.html");
         clickLink("linkNext");
         assertTitleEquals("Startpage");
         assertTextNotPresent("Here is the text we expect");
+        closeBrowser();
 
         beginAt("index.html");
         clickButton("next");
         assertTitleEquals("Startpage");
         assertTextNotPresent("Here is the text we expect");
-        setScriptingEnabled(true);
+        closeBrowser();
         
+        setScriptingEnabled(true);
         // and test that javascript is enabled for the next begin
         beginAt("index.html");
         clickLink("linkNext");
