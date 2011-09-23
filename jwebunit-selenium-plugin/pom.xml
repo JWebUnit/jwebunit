@@ -55,6 +55,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium.client-drivers</groupId>
             <artifactId>selenium-java-client-driver</artifactId>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
@@ -78,6 +79,7 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
         </dependency>
     </dependencies>
     <properties>
