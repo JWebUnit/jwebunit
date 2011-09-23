@@ -18,6 +18,8 @@
  */
 package net.sourceforge.jwebunit.htmlunit;
 
+import com.gargoylesoftware.htmlunit.TopLevelWindow;
+
 import net.sourceforge.jwebunit.api.HttpHeader;
 
 import org.apache.http.auth.AuthScope;
@@ -350,6 +352,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         if (window != null) {
             setMainWindow(window);
         }
+        else {
+            throw new RuntimeException("No window found with title [" + title + "]");
+        }
     }
 
     /**
@@ -357,7 +362,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     public void closeWindow() {
         if (win != null) {
-            wc.deregisterWebWindow(win);
+            ((TopLevelWindow) win.getTopWindow()).close();
             win = wc.getCurrentWindow();
             form = null;
         }
@@ -712,7 +717,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     public String getPageText() {
         Page page = win.getEnclosedPage();
         if (page instanceof HtmlPage) {
-            return ((HtmlPage) page).asText();
+            return ((HtmlPage) page).getBody().asText();
         }
         if (page instanceof TextPage) {
             return ((TextPage) page).getContent();
@@ -791,7 +796,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     	 */
     	BrowserVersion bv;
     	if (testContext.getUserAgent() != null) {
-            bv = BrowserVersion.FIREFOX_3;
+            bv = BrowserVersion.FIREFOX_3_6;
             bv.setUserAgent(testContext.getUserAgent());
     	} else {
     		bv = defaultBrowserVersion;		// use default (which includes a full UserAgent string)
@@ -1462,8 +1467,8 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         return false;
     }
 
-    public Table getTable(String tableSummaryOrId) {
-        HtmlTable table = getHtmlTable(tableSummaryOrId);
+    public Table getTable(String tableSummaryNameOrId) {
+        HtmlTable table = getHtmlTable(tableSummaryNameOrId);
         Table result = new Table();
         for (int i = 0; i < table.getRowCount(); i++) {
             Row newRow = new Row();
@@ -1480,31 +1485,37 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     /**
-     * Return the HttpUnit WebTable object representing a specified table in the current response. Null is returned if a
+     * Return the HtmlUnit WebTable object representing a specified table in the current response. Null is returned if a
      * parsing exception occurs looking for the table or no table with the id or summary could be found.
      * 
-     * @param tableSummaryOrId summary or id of the table to return.
+     * @param tableSummaryNameOrId summary or id of the table to return.
      */
-    public HtmlTable getHtmlTable(String tableSummaryOrId) {
+    private HtmlTable getHtmlTable(String tableSummaryNameOrId) {
         try {
             return (HtmlTable) ((HtmlPage) win.getEnclosedPage())
-                    .getHtmlElementById(tableSummaryOrId);
+                    .getHtmlElementById(tableSummaryNameOrId);
         } catch (ElementNotFoundException e) {
-
+            //Not found
         }
         try {
             return (HtmlTable) ((HtmlPage) win.getEnclosedPage())
                     .getDocumentElement().getOneHtmlElementByAttribute("table",
-                            "summary", tableSummaryOrId);
+                            "summary", tableSummaryNameOrId);
         } catch (ElementNotFoundException e) {
-
+            //Not found
+        }
+        try {
+            return (HtmlTable) ((HtmlPage) win.getEnclosedPage())
+                    .getDocumentElement().getOneHtmlElementByAttribute("table",
+                            "name", tableSummaryNameOrId);
+        } catch (ElementNotFoundException e) {
+            //Not found
         }
         return null;
     }
 
-    public boolean hasTable(String tableSummaryOrId) {
-        HtmlTable table = getHtmlTable(tableSummaryOrId);
-        return (table != null);
+    public boolean hasTable(String tableSummaryNameOrId) {
+        return getHtmlTable(tableSummaryNameOrId) != null;
     }
 
     /**
