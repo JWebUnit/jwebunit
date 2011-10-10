@@ -117,7 +117,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         capabilities.setBrowserName("htmlunit");
         capabilities.setVersion("firefox");
 
-        driver = new FixedHtmlUnitDriver(capabilities);
+        driver = new HtmlUnitDriver(capabilities);
         
         //Reset form
         formIdent = null;
