@@ -18,15 +18,8 @@
  */
 package net.sourceforge.jwebunit.webdriver;
 
-import org.apache.http.conn.BasicManagedEntity;
-
-import com.gargoylesoftware.htmlunit.util.NameValuePair;
-
-import java.io.ByteArrayInputStream;
-
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebResponse;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -53,17 +46,15 @@ import net.sourceforge.jwebunit.javascript.JavascriptAlert;
 import net.sourceforge.jwebunit.javascript.JavascriptConfirm;
 import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
 import net.sourceforge.jwebunit.util.TestContext;
-import org.apache.commons.io.input.ProxyInputStream;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.HttpStatus;
-import org.apache.http.entity.HttpEntityWrapper;
-import org.apache.http.message.BasicHttpResponse;
+import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.protocol.HttpContext;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
@@ -102,7 +93,6 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     private static final int DEFAULT_PORT = 8183;
     private static final Random RANDOM = new Random();
     private HttpResponse response;
-    private BasicBufferedHttpEntity entity;
     // The xpath string that identifie the current form
     // ie : @name='myForm'
     private String formIdent;
@@ -167,15 +157,8 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
                 proxyServer.start();
                 proxyServer.addResponseInterceptor(new HttpResponseInterceptor() {
                     public void process(HttpResponse response, HttpContext context) throws HttpException, IOException {
+                        response.setEntity(new BufferedHttpEntity(response.getEntity()));
                         WebDriverTestingEngineImpl.this.response = response;
-                        if (response instanceof BasicHttpResponse) {
-                            BasicHttpResponse basicResponse = (BasicHttpResponse) response;
-                            WebDriverTestingEngineImpl.this.entity = new BasicBufferedHttpEntity(response.getEntity());
-                            basicResponse.setEntity(WebDriverTestingEngineImpl.this.entity);                            
-                        }
-                        else {
-                            logger.error("Response is of type {}. Impossible to buffer content.", response.getClass().getSimpleName());
-                        }
                     }
                 });
                 proxyServer.addRequestInterceptor(new HttpRequestInterceptor() {
@@ -195,70 +178,6 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
             }
         }
         throw new RuntimeException("Unable to start BrowserMob proxy after " + TRY_COUNT + " retries");
-    }
-    
-    private class BasicBufferedHttpEntity extends HttpEntityWrapper {
-        
-        private BufferedInputStream bis;
-
-        public BasicBufferedHttpEntity(HttpEntity wrapped) {
-            super(wrapped);
-        }
-        
-        @Override
-        public InputStream getContent() throws IOException {
-            if (bis == null) {
-                bis = new BufferedInputStream(super.getContent());
-            }
-            return bis;
-        }
-        
-        public byte[] getBufferedContent() {
-            return bis.getBuffer();
-        }
-        
-    }
-    
-    private class BufferedInputStream extends ProxyInputStream {
-        
-        private ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-        public BufferedInputStream(InputStream proxy) {
-            super(proxy);
-        }
-        
-        
-        public byte[] getBuffer() {
-            return bos.toByteArray();
-        }
-        
-        @Override
-        public int read() throws IOException {
-            int b =  super.read();
-            if (b != -1) {
-                bos.write(b);
-            }
-            return b;
-        }
-        
-        @Override
-        public int read(byte[] array) throws IOException {
-            int len = super.read(array);
-            if (len > 0) {
-                bos.write(array, 0, len);
-            }
-            return len;
-        }
-        
-        @Override
-        public int read(byte[] array, int off, int len) throws IOException {
-            int len2 =  super.read(array, off, len);
-            if (len2 > 0) {
-                bos.write(array, 0, len2);
-            }            
-            return len2;
-        }
-        
     }
     
     private static int getRandomPort() {
@@ -849,18 +768,12 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         if (response.getEntity().getContentEncoding() != null) {
             encoding = response.getEntity().getContentEncoding().getValue();
         }
-            
-        if (response.getEntity() instanceof BasicBufferedHttpEntity) {
-            try {
-                return new String(((BasicBufferedHttpEntity) response.getEntity()).getBufferedContent(), 
-                    encoding);
-            }
-            catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        
+        try {
+            return IOUtils.toString(response.getEntity().getContent(), encoding);
         }
-        else {
-            return driver.getPageSource();
+        catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -873,14 +786,21 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public InputStream getInputStream() {
-        if (entity != null) {
-            return new ByteArrayInputStream(entity.getBufferedContent());
+        try {
+            return response.getEntity().getContent();
         }
-        throw new UnsupportedOperationException("Not supported yet.");
+        catch (Exception e) {
+            throw new TestingEngineResponseException(e);
+        }
     }
 
     public InputStream getInputStream(URL url) throws TestingEngineResponseException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return url.openStream();//TODO support proxy
+        }
+        catch (IOException e) {
+            throw new TestingEngineResponseException(e);
+        }
     }
 
     public boolean hasTable(String tableSummaryNameOrId) {
