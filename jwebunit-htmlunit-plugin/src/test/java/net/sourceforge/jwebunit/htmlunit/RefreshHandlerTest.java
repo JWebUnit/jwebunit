@@ -18,6 +18,8 @@
  */
 package net.sourceforge.jwebunit.htmlunit;
 
+import org.junit.After;
+
 import com.gargoylesoftware.htmlunit.ThreadedRefreshHandler;
 import com.gargoylesoftware.htmlunit.WaitingRefreshHandler;
 import net.sourceforge.jwebunit.tests.JWebUnitAPITestCase;
@@ -109,5 +111,13 @@ public class RefreshHandlerTest extends JWebUnitAPITestCase {
 					.println("[WARN] skipping test [testChangeRefreshHandler] b/c it only applies to HtmlUnitTestEngineImpl");
 		}
 	}
+    
+    @After
+    public void cleanup() {
+        if (getTestingEngine() instanceof HtmlUnitTestingEngineImpl) {
+            HtmlUnitTestingEngineImpl engine = (HtmlUnitTestingEngineImpl) getTestingEngine();
+            engine.setRefreshHandler(null);
+        }
+    }
 
 }
