@@ -717,7 +717,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     private WebElement getButton(String nameOrID) {
         WebElement e = getWebElementByXPath("//input[(@type='submit' or @type='image' or @type='reset' or @type='button') and (@name=" + escapeQuotes(nameOrID) + " or @id=" + escapeQuotes(nameOrID) + ")]", false, true);
         if (e == null) {
-            e = getWebElementByXPath("//button[@type='submit' and (@name=" + escapeQuotes(nameOrID) + " or @id=" + escapeQuotes(nameOrID) + ")]", false, true);
+            e = getWebElementByXPath("//button[@name=" + escapeQuotes(nameOrID) + " or @id=" + escapeQuotes(nameOrID) + "]", false, true);
         }
         return e;
     }
@@ -756,7 +756,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
 
     public String getPageText() {
         try {
-            return driver.findElement(By.xpath("//body")).getText();
+            return driver.findElement(By.tagName("body")).getText();
         } catch (Exception e) {
             //Maybe this is not HTML
             return driver.getPageSource();
@@ -764,17 +764,19 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     public String getPageSource() {
-        String encoding = "ISO-8859-1";
-        if (response.getEntity().getContentEncoding() != null) {
-            encoding = response.getEntity().getContentEncoding().getValue();
-        }
-        
-        try {
-            return IOUtils.toString(response.getEntity().getContent(), encoding);
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return driver.getPageSource();
+        //Do not work when there are requests following loading of main page (like frames)
+//        String encoding = "ISO-8859-1";
+//        if (response.getEntity().getContentEncoding() != null) {
+//            encoding = response.getEntity().getContentEncoding().getValue();
+//        }
+//        
+//        try {
+//            return IOUtils.toString(response.getEntity().getContent(), encoding);
+//        }
+//        catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public String getPageTitle() {
@@ -1018,7 +1020,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
 
     public IElement getElementByXPath(String xpath) {
         try {
-            return new WebDriverElementImpl(driver.findElement(By.xpath(xpath)));
+            return new WebDriverElementImpl(driver, driver.findElement(By.xpath(xpath)));
         }
         catch (NoSuchElementException e) {
             return null;
@@ -1027,7 +1029,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
 
     public IElement getElementByID(String id) {
         try {
-            return new WebDriverElementImpl(driver.findElement(By.id(id)));
+            return new WebDriverElementImpl(driver, driver.findElement(By.id(id)));
         }
         catch (NoSuchElementException e) {
             return null;
@@ -1038,7 +1040,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         List<IElement> result = new ArrayList<IElement>();
         List<WebElement> elements = driver.findElements(By.xpath(xpath));
         for (WebElement child : elements) {
-            result.add(new WebDriverElementImpl(child));
+            result.add(new WebDriverElementImpl(driver, child));
         }
         return result;
     }

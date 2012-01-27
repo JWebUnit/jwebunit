@@ -21,21 +21,15 @@
  */
 package net.sourceforge.jwebunit.webdriver;
 
-import org.openqa.selenium.JavascriptExecutor;
-
-import org.openqa.selenium.By;
-
-import org.openqa.selenium.WebElement;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.jwebunit.api.IElement;
 
-import com.gargoylesoftware.htmlunit.html.DomNode;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * Webdriver implementation of IElement wrapper.
@@ -49,8 +43,14 @@ public class WebDriverElementImpl implements IElement {
      * The wrapped element.
      */
     private WebElement element;
+    
+    /**
+     * A reference to the driver.
+     */
+    private WebDriver driver;
 
-    public WebDriverElementImpl(WebElement element) {
+    public WebDriverElementImpl(WebDriver driver, WebElement element) {
+        this.driver = driver;
         if (element == null)
             throw new NullPointerException("Cannot create an IElement for a null element.");
         this.element = element;
@@ -83,7 +83,7 @@ public class WebDriverElementImpl implements IElement {
         List<IElement> children = new ArrayList<IElement>();
         for (WebElement e : element.findElements(By.xpath("child::*"))) {
             if (e != null)
-                children.add(new WebDriverElementImpl(e));
+                children.add(new WebDriverElementImpl(driver, e));
         }
         return children;
     }
@@ -94,7 +94,7 @@ public class WebDriverElementImpl implements IElement {
      * @see net.sourceforge.jwebunit.api.IElement#getParent()
      */
     public IElement getParent() {
-        return new WebDriverElementImpl(element.findElement(By.xpath("parent::*")));
+        return new WebDriverElementImpl(driver, element.findElement(By.xpath("parent::*")));
     }
 
     /*
@@ -112,7 +112,7 @@ public class WebDriverElementImpl implements IElement {
      * @see net.sourceforge.jwebunit.api.IElement#getElement(java.lang.String)
      */
     public IElement getElement(String xpath) {
-        return new WebDriverElementImpl((WebElement) element.findElement(By.xpath(xpath)));
+        return new WebDriverElementImpl(driver, (WebElement) element.findElement(By.xpath(xpath)));
     }
 
     /*
@@ -123,7 +123,7 @@ public class WebDriverElementImpl implements IElement {
     public List<IElement> getElements(String xpath) {
         List<IElement> elements = new ArrayList<IElement>();
         for (WebElement o : element.findElements(By.xpath(xpath))) {
-            elements.add(new WebDriverElementImpl(o));
+            elements.add(new WebDriverElementImpl(driver, o));
         }
         return elements;
     }
@@ -137,8 +137,8 @@ public class WebDriverElementImpl implements IElement {
      * 
      * @see net.sourceforge.jwebunit.api.IElement#setAttribute(java.lang.String)
      */
-    public void setAttribute(String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setAttribute(String name) {
+        ((JavascriptExecutor) driver).executeScript("return arguments[0].setAttribute(arguments[1], true);", element, name);
     }
 
     /*
@@ -146,8 +146,13 @@ public class WebDriverElementImpl implements IElement {
      * 
      * @see net.sourceforge.jwebunit.api.IElement#setAttribute(java.lang.String, java.lang.String)
      */
-    public void setAttribute(String string, String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setAttribute(String name, String value) {
+        if ("value".equals(name) && "input".equals(element.getTagName())) {
+            // for inputs, we want to run any onChange code if the value changes
+            element.sendKeys(value);
+        } else {
+            ((JavascriptExecutor) driver).executeScript("return arguments[0].setAttribute(arguments[1], arguments[2]);", element, name, value);
+        }
     }
 
     /*
@@ -156,7 +161,19 @@ public class WebDriverElementImpl implements IElement {
      * @see net.sourceforge.jwebunit.api.IElement#setTextContent(java.lang.String)
      */
     public void setTextContent(String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (element.getTagName().equals("textarea")) {
+            element.clear();
+            element.sendKeys(value);
+        } else {
+            ((JavascriptExecutor) driver).executeScript(
+                "var parent = arguments[0];" +
+                "var children = parent.childNodes;" +
+                "for (i=0; i< children.length; i++) {" +
+                "  parent.removeChild(children[i]);" +
+                "}" +
+                "parent.appendChild(document.createTextNode(arguments[1]));"
+                , element, value);
+        }
     }
 
     @Override

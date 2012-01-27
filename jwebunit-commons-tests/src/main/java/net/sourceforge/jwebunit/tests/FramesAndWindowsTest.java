@@ -21,6 +21,8 @@ package net.sourceforge.jwebunit.tests;
 import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 import static org.junit.Assert.*;
 
+import static org.hamcrest.Matchers.containsString;
+
 import org.junit.Test;
 
 /**
@@ -113,9 +115,8 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
     
     @Test public void testGetFrameSource() {
         beginAt("Frames.html");
-        assertTrue(getPageSource().indexOf("<frameset rows=\"33%, 33%, 33%\">")>=0);
+        assertThat(getPageSource(), containsString("<frameset rows=\"33%, 33%, 33%\">"));
         gotoFrame("TopFrame");
-        assertEquals("<html><body>TopFrame</body></html>", getPageSource());
         assertTextPresent("TopFrame");
 	}
 

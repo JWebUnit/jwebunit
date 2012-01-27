@@ -87,7 +87,7 @@ public interface IElement {
 	 * 
 	 * @param string
 	 */
-	public void setAttribute(String string);
+	public void setAttribute(String name);
 
 	/**
 	 * Set an attribute on this element.
@@ -95,7 +95,7 @@ public interface IElement {
 	 * @param string
 	 * @param value
 	 */
-	public void setAttribute(String string, String value);
+	public void setAttribute(String name, String value);
 
 	/**
 	 * Set the text content on this element.

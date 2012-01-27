@@ -51,7 +51,7 @@ public class ConcurrentJWebUnitTest extends JWebUnitAPITestCase {
         setBaseUrl(HOST_PATH + "/NavigationTest");
     }
 
-    @Rule public Timeout timeoutRule = new Timeout(2000);
+    @Rule public Timeout timeoutRule = new Timeout(10000);
 
     @Rule public ConcurrentRule concurrently = new ConcurrentRule();
     @Rule public RepeatingRule repeatedly = new RepeatingRule();

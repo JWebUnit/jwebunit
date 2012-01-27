@@ -19,6 +19,15 @@
 
 package net.sourceforge.jwebunit.junit;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
@@ -36,8 +45,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+
 import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
+
 import net.sourceforge.jwebunit.api.HttpHeader;
 import net.sourceforge.jwebunit.api.IElement;
 import net.sourceforge.jwebunit.api.ITestingEngine;
@@ -52,11 +63,9 @@ import net.sourceforge.jwebunit.javascript.JavascriptConfirm;
 import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
 import net.sourceforge.jwebunit.util.TestContext;
 import net.sourceforge.jwebunit.util.TestingEngineRegistry;
+
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
-
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
 
 /**
  * Provides a high-level API for basic web application navigation and validation by providing
@@ -2885,13 +2894,13 @@ public class WebTester {
 	    		// get the selected option
                 for (IElement child : field.getChildren()) {
                     if (child.getName().equals("option") && child.getAttribute("selected") != null) {
-                        value = child.getAttribute("value") == null ? child.getTextContent() : child.getAttribute("value");
+                        value = child.getAttribute("value");
                         break;
                     }
                     if (child.getName().equals("optgroup")) {
                         for (IElement subchild : child.getChildren()) {
                             if (subchild.getName().equals("option") && subchild.getAttribute("selected") != null) {
-                                value = child.getAttribute("value") == null ? child.getTextContent() : child.getAttribute("value");
+                                value = child.getAttribute("value");
                                 break;
                             }
                         }
@@ -2962,8 +2971,7 @@ public class WebTester {
 	    		// get the selected option
 	    		for (IElement children : field.getChildren()) {
 	    			// find the option which matches the given value (we can't specify random values)
-	    			if (children.getName().equals("option") && 
-	    					(children.getAttribute("value") == null ? value.equals(children.getTextContent()) : value.equals(children.getAttribute("value")))) {
+	    			if (children.getName().equals("option") && value.equals(children.getAttribute("value"))) {
 	    				children.setAttribute("selected");
 	    				return;
 	    			}
