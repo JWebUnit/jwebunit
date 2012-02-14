@@ -54,6 +54,35 @@ Finally, you can temporary disable JavaScript in your test:</p>
 Have a look at http://htmlunit.sourceforge.net/submittingJSBugs.html
       </answer>
     </faq>
+    
+    <faq id="javascript-json">
+      <question>
+      	How can I parse JSON output using JWebUnit or HtmlUnit?
+      </question>
+      <answer>
+        <p>HtmlUnit, one of the underlying engines of JWebUnit, <a href="http://stackoverflow.com/questions/2932857/html-handling-a-json-response">does not support direct
+        execution of Javascript functions</a>. You need to check beforehand that the <code>Content-Type</code>
+        of the response is <code>application/json</code>, and then use a different library to parse it.</p>
+        
+        <p>For example, <a href="http://code.google.com/p/google-gson/">Google Gson</a> can be used to parse JSON, as follows:</p>
+        
+        <source>WebResponse response = ((HtmlUnitTestingEngineImpl) JWebUnit.getTestingEngine()).getWebResponse();
+		
+// check content type
+assertTrue("Response type should be application/json, was: " + response.getContentType(), "application/json".equals(response.getContentType()));
+
+// parse JSON
+Gson gson = new Gson();
+String json = response.getContentAsString();
+JsonObject obj = new JsonParser().parse(json).getAsJsonObject(); // or JsonArray, depending on the JSON content
+
+assertTrue("Object should have success field", obj.has("success"));
+String success = gson.fromJson(obj.get("success"), String.class);
+String username = gson.fromJson(obj.get("username"), String.class);
+String type = gson.fromJson(obj.get("type"), String.class);
+// etc</source> 
+      </answer>
+    </faq>
   </part>
   
     <part id="JUnitPerf">
