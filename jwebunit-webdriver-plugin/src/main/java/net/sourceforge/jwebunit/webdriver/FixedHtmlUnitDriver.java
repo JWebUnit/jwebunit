@@ -10,7 +10,6 @@ public class FixedHtmlUnitDriver extends HtmlUnitDriver {
         if (getCurrentWindow() != null) {
             if (getWebClient().getWebWindows().size() > 1) {
                 ((TopLevelWindow) getCurrentWindow().getTopWindow()).close();
-                
             }
             else {
                 quit();

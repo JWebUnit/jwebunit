@@ -335,7 +335,11 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
 
     public void closeWindow() {
         formIdent = null;
-        driver.close();//FIXME Issue 1466
+        driver.close();
+        //FIXME Issue 1466 & 2834
+        if (getWindowCount() > 0) {
+        	driver.switchTo().window(driver.getWindowHandles().iterator().next());
+        }
     }
 
     public boolean hasFrame(String frameNameOrId) {
