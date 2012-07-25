@@ -450,10 +450,6 @@
                     <xrefLocation>
                         ${project.reporting.outputDirectory}/${topDirectoryLocation}/xref
                     </xrefLocation>
-                    <!-- Needed for MCHECKSTYLE-159 -->
-                    <propertyExpansion>
-                        cacheFile=${project.build.directory}/checkstyle-cachefile
-                    </propertyExpansion>
                 </configuration>
             </plugin>
             <plugin>
