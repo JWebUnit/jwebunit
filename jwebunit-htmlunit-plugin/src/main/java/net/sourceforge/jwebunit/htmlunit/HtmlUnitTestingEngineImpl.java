@@ -174,7 +174,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     /**
      * The default browser version.
      */
-    private BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_3;
+    private BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_3_6;
     
     /**
      * Should we ignore failing status codes?
