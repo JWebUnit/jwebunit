@@ -52,11 +52,11 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setTextField("color", "blue");
         submit("button");
         assertTextPresent("Submitted parameters");
-        assertTextPresent("color=blue");
+        assertTextPresent("color=[blue]");
         clickLink("return");
         setTextField("color", "red");
         submit();
-        assertTextPresent("color=red");
+        assertTextPresent("color=[red]");
     }
 
     @Test
@@ -65,11 +65,11 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setTextField("text", "sometext");
         submit("button");
         assertTextPresent("Submitted parameters");
-        assertTextPresent("Params are:" + System.getProperty("line.separator") + "text=sometext");
+        assertTextPresent("text=[sometext]");
         clickLink("return");
         setTextField("text", "anothertext");
         submit();
-        assertTextPresent("text=anothertext");
+        assertTextPresent("text=[anothertext]");
     }
 
     @Test
@@ -93,7 +93,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         submit("button");
         assertTextPresent("Submitted parameters");
         //The following depend on the browser: IE send full path (i.e. temp.getAbsolutePath()) but FF send only file name.
-        assertTextPresent("file=" + temp.getName() + "{abcdefgh}");
+        assertTextPresent("file=[" + temp.getName() + "{abcdefgh}]");
     }
     
     @Test
@@ -103,7 +103,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertSubmitButtonPresent();
         submit();
         assertTextPresent("Submitted parameters");
-        assertTextPresent("color=toto");
+        assertTextPresent("color=[toto]");
     }
 
     @Test
@@ -113,7 +113,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertSubmitButtonPresent("image");
         submit("image");
         assertTextPresent("Submitted parameters");
-        assertTextPresent("color=toto");
+        assertTextPresent("color=[toto]");
     }
 
     @Test
@@ -122,10 +122,10 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         checkCheckbox("checkBox");
         setTextField("color", "blue");
         submit();
-        assertTextPresent("color=blue");
+        assertTextPresent("color=[blue]");
         // checkBox contains 2 parameters: one for the hidden input and one for
         // the checkbox
-        assertTextPresent("checkBox=,on");
+        assertTextPresent("checkBox=[,on]");
     }
 
     @Test
@@ -135,7 +135,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         checkCheckbox("checkBox", "3");
         checkCheckbox("checkBox", "3"); // check for duplicates
         submit();
-        assertTextPresent("checkBox=1,3" + System.getProperty("line.separator"));
+        assertTextPresent("checkBox=[1,3]");
     }
 
     @Test
@@ -145,7 +145,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         checkCheckbox("checkBox", "3");
         uncheckCheckbox("checkBox", "3");
         submit();
-        assertTextPresent("checkBox=1");
+        assertTextPresent("checkBox=[1]");
     }
 
     @Test
@@ -157,7 +157,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setTextField("color", "blue");
         uncheckCheckbox("checkBox");
         submit();
-        assertTextPresent("color=blue" + System.getProperty("line.separator"));
+        assertTextPresent("color=[blue]");
     }
     
     @Test
@@ -166,7 +166,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
     	clickRadioOption("radio", "1");
     	assertRadioOptionSelected("radio", "1");
     	submit();
-    	assertTextPresent("radio=1" + System.getProperty("line.separator"));
+    	assertTextPresent("radio=[1]");
     	clickLink("return");
     	clickRadioOption("radio", "2");
     	clickRadioOption("radio", "3");
@@ -174,7 +174,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
     	assertRadioOptionNotSelected("radio", "2");
     	assertRadioOptionSelected("radio", "3");
     	submit();
-    	assertTextPresent("radio=3" + System.getProperty("line.separator"));
+    	assertTextPresent("radio=[3]");
     }
 
     @Test
@@ -182,7 +182,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         beginAt("/SingleUnnamedButtonForm.html");
         setTextField("color", "blue");
         submit();
-        assertTextPresent("color=blue" + System.getProperty("line.separator"));
+        assertTextPresent("color=[blue]");
     }
 
     @Test
@@ -190,17 +190,17 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         beginAt("/SingleNamedButtonForm.html");
         setTextField("color", "red");
         submit();
-        assertTextPresent("color=red");
+        assertTextPresent("color=[red]");
     }
 
     @Test
     public void testSingleFormMultipleButtonSubmission() {
         gotoMultiButtonPage();
         submit("color");
-        assertTextPresent("Params are:" + System.getProperty("line.separator") + "color=red");
+        assertTextPresent("color=[red]");
         gotoMultiButtonPage();
         submit("color", "blue");
-        assertTextPresent("color=blue");
+        assertTextPresent("color=[blue]");
     }
 
     @Test
@@ -221,7 +221,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setWorkingForm("form2");
         setTextField("param2", "anyvalue");
         submit("button2a");
-        assertTextPresent("param2=anyvalue");
+        assertTextPresent("param2=[anyvalue]");
     }
 
     @Test
@@ -231,16 +231,16 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setTextField("param2", "foo");
         setTextField("email", "anyvalue");
         submit();
-        assertTextPresent("email=anyvalue");
-        assertTextPresent("param2=foo");
+        assertTextPresent("email=[anyvalue]");
+        assertTextPresent("param2=[foo]");
         closeBrowser();
         beginAt("/MultiFormPage.html");
         setWorkingForm("form3");
         setTextField("param3", "foo");
         setTextField("email", "anyvalue");
         submit();
-        assertTextPresent("param3=foo");
-        assertTextPresent("email=anyvalue");
+        assertTextPresent("param3=[foo]");
+        assertTextPresent("email=[anyvalue]");
     }
 
     @Test
@@ -276,7 +276,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         beginAt("/MultiFormPage.html");
         setTextField("param4", "anyvalue");
         submit();
-        assertTextPresent("param4=anyvalue");
+        assertTextPresent("param4=[anyvalue]");
     }
 
     @Test
@@ -284,8 +284,8 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         beginAt("/MultiFormPage.html");
         setTextField("param2", "anyvalue");
         submit("button2b");
-        assertTextPresent("param2=anyvalue" + System.getProperty("line.separator"));
-        assertTextPresent("button2b=b2b");
+        assertTextPresent("param2=[anyvalue]");
+        assertTextPresent("button2b=[b2b]");
     }
 
     @Test
@@ -294,8 +294,8 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setTextField("param2", "anyvalue");
         reset();
         submit("button2b");
-        assertTextNotPresent("param2=anyvalue\n");
-        assertTextPresent("button2b=b2b");
+        assertTextNotPresent("param2=[anyvalue]");
+        assertTextPresent("button2b=[b2b]");
     }
 
     @Test
@@ -346,7 +346,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setTextField("color", "blue");
         clickButtonWithText("click me");
         assertTextPresent("Submitted parameters");
-        assertTextPresent("color=blue");
+        assertTextPresent("color=[blue]");
     }
     
     @Test
@@ -355,7 +355,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertHiddenFieldPresent("hidden", "foo");
         setHiddenField("hidden", "bar");
         submit();
-        assertTextPresent("hidden=bar");
+        assertTextPresent("hidden=[bar]");
     }
 
 

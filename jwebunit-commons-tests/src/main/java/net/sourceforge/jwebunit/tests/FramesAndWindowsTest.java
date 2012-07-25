@@ -151,7 +151,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertFormPresent();
         setTextField("color", "red");
         submit("submit");
-        assertTextPresent("color=red" + System.getProperty("line.separator"));
+        assertTextPresent("color=[red]");
     }
 
     @Test public void testFormInputInInlineFrame() {
@@ -160,16 +160,7 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
         assertFormPresent();
         setTextField("color", "red");
         submit("submit");
-        assertTextPresent("color=red" + System.getProperty("line.separator"));
+        assertTextPresent("color=[red]");
     }
 
-    //TODO this just posts to a new frameset inside the frame, is the test needed?
-    @Test public void testFormInputInFrameToFrame() {
-		beginAt("Frames.html");
-		gotoFrame("ContentFrame");
-        setTextField("color", "green");
-		submit();
-		assertTitleEquals("Submitted parameters");
-	}
-    
 }

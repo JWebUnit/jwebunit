@@ -50,7 +50,7 @@ public class ParamsServlet extends HttpServlet {
         out.write(HtmlHelper.getStart("Submitted parameters"));
         out.write("<h1>Submitted parameters</h1>\n<p>Params are:<br/>");
         /*
-         * Prints POST and GET parameters as name=value1[,value2...] separated
+         * Prints POST and GET parameters as name=[value1[,value2...]] separated
          * by <BR/>
          */
 
@@ -78,7 +78,7 @@ public class ParamsServlet extends HttpServlet {
                 FileItem item = (FileItem) iter.next();
 
                 if (item.isFormField()) {
-                    out.write(" " + item.getFieldName() + "="
+                    out.write(" " + item.getFieldName() + "=["
                             + item.getString());
                     if (item.getFieldName().equals("myReferer")) {
                         ref = item.getString();
@@ -86,22 +86,22 @@ public class ParamsServlet extends HttpServlet {
                 } else {
                     String fieldName = item.getFieldName();
                     String fileName = item.getName();
-                    out.write(" " + fieldName + "=" + fileName
+                    out.write(" " + fieldName + "=[" + fileName
                             + "{" + new String(item.get()) + "}");
 
                 }
                 if (iter.hasNext()) {
-                	out.write("<br/>\n");
+                	out.write("]<br/>\n");
                 }
             }
-            out.write(" </p>\n");
+            out.write("]</p>\n");
             out.write(HtmlHelper.getLinkParagraph("return", ref));
         } else {
             java.util.Enumeration params = request.getParameterNames();
             for (; params.hasMoreElements();) {
                 String p = params.nextElement().toString();
                 String[] v = request.getParameterValues(p);
-                out.write(p + "=");
+                out.write(p + "=[");
                 int n = v.length;
                 if (n > 0) {
                     out.write(v[0] != null ? v[0] : "");
@@ -110,10 +110,10 @@ public class ParamsServlet extends HttpServlet {
                     }
                 }
                 if (params.hasMoreElements()) {
-                	out.write("<br/>\n");
+                	out.write("]<br/>\n");
                 }
             }
-            out.write(" </p>\n");
+            out.write("]</p>\n");
             String ref = request.getHeader("Referer");
             if (ref == null) {
                 if (request.getParameterValues("myReferer") != null) {
