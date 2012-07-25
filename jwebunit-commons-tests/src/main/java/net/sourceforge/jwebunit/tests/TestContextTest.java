@@ -46,7 +46,8 @@ public class TestContextTest extends JWebUnitAPITestCase {
     }
 
 
-    @Test public void testInit() {
+    @Test
+    public void testInit() {
         assertTrue(context.hasAuthorization());
         assertTrue(context.hasCookies());
         assertEquals(context.getUser(), "user");
@@ -61,13 +62,23 @@ public class TestContextTest extends JWebUnitAPITestCase {
         assertNull(context.getResourceBundleName());
     }
 
-    @Test public void testResourceBundle() {
+    @Test
+    public void testResourceBundle() {
         String name = "/TestContextBundle";
         context.setResourceBundleName("/TestContextBundle");
         assertEquals(name, context.getResourceBundleName());
     }
 
-    @Test public void testUserAgent() {
+    @Test
+    public void testServerSideUserAgentOverride() {
+        String userAgent = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.3) Gecko/20060426 Firefox/1.5.0.3";
+        getTestContext().setUserAgent(userAgent);
+        beginAt("/headers.jsp");
+        assertTextPresent("User-Agent=[" + userAgent + "]");
+    }
+
+    @Test
+    public void testClientSideUserAgentOverride() {
         getTestContext().setBaseUrl(HOST_PATH + "/TestContextTest");
         String userAgent = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.3) Gecko/20060426 Firefox/1.5.0.3";
         getTestContext().setUserAgent(userAgent);
