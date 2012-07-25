@@ -29,6 +29,7 @@ import net.sourceforge.jwebunit.api.IElement;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlOption;
 import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 
 /**
@@ -55,10 +56,15 @@ public class HtmlUnitElementImpl implements IElement {
 	 * @see net.sourceforge.jwebunit.api.IElement#attribute(java.lang.String)
 	 */
 	public String getAttribute(String name) {
-		if (!element.hasAttribute(name))
-			return null;
-		
-		return element.getAttribute(name);
+		if ("value".equals(name) && element instanceof HtmlOption) {
+			// for options, we want text if no value was specified
+			return ((HtmlOption) element).getValueAttribute();
+		} else {
+			if (!element.hasAttribute(name))
+				return null;
+			
+			return element.getAttribute(name);
+		}
 	}
 
 
