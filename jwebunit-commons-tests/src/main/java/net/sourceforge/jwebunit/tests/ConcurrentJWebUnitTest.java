@@ -22,6 +22,7 @@ package net.sourceforge.jwebunit.tests;
 import static net.sourceforge.jwebunit.junit.JWebUnit.assertTitleEquals;
 import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
 import static net.sourceforge.jwebunit.junit.JWebUnit.clickLinkWithText;
+import static net.sourceforge.jwebunit.junit.JWebUnit.getTestContext;
 import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -47,11 +48,12 @@ import org.junit.rules.Timeout;
 public class ConcurrentJWebUnitTest extends JWebUnitAPITestCase {
 
     public void setUp() throws Exception {
-        super.setUp();
-        setBaseUrl(HOST_PATH + "/NavigationTest");
+    	//don't call super.setUp to avoid temporary state where baseUrl = HOST_PATH
+    	getTestContext().setAuthorization("admin", "admin");
+    	setBaseUrl(HOST_PATH + "/NavigationTest");
     }
 
-    @Rule public Timeout timeoutRule = new Timeout(10000);
+    @Rule public Timeout timeoutRule = new Timeout(1000000000);
 
     @Rule public ConcurrentRule concurrently = new ConcurrentRule();
     @Rule public RepeatingRule repeatedly = new RepeatingRule();
