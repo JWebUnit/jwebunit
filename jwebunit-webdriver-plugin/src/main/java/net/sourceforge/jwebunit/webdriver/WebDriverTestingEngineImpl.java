@@ -18,8 +18,6 @@
  */
 package net.sourceforge.jwebunit.webdriver;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -32,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+
 import net.sourceforge.jwebunit.api.HttpHeader;
 import net.sourceforge.jwebunit.api.IElement;
 import net.sourceforge.jwebunit.api.ITestingEngine;
@@ -46,7 +45,8 @@ import net.sourceforge.jwebunit.javascript.JavascriptAlert;
 import net.sourceforge.jwebunit.javascript.JavascriptConfirm;
 import net.sourceforge.jwebunit.javascript.JavascriptPrompt;
 import net.sourceforge.jwebunit.util.TestContext;
-import org.apache.commons.io.IOUtils;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
@@ -74,6 +74,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebResponse;
+
 /**
  * Acts as the wrapper for Webdriver access. A testing engine is initialized with a given URL, and maintains
  * conversational state as the dialog progresses through link navigation, form submission, etc.
@@ -98,7 +101,6 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     private String formIdent;
     private boolean throwExceptionOnScriptError = true;//TODO
     private boolean ignoreFailingStatusCodes = false;
-    private Map<String, String> requestHeaders;
     /**
      * Is Javascript enabled.
      */
@@ -111,6 +113,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         this.setTestContext(aTestContext);
         // start the proxy        
         Proxy proxy = startBrowserMobProxy();
+        
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(CapabilityType.PROXY, proxy);
         capabilities.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, jsEnabled);
@@ -143,9 +146,6 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
                             .getName(), c.getValue(), domain, c.getPath() != null ? c                                          
                                 .getPath() : "", expiry, c.getSecure()));
         }
-        // Deal with custom request header
-        this.requestHeaders = aTestContext.getRequestHeaders();
-
         gotoPage(aInitialURL);
     }
     
@@ -161,13 +161,23 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
                         WebDriverTestingEngineImpl.this.response = response;
                     }
                 });
-                proxyServer.addRequestInterceptor(new HttpRequestInterceptor() {
-                    public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
-                        for (Map.Entry<String, String> requestHeader : requestHeaders.entrySet()) {
-                            request.addHeader(requestHeader.getKey(), requestHeader.getValue());
-                        }
-                    }
-                });
+                if (testContext.getRequestHeaders() != null && !testContext.getRequestHeaders().isEmpty()) {
+	                proxyServer.addRequestInterceptor(new HttpRequestInterceptor() {
+	                    public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
+	                        for (Map.Entry<String, String> requestHeader : testContext.getRequestHeaders().entrySet()) {
+	                            request.addHeader(requestHeader.getKey(), requestHeader.getValue());
+	                        }
+	                    }
+	                });
+                }
+                if (StringUtils.isNotBlank(testContext.getUserAgent())) {
+	                proxyServer.addRequestInterceptor(new HttpRequestInterceptor() {
+	                    public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
+	                        request.removeHeaders("User-Agent");
+	                        request.addHeader("User-Agent", testContext.getUserAgent());
+	                    }
+	                });
+                }
                 return proxyServer.seleniumProxy();
             }
             catch (Exception e) {
