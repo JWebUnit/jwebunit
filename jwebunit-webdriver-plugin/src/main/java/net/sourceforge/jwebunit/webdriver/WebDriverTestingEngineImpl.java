@@ -59,6 +59,7 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.browsermob.proxy.ProxyServer;
+import org.browsermob.proxy.jetty.util.MultiException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
@@ -182,7 +183,11 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
             }
             catch (Exception e) {
                 if (i<TRY_COUNT) {
-                    logger.error("Error while starting BrowserMob proxy. Retry...", e);
+                    logger.error("Error while starting BrowserMob proxy on port " + port + ". Retry...: " + e.getMessage(), e);
+                    if (e instanceof MultiException) {
+                    	Exception e1 = ((MultiException) e).getException(0);
+                    	logger.error("First exception: " + e1.getMessage(), e1);
+                    }
                     continue;
                 }
             }
