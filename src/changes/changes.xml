@@ -31,6 +31,10 @@
     </properties>
     <body>
         <release version="3.1" date="UNKNOW" description="Cleanup for Webdriver integration">
+            <action type="update" dev="henryju" issue="3476459" due-to="Jevon Wright">
+                Updated dependencies to not provide logback transitively. Added a section in documentation
+                to explain how to use logback. 
+            </action>
             <action type="update" dev="henryju">
                 Updated to HtmlUnit 2.10.
             </action>

@@ -35,13 +35,13 @@
 <p>
 	JWebUnit uses two approaches for creating JUnit 4 test cases: static import and delegation. The simplest is
 	to statically import all methods of net.sourceforge.jwebunit.junit.JWebUnit.
-
-	<source>
+</p>
+<source>
 import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 
 public class ExampleWebTestCase {
 	
-	@Before
+    @Before
     public void prepare() {
         setBaseUrl("http://localhost:8080/test");
     }
@@ -56,12 +56,12 @@ public class ExampleWebTestCase {
         submit();
         assertTitleEquals("Welcome, test!");
     }
-}
-	</source>
+}</source>
+<p>
 	An alternative is to include an instance of the WebTester class in your TestCase and delegate navigation
 	and assertions to it.  This is provided in case you need or prefer delegation.
-	
-	<source>
+</p>	
+<source>
 import net.sourceforge.jwebunit.junit.WebTester;
 
 public class ExampleWebTestCase {
@@ -83,8 +83,8 @@ public class ExampleWebTestCase {
         tester.submit();
         tester.assertTitleEquals("Welcome, test!");
     }
-}
-	</source>
+}</source>
+<p>
 In the following samples, JUnit 4 and static import will be used.
 </p>
 </subsection>
@@ -93,8 +93,8 @@ In the following samples, JUnit 4 and static import will be used.
 <p>
 	JWebUnit uses two approaches for creating JUnit 3 test cases: inheritance and delegation. The simplest is
 	to inherit from WebTestCase rather than junit.framework.TestCase.
-
-	<source>
+</p>
+<source>
 import net.sourceforge.jwebunit.junit.WebTestCase;
 
 public class ExampleWebTestCase extends WebTestCase {
@@ -113,13 +113,14 @@ public class ExampleWebTestCase extends WebTestCase {
         submit();
         assertTitleEquals("Welcome, test!");
     }
-}
-	</source>
+}</source>
+<p>
 	An alternative is to include an instance of the WebTester class in your TestCase and delegate navigation
-	and assertions to it.  This is provided in case you need or prefer delegation.
+	and assertions to it.  This is provided in case you need or prefer delegation.<br/>
 	<b>WARNING: WebTester was migrated to JUnit 4. As a result all assertXX will throw java.lang.AssertionError 
 	instead of old junit.framework.AssertionFailedError.</b>
-	<source>
+</p>
+<source>
 import junit.framework.TestCase;
 import net.sourceforge.jwebunit.junit.WebTester;
 
@@ -141,37 +142,59 @@ public class ExampleWebTestCase extends TestCase {
         tester.submit();
         tester.assertTitleEquals("Welcome, test!");
     }
-}
-	</source>
-</p>
+}</source>
+
 </subsection>
 
-<subsection name="Configuring Logback">
+<subsection name="Configuring logging">
 <p>
-	<a href="http://hc.apache.org/">Apache Commons' HTTP Components project</a>, one of the dependencies of JWebUnit, uses the <a href="http://logback.qos.ch/">logback logging framework</a> extensively.
-	This means that if you do not have logback correctly configured, you will get <a href="http://stackoverflow.com/questions/4915414/disable-httpclient-logging">a lot of debug information</a> piped to stdout.
+	JWebUnit use <a href="http://www.slf4j.org/">SLF4J</a> to log. SLF4J is only a facade so with the default 
+	Maven configuration you will only get slf4j-api in your classpath with no implementation. If you run your tests
+	you will see a message like this:
 </p>
-
-<p>
-	A simple way to configure logback is to create a file called <i>logback.xml</i> with the following contents, and placing it in your source folder (for example, <i>src</i>).
-	This will suppress all debugging messages unless they are at the ERROR level or higher.
-</p>
-
 <source>
-&lt;configuration debug="false"&gt;
-  &lt;!-- definition of appender STDOUT --&gt;
-  &lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"&gt;
-    &lt;encoder&gt;
-      &lt;pattern&gt;%-4relative [%thread] %-5level %logger{35} - %msg %n&lt;/pattern&gt;
-    &lt;/encoder&gt;
-  &lt;/appender&gt;
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.</source>
+<p>
+	but no log at all.
+</p>
+<p>
+	Many popular logging framework do support SLF4J: log4j, jcl, logback, ... For example here are the steps to 
+	configure <a href="http://logback.qos.ch/">logback logging framework</a>:<br/>
+	<br/>
+	First you should add logback JAR to your classpath. If you are using Maven, simply add:
+</p>
+<source><![CDATA[
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.0.6</version>
+        <scope>test</scope>
+    </dependency>]]></source>
 
-  &lt;root level="ERROR"&gt;
-    &lt;!-- appender referenced after it is defined --&gt;
-    &lt;appender-ref ref="STDOUT"/&gt;
-  &lt;/root&gt; 
-&lt;/configuration&gt;
-</source>
+<p>
+	Now if you run your tests everything will be logged to console. Some components are very verbose so here is a sample logback configuration
+	to reduce verbosity. Just create a file called logback-test.xml in your classpath (<tt>src/test/resources</tt> is a good place if you are following
+	Maven conventions).	This will suppress all debugging messages unless they are at the ERROR level or higher.
+</p>
+<source><![CDATA[
+<configuration debug="false">
+	<!-- definition of appender STDOUT -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+		</encoder>
+	</appender>
+
+	<root level="ERROR">
+		<!-- appender referenced after it is defined -->
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>]]></source>
+<p>
+	Please read <a href="http://logback.qos.ch/manual/configuration.html">logback documentation</a> for more details.
+</p>
 </subsection>
 
 <subsection name="Selecting the plugin you want to use">

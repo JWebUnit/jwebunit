@@ -54,8 +54,12 @@
             <item name="Installation" href="installation.html" />
             <item name="Quick start" href="quickstart.html"
                 collapse="true">
-                <item name="Creating a TestCase"
-                    href="#Creating_a_TestCase" />
+                <item name="JUnit 4"
+                    href="#Creating_a_JUnit_4_TestCase" />
+                <item name="JUnit 3 (deprecated)"
+                    href="#Creating_a_JUnit_3_TestCase_deprecated" />
+                <item name="Configuring logging"
+                    href="#Configuring_logging" />
                 <item name="Selecting a plugin"
                 	href="#Selecting_the_plugin_you_want_to_use" />
                 <item name="Site Navigation"
