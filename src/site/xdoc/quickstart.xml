@@ -146,6 +146,34 @@ public class ExampleWebTestCase extends TestCase {
 </p>
 </subsection>
 
+<subsection name="Configuring Logback">
+<p>
+	<a href="http://hc.apache.org/">Apache Commons' HTTP Components project</a>, one of the dependencies of JWebUnit, uses the <a href="http://logback.qos.ch/">logback logging framework</a> extensively.
+	This means that if you do not have logback correctly configured, you will get <a href="http://stackoverflow.com/questions/4915414/disable-httpclient-logging">a lot of debug information</a> piped to stdout.
+</p>
+
+<p>
+	A simple way to configure logback is to create a file called <i>logback.xml</i> with the following contents, and placing it in your source folder (for example, <i>src</i>).
+	This will suppress all debugging messages unless they are at the ERROR level or higher.
+</p>
+
+<source>
+&lt;configuration debug="false"&gt;
+  &lt;!-- definition of appender STDOUT --&gt;
+  &lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"&gt;
+    &lt;encoder&gt;
+      &lt;pattern&gt;%-4relative [%thread] %-5level %logger{35} - %msg %n&lt;/pattern&gt;
+    &lt;/encoder&gt;
+  &lt;/appender&gt;
+
+  &lt;root level="ERROR"&gt;
+    &lt;!-- appender referenced after it is defined --&gt;
+    &lt;appender-ref ref="STDOUT"/&gt;
+  &lt;/root&gt; 
+&lt;/configuration&gt;
+</source>
+</subsection>
+
 <subsection name="Selecting the plugin you want to use">
 <p>
     JWebUnit can use different plugins to execute the tests you write. Only one line makes the difference:

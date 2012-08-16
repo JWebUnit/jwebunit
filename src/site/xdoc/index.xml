@@ -91,7 +91,8 @@ public class ExampleWebTestCase {
 		</source>
 		
 		For some more examples on how to use JWebUnit in your project, please look at the
-		<a href="quickstart.html">quick start guide</a>.
+		<a href="quickstart.html">quick start guide</a>. If you are having problems with
+		excessive Httpclient logging, you will also need to <a href="quickstart.html#Configuring_Logback">configure logback correctly</a>.
 			<!-- 
 			waiting on issue 2367400:
 			and the <a href="">generated WebTestCase documentation</a>.
