@@ -36,7 +36,6 @@
 	</module>
 	<module name="FileLength" />
 	<module name="TreeWalker">
-		<property name="cacheFile" value="${cacheFile}"/><!-- Needed for MCHECKSTYLE-159 -->
 		<module name="JavadocMethod" />
 		<module name="JavadocType" />
 		<module name="JavadocVariable">
