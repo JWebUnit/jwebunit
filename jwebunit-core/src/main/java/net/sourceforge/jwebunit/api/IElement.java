@@ -53,9 +53,9 @@ public interface IElement {
 	public String getTextContent();
 	
 	/**
-	 * Get the parent element, or null if none exists.
+	 * Get the parent element, or {@code null} if none exists.
 	 * 
-	 * @return The parent element or null
+	 * @return The parent element or {@code null}
 	 */
 	public IElement getParent();
 	
@@ -83,24 +83,28 @@ public interface IElement {
 	public List<IElement> getElements(String xpath);
 
 	/**
-	 * Set an attribute on this element.
+	 * Set an attribute on this element, e.g. "checked" for HTML4 &lt;select&gt;s.
 	 * 
-	 * @param string
+	 * @param string the attribute name
 	 */
 	public void setAttribute(String name);
 
 	/**
 	 * Set an attribute on this element.
 	 * 
-	 * @param string
-	 * @param value
+	 * @param string the attribute name
+	 * @param value the new attribute value
 	 */
 	public void setAttribute(String name, String value);
 
 	/**
 	 * Set the text content on this element.
+	 * Note that if you are trying to set the value of an &lt;input&gt; input, you should use
+	 * {@code setAttribute("value")} instead.
+	 * This also sets the text content of a &lt;textarea&gt; element.
 	 * 
-	 * @param value
+	 * @param value the new inner text content of this element
+	 * @see #setAttribute(String, String)
 	 */
 	public void setTextContent(String value);
 	
