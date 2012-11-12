@@ -31,12 +31,12 @@
     </properties>
     <body>
         <release version="3.1" date="UNKNOW" description="Cleanup for Webdriver integration">
+            <action type="update" dev="henryju">
+                Updated to HtmlUnit 2.11. As a result JWebUnit now also require Java 1.6+.
+            </action>
             <action type="update" dev="henryju" issue="3476459" due-to="Jevon Wright">
                 Updated dependencies to not provide logback transitively. Added a section in documentation
-                to explain how to use logback. 
-            </action>
-            <action type="update" dev="henryju">
-                Updated to HtmlUnit 2.10.
+                to explain how to use logback.
             </action>
             <action type="update" dev="henryju">
                 getPageText() (and all related assertXX methods) now only deals with what is inside &lt;body&gt; element. Previously it was also returning page title for example.
@@ -60,7 +60,7 @@
             </action>
             <action type="fix" dev="henryju" issue="3190055" due-to="Achim Westermann">
                 Fixed handling of several cookies/headers with same name. getAllHeaders() was wrongly returning only the latest header
-                header with the same name so this method was deprecated and a new one was added with a different return type. 
+                header with the same name so this method was deprecated and a new one was added with a different return type.
                 See getResponseHeaders().
                 AssertCookiePresent/Match was also updated to take the last set cookie of the given name instead of the first one.
             </action>
