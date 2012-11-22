@@ -69,19 +69,21 @@
             <subsection name="Preparing the release (tag and update pom)">
                 <p>
                     This process is automatically done by maven-release-plugin.
-                    <source>mvn release:prepare -Dusername=henryju -Dpassword=XXXXXX</source>
-                    Don't forget to put your own sourceforge account and password.<br/>
+                    <source>mvn release:prepare</source>
                     The plugin will ask for next release version, tag name and next development version. Most of the time defaults are ok.<br/>
-                    <em>NB:</em> Sometimes with SVN 1.5 the tag operation fails with a message like <tt>file XXX already exists</tt>. The solution is
-                    to run <tt>svn update</tt> then run <tt>mvn release:prepare -Dusername=henryju -Dpassword=XXXXXX</tt> again.
                 </p>
                 <p>
                     Now the tag is done in SVN and the trunk is ready for next developments. It's time to actually do the release.
                 </p>
             </subsection>
             <subsection name="Perform the release (deploy artifacts and site)">
-               	<p>
-                    The process is done by maven-release-plugin.
+                <p>
+                    Create a shell on sourceforge (<a href="http://maven.apache.org/plugins/maven-site-plugin/examples/site-deploy-to-sourceforge.net.html">more informations</a>).
+                    <source>ssh -t henryju,jwebunit@shell.sf.net create</source>
+                    Then exit the shell (type exit).
+                </p>
+                <p>
+                    The release process is done by maven-release-plugin:
                     <source>mvn release:perform -Darguments="-Dgpg.passphrase=XXXXXXXXXX"</source>
                 </p>
                 <p>
