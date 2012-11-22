@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
-    Copyright (c) 2011, JWebUnit team.
+    Copyright (c) 2002-2012, JWebUnit team.
 
     This file is part of JWebUnit.
 
@@ -29,10 +29,10 @@
 		<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
 	</head>
 <body>
-<section name="Selenium plugin">
+<section name="WebDriver plugin">
     <p>
-        The Selenium plugin allow to run your test in a real browser. The main advantage is the JavaScript support is perfectly identical to
-        your target browser (of course). The main drawbacks are it is slooooooow and can't run on a headless server.
+        The WebDriver plugin allow to run your test in a real browser using Selenium 2/WebDriver API. The main advantage is the JavaScript support is perfectly identical to
+        your target browser (of course). The main drawbacks are it is slooooooow compared to HtmlUnit and can't run on a headless server.
     </p>
     <p>
         This plugin is still in development. In fact not all test cases works. Feel free to <a href="../how-to-contribute.html">contribute</a>
@@ -47,8 +47,8 @@
     ...
     &lt;dependency&gt;
         &lt;groupId&gt;net.sourceforge.jwebunit&lt;/groupId&gt;
-        &lt;artifactId&gt;jwebunit-selenium-plugin&lt;/artifactId&gt;
-        &lt;version&gt;2.0&lt;/version&gt;
+        &lt;artifactId&gt;jwebunit-webdriver-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.1&lt;/version&gt;
     &lt;/dependency&gt;
     ...
 &lt;/dependencies&gt;

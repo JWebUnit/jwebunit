@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011, JWebUnit team.
+ * Copyright (c) 2002-2012, JWebUnit team.
  *
  * This file is part of JWebUnit.
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package net.sourceforge.jwebunit.tests;
 
 import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;

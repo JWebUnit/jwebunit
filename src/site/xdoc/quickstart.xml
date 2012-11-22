@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
-    Copyright (c) 2011, JWebUnit team.
+    Copyright (c) 2002-2012, JWebUnit team.
 
     This file is part of JWebUnit.
 
@@ -176,7 +176,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 <p>
 	Now if you run your tests everything will be logged to console. Some components are very verbose so here is a sample logback configuration
 	to reduce verbosity. Just create a file called logback-test.xml in your classpath (<tt>src/test/resources</tt> is a good place if you are following
-	Maven conventions).	This will suppress all debugging messages unless they are at the ERROR level or higher.
+	Maven conventions). This will suppress all debugging messages unless they are at the ERROR level or higher.
 </p>
 <source><![CDATA[
 <configuration debug="false">
@@ -211,7 +211,7 @@ public class ExampleWebTestCase {
     @Before
     public void prepare() {
         setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT);    <i>// use HtmlUnit</i>
-        setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_SELENIUM);    <i>// use Selenium</i>
+        setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_WEBDRIVER);    <i>// use WebDriver</i>
     }
 }
 </source>

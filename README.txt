@@ -1,4 +1,4 @@
-The JWebUnit team is pleased to announce the JWebUnit 3.0 release!
+The JWebUnit team is pleased to announce the JWebUnit 3.1 release!
 
 http://jwebunit.sourceforge.net
 

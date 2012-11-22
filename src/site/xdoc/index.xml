@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
-    Copyright (c) 2011, JWebUnit team.
+    Copyright (c) 2002-2012, JWebUnit team.
 
     This file is part of JWebUnit.
 
@@ -54,8 +54,8 @@
     </p>
     
     <p>
-    	The current version of JWebUnit is 3.0. This is the "stable" version of
-    	JWebUnit, and requires Java 1.5.
+    	The current version of JWebUnit is 3.1. This is the "stable" version of
+    	JWebUnit, and requires Java 1.6.
     </p>
 </section>
 

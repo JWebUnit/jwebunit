@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011, JWebUnit team.
+ * Copyright (c) 2002-2012, JWebUnit team.
  *
  * This file is part of JWebUnit.
  *
@@ -36,12 +36,7 @@ public class TestingEngineRegistry {
     public final static String TESTING_ENGINE_HTMLUNIT = "TestingEngineHtmlUnit";
 
     /**
-     * Key of HtmlUnit testing engine.
-     */
-    public final static String TESTING_ENGINE_SELENIUM = "TestingEngineSelenium";
-
-    /**
-     * Key of HtmlUnit testing engine.
+     * Key of Webdriver testing engine.
      */
     public final static String TESTING_ENGINE_WEBDRIVER = "TestingEngineWebdriver";
 
@@ -54,13 +49,6 @@ public class TestingEngineRegistry {
             addTestingEngine(TESTING_ENGINE_HTMLUNIT, cp);
         } catch (ClassNotFoundException e) {
             // HtmlUnit Testing Engine is not present in the classpath. Nothing to do.
-        }
-        cp = "net.sourceforge.jwebunit.selenium.SeleniumTestingEngineImpl";
-        // Try to load Selenium Testing Engine to check if it is present.
-        try {
-            addTestingEngine(TESTING_ENGINE_SELENIUM, cp);
-        } catch (ClassNotFoundException e) {
-            // Selenium Testing Engine is not present in the classpath. Nothing to do.
         }
         cp = "net.sourceforge.jwebunit.webdriver.WebDriverTestingEngineImpl";
         // Try to load Webdriver Testing Engine to check if it is present.
@@ -97,7 +85,7 @@ public class TestingEngineRegistry {
             testingEngineMap.put(key, c);
         } else {
             throw new TestingEngineRegistryException(classpath
-                    + " is not an instance of IJWebUnitDialog");
+                    + " is not an instance of ITestingEngine");
         }
     }
 

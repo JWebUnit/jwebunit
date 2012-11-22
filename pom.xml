@@ -63,12 +63,12 @@
             <name>Julien Henry</name>
             <email>henryju at users.sourceforge.net</email>
             <url />
-            <organization>SERLI</organization>
-            <organizationUrl>http://www.serli.com</organizationUrl>
+            <organization>SonarSource</organization>
+            <organizationUrl>http://www.sonarsource.com</organizationUrl>
             <roles>
                 <role>Developer</role>
             </roles>
-            <timezone>+2</timezone>
+            <timezone>+1</timezone>
         </developer>
         <developer>
             <id>joshlane</id>
@@ -191,13 +191,6 @@
         <name>SourceForge</name>
         <url>http://sourceforge.net</url>
     </organization>
-    <repositories>
-        <repository>
-            <id>selenium</id>
-            <name>Selenium release repository</name>
-            <url>http://nexus.openqa.org/content/repositories/releases</url>
-        </repository>
-    </repositories>
     <build>
         <pluginManagement>
             <plugins>

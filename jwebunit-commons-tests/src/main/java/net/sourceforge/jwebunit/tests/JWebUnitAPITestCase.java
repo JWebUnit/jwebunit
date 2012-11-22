@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011, JWebUnit team.
+ * Copyright (c) 2002-2012, JWebUnit team.
  *
  * This file is part of JWebUnit.
  *
@@ -34,7 +34,7 @@ import static org.junit.Assert.*;
 /**
  * This class is intended be used by all "testcase" classes that are used to test the functionality of the jwebunit core
  * api. This isn't to be extended by end users of the jwebunit api.
- * 
+ *
  * @author Nicholas Neuberger
  */
 public abstract class JWebUnitAPITestCase extends JettySetup {
@@ -53,7 +53,7 @@ public abstract class JWebUnitAPITestCase extends JettySetup {
         getTestContext().setBaseUrl(HOST_PATH);
         getTestContext().setAuthorization("admin", "admin");
     }
-    
+
     @After
     public void closeBrowser() {
         JWebUnit.closeBrowser();

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
-    Copyright (c) 2011, JWebUnit team.
+    Copyright (c) 2002-2012, JWebUnit team.
 
     This file is part of JWebUnit.
 
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-htmlunit-plugin</artifactId>
-            <version>3.0</version>
+            <version>3.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -61,13 +61,13 @@
 			There are currently 2 available plugins:
 			<ul>
 				<li>HtmlUnit: A good choice if you want fast tests and good Javascript support.</li>
-				<li>Selenium: BETA quality (not all the JWebUnit API could be executed with Selenium)</li>
+				<li>Webdriver: BETA quality (not all the JWebUnit API could be executed with Webdriver)</li>
 			</ul>
 		</p>
 	</subsection>
 	<subsection name="Integrate with IDE">
 		<p>
-			The simplest way to manage dependencies in Eclipse when you use Maven 2 is to use m2eclipse plugin.
+			The simplest way to manage dependencies in Eclipse when you use Maven 2 is to use m2e plugin.
 		</p>
 		<p>			
 			If you don't want to use Maven, 

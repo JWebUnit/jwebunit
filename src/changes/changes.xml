@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
-    Copyright (c) 2011, JWebUnit team.
+    Copyright (c) 2002-2012, JWebUnit team.
 
     This file is part of JWebUnit.
 
@@ -30,7 +30,7 @@
         </author>
     </properties>
     <body>
-        <release version="3.1" date="UNKNOW" description="Cleanup for Webdriver integration">
+        <release version="3.1" date="November 22, 2012" description="Cleanup for Webdriver integration. HtmlUnit 2.11.">
             <action type="update" dev="henryju">
                 Updated to HtmlUnit 2.11. As a result JWebUnit now also require Java 1.6+.
             </action>
