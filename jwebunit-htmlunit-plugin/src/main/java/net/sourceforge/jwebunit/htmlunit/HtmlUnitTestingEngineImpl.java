@@ -1120,7 +1120,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    *                response.
    * @return HtmlForm object representing the current active form from the response.
    */
-  private HtmlForm getForm() {
+  protected HtmlForm getForm() {
     if (form == null) {
       if (hasForm()) {
         setWorkingForm(getForm(0));
@@ -1174,7 +1174,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return page.getForms();
   }
 
-  private HtmlPage getCurrentPage() {
+  protected HtmlPage getCurrentPage() {
     Page page = win.getEnclosedPage();
     if (page instanceof HtmlPage) {
       return (HtmlPage) page;
@@ -2336,7 +2336,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * @return Returns the testContext.
    */
-  private TestContext getTestContext() {
+  protected TestContext getTestContext() {
     return testContext;
   }
 
