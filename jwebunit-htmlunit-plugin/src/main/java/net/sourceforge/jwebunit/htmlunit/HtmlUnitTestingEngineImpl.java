@@ -205,6 +205,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param context contains context information for the test client.
    * @throws TestingEngineResponseException
    */
+  @Override
   public void beginAt(URL initialURL, TestContext context)
       throws TestingEngineResponseException {
     this.setTestContext(context);
@@ -216,6 +217,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * Close the browser and check that all expected Javascript alerts, confirms and
    * prompts have been taken care of.
    */
+  @Override
   public void closeBrowser() throws ExpectedJavascriptAlertException,
       ExpectedJavascriptConfirmException,
       ExpectedJavascriptPromptException {
@@ -226,17 +228,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     form = null; // reset current form
     if (this.expectedJavascriptAlerts.size() > 0) {
       throw new ExpectedJavascriptAlertException(
-          ((JavascriptAlert) (expectedJavascriptAlerts.get(0)))
+          (expectedJavascriptAlerts.get(0))
               .getMessage());
     }
     if (this.expectedJavascriptConfirms.size() > 0) {
       throw new ExpectedJavascriptConfirmException(
-          ((JavascriptConfirm) (expectedJavascriptConfirms.get(0)))
+          (expectedJavascriptConfirms.get(0))
               .getMessage());
     }
     if (this.expectedJavascriptPrompts.size() > 0) {
       throw new ExpectedJavascriptPromptException(
-          ((JavascriptPrompt) (expectedJavascriptPrompts.get(0)))
+          (expectedJavascriptPrompts.get(0))
               .getMessage());
     }
 
@@ -248,6 +250,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @throws TestingEngineResponseException if an error response code is encountered
    * 	and ignoreFailingStatusCodes is not enabled.
    */
+  @Override
   public void gotoPage(URL initialURL) throws TestingEngineResponseException {
     try {
       wc.getPage(initialURL);
@@ -264,6 +267,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * @see net.sourceforge.jwebunit.api.IJWebUnitDialog#setScriptingEnabled(boolean)
    */
+  @Override
   public void setScriptingEnabled(boolean value) {
     // This variable is used to set Javascript before wc is instancied
     jsEnabled = value;
@@ -272,6 +276,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public void setThrowExceptionOnScriptError(boolean value) {
     throwExceptionOnScriptError = value;
     if (wc != null) {
@@ -279,6 +284,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public List<javax.servlet.http.Cookie> getCookies() {
     List<javax.servlet.http.Cookie> result = new LinkedList<javax.servlet.http.Cookie>();
     Set<Cookie> cookies = wc.getCookieManager().getCookies();
@@ -304,6 +310,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return result;
   }
 
+  @Override
   public boolean hasWindow(String windowName) {
     try {
       getWindow(windowName);
@@ -313,6 +320,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return true;
   }
 
+  @Override
   public boolean hasWindowByTitle(String title) {
     return getWindowByTitle(title) != null;
   }
@@ -322,14 +330,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    *
    * @param windowName
    */
+  @Override
   public void gotoWindow(String windowName) {
     setMainWindow(getWindow(windowName));
   }
 
+  @Override
   public void gotoWindow(int windowID) {
-    setMainWindow((WebWindow) wc.getWebWindows().get(windowID));
+    setMainWindow(wc.getWebWindows().get(windowID));
   }
 
+  @Override
   public int getWindowCount() {
     return wc.getWebWindows().size();
   }
@@ -339,6 +350,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    *
    * @param title
    */
+  @Override
   public void gotoWindowByTitle(String title) {
     WebWindow window = getWindowByTitle(title);
     if (window != null) {
@@ -352,6 +364,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * Close the current window.
    */
+  @Override
   public void closeWindow() {
     if (win != null) {
       ((TopLevelWindow) win.getTopWindow()).close();
@@ -364,6 +377,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean hasFrame(String frameNameOrId) {
     return getFrame(frameNameOrId) != null;
   }
@@ -371,6 +385,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void gotoFrame(String frameNameOrId) {
     WebWindow frame = getFrame(frameNameOrId);
     if (frame == null) {
@@ -382,6 +397,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setWorkingForm(int index) {
     setWorkingForm(getForm(index));
   }
@@ -389,6 +405,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setWorkingForm(String nameOrId, int index) {
     setWorkingForm(getForm(nameOrId, index));
   }
@@ -396,6 +413,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * Return true if the current response contains a form.
    */
+  @Override
   public boolean hasForm() {
     return ((HtmlPage) win.getEnclosedPage()).getForms().size() > 0;
   }
@@ -405,16 +423,19 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    *
    * @param nameOrID name of id of the form to check for.
    */
+  @Override
   public boolean hasForm(String nameOrID) {
     return getForm(nameOrID) != null;
   }
 
+  @Override
   public boolean hasFormParameterNamed(String paramName) {
     for (HtmlElement e : getCurrentPage().getHtmlElementDescendants()) {
       if (e.getAttribute("name").equals(paramName)) {
         // set the working form if none has been set
-        if (e.getEnclosingForm() != null && getWorkingForm() == null)
+        if (e.getEnclosingForm() != null && getWorkingForm() == null) {
           setWorkingForm(e.getEnclosingForm());
+        }
         return true;
       }
     }
@@ -427,6 +448,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param paramName name of the input element. TODO: Find a way to handle multiple text input element with same
    *            name.
    */
+  @Override
   public String getTextFieldValue(String paramName) {
     // first try the current form
     if (form != null) {
@@ -447,14 +469,16 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     if (outside_element != null) {
       if (outside_element instanceof HtmlInput) {
         // set current form if not null
-        if (outside_element.getEnclosingForm() != null)
+        if (outside_element.getEnclosingForm() != null) {
           form = outside_element.getEnclosingForm();
+        }
         return ((HtmlInput) outside_element).getValueAttribute();
       }
       if (outside_element instanceof HtmlTextArea) {
         // set current form if not null
-        if (outside_element.getEnclosingForm() != null)
+        if (outside_element.getEnclosingForm() != null) {
           form = outside_element.getEnclosingForm();
+        }
         return ((HtmlTextArea) outside_element).getText();
       }
     }
@@ -471,6 +495,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param paramName name of the input element. TODO: Find a way to handle multiple hidden input element with same
    *            name.
    */
+  @Override
   public String getHiddenFieldValue(String paramName) {
     // first try the current form
     if (form != null) {
@@ -487,8 +512,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     if (outside_element != null) {
       if (outside_element instanceof HtmlHiddenInput) {
         // set current form if not null
-        if (outside_element.getEnclosingForm() != null)
+        if (outside_element.getEnclosingForm() != null) {
           form = outside_element.getEnclosingForm();
+        }
         return ((HtmlHiddenInput) outside_element).getValueAttribute();
       }
     }
@@ -504,6 +530,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param fieldName name of the input element or textarea
    * @param text parameter value to submit for the element.
    */
+  @Override
   public void setTextField(String paramName, String text) {
     // first try the current form
     if (form != null) {
@@ -527,15 +554,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
       if (outside_element instanceof HtmlInput) {
         ((HtmlInput) outside_element).setValueAttribute(text);
         // set current form if not null
-        if (outside_element.getEnclosingForm() != null)
+        if (outside_element.getEnclosingForm() != null) {
           form = outside_element.getEnclosingForm();
+        }
         return;
       }
       if (outside_element instanceof HtmlTextArea) {
         ((HtmlTextArea) outside_element).setText(text);
         // set current form if not null
-        if (outside_element.getEnclosingForm() != null)
+        if (outside_element.getEnclosingForm() != null) {
           form = outside_element.getEnclosingForm();
+        }
         return;
       }
     }
@@ -551,6 +580,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param fieldName name of the hidden input element
    * @param paramValue parameter value to submit for the element.
    */
+  @Override
   public void setHiddenField(String fieldName, String text) {
     // first try the current form
     if (form != null) {
@@ -569,8 +599,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
       if (outside_element instanceof HtmlHiddenInput) {
         ((HtmlHiddenInput) outside_element).setValueAttribute(text);
         // set current form if not null
-        if (outside_element.getEnclosingForm() != null)
+        if (outside_element.getEnclosingForm() != null) {
           form = outside_element.getEnclosingForm();
+        }
         return;
       }
     }
@@ -585,6 +616,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    *
    * @param selectName name of the select box.
    */
+  @Override
   public String[] getSelectOptionValues(String selectName) {
     HtmlSelect sel = getForm().getSelectByName(selectName);
     ArrayList<String> result = new ArrayList<String>();
@@ -601,6 +633,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param index the 0-based index when more than one
    * select with the same name is expected.
    */
+  @Override
   public String[] getSelectOptionValues(String selectName, int index) {
     List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
     if (sels == null || sels.size() < index + 1) {
@@ -612,7 +645,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     for (HtmlOption opt : sel.getOptions()) {
       result.add(opt.getValueAttribute());
     }
-    return (String[]) result.toArray(new String[result.size()]);
+    return result.toArray(new String[result.size()]);
   }
 
   private String[] getSelectedOptions(HtmlSelect sel) {
@@ -624,11 +657,13 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return result;
   }
 
+  @Override
   public String[] getSelectedOptions(String selectName) {
     HtmlSelect sel = getForm().getSelectByName(selectName);
     return getSelectedOptions(sel);
   }
 
+  @Override
   public String[] getSelectedOptions(String selectName, int index) {
     List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
     if (sels == null || sels.size() < index + 1) {
@@ -649,18 +684,20 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
       + sel.getNameAttribute());
   }
 
+  @Override
   public String getSelectOptionValueForLabel(String selectName, String label) {
     HtmlSelect sel = getForm().getSelectByName(selectName);
     return getSelectOptionValueForLabel(sel, label);
   }
 
+  @Override
   public String getSelectOptionValueForLabel(String selectName, int index, String label) {
     List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
     if (sels == null || sels.size() < index + 1) {
       throw new RuntimeException("Did not find select with name [" + selectName
         + "] at index " + index);
     }
-    HtmlSelect sel = (HtmlSelect) sels.get(index);
+    HtmlSelect sel = sels.get(index);
     return getSelectOptionValueForLabel(sel, label);
   }
 
@@ -674,34 +711,40 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
       + sel.getNameAttribute());
   }
 
+  @Override
   public String getSelectOptionLabelForValue(String selectName, String value) {
     HtmlSelect sel = getForm().getSelectByName(selectName);
     return getSelectOptionLabelForValue(sel, value);
   }
 
+  @Override
   public String getSelectOptionLabelForValue(String selectName, int index, String value) {
     List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
     if (sels == null || sels.size() < index + 1) {
       throw new RuntimeException("Did not find select with name [" + selectName
         + "] at index " + index);
     }
-    HtmlSelect sel = (HtmlSelect) sels.get(index);
+    HtmlSelect sel = sels.get(index);
     return getSelectOptionLabelForValue(sel, value);
   }
 
+  @Override
   public URL getPageURL() {
     return win.getEnclosedPage().getWebResponse().getWebRequest().getUrl();
   }
 
+  @Override
   public String getPageSource() {
     return win.getEnclosedPage().getWebResponse()
         .getContentAsString();
   }
 
+  @Override
   public String getPageTitle() {
     return getCurrentPageTitle();
   }
 
+  @Override
   public String getPageText() {
     Page page = win.getEnclosedPage();
     if (page instanceof HtmlPage) {
@@ -724,6 +767,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         "Unexpected error in getPageText(). This method need to be updated.");
   }
 
+  @Override
   public String getServerResponse() {
     StringBuffer result = new StringBuffer();
     WebResponse wr = wc.getCurrentWindow().getEnclosedPage()
@@ -740,6 +784,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return result.toString();
   }
 
+  @Override
   public InputStream getInputStream() {
     try {
       return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
@@ -749,6 +794,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public InputStream getInputStream(URL resourceUrl)
       throws TestingEngineResponseException {
     WebWindow imageWindow = null;
@@ -815,6 +861,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     wc.getOptions().setThrowExceptionOnFailingStatusCode(!ignoreFailingStatusCodes);
     wc.getOptions().setThrowExceptionOnScriptError(throwExceptionOnScriptError);
     wc.getOptions().setRedirectEnabled(true);
+    wc.getOptions().setUseInsecureSSL(true);
     if (refreshHandler == null) {
       wc.setRefreshHandler(new ImmediateRefreshHandler());
     } else {
@@ -846,6 +893,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
     wc.setCredentialsProvider(creds);
     wc.addWebWindowListener(new WebWindowListener() {
+      @Override
       public void webWindowClosed(WebWindowEvent event) {
         if (win == null || event.getOldPage().equals(win.getEnclosedPage())) {
           win = wc.getCurrentWindow();
@@ -860,6 +908,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         logger.debug("Window {} closed : {}", win, oldPageTitle);
       }
 
+      @Override
       public void webWindowContentChanged(WebWindowEvent event) {
         form = null;
         String winName = event.getWebWindow().getName();
@@ -876,6 +925,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         logger.debug("Window \"{}\" changed : \"{}\" became \"{}", new Object[] {winName, oldPageTitle, newPageTitle});
       }
 
+      @Override
       public void webWindowOpened(WebWindowEvent event) {
         String win = event.getWebWindow().getName();
         Page newPage = event.getNewPage();
@@ -888,11 +938,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     });
     // Add Javascript Alert Handler
     wc.setAlertHandler(new AlertHandler() {
+      @Override
       public void handleAlert(Page page, String msg) {
         if (expectedJavascriptAlerts.size() < 1) {
           throw new UnexpectedJavascriptAlertException(msg);
         } else {
-          JavascriptAlert expected = (JavascriptAlert) expectedJavascriptAlerts
+          JavascriptAlert expected = expectedJavascriptAlerts
               .remove(0);
           if (!msg.equals(expected.getMessage())) {
             throw new UnexpectedJavascriptAlertException(msg);
@@ -902,11 +953,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     });
     // Add Javascript Confirm Handler
     wc.setConfirmHandler(new ConfirmHandler() {
+      @Override
       public boolean handleConfirm(Page page, String msg) {
         if (expectedJavascriptConfirms.size() < 1) {
           throw new UnexpectedJavascriptConfirmException(msg);
         } else {
-          JavascriptConfirm expected = (JavascriptConfirm) expectedJavascriptConfirms
+          JavascriptConfirm expected = expectedJavascriptConfirms
               .remove(0);
           if (!msg.equals(expected.getMessage())) {
             throw new UnexpectedJavascriptConfirmException(msg);
@@ -918,11 +970,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     });
     // Add Javascript Prompt Handler
     wc.setPromptHandler(new PromptHandler() {
+      @Override
       public String handlePrompt(Page page, String msg) {
         if (expectedJavascriptPrompts.size() < 1) {
           throw new UnexpectedJavascriptPromptException(msg);
         } else {
-          JavascriptPrompt expected = (JavascriptPrompt) expectedJavascriptPrompts
+          JavascriptPrompt expected = expectedJavascriptPrompts
               .remove(0);
           if (!msg.equals(expected.getMessage())) {
             throw new UnexpectedJavascriptPromptException(msg);
@@ -995,6 +1048,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * Get all the comments in a document, as a list of strings.
    */
+  @Override
   public List<String> getComments() {
     List<String> comments = new ArrayList<String>();
     getComments(comments, ((HtmlPage) win.getEnclosedPage()));
@@ -1075,7 +1129,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   }
 
   private HtmlForm getForm(int formIndex) {
-    return (HtmlForm) ((HtmlPage) win.getEnclosedPage()).getForms().get(
+    return ((HtmlPage) win.getEnclosedPage()).getForms().get(
         formIndex);
   }
 
@@ -1296,6 +1350,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean hasSubmitButton() {
     final HtmlForm htmlForm = getForm();
     List<?> l = htmlForm.getByXPath("//input[@type='submit' or @type='image']");
@@ -1306,6 +1361,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean hasSubmitButton(String buttonName) {
     return getSubmitButton(buttonName) != null;
   }
@@ -1313,6 +1369,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean hasSubmitButton(String buttonName, String buttonValue) {
     try {
       return getSubmitButton(buttonName, buttonValue) != null;
@@ -1322,6 +1379,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   }
 
+  @Override
   public boolean hasResetButton() {
     HtmlForm form = getForm();
     List<?> l = form.getByXPath("//input[@type='reset']");
@@ -1329,6 +1387,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return (l.size() > 0 || l2.size() > 0);
   }
 
+  @Override
   public boolean hasResetButton(String buttonName) {
     return getResetButton(buttonName) != null;
   }
@@ -1366,6 +1425,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * or the value of the "value" attribute.
    * @return <code>true</code> when the button with text could be found.
    */
+  @Override
   public boolean hasButtonWithText(String text) {
     return getButtonWithText(text) != null ? true : false;
   }
@@ -1385,8 +1445,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * no such button is found.
    */
   public HtmlElement getButtonWithText(String buttonValueText) {
-    if (buttonValueText == null)
+    if (buttonValueText == null) {
       throw new NullPointerException("Cannot search for button with null text");
+    }
 
     List<? extends HtmlElement> l = ((HtmlPage) win.getEnclosedPage()).getDocumentElement()
         .getHtmlElementsByTagNames(
@@ -1417,6 +1478,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param buttonId the id of the button
    * @return <code>true</code> when the button was found.
    */
+  @Override
   public boolean hasButton(String buttonId) {
     try {
       return getButton(buttonId) != null;
@@ -1425,11 +1487,13 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public boolean isCheckboxSelected(String checkBoxName) {
     HtmlCheckBoxInput cb = getCheckbox(checkBoxName);
     return cb.isChecked();
   }
 
+  @Override
   public boolean isCheckboxSelected(String checkBoxName, String checkBoxValue) {
     HtmlCheckBoxInput cb = getCheckbox(checkBoxName, checkBoxValue);
     return cb.isChecked();
@@ -1461,6 +1525,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return false;
   }
 
+  @Override
   public Table getTable(String tableSummaryNameOrId) {
     HtmlTable table = getHtmlTable(tableSummaryNameOrId);
     Table result = new Table();
@@ -1508,6 +1573,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return null;
   }
 
+  @Override
   public boolean hasTable(String tableSummaryNameOrId) {
     return getHtmlTable(tableSummaryNameOrId) != null;
   }
@@ -1516,6 +1582,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * Submit the current form with the default submit button. See {@link #getForm}for an explanation of how the
    * current form is established.
    */
+  @Override
   public void submit() {
     try {
       Object[] inpt = getForm().getHtmlElementsByTagName("input")
@@ -1555,6 +1622,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    *
    * @param buttonName name of the button to use for submission.
    */
+  @Override
   public void submit(String buttonName) {
     List<HtmlElement> l = new LinkedList<HtmlElement>();
     l.addAll(getForm().getInputsByName(buttonName));
@@ -1596,6 +1664,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param buttonName name of the button to use for submission.
    * @param buttonValue value/label of the button to use for submission
    */
+  @Override
   public void submit(String buttonName, String buttonValue) {
     List<HtmlElement> l = new LinkedList<HtmlElement>();
     l.addAll(getForm().getInputsByName(buttonName));
@@ -1644,6 +1713,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * Reset the current form. See {@link #getForm}for an explanation of how the current form is established.
    */
+  @Override
   public void reset() {
     getForm().reset();
   }
@@ -1656,14 +1726,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param linkText text to check for in links on the response.
    * @param index The 0-based index, when more than one link with the same text is expected.
    */
+  @Override
   public boolean hasLinkWithText(String linkText, int index) {
     return getLinkWithText(linkText, index) != null;
   }
 
+  @Override
   public boolean hasLinkWithExactText(String linkText, int index) {
     return getLinkWithExactText(linkText, index) != null;
   }
 
+  @Override
   public boolean hasLinkWithImage(String imageFileName, int index) {
     return getLinkWithImage(imageFileName, index) != null;
   }
@@ -1673,6 +1746,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    *
    * @param anId link id to check for.
    */
+  @Override
   public boolean hasLink(String anId) {
     try {
       ((HtmlPage) win.getEnclosedPage()).getHtmlElementById(anId);
@@ -1682,6 +1756,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return true;
   }
 
+  @Override
   public void clickLinkWithText(String linkText, int index) {
     HtmlAnchor link = getLinkWithText(linkText, index);
     if (link == null) {
@@ -1695,6 +1770,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public void clickLinkWithExactText(String linkText, int index) {
     HtmlAnchor link = getLinkWithExactText(linkText, index);
     if (link == null) {
@@ -1737,6 +1813,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    *
    * @param checkBoxName name of checkbox to be deselected.
    */
+  @Override
   public void checkCheckbox(String checkBoxName) {
     HtmlCheckBoxInput cb = getCheckbox(checkBoxName);
     if (!cb.isChecked()) {
@@ -1748,6 +1825,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public void checkCheckbox(String checkBoxName, String value) {
     HtmlCheckBoxInput cb = getCheckbox(checkBoxName, value);
     if (!cb.isChecked()) {
@@ -1765,6 +1843,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    *
    * @param checkBoxName name of checkbox to be deselected.
    */
+  @Override
   public void uncheckCheckbox(String checkBoxName) {
     HtmlCheckBoxInput cb = getCheckbox(checkBoxName);
     if (cb.isChecked()) {
@@ -1777,6 +1856,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public void uncheckCheckbox(String checkBoxName, String value) {
     HtmlCheckBoxInput cb = getCheckbox(checkBoxName, value);
     if (cb.isChecked()) {
@@ -1807,6 +1887,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param radioGroup name of the radio group.
    * @param radioOption value of the option to check for.
    */
+  @Override
   public void clickRadioOption(String radioGroup, String radioOption) {
     HtmlRadioButtonInput rb = getRadioOption(radioGroup, radioOption);
     if (!rb.isChecked()) {
@@ -1825,6 +1906,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    *
    * @param anID id of link to be navigated.
    */
+  @Override
   public void clickLink(String anID) {
     clickElementByXPath("//a[@id=\"" + anID + "\"]");
   }
@@ -1864,6 +1946,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    *            <tt>"images/my_icon.png"<tt>, you could just pass in
    *                      <tt>"my_icon.png"<tt>.
    */
+  @Override
   public void clickLinkWithImage(String imageFileName, int index) {
     HtmlAnchor link = getLinkWithImage(imageFileName, index);
     if (link == null) {
@@ -1877,14 +1960,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public boolean hasElement(String anID) {
     return getHtmlElement(anID) != null;
   }
 
+  @Override
   public boolean hasElementByXPath(String xpath) {
     return getHtmlElementByXPath(xpath) != null;
   }
 
+  @Override
   public void clickElementByXPath(String xpath) {
     HtmlElement e = getHtmlElementByXPath(xpath);
     if (e == null) {
@@ -1898,6 +1984,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public String getElementAttributByXPath(String xpath, String attribut) {
     HtmlElement e = getHtmlElementByXPath(xpath);
     if (e == null) {
@@ -1906,6 +1993,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return e.getAttribute(attribut);
   }
 
+  @Override
   public String getElementTextByXPath(String xpath) {
     HtmlElement e = getHtmlElementByXPath(xpath);
     if (e == null) {
@@ -1919,6 +2007,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    *
    * @param buttonId
    */
+  @Override
   public void clickButton(String buttonId) {
     HtmlElement btn = getButton(buttonId);
     try {
@@ -1934,6 +2023,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     * value attribute.  For HTML button tags, this checks the element's
     * content by converting it to text.  or an HTML &lt;button&gt; tag.
     */
+  @Override
   public void clickButtonWithText(String buttonValueText) {
     HtmlElement b = getButtonWithText(buttonValueText);
     if (b != null) {
@@ -1954,10 +2044,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param radioGroup name of the radio group.
    * @param radioOption value of the option to check for.
    */
+  @Override
   public boolean hasRadioOption(String radioGroup, String radioOption) {
     return getRadioOption(radioGroup, radioOption) != null;
   }
 
+  @Override
   public String getSelectedRadio(String radioGroup) {
     List<HtmlRadioButtonInput> radios = getForm().getRadioButtonsByName(radioGroup);
     for (HtmlRadioButtonInput radio : radios) {
@@ -1974,6 +2066,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param selectName name of the select box.
    * @param optionLabel label of the option.
    */
+  @Override
   public boolean hasSelectOption(String selectName, String optionLabel) {
     String[] opts = getSelectOptionValues(selectName);
     for (int i = 0; i < opts.length; i++) {
@@ -1991,6 +2084,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param selectName name of the select box.
    * @param optionValue value of the option.
    */
+  @Override
   public boolean hasSelectOptionValue(String selectName, String optionValue) {
     String[] opts = getSelectOptionValues(selectName);
     for (int i = 0; i < opts.length; i++) {
@@ -2007,78 +2101,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @param selectName name of the select box
    * @param options set of options to select.
    */
+  @Override
   public void selectOptions(String selectName, String[] options) {
     HtmlSelect sel = getForm().getSelectByName(selectName);
-    if (!sel.isMultipleSelectEnabled() && options.length > 1)
-      throw new RuntimeException("Multiselect not enabled");
-    for (String option : options) {
-      boolean found = false;
-      for (HtmlOption opt : sel.getOptions()) {
-        if (opt.getValueAttribute().equals(option)) {
-          sel.setSelectedAttribute(opt, true);
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        throw new RuntimeException("Option " + option
-          + " not found");
-      }
-    }
-  }
-
-  /**
-   * Return true if the Nth select box contains the indicated option.
-   *
-   * @param selectName name of the select box.
-   * @param index the 0-based index of the select element when multiple
-   * select elements are expected.
-   * @param optionLabel label of the option.
-   */
-  public boolean hasSelectOption(String selectName, int index, String optionLabel) {
-    String[] opts = getSelectOptionValues(selectName, index);
-    for (int i = 0; i < opts.length; i++) {
-      String label = getSelectOptionLabelForValue(selectName, index, opts[i]);
-      if (label.equals(optionLabel)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
-   * Return true if the Nth select box contains the indicated option.
-   *
-   * @param selectName name of the select box.
-   * @param index the 0-based index of the select element when multiple
-   * select elements are expected.
-   * @param optionValue value of the option.
-   */
-  public boolean hasSelectOptionValue(String selectName, int index, String optionValue) {
-    String[] opts = getSelectOptionValues(selectName, index);
-    for (int i = 0; i < opts.length; i++) {
-      if (opts[i].equals(optionValue)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
-   * Select the specified set of options in the select element
-   * with the provided name.
-   * @param selectName name of the select box
-   * @param index the 0-based index of the select element when multiple
-   * select elements are expected.
-   * @param options set of options to select.
-   */
-  public void selectOptions(String selectName, int index, String[] options) {
-    List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
-    if (sels == null || sels.size() < index + 1) {
-      throw new RuntimeException("Did not find select with name [" + selectName
-        + "] at index " + index);
-    }
-    HtmlSelect sel = (HtmlSelect) sels.get(index);
     if (!sel.isMultipleSelectEnabled() && options.length > 1) {
       throw new RuntimeException("Multiselect not enabled");
     }
@@ -2098,6 +2123,81 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  /**
+   * Return true if the Nth select box contains the indicated option.
+   *
+   * @param selectName name of the select box.
+   * @param index the 0-based index of the select element when multiple
+   * select elements are expected.
+   * @param optionLabel label of the option.
+   */
+  @Override
+  public boolean hasSelectOption(String selectName, int index, String optionLabel) {
+    String[] opts = getSelectOptionValues(selectName, index);
+    for (int i = 0; i < opts.length; i++) {
+      String label = getSelectOptionLabelForValue(selectName, index, opts[i]);
+      if (label.equals(optionLabel)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Return true if the Nth select box contains the indicated option.
+   *
+   * @param selectName name of the select box.
+   * @param index the 0-based index of the select element when multiple
+   * select elements are expected.
+   * @param optionValue value of the option.
+   */
+  @Override
+  public boolean hasSelectOptionValue(String selectName, int index, String optionValue) {
+    String[] opts = getSelectOptionValues(selectName, index);
+    for (int i = 0; i < opts.length; i++) {
+      if (opts[i].equals(optionValue)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Select the specified set of options in the select element
+   * with the provided name.
+   * @param selectName name of the select box
+   * @param index the 0-based index of the select element when multiple
+   * select elements are expected.
+   * @param options set of options to select.
+   */
+  @Override
+  public void selectOptions(String selectName, int index, String[] options) {
+    List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
+    if (sels == null || sels.size() < index + 1) {
+      throw new RuntimeException("Did not find select with name [" + selectName
+        + "] at index " + index);
+    }
+    HtmlSelect sel = sels.get(index);
+    if (!sel.isMultipleSelectEnabled() && options.length > 1) {
+      throw new RuntimeException("Multiselect not enabled");
+    }
+    for (String option : options) {
+      boolean found = false;
+      for (HtmlOption opt : sel.getOptions()) {
+        if (opt.getValueAttribute().equals(option)) {
+          sel.setSelectedAttribute(opt, true);
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        throw new RuntimeException("Option " + option
+          + " not found");
+      }
+    }
+  }
+
+  @Override
   public void unselectOptions(String selectName, String[] options) {
     HtmlSelect sel = getForm().getSelectByName(selectName);
     if (!sel.isMultipleSelectEnabled() && options.length > 1) {
@@ -2119,6 +2219,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public void unselectOptions(String selectName, int index, String[] options) {
     List<HtmlSelect> sels = getForm().getSelectsByName(selectName);
     if (sels == null || sels.size() < index + 1) {
@@ -2145,6 +2246,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public boolean isTextInElement(String elementID, String text) {
     return isTextInElement(getHtmlElement(elementID), text);
   }
@@ -2159,6 +2261,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return element.asText().indexOf(text) >= 0;
   }
 
+  @Override
   public boolean isMatchInElement(String elementID, String regexp) {
     return isMatchInElement(getHtmlElement(elementID), regexp);
   }
@@ -2185,6 +2288,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void gotoRootWindow() {
     win = win.getTopWindow();
   }
@@ -2231,11 +2335,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return testContext;
   }
 
+  @Override
   public void setExpectedJavaScriptAlert(JavascriptAlert[] alerts)
       throws ExpectedJavascriptAlertException {
     if (this.expectedJavascriptAlerts.size() > 0) {
       throw new ExpectedJavascriptAlertException(
-          ((JavascriptAlert) (expectedJavascriptAlerts.get(0)))
+          (expectedJavascriptAlerts.get(0))
               .getMessage());
     }
     for (int i = 0; i < alerts.length; i++) {
@@ -2243,11 +2348,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public void setExpectedJavaScriptConfirm(JavascriptConfirm[] confirms)
       throws ExpectedJavascriptConfirmException {
     if (this.expectedJavascriptConfirms.size() > 0) {
       throw new ExpectedJavascriptConfirmException(
-          ((JavascriptConfirm) (expectedJavascriptConfirms.get(0)))
+          (expectedJavascriptConfirms.get(0))
               .getMessage());
     }
     for (int i = confirms.length - 1; i >= 0; i--) {
@@ -2255,11 +2361,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
+  @Override
   public void setExpectedJavaScriptPrompt(JavascriptPrompt[] prompts)
       throws ExpectedJavascriptPromptException {
     if (this.expectedJavascriptPrompts.size() > 0) {
       throw new ExpectedJavascriptPromptException(
-          ((JavascriptPrompt) (expectedJavascriptPrompts.get(0)))
+          (expectedJavascriptPrompts.get(0))
               .getMessage());
     }
     for (int i = prompts.length - 1; i >= 0; i--) {
@@ -2272,10 +2379,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * 
    * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementByXPath(java.lang.String)
    */
+  @Override
   public IElement getElementByXPath(String xpath) {
     HtmlElement element = this.getHtmlElementByXPath(xpath);
-    if (element != null)
+    if (element != null) {
       return new HtmlUnitElementImpl(element);
+    }
     return null;
   }
 
@@ -2284,10 +2393,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * 
    * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementByID(java.lang.String)
    */
+  @Override
   public IElement getElementByID(String id) {
     HtmlElement element = this.getHtmlElement(id);
-    if (element != null)
+    if (element != null) {
       return new HtmlUnitElementImpl(element);
+    }
     return null;
   }
 
@@ -2296,11 +2407,13 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * 
    * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementsByXPath(java.lang.String)
    */
+  @Override
   public List<IElement> getElementsByXPath(String xpath) {
     List<IElement> children = new ArrayList<IElement>();
     for (Object child : getCurrentPage().getByXPath(xpath)) {
-      if (child instanceof HtmlElement)
+      if (child instanceof HtmlElement) {
         children.add(new HtmlUnitElementImpl((HtmlElement) child));
+      }
     }
     return children;
   }
@@ -2310,6 +2423,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * 
    * @see net.sourceforge.jwebunit.api.ITestingEngine#getServerResponseCode()
    */
+  @Override
   public int getServerResponseCode() {
     return getWebResponse().getStatusCode();
   }
@@ -2324,6 +2438,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /*
    * @param ignoreFailingStatusCodes the ignoreFailingStatusCodes to set
    */
+  @Override
   public void setIgnoreFailingStatusCodes(boolean ignore) {
     ignoreFailingStatusCodes = ignore;
     if (wc != null) {
@@ -2336,6 +2451,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * 
    * @see net.sourceforge.jwebunit.api.ITestingEngine#getHeader(java.lang.String)
    */
+  @Override
   public String getHeader(String name) {
     return getWebResponse().getResponseHeaderValue(name);
   }
@@ -2345,6 +2461,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * 
    * @see net.sourceforge.jwebunit.api.ITestingEngine#getAllHeaders()
    */
+  @Override
   @Deprecated
   public Map<String, String> getAllHeaders() {
     Map<String, String> map = new java.util.HashMap<String, String>();
@@ -2354,6 +2471,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     return map;
   }
 
+  @Override
   public List<HttpHeader> getResponseHeaders() {
     List<HttpHeader> result = new LinkedList<HttpHeader>();
     for (NameValuePair header : getWebResponse().getResponseHeaders()) {
@@ -2384,6 +2502,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     this.defaultBrowserVersion = defaultBrowserVersion;
   }
 
+  @Override
   public void setTimeout(int milliseconds) {
     if (wc != null && wc.getWebConnection() != null) {
       throw new IllegalArgumentException("Cannot set the timeout when the WebConnection has already been created.");
