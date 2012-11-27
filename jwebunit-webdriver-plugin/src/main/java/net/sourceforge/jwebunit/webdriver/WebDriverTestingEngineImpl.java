@@ -81,7 +81,7 @@ import com.gargoylesoftware.htmlunit.WebResponse;
 /**
  * Acts as the wrapper for Webdriver access. A testing engine is initialized with a given URL, and maintains
  * conversational state as the dialog progresses through link navigation, form submission, etc.
- * 
+ *
  * @author Julien Henry
  */
 public class WebDriverTestingEngineImpl implements ITestingEngine {
@@ -112,9 +112,9 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
 
     public void beginAt(URL aInitialURL, TestContext aTestContext) throws TestingEngineResponseException {
         this.setTestContext(aTestContext);
-        // start the proxy        
+        // start the proxy
         Proxy proxy = startBrowserMobProxy();
-        
+
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(CapabilityType.PROXY, proxy);
         capabilities.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, jsEnabled);
@@ -122,7 +122,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         capabilities.setVersion("firefox");
 
         driver = new HtmlUnitDriver(capabilities);
-        
+
         //Reset form
         formIdent = null;
 
@@ -141,15 +141,15 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.SECOND, c.getMaxAge());
                 expiry = cal.getTime();
-            }            
+            }
             driver.manage().addCookie(
                     new org.openqa.selenium.Cookie(c
-                            .getName(), c.getValue(), domain, c.getPath() != null ? c                                          
+                            .getName(), c.getValue(), domain, c.getPath() != null ? c
                                 .getPath() : "", expiry, c.getSecure()));
         }
         gotoPage(aInitialURL);
     }
-    
+
     private Proxy startBrowserMobProxy() {
         for (int i = 1; i <= TRY_COUNT; i++) {
             int port = getRandomPort();
@@ -163,21 +163,21 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
                     }
                 });
                 if (testContext.getRequestHeaders() != null && !testContext.getRequestHeaders().isEmpty()) {
-	                proxyServer.addRequestInterceptor(new HttpRequestInterceptor() {
-	                    public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
-	                        for (Map.Entry<String, String> requestHeader : testContext.getRequestHeaders().entrySet()) {
-	                            request.addHeader(requestHeader.getKey(), requestHeader.getValue());
-	                        }
-	                    }
-	                });
+                  proxyServer.addRequestInterceptor(new HttpRequestInterceptor() {
+                      public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
+                          for (Map.Entry<String, String> requestHeader : testContext.getRequestHeaders().entrySet()) {
+                              request.addHeader(requestHeader.getKey(), requestHeader.getValue());
+                          }
+                      }
+                  });
                 }
                 if (StringUtils.isNotBlank(testContext.getUserAgent())) {
-	                proxyServer.addRequestInterceptor(new HttpRequestInterceptor() {
-	                    public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
-	                        request.removeHeaders("User-Agent");
-	                        request.addHeader("User-Agent", testContext.getUserAgent());
-	                    }
-	                });
+                  proxyServer.addRequestInterceptor(new HttpRequestInterceptor() {
+                      public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
+                          request.removeHeaders("User-Agent");
+                          request.addHeader("User-Agent", testContext.getUserAgent());
+                      }
+                  });
                 }
                 return proxyServer.seleniumProxy();
             }
@@ -185,8 +185,8 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
                 if (i<TRY_COUNT) {
                     logger.error("Error while starting BrowserMob proxy on port " + port + ". Retry...: " + e.getMessage(), e);
                     if (e instanceof MultiException) {
-                    	Exception e1 = ((MultiException) e).getException(0);
-                    	logger.error("First exception: " + e1.getMessage(), e1);
+                      Exception e1 = ((MultiException) e).getException(0);
+                      logger.error("First exception: " + e1.getMessage(), e1);
                     }
                     continue;
                 }
@@ -194,7 +194,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         }
         throw new RuntimeException("Unable to start BrowserMob proxy after " + TRY_COUNT + " retries");
     }
-    
+
     private static int getRandomPort() {
         synchronized (RANDOM) {
             return DEFAULT_PORT + RANDOM.nextInt(1000);
@@ -231,7 +231,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         throwFailingHttpStatusCodeExceptionIfNecessary(
             response.getStatusLine().getStatusCode(), urlStr);
     }
-    
+
     /**
      * Copied from {@link WebClient#throwFailingHttpStatusCodeExceptionIfNecessary(WebResponse)}
      *
@@ -343,7 +343,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         driver.close();
         //FIXME Issue 1466 & 2834
         if (getWindowCount() > 0) {
-        	driver.switchTo().window(driver.getWindowHandles().iterator().next());
+          driver.switchTo().window(driver.getWindowHandles().iterator().next());
         }
     }
 
@@ -388,6 +388,11 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
 
     public boolean hasForm(String nameOrID) {
         return hasElementByXPath("//form[@name=" + escapeQuotes(nameOrID) + " or @id=" + escapeQuotes(nameOrID) + "]");
+    }
+
+    public boolean hasForm(String nameOrID, int index) {
+        return hasElementByXPath("//form[@name=" + escapeQuotes(nameOrID) + " or @id=" + escapeQuotes(nameOrID) + "][position()="
+                    + (index + 1) + "]");
     }
 
     public boolean hasFormParameterNamed(String paramName) {
@@ -450,7 +455,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         e.clear();
         e.sendKeys(text);
     }
-    
+
     /**
      * Look for any text field (input text, input password, textarea, file input).
      */
@@ -470,7 +475,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
 
     public void setHiddenField(String inputName, String text) {
         WebElement e = getWebElementByXPath("//input[@type='hidden' and @name=" + escapeQuotes(inputName) + "]", false, true);
-        ((JavascriptExecutor)driver).executeScript("arguments[0].value=" + escapeQuotes(text), e); 
+        ((JavascriptExecutor)driver).executeScript("arguments[0].value=" + escapeQuotes(text), e);
     }
 
     public String[] getSelectOptionValues(String selectName) {
@@ -491,7 +496,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
     }
 
     private String[] getSelectedOptions(Select select) {
-    	//FIXME http://code.google.com/p/selenium/issues/detail?id=2295
+      //FIXME http://code.google.com/p/selenium/issues/detail?id=2295
         String[] result = new String[select.getAllSelectedOptions().size()];
         int i = 0;
         for (WebElement opt : select.getAllSelectedOptions()) {
@@ -789,7 +794,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
 //        if (response.getEntity().getContentEncoding() != null) {
 //            encoding = response.getEntity().getContentEncoding().getValue();
 //        }
-//        
+//
 //        try {
 //            return IOUtils.toString(response.getEntity().getContent(), encoding);
 //        }
@@ -851,19 +856,19 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
                 catch (NumberFormatException e) {
                     rowspan = 1;
                 }
-                newRow.appendCell(new Cell(td.getText(), 
-                    colspan, 
+                newRow.appendCell(new Cell(td.getText(),
+                    colspan,
                     rowspan));
             }
             result.appendRow(newRow);
         }
         return result;
     }
-    
+
     /**
      * Return the Webdriver WebElement object representing a specified table in the current response. Null is returned if a
      * parsing exception occurs looking for the table or no table with the id or summary could be found.
-     * 
+     *
      * @param tableSummaryOrId summary or id of the table to return.
      */
     private WebElement getHtmlTable(String tableSummaryOrId) {
@@ -957,7 +962,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         }
         link.click();
     }
-    
+
     public boolean hasElement(String anID) {
         try {
             driver.findElement(By.id(anID));
@@ -994,21 +999,21 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
 
     /**
      * Return true if a given string is contained within the specified element.
-     * 
+     *
      * @param element element to inspect.
      * @param text text to check for.
      */
     private boolean isTextInElement(WebElement element, String text) {
         return element.getText().indexOf(text) >= 0;
     }
-    
+
     public boolean isMatchInElement(String elementID, String regexp) {
         return isMatchInElement(driver.findElement(By.id(elementID)), regexp);
     }
 
     /**
      * Return true if a given regexp is contained within the specified element.
-     * 
+     *
      * @param element element to inspect.
      * @param regexp regexp to match.
      */
@@ -1023,8 +1028,8 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         } catch (RESyntaxException e) {
             throw new RuntimeException(e);
         }
-    }    
-    
+    }
+
     public void setExpectedJavaScriptAlert(JavascriptAlert[] alerts) throws ExpectedJavascriptAlertException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -1099,7 +1104,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         }
         return result;
     }
-    
+
     /**
      * Copied from {@link Select}
      * @param toEscape

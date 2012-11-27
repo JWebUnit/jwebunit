@@ -31,6 +31,9 @@
     </properties>
     <body>
         <release version="3.2" date="UNKNOW" description="">
+            <action type="fix" dev="henryju" issue="3590252" due-to="Kenny MacLeod">
+                Assert form is present before really calling setWorkingForm(String nameOrId, int index).
+            </action>
             <action type="update" dev="henryju" issue="3415400" due-to="Alex">
                 Set useInsecureSSL to true by default for HtmlUnit plugin.
             </action>

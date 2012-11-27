@@ -429,6 +429,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   }
 
   @Override
+  public boolean hasForm(String nameOrID, int index) {
+    return getForm(nameOrID, index) != null;
+  }
+
+  @Override
   public boolean hasFormParameterNamed(String paramName) {
     for (HtmlElement e : getCurrentPage().getHtmlElementDescendants()) {
       if (e.getAttribute("name").equals(paramName)) {

@@ -79,7 +79,7 @@ public class WebTester {
     private ITestingEngine testingEngine = null;
 
     private TestContext testContext = null;
-    
+
     /**
      * This is the testing engine key that the webtester will use to find the correct testing engine from the registry.
      */
@@ -97,23 +97,23 @@ public class WebTester {
     public ITestingEngine getDialog() {
         return getTestingEngine();
     }
-    
+
     /**
      * Set the base url for the test context.
-     * 
+     *
      * @param url Base url value - A trailing "/" is appended if not provided.
      */
     public void setBaseUrl(String url) {
-    	getTestContext().setBaseUrl(url);
+      getTestContext().setBaseUrl(url);
     }
-    
+
     /**
      * Set the base url for the test context.
-     * 
+     *
      * @param url Base url value - A trailing "/" is appended if not provided.
      */
     public void setBaseUrl(URL url) {
-    	getTestContext().setBaseUrl(url);
+      getTestContext().setBaseUrl(url);
     }
 
     /**
@@ -260,7 +260,7 @@ public class WebTester {
     }
 
     /**
-     * 
+     *
      * @param url Absolute or relative URL
      * @param baseURL Base URL of the page
      * @return Final absolute URL.
@@ -321,88 +321,88 @@ public class WebTester {
     }
 
     // Assertions
-    
+
     /**
      * Assert that the page response has a particular code.
-     * 
-     * @param status the expected status code 
+     *
+     * @param status the expected status code
      */
     public void assertResponseCode(int status) {
-    	assertEquals( status, getTestingEngine().getServerResponseCode() );
+      assertEquals( status, getTestingEngine().getServerResponseCode() );
     }
 
     /**
      * Assert that the page response has a particular code between lower and higher
      * (<code>lower <= status <= higher</code>).
-     * 
-     * @param lower the lower bound for the expected status code 
-     * @param higher the upper bound for the expected status code 
+     *
+     * @param lower the lower bound for the expected status code
+     * @param higher the upper bound for the expected status code
      */
     public void assertResponseCodeBetween(int lower, int higher) {
-    	assertTrue( getTestingEngine().getServerResponseCode() >= lower && getTestingEngine().getServerResponseCode() <= higher );
-    } 
-    
-	/**
-	 * Should the tester ignore failing status codes (300+)? Otherwise,
-	 * failing status codes will throw an exception.
-	 * 
-	 * @param ignore
-	 */
-    public void setIgnoreFailingStatusCodes(boolean ignore) {
-    	getTestingEngine().setIgnoreFailingStatusCodes(ignore);
+      assertTrue( getTestingEngine().getServerResponseCode() >= lower && getTestingEngine().getServerResponseCode() <= higher );
     }
-    
+
+  /**
+   * Should the tester ignore failing status codes (300+)? Otherwise,
+   * failing status codes will throw an exception.
+   *
+   * @param ignore
+   */
+    public void setIgnoreFailingStatusCodes(boolean ignore) {
+      getTestingEngine().setIgnoreFailingStatusCodes(ignore);
+    }
+
     /**
      * Assert a header is present.
-     * 
+     *
      * @param name The header to find
      */
     public void assertHeaderPresent(String name) {
-    	assertFalse( "header '" + name + "' not present", getTestingEngine().getHeader(name) == null );
+      assertFalse( "header '" + name + "' not present", getTestingEngine().getHeader(name) == null );
     }
-    
+
     /**
      * Assert a header is NOT present.
-     * 
+     *
      * @param name The header to find
      */
     public void assertHeaderNotPresent(String name) {
-    	assertTrue( "header '" + name + "' present", getTestingEngine().getHeader(name) == null );
+      assertTrue( "header '" + name + "' present", getTestingEngine().getHeader(name) == null );
     }
-    
+
     /**
      * Assert a header is equal to a particular value.
-     * 
+     *
      * @param name Header to find
      * @param value Value to compare against
      */
     public void assertHeaderEquals(String name, String value) {
-    	assertEquals( value, getTestingEngine().getHeader(name) );
+      assertEquals( value, getTestingEngine().getHeader(name) );
     }
-    
+
     /**
      * Assert a header matches a particular pattern.
-     * 
+     *
      * @param name Header to find
      * @param regexp Pattern to compare against
      */
     public void assertHeaderMatches(String name, String regexp) {
-    	assertMatch("Unable to match [" + regexp + "] in header [" + name + "]", regexp, getTestingEngine().getHeader(name));    	
+      assertMatch("Unable to match [" + regexp + "] in header [" + name + "]", regexp, getTestingEngine().getHeader(name));
     }
-    
+
     /**
      * Get a particular header value.
-     * 
+     *
      * @param name Header to find
      * @return The found header value, or null
      */
     public String getHeader(String name) {
-    	return getTestingEngine().getHeader(name);
+      return getTestingEngine().getHeader(name);
     }
-    
+
     /**
      * Get all response headers.
-     * 
+     *
      * @return A map of response headers
      * @deprecated This method do not deal with several headers with same name. Use {@link #getResponseHeaders()} instead.
      */
@@ -410,10 +410,10 @@ public class WebTester {
     public Map<String, String> getAllHeaders() {
         return getTestingEngine().getAllHeaders();
     }
-    
+
     /**
      * Return all HTTP headers that are in last response. It is possible to have several headers with same name.
-     * 
+     *
      * @return A list of {@link HttpHeader} elements.
      */
     public List<HttpHeader> getResponseHeaders() {
@@ -430,7 +430,7 @@ public class WebTester {
     public void assertTitleEquals(String title) {
         assertEquals(title, getTestingEngine().getPageTitle());
     }
-    
+
     /**
      * Assert title of current html page in conversation is not
      * equal to another value.
@@ -441,7 +441,7 @@ public class WebTester {
      */
     @Deprecated
     public void assertTitleNotSame(String title) {
-    	assertTitleNotEquals(title);
+      assertTitleNotEquals(title);
     }
 
     /**
@@ -452,7 +452,7 @@ public class WebTester {
      *            unexpected title value
      */
     public void assertTitleNotEquals(String title) {
-    	assertThat(title, not(equalTo(getTestingEngine().getPageTitle())));
+      assertThat(title, not(equalTo(getTestingEngine().getPageTitle())));
     }
 
     /**
@@ -461,7 +461,7 @@ public class WebTester {
      * @param regexp expected title regexp
      */
     public void assertTitleMatch(String regexp) {
-    	assertMatch("Unable to match [" + regexp + "] in title", regexp, getTestingEngine().getPageTitle());
+      assertMatch("Unable to match [" + regexp + "] in title", regexp, getTestingEngine().getPageTitle());
     }
 
     /**
@@ -528,31 +528,31 @@ public class WebTester {
             fail("Expected rexexp not matched in response: [" + regexp
                     + "]");
     }
-    
+
     /**
      * Assert a given string matches a given regular expression.
-     * 
+     *
      * @param regexp
      * @param text
      */
     public void assertMatch(String regexp, String text) {
-    	assertMatch("Expected rexexp '" + regexp + "' not matched in text '" + text + "'", regexp, text);
+      assertMatch("Expected rexexp '" + regexp + "' not matched in text '" + text + "'", regexp, text);
     }
 
     /**
      * Assert a given string does not match a given regular expression.
-     * 
+     *
      * @param regexp
      * @param text
      */
     public void assertNotMatch(String regexp, String text) {
-    	assertNotMatch("Expected rexexp '" + regexp + "' matched in text '" + text + "'", regexp, text);
+      assertNotMatch("Expected rexexp '" + regexp + "' matched in text '" + text + "'", regexp, text);
     }
 
-    
+
     /**
      * Assert a given string matches a given regular expression.
-     * 
+     *
      * @param regexp
      * @param text
      */
@@ -564,7 +564,7 @@ public class WebTester {
 
     /**
      * Assert a given string does not match a given regular expression.
-     * 
+     *
      * @param regexp
      * @param text
      */
@@ -573,7 +573,7 @@ public class WebTester {
         if (re.match(text))
             fail(message);
     }
-    
+
     /**
      * Assert that a web resource's value is not present.
      *
@@ -610,9 +610,9 @@ public class WebTester {
      * @param regexp
      */
     public void assertNoMatch(String regexp) {
-    	assertNotMatch("Regexp matched in response when not expected: [" + regexp + "]",
-    		regexp,
-   			getTestingEngine().getPageText());
+      assertNotMatch("Regexp matched in response when not expected: [" + regexp + "]",
+        regexp,
+         getTestingEngine().getPageText());
     }
 
     /**
@@ -1020,6 +1020,17 @@ public class WebTester {
     }
 
     /**
+     * Assert that there is a form with the specified name or id and the given index present.
+     *
+     * @param nameOrID
+     * @param index The 0-based index, when more than one form with the same name is expected.
+     */
+    public void assertFormPresent(String nameOrID, int index) {
+        assertTrue("No form present with name or id [" + nameOrID + "] at index " + index,
+                getTestingEngine().hasForm(nameOrID, index));
+    }
+
+    /**
      * Assert that there is not a form present.
      *
      */
@@ -1060,7 +1071,7 @@ public class WebTester {
      * @param regexp
      */
     public void assertFormElementMatch(String formElementName, String regexp) {
-    	// how can we @deprecate this if there is no available alternative? 
+      // how can we @deprecate this if there is no available alternative?
         assertFormElementPresent(formElementName);
         RE re = null;
         try {
@@ -1080,7 +1091,7 @@ public class WebTester {
      * @param formElementName
      * @see #setTextField(String, String)
      * @see #setHiddenField(String, String)
-     * @deprecated use an explicit testing method, e.g. {@link #setTextField(String, String)} or {@link #setHiddenField(String, String)} 
+     * @deprecated use an explicit testing method, e.g. {@link #setTextField(String, String)} or {@link #setHiddenField(String, String)}
      */
     public void assertFormElementEmpty(String formElementName) {
         assertFormElementPresent(formElementName);
@@ -1207,7 +1218,7 @@ public class WebTester {
     public void assertRadioOptionSelected(String name, String radioOption) {
         assertRadioOptionPresent(name, radioOption);
         assertEquals(radioOption, getTestingEngine()
-        		.getSelectedRadio(name));
+            .getSelectedRadio(name));
     }
 
     /**
@@ -1317,8 +1328,8 @@ public class WebTester {
      * @param optionValues option labels.
      */
     public void assertSelectOptionValuesPresent(String selectName,
-    											int index,
-    											String[] optionValues) {
+                          int index,
+                          String[] optionValues) {
         assertFormElementPresent(selectName);
         for (int i = 0; i < optionValues.length; i++)
             assertTrue("Option [" + optionValues[i]
@@ -1337,8 +1348,8 @@ public class WebTester {
      * @param optionValue option value.
      */
     public void assertSelectOptionValuePresent(String selectName,
-    										   int index,
-    										   String optionValue) {
+                           int index,
+                           String optionValue) {
         assertSelectOptionValuesPresent(selectName, index,
                 new String[] { optionValue });
     }
@@ -2084,7 +2095,7 @@ public class WebTester {
      */
     public void assertLinkNotPresentWithImage(String imageFileName, int index) {
         assertFalse("Link with image file [" + imageFileName
-                + "] and index " + index + " found in response.", 
+                + "] and index " + index + " found in response.",
                 getTestingEngine().hasLinkWithImage(imageFileName, index));
     }
 
@@ -2127,30 +2138,30 @@ public class WebTester {
         assertFalse("Located element with xpath \"" + xpath + "\"",
                 getTestingEngine().hasElementByXPath(xpath));
     }
-    
+
     /**
      * Get all the comments in a document, as a list of strings.
      */
     public List<String> getComments() {
-    	return getTestingEngine().getComments();
+      return getTestingEngine().getComments();
     }
-    
+
     /**
      * Assert that a comment is present.
-     * 
+     *
      * @param comment
      */
     public void assertCommentPresent(String comment) {
-    	assertTrue("Comment present: '" + comment + "'", getComments().contains(comment.trim()));
+      assertTrue("Comment present: '" + comment + "'", getComments().contains(comment.trim()));
     }
-    
+
     /**
      * Assert that a comment is not present.
-     * 
+     *
      * @param comment
      */
     public void assertCommentNotPresent(String comment) {
-    	assertFalse("Comment not present: '" + comment + "'", getComments().contains(comment.trim()));
+      assertFalse("Comment not present: '" + comment + "'", getComments().contains(comment.trim()));
     }
 
     /**
@@ -2363,6 +2374,7 @@ public class WebTester {
      * @param index The 0-based index, when more than one form with the same name is expected.
      */
     public void setWorkingForm(String nameOrId, int index) {
+        assertFormPresent(nameOrId, index);
         getTestingEngine().setWorkingForm(nameOrId, index);
     }
 
@@ -2683,7 +2695,7 @@ public class WebTester {
     }
 
     /**
-     * Get the attribute value of the given element. 
+     * Get the attribute value of the given element.
      * For example, if you have an element <code>&lt;img src="test.gif" alt="picture"&gt;</code>
      * getElementAttributeByXPath("//img[@src='test.gif']", "alt") returns "picture".
      *
@@ -2695,12 +2707,12 @@ public class WebTester {
         assertElementPresentByXPath(xpath);
         return getTestingEngine().getElementAttributByXPath(xpath, attribute);
     }
-    
+
     /**
-     * @deprecated Use {@link #getElementAttributeByXPath(String, String)} 
+     * @deprecated Use {@link #getElementAttributeByXPath(String, String)}
      */
     public String getElementAttributByXPath(String xpath, String attribute) {
-    	return getElementAttributeByXPath(xpath, attribute);
+      return getElementAttributeByXPath(xpath, attribute);
     }
 
     /**
@@ -2710,7 +2722,7 @@ public class WebTester {
      */
     public String getElementTextByXPath(String xpath){
         assertElementPresentByXPath(xpath);
-    	return getTestingEngine().getElementTextByXPath(xpath);
+      return getTestingEngine().getElementTextByXPath(xpath);
     }
 
     /**
@@ -2718,11 +2730,11 @@ public class WebTester {
      *
      * @param xpath XPath to search
      * @return the requested element
-	 * @throws AssertionError if the element xpath is not found
+   * @throws AssertionError if the element xpath is not found
      */
     public IElement getElementByXPath(String xpath) {
-    	assertElementPresentByXPath(xpath);
-    	return getTestingEngine().getElementByXPath(xpath);
+      assertElementPresentByXPath(xpath);
+      return getTestingEngine().getElementByXPath(xpath);
     }
 
 
@@ -2731,11 +2743,11 @@ public class WebTester {
      *
      * @param id element ID to find
      * @return the requested element
-	 * @throws AssertionError if the element is not found
+   * @throws AssertionError if the element is not found
      */
     public IElement getElementById(String id) {
-    	assertElementPresent(id);
-    	return getTestingEngine().getElementByID(id);
+      assertElementPresent(id);
+      return getTestingEngine().getElementByID(id);
     }
 
     /**
@@ -2745,53 +2757,53 @@ public class WebTester {
      * @return the requested elements found
      */
     public List<IElement> getElementsByXPath(String xpath) {
-    	return getTestingEngine().getElementsByXPath(xpath);
+      return getTestingEngine().getElementsByXPath(xpath);
     }
-    
+
     // label methods
     /**
      * Assert a label for a given ID exists.
      */
     public void assertLabelPresent(String id) {
-    	assertNotNull("No label found with id [" + id + "]", getLabel(id));
+      assertNotNull("No label found with id [" + id + "]", getLabel(id));
     }
-    
+
     /**
      * Get a label for a particular ID.
-     * 
+     *
      * @param id
      * @return
      */
     private IElement getLabel(String id) {
-    	// get all labels
-    	for (IElement e : getTestingEngine().getElementsByXPath("//label")) {
-    		if (id.equals(e.getAttribute("id")))
-    			return e;	// label found
-    	}
-    	return null;
+      // get all labels
+      for (IElement e : getTestingEngine().getElementsByXPath("//label")) {
+        if (id.equals(e.getAttribute("id")))
+          return e;	// label found
+      }
+      return null;
     }
-    
+
     /**
      * Find a particular element with given text
-     * 
+     *
      * @param elementName the element type e.g. "input", "label"
      * @param text the text to search for
      * @return the found element, or null
      */
     private IElement getElementWithText(String elementName, String text) {
-    	for (IElement e : getTestingEngine().getElementsByXPath("//" + elementName)) {
-    		if (elementName.equals(e.getName()) && text.equals(e.getTextContent())) {
-    			return e;
-    		}
-    	}
-    	return null;
+      for (IElement e : getTestingEngine().getElementsByXPath("//" + elementName)) {
+        if (elementName.equals(e.getName()) && text.equals(e.getTextContent())) {
+          return e;
+        }
+      }
+      return null;
     }
 
     /**
      * Assert a label exists.
      */
     public void assertLabelMatches(String regexp) {
-    	// get regexp
+      // get regexp
         RE re = null;
         try {
             re = new RE(regexp, RE.MATCH_SINGLELINE);
@@ -2800,97 +2812,97 @@ public class WebTester {
         }
 
         // get all labels
-    	for (IElement e : getTestingEngine().getElementsByXPath("//label")) {
-    		if (e.getName().equals("label") && re.match( e.getTextContent() ))
-    			return;	// label found
-    	}
-    	fail("No label found with text matching [" + regexp + "]");
+      for (IElement e : getTestingEngine().getElementsByXPath("//label")) {
+        if (e.getName().equals("label") && re.match( e.getTextContent() ))
+          return;	// label found
+      }
+      fail("No label found with text matching [" + regexp + "]");
     }
-    
+
     /**
      * Get all the fields of type <code>input</code>, <code>textarea</code> or <code>select</code>
      * that are referenced or contained in a particular label.
-     * 
+     *
      * @param label The label to consider
      * @return A list of all fields contained or referenced in this label
      */
     public List<IElement> getFieldsForLabel(IElement label) {
-    	List<IElement> fields = new java.util.ArrayList<IElement>();
-    	// a direct "for" attribute
-    	if (label.getAttribute("for") != null) {
-    		IElement e = getTestingEngine().getElementByID(label.getAttribute("for"));
-    		if (e != null)
-    			fields.add(e);
-    	}
-    	
-    	// implicitly the elements inside the label
-    	if (fields.isEmpty()) {
-    		// get elements inside the label
-    		for (IElement e : label.getChildren()) {
-    			if (e.getName().equals("input") || e.getName().equals("textarea") || e.getName().equals("select")) {
-    				fields.add(e);
-    			}
-    		}
-    	}
-    	
-    	return fields;
+      List<IElement> fields = new java.util.ArrayList<IElement>();
+      // a direct "for" attribute
+      if (label.getAttribute("for") != null) {
+        IElement e = getTestingEngine().getElementByID(label.getAttribute("for"));
+        if (e != null)
+          fields.add(e);
+      }
+
+      // implicitly the elements inside the label
+      if (fields.isEmpty()) {
+        // get elements inside the label
+        for (IElement e : label.getChildren()) {
+          if (e.getName().equals("input") || e.getName().equals("textarea") || e.getName().equals("select")) {
+            fields.add(e);
+          }
+        }
+      }
+
+      return fields;
     }
-    
-    
+
+
     /**
      * Private method - test the value of a field connected to a particular IElement label.
-     * 
+     *
      * @param identifier the HTML ID for the given labelled field
      * @param label the label found for the given HTML field
      * @param fieldText the value to check is equal
      */
     private void assertLabeledFieldEquals(String identifier, IElement label, String fieldText) {
-    	String value = getLabeledFieldValue(identifier, label);
-    	assertEquals("unexpected value of field for label [" + identifier + "]", fieldText, value == null ? "" : value);
+      String value = getLabeledFieldValue(identifier, label);
+      assertEquals("unexpected value of field for label [" + identifier + "]", fieldText, value == null ? "" : value);
     }
-    
+
     /**
-     * Get the current value of a given labelled field. 
-     * 
+     * Get the current value of a given labelled field.
+     *
      * @param identifier the HTML ID for the given labelled field
      * @param label the label found for the given HTML ID
-     * @return the value found in a field for the given label/ID, or 
+     * @return the value found in a field for the given label/ID, or
      * 		<code>null</code> if none was found
      */
     public String getLabeledFieldValue(String identifier, IElement label) {
-    	List<IElement> fields = getFieldsForLabel(label);
-    	
-    	assertFalse("No field found for label [" + identifier + "]", fields.isEmpty());
-    	String value = null;
-    	// cycle through all fields trying to find value
-    	for (IElement field : fields) {
-    		if (value != null)	// stop at first correct value found
-    			break;
-    		if (field == null)
-    			throw new RuntimeException("unexpected null field");
-    		
-	    	if ("input".equals(field.getName())) {
-	    		if (field.getAttribute("type") != null) {
-		    		if (field.getAttribute("type").toLowerCase().equals("checkbox")) {
-		    			if (field.getAttribute("checked") != null) {
-		    				value = field.getAttribute("value");
-			    		}
-		    		} else if (field.getAttribute("type").toLowerCase().equals("radio")) {
-		    			if (field.getAttribute("checked") != null) {
-		    				value = field.getAttribute("value");
-		    			}
-			    	} else {
-			    		// any other input type
-		    			value = field.getAttribute("value");
-		    		}
-		    	} else {
-		    		// unspecified input type, default = text
-	    			value = field.getAttribute("value");
-		    	}
-	    	} else if ("textarea".equals(field.getName())) {
-	    		value = field.getTextContent();
-	    	} else if ("select".equals(field.getName())) {
-	    		// get the selected option
+      List<IElement> fields = getFieldsForLabel(label);
+
+      assertFalse("No field found for label [" + identifier + "]", fields.isEmpty());
+      String value = null;
+      // cycle through all fields trying to find value
+      for (IElement field : fields) {
+        if (value != null)	// stop at first correct value found
+          break;
+        if (field == null)
+          throw new RuntimeException("unexpected null field");
+
+        if ("input".equals(field.getName())) {
+          if (field.getAttribute("type") != null) {
+            if (field.getAttribute("type").toLowerCase().equals("checkbox")) {
+              if (field.getAttribute("checked") != null) {
+                value = field.getAttribute("value");
+              }
+            } else if (field.getAttribute("type").toLowerCase().equals("radio")) {
+              if (field.getAttribute("checked") != null) {
+                value = field.getAttribute("value");
+              }
+            } else {
+              // any other input type
+              value = field.getAttribute("value");
+            }
+          } else {
+            // unspecified input type, default = text
+            value = field.getAttribute("value");
+          }
+        } else if ("textarea".equals(field.getName())) {
+          value = field.getTextContent();
+        } else if ("select".equals(field.getName())) {
+          // get the selected option
                 for (IElement child : field.getChildren()) {
                     if (child.getName().equals("option") && child.getAttribute("selected") != null) {
                         value = child.getAttribute("value");
@@ -2905,82 +2917,82 @@ public class WebTester {
                         }
                     }
                 }
-	    	} else {
-	    		throw new RuntimeException("Unexpected field type " + field.getName());
-	    	}
-    	}
-    	
-    	return value;
+        } else {
+          throw new RuntimeException("Unexpected field type " + field.getName());
+        }
+      }
+
+      return value;
     }
-    
+
     /**
      * Assert that a labeled field exists (for the given ID) and the
      * field that it labels equals the given text
-     * 
+     *
      * @param id the HTML ID for the given labelled field
      * @param fieldText the text that the field's value should equal
      * @see #getLabeledFieldValue(String, IElement, String)
      * @see #getLabel(String)
      */
     public void assertLabeledFieldEquals(String id, String fieldText) {
-    	IElement label = getLabel(id);
-    	assertNotNull("no label for id [" + id + "] found", label);
-    	
-    	assertLabeledFieldEquals(id, label, fieldText);
+      IElement label = getLabel(id);
+      assertNotNull("no label for id [" + id + "] found", label);
+
+      assertLabeledFieldEquals(id, label, fieldText);
     }
-    
+
     public void setLabeledFormElementField(String id, String value) {
-    	IElement label = getLabel(id);
-    	assertNotNull("no label for id [" + id + "] found", label);
-    	
-    	List<IElement> fields = getFieldsForLabel(label);
-    	assertFalse("there should be at least one element referenced for label [" + id + "]", fields.size()==0);
-    	
-    	// find the first element that we can change
-    	for (IElement field : fields) {
-    		if (field == null)
-    			throw new RuntimeException("unexpected null field");
-    		
-	    	if ("input".equals(field.getName())) {
-	    		if (field.getAttribute("type") != null) {
-		    		if (field.getAttribute("type").toLowerCase().equals("checkbox")) {
-		    			if (value.equals(field.getAttribute("value"))) {
-		    				field.setAttribute("checked");
-		    				return;
-			    		}
-		    		} else if (field.getAttribute("type").toLowerCase().equals("radio")) {
-		    			if (value.equals(field.getAttribute("value"))) {
-		    				field.setAttribute("checked");
-		    				return;
-		    			}
-			    	} else {
-			    		// any other input type
-			    		field.setAttribute("value", value);
-			    		return;
-		    		}
-		    	} else {
-		    		// unspecified input type, default = text
-		    		field.setAttribute("value", value);
-		    		return;
-		    	}
-	    	} else if ("textarea".equals(field.getName())) {
-	    		field.setTextContent(value);
-	    		return;
-	    	} else if ("select".equals(field.getName())) {
-	    		// get the selected option
-	    		for (IElement children : field.getChildren()) {
-	    			// find the option which matches the given value (we can't specify random values)
-	    			if (children.getName().equals("option") && value.equals(children.getAttribute("value"))) {
-	    				children.setAttribute("selected");
-	    				return;
-	    			}
-	    		}
-	    	} else {
-	    		throw new RuntimeException("Unexpected field type " + field.getName());
-	    	}    		
-    	}
-    	
-    	fail("could not find any fields for label [" + id + "] to set.");
+      IElement label = getLabel(id);
+      assertNotNull("no label for id [" + id + "] found", label);
+
+      List<IElement> fields = getFieldsForLabel(label);
+      assertFalse("there should be at least one element referenced for label [" + id + "]", fields.size()==0);
+
+      // find the first element that we can change
+      for (IElement field : fields) {
+        if (field == null)
+          throw new RuntimeException("unexpected null field");
+
+        if ("input".equals(field.getName())) {
+          if (field.getAttribute("type") != null) {
+            if (field.getAttribute("type").toLowerCase().equals("checkbox")) {
+              if (value.equals(field.getAttribute("value"))) {
+                field.setAttribute("checked");
+                return;
+              }
+            } else if (field.getAttribute("type").toLowerCase().equals("radio")) {
+              if (value.equals(field.getAttribute("value"))) {
+                field.setAttribute("checked");
+                return;
+              }
+            } else {
+              // any other input type
+              field.setAttribute("value", value);
+              return;
+            }
+          } else {
+            // unspecified input type, default = text
+            field.setAttribute("value", value);
+            return;
+          }
+        } else if ("textarea".equals(field.getName())) {
+          field.setTextContent(value);
+          return;
+        } else if ("select".equals(field.getName())) {
+          // get the selected option
+          for (IElement children : field.getChildren()) {
+            // find the option which matches the given value (we can't specify random values)
+            if (children.getName().equals("option") && value.equals(children.getAttribute("value"))) {
+              children.setAttribute("selected");
+              return;
+            }
+          }
+        } else {
+          throw new RuntimeException("Unexpected field type " + field.getName());
+        }
+      }
+
+      fail("could not find any fields for label [" + id + "] to set.");
     }
 
     // Window and Frame Navigation Methods
@@ -3083,13 +3095,13 @@ public class WebTester {
     public String getServerResponse() {
         return getTestingEngine().getServerResponse();
     }
-    
+
     /**
      * @deprecated use {@link #getServerResponse()}
      * @return
      */
     public String getServeurResponse() {
-    	return getServerResponse();
+      return getServerResponse();
     }
 
     /**
@@ -3513,16 +3525,16 @@ public class WebTester {
     public Image getImage(String imageSrc, String imageAlt) {
         return validateImage(imageSrc, imageAlt, null);
     }
-    
+
     /**
      * Set the timeout for the request. A timeout of 0 means
      * an infinite timeout.
-     * 
+     *
      * @param milli the milliseconds in which to timeout, or 0 for infinite
      * wait (the default).
      */
     public void setTimeout(int milli) {
-    	getTestingEngine().setTimeout(milli);
+      getTestingEngine().setTimeout(milli);
     }
 
     private Image validateImage(String imageSrc, String imageAlt, File out) {

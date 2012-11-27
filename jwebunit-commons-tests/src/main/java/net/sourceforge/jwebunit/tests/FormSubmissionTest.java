@@ -18,6 +18,8 @@
  */
 package net.sourceforge.jwebunit.tests;
 
+import junit.framework.AssertionFailedError;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -32,10 +34,10 @@ import static org.junit.Assert.*;
 
 /**
  * Test form submission related methods of WebTestCase.
- * 
+ *
  * If there is more than one submit button on a page, WebTestCase / httpunit
  * require indication of which button to submit with prior to form submission.
- * 
+ *
  * @author Jim Weaver
  */
 public class FormSubmissionTest extends JWebUnitAPITestCase {
@@ -94,7 +96,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         //The following depend on the browser: IE send full path (i.e. temp.getAbsolutePath()) but FF send only file name.
         assertTextPresent("file=[" + temp.getName() + "{abcdefgh}]");
     }
-    
+
     @Test
     public void testSubmitImageInput() {
         beginAt("/InputImageForm.html");
@@ -158,22 +160,22 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         submit();
         assertTextPresent("color=[blue]");
     }
-    
+
     @Test
     public void testRadioSelection() {
-    	beginAt("/RadioForm.html");
-    	clickRadioOption("radio", "1");
-    	assertRadioOptionSelected("radio", "1");
-    	submit();
-    	assertTextPresent("radio=[1]");
-    	clickLink("return");
-    	clickRadioOption("radio", "2");
-    	clickRadioOption("radio", "3");
-    	assertRadioOptionNotSelected("radio", "1");
-    	assertRadioOptionNotSelected("radio", "2");
-    	assertRadioOptionSelected("radio", "3");
-    	submit();
-    	assertTextPresent("radio=[3]");
+        beginAt("/RadioForm.html");
+        clickRadioOption("radio", "1");
+        assertRadioOptionSelected("radio", "1");
+        submit();
+        assertTextPresent("radio=[1]");
+        clickLink("return");
+        clickRadioOption("radio", "2");
+        clickRadioOption("radio", "3");
+        assertRadioOptionNotSelected("radio", "1");
+        assertRadioOptionNotSelected("radio", "2");
+        assertRadioOptionSelected("radio", "3");
+        submit();
+        assertTextPresent("radio=[3]");
     }
 
     @Test
@@ -259,14 +261,20 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertSubmitButtonPresent("myInput2");
     }
 
+    @Test(expected=AssertionError.class)
+    public void testSetWorkingFormWithIndexPresent() {
+        beginAt("/MultiFormPage.html");
+        setWorkingForm("dontExists", 2);
+    }
+
     @Test
     public void testInvalidButton() {
         beginAt("/InvalidActionForm.html");
         try {
-        	submit("button1");
-        	fail("A TestingEngineResponseException was expected.");
+            submit("button1");
+            fail("A TestingEngineResponseException was expected.");
         } catch (TestingEngineResponseException e) {
-        	assertEquals(404, e.getHttpStatusCode());
+            assertEquals(404, e.getHttpStatusCode());
         }
     }
 
@@ -325,7 +333,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
     private void gotoMultiButtonPage() {
         beginAt("/MultiNamedButtonForm.html");
     }
-    
+
     @Test
     public void testCachedForm() {
         beginAt("/Submit1.html");
@@ -335,7 +343,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         submit();
         assertTextPresent("Page 3");
     }
-    
+
     /**
      * Submit input
      */
@@ -347,7 +355,7 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         assertTextPresent("Submitted parameters");
         assertTextPresent("color=[blue]");
     }
-    
+
     @Test
     public void testSetHiddenField() {
         beginAt("/SingleNamedButtonForm.html");
