@@ -18,22 +18,8 @@
  */
 package net.sourceforge.jwebunit.tests;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertCommentNotPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertCommentPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertElementPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertFormElementPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertMatch;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertNotMatch;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextFieldEquals;
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.getElementById;
-import static net.sourceforge.jwebunit.junit.JWebUnit.getElementByXPath;
-import static net.sourceforge.jwebunit.junit.JWebUnit.getElementsByXPath;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setTextField;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+import static org.junit.Assert.*;
 
 import java.util.Date;
 import java.util.List;
@@ -65,6 +51,21 @@ public class IElementTest extends JWebUnitAPITestCase {
     	assertEquals(element.getAttribute("id"), "test");
     	assertEquals(element.getAttribute("value"), "test3");
     }
+    
+    @Test
+    public void testSimpleHasID() {
+    	assertTrue(hasElementById("test"));
+    }
+
+    @Test
+    public void testSimpleHasXPath() {
+    	assertTrue(hasElementByXPath("//input[@id='test']"));
+    }
+
+    @Test
+    public void testSimpleHasXPaths() {
+    	assertTrue(hasElementsByXPath("//input[@id='test']"));
+    }
 
     @Test
     public void testMissing() {
@@ -77,6 +78,21 @@ public class IElementTest extends JWebUnitAPITestCase {
     	}
     }
     
+    @Test
+    public void testMissingHasID() {
+    	assertFalse(hasElementById("test2"));
+    }    
+    
+    @Test
+    public void testMissingHasXPath() {
+    	assertFalse(hasElementByXPath("//input[@id='test2']"));
+    }
+    
+    @Test
+    public void testMissingHasXPaths() {
+    	assertFalse(hasElementsByXPath("//input[@id='test2']"));
+    }
+
     /**
      * Test parent, child methods
      */

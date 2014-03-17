@@ -2737,6 +2737,16 @@ public class WebTester {
       return getTestingEngine().getElementByXPath(xpath);
     }
 
+    /**
+     * Return {@code true} if the given element by XPath exists.
+     *
+     * @param xpath XPath to search
+     * @return {@code true} if the the requested element
+     * @throws AssertionError if the element xpath is not found
+     */
+    public boolean hasElementByXPath(String xpath) {
+      return getTestingEngine().getElementByXPath(xpath) != null;
+    }
 
     /**
      * Get an element for a particular ID.
@@ -2749,6 +2759,16 @@ public class WebTester {
       assertElementPresent(id);
       return getTestingEngine().getElementByID(id);
     }
+    
+    /**
+     * Returns {@code true} if an element with the given ID exists.
+     * 
+     * @param id element ID to find
+     * @return {@code true} if the element ID exists, {@code false} otherwise
+     */
+    public boolean hasElementById(String id) {
+    	return getTestingEngine().getElementByID(id) != null;
+    }
 
     /**
      * Get elements for a particular xpath.
@@ -2758,6 +2778,17 @@ public class WebTester {
      */
     public List<IElement> getElementsByXPath(String xpath) {
       return getTestingEngine().getElementsByXPath(xpath);
+    }
+
+    /**
+     * Return {@code true} if the given elements by XPath exists.
+     *
+     * @param xpath XPath to search
+     * @return {@code true} if the given elements by XPath exist
+     */
+    public boolean hasElementsByXPath(String xpath) {
+    	List<IElement> list = getTestingEngine().getElementsByXPath(xpath);
+    	return list != null && !list.isEmpty();
     }
 
     // label methods
