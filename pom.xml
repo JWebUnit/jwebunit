@@ -183,9 +183,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:http://jwebunit.svn.sourceforge.net/svnroot/jwebunit/trunk</connection>
-        <developerConnection>scm:svn:https://jwebunit.svn.sourceforge.net/svnroot/jwebunit/trunk</developerConnection>
-        <url>http://jwebunit.svn.sourceforge.net/viewvc/jwebunit/trunk</url>
+        <connection>scm:svn:http://svn.code.sf.net/p/jwebunit/code/trunk</connection>
+        <developerConnection>scm:svn:https://svn.code.sf.net/p/jwebunit/code/trunk</developerConnection>
+        <url>http://sourceforge.net/p/jwebunit/code/HEAD/tree/trunk</url>
     </scm>
     <organization>
         <name>SourceForge</name>
