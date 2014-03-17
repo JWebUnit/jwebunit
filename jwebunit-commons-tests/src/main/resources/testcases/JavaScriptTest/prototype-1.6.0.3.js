@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, JWebUnit team.
+ * Copyright (c) 2002-2014, JWebUnit team.
  *
  * This file is part of JWebUnit.
  *
