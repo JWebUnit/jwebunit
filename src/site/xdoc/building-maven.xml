@@ -32,14 +32,14 @@
                 difficult than installing ant. We've included a best
                 practice installation and configuration for Maven.
             </p>
-            <subsection name="Installing Sun JDK 1.5">
+            <subsection name="Installing Sun JDK 1.6">
                 <p>
-                    JWebUnit is compiled with JDK 1.5 to ensure compatibility.
+                    JWebUnit is compiled with JDK 1.6 to ensure compatibility.
                 </p>
                 <p>
-                    You need to download and install latest Sun JDK 1.5 for your platform. 
-                    Let's say the JDK location is: 
-                    <source>/opt/jdk1.5.0_22</source>
+                    You need to download and install latest Sun JDK 1.6 for your platform.
+                    Let's say the JDK location is:
+                    <source>/opt/jdk1.6.0_22</source>
                 </p>
             </subsection>
             <subsection name="Installing Maven">
@@ -47,15 +47,15 @@
                     First you need to download the latest Maven, which
                     currently is
                     <a href="http://maven.apache.org">
-                        <tt>Maven-3.0</tt>
+                        <tt>Maven-3.2.1</tt>
                     </a>
                     , make sure you download the binary archive
-                    (e.g. apache-maven-3.0-bin.tar.bz2).
+                    (e.g. apache-maven-3.2.1-bin.tar.bz2).
                 </p>
                 <p>
                     Installing Maven should be easy: extract the file to
                     any directory you like, let's say:
-                    <source>/opt/apache-maven-3.0</source>
+                    <source>/opt/apache-maven-3.2.1</source>
                 </p>
                 <p>
                     Next you need to do 2 things:
@@ -63,7 +63,7 @@
                         <li>
                             add an environment variable M2_HOME which
                             points to the install directory of Maven,
-                            i.e. /opt/apache-maven-3.0
+                            i.e. /opt/apache-maven-3.2.1
                         </li>
                         <li>
                             add
@@ -77,34 +77,6 @@
                 <p>
                     You can test that Maven is correctly installed by running in a shell:
                     <tt>mvn -v</tt>
-                </p>
-            </subsection>
-            <subsection name="Configure Maven toolchains">
-                <p>
-                    You can run Maven with any JDK (let's say JDK 1.6) but JWebUnit should be compiled
-                    with JDK 1.5. To achieve this we are using <a href="http://maven.apache.org/guides/mini/guide-using-toolchains.html">Maven toolchains mecanism</a>.
-                </p>
-                <p>
-                    Create a file <tt>~/.m2/toolchains.xml</tt> with the given content:                    
-                </p>
-                <source><![CDATA[
-<?xml version="1.0" encoding="UTF8"?>
-<toolchains>
-  <toolchain>
-     <type>jdk</type>
-     <provides>
-         <version>1.5</version>
-         <vendor>sun</vendor>
-         <id>1.5</id>
-     </provides>
-     <configuration>
-        <jdkHome>/opt/jdk1.5.0_22</jdkHome>
-     </configuration>
-  </toolchain>
-</toolchains>]]>                
-                </source>
-                <p>
-                    You should of course define the correct jdkHome for you.                    
                 </p>
             </subsection>
             <subsection name="Using Maven">
@@ -141,17 +113,17 @@
             </subsection>
             <subsection name="Testing JWebUnit">
                 <p>
-                	JWebUnit is supported with a suite of test cases, which
-                	ensure that the testing framework works as expected.
-                	These tests are run through Maven by running:
+                  JWebUnit is supported with a suite of test cases, which
+                  ensure that the testing framework works as expected.
+                  These tests are run through Maven by running:
                     <source>mvn test</source>
                 </p>
             </subsection>
             <subsection name="Using Eclipse">
                 <p>
-                	If you are using the <a href="http://www.eclipse.org">Eclipse IDE</a>
-                	to develop the JWebUnit plugin,
-                	you can use <a href="http://m2eclipse.sonatype.org/">m2eclipse</a>.
+                  If you are using the <a href="http://www.eclipse.org">Eclipse IDE</a>
+                  to develop the JWebUnit plugin,
+                  you can use <a href="http://m2eclipse.sonatype.org/">m2eclipse</a>.
                 </p>
             </subsection>
             <subsection name="Building Sourceforge upload bundle">
@@ -173,13 +145,6 @@
                 If you want to test the final assembled site, just hit:</p>
                 <source>mvn site:stage -DstagingDirectory=C:\fullsite</source>
                 <p>You can of course customize the destination folder of the assembled site.</p>
-                
-                <p>If it is taking a long time to build the dependencies report of each plugin,
-                you can disable it by adding the following parameter (<a href="http://www.nabble.com/Skipping-dependency-report-during-Maven2-site-generation-td20116761.html">reference</a>):
-                	<source>-Ddependency.locations.enabled=false</source>
-                This will disable the generation of dependency locations in the report and may
-                reduce site generation time significantly.
-                </p>
             </subsection>
         </section>
     </body>

@@ -54,7 +54,7 @@
                     First, you need to do your homeworks. Checkout latest code from trunk then try to <a href="building-maven.html">build JWebUnit with Maven</a>.
                 </p>
                 <p>
-                    Please subscribe to the developper mailing-list and tell me what feature you are working on.
+                    Please subscribe to the developper mailing-list and tell what feature you are working on.
                 </p>
                 <p>
                     I will review your first contribution and if it doesn't break anything you will certainly be granted with commit rights (you need a sourceforge account for that).
