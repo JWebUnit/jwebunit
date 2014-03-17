@@ -32,6 +32,9 @@
     <body>
         <release version="3.2" date="UNKNOW" description="">
             <action type="update" dev="henryju">
+                Updated to JUnit 4.11.
+            </action>
+            <action type="update" dev="henryju">
                 Updated to HtmlUnit 2.14.
             </action>
             <action type="fix" dev="henryju" issue="3590252" due-to="Kenny MacLeod">
