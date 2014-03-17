@@ -30,7 +30,7 @@
         </author>
     </properties>
     <body>
-        <release version="3.2" date="UNKNOW" description="">
+        <release version="3.2" date="March 17, 2014" description="HtmlUnit 2.14">
             <action type="update" dev="henryju">
                 Updated to JUnit 4.11.
             </action>
@@ -44,7 +44,7 @@
                 Set useInsecureSSL to true by default for HtmlUnit plugin.
             </action>
         </release>
-        <release version="3.1" date="November 22, 2012" description="Cleanup for Webdriver integration. HtmlUnit 2.11.">
+        <release version="3.1" date="November 22, 2012" description="Cleanup for Webdriver integration. HtmlUnit 2.11. Java 1.6+">
             <action type="update" dev="henryju">
                 Updated to HtmlUnit 2.11. As a result JWebUnit now also require Java 1.6+.
             </action>

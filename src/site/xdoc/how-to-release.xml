@@ -31,18 +31,18 @@
             </p>
             <subsection name="Last checks and updates">
                 <p>
-                	<ul>
-                		<li>Ensure your repository is up to date by running: <tt>svn update</tt></li>
-                		<li>Edit <tt>src/changes/changes.xml</tt> to set the release date instead of "unknow"</li>
-                		<li>Update readme.txt (at least update the version number)</li>
-                		<li>Update JWebUnit latest version in src/site/xdoc/index.xml, src/site/xdoc/installation.xml, jwebunit-htmlunit-plugin/src/site/xdoc/index.xml, jwebunit-selenium-plugin/src/site/xdoc/index.xml</li>
-                		<li>Commit the changes</li>
-                	</ul>
+                  <ul>
+                    <li>Ensure your repository is up to date by running: <tt>svn update</tt></li>
+                    <li>Edit <tt>src/changes/changes.xml</tt> to set the release date instead of "unknow"</li>
+                    <li>Update readme.txt (at least update the version number)</li>
+                    <li>Update JWebUnit latest version in src/site/xdoc/index.xml, src/site/xdoc/installation.xml, jwebunit-htmlunit-plugin/src/site/xdoc/index.xml, jwebunit-webdriver-plugin/src/site/xdoc/index.xml</li>
+                    <li>Commit the changes</li>
+                  </ul>
                 </p>
                 <p>
-                    Now check that in your <tt>settings.xml</tt> (usually in <tt>~/.m2</tt>) 
+                    Now check that in your <tt>settings.xml</tt> (usually in <tt>~/.m2</tt>)
                     the JWebUnit server details are correct:
-                    <source><![CDATA[                    
+                    <source><![CDATA[
     <server>
       <id>jwebunit-website</id>
       <username>henryju</username>
@@ -53,7 +53,7 @@
       <username>henryju</username>
       <password>XXXXXXXX</password>
     </server>
-    
+
     <server>
       <id>sonatype-nexus</id>
       <username>henryju</username>
@@ -104,32 +104,32 @@ cd target
 cd checkout
 mvn package assembly:assembly
                     </source>
-                    This will create a release bundle in [target/checkout/]target/jwebunit-XX-release.zip and a source bundle in [target/checkout/]target/jwebunit-XX-source-release.zip. 
+                    This will create a release bundle in [target/checkout/]target/jwebunit-XX-release.zip and a source bundle in [target/checkout/]target/jwebunit-XX-source-release.zip.
                 </p>
                 <p>
-                	Open your browser at <a href="https://sourceforge.net/projects/jwebunit/">JWebUnit admin page</a>.<br/>
-                	Use your Sourceforge account to log in.<br/>
-                	In the menu select "Files".<br/>
-                	Click on JWebUnit folder.<br/>
-                	Click on the [Add Folder] button.<br/>
-                	Type the name of the new release: JWebUnit XX<br/>
-                	Select the folder you just have created<br/>
-                	Click on the [Add File] button.<br/>
-                	Browse and select for upload:
-                	<ul>
-                		<li>jwebunit-XX-release.zip</li>
-                		<li>jwebunit-XX-source-release.zip</li>
-                		<li>README.txt</li>
-                	</ul>
-                	Click on the [Upload] button.<br/>
+                  Open your browser at <a href="https://sourceforge.net/projects/jwebunit/">JWebUnit admin page</a>.<br/>
+                  Use your Sourceforge account to log in.<br/>
+                  In the menu select "Files".<br/>
+                  Click on JWebUnit folder.<br/>
+                  Click on the [Add Folder] button.<br/>
+                  Type the name of the new release: JWebUnit XX<br/>
+                  Select the folder you just have created<br/>
+                  Click on the [Add File] button.<br/>
+                  Browse and select for upload:
+                  <ul>
+                    <li>jwebunit-XX-release.zip</li>
+                    <li>jwebunit-XX-source-release.zip</li>
+                    <li>README.txt</li>
+                  </ul>
+                  Click on the [Upload] button.<br/>
                 </p>
             </subsection>
             <subsection name="Communication">
                 <p>
-                	Add a news on the website (Develop -> News). You can copy/paste and adapt the previous one.
+                  Add a news on the website (Develop -> News). You can copy/paste and adapt the previous one.
                 </p>
                 <p>
-                	Post an email on the user mailing list.
+                  Post an email on the user mailing list.
                 </p>
             </subsection>
             <subsection name="Go to Bed">

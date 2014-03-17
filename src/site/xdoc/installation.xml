@@ -20,17 +20,17 @@
 
 -->
 <document>
-	<properties>
-		<author></author>
-		<title>Installation</title>
-	</properties>
+  <properties>
+    <author></author>
+    <title>Installation</title>
+  </properties>
 <body class="default">
 <section name="JWebUnit Installation">
-	<subsection name="Using Maven">
-		<p>
-			If your project use Maven, it's very simple. Just add the plugin you want as dependency:
-		</p>
-		<source><![CDATA[
+  <subsection name="Using Maven">
+    <p>
+      If your project use Maven, it's very simple. Just add the plugin you want as dependency:
+    </p>
+    <source><![CDATA[
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
     <modelVersion>4.0.0</modelVersion>
@@ -42,39 +42,39 @@
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-htmlunit-plugin</artifactId>
-            <version>3.1</version>
+            <version>3.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
-		]]></source>
-	</subsection>
-	<subsection name="Download">
-		<p>
-			If you don't want to use Maven, you can download files manually.
-			First download latest stable version of JWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
-			and expand to a local directory.
-		</p>
-	</subsection>
-	<subsection name="Choose what plugin you want to use">
-		<p>
-			There are currently 2 available plugins:
-			<ul>
-				<li>HtmlUnit: A good choice if you want fast tests and good Javascript support.</li>
-				<li>Webdriver: BETA quality (not all the JWebUnit API could be executed with Webdriver)</li>
-			</ul>
-		</p>
-	</subsection>
-	<subsection name="Integrate with IDE">
-		<p>
-			The simplest way to manage dependencies in Eclipse when you use Maven 2 is to use m2e plugin.
-		</p>
-		<p>			
-			If you don't want to use Maven, 
-			make sure you add the jwebunit-htmlunit-plugin-XX.jar, jwebunit-core-XX.jar and all HtmlUnit dependencies
+    ]]></source>
+  </subsection>
+  <subsection name="Download">
+    <p>
+      If you don't want to use Maven, you can download files manually.
+      First download latest stable version of JWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
+      and expand to a local directory.
+    </p>
+  </subsection>
+  <subsection name="Choose what plugin you want to use">
+    <p>
+      There are currently 2 available plugins:
+      <ul>
+        <li>HtmlUnit: A good choice if you want fast tests and good Javascript support.</li>
+        <li>Webdriver: BETA quality (not all the JWebUnit API could be executed with Webdriver)</li>
+      </ul>
+    </p>
+  </subsection>
+  <subsection name="Integrate with IDE">
+    <p>
+      The simplest way to manage dependencies in Eclipse when you use Maven 2 is to use m2e plugin.
+    </p>
+    <p>
+      If you don't want to use Maven,
+      make sure you add the jwebunit-htmlunit-plugin-XX.jar, jwebunit-core-XX.jar and all HtmlUnit dependencies
 (these files are in lib/ folder of the JWebUnit package) to your classpath in your IDE.
-		</p>
-	</subsection>
+    </p>
+  </subsection>
 </section>
 
 </body>

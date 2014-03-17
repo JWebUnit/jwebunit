@@ -26,15 +26,15 @@
         <title>JWebUnit</title>
     </properties>
     <meta name="keyword" content="jwebunit, java, junit, htmlunit, selenium, httpunit, integration, test, automated, html, webtest, web"/>
-	<head>
-		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-	</head>
+  <head>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  </head>
 <body>
 <section name="Welcome">
     <p>
-    	JWebUnit is a Java-based testing framework for web applications. It wraps existing testing
-    	frameworks such as <a href="http://htmlunit.sourceforge.net/">HtmlUnit</a> and <a href="http://openqa.org/selenium-rc/">Selenium</a> with a unified, simple testing interface to allow
-    	you to quickly test the correctness of your web applications.
+      JWebUnit is a Java-based testing framework for web applications. It wraps existing testing
+      frameworks such as <a href="http://htmlunit.sourceforge.net/">HtmlUnit</a> and <a href="http://openqa.org/selenium-rc/">Selenium</a> with a unified, simple testing interface to allow
+      you to quickly test the correctness of your web applications.
     </p>
 </section>
 
@@ -45,27 +45,27 @@
         via links, form entry and submission, validation of table contents, and other
         typical business web application features.
     </p>
-    
+
     <p>
-        The simple navigation methods and ready-to-use 
-        assertions allow for more rapid test creation than using only <a href="http://www.junit.org/">JUnit</a> or <a href="http://htmlunit.sourceforge.net/">HtmlUnit</a>. 
-        And if you want to switch from HtmlUnit to other plugins such as <a href="http://openqa.org/selenium-rc/">Selenium</a> (available soon), there is no need to 
+        The simple navigation methods and ready-to-use
+        assertions allow for more rapid test creation than using only <a href="http://www.junit.org/">JUnit</a> or <a href="http://htmlunit.sourceforge.net/">HtmlUnit</a>.
+        And if you want to switch from HtmlUnit to other plugins such as <a href="http://openqa.org/selenium-rc/">Selenium</a> (available soon), there is no need to
         rewrite your tests.
     </p>
-    
+
     <p>
-    	The current version of JWebUnit is 3.1. This is the "stable" version of
-    	JWebUnit, and requires Java 1.6.
+      The current version of JWebUnit is 3.2. This is the "stable" version of
+      JWebUnit, and requires Java 1.6.
     </p>
 </section>
 
 <section name="Using JWebUnit">
-	<p>
-		To use JWebUnit you only need to <a href="http://sourceforge.net/projects/jwebunit/files">download the latest release JARs</a> 
-		and include them into your project classpath. You may then test your web application 
-		by importing JWebUnit static helpers, and running these test cases with JUnit:
-		
-		<source>
+  <p>
+    To use JWebUnit you only need to <a href="http://sourceforge.net/projects/jwebunit/files">download the latest release JARs</a>
+    and include them into your project classpath. You may then test your web application
+    by importing JWebUnit static helpers, and running these test cases with JUnit:
+
+    <source>
 import org.junit.*;
 
 import static net.sourceforge.jwebunit.junit.JWebUnit.*;
@@ -88,39 +88,39 @@ public class ExampleWebTestCase {
         assertTitleEquals("Welcome, test!");
     }
 }
-		</source>
-		
-		For some more examples on how to use JWebUnit in your project, please look at the
-		<a href="quickstart.html">quick start guide</a>. If you are having problems with
-		excessive Httpclient logging, you will also need to <a href="quickstart.html#Configuring_Logback">configure logback correctly</a>.
-			<!-- 
-			waiting on issue 2367400:
-			and the <a href="">generated WebTestCase documentation</a>.
-			-->
-	</p>
+    </source>
+
+    For some more examples on how to use JWebUnit in your project, please look at the
+    <a href="quickstart.html">quick start guide</a>. If you are having problems with
+    excessive Httpclient logging, you will also need to <a href="quickstart.html#Configuring_Logback">configure logback correctly</a>.
+      <!--
+      waiting on issue 2367400:
+      and the <a href="">generated WebTestCase documentation</a>.
+      -->
+  </p>
 </section>
 
 <section name="Contributing to JWebUnit">
     <p>
     <ul>
-    	<li>To get support with using JWebUnit in your project, consider joining the <a href="mail-lists.html">JWebUnit-users mailing list</a>.</li>
-    	<li>If you find a bug in JWebUnit, please let us know on <a href="https://sourceforge.net/tracker2/?group_id=61302&amp;atid=497982">our bug tracker</a> hosted on Sourceforge.</li>
-    	<li>If you would like to propose a new feature or concept in the framework, please submit it to <a href="https://sourceforge.net/tracker2/?group_id=61302&amp;atid=497985">our feature request tracker</a>.</li>
+      <li>To get support with using JWebUnit in your project, consider joining the <a href="mail-lists.html">JWebUnit-users mailing list</a>.</li>
+      <li>If you find a bug in JWebUnit, please let us know on <a href="https://sourceforge.net/tracker2/?group_id=61302&amp;atid=497982">our bug tracker</a> hosted on Sourceforge.</li>
+      <li>If you would like to propose a new feature or concept in the framework, please submit it to <a href="https://sourceforge.net/tracker2/?group_id=61302&amp;atid=497985">our feature request tracker</a>.</li>
     </ul>
     </p>
-    
+
     <p>
-    	JWebUnit aims to be an active project with a vibrant community. As such we are 
-    	<a href="how-to-contribute.html">looking for contributors</a>,
-    	especially help in implementing other plugins such as Selenium.
+      JWebUnit aims to be an active project with a vibrant community. As such we are
+      <a href="how-to-contribute.html">looking for contributors</a>,
+      especially help in implementing other plugins such as Selenium.
     </p>
 </section>
 
 <section name="JWebUnit Architecture">
-	<p>
-		<img src="images/jwebunit-architecture.png" alt="JWebUnit architecture"/>
-	</p>
+  <p>
+    <img src="images/jwebunit-architecture.png" alt="JWebUnit architecture"/>
+  </p>
 </section>
 
-</body>    
+</body>
 </document>

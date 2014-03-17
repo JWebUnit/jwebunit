@@ -25,9 +25,9 @@
         <title>JWebUnit</title>
     </properties>
     <meta name="keyword" content="jwebunit, java, junit, htmlunit, jacobie, httpunit, integration, test, automated, html, webtest"/>
-	<head>
-		<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
-	</head>
+  <head>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+  </head>
 <body>
 <section name="HtmlUnit plugin">
     <p>
@@ -55,7 +55,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import org.junit.Test;
 
 public class SearchExample {
-    
+
     @Test
     public void testSearch() throws Exception {
         final WebClient webClient = new WebClient();
@@ -82,12 +82,12 @@ import org.junit.Test;
 import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 
 public class SearchExample {
-    
+
     @Before
     public void prepare() {
         setBaseUrl("http://www.google.com");
     }
-    
+
     @Test
     public void testSearch() {
         beginAt("/");
@@ -105,22 +105,22 @@ public class SearchExample {
 </p>
 </section>
 <section name="HowTo manage dependencies with Maven 2">
-	<p>
-		Just add the following dependency to your pom:
-		<source><pre>
+  <p>
+    Just add the following dependency to your pom:
+    <source><pre>
 ...
 &lt;dependencies&gt;
     ...
     &lt;dependency&gt;
         &lt;groupId&gt;net.sourceforge.jwebunit&lt;/groupId&gt;
         &lt;artifactId&gt;jwebunit-htmlunit-plugin&lt;/artifactId&gt;
-        &lt;version&gt;3.1&lt;/version&gt;
+        &lt;version&gt;3.2&lt;/version&gt;
     &lt;/dependency&gt;
     ...
 &lt;/dependencies&gt;
 ...
-		</pre></source>
-	</p>
+    </pre></source>
+  </p>
 </section>
-</body>    
+</body>
 </document>

@@ -25,9 +25,9 @@
         <title>JWebUnit</title>
     </properties>
     <meta name="keyword" content="jwebunit, java, junit, htmlunit, jacobie, httpunit, integration, test, automated, html, webtest, selenium"/>
-	<head>
-		<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
-	</head>
+  <head>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+  </head>
 <body>
 <section name="WebDriver plugin">
     <p>
@@ -39,22 +39,22 @@
     </p>
 </section>
 <section name="HowTo manage dependencies with Maven 2">
-	<p>
-		Just add the following dependency to your pom:
-		<source><pre>
+  <p>
+    Just add the following dependency to your pom:
+    <source><pre>
 ...
 &lt;dependencies&gt;
     ...
     &lt;dependency&gt;
         &lt;groupId&gt;net.sourceforge.jwebunit&lt;/groupId&gt;
         &lt;artifactId&gt;jwebunit-webdriver-plugin&lt;/artifactId&gt;
-        &lt;version&gt;2.1&lt;/version&gt;
+        &lt;version&gt;3.2&lt;/version&gt;
     &lt;/dependency&gt;
     ...
 &lt;/dependencies&gt;
 ...
-		</pre></source>
-	</p>
+    </pre></source>
+  </p>
 </section>
-</body>    
+</body>
 </document>
