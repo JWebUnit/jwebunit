@@ -169,7 +169,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * The default browser version.
    */
-  private BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_3_6;
+  private BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_24;
 
   /**
      * Should we ignore failing status codes?
@@ -836,12 +836,12 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      * The user agent string is now provided by default to new test cases.
      * It can still be overridden if testContext.getUserAgent() is not
      * null (i.e. has been set manually.)
-     * 
+     *
      * @author Jevon
      */
     BrowserVersion bv;
     if (testContext.getUserAgent() != null) {
-      bv = BrowserVersion.FIREFOX_3_6;
+      bv = BrowserVersion.FIREFOX_24;
       bv.setUserAgent(testContext.getUserAgent());
     } else {
       bv = defaultBrowserVersion; // use default (which includes a full UserAgent string)
@@ -2381,7 +2381,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementByXPath(java.lang.String)
    */
   @Override
@@ -2395,7 +2395,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementByID(java.lang.String)
    */
   @Override
@@ -2409,7 +2409,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.jwebunit.api.ITestingEngine#getElementsByXPath(java.lang.String)
    */
   @Override
@@ -2425,7 +2425,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.jwebunit.api.ITestingEngine#getServerResponseCode()
    */
   @Override
@@ -2453,7 +2453,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.jwebunit.api.ITestingEngine#getHeader(java.lang.String)
    */
   @Override
@@ -2463,7 +2463,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see net.sourceforge.jwebunit.api.ITestingEngine#getAllHeaders()
    */
   @Override
