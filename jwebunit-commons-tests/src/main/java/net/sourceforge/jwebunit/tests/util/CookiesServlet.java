@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.http.HttpHeaders;
+import org.eclipse.jetty.http.HttpHeader;
 
 public class CookiesServlet extends HttpServlet {
 
@@ -95,12 +95,12 @@ public class CookiesServlet extends HttpServlet {
 			jsessionIDCookie.setDomain("localhost");
 			response.addCookie(jsessionIDCookie);
 			
-			//With Jetty 6 we are now forced to access low level API to be able to set 2 same named cookies in the same response
+			//With Jetty 6+ we are now forced to access low level API to be able to set 2 same named cookies in the same response
 			org.eclipse.jetty.server.Response responseJetty = (org.eclipse.jetty.server.Response) response;
-			String cookie1 = responseJetty.getHttpFields().getStringField(HttpHeaders.SET_COOKIE);
+			String cookie1 = responseJetty.getHttpFields().getStringField(HttpHeader.SET_COOKIE);
 			// 2
 			String cookie2 = cookie1.replace("worker1", "worker2");
-			response.addHeader(HttpHeaders.SET_COOKIE, cookie2);
+			response.addHeader(HttpHeader.SET_COOKIE.asString(), cookie2);
 		}
 	}
 

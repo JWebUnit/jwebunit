@@ -169,7 +169,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * The default browser version.
    */
-  private BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_24;
+  private BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_38;
 
   /**
      * Should we ignore failing status codes?
@@ -222,7 +222,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
       ExpectedJavascriptConfirmException,
       ExpectedJavascriptPromptException {
     if (wc != null) {
-      wc.closeAllWindows();
+      wc.close();
       wc = null;
     }
     form = null; // reset current form
@@ -841,7 +841,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     BrowserVersion bv;
     if (testContext.getUserAgent() != null) {
-      bv = BrowserVersion.FIREFOX_24;
+      bv = BrowserVersion.FIREFOX_38;
       bv.setUserAgent(testContext.getUserAgent());
     } else {
       bv = defaultBrowserVersion; // use default (which includes a full UserAgent string)

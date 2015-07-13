@@ -25,11 +25,10 @@ import org.eclipse.jetty.security.HashLoginService;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerCollection;
-import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 import static org.junit.Assert.fail;
@@ -60,9 +59,7 @@ public class JettySetup {
 	    if (!started) {
     		try {
     			jettyServer = new Server();
-    			SelectChannelConnector connector = new SelectChannelConnector();
-                connector.setPort(JWebUnitAPITestCase.JETTY_PORT);
-                connector.setAcceptors(5);
+    			ServerConnector connector = new ServerConnector(jettyServer);
     			connector.setPort(JWebUnitAPITestCase.JETTY_PORT);
     			jettyServer.setConnectors(new Connector[] { connector });
     
