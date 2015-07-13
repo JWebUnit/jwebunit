@@ -58,6 +58,10 @@ public class FormSubmissionTest extends JWebUnitAPITestCase {
         setTextField("color", "red");
         submit();
         assertTextPresent("color=[red]");
+        clickLink("return");
+        setTextField("color", "black");
+        submit("button2");
+        assertTextPresent("color=[black]");
     }
 
     @Test

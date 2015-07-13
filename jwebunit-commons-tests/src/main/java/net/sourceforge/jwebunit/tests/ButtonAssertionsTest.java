@@ -34,9 +34,11 @@ public class ButtonAssertionsTest extends JWebUnitAPITestCase {
     @Test
     public void testAssertButtonwithOneFormfound() {
         beginAt("/pageWithOneForm.html");
+        assertSubmitButtonPresent();
         assertButtonPresent("button1");
         assertButtonPresent("buttonOutside");
         setWorkingForm("form1");
+        assertSubmitButtonPresent();
         assertButtonPresent("button1");
         assertButtonPresent("buttonOutside");
         assertButtonPresent("button1");

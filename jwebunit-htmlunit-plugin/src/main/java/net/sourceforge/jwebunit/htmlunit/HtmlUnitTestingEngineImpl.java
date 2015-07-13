@@ -1239,9 +1239,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     List<HtmlElement> btns = new LinkedList<HtmlElement>();
     if (form != null) {
       btns.addAll(getForm().getInputsByName(buttonName));
+      btns.addAll(getForm().getButtonsByName(buttonName));
     } else {
       for (HtmlForm f : getCurrentPage().getForms()) {
         btns.addAll(f.getInputsByName(buttonName));
+        btns.addAll(f.getButtonsByName(buttonName));
       }
     }
     for (HtmlElement o : btns) {
@@ -1276,9 +1278,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     List<HtmlElement> btns = new LinkedList<HtmlElement>();
     if (form != null) {
       btns.addAll(getForm().getInputsByName(buttonName));
+      btns.addAll(getForm().getButtonsByName(buttonName));
     } else {
       for (HtmlForm f : getCurrentPage().getForms()) {
         btns.addAll(f.getInputsByName(buttonName));
+        btns.addAll(f.getButtonsByName(buttonName));
       }
     }
     for (HtmlElement o : btns) {
@@ -1314,9 +1318,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     List<HtmlElement> btns = new LinkedList<HtmlElement>();
     if (form != null) {
       btns.addAll(getForm().getInputsByName(buttonName));
+      btns.addAll(getForm().getButtonsByName(buttonName));
     } else {
       for (HtmlForm f : getCurrentPage().getForms()) {
         btns.addAll(f.getInputsByName(buttonName));
+        btns.addAll(f.getButtonsByName(buttonName));
       }
     }
     for (HtmlElement o : btns) {
@@ -1351,16 +1357,54 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
     return null;
   }
+  
+  private HtmlElement getSubmitButton() {
+    List<HtmlElement> btns = new LinkedList<HtmlElement>();
+    if (form != null) {
+      btns.addAll(getForm().getElementsByAttribute("input", "type", "submit"));
+      btns.addAll(getForm().getElementsByAttribute("input", "type", "image"));
+      btns.addAll(getForm().getElementsByAttribute("button", "type", "submit"));
+    } else {
+      for (HtmlForm f : getCurrentPage().getForms()) {
+        btns.addAll(f.getElementsByAttribute("input", "type", "submit"));
+        btns.addAll(f.getElementsByAttribute("input", "type", "image"));
+        btns.addAll(f.getElementsByAttribute("button", "type", "submit"));
+      }
+    }
+    for (HtmlElement o : btns) {
+      if (o instanceof HtmlSubmitInput) {
+        HtmlSubmitInput btn = (HtmlSubmitInput) o;
+        if (form == null) {
+          form = btn.getEnclosingFormOrDie();
+        }
+        return btn;
+      }
+      if (o instanceof HtmlImageInput) {
+        HtmlImageInput btn = (HtmlImageInput) o;
+        if (form == null) {
+          form = btn.getEnclosingFormOrDie();
+        }
+        return btn;
+      }
+      if (o instanceof HtmlButton) {
+        HtmlButton btn = (HtmlButton) o;
+        if (btn.getTypeAttribute().equals("submit")) {
+          if (form == null) {
+            form = btn.getEnclosingFormOrDie();
+          }
+          return btn;
+        }
+      }
+    }
+    return null;
+  }
 
   /**
    * {@inheritDoc}
    */
   @Override
   public boolean hasSubmitButton() {
-    final HtmlForm htmlForm = getForm();
-    List<?> l = htmlForm.getByXPath("//input[@type='submit' or @type='image']");
-    List<?> l2 = htmlForm.getByXPath("//button[@type='submit']");
-    return (l.size() > 0 || l2.size() > 0);
+    return getSubmitButton() != null;
   }
 
   /**
@@ -1589,36 +1633,20 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    */
   @Override
   public void submit() {
+    HtmlElement btn = getSubmitButton();
+    if (btn == null) {
+      throw new RuntimeException("No submit button found in current form.");
+    }
     try {
-      Object[] inpt = getForm().getHtmlElementsByTagName("input")
-          .toArray();
-      for (int i = 0; i < inpt.length; i++) {
-        if (inpt[i] instanceof HtmlSubmitInput) {
-          ((HtmlSubmitInput) inpt[i]).click();
-          return;
-        }
-        if (inpt[i] instanceof HtmlImageInput) {
-          ((HtmlImageInput) inpt[i]).click();
-          return;
-        }
-        if (inpt[i] instanceof HtmlButton
-          && ((HtmlButton) inpt[i]).getTypeAttribute().equals(
-              "submit")) {
-          ((HtmlButton) inpt[i]).click();
-          return;
-        }
-      }
-
+      btn.click();
     } catch (FailingHttpStatusCodeException e) {
       throw new TestingEngineResponseException(
-          e.getStatusCode(), e);
+        e.getStatusCode(), e);
     } catch (IOException e) {
       throw new RuntimeException(
-          "HtmlUnit Error submitting form using default submit button, "
-            + "check that form has single submit button, otherwise use submit(name): \n",
-          e);
+        "HtmlUnit Error submitting form using default submit button, "
+          + "check that form has single submit button, otherwise use submit(name): \n", e);
     }
-    throw new RuntimeException("No submit button found in current form.");
   }
 
   /**
@@ -1629,37 +1657,19 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    */
   @Override
   public void submit(String buttonName) {
-    List<HtmlElement> l = new LinkedList<HtmlElement>();
-    l.addAll(getForm().getInputsByName(buttonName));
-    l.addAll(getForm().getButtonsByName(buttonName));
+    HtmlElement btn = getSubmitButton(buttonName);
+    if (btn == null) {
+      throw new RuntimeException("No submit button found in current form.");
+    }
     try {
-      for (HtmlElement o : l) {
-        if (o instanceof HtmlSubmitInput) {
-          HtmlSubmitInput inpt = (HtmlSubmitInput) o;
-          inpt.click();
-          return;
-        }
-        if (o instanceof HtmlImageInput) {
-          HtmlImageInput inpt = (HtmlImageInput) o;
-          inpt.click();
-          return;
-        }
-        if (o instanceof HtmlButton) {
-          HtmlButton inpt = (HtmlButton) o;
-          if (inpt.getTypeAttribute().equals("submit")) {
-            inpt.click();
-            return;
-          }
-        }
-      }
+      btn.click();
     } catch (FailingHttpStatusCodeException e) {
       throw new TestingEngineResponseException(
-          e.getStatusCode(), e);
+        e.getStatusCode(), e);
     } catch (IOException e) {
       throw new RuntimeException(
-          "HtmlUnit Error submitting form using default submit button", e);
+        "HtmlUnit Error submitting form using default submit button", e);
     }
-    throw new RuntimeException("No submit button found in current form.");
   }
 
   /**

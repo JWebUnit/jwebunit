@@ -31,6 +31,9 @@
     </properties>
     <body>
         <release version="3.3" date="UNKNOWN" description="HtmlUnit 2.17, Java 7">
+            <action type="fix" dev="henryju" issue="134" due-to="Joerg Troester">
+                WebTester.submit() does not find submit button.
+            </action>
             <action type="update" dev="henryju">
                 Updated to HtmlUnit 2.17.
             </action>
