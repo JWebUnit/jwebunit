@@ -841,7 +841,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     BrowserVersion bv;
     if (testContext.getUserAgent() != null) {
-      bv = BrowserVersion.FIREFOX_38;
+      bv = BrowserVersion.FIREFOX_38.clone();
       bv.setUserAgent(testContext.getUserAgent());
     } else {
       bv = defaultBrowserVersion; // use default (which includes a full UserAgent string)
