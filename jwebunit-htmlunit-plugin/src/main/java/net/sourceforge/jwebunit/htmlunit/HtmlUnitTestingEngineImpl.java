@@ -399,7 +399,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    */
   @Override
   public void setWorkingForm(int index) {
-    setWorkingForm(getForm(index));
+    HtmlForm newForm = getForm(index);
+    if (newForm == null) {
+      throw new UnableToSetFormException("No form found in current page with index " + index);
+    }
+    setWorkingForm(newForm);
   }
 
   /**
@@ -407,7 +411,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    */
   @Override
   public void setWorkingForm(String nameOrId, int index) {
-    setWorkingForm(getForm(nameOrId, index));
+    HtmlForm newForm = getForm(nameOrId, index);
+    if (newForm == null) {
+      throw new UnableToSetFormException("No form found in current page with name or id [" + nameOrId + "] and index " + index);
+    }
+    setWorkingForm(newForm);
   }
 
   /**
@@ -1183,9 +1191,6 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   }
 
   private void setWorkingForm(HtmlForm newForm) {
-    if (newForm == null) {
-      throw new UnableToSetFormException("Attempted to set form to null.");
-    }
     form = newForm;
   }
 
