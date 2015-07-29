@@ -1,4 +1,6 @@
-The JWebUnit team is pleased to announce the JWebUnit 3.2 release!
+### JWebUnit
+
+[![Build Status](https://travis-ci.org/JWebUnit/jwebunit.svg)](https://travis-ci.org/JWebUnit/jwebunit)
 
 http://jwebunit.sourceforge.net
 
