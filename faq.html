@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>JWebUnit - 
-        JWebUnit</title>
+    <title>JWebUnit - Frequently Asked Questions</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -13,11 +12,9 @@
     <script type="text/javascript" src="./js/apache-maven-fluido.min.js"></script>
 
     
-      <meta name="author" content="Martijn Dashorst" />
-      <meta name="author" content="Jevon Wright" />
     <meta name="Date-Revision-yyyymmdd" content="20151008" />
     <meta http-equiv="Content-Language" content="en" />
-    <meta name="keyword" content="jwebunit, java, junit, htmlunit, selenium, httpunit, integration, test, automated, html, webtest, web" /><link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    
         </head>
   <body>
         
@@ -53,8 +50,8 @@
                                    <h5>JWebUnit</h5>
                   <ul>
                   <li class="none">
-            <strong>Home</strong>
-          </li>
+                          <a href="index.html" title="Home">Home</a>
+            </li>
           </ul>
                        <h5>User documentation</h5>
                   <ul>
@@ -71,8 +68,8 @@
                           <a href="articles.html" title="Articles">Articles</a>
             </li>
                   <li class="none">
-                          <a href="faq.html" title="FAQ">FAQ</a>
-            </li>
+            <strong>FAQ</strong>
+          </li>
           </ul>
                        <h5>Developper documentation</h5>
                   <ul>
@@ -115,32 +112,9 @@
           </ul>
                        <h5>Project Documentation</h5>
                   <ul>
-                                                                                                                                                                                          <li class="expanded">
+                                                                                                                                                                                <li class="collapsed">
                           <a href="project-info.html" title="Project Information">Project Information</a>
-                    <ul>
-                      <li class="none">
-            <strong>About</strong>
-          </li>
-                      <li class="none">
-                          <a href="team-list.html" title="Project Team">Project Team</a>
-            </li>
-                      <li class="none">
-                          <a href="mail-lists.html" title="Mailing Lists">Mailing Lists</a>
-            </li>
-                      <li class="none">
-                          <a href="license.html" title="Project License">Project License</a>
-            </li>
-                      <li class="none">
-                          <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
-            </li>
-                      <li class="none">
-                          <a href="source-repository.html" title="Source Repository">Source Repository</a>
-            </li>
-                      <li class="none">
-                          <a href="project-summary.html" title="Project Summary">Project Summary</a>
-            </li>
-              </ul>
-        </li>
+                  </li>
                                                                                                                                             <li class="collapsed">
                           <a href="project-reports.html" title="Project Reports">Project Reports</a>
                   </li>
@@ -175,124 +149,127 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU Lesser General Public License
-    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>. -->
-    
-
+    along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>. --><div class="section">
+<h2><a name="top">Frequently Asked Questions</a><a name="Frequently_Asked_Questions"></a></h2>
+<p><b>JavaScript</b></p>
+<ol style="list-style-type: decimal">
+<li><a href="#javascript-support">
+        What about JWebUnit support of JavaScript?
+      </a></li>
+<li><a href="#javascript-errors">
+        What can I do when JavaScript errors are thrown with JWebUnit (and HtmlUnit testing engine), but not in my browser?
+      </a></li>
+<li><a href="#javascript-json">
+      	How can I parse JSON output using JWebUnit or HtmlUnit?
+      </a></li></ol>
+<p><b>JUnitPerf</b></p>
+<ol style="list-style-type: decimal">
+<li><a href="#junitperf-support">
+        Can I use JWebUnit coupled with JUnitPerf to do load testing?
+      </a></li></ol>
+<p><b>HtmlUnit testing engine</b></p>
+<ol style="list-style-type: decimal">
+<li><a href="#htmlunit-change-refreshhandler">
+        How can I change HtmlUnit refresh handler (default is ImmediateRefreshHandler)?
+      </a></li></ol></div>
 <div class="section">
-<h2>Welcome<a name="Welcome"></a></h2>
-    
-<p>
-      JWebUnit is a Java-based testing framework for web applications. It wraps existing testing
-      frameworks such as <a class="externalLink" href="http://htmlunit.sourceforge.net/">HtmlUnit</a> and <a class="externalLink" href="http://openqa.org/selenium-rc/">Selenium</a> with a unified, simple testing interface to allow
-      you to quickly test the correctness of your web applications.
-    </p>
-</div>
-
-
-<div class="section">
-<h2>What does JWebUnit provide?<a name="What_does_JWebUnit_provide"></a></h2>
-    
-<p>
-        JWebUnit provides a high-level Java API for navigating a web application combined with a set
-        of assertions to verify the application's correctness. This includes navigation
-        via links, form entry and submission, validation of table contents, and other
-        typical business web application features.
-    </p>
-
-    
-<p>
-        The simple navigation methods and ready-to-use
-        assertions allow for more rapid test creation than using only <a class="externalLink" href="http://www.junit.org/">JUnit</a> or <a class="externalLink" href="http://htmlunit.sourceforge.net/">HtmlUnit</a>.
-        And if you want to switch from HtmlUnit to other plugins such as <a class="externalLink" href="http://openqa.org/selenium-rc/">Selenium</a> (available soon), there is no need to
-        rewrite your tests.
-    </p>
-
-    
-<p>
-      The current version of JWebUnit is 3.2. This is the &quot;stable&quot; version of
-      JWebUnit, and requires Java 1.6.
-    </p>
-</div>
-
-
-<div class="section">
-<h2>Using JWebUnit<a name="Using_JWebUnit"></a></h2>
-  
-<p>
-    To use JWebUnit you only need to <a class="externalLink" href="http://sourceforge.net/projects/jwebunit/files">download the latest release JARs</a>
-    and include them into your project classpath. You may then test your web application
-    by importing JWebUnit static helpers, and running these test cases with JUnit:
-
-    </p>
+<h2>JavaScript<a name="JavaScript"></a></h2>
+<dl>
+<dt><a name="javascript-support">
+        What about JWebUnit support of JavaScript?
+      </a></dt>
+<dd>
+        
+<p>JWebUnit uses a testing engine to manipulate DOM and JavaScript. That's why
+JavaScript support depend on the testing engine. In the past, JWebUnit was based on HttpUnit.
+JavaScript support of HttpUnit is very poor.<br /></br>
+Now, JWebUnit main testing engine is HtmlUnit. HtmlUnit understanding of JavaScript is quite good.</p>
+      
+<p align="right"><a href="#top">[top]</a></p><hr /></dd>
+<dt><a name="javascript-errors">
+        What can I do when JavaScript errors are thrown with JWebUnit (and HtmlUnit testing engine), but not in my browser?
+      </a></dt>
+<dd>
+        
+<p>First, check if your JavaScript is not browser specific. When possible, try to write a minimal test case that reproduce your error, and submit it to the HtmlUnit team to help them to improve HtmlUnit.<br /></br>
+Finally, you can temporary disable JavaScript in your test:</p>
+	
 <div class="source">
-<pre>
-import org.junit.*;
+<pre>public void testFoo() {
+  beginAt(&quot;blabla&quot;);
+  ...
+  setScriptingEnabled(false);
+  ...//Problematic code
+  setScriptingEnabled(true);
+  ...
+}</pre></div>
+Have a look at http://htmlunit.sourceforge.net/submittingJSBugs.html
+      
+<p align="right"><a href="#top">[top]</a></p><hr /></dd>
+<dt><a name="javascript-json">
+      	How can I parse JSON output using JWebUnit or HtmlUnit?
+      </a></dt>
+<dd>
+        
+<p>HtmlUnit, one of the underlying engines of JWebUnit, <a class="externalLink" href="http://stackoverflow.com/questions/2932857/html-handling-a-json-response">does not support direct
+        execution of Javascript functions</a>. You need to check beforehand that the <tt>Content-Type</tt>
+        of the response is <tt>application/json</tt>, and then use a different library to parse it.</p>
+        
+        
+<p>For example, <a class="externalLink" href="http://code.google.com/p/google-gson/">Google Gson</a> can be used to parse JSON, as follows:</p>
+        
+        
+<div class="source">
+<pre>WebResponse response = ((HtmlUnitTestingEngineImpl) JWebUnit.getTestingEngine()).getWebResponse();
+		
+// check content type
+assertTrue(&quot;Response type should be application/json, was: &quot; + response.getContentType(), &quot;application/json&quot;.equals(response.getContentType()));
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+// parse JSON
+Gson gson = new Gson();
+String json = response.getContentAsString();
+JsonObject obj = new JsonParser().parse(json).getAsJsonObject(); // or JsonArray, depending on the JSON content
 
-public class ExampleWebTestCase {
-
-    @Before
-    public void prepare() {
-        setBaseUrl(&quot;http://localhost:8080/test&quot;);
-    }
-
-    @Test
-    public void testLogin() {
-        beginAt(&quot;/home&quot;);
-        clickLink(&quot;login&quot;);
-        assertTitleEquals(&quot;Login&quot;);
-        setTextField(&quot;username&quot;, &quot;test&quot;);
-        setTextField(&quot;password&quot;, &quot;test123&quot;);
-        submit();
-        assertTitleEquals(&quot;Welcome, test!&quot;);
-    }
-}
-    </pre></div>
-
-    For some more examples on how to use JWebUnit in your project, please look at the
-    <a href="quickstart.html">quick start guide</a>. If you are having problems with
-    excessive Httpclient logging, you will also need to <a href="quickstart.html#Configuring_Logback">configure logback correctly</a>.
-      <!-- waiting on issue 2367400:
-      and the <a href="">generated WebTestCase documentation</a>. -->
-  
-</div>
-
-
+assertTrue(&quot;Object should have success field&quot;, obj.has(&quot;success&quot;));
+String success = gson.fromJson(obj.get(&quot;success&quot;), String.class);
+String username = gson.fromJson(obj.get(&quot;username&quot;), String.class);
+String type = gson.fromJson(obj.get(&quot;type&quot;), String.class);
+// etc</pre></div> 
+      
+<p align="right"><a href="#top">[top]</a></p></dd></dl></div>
 <div class="section">
-<h2>Contributing to JWebUnit<a name="Contributing_to_JWebUnit"></a></h2>
-    
-<p>
-    </p>
-<ul>
+<h2>JUnitPerf<a name="JUnitPerf"></a></h2>
+<dl>
+<dt><a name="junitperf-support">
+        Can I use JWebUnit coupled with JUnitPerf to do load testing?
+      </a></dt>
+<dd>
+        
+<p>Yes, but you have to take care when writing your JUnitPerf test. You need to use a TestFactory:</p>
+	
+<div class="source">
+<pre>int users = 10;
+Test factory = new TestFactory(MyJWebUnitTest.class);
+Test loadTest = new LoadTest(factory, users);</pre></div>
       
-<li>To get support with using JWebUnit in your project, consider joining the <a href="mail-lists.html">JWebUnit-users mailing list</a>.</li>
-      
-<li>If you find a bug in JWebUnit, please let us know on <a class="externalLink" href="https://sourceforge.net/tracker2/?group_id=61302&amp;atid=497982">our bug tracker</a> hosted on Sourceforge.</li>
-      
-<li>If you would like to propose a new feature or concept in the framework, please submit it to <a class="externalLink" href="https://sourceforge.net/tracker2/?group_id=61302&amp;atid=497985">our feature request tracker</a>.</li>
-    </ul>
-    
-
-    
-<p>
-      JWebUnit aims to be an active project with a vibrant community. As such we are
-      <a href="how-to-contribute.html">looking for contributors</a>,
-      especially help in implementing other plugins such as Selenium.
-    </p>
-</div>
-
-
+<p align="right"><a href="#top">[top]</a></p></dd></dl></div>
 <div class="section">
-<h2>JWebUnit Architecture<a name="JWebUnit_Architecture"></a></h2>
-  
-<p>
-    <img src="images/jwebunit-architecture.png" alt="JWebUnit architecture" />
-  </p>
-</div>
-
-
-
+<h2>HtmlUnit testing engine<a name="HtmlUnit_testing_engine"></a></h2>
+<dl>
+<dt><a name="htmlunit-change-refreshhandler">
+        How can I change HtmlUnit refresh handler (default is ImmediateRefreshHandler)?
+      </a></dt>
+<dd>
+        
+<p>Warning: this is not something easily portable to other testing engine.</p>
+	
+<div class="source">
+<pre>if (getTestingEngine() instanceof HtmlUnitTestingEngineImpl) {
+	HtmlUnitTestingEngineImpl engine = (HtmlUnitTestingEngineImpl) getTestingEngine();			
+	engine.setRefreshHandler(new ThreadedRefreshHandler());
+}</pre></div>
+      
+<p align="right"><a href="#top">[top]</a></p></dd></dl></div>
                   </div>
       </div>
     </div>

@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>JWebUnit - 
-        JWebUnit</title>
+        How-To contribute to JWebUnit</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -13,11 +13,10 @@
     <script type="text/javascript" src="./js/apache-maven-fluido.min.js"></script>
 
     
-      <meta name="author" content="Martijn Dashorst" />
-      <meta name="author" content="Jevon Wright" />
+      <meta name="author" content="Julien Henry" />
     <meta name="Date-Revision-yyyymmdd" content="20151008" />
     <meta http-equiv="Content-Language" content="en" />
-    <meta name="keyword" content="jwebunit, java, junit, htmlunit, selenium, httpunit, integration, test, automated, html, webtest, web" /><link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    
         </head>
   <body>
         
@@ -53,8 +52,8 @@
                                    <h5>JWebUnit</h5>
                   <ul>
                   <li class="none">
-            <strong>Home</strong>
-          </li>
+                          <a href="index.html" title="Home">Home</a>
+            </li>
           </ul>
                        <h5>User documentation</h5>
                   <ul>
@@ -80,8 +79,8 @@
                           <a href="building-maven.html" title="Building JWebUnit">Building JWebUnit</a>
                   </li>
                   <li class="none">
-                          <a href="how-to-contribute.html" title="How-To contribute">How-To contribute</a>
-            </li>
+            <strong>How-To contribute</strong>
+          </li>
                   <li class="none">
                           <a href="how-to-release.html" title="How-To release">How-To release</a>
             </li>
@@ -115,32 +114,9 @@
           </ul>
                        <h5>Project Documentation</h5>
                   <ul>
-                                                                                                                                                                                          <li class="expanded">
+                                                                                                                                                                                <li class="collapsed">
                           <a href="project-info.html" title="Project Information">Project Information</a>
-                    <ul>
-                      <li class="none">
-            <strong>About</strong>
-          </li>
-                      <li class="none">
-                          <a href="team-list.html" title="Project Team">Project Team</a>
-            </li>
-                      <li class="none">
-                          <a href="mail-lists.html" title="Mailing Lists">Mailing Lists</a>
-            </li>
-                      <li class="none">
-                          <a href="license.html" title="Project License">Project License</a>
-            </li>
-                      <li class="none">
-                          <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
-            </li>
-                      <li class="none">
-                          <a href="source-repository.html" title="Source Repository">Source Repository</a>
-            </li>
-                      <li class="none">
-                          <a href="project-summary.html" title="Project Summary">Project Summary</a>
-            </li>
-              </ul>
-        </li>
+                  </li>
                                                                                                                                             <li class="collapsed">
                           <a href="project-reports.html" title="Project Reports">Project Reports</a>
                   </li>
@@ -177,121 +153,58 @@
     You should have received a copy of the GNU Lesser General Public License
     along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>. -->
     
-
+        <div class="section">
+<h2>How-To contribute to JWebUnit<a name="How-To_contribute_to_JWebUnit"></a></h2>
+            
+<p>
+                JWebUnit is an open-source project and is looking for contributors. Please read the following sections if you plan to help.
+            </p>
+            
 <div class="section">
-<h2>Welcome<a name="Welcome"></a></h2>
-    
+<h3>What needs to be done?<a name="What_needs_to_be_done"></a></h3>
+                
 <p>
-      JWebUnit is a Java-based testing framework for web applications. It wraps existing testing
-      frameworks such as <a class="externalLink" href="http://htmlunit.sourceforge.net/">HtmlUnit</a> and <a class="externalLink" href="http://openqa.org/selenium-rc/">Selenium</a> with a unified, simple testing interface to allow
-      you to quickly test the correctness of your web applications.
-    </p>
-</div>
-
-
-<div class="section">
-<h2>What does JWebUnit provide?<a name="What_does_JWebUnit_provide"></a></h2>
-    
-<p>
-        JWebUnit provides a high-level Java API for navigating a web application combined with a set
-        of assertions to verify the application's correctness. This includes navigation
-        via links, form entry and submission, validation of table contents, and other
-        typical business web application features.
-    </p>
-
-    
-<p>
-        The simple navigation methods and ready-to-use
-        assertions allow for more rapid test creation than using only <a class="externalLink" href="http://www.junit.org/">JUnit</a> or <a class="externalLink" href="http://htmlunit.sourceforge.net/">HtmlUnit</a>.
-        And if you want to switch from HtmlUnit to other plugins such as <a class="externalLink" href="http://openqa.org/selenium-rc/">Selenium</a> (available soon), there is no need to
-        rewrite your tests.
-    </p>
-
-    
-<p>
-      The current version of JWebUnit is 3.2. This is the &quot;stable&quot; version of
-      JWebUnit, and requires Java 1.6.
-    </p>
-</div>
-
-
-<div class="section">
-<h2>Using JWebUnit<a name="Using_JWebUnit"></a></h2>
-  
-<p>
-    To use JWebUnit you only need to <a class="externalLink" href="http://sourceforge.net/projects/jwebunit/files">download the latest release JARs</a>
-    and include them into your project classpath. You may then test your web application
-    by importing JWebUnit static helpers, and running these test cases with JUnit:
-
-    </p>
-<div class="source">
-<pre>
-import org.junit.*;
-
-import static net.sourceforge.jwebunit.junit.JWebUnit.*;
-
-public class ExampleWebTestCase {
-
-    @Before
-    public void prepare() {
-        setBaseUrl(&quot;http://localhost:8080/test&quot;);
-    }
-
-    @Test
-    public void testLogin() {
-        beginAt(&quot;/home&quot;);
-        clickLink(&quot;login&quot;);
-        assertTitleEquals(&quot;Login&quot;);
-        setTextField(&quot;username&quot;, &quot;test&quot;);
-        setTextField(&quot;password&quot;, &quot;test123&quot;);
-        submit();
-        assertTitleEquals(&quot;Welcome, test!&quot;);
-    }
-}
-    </pre></div>
-
-    For some more examples on how to use JWebUnit in your project, please look at the
-    <a href="quickstart.html">quick start guide</a>. If you are having problems with
-    excessive Httpclient logging, you will also need to <a href="quickstart.html#Configuring_Logback">configure logback correctly</a>.
-      <!-- waiting on issue 2367400:
-      and the <a href="">generated WebTestCase documentation</a>. -->
-  
-</div>
-
-
-<div class="section">
-<h2>Contributing to JWebUnit<a name="Contributing_to_JWebUnit"></a></h2>
-    
-<p>
-    </p>
+                    Here are some ideas:
+                    </p>
 <ul>
-      
-<li>To get support with using JWebUnit in your project, consider joining the <a href="mail-lists.html">JWebUnit-users mailing list</a>.</li>
-      
-<li>If you find a bug in JWebUnit, please let us know on <a class="externalLink" href="https://sourceforge.net/tracker2/?group_id=61302&amp;atid=497982">our bug tracker</a> hosted on Sourceforge.</li>
-      
-<li>If you would like to propose a new feature or concept in the framework, please submit it to <a class="externalLink" href="https://sourceforge.net/tracker2/?group_id=61302&amp;atid=497985">our feature request tracker</a>.</li>
-    </ul>
-    
-
-    
-<p>
-      JWebUnit aims to be an active project with a vibrant community. As such we are
-      <a href="how-to-contribute.html">looking for contributors</a>,
-      especially help in implementing other plugins such as Selenium.
-    </p>
-</div>
-
-
+                        
+<li>
+                            Improve Selenium plugin (should ideally pass 100% unit tests). May need some modifications of the API.
+                        </li>
+                        
+<li>
+                            Improve Web 2.0 support (AJAX, drag&amp;drop, focus, mouse clicks, keypress, ...). Will need additions/modifications of the API.
+                        </li>
+                        
+<li>
+                            Take advantage of Java 5 (use generics, ...)
+                        </li>
+                        
+<li>
+                            Create a record tool like SeleniumIDE or WebTestRecorder.
+                        </li>
+                    </ul>
+                    Of course these are simple suggestions and you can propose many different things.
+                
+            </div>
+            
 <div class="section">
-<h2>JWebUnit Architecture<a name="JWebUnit_Architecture"></a></h2>
-  
+<h3>OK, I want to help. How to start with?<a name="OK_I_want_to_help._How_to_start_with"></a></h3>
+                
 <p>
-    <img src="images/jwebunit-architecture.png" alt="JWebUnit architecture" />
-  </p>
-</div>
-
-
+                    First, you need to do your homeworks. Checkout latest code from trunk then try to <a href="building-maven.html">build JWebUnit with Maven</a>.
+                </p>
+                
+<p>
+                    Please subscribe to the developper mailing-list and tell what feature you are working on.
+                </p>
+                
+<p>
+                    I will review your first contribution and if it doesn't break anything you will certainly be granted with commit rights (you need a sourceforge account for that).
+                </p>
+            </div>
+        </div>
+    
 
                   </div>
       </div>

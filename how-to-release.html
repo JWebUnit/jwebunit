@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>JWebUnit - 
-        JWebUnit</title>
+        How-To Release JWebUnit</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -13,11 +13,10 @@
     <script type="text/javascript" src="./js/apache-maven-fluido.min.js"></script>
 
     
-      <meta name="author" content="Martijn Dashorst" />
-      <meta name="author" content="Jevon Wright" />
+      <meta name="author" content="Julien Henry" />
     <meta name="Date-Revision-yyyymmdd" content="20151008" />
     <meta http-equiv="Content-Language" content="en" />
-    <meta name="keyword" content="jwebunit, java, junit, htmlunit, selenium, httpunit, integration, test, automated, html, webtest, web" /><link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    
         </head>
   <body>
         
@@ -53,8 +52,8 @@
                                    <h5>JWebUnit</h5>
                   <ul>
                   <li class="none">
-            <strong>Home</strong>
-          </li>
+                          <a href="index.html" title="Home">Home</a>
+            </li>
           </ul>
                        <h5>User documentation</h5>
                   <ul>
@@ -83,8 +82,8 @@
                           <a href="how-to-contribute.html" title="How-To contribute">How-To contribute</a>
             </li>
                   <li class="none">
-                          <a href="how-to-release.html" title="How-To release">How-To release</a>
-            </li>
+            <strong>How-To release</strong>
+          </li>
           </ul>
                        <h5>Sourceforge</h5>
                   <ul>
@@ -115,32 +114,9 @@
           </ul>
                        <h5>Project Documentation</h5>
                   <ul>
-                                                                                                                                                                                          <li class="expanded">
+                                                                                                                                                                                <li class="collapsed">
                           <a href="project-info.html" title="Project Information">Project Information</a>
-                    <ul>
-                      <li class="none">
-            <strong>About</strong>
-          </li>
-                      <li class="none">
-                          <a href="team-list.html" title="Project Team">Project Team</a>
-            </li>
-                      <li class="none">
-                          <a href="mail-lists.html" title="Mailing Lists">Mailing Lists</a>
-            </li>
-                      <li class="none">
-                          <a href="license.html" title="Project License">Project License</a>
-            </li>
-                      <li class="none">
-                          <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
-            </li>
-                      <li class="none">
-                          <a href="source-repository.html" title="Source Repository">Source Repository</a>
-            </li>
-                      <li class="none">
-                          <a href="project-summary.html" title="Project Summary">Project Summary</a>
-            </li>
-              </ul>
-        </li>
+                  </li>
                                                                                                                                             <li class="collapsed">
                           <a href="project-reports.html" title="Project Reports">Project Reports</a>
                   </li>
@@ -177,121 +153,167 @@
     You should have received a copy of the GNU Lesser General Public License
     along with JWebUnit.  If not, see <http://www.gnu.org/licenses/>. -->
     
-
+        <div class="section">
+<h2>How-To Release JWebUnit with Maven<a name="How-To_Release_JWebUnit_with_Maven"></a></h2>
+            
+<p>
+                This todo list if a reminder for JWebUnit release manager.
+            </p>
+            
 <div class="section">
-<h2>Welcome<a name="Welcome"></a></h2>
-    
+<h3>Last checks and updates<a name="Last_checks_and_updates"></a></h3>
+                
 <p>
-      JWebUnit is a Java-based testing framework for web applications. It wraps existing testing
-      frameworks such as <a class="externalLink" href="http://htmlunit.sourceforge.net/">HtmlUnit</a> and <a class="externalLink" href="http://openqa.org/selenium-rc/">Selenium</a> with a unified, simple testing interface to allow
-      you to quickly test the correctness of your web applications.
-    </p>
-</div>
-
-
-<div class="section">
-<h2>What does JWebUnit provide?<a name="What_does_JWebUnit_provide"></a></h2>
-    
+                  </p>
+<ul>
+                    
+<li>Ensure your repository is up to date by running: <tt>svn update</tt></li>
+                    
+<li>Edit <tt>src/changes/changes.xml</tt> to set the release date instead of &quot;unknow&quot;</li>
+                    
+<li>Update readme.txt (at least update the version number)</li>
+                    
+<li>Update JWebUnit latest version in src/site/xdoc/index.xml, src/site/xdoc/installation.xml, jwebunit-htmlunit-plugin/src/site/xdoc/index.xml, jwebunit-webdriver-plugin/src/site/xdoc/index.xml</li>
+                    
+<li>Commit the changes</li>
+                  </ul>
+                
+                
 <p>
-        JWebUnit provides a high-level Java API for navigating a web application combined with a set
-        of assertions to verify the application's correctness. This includes navigation
-        via links, form entry and submission, validation of table contents, and other
-        typical business web application features.
-    </p>
-
-    
-<p>
-        The simple navigation methods and ready-to-use
-        assertions allow for more rapid test creation than using only <a class="externalLink" href="http://www.junit.org/">JUnit</a> or <a class="externalLink" href="http://htmlunit.sourceforge.net/">HtmlUnit</a>.
-        And if you want to switch from HtmlUnit to other plugins such as <a class="externalLink" href="http://openqa.org/selenium-rc/">Selenium</a> (available soon), there is no need to
-        rewrite your tests.
-    </p>
-
-    
-<p>
-      The current version of JWebUnit is 3.2. This is the &quot;stable&quot; version of
-      JWebUnit, and requires Java 1.6.
-    </p>
-</div>
-
-
-<div class="section">
-<h2>Using JWebUnit<a name="Using_JWebUnit"></a></h2>
-  
-<p>
-    To use JWebUnit you only need to <a class="externalLink" href="http://sourceforge.net/projects/jwebunit/files">download the latest release JARs</a>
-    and include them into your project classpath. You may then test your web application
-    by importing JWebUnit static helpers, and running these test cases with JUnit:
-
-    </p>
+                    Now check that in your <tt>settings.xml</tt> (usually in <tt>~/.m2</tt>)
+                    the JWebUnit server details are correct:
+                    </p>
 <div class="source">
 <pre>
-import org.junit.*;
+    &lt;server&gt;
+      &lt;id&gt;jwebunit-website&lt;/id&gt;
+      &lt;username&gt;henryju&lt;/username&gt;
+      &lt;password&gt;XXXXXXXX&lt;/password&gt;
+    &lt;/server&gt;
+    &lt;server&gt;
+      &lt;id&gt;jwebunit.svn.sourceforge.net&lt;/id&gt;
+      &lt;username&gt;henryju&lt;/username&gt;
+      &lt;password&gt;XXXXXXXX&lt;/password&gt;
+    &lt;/server&gt;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.*;
-
-public class ExampleWebTestCase {
-
-    @Before
-    public void prepare() {
-        setBaseUrl(&quot;http://localhost:8080/test&quot;);
-    }
-
-    @Test
-    public void testLogin() {
-        beginAt(&quot;/home&quot;);
-        clickLink(&quot;login&quot;);
-        assertTitleEquals(&quot;Login&quot;);
-        setTextField(&quot;username&quot;, &quot;test&quot;);
-        setTextField(&quot;password&quot;, &quot;test123&quot;);
-        submit();
-        assertTitleEquals(&quot;Welcome, test!&quot;);
-    }
-}
-    </pre></div>
-
-    For some more examples on how to use JWebUnit in your project, please look at the
-    <a href="quickstart.html">quick start guide</a>. If you are having problems with
-    excessive Httpclient logging, you will also need to <a href="quickstart.html#Configuring_Logback">configure logback correctly</a>.
-      <!-- waiting on issue 2367400:
-      and the <a href="">generated WebTestCase documentation</a>. -->
-  
-</div>
-
-
+    &lt;server&gt;
+      &lt;id&gt;sonatype-nexus&lt;/id&gt;
+      &lt;username&gt;henryju&lt;/username&gt;
+      &lt;password&gt;YYYYYYYYYY&lt;/password&gt;
+    &lt;/server&gt;
+</pre></div>
+                    Don't forget to put your own sourceforge account and password for jwebunit-website and svn. Concerning sonatype-nexus you need
+                    the username and password from http://oss.sonatype.org/ (see <a class="externalLink" href="https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide">OSS Repository Hosting</a>)
+                    for instructions on how to set up your configuration like GPG signature.
+                    Reminder: in order to have access granted to a new JWebUnit developper, ask on <a class="externalLink" href="https://issues.sonatype.org/browse/OSSRH-384">OSSRH-384</a>.
+                
+            </div>
+            
 <div class="section">
-<h2>Contributing to JWebUnit<a name="Contributing_to_JWebUnit"></a></h2>
-    
+<h3>Preparing the release (tag and update pom)<a name="Preparing_the_release_tag_and_update_pom"></a></h3>
+                
 <p>
-    </p>
+                    This process is automatically done by maven-release-plugin.
+                    </p>
+<div class="source">
+<pre>mvn release:prepare</pre></div>
+                    The plugin will ask for next release version, tag name and next development version. Most of the time defaults are ok.<br />
+                
+                
+<p>
+                    Now the tag is done in SVN and the trunk is ready for next developments. It's time to actually do the release.
+                </p>
+            </div>
+            
+<div class="section">
+<h3>Perform the release (deploy artifacts and site)<a name="Perform_the_release_deploy_artifacts_and_site"></a></h3>
+                
+<p>
+                    Create a shell on sourceforge (<a class="externalLink" href="http://maven.apache.org/plugins/maven-site-plugin/examples/site-deploy-to-sourceforge.net.html">more informations</a>).
+                    </p>
+<div class="source">
+<pre>ssh -t henryju,jwebunit@shell.sf.net create</pre></div>
+                    Then exit the shell (type exit).
+                
+                
+<p>
+                    The release process is done by maven-release-plugin:
+                    </p>
+<div class="source">
+<pre>mvn release:perform -Darguments=&quot;-Dgpg.passphrase=XXXXXXXXXX&quot;</pre></div>
+                
+                
+<p>
+                    This will automatically checkout the tag from SVN in target/checkout folder then run <tt>mvn deploy site-deploy</tt>.
+                    Artifacts will be staged in http://oss.sonatype.org.
+                    Site will also be uploaded.
+                </p>
+                
+<p>
+                  Now connect to http://oss.sonatype.org and go to <i>Staging Repositories</i> section. There you can close and release the repository.
+                  If everything is fine the artifacts will be synced to Maven central.
+                </p>
+            </div>
+            
+<div class="section">
+<h3>Dealing with non-maven bundle<a name="Dealing_with_non-maven_bundle"></a></h3>
+                
+<p>
+                  We also provide a bundle for non Maven users.
+                    </p>
+<div class="source">
+<pre>
+cd target
+cd checkout
+mvn package assembly:assembly
+                    </pre></div>
+                    This will create a release bundle in [target/checkout/]target/jwebunit-XX-release.zip and a source bundle in [target/checkout/]target/jwebunit-XX-source-release.zip.
+                
+                
+<p>
+                  Open your browser at <a class="externalLink" href="https://sourceforge.net/projects/jwebunit/">JWebUnit admin page</a>.<br />
+                  Use your Sourceforge account to log in.<br />
+                  In the menu select &quot;Files&quot;.<br />
+                  Click on JWebUnit folder.<br />
+                  Click on the [Add Folder] button.<br />
+                  Type the name of the new release: JWebUnit XX<br />
+                  Select the folder you just have created<br />
+                  Click on the [Add File] button.<br />
+                  Browse and select for upload:
+                  </p>
 <ul>
-      
-<li>To get support with using JWebUnit in your project, consider joining the <a href="mail-lists.html">JWebUnit-users mailing list</a>.</li>
-      
-<li>If you find a bug in JWebUnit, please let us know on <a class="externalLink" href="https://sourceforge.net/tracker2/?group_id=61302&amp;atid=497982">our bug tracker</a> hosted on Sourceforge.</li>
-      
-<li>If you would like to propose a new feature or concept in the framework, please submit it to <a class="externalLink" href="https://sourceforge.net/tracker2/?group_id=61302&amp;atid=497985">our feature request tracker</a>.</li>
-    </ul>
-    
-
-    
-<p>
-      JWebUnit aims to be an active project with a vibrant community. As such we are
-      <a href="how-to-contribute.html">looking for contributors</a>,
-      especially help in implementing other plugins such as Selenium.
-    </p>
-</div>
-
-
+                    
+<li>jwebunit-XX-release.zip</li>
+                    
+<li>jwebunit-XX-source-release.zip</li>
+                    
+<li>README.txt</li>
+                  </ul>
+                  Click on the [Upload] button.<br />
+                
+            </div>
+            
 <div class="section">
-<h2>JWebUnit Architecture<a name="JWebUnit_Architecture"></a></h2>
-  
+<h3>Communication<a name="Communication"></a></h3>
+                
 <p>
-    <img src="images/jwebunit-architecture.png" alt="JWebUnit architecture" />
-  </p>
-</div>
-
-
+                  Add a news on the website (Develop -&gt; News). You can copy/paste and adapt the previous one.
+                </p>
+                
+<p>
+                  Post an email on the user mailing list.
+                </p>
+            </div>
+            
+<div class="section">
+<h3>Go to Bed<a name="Go_to_Bed"></a></h3>
+                
+<p>
+                    It's getting late! Go to bed!
+                </p>
+            </div>
+        </div>
+    
 
                   </div>
       </div>

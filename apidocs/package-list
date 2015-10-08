@@ -1,0 +1,8 @@
+net.sourceforge.jwebunit.api
+net.sourceforge.jwebunit.exception
+net.sourceforge.jwebunit.html
+net.sourceforge.jwebunit.htmlunit
+net.sourceforge.jwebunit.javascript
+net.sourceforge.jwebunit.junit
+net.sourceforge.jwebunit.util
+net.sourceforge.jwebunit.webdriver
