@@ -3,7 +3,7 @@
     <groupId>net.sourceforge.jwebunit</groupId>
     <artifactId>jwebunit</artifactId>
     <name>JWebUnit</name>
-    <version>3.3-SNAPSHOT</version>
+    <version>3.3</version>
     <packaging>pom</packaging>
     <description>
         JWebUnit is a Java framework that facilitates creation of
@@ -186,7 +186,8 @@
         <connection>scm:git:https://github.com/JWebUnit/jwebunit.git</connection>
         <developerConnection>scm:git:https://github.com/JWebUnit/jwebunit.git</developerConnection>
         <url>https://github.com/JWebUnit/jwebunit</url>
-    </scm>
+      <tag>jwebunit-3.3</tag>
+  </scm>
     <organization>
         <name>JWebUnit</name>
         <url>https://github.com/JWebUnit</url>
