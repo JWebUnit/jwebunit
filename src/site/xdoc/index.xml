@@ -54,8 +54,8 @@
     </p>
 
     <p>
-      The current version of JWebUnit is 3.2. This is the "stable" version of
-      JWebUnit, and requires Java 1.6.
+      The current version of JWebUnit is 3.3. This is the "stable" version of
+      JWebUnit, and requires Java 1.7.
     </p>
 </section>
 
@@ -104,8 +104,8 @@ public class ExampleWebTestCase {
     <p>
     <ul>
       <li>To get support with using JWebUnit in your project, consider joining the <a href="mail-lists.html">JWebUnit-users mailing list</a>.</li>
-      <li>If you find a bug in JWebUnit, please let us know on <a href="https://sourceforge.net/tracker2/?group_id=61302&amp;atid=497982">our bug tracker</a> hosted on Sourceforge.</li>
-      <li>If you would like to propose a new feature or concept in the framework, please submit it to <a href="https://sourceforge.net/tracker2/?group_id=61302&amp;atid=497985">our feature request tracker</a>.</li>
+      <li>If you find a bug in JWebUnit, please let us know on <a href="https://github.com/JWebUnit/jwebunit/issues">our bug tracker</a> hosted on GitHub.</li>
+      <li>If you would like to propose a new feature or concept in the framework, please submit a pull request.</li>
     </ul>
     </p>
 

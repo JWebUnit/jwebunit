@@ -42,7 +42,7 @@
         <dependency>
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-htmlunit-plugin</artifactId>
-            <version>3.2</version>
+            <version>3.3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -52,7 +52,7 @@
   <subsection name="Download">
     <p>
       If you don't want to use Maven, you can download files manually.
-      First download latest stable version of JWebUnit from the <a href="http://sourceforge.net/projects/jwebunit/files">files area</a>
+      First download latest stable version of JWebUnit from the <a href="https://github.com/JWebUnit/jwebunit/releases">releases area</a>
       and expand to a local directory.
     </p>
   </subsection>
