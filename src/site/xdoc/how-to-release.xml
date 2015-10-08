@@ -72,7 +72,7 @@
             <subsection name="Perform the release (deploy artifacts and site)">
                 <p>
                     The release process is done by maven-release-plugin:
-                    <source>mvn release:perform -Darguments="-Dgpg.passphrase=XXXXXXXXXX"</source>
+                    <source>mvn release:perform</source>
                 </p>
                 <p>
                     This will automatically checkout the tag from Git in target/checkout folder then run <tt>mvn deploy site site:stage</tt>.
@@ -91,8 +91,7 @@
                 <p>
                   We also provide a bundle for non Maven users.
                     <source>
-cd target
-cd checkout
+cd target/checkout
 mvn package assembly:assembly
                     </source>
                     This will create a release bundle in [target/checkout/]target/jwebunit-XX-release.zip.
