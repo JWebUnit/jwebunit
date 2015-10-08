@@ -13,10 +13,10 @@
         refactored to remove duplication and other bad smells in the
         test code. JWebUnit is the result of these refactorings.
     </description>
-    <url>http://jwebunit.sourceforge.net</url>
+    <url>https://jwebunit.github.io/jwebunit/</url>
     <issueManagement>
-        <system>sourceforge</system>
-        <url>http://sourceforge.net/tracker/?group_id=61302</url>
+        <system>github</system>
+        <url>https://github.com/JWebUnit/jwebunit/issues</url>
     </issueManagement>
     <inceptionYear>2002</inceptionYear>
     <prerequisites>
@@ -185,7 +185,7 @@
     <scm>
         <connection>scm:git:https://github.com/JWebUnit/jwebunit.git</connection>
         <developerConnection>scm:git:https://github.com/JWebUnit/jwebunit.git</developerConnection>
-        <url>https://github.com/JWebUnit/jwebunit.git</url>
+        <url>https://github.com/JWebUnit/jwebunit</url>
     </scm>
     <organization>
         <name>JWebUnit</name>
@@ -248,9 +248,6 @@
                         <descriptors>
                             <descriptor>src/assemble/release.xml</descriptor>
                         </descriptors>
-                        <descriptorRefs>
-                            <descriptorRef>source-release</descriptorRef>
-                        </descriptorRefs>
                     </configuration>
                     <dependencies>
                         <dependency>
@@ -263,10 +260,11 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5</version>
+                    <version>2.5.2</version>
                     <configuration>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <preparationGoals>clean install</preparationGoals>
+                        <goals>deploy site site:stage</goals>
                         <mavenExecutorId>forked-path</mavenExecutorId>
                     </configuration>
                 </plugin>
@@ -284,13 +282,10 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>3.3</version>
-                    <dependencies>
-                        <dependency><!-- add support for ssh/scp -->
-                            <groupId>org.apache.maven.wagon</groupId>
-                            <artifactId>wagon-ssh</artifactId>
-                            <version>2.6</version>
-                        </dependency>
-                    </dependencies>
+                    <configuration>
+                      <skipDeploy>true</skipDeploy>
+                      <outputEncoding>UTF-8</outputEncoding>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -354,25 +349,41 @@
                 </executions>
             </plugin>
             <plugin>
-              <groupId>com.github.github</groupId>
-              <artifactId>site-maven-plugin</artifactId>
-              <version>0.12</version>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-site-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>stage-for-scm-publish</id>
+                  <phase>post-site</phase>
+                  <goals>
+                    <goal>stage</goal>
+                  </goals>
+                  <configuration>
+                    <skipDeploy>false</skipDeploy><!-- MSITE-652: configuration won't be necessary with m-site-p 3.2 -->
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-scm-publish-plugin</artifactId>
+              <version>1.1</version>
               <configuration>
-                <message>Creating site for ${project.version}</message>
+                <scmBranch>gh-pages</scmBranch>
               </configuration>
               <executions>
                 <execution>
+                  <id>scm-publish</id>
+                  <phase>site-deploy</phase>
                   <goals>
-                    <goal>site</goal>
+                    <goal>publish-scm</goal>
                   </goals>
-                  <phase>site</phase>
                 </execution>
               </executions>
             </plugin>
         </plugins>
     </build>
     <properties>
-        <github.global.server>github</github.global.server>
         <topDirectoryLocation>.</topDirectoryLocation>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -550,11 +561,9 @@
     </reporting>
     <distributionManagement>
         <site>
-            <id>jwebunit-website</id>
-            <name>JWebUnit WebSite - Sourceforge</name>
-            <url>
-                scp://shell.sourceforge.net/home/project-web/jwebunit/htdocs
-            </url>
+            <id>github</id>
+            <name>JWebUnit WebSite - GitHub</name>
+            <url>scm:git:git@github.com:JWebUnit/jwebunit.git</url>
         </site>
         <snapshotRepository>
             <id>sonatype-nexus</id>

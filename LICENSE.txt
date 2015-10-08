@@ -2,8 +2,8 @@ The following copyright and permission notice applies to all aspects (source, te
 
 /********************************************************************************
  * JWebUnit, simplified web testing API
- * Copyright (c) 2002-2014, JWebUnit team.
- * http://jwebunit.sourceforge.net
+ * Copyright (c) 2002-2015, JWebUnit team.
+ * https://jwebunit.github.io/jwebunit
  *
  * JWebUnit is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
-    Copyright (c) 2002-2014, JWebUnit team.
+    Copyright (c) 2002-2015, JWebUnit team.
 
     This file is part of JWebUnit.
 
@@ -32,7 +32,7 @@
             <subsection name="Last checks and updates">
                 <p>
                   <ul>
-                    <li>Ensure your repository is up to date by running: <tt>svn update</tt></li>
+                    <li>Ensure your repository is up to date by running: <tt>git update</tt></li>
                     <li>Edit <tt>src/changes/changes.xml</tt> to set the release date instead of "unknow"</li>
                     <li>Update readme.txt (at least update the version number)</li>
                     <li>Update JWebUnit latest version in src/site/xdoc/index.xml, src/site/xdoc/installation.xml, jwebunit-htmlunit-plugin/src/site/xdoc/index.xml, jwebunit-webdriver-plugin/src/site/xdoc/index.xml</li>
@@ -44,14 +44,8 @@
                     the JWebUnit server details are correct:
                     <source><![CDATA[
     <server>
-      <id>jwebunit-website</id>
-      <username>henryju</username>
-      <password>XXXXXXXX</password>
-    </server>
-    <server>
-      <id>jwebunit.svn.sourceforge.net</id>
-      <username>henryju</username>
-      <password>XXXXXXXX</password>
+      <id>github</id>
+      <password>oauth token</password>
     </server>
 
     <server>
@@ -60,7 +54,7 @@
       <password>YYYYYYYYYY</password>
     </server>
 ]]></source>
-                    Don't forget to put your own sourceforge account and password for jwebunit-website and svn. Concerning sonatype-nexus you need
+                    Don't forget to put your own GitHub OAuth token. Concerning sonatype-nexus you need
                     the username and password from http://oss.sonatype.org/ (see <a href="https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide">OSS Repository Hosting</a>)
                     for instructions on how to set up your configuration like GPG signature.
                     Reminder: in order to have access granted to a new JWebUnit developper, ask on <a href="https://issues.sonatype.org/browse/OSSRH-384">OSSRH-384</a>.
@@ -73,27 +67,25 @@
                     The plugin will ask for next release version, tag name and next development version. Most of the time defaults are ok.<br/>
                 </p>
                 <p>
-                    Now the tag is done in SVN and the trunk is ready for next developments. It's time to actually do the release.
+                    Now the tag is done in Git and the master is ready for next developments. It's time to actually do the release.
                 </p>
             </subsection>
             <subsection name="Perform the release (deploy artifacts and site)">
-                <p>
-                    Create a shell on sourceforge (<a href="http://maven.apache.org/plugins/maven-site-plugin/examples/site-deploy-to-sourceforge.net.html">more informations</a>).
-                    <source>ssh -t henryju,jwebunit@shell.sf.net create</source>
-                    Then exit the shell (type exit).
-                </p>
                 <p>
                     The release process is done by maven-release-plugin:
                     <source>mvn release:perform -Darguments="-Dgpg.passphrase=XXXXXXXXXX"</source>
                 </p>
                 <p>
-                    This will automatically checkout the tag from SVN in target/checkout folder then run <tt>mvn deploy site-deploy</tt>.
+                    This will automatically checkout the tag from Git in target/checkout folder then run <tt>mvn deploy site site:stage</tt>.
                     Artifacts will be staged in http://oss.sonatype.org.
-                    Site will also be uploaded.
+                    Site will also be staged.
                 </p>
                 <p>
                   Now connect to http://oss.sonatype.org and go to <i>Staging Repositories</i> section. There you can close and release the repository.
                   If everything is fine the artifacts will be synced to Maven central.
+                </p>
+                <p>
+                  To finalize site deployment go to target/checkout and run <tt>mvn scm-publish:publish-scm</tt>
                 </p>
             </subsection>
             <subsection name="Dealing with non-maven bundle">
@@ -104,30 +96,13 @@ cd target
 cd checkout
 mvn package assembly:assembly
                     </source>
-                    This will create a release bundle in [target/checkout/]target/jwebunit-XX-release.zip and a source bundle in [target/checkout/]target/jwebunit-XX-source-release.zip.
+                    This will create a release bundle in [target/checkout/]target/jwebunit-XX-release.zip.
                 </p>
                 <p>
-                  Open your browser at <a href="https://sourceforge.net/projects/jwebunit/">JWebUnit admin page</a>.<br/>
-                  Use your Sourceforge account to log in.<br/>
-                  In the menu select "Files".<br/>
-                  Click on JWebUnit folder.<br/>
-                  Click on the [Add Folder] button.<br/>
-                  Type the name of the new release: JWebUnit XX<br/>
-                  Select the folder you just have created<br/>
-                  Click on the [Add File] button.<br/>
-                  Browse and select for upload:
-                  <ul>
-                    <li>jwebunit-XX-release.zip</li>
-                    <li>jwebunit-XX-source-release.zip</li>
-                    <li>README.txt</li>
-                  </ul>
-                  Click on the [Upload] button.<br/>
+                  You can upload this bundle on GitHub release page.
                 </p>
             </subsection>
             <subsection name="Communication">
-                <p>
-                  Add a news on the website (Develop -> News). You can copy/paste and adapt the previous one.
-                </p>
                 <p>
                   Post an email on the user mailing list.
                 </p>
