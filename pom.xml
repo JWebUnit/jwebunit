@@ -183,13 +183,13 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:http://svn.code.sf.net/p/jwebunit/code/trunk</connection>
-        <developerConnection>scm:svn:https://svn.code.sf.net/p/jwebunit/code/trunk</developerConnection>
-        <url>http://sourceforge.net/p/jwebunit/code/HEAD/tree/trunk</url>
+        <connection>scm:git:https://github.com/JWebUnit/jwebunit.git</connection>
+        <developerConnection>scm:git:https://github.com/JWebUnit/jwebunit.git</developerConnection>
+        <url>https://github.com/JWebUnit/jwebunit.git</url>
     </scm>
     <organization>
-        <name>SourceForge</name>
-        <url>http://sourceforge.net</url>
+        <name>JWebUnit</name>
+        <url>https://github.com/JWebUnit</url>
     </organization>
     <build>
         <pluginManagement>
@@ -353,9 +353,26 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+              <groupId>com.github.github</groupId>
+              <artifactId>site-maven-plugin</artifactId>
+              <version>0.12</version>
+              <configuration>
+                <message>Creating site for ${project.version}</message>
+              </configuration>
+              <executions>
+                <execution>
+                  <goals>
+                    <goal>site</goal>
+                  </goals>
+                  <phase>site</phase>
+                </execution>
+              </executions>
+            </plugin>
         </plugins>
     </build>
     <properties>
+        <github.global.server>github</github.global.server>
         <topDirectoryLocation>.</topDirectoryLocation>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
