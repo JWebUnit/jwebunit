@@ -26,14 +26,6 @@
         <version>1.0</version>
     </skin>
 
-    <bannerLeft>
-        <name>SourceForge</name>
-        <src>
-            http://sflogo.sourceforge.net/sflogo.php?group_id=61302&amp;type=15
-        </src>
-        <href>http://sourceforge.net/projects/jwebunit</href>
-    </bannerLeft>
-
     <bannerRight>
         <name>JWebUnit</name>
         <src>./images/jwebunit-logo.png</src>
@@ -104,12 +96,6 @@
             <item name="How-To release"
                 href="how-to-release.html" collapse="true">
             </item>
-        </menu>
-        <menu name="Sourceforge" inherit="top">
-            <item name="Project page"
-                href="http://sourceforge.net/projects/jwebunit" />
-            <item name="Download"
-                href="http://sourceforge.net/projects/jwebunit/files" />
         </menu>
         <menu ref="modules"  inherit="top"/>
         <menu ref="reports" />
