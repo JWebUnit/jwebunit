@@ -64,6 +64,19 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 import com.gargoylesoftware.htmlunit.util.NameValuePair;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import net.sourceforge.jwebunit.api.HttpHeader;
 import net.sourceforge.jwebunit.api.IElement;
 import net.sourceforge.jwebunit.api.ITestingEngine;
@@ -89,20 +102,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Acts as the wrapper for HtmlUnit access. A testing engine is initialized with a given URL, and maintains conversational state
@@ -154,17 +153,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * Javascript alerts.
    */
-  private List<JavascriptAlert> expectedJavascriptAlerts = new LinkedList<JavascriptAlert>();
+  private List<JavascriptAlert> expectedJavascriptAlerts = new LinkedList<>();
 
   /**
    * Javascript confirms.
    */
-  private List<JavascriptConfirm> expectedJavascriptConfirms = new LinkedList<JavascriptConfirm>();
+  private List<JavascriptConfirm> expectedJavascriptConfirms = new LinkedList<>();
 
   /**
    * Javascript prompts.
    */
-  private List<JavascriptPrompt> expectedJavascriptPrompts = new LinkedList<JavascriptPrompt>();
+  private List<JavascriptPrompt> expectedJavascriptPrompts = new LinkedList<>();
 
   /**
    * The default browser version.
@@ -207,7 +206,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    */
   @Override
   public void beginAt(URL initialURL, TestContext context)
-      throws TestingEngineResponseException {
+    throws TestingEngineResponseException {
     this.setTestContext(context);
     initWebClient();
     gotoPage(initialURL);
@@ -219,8 +218,8 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    */
   @Override
   public void closeBrowser() throws ExpectedJavascriptAlertException,
-      ExpectedJavascriptConfirmException,
-      ExpectedJavascriptPromptException {
+    ExpectedJavascriptConfirmException,
+    ExpectedJavascriptPromptException {
     if (wc != null) {
       wc.close();
       wc = null;
@@ -228,18 +227,18 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     form = null; // reset current form
     if (this.expectedJavascriptAlerts.size() > 0) {
       throw new ExpectedJavascriptAlertException(
-          (expectedJavascriptAlerts.get(0))
-              .getMessage());
+        (expectedJavascriptAlerts.get(0))
+          .getMessage());
     }
     if (this.expectedJavascriptConfirms.size() > 0) {
       throw new ExpectedJavascriptConfirmException(
-          (expectedJavascriptConfirms.get(0))
-              .getMessage());
+        (expectedJavascriptConfirms.get(0))
+          .getMessage());
     }
     if (this.expectedJavascriptPrompts.size() > 0) {
       throw new ExpectedJavascriptPromptException(
-          (expectedJavascriptPrompts.get(0))
-              .getMessage());
+        (expectedJavascriptPrompts.get(0))
+          .getMessage());
     }
 
   }
@@ -258,7 +257,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
       form = null;
     } catch (FailingHttpStatusCodeException ex) {
       throw new TestingEngineResponseException(ex.getStatusCode(),
-          "unexpected status code [" + ex.getStatusCode() + "] at URL: [" + initialURL + "]", ex);
+        "unexpected status code [" + ex.getStatusCode() + "] at URL: [" + initialURL + "]", ex);
     } catch (IOException ex) {
       throw new RuntimeException(ex);
     }
@@ -286,11 +285,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   @Override
   public List<javax.servlet.http.Cookie> getCookies() {
-    List<javax.servlet.http.Cookie> result = new LinkedList<javax.servlet.http.Cookie>();
+    List<javax.servlet.http.Cookie> result = new LinkedList<>();
     Set<Cookie> cookies = wc.getCookieManager().getCookies();
     for (Cookie cookie : cookies) {
       javax.servlet.http.Cookie c = new javax.servlet.http.Cookie(
-          cookie.getName(), cookie.getValue());
+        cookie.getName(), cookie.getValue());
       c.setComment(cookie.toHttpClient().getComment());
       c.setDomain(cookie.getDomain());
       Date expire = cookie.toHttpClient().getExpiryDate();
@@ -355,8 +354,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     WebWindow window = getWindowByTitle(title);
     if (window != null) {
       setMainWindow(window);
-    }
-    else {
+    } else {
       throw new RuntimeException("No window found with title [" + title + "]");
     }
   }
@@ -498,8 +496,8 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
     // we can't find it anywhere
     throw new RuntimeException(
-        "getTextFieldParameterValue failed, text field with name ["
-          + paramName + "] does not exist.");
+      "getTextFieldParameterValue failed, text field with name ["
+        + paramName + "] does not exist.");
   }
 
   /**
@@ -632,7 +630,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   @Override
   public String[] getSelectOptionValues(String selectName) {
     HtmlSelect sel = getForm().getSelectByName(selectName);
-    ArrayList<String> result = new ArrayList<String>();
+    ArrayList<String> result = new ArrayList<>();
     for (HtmlOption opt : sel.getOptions()) {
       result.add(opt.getValueAttribute());
     }
@@ -654,7 +652,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         + "] at index " + index);
     }
     HtmlSelect sel = sels.get(index);
-    ArrayList<String> result = new ArrayList<String>();
+    ArrayList<String> result = new ArrayList<>();
     for (HtmlOption opt : sel.getOptions()) {
       result.add(opt.getValueAttribute());
     }
@@ -749,7 +747,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   @Override
   public String getPageSource() {
     return win.getEnclosedPage().getWebResponse()
-        .getContentAsString();
+      .getContentAsString();
   }
 
   @Override
@@ -770,27 +768,27 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
       return ((JavaScriptPage) page).getContent();
     }
     if (page instanceof XmlPage) {
-      return ((XmlPage) page).getContent();
+      return ((XmlPage) page).getTextContent();
     }
     if (page instanceof UnexpectedPage) {
       return ((UnexpectedPage) page).getWebResponse()
-          .getContentAsString();
+        .getContentAsString();
     }
     throw new RuntimeException(
-        "Unexpected error in getPageText(). This method need to be updated.");
+      "Unexpected error in getPageText(). This method need to be updated.");
   }
 
   @Override
   public String getServerResponse() {
     StringBuffer result = new StringBuffer();
     WebResponse wr = wc.getCurrentWindow().getEnclosedPage()
-        .getWebResponse();
+      .getWebResponse();
     result.append(wr.getStatusCode()).append(" ").append(
-        wr.getStatusMessage()).append("\n");
+      wr.getStatusMessage()).append("\n");
     result.append("Location: ").append(wr.getWebRequest().getUrl()).append("\n");
     for (NameValuePair h : wr.getResponseHeaders()) {
       result.append(h.getName()).append(": ").append(h.getValue())
-          .append("\n");
+        .append("\n");
     }
     result.append("\n");
     result.append(wr.getContentAsString());
@@ -801,7 +799,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   public InputStream getInputStream() {
     try {
       return wc.getCurrentWindow().getEnclosedPage().getWebResponse()
-          .getContentAsStream();
+        .getContentAsStream();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -809,7 +807,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   @Override
   public InputStream getInputStream(URL resourceUrl)
-      throws TestingEngineResponseException {
+    throws TestingEngineResponseException {
     WebWindow imageWindow = null;
     try {
       // as far as I can tell, there is no such thing as an iframe/object kind of "window" in htmlunit, so I'm
@@ -819,7 +817,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
       return page.getWebResponse().getContentAsStream();
     } catch (FailingHttpStatusCodeException aException) {
       throw new TestingEngineResponseException(
-          aException.getStatusCode(), aException);
+        aException.getStatusCode(), aException);
     } catch (IOException e) {
       throw new RuntimeException(e);
     } finally {
@@ -884,7 +882,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     DefaultCredentialsProvider creds = new DefaultCredentialsProvider();
     if (getTestContext().hasAuthorization()) {
       creds.addCredentials(getTestContext().getUser(), getTestContext()
-          .getPassword());
+        .getPassword());
     }
     if (getTestContext().hasNTLMAuthorization()) {
       InetAddress netAddress;
@@ -896,13 +894,14 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         address = "";
       }
       creds.addNTLMCredentials(getTestContext().getUser(),
-          getTestContext().getPassword(), "", -1, address,
-          getTestContext().getDomain());
+        getTestContext().getPassword(), "", -1, address,
+        getTestContext().getDomain());
     }
     if (getTestContext().hasProxyAuthorization()) {
       creds.addCredentials(getTestContext().getProxyUser(),
-          getTestContext().getProxyPasswd(), getTestContext()
-              .getProxyHost(), getTestContext().getProxyPort(), AuthScope.ANY_REALM);
+        getTestContext().getProxyPasswd(), getTestContext()
+          .getProxyHost(),
+        getTestContext().getProxyPort(), AuthScope.ANY_REALM);
     }
     wc.setCredentialsProvider(creds);
     wc.addWebWindowListener(new WebWindowListener() {
@@ -957,7 +956,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
           throw new UnexpectedJavascriptAlertException(msg);
         } else {
           JavascriptAlert expected = expectedJavascriptAlerts
-              .remove(0);
+            .remove(0);
           if (!msg.equals(expected.getMessage())) {
             throw new UnexpectedJavascriptAlertException(msg);
           }
@@ -972,7 +971,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
           throw new UnexpectedJavascriptConfirmException(msg);
         } else {
           JavascriptConfirm expected = expectedJavascriptConfirms
-              .remove(0);
+            .remove(0);
           if (!msg.equals(expected.getMessage())) {
             throw new UnexpectedJavascriptConfirmException(msg);
           } else {
@@ -989,7 +988,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
           throw new UnexpectedJavascriptPromptException(msg);
         } else {
           JavascriptPrompt expected = expectedJavascriptPrompts
-              .remove(0);
+            .remove(0);
           if (!msg.equals(expected.getMessage())) {
             throw new UnexpectedJavascriptPromptException(msg);
           } else {
@@ -1002,9 +1001,10 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     for (javax.servlet.http.Cookie c : getTestContext().getCookies()) {
       // If Path==null, cookie is not send to the server.
       wc.getCookieManager().addCookie(
-          new Cookie(c.getDomain() != null ? c.getDomain() : "", c
-              .getName(), c.getValue(), c.getPath() != null ? c
-              .getPath() : "", c.getMaxAge(), c.getSecure()));
+        new Cookie(c.getDomain() != null ? c.getDomain() : "", c
+          .getName(), c.getValue(), c.getPath() != null ? c
+            .getPath() : "",
+          c.getMaxAge(), c.getSecure()));
     }
     // Deal with custom request header
     Map<String, String> requestHeaders = getTestContext().getRequestHeaders();
@@ -1063,7 +1063,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    */
   @Override
   public List<String> getComments() {
-    List<String> comments = new ArrayList<String>();
+    List<String> comments = new ArrayList<>();
     getComments(comments, ((HtmlPage) win.getEnclosedPage()));
 
     return comments;
@@ -1094,7 +1094,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     for (WebWindow window : wc.getWebWindows()) {
       if (window.getEnclosedPage() instanceof HtmlPage
         && ((HtmlPage) window.getEnclosedPage()).getTitleText()
-            .equals(title)) {
+          .equals(title)) {
         return window;
       }
     }
@@ -1143,13 +1143,13 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   private HtmlForm getForm(int formIndex) {
     return ((HtmlPage) win.getEnclosedPage()).getForms().get(
-        formIndex);
+      formIndex);
   }
 
   private HtmlForm getForm(String nameOrID) {
     try {
       return (HtmlForm) ((HtmlPage) win.getEnclosedPage())
-          .getHtmlElementById(nameOrID);
+        .getHtmlElementById(nameOrID);
     } catch (ElementNotFoundException e) {
 
     }
@@ -1162,7 +1162,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   }
 
   private HtmlForm getForm(String nameOrID, int index) {
-    List<HtmlForm> forms = new ArrayList<HtmlForm>();
+    List<HtmlForm> forms = new ArrayList<>();
     for (HtmlForm form : getCurrentPage().getForms()) {
       if (nameOrID.equals(form.getId())
         || nameOrID.equals(form.getNameAttribute())) {
@@ -1171,8 +1171,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
     if (forms.size() > index) {
       return forms.get(index);
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -1241,7 +1240,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @return the button
    */
   public HtmlElement getSubmitButton(String buttonName) {
-    List<HtmlElement> btns = new LinkedList<HtmlElement>();
+    List<HtmlElement> btns = new LinkedList<>();
     if (form != null) {
       btns.addAll(getForm().getInputsByName(buttonName));
       btns.addAll(getForm().getButtonsByName(buttonName));
@@ -1280,7 +1279,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   }
 
   public HtmlElement getResetButton(String buttonName) {
-    List<HtmlElement> btns = new LinkedList<HtmlElement>();
+    List<HtmlElement> btns = new LinkedList<>();
     if (form != null) {
       btns.addAll(getForm().getInputsByName(buttonName));
       btns.addAll(getForm().getButtonsByName(buttonName));
@@ -1319,8 +1318,8 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * @return HtmlSubmitInput, HtmlImageInput or HtmlButton
    */
   public HtmlElement getSubmitButton(String buttonName,
-      String buttonValue) {
-    List<HtmlElement> btns = new LinkedList<HtmlElement>();
+    String buttonValue) {
+    List<HtmlElement> btns = new LinkedList<>();
     if (form != null) {
       btns.addAll(getForm().getInputsByName(buttonName));
       btns.addAll(getForm().getButtonsByName(buttonName));
@@ -1362,9 +1361,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
     return null;
   }
-  
+
   private HtmlElement getSubmitButton() {
-    List<HtmlElement> btns = new LinkedList<HtmlElement>();
+    List<HtmlElement> btns = new LinkedList<>();
     if (form != null) {
       btns.addAll(getForm().getElementsByAttribute("input", "type", "submit"));
       btns.addAll(getForm().getElementsByAttribute("input", "type", "image"));
@@ -1504,8 +1503,8 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
 
     List<? extends HtmlElement> l = ((HtmlPage) win.getEnclosedPage()).getDocumentElement()
-        .getHtmlElementsByTagNames(
-            Arrays.asList(new String[] {"button", "input"}));
+      .getHtmlElementsByTagNames(
+        Arrays.asList(new String[] {"button", "input"}));
     for (HtmlElement e : l) {
       if (e instanceof HtmlButton) {
         // we cannot use asText(), as this returns an empty string if the
@@ -1514,8 +1513,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
         if (buttonValueText.equals(((HtmlButton) e).getTextContent())) {
           return e;
         }
-      }
-      else if (e instanceof HtmlButtonInput ||
+      } else if (e instanceof HtmlButtonInput ||
         e instanceof HtmlSubmitInput ||
         e instanceof HtmlResetInput) {
         if (buttonValueText.equals(e.getAttribute("value"))) {
@@ -1590,7 +1588,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
       while (cellIt.hasNext()) {
         HtmlTableCell htmlCell = cellIt.nextCell();
         newRow.appendCell(new Cell(htmlCell.asText(), htmlCell
-            .getColumnSpan(), htmlCell.getRowSpan()));
+          .getColumnSpan(), htmlCell.getRowSpan()));
       }
       result.appendRow(newRow);
     }
@@ -1606,21 +1604,21 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   private HtmlTable getHtmlTable(String tableSummaryNameOrId) {
     try {
       return (HtmlTable) ((HtmlPage) win.getEnclosedPage())
-          .getHtmlElementById(tableSummaryNameOrId);
+        .getHtmlElementById(tableSummaryNameOrId);
     } catch (ElementNotFoundException e) {
       // Not found
     }
     try {
       return (HtmlTable) ((HtmlPage) win.getEnclosedPage())
-          .getDocumentElement().getOneHtmlElementByAttribute("table",
-              "summary", tableSummaryNameOrId);
+        .getDocumentElement().getOneHtmlElementByAttribute("table",
+          "summary", tableSummaryNameOrId);
     } catch (ElementNotFoundException e) {
       // Not found
     }
     try {
       return (HtmlTable) ((HtmlPage) win.getEnclosedPage())
-          .getDocumentElement().getOneHtmlElementByAttribute("table",
-              "name", tableSummaryNameOrId);
+        .getDocumentElement().getOneHtmlElementByAttribute("table",
+          "name", tableSummaryNameOrId);
     } catch (ElementNotFoundException e) {
       // Not found
     }
@@ -1650,7 +1648,8 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     } catch (IOException e) {
       throw new RuntimeException(
         "HtmlUnit Error submitting form using default submit button, "
-          + "check that form has single submit button, otherwise use submit(name): \n", e);
+          + "check that form has single submit button, otherwise use submit(name): \n",
+        e);
     }
   }
 
@@ -1686,7 +1685,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    */
   @Override
   public void submit(String buttonName, String buttonValue) {
-    List<HtmlElement> l = new LinkedList<HtmlElement>();
+    List<HtmlElement> l = new LinkedList<>();
     l.addAll(getForm().getInputsByName(buttonName));
     l.addAll(getForm().getButtonsByName(buttonName));
     try {
@@ -1718,16 +1717,17 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     } catch (FailingHttpStatusCodeException e) {
       // entirely possible that it can fail here
       throw new TestingEngineResponseException(
-          e.getStatusCode(), e);
+        e.getStatusCode(), e);
     } catch (IOException e) {
       throw new RuntimeException(
-          "HtmlUnit Error submitting form using submit button with name ["
-            + buttonName + "] and value [" + buttonValue
-            + "]", e);
+        "HtmlUnit Error submitting form using submit button with name ["
+          + buttonName + "] and value [" + buttonValue
+          + "]",
+        e);
     }
     throw new RuntimeException(
-        "No submit button found in current form with name ["
-          + buttonName + "] and value [" + buttonValue + "].");
+      "No submit button found in current form with name ["
+        + buttonName + "] and value [" + buttonValue + "].");
   }
 
   /**
@@ -1820,7 +1820,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     for (int i = 0; i < l.length; i++) {
       if ((l[i] instanceof HtmlCheckBoxInput) &&
         ((HtmlCheckBoxInput) l[i]).getValueAttribute()
-            .equals(value)) {
+          .equals(value)) {
         return (HtmlCheckBoxInput) l[i];
       }
     }
@@ -2052,8 +2052,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
-    }
-    else {
+    } else {
       throw new RuntimeException("No button found with text: " + buttonValueText);
     }
   }
@@ -2357,11 +2356,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   @Override
   public void setExpectedJavaScriptAlert(JavascriptAlert[] alerts)
-      throws ExpectedJavascriptAlertException {
+    throws ExpectedJavascriptAlertException {
     if (this.expectedJavascriptAlerts.size() > 0) {
       throw new ExpectedJavascriptAlertException(
-          (expectedJavascriptAlerts.get(0))
-              .getMessage());
+        (expectedJavascriptAlerts.get(0))
+          .getMessage());
     }
     for (int i = 0; i < alerts.length; i++) {
       expectedJavascriptAlerts.add(alerts[i]);
@@ -2370,11 +2369,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   @Override
   public void setExpectedJavaScriptConfirm(JavascriptConfirm[] confirms)
-      throws ExpectedJavascriptConfirmException {
+    throws ExpectedJavascriptConfirmException {
     if (this.expectedJavascriptConfirms.size() > 0) {
       throw new ExpectedJavascriptConfirmException(
-          (expectedJavascriptConfirms.get(0))
-              .getMessage());
+        (expectedJavascriptConfirms.get(0))
+          .getMessage());
     }
     for (int i = confirms.length - 1; i >= 0; i--) {
       expectedJavascriptConfirms.add(confirms[i]);
@@ -2383,11 +2382,11 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   @Override
   public void setExpectedJavaScriptPrompt(JavascriptPrompt[] prompts)
-      throws ExpectedJavascriptPromptException {
+    throws ExpectedJavascriptPromptException {
     if (this.expectedJavascriptPrompts.size() > 0) {
       throw new ExpectedJavascriptPromptException(
-          (expectedJavascriptPrompts.get(0))
-              .getMessage());
+        (expectedJavascriptPrompts.get(0))
+          .getMessage());
     }
     for (int i = prompts.length - 1; i >= 0; i--) {
       expectedJavascriptPrompts.add(prompts[i]);
@@ -2429,7 +2428,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    */
   @Override
   public List<IElement> getElementsByXPath(String xpath) {
-    List<IElement> children = new ArrayList<IElement>();
+    List<IElement> children = new ArrayList<>();
     for (Object child : getCurrentPage().getByXPath(xpath)) {
       if (child instanceof HtmlElement) {
         children.add(new HtmlUnitElementImpl((HtmlElement) child));
@@ -2484,7 +2483,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   @Override
   @Deprecated
   public Map<String, String> getAllHeaders() {
-    Map<String, String> map = new java.util.HashMap<String, String>();
+    Map<String, String> map = new java.util.HashMap<>();
     for (NameValuePair header : getWebResponse().getResponseHeaders()) {
       map.put(header.getName(), header.getValue());
     }
@@ -2493,7 +2492,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
 
   @Override
   public List<HttpHeader> getResponseHeaders() {
-    List<HttpHeader> result = new LinkedList<HttpHeader>();
+    List<HttpHeader> result = new LinkedList<>();
     for (NameValuePair header : getWebResponse().getResponseHeaders()) {
       result.add(new HttpHeader(header.getName(), header.getValue()));
     }

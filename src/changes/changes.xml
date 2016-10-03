@@ -30,6 +30,11 @@
         </author>
     </properties>
     <body>
+        <release version="3.4" date="UNKNOWN" description="HtmlUnit 2.23">
+            <action type="update" dev="henryju" issue="4">
+                Updated to HtmlUnit 2.23.
+            </action>
+        </release>
         <release version="3.3" date="October 08, 2015" description="HtmlUnit 2.18, Java 7">
             <action type="fix" dev="henryju" issue="135" due-to="Joseph Walton">
                 Exception from setWorkingForm should indicate the requested form details.
