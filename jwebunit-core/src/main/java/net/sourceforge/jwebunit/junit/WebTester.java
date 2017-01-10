@@ -817,6 +817,7 @@ public class WebTester {
      */
     public void assertTableEquals(String tableSummaryNameOrId,
             Table expectedTable) {
+        assertTablePresent(tableSummaryNameOrId);
         getTestingEngine().getTable(tableSummaryNameOrId).assertEquals(
                 expectedTable);
     }
@@ -829,6 +830,7 @@ public class WebTester {
      */
     public void assertTableEquals(String tableSummaryNameOrId,
             String[][] expectedCellValues) {
+        assertTablePresent(tableSummaryNameOrId);
         getTestingEngine().getTable(tableSummaryNameOrId).assertEquals(
                 new Table(expectedCellValues));
     }
@@ -842,6 +844,7 @@ public class WebTester {
      */
     public void assertTableRowsEqual(String tableSummaryNameOrId, int startRow,
             Table expectedTable) {
+        assertTablePresent(tableSummaryNameOrId);
         getTestingEngine().getTable(tableSummaryNameOrId).assertSubTableEquals(
                 startRow, expectedTable);
     }
@@ -855,6 +858,7 @@ public class WebTester {
      */
     public void assertTableRowsEqual(String tableSummaryNameOrId, int startRow,
             String[][] expectedTable) {
+        assertTablePresent(tableSummaryNameOrId);
         getTestingEngine().getTable(tableSummaryNameOrId).assertSubTableEquals(
                 startRow, new Table(expectedTable));
     }
@@ -882,6 +886,7 @@ public class WebTester {
      * @param expectedTable represents expected regexps (colspan supported).
      */
     public void assertTableMatch(String tableSummaryOrId, Table expectedTable) {
+        assertTablePresent(tableSummaryOrId);
         getTestingEngine().getTable(tableSummaryOrId)
                 .assertMatch(expectedTable);
     }
@@ -894,6 +899,7 @@ public class WebTester {
      */
     public void assertTableMatch(String tableSummaryOrId,
             String[][] expectedCellValues) {
+        assertTablePresent(tableSummaryOrId);
         getTestingEngine().getTable(tableSummaryOrId).assertMatch(
                 new Table(expectedCellValues));
     }
@@ -907,6 +913,7 @@ public class WebTester {
      */
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
             Table expectedTable) {
+        assertTablePresent(tableSummaryOrId);
         getTestingEngine().getTable(tableSummaryOrId).assertSubTableMatch(
                 startRow, expectedTable);
     }
@@ -920,6 +927,7 @@ public class WebTester {
      */
     public void assertTableRowsMatch(String tableSummaryOrId, int startRow,
             String[][] expectedTable) {
+        assertTablePresent(tableSummaryOrId);
         getTestingEngine().getTable(tableSummaryOrId).assertSubTableMatch(
                 startRow, new Table(expectedTable));
     }
