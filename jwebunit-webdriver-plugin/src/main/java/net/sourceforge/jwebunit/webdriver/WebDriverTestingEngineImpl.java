@@ -20,6 +20,14 @@ package net.sourceforge.jwebunit.webdriver;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebResponse;
+import net.lightbody.bmp.core.har.Har;
+import net.lightbody.bmp.proxy.LegacyProxyServer;
+import net.lightbody.bmp.proxy.ProxyServer;
+import net.lightbody.bmp.proxy.http.BrowserMobHttpRequest;
+import net.lightbody.bmp.proxy.http.BrowserMobHttpResponse;
+import net.lightbody.bmp.proxy.http.RequestInterceptor;
+import net.lightbody.bmp.proxy.http.ResponseInterceptor;
+import net.lightbody.bmp.proxy.jetty.util.MultiException;
 import net.sourceforge.jwebunit.api.HttpHeader;
 import net.sourceforge.jwebunit.api.IElement;
 import net.sourceforge.jwebunit.api.ITestingEngine;
@@ -39,12 +47,6 @@ import org.apache.http.Header;
 import org.apache.http.HttpStatus;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
-import org.browsermob.proxy.ProxyServer;
-import org.browsermob.proxy.http.BrowserMobHttpRequest;
-import org.browsermob.proxy.http.BrowserMobHttpResponse;
-import org.browsermob.proxy.http.RequestInterceptor;
-import org.browsermob.proxy.http.ResponseInterceptor;
-import org.browsermob.proxy.jetty.util.MultiException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
@@ -85,7 +87,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
    * Logger for this class.
    */
   private final Logger logger = LoggerFactory.getLogger(WebDriverTestingEngineImpl.class);
-  private ProxyServer proxyServer;
+  private LegacyProxyServer proxyServer;
   private WebDriver driver;
   private TestContext testContext;
   private static final int TRY_COUNT = 50;
@@ -148,13 +150,14 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
   private Proxy startBrowserMobProxy() {
     for (int i = 1; i <= TRY_COUNT; i++) {
       int port = getRandomPort();
-      proxyServer = new ProxyServer(port);
+      proxyServer = new ProxyServer();
+      proxyServer.setPort(port);
       try {
         proxyServer.start();
         proxyServer.addResponseInterceptor(new ResponseInterceptor() {
 
           @Override
-          public void process(BrowserMobHttpResponse response) {
+          public void process(BrowserMobHttpResponse response, Har har) {
             WebDriverTestingEngineImpl.this.response = response;
           }
         });
@@ -162,7 +165,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
           proxyServer.addRequestInterceptor(new RequestInterceptor() {
 
             @Override
-            public void process(BrowserMobHttpRequest request) {
+            public void process(BrowserMobHttpRequest request, Har har) {
               for (Map.Entry<String, String> requestHeader : testContext.getRequestHeaders().entrySet()) {
                 request.addRequestHeader(requestHeader.getKey(), requestHeader.getValue());
               }
@@ -172,7 +175,7 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
         if (StringUtils.isNotBlank(testContext.getUserAgent())) {
           proxyServer.addRequestInterceptor(new RequestInterceptor() {
             @Override
-            public void process(BrowserMobHttpRequest request) {
+            public void process(BrowserMobHttpRequest request, Har har) {
               request.getMethod().removeHeaders("User-Agent");
               request.addRequestHeader("User-Agent", testContext.getUserAgent());
             }
@@ -231,8 +234,6 @@ public class WebDriverTestingEngineImpl implements ITestingEngine {
 
   /**
    * Copied from {@link WebClient#throwFailingHttpStatusCodeExceptionIfNecessary(WebResponse)}
-   *
-   * @param webResponse
    */
   private void throwFailingHttpStatusCodeExceptionIfNecessary(int statusCode, String url) {
     final boolean successful = (statusCode >= HttpStatus.SC_OK && statusCode < HttpStatus.SC_MULTIPLE_CHOICES)
