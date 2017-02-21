@@ -73,7 +73,7 @@
             <item name="Articles" href="articles.html" />
             <item name="FAQ" href="faq.html" />
         </menu>
-        <menu name="Developper documentation" inherit="top">
+        <menu name="Developer documentation" inherit="top">
             <item name="Building JWebUnit"
                 href="building-maven.html" collapse="true">
                 <item name="Installing" href="#Installing_Maven" />
