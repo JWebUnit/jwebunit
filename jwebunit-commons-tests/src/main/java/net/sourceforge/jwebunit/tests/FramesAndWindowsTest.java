@@ -139,8 +139,6 @@ public class FramesAndWindowsTest extends JWebUnitAPITestCase {
     @Test public void testGotoInlineFrame() {
         beginAt("InlineFrame.html");
         assertTextPresent("TopFrame");
-        // Is this how it should work? see also the test below
-        assertTextNotPresent("ContentFrame");
         gotoFrame("ContentFrame");
         assertTextPresent("ContentFrame"); // only 'ContentFrame' matches frameset tag too
     }
