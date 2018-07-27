@@ -218,7 +218,9 @@ public class IElementTest extends JWebUnitAPITestCase {
 	    	assertEquals("unchanged", js2.getAttribute("value"));
 	    	
 	    	// change js1's value
+	    	clickElementByXPath("//input[@id='js1']");
 	    	js1.setAttribute("value", testingText);
+	    	clickElementByXPath("//input[@id='js2']");
     	}
     	
     	// refresh the elements and check they have changed

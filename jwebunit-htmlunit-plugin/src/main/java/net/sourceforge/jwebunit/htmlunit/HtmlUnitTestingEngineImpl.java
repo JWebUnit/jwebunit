@@ -25,7 +25,6 @@ import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.ImmediateRefreshHandler;
-import com.gargoylesoftware.htmlunit.JavaScriptPage;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.PromptHandler;
 import com.gargoylesoftware.htmlunit.RefreshHandler;
@@ -168,7 +167,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * The default browser version.
    */
-  private BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_38;
+  private BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_52;
 
   /**
      * Should we ignore failing status codes?
@@ -263,9 +262,6 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     }
   }
 
-  /**
-   * @see net.sourceforge.jwebunit.api.IJWebUnitDialog#setScriptingEnabled(boolean)
-   */
   @Override
   public void setScriptingEnabled(boolean value) {
     // This variable is used to set Javascript before wc is instancied
@@ -538,7 +534,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * Set a form text, password input element or textarea to the provided value.
    *
-   * @param fieldName name of the input element or textarea
+   * @param paramName name of the input element or textarea
    * @param text parameter value to submit for the element.
    */
   @Override
@@ -589,7 +585,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * Set a form hidden element to the provided value.
    *
    * @param fieldName name of the hidden input element
-   * @param paramValue parameter value to submit for the element.
+   * @param text parameter value to submit for the element.
    */
   @Override
   public void setHiddenField(String fieldName, String text) {
@@ -764,9 +760,6 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     if (page instanceof TextPage) {
       return ((TextPage) page).getContent();
     }
-    if (page instanceof JavaScriptPage) {
-      return ((JavaScriptPage) page).getContent();
-    }
     if (page instanceof XmlPage) {
       return ((XmlPage) page).getTextContent();
     }
@@ -847,7 +840,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     BrowserVersion bv;
     if (testContext.getUserAgent() != null) {
-      bv = BrowserVersion.FIREFOX_38.clone();
+      bv = BrowserVersion.FIREFOX_52.clone();
       bv.setUserAgent(testContext.getUserAgent());
     } else {
       bv = defaultBrowserVersion; // use default (which includes a full UserAgent string)
@@ -983,7 +976,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
     // Add Javascript Prompt Handler
     wc.setPromptHandler(new PromptHandler() {
       @Override
-      public String handlePrompt(Page page, String msg) {
+      public String handlePrompt(Page page, String msg, String defaultValue) {
         if (expectedJavascriptPrompts.size() < 1) {
           throw new UnexpectedJavascriptPromptException(msg);
         } else {
@@ -1502,25 +1495,27 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
       throw new NullPointerException("Cannot search for button with null text");
     }
 
-    List<? extends HtmlElement> l = ((HtmlPage) win.getEnclosedPage()).getDocumentElement()
-      .getHtmlElementsByTagNames(
-        Arrays.asList(new String[] {"button", "input"}));
-    for (HtmlElement e : l) {
-      if (e instanceof HtmlButton) {
-        // we cannot use asText(), as this returns an empty string if the
-        // button is not currently displayed, resulting in different
-        // behaviour as the <input> Buttons
-        if (buttonValueText.equals(((HtmlButton) e).getTextContent())) {
-          return e;
-        }
-      } else if (e instanceof HtmlButtonInput ||
-        e instanceof HtmlSubmitInput ||
-        e instanceof HtmlResetInput) {
-        if (buttonValueText.equals(e.getAttribute("value"))) {
-          return e;
+    for(String tag : Arrays.asList("button", "input")) {
+      List<? extends HtmlElement> l = ((HtmlPage) win.getEnclosedPage()).getDocumentElement().getElementsByTagName(tag);
+
+      for (HtmlElement e : l) {
+        if (e instanceof HtmlButton) {
+          // we cannot use asText(), as this returns an empty string if the
+          // button is not currently displayed, resulting in different
+          // behaviour as the <input> Buttons
+          if (buttonValueText.equals(((HtmlButton) e).getTextContent())) {
+            return e;
+          }
+        } else if (e instanceof HtmlButtonInput ||
+                e instanceof HtmlSubmitInput ||
+                e instanceof HtmlResetInput) {
+          if (buttonValueText.equals(e.getAttribute("value"))) {
+            return e;
+          }
         }
       }
     }
+
     return null;
   }
 
@@ -2515,7 +2510,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
    * is to provide it with all the information for a complete browser version.
    *
    * @see com.gargoylesoftware.htmlunit.BrowserVersion
-   * @param the browser version to set as default for this engine instance
+   * @param defaultBrowserVersion version to set as default for this engine instance
    */
   public void setDefaultBrowserVersion(BrowserVersion defaultBrowserVersion) {
     this.defaultBrowserVersion = defaultBrowserVersion;
