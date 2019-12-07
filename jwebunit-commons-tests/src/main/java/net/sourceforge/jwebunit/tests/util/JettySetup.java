@@ -36,7 +36,7 @@ import static org.junit.Assert.fail;
 /**
  * Sets up and tears down the Jetty servlet engine before and after the tests in
  * the <code>TestSuite</code> have run.
- * 
+ *
  * @author Eelco Hillenius
  */
 public class JettySetup {
@@ -44,14 +44,14 @@ public class JettySetup {
 	 * The Jetty server we are going to use as test server.
 	 */
 	private static Server jettyServer = null;
-	
+
 	private static boolean started = false;
 
 
 	/**
 	 * Starts the Jetty server using the <tt>jetty-test-config.xml</tt> file
 	 * which is loaded using the classloader used to load Jetty.
-	 * 
+	 *
 	 * @see junit.extensions.TestSetup#setUp()
 	 */
 	@BeforeClass
@@ -62,42 +62,42 @@ public class JettySetup {
     			ServerConnector connector = new ServerConnector(jettyServer);
     			connector.setPort(JWebUnitAPITestCase.JETTY_PORT);
     			jettyServer.setConnectors(new Connector[] { connector });
-    
+
     			WebAppContext wah = new WebAppContext();
-    			
+
     			// Handle files encoded in UTF-8
     			MimeTypes mimeTypes = new MimeTypes();
     			mimeTypes.addMimeMapping("html_utf-8", "text/html; charset=UTF-8");
                 mimeTypes.addMimeMapping("txt", "text/plain");
                 mimeTypes.addMimeMapping("bin", "application/octet-stream");
     			wah.setMimeTypes(mimeTypes);
-    			
-    			
+
+
     			HandlerCollection handlers= new HandlerCollection();
     			handlers.setHandlers(new Handler[]{wah, new DefaultHandler()});
-    
+
     			jettyServer.setHandler(wah);
     			HashLoginService myrealm = new HashLoginService("MyRealm");
     			URL config = JettySetup.class.getResource("/jetty-users.properties");
     			myrealm.setConfig(config.toString());
     			jettyServer.addBean(myrealm);
-    			
+
     			wah.setContextPath(JWebUnitAPITestCase.JETTY_URL);
-    
+
     			URL url = JettySetup.class.getResource("/testcases/");
     			wah.setWar(url.toString());
-    			
+
     			jettyServer.start();
-    			
+
     			started = true;
-    
+
     		} catch (Exception e) {
     			e.printStackTrace();
     			fail("Could not start the Jetty server: " + e);
     		}
 	    }
 	}
-	
+
 	protected static void shutdown() throws Exception {
         try {
             jettyServer.stop();
