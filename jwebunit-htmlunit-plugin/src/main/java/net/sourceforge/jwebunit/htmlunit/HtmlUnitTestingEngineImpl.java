@@ -167,7 +167,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
   /**
    * The default browser version.
    */
-  private BrowserVersion defaultBrowserVersion = BrowserVersion.FIREFOX_52;
+  private BrowserVersion defaultBrowserVersion = BrowserVersion.getDefault();
 
   /**
      * Should we ignore failing status codes?
@@ -761,7 +761,7 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
       return ((TextPage) page).getContent();
     }
     if (page instanceof XmlPage) {
-      return ((XmlPage) page).getTextContent();
+      return ((XmlPage) page).asText();
     }
     if (page instanceof UnexpectedPage) {
       return ((UnexpectedPage) page).getWebResponse()
@@ -840,8 +840,9 @@ public class HtmlUnitTestingEngineImpl implements ITestingEngine {
      */
     BrowserVersion bv;
     if (testContext.getUserAgent() != null) {
-      bv = BrowserVersion.FIREFOX_52.clone();
-      bv.setUserAgent(testContext.getUserAgent());
+      bv = new BrowserVersion.BrowserVersionBuilder(BrowserVersion.getDefault())
+              .setUserAgent(testContext.getUserAgent())
+              .build();
     } else {
       bv = defaultBrowserVersion; // use default (which includes a full UserAgent string)
     }
