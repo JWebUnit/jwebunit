@@ -2,9 +2,6 @@ os: linux
 dist: bionic
 language: java
 
-jdk:
-  - opendjk11
-
 script:
   - mvn verify -e -V
 
