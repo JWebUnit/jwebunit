@@ -1,10 +1,9 @@
-dist: xenial
+os: linux
+dist: bionic
 language: java
-sudo: false
-install: true
 
 jdk:
-  - opendjk8
+  - opendjk11
 
 script:
   - mvn verify -e -V
