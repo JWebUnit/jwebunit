@@ -621,12 +621,12 @@
         </site>
         <snapshotRepository>
             <id>sonatype-nexus</id>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <name>Sonatype Nexus OSS Snapshot Repository</name>
         </snapshotRepository>
         <repository>
             <id>sonatype-nexus</id>
-            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
             <name>Sonatype Nexus OSS Staging Repository</name>
         </repository>
     </distributionManagement>
